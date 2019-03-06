@@ -38,7 +38,7 @@ BUILD_DIR := ./_x.$(TARGET).$(DSA)
 BUILD_DIR_matrix_ops = $(BUILD_DIR)/matrix_ops
 
 CXX := $(XILINX_SDX)/bin/xcpp
-XOCC := $(XILINX_SDX)/bin/xocc
+XOCC := $(XILINX_SDX)/bin/v++
 
 #Include Libraries
 include $(ABS_COMMON_REPO)/libs/opencl/opencl.mk
@@ -119,7 +119,7 @@ aws_build: check-aws_repo $(BINARY_CONTAINERS)
 clean:
 	-$(RMDIR) $(EXECUTABLE) $(XCLBIN)/{*sw_emu*,*hw_emu*} 
 	-$(RMDIR) sdaccel_* TempConfig system_estimate.xtxt *.rpt
-	-$(RMDIR) src/*.ll _xocc_* .Xil emconfig.json dltmp* xmltmp* *.log *.jou *.wcfg *.wdb
+	-$(RMDIR) src/*.ll _v++_* .Xil emconfig.json dltmp* xmltmp* *.log *.jou *.wcfg *.wdb
 
 cleanall: clean
 	-$(RMDIR) $(XCLBIN)
