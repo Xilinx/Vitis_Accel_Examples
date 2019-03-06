@@ -1,0 +1,35 @@
+{
+    "runtime": ["OpenCL"],
+    "example" : "Parallel Prefix Sum (CL)",
+    "overview" : [
+        "This is a simple example to explain the usage of pipeline and array partitioning for designing parallel prefix sum "
+    ],
+    "key_concepts": [ "Kernel Optimization", "Array Partitioning", "Pipeline"],
+    "keywords": [ "xcl_array_partition", "xcl_pipeline_loop"],
+    "os": [
+        "Linux"
+    ],
+    "host_exe": "sum_scan",
+    "cmd_args": "BUILD/krnl_sum_scan.xclbin",
+    "libs": [
+        "xcl2"
+    ], 
+    "containers": [
+    {
+        "name": "krnl_sum_scan",        
+        "accelerators": [
+        {
+            "name": "krnl_sum_scan",
+            "clflags": "--kernel_frequency 235", 
+            "location": "src/krnl_sum_scan.cl"
+        }
+       ]
+     }            
+    ],
+    "contributors" : [
+        {
+            "group": "Xilinx",
+            "url" : "http://www.xilinx.com"
+        }
+    ]
+}

@@ -1,0 +1,31 @@
+{
+    "containers": [
+        {
+            "name": "row_array_2d", 
+            "meet_system_timing": "true", 
+            "accelerators": [
+                {
+                    "name": "row_array_2d", 
+                    "check_timing": "true", 
+                    "PipelineType": "dataflow", 
+                    "check_latency": "true", 
+                    "check_warning": "false", 
+                    "loops": [
+                        {
+                            "name": "read_loop_i_read_loop_jj", 
+                            "PipelineII": "1"
+                        }, 
+                        {
+                            "name": "compute_loop_i_compute_loop_jj", 
+                            "PipelineII": "1"
+                        }, 
+                        {
+                            "name": "write_loop_i_write_loop_jj", 
+                            "PipelineII": "1"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

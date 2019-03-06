@@ -1,0 +1,31 @@
+{
+    "containers": [
+        {
+            "name": "kernel_GOOD", 
+            "meet_system_timing": "true", 
+            "accelerators": [
+                {
+                    "name": "dummy_op", 
+                    "check_timing": "true", 
+                    "PipelineType": "none", 
+                    "check_latency": "true", 
+                    "check_warning": "false", 
+                    "loops": [
+                        {
+                            "name": "memcpy.din2_buf_0.din2", 
+                            "PipelineII": "1"
+                        }, 
+                        {
+                            "name": "memcpy.din1_buf_0.din1", 
+                            "PipelineII": "1"
+                        }, 
+                        {
+                            "name": "LOWER_LOOP", 
+                            "PipelineII": "1"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

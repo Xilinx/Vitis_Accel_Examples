@@ -1,0 +1,31 @@
+{
+    "runtime": ["OpenCL"],
+    "example": "Error Handling (C)",
+    "overview": [
+        "This example discuss the different reasons for errors in OpenCL and how to handle them at runtime."
+    ],
+    "key_concepts": [ "OpenCL API" , "Error handling"],
+    "keywords": [ "CL_SUCCESS", "CL_DEVICE_NOT_FOUND", "CL_DEVICE_NOT_AVAILABLE"],
+    "os": [
+        "Linux"
+    ],
+    "host_exe": "errors",
+    "cmd_args" : "BUILD/vector_addition.xclbin",
+    "containers": [
+    {
+        "name": "vector_addition",        
+        "accelerators": [
+        {
+            "name": "vector_add", 
+            "location": "src/vector_addition.cpp"
+        }
+       ]
+     }
+    ],
+    "contributors" : [
+        {
+            "group": "Xilinx",
+            "url" : "http://www.xilinx.com"
+        }
+    ]
+}

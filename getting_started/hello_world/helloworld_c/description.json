@@ -1,0 +1,35 @@
+{
+    "runtime": ["OpenCL"],
+    "example": "Hello World (HLS C/C++ Kernel)",
+    "overview": [
+        "This is simple example of vector addition to describe how to use HLS kernels in Sdx Environment. This example highlights the concepts like PIPELINE which increases the kernel performance "
+    ], 
+    "key_concepts": [ "HLS C Kernel", "OpenCL Host APIs"],
+    "keywords": ["gmem", "bundle", "#pragma HLS INTERFACE", "m_axi", "s_axi4lite"],
+    "os": [
+        "Linux"
+    ],
+    "libs": [
+        "xcl2"
+    ],
+    "host_exe": "host",
+    "cmd_args": "BUILD/vadd.xclbin",
+    "containers" : [ 
+     {
+      "name" : "vadd",
+      "accelerators": [
+          {          
+            "name": "vadd", 
+            "location": "src/vadd.cpp"
+          }
+        ]
+      }
+    ],
+    "contributors" : [
+        {
+            "group": "Xilinx",
+            "url" : "http://www.xilinx.com"
+        }
+    ],
+    "match_makefile" : "false"
+}

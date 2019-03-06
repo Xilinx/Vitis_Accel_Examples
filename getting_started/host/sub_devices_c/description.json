@@ -1,0 +1,35 @@
+{
+    "runtime": ["OpenCL"],
+    "example": "Sub Devices (C)",
+    "overview": [
+        "This example demonstrates how to create OpenCL subdevices which uses a single kernel multiple times in order to show how to handle each instance independently including independent buffers, command queues and sequencing."
+    ],
+    "key_concepts": ["Sub Devices"],
+    "keywords": ["cl_device_partition_property", "createSubDevices", "CL_DEVICE_PARTITION_EQUALLY"],
+    "os": [
+        "Linux"
+    ],
+    "libs": [
+        "xcl2"
+    ],
+    "host_exe": "sub_devices",
+    "cmd_args": "BUILD/krnl_vadd.xclbin",
+    "containers": [
+        {
+            "name" : "krnl_vadd",
+            "accelerators": [
+                {
+                    "name": "krnl_vadd", 
+                    "num_compute_units" : "8",
+                    "location": "src/krnl_vadd.cpp"
+                }
+            ]
+        }
+    ],
+    "contributors" : [
+        {
+            "group": "Xilinx",
+            "url" : "http://www.xilinx.com"
+        }
+    ]
+}

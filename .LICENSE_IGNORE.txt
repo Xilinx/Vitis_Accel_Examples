@@ -1,0 +1,12 @@
+libs/lodepng/lodepng.h$
+libs/lodepng/lodepng.cpp$
+acceleration/smithwaterman/src/intel/ssw.h$
+acceleration/smithwaterman/src/intel/ssw.c$
+acceleration/smithwaterman/src/intel/kseq.h$
+acceleration/smithwaterman/src/intel/sc_demo.c$
+acceleration/kmeans/src/cluster.c$
+acceleration/kmeans/src/kmeans_clustering_cmodel.c$
+acceleration/kmeans/src/kmeans.h$
+acceleration/kmeans/src/read_input.cpp$
+acceleration/kmeans/src/rmse.c$
+acceleration/kmeans/src/host.cpp$

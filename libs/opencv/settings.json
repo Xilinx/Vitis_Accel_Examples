@@ -1,0 +1,22 @@
+{
+    "compiler" : {
+        "includepaths" : [
+            "$(XILINX_SDX)/Vivado_HLS/include"
+        ]
+    },
+    "linker" : {
+        "librarypaths" : [
+            "$(XILINX_SDX)/lnx64/tools/opencv/"
+        ],
+        "libraries" : [
+            "opencv_core",
+            "opencv_highgui",
+            "opencv_imgproc"
+        ]
+    },
+    "launch" : {
+        "ld_library_path" : [
+            "$(XILINX_SDX)/lnx64/tools/opencv/"
+        ]
+    }
+}

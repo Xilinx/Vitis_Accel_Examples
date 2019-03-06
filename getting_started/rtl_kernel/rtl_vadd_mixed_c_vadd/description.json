@@ -1,0 +1,49 @@
+{
+    "example": "Mixed Kernels (RTL & C)",
+    "overview": [
+        "This example has one RTL kernel and one C kernel. Both RTL kernel and C kernel perform vector addition. The C kernel reads the output from RTL kernel as one of two inputs."
+    ],
+    "key_concepts": [ "Mixed Kernels"],
+    "os": [
+        "Linux"
+    ],
+    "libs": [
+        "xcl2"
+    ],
+    "config_make": "config.mk",
+    "output_files": "tmp_kernel_pack* packaged_kernel*",
+    "host_srcs": "src/host.cpp",
+    "runtime": ["OpenCL"],
+    "host_exe": "host",
+    "cmd_args": "BUILD/vadd.xclbin",
+    "targets": ["hw", "hw_emu"],
+    "containers": [
+	{
+	    "name": "vadd",
+	    "accelerators": [
+		{
+		    "name": "rtl_vadd",
+		    "kernel_type": "RTL"
+		},
+		{
+		    "name": "krnl_vadd",
+		    "location": "src/krnl_vadd.cpp"
+		}
+	    ]
+	}
+    ],
+    "contributors" : [
+        {
+            "group": "Xilinx",
+            "url" : "http://www.xilinx.com"
+        }
+    ],
+    "revision" : [
+        {
+            "date" : "July2017",
+            "version": "1.0",
+            "description": "Initial Xilinx Release"
+        }
+    ],
+    "sdx_gui": "false"
+}
