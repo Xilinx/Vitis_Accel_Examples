@@ -1,0 +1,34 @@
+{
+    "runtime": ["OpenCL"],
+    "example": "Copy Buffer (C)",
+    "overview": [
+        "This Copy Buffer example demonstrate how one buffer can be copied from another buffer."
+    ],
+    "key_concepts": [ "Copy Buffer"],
+    "keywords": [ "cl::CommandQueue::enqueueCopyBuffer()" ],
+    "os": [
+        "Linux"
+    ],
+    "libs": [
+        "xcl2"
+    ],
+    "containers": [
+    {
+        "name": "vector_addition",
+        "accelerators": [
+        {
+            "name": "vector_add", 
+            "location": "src/vector_addition.cpp"
+        }
+       ]
+     }
+    ],
+    "host_exe": "host",
+    "cmd_args": "BUILD/vector_addition.xclbin",
+    "contributors" : [
+        {
+            "group": "Xilinx",
+            "url" : "http://www.xilinx.com"
+        }
+    ]
+}

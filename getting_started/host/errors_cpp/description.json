@@ -1,0 +1,34 @@
+{
+    "runtime": ["OpenCL"],
+    "example": "Error Handling (CPP)",
+    "overview": [
+        "This example discuss the different reasons for errors in OpenCL C++ and how to handle them at runtime."
+    ],
+    "key_concepts": [ "OpenCL C++ API" , "Error handling"],
+    "keywords": [ "CL_SUCCESS", "CL_DEVICE_NOT_FOUND", "CL_DEVICE_NOT_AVAILABLE", "CL_INVALID_VALUE", "CL_INVALID_KERNEL_NAME", "CL_INVALID_BUFFER_SIZE"],
+    "os": [
+        "Linux"
+    ],
+    "libs": [
+	    "xcl2"
+    ],
+    "host_exe": "errors",
+    "cmd_args" : "BUILD/vector_addition.xclbin",
+    "containers": [
+    {
+        "name": "vector_addition",        
+        "accelerators": [
+        {
+            "name": "vector_add", 
+            "location": "src/vector_addition.cpp"
+        }
+       ]
+     }
+    ],
+    "contributors" : [
+        {
+            "group": "Xilinx",
+            "url" : "http://www.xilinx.com"
+        }
+    ]
+}

@@ -1,0 +1,34 @@
+{
+    "runtime": ["OpenCL"],
+    "example": "Two Parallel Read/Write on Local Memory (CL)",
+    "overview": [
+        "This is simple example of vector addition to demonstrate how to utilized both ports of Local Memory."
+    ],
+    "key_concepts": [ "Kernel Optimization", "2port BRAM Utilization", "two read/write Local Memory"],
+    "keywords": ["opencl_unroll_hint(2)"],
+    "os": [
+        "Linux"
+    ],
+    "libs": [
+        "xcl2"
+    ],
+    "host_exe": "host",
+    "cmd_args": "BUILD/vadd.xclbin",
+    "containers": [
+    {
+        "name": "vadd",        
+        "accelerators": [
+        {
+            "name": "vadd", 
+            "location": "src/vadd.cl"
+        }
+       ]
+     }
+    ],
+    "contributors" : [
+        {
+            "group": "Xilinx",
+            "url" : "http://www.xilinx.com"
+        }
+    ]
+}

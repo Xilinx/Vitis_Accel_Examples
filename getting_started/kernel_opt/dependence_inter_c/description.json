@@ -1,0 +1,34 @@
+{
+    "runtime": ["OpenCL"],
+    "example": "Loop Iteration Dependency (C)",
+    "overview": [
+      "This Example demonstrates the HLS pragma 'DEPENDENCE'.Using 'DEPENDENCE' pragma, user can provide additional dependency details to the compiler by specifying if the dependency in consecutive loop iterations on buffer is true/false, which allows the compiler to perform unrolling/pipelining to get better performance."
+    ],
+    "key_concepts": [ "Inter Dependence"],
+    "keywords": ["DEPENDENCE", "inter", "WAR"],
+    "os": [
+        "Linux"
+    ],
+    "libs": [
+        "xcl2"
+    ],
+    "host_exe": "host",
+    "cmd_args": "BUILD/vconv.xclbin",
+    "containers": [
+	{
+	    "name": "vconv",
+	    "accelerators": [
+        	{
+            	    "name": "vconv", 
+                    "location": "src/vconv.cpp"
+        	}
+	    ]
+	}	
+    ],
+    "contributors" : [
+        {
+            "group": "Xilinx",
+            "url" : "http://www.xilinx.com"
+        }
+    ]
+}

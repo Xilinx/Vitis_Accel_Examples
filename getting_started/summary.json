@@ -1,0 +1,16 @@
+{
+    "overview": "Getting Started Examples",
+    "description": "This page contains examples for users who are new to Xilinx SDx OpenCL Flows. The focus of the examples is towards code optimization for Xilinx devices. The table lists various categories of examples in suggested order which users can follow.\n\n __Prerequisites__\n - User is familiar with basics of OpenCL flow.\n - User has gone through SDx tutorial and is familiar with basics of tool functionality and terminology.",
+    "overview": [
+        "Getting Started Examples"
+    ],
+    "description": [
+        "This page contains examples for users who are new to Xilinx SDx OpenCL Flows. The focus of the examples is towards code optimization for Xilinx devices.The table lists various categories of examples in suggested order which users can follow.",
+        "",
+        "",
+        "__Prerequisites__",
+        " - User is familiar with basics of OpenCL flow.",
+        " - User has gone through SDx tutorial and is familiar with basics of tool functionality and terminology."
+    ],
+    "subdirs" : [ "hello_world", "cpu_to_fpga", "host", "kernel_to_gmem", "kernel_opt", "dataflow", "clk_freq" , "debug", "rtl_kernel"]
+}

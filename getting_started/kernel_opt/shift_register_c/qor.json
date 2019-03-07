@@ -1,0 +1,44 @@
+{
+    "containers": [
+        {
+            "name": "fir", 
+            "meet_system_timing": "true", 
+            "accelerators": [
+                {
+                    "name": "fir_naive", 
+                    "check_timing": "true", 
+                    "PipelineType": "none", 
+                    "check_latency": "false", 
+                    "check_warning": "false", 
+                    "loops": [
+                        {
+                            "name": "read_coef", 
+                            "PipelineII": "1"
+                        }, 
+                        {
+                            "name": "shift_loop", 
+                            "PipelineII": "1"
+                        }
+                    ]
+                }, 
+                {
+                    "name": "fir_shift_register", 
+                    "check_timing": "true", 
+                    "PipelineType": "none", 
+                    "check_latency": "false", 
+                    "check_warning": "false", 
+                    "loops": [
+                        {
+                            "name": "init_loop", 
+                            "PipelineII": "1"
+                        }, 
+                        {
+                            "name": "outer_loop", 
+                            "PipelineII": "1"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

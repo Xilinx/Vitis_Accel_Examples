@@ -1,0 +1,65 @@
+{
+    "containers": [
+        {
+            "name": "matrix_ops", 
+            "meet_system_timing": "true", 
+            "accelerators": [
+                {
+                    "name": "madd", 
+                    "check_timing": "true", 
+                    "PipelineType": "none", 
+                    "check_latency": "false", 
+                    "check_warning": "false", 
+                    "loops": [
+                        {
+                            "name": "madd_readA", 
+                            "PipelineII": "1"
+                        }, 
+                        {
+                            "name": "madd_readB", 
+                            "PipelineII": "1"
+                        }, 
+                        {
+                            "name": "madd_writeC", 
+                            "PipelineII": "1"
+                        }
+                    ]
+                }, 
+                {
+                    "name": "mmult", 
+                    "check_timing": "true", 
+                    "PipelineType": "none", 
+                    "check_latency": "false", 
+                    "check_warning": "false", 
+                    "loops": [
+                        {
+                            "name": "mmult_readA", 
+                            "PipelineII": "1"
+                        }, 
+                        {
+                            "name": "mmult_readB", 
+                            "PipelineII": "1"
+                        }
+                    ]
+                }, 
+                {
+                    "name": "mscale", 
+                    "check_timing": "true", 
+                    "pipelinetype": "none", 
+                    "check_latency": "false", 
+                    "check_warning": "false", 
+                    "loops": [
+                        {
+                            "name": "mscale", 
+                            "pipelineII": "1"
+                        }, 
+                        {
+                            "name": "mscale_write", 
+                            "pipelineII": "1"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,34 @@
+{
+    "runtime": ["OpenCL"],
+    "example": "Read/Write Row of 2D Array (C)",
+    "overview": [
+        "This is a simple example of accessing each row of data from 2d array"
+    ],
+    "key_concepts": [ "Row of 2D data array access"],
+    "keywords": ["hls::stream"],
+    "os": [
+        "Linux"
+    ],
+    "libs": [
+        "xcl2"
+    ],
+    "host_exe": "host",
+    "cmd_args": "BUILD/row_array_2d.xclbin",
+    "containers": [
+    {
+        "name": "row_array_2d",        
+        "accelerators": [
+        {
+            "name": "row_array_2d", 
+            "location": "src/row_array_2d.cpp"
+        }
+       ]
+      }                
+    ],
+    "contributors" : [
+        {
+            "group": "Xilinx",
+            "url" : "http://www.xilinx.com"
+        }
+    ]
+}
