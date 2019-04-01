@@ -1,0 +1,73 @@
+{
+    "runtime": ["OpenCL"],
+    "example": "K-Means",
+    "overview": [
+        "This is OpenCL Based K-Means clustering Implementation for Xilinx FPGA ",
+        "Devices. K-means clustering is a method of vector quantization, that ",
+        "is popular for cluster analysis in data mining. K-means clustering ",
+        "aims to partition n observations into k clusters in which each ",
+        "observation belongs to the cluster with the nearest mean, serving as",
+        "a prototype of the cluster.",
+        "",
+        "The application sets two compute units by default so that it will fit ",
+        "all Xilinx Devices. For bigger Xilinx Devices, user can increase the ",
+        "number of Compute units in Makefile and can get better performance.",
+        "It is tested upto 6 compute units for ku115 device and got ",
+        "approximately 6x improvement with respect to single compute units, which ",
+        "shows that application is more compute bound (not memory bound) and ",
+        "performance is directly proportional to number of compute units.",
+        "",
+        "__Note__: This application is ported from Rodinia",
+        "",
+        "(https://www.cs.virginia.edu/~skadron/wiki/rodinia/)",
+        "",
+        "__Usage__\n\n ./kmeans -i input_file [-m max_nclusters ] [-n min_nclusters] [-g global_size] [-c golden_file] [options]",
+        "",
+        "\t -i filename      : file containing data to be clustered",
+        "\t -m max_nclusters : maximum number of clusters allowed [default=5]",
+        "\t -n min_nclusters : minimum number of clusters allowed [default=5]",
+        "\t -g global_size   : Specify global size [default=1]",
+        "\t -c golden_file   : Golden File for result comparison",
+        "\t -b               : input file is in binary format",
+        "\t -o               : output cluster center coordinates [default=off]"
+    ],
+    "host_srcs": "./src/host.cpp ./src/cluster.c ./src/rmse.c ./src/fpga_kmeans.cpp ./src/kmeans_clustering_cmodel.c",
+    "config_make": "config.mk",
+    "cmd_args": "-x BUILD/kmeans.xclbin -i PROJECT/data/100 -c PROJECT/data/100.gold_c5 -m 5 -n 5 -g 2",
+    "host_exe": "host_kmeans",       
+    "output_files": "membership.out",        
+    "libs": [
+        "logger",  
+        "cmdparser", 
+        "xcl2"
+    ], 
+    "containers": [
+        {
+            "name": "kmeans", 
+            "accelerators": [
+                {
+                    "name": "kmeans", 
+                    "num_compute_units" : "2",
+                    "location": "src/kmeans.cl"
+                }
+            ]
+        }
+    ],
+    "contributors" : [
+        {
+            "group": "Northwestern University",
+            "url" : "https://www.cs.virginia.edu/~skadron/wiki/rodinia/index.php/Rodinia:Accelerating_Compute-Intensive_Applications_with_Accelerators"
+        },
+        {
+            "group": "Xilinx",
+            "url" : "http://www.xilinx.com"
+        }
+    ],
+    "testinfo": {
+        "level_up": [
+        {
+            "hw": "1"
+        }
+        ]
+    }
+}

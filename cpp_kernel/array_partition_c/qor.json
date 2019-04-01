@@ -1,0 +1,56 @@
+{
+    "containers": [
+        {
+            "name": "matmul", 
+            "meet_system_timing": "true", 
+            "accelerators": [
+                {
+                    "name": "matmul", 
+                    "check_timing": "true", 
+                    "PipelineType": "none", 
+                    "check_latency": "true", 
+                    "check_warning": "false", 
+                    "loops": [
+                        {
+                            "name": "readA", 
+                            "PipelineII": "1"
+                        }, 
+                        {
+                            "name": "readB", 
+                            "PipelineII": "1"
+                        }, 
+                        {
+                            "name": "writeC", 
+                            "PipelineII": "1"
+                        }
+                    ]
+                }, 
+                {
+                    "name": "matmul_partition", 
+                    "check_timing": "true", 
+                    "PipelineType": "none", 
+                    "check_latency": "true", 
+                    "check_warning": "true", 
+                    "loops": [
+                        {
+                            "name": "readA", 
+                            "PipelineII": "1"
+                        }, 
+                        {
+                            "name": "readB", 
+                            "PipelineII": "1"
+                        }, 
+                        {
+                            "name": "arraypart1_arraypart2", 
+                            "PipelineII": "1"
+                        }, 
+                        {
+                            "name": "writeC", 
+                            "PipelineII": "1"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

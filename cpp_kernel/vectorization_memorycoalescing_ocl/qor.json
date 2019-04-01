@@ -1,0 +1,23 @@
+{
+    "containers": [
+        {
+            "name": "vector_addition", 
+            "meet_system_timing": "true", 
+            "accelerators": [
+                {
+                    "name": "vec_add", 
+                    "check_timing": "true", 
+                    "PipelineType": "none", 
+                    "check_latency": "true", 
+                    "check_warning": "false", 
+                    "loops": [
+                        {
+                            "name": "L_XCL_WG_DIM_Y", 
+                            "PipelineII": "1"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

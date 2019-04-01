@@ -1,0 +1,70 @@
+{
+    "containers": [
+        {
+            "name": "sketch_GOOD", 
+            "meet_system_timing": "true", 
+            "accelerators": [
+                {
+                    "name": "sketch_GOOD", 
+                    "check_timing": "true", 
+                    "PipelineType": "dataflow", 
+                    "check_latency": "true", 
+                    "check_warning": "false", 
+                    "loops": [
+                        {
+                            "name": "readInput", 
+                            "PipelineII": "1"
+                        }, 
+                        {
+                            "name": "fetchBoostLine2", 
+                            "PipelineII": "1"
+                        }, 
+                        {
+                            "name": "fetchMedianLine2", 
+                            "PipelineII": "1"
+                        }, 
+                        {
+                            "name": "sketchLoop", 
+                            "PipelineII": "1"
+                        }, 
+                        {
+                            "name": "flipOutput", 
+                            "PipelineII": "1"
+                        }, 
+                        {
+                            "name": "writeOutput2", 
+                            "PipelineII": "1"
+                        }
+                    ]
+                }
+            ]
+        }, 
+        {
+            "name": "sketch_BAD", 
+            "meet_system_timing": "true", 
+            "accelerators": [
+                {
+                    "name": "sketch_BAD", 
+                    "check_timing": "true", 
+                    "PipelineType": "none", 
+                    "check_latency": "true", 
+                    "check_warning": "false", 
+                    "loops": [
+                        {
+                            "name": "readImg", 
+                            "PipelineII": "1"
+                        }, 
+                        {
+                            "name": "sketchLoop", 
+                            "PipelineII": "1"
+                        }, 
+                        {
+                            "name": "flipOutput2", 
+                            "PipelineII": "1"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

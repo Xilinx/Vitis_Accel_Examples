@@ -1,0 +1,44 @@
+{
+    "runtime": ["OpenCL"],
+    "example": "Array of Structure(AoS) vs Structure of Arrays(SoA) (C)",
+    "overview": [
+        "This example demonstrates how data layout can impact the performance of certain kernels. The example we will demonstrate how using the Structure of Array data layout can impact certain data parallel problems."
+    ],
+    "key_concepts": [ "Kernel Optimization", "Data Layout"],
+    "os": [
+        "Linux"
+    ],
+    "libs": [
+        "xcl2"
+    ],
+    "host_exe": "aos_vs_soa",
+    "cmd_args": "BUILD/dot.xclbin",
+    "containers": [
+       {
+            "name" : "dot",
+            "accelerators": [
+                {
+                    "name": "dot_aos",
+                    "location": "src/dot_aos.cpp"
+                },
+                {
+                    "name": "dot_soa",
+                    "location": "src/dot_soa.cpp"
+                }
+            ]
+       } 
+    ],
+    "contributors" : [
+        {
+            "group": "Xilinx",
+            "url" : "http://www.xilinx.com"
+        }
+    ],
+    "testinfo": {
+        "level_up": [
+        {
+            "hw": "1"
+        }
+        ]
+    }
+}

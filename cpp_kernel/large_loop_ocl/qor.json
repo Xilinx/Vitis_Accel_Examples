@@ -1,0 +1,66 @@
+{
+    "containers": [
+        {
+            "name": "cnn_GOOD", 
+            "meet_system_timing": "true", 
+            "accelerators": [
+                {
+                    "name": "cnn_GOOD", 
+                    "check_timing": "true", 
+                    "PipelineType": "none", 
+                    "check_latency": "true", 
+                    "check_warning": "false", 
+                    "loops": [
+                        {
+                            "name": "imgcopy", 
+                            "PipelineII": "1"
+                        }, 
+                        {
+                            "name": "readWt", 
+                            "PipelineII": "1"
+                        }, 
+                        {
+                            "name": "convYaxis_convXaxis", 
+                            "PipelineII": "1"
+                        }, 
+                        {
+                            "name": "writeOut", 
+                            "PipelineII": "1"
+                        }
+                    ]
+                }
+            ]
+        }, 
+        {
+            "name": "cnn_BAD", 
+            "meet_system_timing": "true", 
+            "accelerators": [
+                {
+                    "name": "cnn_BAD", 
+                    "check_timing": "true", 
+                    "PipelineType": "none", 
+                    "check_latency": "true", 
+                    "check_warning": "false", 
+                    "loops": [
+                        {
+                            "name": "readImg", 
+                            "PipelineII": "1"
+                        }, 
+                        {
+                            "name": "readWt", 
+                            "PipelineII": "1"
+                        }, 
+                        {
+                            "name": "convILoop_convJLoop", 
+                            "PipelineII": "1"
+                        }, 
+                        {
+                            "name": "writeOut", 
+                            "PipelineII": "1"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
