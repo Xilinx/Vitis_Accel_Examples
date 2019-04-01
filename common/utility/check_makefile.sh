@@ -53,7 +53,7 @@ check_file() {
 
 utilityDir=$(dirname $(readlink -f $0))
 cd $utilityDir
-cd ..
+cd ../../
 VCS_FILES=$(git ls-files)
 
 for f in $VCS_FILES; do

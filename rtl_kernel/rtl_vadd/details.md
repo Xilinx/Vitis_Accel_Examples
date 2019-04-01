@@ -135,13 +135,13 @@ To contribute to this project, follow the guidelines in the [Repository Contribu
 This example is written by developers at
 - [Xilinx](http://www.xilinx.com)
 
-[3-Clause BSD License]: ../../../LICENSE.txt
+[3-Clause BSD License]: ../../../../../../../../../../../../../../../../../../../../../LICENSE.txt
 [SDAccel Forums]: https://forums.xilinx.com/t5/SDAccel/bd-p/SDx
 [SDAccel User Guides]: http://www.xilinx.com/support/documentation-navigation/development-tools/software-development/sdaccel.html?resultsTablePreSelect=documenttype:SeeAll#documentation
 [Nimbix Getting Started Guide]: http://www.xilinx.com/support/documentation/sw_manuals/xilinx2016_2/ug1240-sdaccel-nimbix-getting-started.pdf
 [Walkthrough Video]: http://bcove.me/6pp0o482
-[Nimbix Application Submission README]: ../../../utility/nimbix/README.md
-[Repository Contribution README]: ../../../CONTRIBUTING.md
-[SDaccel GUI README]: ../../../GUIREADME.md
+[Nimbix Application Submission README]: ../../../../../../../../../../../../../../../../../../../../../utility/nimbix/README.md
+[Repository Contribution README]: ../../../../../../../../../../../../../../../../../../../../../CONTRIBUTING.md
+[SDaccel GUI README]: ../../../../../../../../../../../../../../../../../../../../../GUIREADME.md
 [AWS F1 Application Execution on Xilinx Virtex UltraScale Devices]: https://github.com/aws/aws-fpga/blob/master/SDAccel/README.md
-[Nimbix Application Execution on Xilinx Kintex UltraScale Devices]: ../../../utility/nimbix/README.md
+[Nimbix Application Execution on Xilinx Kintex UltraScale Devices]: ../../../../../../../../../../../../../../../../../../../../../utility/nimbix/README.md

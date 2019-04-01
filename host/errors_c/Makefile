@@ -22,7 +22,7 @@ help::
 	$(ECHO) ""
 
 # Points to Utility Directory
-COMMON_REPO = ../../../
+COMMON_REPO = ../../
 ABS_COMMON_REPO = $(shell readlink -f $(COMMON_REPO))
 
 TARGETS := hw
@@ -41,7 +41,7 @@ CXX := $(XILINX_SDX)/bin/xcpp
 XOCC := $(XILINX_SDX)/bin/xocc
 
 #Include Libraries
-include $(ABS_COMMON_REPO)/libs/opencl/opencl.mk
+include $(ABS_COMMON_REPO)/common/libs/opencl/opencl.mk
 
 CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++14
 LDFLAGS += $(opencl_LDFLAGS)

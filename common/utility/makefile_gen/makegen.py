@@ -10,7 +10,7 @@ def create_params(target,data):
     target.write("# Points to Utility Directory\n")
     dirName = os.getcwd()
     dirNameList = list(dirName.split("/"))
-    dirNameIndex = dirNameList.index("apps")
+    dirNameIndex = dirNameList.index("ScoutExamples")
     diff = len(dirNameList) - dirNameIndex - 1
     target.write("COMMON_REPO = ")
     while diff > 0:
@@ -56,10 +56,10 @@ def create_params(target,data):
 
 def add_libs1(target, data):
     target.write("#Include Libraries\n")
-    target.write("include $(ABS_COMMON_REPO)/libs/opencl/opencl.mk\n")
+    target.write("include $(ABS_COMMON_REPO)/common/libs/opencl/opencl.mk\n")
     if "libs" in data:
         for lib in data["libs"]:
-            target.write("include $(ABS_COMMON_REPO)/libs/")
+            target.write("include $(ABS_COMMON_REPO)/common/libs/")
             target.write(lib)
             target.write("/")
             target.write(lib)
@@ -479,12 +479,12 @@ def create_mk(target, data):
 def create_utils(target):
     dirName = os.getcwd()
     dirNameList = list(dirName.split("/"))
-    dirNameIndex = dirNameList.index("apps")
+    dirNameIndex = dirNameList.index("ScoutExamples")
     diff = len(dirNameList) - dirNameIndex - 1
     while diff > 0:
 	    os.chdir('..')
 	    diff -= 1
-    os.chdir("utility")
+    os.chdir("common/utility")
     source = open("utils.mk", "r")
     data = source.read()
     target.write(data)

@@ -36,8 +36,8 @@ for f in $VCS_FILES; do
 	if [[ ($f == */description.json) ]]; then
 		if grep -q '"match_makefile": "false"' $f; then
 			echo $f
-			echo "Makefile Manually Edited:: AutoMakefile Generator Failed"			
-		else
+			echo "Makefile Manually Edited:: AutoMakefile Generator Failed"
+        else
 			echo $f
 			update_file $(readlink -f $f)
 		fi
