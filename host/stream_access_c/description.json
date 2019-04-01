@@ -1,0 +1,35 @@
+{
+    "runtime": ["OpenCL"],
+    "example": "Stream Access (C)",
+    "overview": [
+        "This is a simple example that demonstrates on how to process an input stream of data for computation in an application. It shows how to perform asynchronous operations and event handling."
+    ],
+    "key_concepts": [ "OpenCL API", "Synchronize Host and FPGA", "Asynchronous Processing", "Events", "Asynchronous Data Transfer"],
+    "keywords": [ "cl::event", "CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE"],
+    "os": [
+        "Linux"
+    ],
+    "host_exe": "stream_access",
+    "output_files" : "output_vector.txt",
+    "cmd_args": "BUILD/vector_addition.xclbin PROJECT/data/input1.txt PROJECT/data/input2.txt",
+    "libs": [
+        "xcl2"
+    ],
+    "containers": [
+    {
+       "name": "vector_addition",       
+       "accelerators": [
+        {
+            "name": "vec_add", 
+            "location": "src/vector_addition.cpp"
+        }
+       ]
+     }
+    ],
+    "contributors" : [
+        {
+            "group": "Xilinx",
+            "url" : "http://www.xilinx.com"
+        }
+    ]
+}

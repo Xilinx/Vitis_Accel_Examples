@@ -1,0 +1,40 @@
+{
+    "runtime": ["OpenCL"],
+    "example": "Median Filter",
+    "overview": [
+        "This is an optimized implementation of a median filter being used to remove noise in images targeting execution on an SDAccel supported FPGA acceleration card."
+    ],
+    "xcl": false,
+    "opencv": true,
+    "host_exe": "median",
+    "host_srcs": "src/medianFilter.cpp",        
+    "cmd_args": "BUILD/krnl_median.xclbin PROJECT/data/inputImage.bmp PROJECT/data/goldenImage.bmp",
+    "output_files": "output.bmp",        
+    "libs": [
+        "xcl2", 
+        "bitmap"
+    ], 
+    "containers": [
+	{
+	"name": "krnl_median",
+	"accelerators": [
+        {
+            "name": "median", 
+            "location": "src/krnl_medianFilter.cl"
+        }
+	]
+	}
+    ],
+    "perf_fields": ["Board", "Image Size", "Frames / Second"],
+    "performance": [
+        [
+            "xilinx:adm-pcie-7v3:1ddr", "128 x 128", "22,222"
+        ]
+    ],
+    "contributors": [
+        {
+            "group": "Xilinx",
+            "url": "http://www.xilinx.com"
+        }
+    ]
+}

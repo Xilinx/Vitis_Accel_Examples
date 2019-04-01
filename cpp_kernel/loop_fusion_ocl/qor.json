@@ -1,0 +1,52 @@
+{
+    "containers": [
+        {
+            "name": "nearest_neighbor", 
+            "meet_system_timing": "true", 
+            "accelerators": [
+                {
+                    "name": "nearest_neighbor_loop_fusion", 
+                    "check_timing": "true", 
+                    "PipelineType": "none", 
+                    "check_latency": "true", 
+                    "check_warning": "false", 
+                    "loops": [
+                        {
+                            "name": "read", 
+                            "PipelineII": "1"
+                        }, 
+                        {
+                            "name": "find_best", 
+                            "PipelineII": "1"
+                        }, 
+                        {
+                            "name": "write_best", 
+                            "PipelineII": "1"
+                        }
+                    ]
+                }, 
+                {
+                    "name": "nearest_neighbor", 
+                    "check_timing": "true", 
+                    "PipelineType": "none", 
+                    "check_latency": "true", 
+                    "check_warning": "false", 
+                    "loops": [
+                        {
+                            "name": "read", 
+                            "PipelineII": "1"
+                        }, 
+                        {
+                            "name": "dist_calc", 
+                            "PipelineII": "1"
+                        }, 
+                        {
+                            "name": "write_best", 
+                            "PipelineII": "1"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

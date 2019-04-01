@@ -1,0 +1,35 @@
+{
+    "runtime": ["OpenCL"],
+    "example": "Read/Write Window of 2D Array (C)",
+    "overview": [
+        "This is a simple example of accessing each window of data from 2d array"
+    ],
+    "limitation": "Currently we ONLY support array size smaller than 512*512 due to some issue in the tool",
+    "key_concepts": [ "window of 2D data array access"],
+    "keywords": ["#pragma HLS DATAFLOW", "#pragma HLS PIPELINE", "#pragma HLS stream"],
+    "os": [
+        "Linux"
+    ],
+    "libs": [
+        "xcl2"
+    ],
+    "host_exe": "host",
+    "cmd_args": "BUILD/window_array_2d.xclbin",
+    "containers": [
+    {
+        "name": "window_array_2d",        
+        "accelerators": [
+        {
+            "name": "window_array_2d", 
+            "location": "src/window_array_2d.cpp"
+        }
+       ]
+     }            
+    ],
+    "contributors" : [
+        {
+            "group": "Xilinx",
+            "url" : "http://www.xilinx.com"
+        }
+    ]
+}

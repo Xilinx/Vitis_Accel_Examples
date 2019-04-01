@@ -1,0 +1,41 @@
+{
+    "runtime": ["OpenCL"],
+    "example": "Systolic Array Implementation (C)",
+    "overview": [
+        "This is a simple example of matrix multiplication (Row x Col) to help developers learn systolic array based algorithm design. Note : Systolic array based algorithm design is well suited for FPGA."
+    ],
+    "Key Concepts": [ "Systolic Array"],
+    "Keywords": ["#pragma HLS PIPELINE", "#pragma HLS ARRAY_PARTITION"],
+    "os": [
+        "Linux"
+    ],
+    "libs": [
+        "xcl2"
+    ],
+    "host_exe": "host",
+    "cmd_args": "BUILD/mmult.xclbin",
+    "containers": [
+    {
+        "name": "mmult",        
+        "accelerators": [
+        {
+            "name": "mmult", 
+            "location": "src/mmult.cpp"
+        }
+       ]
+     }
+    ],
+    "contributors" : [
+        {
+            "group": "Xilinx",
+            "url" : "http://www.xilinx.com"
+        }
+    ],
+    "testinfo": {
+        "level_up": [
+        {
+            "hw": "1"
+        }
+        ]
+    }
+}

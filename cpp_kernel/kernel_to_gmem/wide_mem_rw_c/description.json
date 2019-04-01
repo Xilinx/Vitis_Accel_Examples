@@ -1,0 +1,34 @@
+{
+    "runtime": ["OpenCL"],
+    "example": "Wide Memory Read/Write (C)",
+    "overview": [
+        "This is simple example of vector addition to demonstrate Wide Memory Access using ap_uint<512> data type. Based on input argument type, xocc compiler will figure our the memory datawidth between Global Memory and Kernel. For this example, ap_uint<512> datatype is used, so Memory datawidth will be 16 x (integer bit size) = 16 x 32 = 512 bit."
+    ],
+    "key_concepts": [ "Kernel to DDR", "wide memory access", "burst read and write"],
+    "keywords": ["ap_uint<>", "ap_int.h"],
+    "os": [
+        "Linux"
+    ],
+    "libs": [
+        "xcl2"
+    ],
+    "host_exe": "host",
+    "cmd_args": "BUILD/vadd.xclbin",
+    "containers": [
+    {
+        "name": "vadd",        
+        "accelerators": [
+        {
+            "name": "vadd", 
+            "location": "src/vadd.cpp"
+        }
+       ]
+     }            
+    ],
+    "contributors" : [
+        {
+            "group": "Xilinx",
+            "url" : "http://www.xilinx.com"
+        }
+    ]
+}

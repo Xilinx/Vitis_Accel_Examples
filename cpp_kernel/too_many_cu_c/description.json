@@ -1,0 +1,51 @@
+{
+    "runtime": ["OpenCL"],
+    "example": "Clock Frequency ~ Too Many Compute Units (C) ",
+    "overview": [
+        "This is simple example of vector addition to demonstrate effectiveness of using single compute unit with heavy work load to achieve better performance. Bad example uses multiple compute units to achieve good performance but it results in heavy usage of FPGA resources and area due to which design fails timing. Good example uses single compute unit to compute with heavier work load, it helps in less resource utilization and also helps in kernel scalability. To switch between Good/Bad cases use the flag provided in makefile."
+    ],
+    "key_concepts": [ "Clock Frequency" , "Data Level Parallelism", "Multiple Compute Units"],
+    "keywords": ["#pragma HLS PIPELINE", "#pragma HLS ARRAY_PARTITION"],
+    "os": [
+        "Linux"
+    ],
+    "libs": [
+        "xcl2"
+    ],
+    "host_exe": "host",
+    "cmd_args": "BUILD/vadd_GOOD.xclbin BUILD/vadd_BAD.xclbin",
+    "containers": [
+        {
+            "name": "vadd_GOOD",
+            "accelerators" : [
+                {
+                   "name": "vadd_GOOD",
+                   "location": "src/vadd.cpp"
+                }
+           ]
+        },
+        {
+            "name": "vadd_BAD",
+            "accelerators" : [
+                {
+                   "name": "vadd_BAD",
+                   "num_compute_units": "8",
+                   "location": "src/vadd_bad.cpp"
+                }
+           ]
+        }
+    ],
+    "contributors" : [
+        {
+            "group": "Xilinx",
+            "url" : "http://www.xilinx.com"
+        }
+    ],
+    "testinfo": {
+        "level_up": [
+        {
+            "hw": "1"
+        }
+        ]
+    }
+}

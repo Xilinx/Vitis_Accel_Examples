@@ -1,0 +1,46 @@
+{
+    "runtime": ["OpenCL"],
+    "example": "Array Block and Cyclic Partitioning (C)",
+    "overview": [
+        "This example shows how to use array block and cyclic partitioning to improve performance of a kernel"
+    ],
+    "key_concepts": [ "Kernel Optimization", "Array Partitioning", "Block Partition", "Cyclic Partition"],
+    "keywords": [ "#pragma HLS ARRAY_PARTITION", "cyclic", "block", "factor", "dim"],
+    "os": [
+        "Linux"
+    ],
+    "libs": [
+        "xcl2"
+    ],
+    "host_exe": "array_partition",
+    "cmd_args": "BUILD/matmul.xclbin",
+    "output_files": "output.png",        
+    "containers": [
+    {
+        "name": "matmul",        
+        "accelerators": [
+        {
+            "name": "matmul_naive", 
+            "location": "src/matmul.cpp"
+        },
+        {
+            "name": "matmul_partition", 
+            "location": "src/matmul_partition.cpp"
+        }
+       ]
+     }
+    ],
+    "contributors" : [
+        {
+            "group": "Xilinx",
+            "url" : "http://www.xilinx.com"
+        }
+    ],
+    "testinfo": {
+        "level_up": [
+        {
+            "hw": "1"
+        }
+        ]
+    }
+}
