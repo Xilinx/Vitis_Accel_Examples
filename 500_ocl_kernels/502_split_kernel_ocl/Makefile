@@ -22,7 +22,7 @@ help::
 	$(ECHO) ""
 
 # Points to Utility Directory
-COMMON_REPO = ../../
+COMMON_REPO = ../../../
 ABS_COMMON_REPO = $(shell readlink -f $(COMMON_REPO))
 
 TARGETS := hw
@@ -42,9 +42,9 @@ CXX := $(XILINX_SDX)/bin/xcpp
 XOCC := $(XILINX_SDX)/bin/xocc
 
 #Include Libraries
-include $(ABS_COMMON_REPO)/common/libs/opencl/opencl.mk
-include $(ABS_COMMON_REPO)/common/libs/xcl2/xcl2.mk
-include $(ABS_COMMON_REPO)/common/libs/bitmap/bitmap.mk
+include $(ABS_COMMON_REPO)/libs/opencl/opencl.mk
+include $(ABS_COMMON_REPO)/libs/xcl2/xcl2.mk
+include $(ABS_COMMON_REPO)/libs/bitmap/bitmap.mk
 CXXFLAGS += $(xcl2_CXXFLAGS) $(bitmap_CXXFLAGS)
 LDFLAGS += $(xcl2_LDFLAGS) $(bitmap_LDFLAGS)
 HOST_SRCS += $(xcl2_SRCS) $(bitmap_SRCS)

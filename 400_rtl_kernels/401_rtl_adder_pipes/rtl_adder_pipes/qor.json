@@ -1,8 +1,0 @@
-{
-    "containers": [
-        {
-            "name": "adder", 
-            "meet_system_timing": "true"
-        }
-    ]
-}
