@@ -55,7 +55,7 @@ ECHO:= @echo
 docs: README.md
 
 README.md: description.json
-	$(ABS_COMMON_REPO)/utility/readme_gen/readme_gen.py description.json
+	$(ABS_COMMON_REPO)/common/utility/readme_gen/readme_gen.py description.json
 
 check-devices:
 ifndef DEVICE
