@@ -41,8 +41,7 @@ Description:
 #define DATA_SIZE 1024*1024
 
 //TRIPCOUNT indentifier
-const unsigned int c_len_min = DATA_SIZE/BUFFER_SIZE;
-const unsigned int c_len_max = DATA_SIZE/(BUFFER_SIZE*1024);
+const unsigned int c_len = DATA_SIZE/BUFFER_SIZE;
 const unsigned int c_size = BUFFER_SIZE;
 
 extern "C" {
@@ -64,7 +63,7 @@ void krnl_vadd(int* a,
     int arrayA[BUFFER_SIZE];
     int arrayB[BUFFER_SIZE];
     for (int i = 0 ; i < size ; i += BUFFER_SIZE) {
-    #pragma HLS LOOP_TRIPCOUNT min=c_len_min max=c_len_max
+    #pragma HLS LOOP_TRIPCOUNT min=c_len max=c_len
         int length = BUFFER_SIZE;
         if (i + length > size) length = size - i;
         readA: for (int j = 0 ; j < length ; j++) {
