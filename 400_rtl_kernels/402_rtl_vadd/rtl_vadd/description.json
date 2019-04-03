@@ -1,0 +1,45 @@
+{
+    "runtime": ["OpenCL"],
+    "example": "Vector Addition With RTL Kernel (RTL)",
+    "overview": [
+        "Simple example of vector addition using RTL Kernel"
+    ],
+    "key_concepts": [ "RTL Kernel"],
+    "os": [
+        "Linux"
+    ],
+    "libs": [
+        "xcl2"
+    ],
+    "config_make": "config.mk",
+    "output_files": "tmp_kernel_pack* packaged_kernel*",
+    "host_srcs": "src/host.cpp",
+    "host_exe": "host",
+    "cmd_args": "BUILD/vadd.xclbin",
+    "targets": ["hw", "hw_emu"],
+    "containers": [
+    	{
+	"name": "vadd",
+	"accelerators": [
+	    {
+		"name": "vadd",
+		"kernel_type": "RTL"
+	    }
+	]
+	}
+    ],
+    "contributors" : [
+        {
+            "group": "Xilinx",
+            "url" : "http://www.xilinx.com"
+        }
+    ],
+    "revision" : [
+        {
+            "date" : "JAN2017",
+            "version": "1.0",
+            "description": "Initial Xilinx Release"
+        }
+    ],
+    "sdx_gui": false
+}

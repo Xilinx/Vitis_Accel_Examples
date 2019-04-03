@@ -1,0 +1,38 @@
+{
+    "runtime": ["OpenCL"],
+    "example": "Shift Register (C)",
+    "overview": [
+        "This example demonstrates how to shift values in registers in each clock cycle"
+    ],
+    "key_concepts": [ "Kernel Optimization", "Shift Register", "FIR"],
+    "keywords": [ "#pragma HLS ARRAY_PARTITION" ],
+    "os": [
+        "Linux"
+    ],
+    "libs": [
+        "xcl2"
+    ],
+    "host_exe": "host",
+    "cmd_args": "BUILD/fir.xclbin",
+    "containers": [
+    {
+        "name": "fir",        
+        "accelerators": [
+        {
+            "name": "fir_naive", 
+            "location": "src/fir_naive.cpp"
+        },
+        {
+            "name": "fir_shift_register", 
+            "location": "src/fir_shift_register.cpp"
+        }
+       ]
+      }
+    ],
+    "contributors" : [
+        {
+            "group": "Xilinx",
+            "url" : "http://www.xilinx.com"
+        }
+    ]
+}

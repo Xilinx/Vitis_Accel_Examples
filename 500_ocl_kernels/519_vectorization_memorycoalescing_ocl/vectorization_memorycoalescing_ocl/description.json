@@ -1,0 +1,35 @@
+{
+    "runtime": ["OpenCL"],
+    "example": "Vectorization (CL)",
+    "overview": [
+        "This example is a simple OpenCL application which highlights the vectorization concept. It provides a basis for calculating the bandwidth utilization when the compiler looking to vectorize."
+    ],
+    "key_concepts": ["Vectorization", "Memory Coalescing"],
+    "keywords": ["vec_type_hint"],
+    "os": [
+        "Linux"
+    ],
+    "libs": [
+        "xcl2"
+    ],
+    "host_exe": "host",
+    "cmd_args": "BUILD/vector_addition.xclbin",
+    "containers": [
+    {
+        "name": "vector_addition",        
+        "accelerators": [
+        {
+            "name": "vec_add", 
+            "max_memory_ports": "true",
+            "location": "src/vector_addition.cl"
+        }
+       ]
+     }
+    ],
+    "contributors" : [
+        {
+            "group": "Xilinx",
+            "url" : "http://www.xilinx.com"
+        }
+    ]
+}

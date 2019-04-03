@@ -1,0 +1,42 @@
+{
+    "runtime": ["OpenCL"],
+    "example": "Memory Coalesce Deadlock/Hang Handling (C)",
+    "overview": [
+        "This example shows Memory Coalesce Deadlock/Hand situation and how to handle it. User can switch between BAD and GOOD case using makefile variable KFLOW."
+    ],
+    "key_concepts": [ "Memory Coalesce", "Memory Deadlock/Hang", "Multiple Interfaces"],
+    "keywords": ["HLS INTERFACE", "bundle", "m_axi"],
+    "os": [
+        "Linux"
+    ],
+    "cmd_args" : "BUILD/kernel_GOOD.xclbin",
+    "libs": [
+        "xcl2"
+    ],
+    "host_exe": "host",
+    "containers": [
+        {
+            "name": "kernel_GOOD", 
+            "accelerators": [
+                {
+                    "name": "dummy_op",
+                    "clflags" : "-DDEADLOCK=0",                    
+                    "location": "src/kernel.cpp"
+                }
+            ]
+        }
+    ],
+    "contributors" : [
+        {
+            "group": "Xilinx",
+            "url" : "http://www.xilinx.com"
+        }
+    ],
+    "testinfo": {
+        "level_up": [
+        {
+            "hw": "1"
+        }
+        ]
+    }
+}

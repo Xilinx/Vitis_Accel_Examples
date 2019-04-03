@@ -1,0 +1,23 @@
+{
+    "containers": [
+        {
+            "name": "krnl_sum_scan", 
+            "meet_system_timing": "true", 
+            "accelerators": [
+                {
+                    "name": "krnl_sum_scan", 
+                    "check_timing": "true", 
+                    "PipelineType": "none", 
+                    "check_latency": "true", 
+                    "check_warning": "false", 
+                    "loops": [
+                        {
+                            "name": "sum_scan1", 
+                            "PipelineII": "1"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

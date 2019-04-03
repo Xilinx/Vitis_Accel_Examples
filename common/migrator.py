@@ -82,6 +82,11 @@ if __name__=="__main__":
                                     str(counter['applications']) + "_applications/" +
                                     str(app_ctr) + "_" + level2)
                         app_ctr = app_ctr + 1
+    
+    os.system(pwd + "/common/utility/makefile_gen/update_makegen_all.sh")
+    os.system(pwd + "/common/utility/readme_gen/update_all_readme.sh")
+    os.system(pwd + "/common/utility/check_readme.sh")
+    os.system(pwd + "/common/utility/check_makefile.sh")
             
 #    for level1 in os.listdir(sdaccel_folder):
 #        if level1 in libutil_list:

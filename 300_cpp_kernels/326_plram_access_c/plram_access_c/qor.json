@@ -1,0 +1,35 @@
+{
+    "containers": [
+        {
+            "name": "mmult", 
+            "meet_system_timing": "true", 
+            "accelerators": [
+                {
+                    "name": "mmult", 
+                    "check_timing": "true", 
+                    "PipelineType": "none", 
+                    "check_latency": "true", 
+                    "check_warning": "false", 
+                    "loops": [
+                        {
+                            "name": "readA", 
+                            "PipelineII": "1"
+                        }, 
+                        {
+                            "name": "readB", 
+                            "PipelineII": "1"
+                        }, 
+                        {
+                            "name": "outer_loop1", 
+                            "PipelineII": "1"
+                        }, 
+                        {
+                            "name": "writeC", 
+                            "PipelineII": "1"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

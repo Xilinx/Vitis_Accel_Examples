@@ -1,0 +1,38 @@
+{
+    "runtime": ["OpenCL"],
+    "example": "Loop Fusion (C)",
+    "overview": [
+        "This example will demonstrate how to fuse two loops into one to improve the performance of an OpenCL  C/C++ Kernel."
+    ],
+    "key_concepts": [ "Kernel Optimization", "Loop Fusion", "Loop Pipelining" ],
+    "keywords": [ "#pragma HLS PIPELINE"],
+    "os": [
+        "Linux"
+    ],
+    "libs": [
+        "xcl2"
+    ],
+    "host_exe": "loop_fusion",
+    "cmd_args": "BUILD/nearest_neighbor.xclbin",
+    "containers": [
+        {
+            "name": "nearest_neighbor",
+            "accelerators": [
+                {
+                    "name": "nearest_neighbor_loop_fusion", 
+                    "location": "src/nearest_neighbor.cpp"
+                },
+                {
+                    "name": "nearest_neighbor", 
+                    "location": "src/nearest_neighbor_bad.cpp"
+                }
+            ]
+        }    
+    ],
+    "contributors" : [
+        {
+            "group": "Xilinx",
+            "url" : "http://www.xilinx.com"
+        }
+    ]
+}

@@ -1,0 +1,49 @@
+{
+    "example": "Multiple RTL Kernels (RTL)",
+    "overview": [
+        "This example has two RTL Kernels. Both Kernel_0 and Kernel_1 perform vector addition. The Kernel_1 reads the output from Kernel_0 as one of two inputs."
+    ],
+    "key_concepts": [ "Multiple RTL Kernels"],
+    "os": [
+        "Linux"
+    ],
+    "libs": [
+        "xcl2"
+    ],
+    "config_make": "config.mk",
+    "output_files": "tmp_kernel_pack* packaged_kernel*",
+    "host_srcs": "src/host.cpp",
+    "host_exe": "host",
+    "cmd_args": "BUILD/vadd.xclbin",
+    "runtime": ["OpenCL"],
+    "targets": ["hw", "hw_emu"],
+    "containers": [
+    	{
+	"name": "vadd",
+	"accelerators": [
+	    {
+ 		"name": "vadd0",
+		"kernel_type": "RTL"
+	    },
+	    {
+		"name": "vadd1",
+		"kernel_type": "RTL"
+	    }
+	]
+	}
+    ],
+    "contributors" : [
+        {
+            "group": "Xilinx",
+            "url" : "http://www.xilinx.com"
+        }
+    ],
+    "revision" : [
+        {
+            "date" : "May2017",
+            "version": "1.0",
+            "description": "Initial Xilinx Release"
+        }
+    ],
+    "sdx_gui": false
+}
