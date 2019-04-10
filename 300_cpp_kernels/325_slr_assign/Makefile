@@ -14,6 +14,9 @@ help::
 	$(ECHO) "  make check TARGET=<sw_emu/hw_emu/hw> DEVICE=<FPGA platform>"
 	$(ECHO) "      Command to run application in emulation."
 	$(ECHO) ""
+	$(ECHO) "  make build TARGET=<sw_emu/hw_emu/hw> DEVICE=<FPGA platform>"
+	$(ECHO) "      Command to build xclbin application."
+	$(ECHO) ""
 	$(ECHO) "  make run_nimbix DEVICE=<FPGA platform>"
 	$(ECHO) "      Command to run application on Nimbix Cloud."
 	$(ECHO) ""
@@ -25,17 +28,13 @@ help::
 COMMON_REPO = ../../
 ABS_COMMON_REPO = $(shell readlink -f $(COMMON_REPO))
 
-TARGETS := hw
-TARGET := $(TARGETS)
-DEVICE := $(DEVICES)
-XCLBIN := ./xclbin
+TARGET = hw
 
 include ./utils.mk
 
 DSA := $(call device2sandsa, $(DEVICE))
 BUILD_DIR := ./_x.$(TARGET).$(DSA)
-
-BUILD_DIR_vmult_vadd = $(BUILD_DIR)/vmult_vadd
+XCLBIN_DIR := ./build_dir.$(TARGET).$(DSA)
 
 CXX := $(XILINX_SDX)/bin/xcpp
 XOCC := $(XILINX_SDX)/bin/xocc
@@ -56,7 +55,7 @@ CXXFLAGS += -fmessage-length=0
 LDFLAGS += -lrt -lstdc++ 
 
 # Kernel compiler global settings
-CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps 
+CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps --report_dir $(XCLBIN_DIR)/reports
 CLFLAGS += --slr vmult_1:SLR0
 CLFLAGS += --slr vadd_1:SLR1
 
@@ -64,13 +63,13 @@ CLFLAGS += --slr vadd_1:SLR1
 LDCLFLAGS += --slr vmult_1:SLR0 --slr vadd_1:SLR1
 
 EXECUTABLE = host
-CMD_ARGS = $(XCLBIN)/vmult_vadd.$(TARGET).$(DSA).xclbin
+CMD_ARGS = $(XCLBIN_DIR)/vmult_vadd.xclbin
 
-EMCONFIG_DIR = $(XCLBIN)/$(DSA)
+EMCONFIG_DIR = $(BUILD_DIR)
 
-BINARY_CONTAINERS += $(XCLBIN)/vmult_vadd.$(TARGET).$(DSA).xclbin
-BINARY_CONTAINER_vmult_vadd_OBJS += $(XCLBIN)/vmult.$(TARGET).$(DSA).xo
-BINARY_CONTAINER_vmult_vadd_OBJS += $(XCLBIN)/vadd.$(TARGET).$(DSA).xo
+BINARY_CONTAINERS += $(XCLBIN_DIR)/vmult_vadd.xclbin
+BINARY_CONTAINER_vmult_vadd_OBJS += $(BUILD_DIR)/vmult.xo
+BINARY_CONTAINER_vmult_vadd_OBJS += $(BUILD_DIR)/vadd.xo
 
 CP = cp -rf
 
@@ -80,16 +79,19 @@ all: check-devices $(EXECUTABLE) $(BINARY_CONTAINERS) emconfig
 .PHONY: exe
 exe: $(EXECUTABLE)
 
+.PHONY: build
+build: $(BINARY_CONTAINERS)
+
 # Building kernel
-$(XCLBIN)/vmult.$(TARGET).$(DSA).xo: src/kernel.cl
-	mkdir -p $(XCLBIN)
-	$(XOCC) $(CLFLAGS) --temp_dir $(BUILD_DIR_vmult_vadd) -c -k vmult -I'$(<D)' -o'$@' '$<'
-$(XCLBIN)/vadd.$(TARGET).$(DSA).xo: src/kernel.cl
-	mkdir -p $(XCLBIN)
-	$(XOCC) $(CLFLAGS) --temp_dir $(BUILD_DIR_vmult_vadd) -c -k vadd -I'$(<D)' -o'$@' '$<'
-$(XCLBIN)/vmult_vadd.$(TARGET).$(DSA).xclbin: $(BINARY_CONTAINER_vmult_vadd_OBJS)
-	mkdir -p $(XCLBIN)
-	$(XOCC) $(CLFLAGS) --temp_dir $(BUILD_DIR_vmult_vadd) -l $(LDCLFLAGS) --nk vmult:1 --nk vadd:1 -o'$@' $(+)
+$(BUILD_DIR)/vmult.xo: src/kernel.cl
+	mkdir -p $(BUILD_DIR)
+	$(XOCC) $(CLFLAGS) --temp_dir $(BUILD_DIR) -c -k vmult -I'$(<D)' -o'$@' '$<'
+$(BUILD_DIR)/vadd.xo: src/kernel.cl
+	mkdir -p $(BUILD_DIR)
+	$(XOCC) $(CLFLAGS) --temp_dir $(BUILD_DIR) -c -k vadd -I'$(<D)' -o'$@' '$<'
+$(XCLBIN_DIR)/vmult_vadd.xclbin: $(BINARY_CONTAINER_vmult_vadd_OBJS)
+	mkdir -p $(XCLBIN_DIR)
+	$(XOCC) $(CLFLAGS) --temp_dir $(XCLBIN_DIR) -l $(LDCLFLAGS) --nk vmult:1 --nk vadd:1 -o'$@' $(+)
 
 # Building Host
 $(EXECUTABLE): check-xrt $(HOST_SRCS) $(HOST_HDRS)
@@ -106,17 +108,17 @@ endif
 
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 	$(CP) $(EMCONFIG_DIR)/emconfig.json .
-	XCL_EMULATION_MODE=$(TARGET) ./$(EXECUTABLE) $(XCLBIN)/vmult_vadd.$(TARGET).$(DSA).xclbin
+	XCL_EMULATION_MODE=$(TARGET) ./$(EXECUTABLE) $(XCLBIN_DIR)/vmult_vadd.xclbin
 else
-	 ./$(EXECUTABLE) $(XCLBIN)/vmult_vadd.$(TARGET).$(DSA).xclbin
+	 ./$(EXECUTABLE) $(XCLBIN_DIR)/vmult_vadd.xclbin
 endif
 	sdx_analyze profile -i sdaccel_profile_summary.csv -f html
 
 run_nimbix: all
-	$(COMMON_REPO)/utility/nimbix/run_nimbix.py $(EXECUTABLE) $(CMD_ARGS) $(DSA)
+	$(COMMON_REPO)/common/utility/nimbix/run_nimbix.py $(EXECUTABLE) $(CMD_ARGS) $(DSA)
 
 aws_build: check-aws_repo $(BINARY_CONTAINERS)
-	$(COMMON_REPO)/utility/aws/run_aws.py $(BINARY_CONTAINERS)
+	$(COMMON_REPO)/common/utility/aws/run_aws.py $(BINARY_CONTAINERS)
 
 # Cleaning stuff
 clean:

@@ -14,6 +14,9 @@ help::
 	$(ECHO) "  make check TARGET=<sw_emu/hw_emu/hw> DEVICE=<FPGA platform>"
 	$(ECHO) "      Command to run application in emulation."
 	$(ECHO) ""
+	$(ECHO) "  make build TARGET=<sw_emu/hw_emu/hw> DEVICE=<FPGA platform>"
+	$(ECHO) "      Command to build xclbin application."
+	$(ECHO) ""
 	$(ECHO) "  make run_nimbix DEVICE=<FPGA platform>"
 	$(ECHO) "      Command to run application on Nimbix Cloud."
 	$(ECHO) ""
@@ -25,18 +28,13 @@ help::
 COMMON_REPO = ../../
 ABS_COMMON_REPO = $(shell readlink -f $(COMMON_REPO))
 
-TARGETS := hw
-TARGET := $(TARGETS)
-DEVICE := $(DEVICES)
-XCLBIN := ./xclbin
+TARGET = hw
 
 include ./utils.mk
 
 DSA := $(call device2sandsa, $(DEVICE))
 BUILD_DIR := ./_x.$(TARGET).$(DSA)
-
-BUILD_DIR_cnn_GOOD = $(BUILD_DIR)/cnn_GOOD
-BUILD_DIR_cnn_BAD = $(BUILD_DIR)/cnn_BAD
+XCLBIN_DIR := ./build_dir.$(TARGET).$(DSA)
 
 CXX := $(XILINX_SDX)/bin/xcpp
 XOCC := $(XILINX_SDX)/bin/xocc
@@ -57,19 +55,19 @@ CXXFLAGS += -fmessage-length=0
 LDFLAGS += -lrt -lstdc++ 
 
 # Kernel compiler global settings
-CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps 
+CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps --report_dir $(XCLBIN_DIR)/reports
 
 
 
 EXECUTABLE = host
-CMD_ARGS = $(XCLBIN)/cnn_GOOD.$(TARGET).$(DSA).xclbin $(XCLBIN)/cnn_BAD.$(TARGET).$(DSA).xclbin
+CMD_ARGS = $(XCLBIN_DIR)/cnn_GOOD.xclbin $(XCLBIN_DIR)/cnn_BAD.xclbin
 
-EMCONFIG_DIR = $(XCLBIN)/$(DSA)
+EMCONFIG_DIR = $(BUILD_DIR)
 
-BINARY_CONTAINERS += $(XCLBIN)/cnn_GOOD.$(TARGET).$(DSA).xclbin
-BINARY_CONTAINER_cnn_GOOD_OBJS += $(XCLBIN)/cnn_GOOD.$(TARGET).$(DSA).xo
-BINARY_CONTAINERS += $(XCLBIN)/cnn_BAD.$(TARGET).$(DSA).xclbin
-BINARY_CONTAINER_cnn_BAD_OBJS += $(XCLBIN)/cnn_BAD.$(TARGET).$(DSA).xo
+BINARY_CONTAINERS += $(XCLBIN_DIR)/cnn_GOOD.xclbin
+BINARY_CONTAINER_cnn_GOOD_OBJS += $(BUILD_DIR)/cnn_GOOD.xo
+BINARY_CONTAINERS += $(XCLBIN_DIR)/cnn_BAD.xclbin
+BINARY_CONTAINER_cnn_BAD_OBJS += $(BUILD_DIR)/cnn_BAD.xo
 
 CP = cp -rf
 
@@ -79,19 +77,22 @@ all: check-devices $(EXECUTABLE) $(BINARY_CONTAINERS) emconfig
 .PHONY: exe
 exe: $(EXECUTABLE)
 
+.PHONY: build
+build: $(BINARY_CONTAINERS)
+
 # Building kernel
-$(XCLBIN)/cnn_GOOD.$(TARGET).$(DSA).xo: src/cnn_convolution.cl
-	mkdir -p $(XCLBIN)
-	$(XOCC) $(CLFLAGS) --temp_dir $(BUILD_DIR_cnn_GOOD) -c -k cnn_GOOD -I'$(<D)' -o'$@' '$<'
-$(XCLBIN)/cnn_BAD.$(TARGET).$(DSA).xo: src/cnn_convolution_bad.cl
-	mkdir -p $(XCLBIN)
-	$(XOCC) $(CLFLAGS) --temp_dir $(BUILD_DIR_cnn_BAD) -c -k cnn_BAD -I'$(<D)' -o'$@' '$<'
-$(XCLBIN)/cnn_GOOD.$(TARGET).$(DSA).xclbin: $(BINARY_CONTAINER_cnn_GOOD_OBJS)
-	mkdir -p $(XCLBIN)
-	$(XOCC) $(CLFLAGS) --temp_dir $(BUILD_DIR_cnn_GOOD) -l $(LDCLFLAGS) --nk cnn_GOOD:4 -o'$@' $(+)
-$(XCLBIN)/cnn_BAD.$(TARGET).$(DSA).xclbin: $(BINARY_CONTAINER_cnn_BAD_OBJS)
-	mkdir -p $(XCLBIN)
-	$(XOCC) $(CLFLAGS) --temp_dir $(BUILD_DIR_cnn_BAD) -l $(LDCLFLAGS) --nk cnn_BAD:1 -o'$@' $(+)
+$(BUILD_DIR)/cnn_GOOD.xo: src/cnn_convolution.cl
+	mkdir -p $(BUILD_DIR)
+	$(XOCC) $(CLFLAGS) --temp_dir $(BUILD_DIR) -c -k cnn_GOOD -I'$(<D)' -o'$@' '$<'
+$(BUILD_DIR)/cnn_BAD.xo: src/cnn_convolution_bad.cl
+	mkdir -p $(BUILD_DIR)
+	$(XOCC) $(CLFLAGS) --temp_dir $(BUILD_DIR) -c -k cnn_BAD -I'$(<D)' -o'$@' '$<'
+$(XCLBIN_DIR)/cnn_GOOD.xclbin: $(BINARY_CONTAINER_cnn_GOOD_OBJS)
+	mkdir -p $(XCLBIN_DIR)
+	$(XOCC) $(CLFLAGS) --temp_dir $(XCLBIN_DIR) -l $(LDCLFLAGS) --nk cnn_GOOD:4 -o'$@' $(+)
+$(XCLBIN_DIR)/cnn_BAD.xclbin: $(BINARY_CONTAINER_cnn_BAD_OBJS)
+	mkdir -p $(XCLBIN_DIR)
+	$(XOCC) $(CLFLAGS) --temp_dir $(XCLBIN_DIR) -l $(LDCLFLAGS) --nk cnn_BAD:1 -o'$@' $(+)
 
 # Building Host
 $(EXECUTABLE): check-xrt $(HOST_SRCS) $(HOST_HDRS)
@@ -104,17 +105,17 @@ $(EMCONFIG_DIR)/emconfig.json:
 check: all
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 	$(CP) $(EMCONFIG_DIR)/emconfig.json .
-	XCL_EMULATION_MODE=$(TARGET) ./$(EXECUTABLE) $(XCLBIN)/cnn_GOOD.$(TARGET).$(DSA).xclbin $(XCLBIN)/cnn_BAD.$(TARGET).$(DSA).xclbin
+	XCL_EMULATION_MODE=$(TARGET) ./$(EXECUTABLE) $(XCLBIN_DIR)/cnn_GOOD.xclbin $(XCLBIN_DIR)/cnn_BAD.xclbin
 else
-	 ./$(EXECUTABLE) $(XCLBIN)/cnn_GOOD.$(TARGET).$(DSA).xclbin $(XCLBIN)/cnn_BAD.$(TARGET).$(DSA).xclbin
+	 ./$(EXECUTABLE) $(XCLBIN_DIR)/cnn_GOOD.xclbin $(XCLBIN_DIR)/cnn_BAD.xclbin
 endif
 	sdx_analyze profile -i sdaccel_profile_summary.csv -f html
 
 run_nimbix: all
-	$(COMMON_REPO)/utility/nimbix/run_nimbix.py $(EXECUTABLE) $(CMD_ARGS) $(DSA)
+	$(COMMON_REPO)/common/utility/nimbix/run_nimbix.py $(EXECUTABLE) $(CMD_ARGS) $(DSA)
 
 aws_build: check-aws_repo $(BINARY_CONTAINERS)
-	$(COMMON_REPO)/utility/aws/run_aws.py $(BINARY_CONTAINERS)
+	$(COMMON_REPO)/common/utility/aws/run_aws.py $(BINARY_CONTAINERS)
 
 # Cleaning stuff
 clean:

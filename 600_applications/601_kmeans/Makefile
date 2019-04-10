@@ -14,6 +14,9 @@ help::
 	$(ECHO) "  make check TARGET=<sw_emu/hw_emu/hw> DEVICE=<FPGA platform>"
 	$(ECHO) "      Command to run application in emulation."
 	$(ECHO) ""
+	$(ECHO) "  make build TARGET=<sw_emu/hw_emu/hw> DEVICE=<FPGA platform>"
+	$(ECHO) "      Command to build xclbin application."
+	$(ECHO) ""
 	$(ECHO) "  make run_nimbix DEVICE=<FPGA platform>"
 	$(ECHO) "      Command to run application on Nimbix Cloud."
 	$(ECHO) ""
@@ -25,17 +28,13 @@ help::
 COMMON_REPO = ../../
 ABS_COMMON_REPO = $(shell readlink -f $(COMMON_REPO))
 
-TARGETS := hw
-TARGET := $(TARGETS)
-DEVICE := $(DEVICES)
-XCLBIN := ./xclbin
+TARGET = hw
 
 include ./utils.mk
 
 DSA := $(call device2sandsa, $(DEVICE))
 BUILD_DIR := ./_x.$(TARGET).$(DSA)
-
-BUILD_DIR_kmeans = $(BUILD_DIR)/kmeans
+XCLBIN_DIR := ./build_dir.$(TARGET).$(DSA)
 
 CXX := $(XILINX_SDX)/bin/xcpp
 XOCC := $(XILINX_SDX)/bin/xocc
@@ -60,16 +59,16 @@ CXXFLAGS += -fmessage-length=0
 LDFLAGS += -lrt -lstdc++ 
 
 # Kernel compiler global settings
-CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps 
+CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps --report_dir $(XCLBIN_DIR)/reports
 
 
 EXECUTABLE = host_kmeans
-CMD_ARGS = -x $(XCLBIN)/kmeans.$(TARGET).$(DSA).xclbin -i ./data/100 -c ./data/100.gold_c5 -m 5 -n 5 -g 2
+CMD_ARGS = -x $(XCLBIN_DIR)/kmeans.xclbin -i ./data/100 -c ./data/100.gold_c5 -m 5 -n 5 -g 2
 
-EMCONFIG_DIR = $(XCLBIN)/$(DSA)
+EMCONFIG_DIR = $(BUILD_DIR)
 
-BINARY_CONTAINERS += $(XCLBIN)/kmeans.$(TARGET).$(DSA).xclbin
-BINARY_CONTAINER_kmeans_OBJS += $(XCLBIN)/kmeans.$(TARGET).$(DSA).xo
+BINARY_CONTAINERS += $(XCLBIN_DIR)/kmeans.xclbin
+BINARY_CONTAINER_kmeans_OBJS += $(BUILD_DIR)/kmeans.xo
 
 CP = cp -rf
 DATA = ./data
@@ -80,13 +79,16 @@ all: check-devices $(EXECUTABLE) $(BINARY_CONTAINERS) emconfig
 .PHONY: exe
 exe: $(EXECUTABLE)
 
+.PHONY: build
+build: $(BINARY_CONTAINERS)
+
 # Building kernel
-$(XCLBIN)/kmeans.$(TARGET).$(DSA).xo: src/kmeans.cl
-	mkdir -p $(XCLBIN)
-	$(XOCC) $(CLFLAGS) --temp_dir $(BUILD_DIR_kmeans) -c -k kmeans -I'$(<D)' -o'$@' '$<'
-$(XCLBIN)/kmeans.$(TARGET).$(DSA).xclbin: $(BINARY_CONTAINER_kmeans_OBJS)
-	mkdir -p $(XCLBIN)
-	$(XOCC) $(CLFLAGS) --temp_dir $(BUILD_DIR_kmeans) -l $(LDCLFLAGS) --nk kmeans:2 -o'$@' $(+)
+$(BUILD_DIR)/kmeans.xo: src/kmeans.cl
+	mkdir -p $(BUILD_DIR)
+	$(XOCC) $(CLFLAGS) --temp_dir $(BUILD_DIR) -c -k kmeans -I'$(<D)' -o'$@' '$<'
+$(XCLBIN_DIR)/kmeans.xclbin: $(BINARY_CONTAINER_kmeans_OBJS)
+	mkdir -p $(XCLBIN_DIR)
+	$(XOCC) $(CLFLAGS) --temp_dir $(XCLBIN_DIR) -l $(LDCLFLAGS) --nk kmeans:2 -o'$@' $(+)
 
 # Building Host
 $(EXECUTABLE): check-xrt $(HOST_SRCS) $(HOST_HDRS)
@@ -99,17 +101,17 @@ $(EMCONFIG_DIR)/emconfig.json:
 check: all
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 	$(CP) $(EMCONFIG_DIR)/emconfig.json .
-	XCL_EMULATION_MODE=$(TARGET) ./$(EXECUTABLE) -x $(XCLBIN)/kmeans.$(TARGET).$(DSA).xclbin -i ./data/100 -c ./data/100.gold_c5 -m 5 -n 5 -g 2
+	XCL_EMULATION_MODE=$(TARGET) ./$(EXECUTABLE) -x $(XCLBIN_DIR)/kmeans.xclbin -i ./data/100 -c ./data/100.gold_c5 -m 5 -n 5 -g 2
 else
-	 ./$(EXECUTABLE) -x $(XCLBIN)/kmeans.$(TARGET).$(DSA).xclbin -i ./data/100 -c ./data/100.gold_c5 -m 5 -n 5 -g 2
+	 ./$(EXECUTABLE) -x $(XCLBIN_DIR)/kmeans.xclbin -i ./data/100 -c ./data/100.gold_c5 -m 5 -n 5 -g 2
 endif
 	sdx_analyze profile -i sdaccel_profile_summary.csv -f html
 
 run_nimbix: all
-	$(COMMON_REPO)/utility/nimbix/run_nimbix.py $(EXECUTABLE) $(CMD_ARGS) $(DSA)
+	$(COMMON_REPO)/common/utility/nimbix/run_nimbix.py $(EXECUTABLE) $(CMD_ARGS) $(DSA)
 
 aws_build: check-aws_repo $(BINARY_CONTAINERS)
-	$(COMMON_REPO)/utility/aws/run_aws.py $(BINARY_CONTAINERS)
+	$(COMMON_REPO)/common/utility/aws/run_aws.py $(BINARY_CONTAINERS)
 
 # Cleaning stuff
 clean:

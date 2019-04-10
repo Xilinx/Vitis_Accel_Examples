@@ -19,23 +19,13 @@ def create_params(target,data):
     target.write("\n")
     target.write("ABS_COMMON_REPO = $(shell readlink -f $(COMMON_REPO))\n")
     target.write("\n")
-    target.write("TARGETS := hw\n")
-    target.write("TARGET := $(TARGETS)\n")
-    target.write("DEVICE := $(DEVICES)\n")
-    target.write("XCLBIN := ./xclbin\n")
+    target.write("TARGET = hw\n")
     target.write("\n")
     target.write("include ./utils.mk\n")
     target.write("\n")
     target.write("DSA := $(call device2sandsa, $(DEVICE))\n")
     target.write("BUILD_DIR := ./_x.$(TARGET).$(DSA)\n")
-    target.write("\n")
-    if "containers" in data:
-        for con in data["containers"]:
-            target.write("BUILD_DIR_")
-            target.write(con["name"])
-            target.write(" = $(BUILD_DIR)/")
-            target.write(con["name"])
-            target.write("\n")
+    target.write("XCLBIN_DIR := ./build_dir.$(TARGET).$(DSA)\n")
     target.write("\n")
 
     target.write("CXX := ")
@@ -130,7 +120,7 @@ def add_host_flags(target, data):
 def add_kernel_flags(target, data):
     target.write("# Kernel compiler global settings\n")
     target.write("CLFLAGS += ")
-    target.write("-t $(TARGET) --platform $(DEVICE) --save-temps \n")   
+    target.write("-t $(TARGET) --platform $(DEVICE) --save-temps --report_dir $(XCLBIN_DIR)/reports\n")   
 
     if "containers" in data:
         for con in data["containers"]:
@@ -186,16 +176,13 @@ def add_kernel_flags(target, data):
 	cmd_args = data["cmd_args"].split(" ")
 	for cmdargs in cmd_args[0:]:
 	    target.write(" ")
-            cmdargs = cmdargs.replace('.xclbin', '')
-            cmdargs = cmdargs.replace('BUILD', '$(XCLBIN)')
+            cmdargs = cmdargs.replace('BUILD', '$(XCLBIN_DIR)')
             cmdargs = cmdargs.replace('PROJECT', '.')
 	    target.write(cmdargs)
-    	    if "$(XCLBIN)" in cmdargs:
-            	target.write(".$(TARGET).$(DSA).xclbin")
 
     target.write("\n\n")
 
-    target.write("EMCONFIG_DIR = $(XCLBIN)/$(DSA)")
+    target.write("EMCONFIG_DIR = $(BUILD_DIR)")
     target.write("\n\n")
 
     return
@@ -203,17 +190,15 @@ def add_kernel_flags(target, data):
 def add_containers(target, data):
     if "containers" in data:
 	for con in data["containers"]:
-	    target.write("BINARY_CONTAINERS += $(XCLBIN)/")
+	    target.write("BINARY_CONTAINERS += $(XCLBIN_DIR)/")
             target.write(con["name"])
-            target.write(".$(TARGET).$(DSA)")
             target.write(".xclbin\n")
 	    if "accelerators" in con:
 		for acc in con["accelerators"]:
 		    target.write("BINARY_CONTAINER_")
                     target.write(con["name"])
-                    target.write("_OBJS += $(XCLBIN)/") 
+                    target.write("_OBJS += $(BUILD_DIR)/") 
 		    target.write(acc["name"])
-                    target.write(".$(TARGET).$(DSA)")
                     target.write(".xo\n")       	
     target.write("\n")
 
@@ -223,31 +208,29 @@ def building_kernel(target, data):
 	for con in data["containers"]:
 	    if "accelerators" in con:
 		for acc in con["accelerators"]:
-		    target.write("$(XCLBIN)/")
+		    target.write("$(BUILD_DIR)/")
             	    target.write(acc["name"])
-                    target.write(".$(TARGET).$(DSA)")
             	    target.write(".xo: ")
 		    target.write(acc["location"])
 		    target.write("\n")
-                    target.write("\tmkdir -p $(XCLBIN)\n")
+                    target.write("\tmkdir -p $(BUILD_DIR)\n")
                     target.write("\t$(XOCC) $(CLFLAGS) --temp_dir ")
-                    target.write("$(BUILD_DIR_"+ con["name"] +") ")
+                    target.write("$(BUILD_DIR) ")
                     target.write("-c -k ")
                     target.write(acc["name"])
                     target.write(" -I'$(<D)'")
                     target.write(" -o'$@' '$<'\n")
     if "containers" in data:
         for con in data["containers"]:
-            target.write("$(XCLBIN)/")
+            target.write("$(XCLBIN_DIR)/")
             target.write(con["name"])
-            target.write(".$(TARGET).$(DSA)")
             target.write(".xclbin:")
             target.write(" $(BINARY_CONTAINER_")
             target.write(con["name"])
             target.write("_OBJS)\n")
-            target.write("\tmkdir -p $(XCLBIN)\n")
+            target.write("\tmkdir -p $(XCLBIN_DIR)\n")
             target.write("\t$(XOCC) $(CLFLAGS) --temp_dir ")
-            target.write("$(BUILD_DIR_"+ con["name"] +") ")
+            target.write("$(XCLBIN_DIR) ")
             target.write("-l $(LDCLFLAGS)")
             for acc in con["accelerators"]:
                 target.write(" --nk ")
@@ -265,22 +248,19 @@ def building_kernel_rtl(target, data):
     target.write("# Building kernel\n")
     if "containers" in data:
 	for con in data["containers"]:
-	    target.write("$(XCLBIN)/")
+	    target.write("$(XCLBIN_DIR)/")
             target.write(con["name"])
-            target.write(".$(TARGET).$(DSA)")
             target.write(".xclbin:")
 	    target.write(" $(BINARY_CONTAINER_")
             target.write(con["name"])
             target.write("_OBJS)\n")
-	    target.write("\tmkdir -p $(XCLBIN)\n")
+	    target.write("\tmkdir -p $(XCLBIN_DIR)\n")
 	    target.write("\t$(XOCC) $(CLFLAGS) $(LDCLFLAGS) -lo")
-	    target.write(" $(XCLBIN)/")
+	    target.write(" $(XCLBIN_DIR)/")
 	    target.write(con["name"])
-	    target.write(".$(TARGET).$(DSA).xclbin")
             for acc in con["accelerators"]:
-                target.write(" $(XCLBIN)/")
+                target.write(" $(XCLBIN_DIR)/")
 		target.write(acc["name"])
-		target.write(".$(TARGET).$(DSA).xo")		   
 	    target.write("\n\n")
     return
 
@@ -355,6 +335,10 @@ def mk_build_all(target, data):
     target.write("exe: $(EXECUTABLE)\n")
     target.write("\n")
     
+    target.write(".PHONY: build\n")
+    target.write("build: $(BINARY_CONTAINERS)\n")
+    target.write("\n")
+    
     counter = 0
     if "containers" in data:
 	for con in data["containers"]:
@@ -389,24 +373,18 @@ def mk_check(target, data):
         args = data["cmd_args"].split(" ")    
         for arg in args[0:]:
             target.write(" ")
-	    arg = arg.replace('.xclbin', '')
-            arg = arg.replace('BUILD', '$(XCLBIN)')
+            arg = arg.replace('BUILD', '$(XCLBIN_DIR)')
 	    arg = arg.replace('PROJECT', '.')
 	    target.write(arg)
-  	    if "$(XCLBIN)" in arg:
-	    	target.write(".$(TARGET).$(DSA).xclbin")
     target.write("\nelse\n")        
     target.write("\t ./$(EXECUTABLE)")
     if "cmd_args" in data:
         args = data["cmd_args"].split(" ")    
         for arg in args[0:]:
             target.write(" ")
-	    arg = arg.replace('.xclbin', '')
-	    arg = arg.replace('BUILD', '$(XCLBIN)')
+	    arg = arg.replace('BUILD', '$(XCLBIN_DIR)')
 	    arg = arg.replace('PROJECT', '.')
 	    target.write(arg)
-	    if "$(XCLBIN)" in arg:
-            	target.write(".$(TARGET).$(DSA).xclbin")
     target.write("\nendif\n")
     if "targets" in data:
         target.write("ifneq ($(TARGET),$(findstring $(TARGET),")
@@ -430,13 +408,13 @@ def mk_check(target, data):
 def run_nimbix(target, data):
     target.write("run_nimbix: all\n")
     if "cmd_args" in data:
-    	target.write("\t$(COMMON_REPO)/utility/nimbix/run_nimbix.py $(EXECUTABLE) $(CMD_ARGS) $(DSA)\n\n")
+    	target.write("\t$(COMMON_REPO)/common/utility/nimbix/run_nimbix.py $(EXECUTABLE) $(CMD_ARGS) $(DSA)\n\n")
     else:
-    	target.write("\t$(COMMON_REPO)/utility/nimbix/run_nimbix.py $(EXECUTABLE) $(DSA)\n\n")	
+    	target.write("\t$(COMMON_REPO)/common/utility/nimbix/run_nimbix.py $(EXECUTABLE) $(DSA)\n\n")	
     
 def aws_build(target):
     target.write("aws_build: check-aws_repo $(BINARY_CONTAINERS)\n")
-    target.write("\t$(COMMON_REPO)/utility/aws/run_aws.py $(BINARY_CONTAINERS)\n\n")
+    target.write("\t$(COMMON_REPO)/common/utility/aws/run_aws.py $(BINARY_CONTAINERS)\n\n")
 
 def mk_help(target):
     target.write(".PHONY: help\n")
@@ -454,6 +432,9 @@ def mk_help(target):
     target.write("\t$(ECHO) \"\"\n")
     target.write("\t$(ECHO) \"  make check TARGET=<sw_emu/hw_emu/hw> DEVICE=<FPGA platform>\"\n");
     target.write("\t$(ECHO) \"      Command to run application in emulation.\"\n")
+    target.write("\t$(ECHO) \"\"\n")
+    target.write("\t$(ECHO) \"  make build TARGET=<sw_emu/hw_emu/hw> DEVICE=<FPGA platform>\"\n");
+    target.write("\t$(ECHO) \"      Command to build xclbin application.\"\n")
     target.write("\t$(ECHO) \"\"\n")
     target.write("\t$(ECHO) \"  make run_nimbix DEVICE=<FPGA platform>\"\n");
     target.write("\t$(ECHO) \"      Command to run application on Nimbix Cloud.\"\n")
