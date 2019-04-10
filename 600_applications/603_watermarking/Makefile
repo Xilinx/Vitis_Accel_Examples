@@ -14,6 +14,9 @@ help::
 	$(ECHO) "  make check TARGET=<sw_emu/hw_emu/hw> DEVICE=<FPGA platform>"
 	$(ECHO) "      Command to run application in emulation."
 	$(ECHO) ""
+	$(ECHO) "  make build TARGET=<sw_emu/hw_emu/hw> DEVICE=<FPGA platform>"
+	$(ECHO) "      Command to build xclbin application."
+	$(ECHO) ""
 	$(ECHO) "  make run_nimbix DEVICE=<FPGA platform>"
 	$(ECHO) "      Command to run application on Nimbix Cloud."
 	$(ECHO) ""
@@ -25,17 +28,13 @@ help::
 COMMON_REPO = ../../
 ABS_COMMON_REPO = $(shell readlink -f $(COMMON_REPO))
 
-TARGETS := hw
-TARGET := $(TARGETS)
-DEVICE := $(DEVICES)
-XCLBIN := ./xclbin
+TARGET = hw
 
 include ./utils.mk
 
 DSA := $(call device2sandsa, $(DEVICE))
 BUILD_DIR := ./_x.$(TARGET).$(DSA)
-
-BUILD_DIR_apply_watermark = $(BUILD_DIR)/apply_watermark
+XCLBIN_DIR := ./build_dir.$(TARGET).$(DSA)
 
 CXX := $(XILINX_SDX)/bin/xcpp
 XOCC := $(XILINX_SDX)/bin/xocc
@@ -57,19 +56,19 @@ CXXFLAGS += -fmessage-length=0
 LDFLAGS += -lrt -lstdc++ 
 
 # Kernel compiler global settings
-CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps 
+CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps --report_dir $(XCLBIN_DIR)/reports
 CLFLAGS += --max_memory_ports apply_watermark
 
 # Kernel linker flags
 LDCLFLAGS += --sp apply_watermark_1.m_axi_gmem0:DDR[0] --sp apply_watermark_1.m_axi_gmem1:DDR[1]
 
 EXECUTABLE = watermark
-CMD_ARGS = $(XCLBIN)/apply_watermark.$(TARGET).$(DSA).xclbin ./data/inputImage.bmp ./data/golden.bmp
+CMD_ARGS = $(XCLBIN_DIR)/apply_watermark.xclbin ./data/inputImage.bmp ./data/golden.bmp
 
-EMCONFIG_DIR = $(XCLBIN)/$(DSA)
+EMCONFIG_DIR = $(BUILD_DIR)
 
-BINARY_CONTAINERS += $(XCLBIN)/apply_watermark.$(TARGET).$(DSA).xclbin
-BINARY_CONTAINER_apply_watermark_OBJS += $(XCLBIN)/apply_watermark.$(TARGET).$(DSA).xo
+BINARY_CONTAINERS += $(XCLBIN_DIR)/apply_watermark.xclbin
+BINARY_CONTAINER_apply_watermark_OBJS += $(BUILD_DIR)/apply_watermark.xo
 
 CP = cp -rf
 DATA = ./data
@@ -80,13 +79,16 @@ all: check-devices $(EXECUTABLE) $(BINARY_CONTAINERS) emconfig
 .PHONY: exe
 exe: $(EXECUTABLE)
 
+.PHONY: build
+build: $(BINARY_CONTAINERS)
+
 # Building kernel
-$(XCLBIN)/apply_watermark.$(TARGET).$(DSA).xo: src/krnl_watermarking.cl
-	mkdir -p $(XCLBIN)
-	$(XOCC) $(CLFLAGS) --temp_dir $(BUILD_DIR_apply_watermark) -c -k apply_watermark -I'$(<D)' -o'$@' '$<'
-$(XCLBIN)/apply_watermark.$(TARGET).$(DSA).xclbin: $(BINARY_CONTAINER_apply_watermark_OBJS)
-	mkdir -p $(XCLBIN)
-	$(XOCC) $(CLFLAGS) --temp_dir $(BUILD_DIR_apply_watermark) -l $(LDCLFLAGS) --nk apply_watermark:1 -o'$@' $(+)
+$(BUILD_DIR)/apply_watermark.xo: src/krnl_watermarking.cl
+	mkdir -p $(BUILD_DIR)
+	$(XOCC) $(CLFLAGS) --temp_dir $(BUILD_DIR) -c -k apply_watermark -I'$(<D)' -o'$@' '$<'
+$(XCLBIN_DIR)/apply_watermark.xclbin: $(BINARY_CONTAINER_apply_watermark_OBJS)
+	mkdir -p $(XCLBIN_DIR)
+	$(XOCC) $(CLFLAGS) --temp_dir $(XCLBIN_DIR) -l $(LDCLFLAGS) --nk apply_watermark:1 -o'$@' $(+)
 
 # Building Host
 $(EXECUTABLE): check-xrt $(HOST_SRCS) $(HOST_HDRS)
@@ -99,17 +101,17 @@ $(EMCONFIG_DIR)/emconfig.json:
 check: all
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 	$(CP) $(EMCONFIG_DIR)/emconfig.json .
-	XCL_EMULATION_MODE=$(TARGET) ./$(EXECUTABLE) $(XCLBIN)/apply_watermark.$(TARGET).$(DSA).xclbin ./data/inputImage.bmp ./data/golden.bmp
+	XCL_EMULATION_MODE=$(TARGET) ./$(EXECUTABLE) $(XCLBIN_DIR)/apply_watermark.xclbin ./data/inputImage.bmp ./data/golden.bmp
 else
-	 ./$(EXECUTABLE) $(XCLBIN)/apply_watermark.$(TARGET).$(DSA).xclbin ./data/inputImage.bmp ./data/golden.bmp
+	 ./$(EXECUTABLE) $(XCLBIN_DIR)/apply_watermark.xclbin ./data/inputImage.bmp ./data/golden.bmp
 endif
 	sdx_analyze profile -i sdaccel_profile_summary.csv -f html
 
 run_nimbix: all
-	$(COMMON_REPO)/utility/nimbix/run_nimbix.py $(EXECUTABLE) $(CMD_ARGS) $(DSA)
+	$(COMMON_REPO)/common/utility/nimbix/run_nimbix.py $(EXECUTABLE) $(CMD_ARGS) $(DSA)
 
 aws_build: check-aws_repo $(BINARY_CONTAINERS)
-	$(COMMON_REPO)/utility/aws/run_aws.py $(BINARY_CONTAINERS)
+	$(COMMON_REPO)/common/utility/aws/run_aws.py $(BINARY_CONTAINERS)
 
 # Cleaning stuff
 clean:
