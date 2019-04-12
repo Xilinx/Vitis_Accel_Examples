@@ -9,91 +9,245 @@ import re
 import subprocess
 sys.dont_write_bytecode = True
 
-if __name__=="__main__":
-    counter = {'hello_world': 100, 'host': 200, 'cpp_kernels': 300,
-            'rtl_kernels':400, 'ocl_kernels':500, 'applications':600}
-    os.system("mkdir -p " + str(counter['hello_world']) + "_hello_world " +
-                            str(counter['host']) + "_host " +
-                            str(counter['cpp_kernels']) + "_cpp_kernels " +
-                            str(counter['rtl_kernels']) + "_rtl_kernels " +
-                            str(counter['ocl_kernels']) + "_ocl_kernels " +
-                            str(counter['applications']) + "_applications ")
-    hwd_ctr = counter['hello_world'] + 1
-    hst_ctr = counter['host'] + 1
-    cpp_ctr = counter['cpp_kernels'] + 1
-    rtl_ctr = counter['rtl_kernels'] + 1
-    ocl_ctr = counter['ocl_kernels'] + 1
-    app_ctr = counter['applications'] + 1
-    pwd = os.path.dirname(sys.path[0])
-    cpp_list  = ['kernel_to_gmem', 'kernel_opt', 'dataflow', 'clk_freq']
-    copy_list = ['hello_world', 'host', 'rtl_kernel', 'debug']
-    application_list = ['kmeans', 'watermarking', 'median_filter']
-    folder_list = ['acceleration', 'vision', 'getting_started']
-    libutil_list = ['libs', 'utility']
-    script, folder = argv
-    sdaccel_folder = os.path.abspath(folder)
-    for level1 in os.listdir(sdaccel_folder):
-        if level1 in folder_list:
-            for level2 in os.listdir(sdaccel_folder + '/' + level1):
-                if level2 in copy_list:
-                    for level3 in os.listdir(sdaccel_folder + '/' + level1 + '/' + level2):
-                        copy_dir = os.path.abspath(sdaccel_folder + '/' + level1
-                                + '/' + level2 + '/' + level3)
-                        if re.search('ocl', level3):
-                            os.system("cp -rf " + copy_dir + " " + pwd + "/" +
-                                    str(counter['ocl_kernels']) + "_ocl_kernels/" +
-                                    str(ocl_ctr) + "_" + level3)
-                            ocl_ctr = ocl_ctr + 1
-                        elif os.path.isdir(copy_dir):
-                            if re.search('hello_world', level2):
-                                os.system("cp -rf " + copy_dir + " " + pwd + "/" +
-                                    str(counter['hello_world']) + "_hello_world/" +
-                                    str(hwd_ctr) + "_" + level3)
-                                hwd_ctr = hwd_ctr + 1
-                            if re.search('host', level2):
-                                os.system("cp -rf " + copy_dir + " " + pwd + "/" +
-                                    str(counter['host']) + "_host/" +
-                                    str(hst_ctr) + "_" + level3)
-                                hst_ctr = hst_ctr + 1
-                            if re.search('rtl_kernel', level2):
-                                os.system("cp -rf " + copy_dir + " " + pwd + "/" +
-                                    str(counter['rtl_kernels']) + "_rtl_kernels/" +
-                                    str(rtl_ctr) + "_" + level3)
-                                rtl_ctr = rtl_ctr + 1
-                if level2 in cpp_list:
-                    for level3 in os.listdir(sdaccel_folder + '/' + level1 + '/' + level2):
-                        copy_dir = os.path.abspath(sdaccel_folder + '/' + level1
-                                + '/' + level2 + '/' + level3)
-                        if re.search('ocl', level3):
-                            os.system("cp -rf " + copy_dir + " " + pwd + "/" +
-                                    str(counter['ocl_kernels']) + "_ocl_kernels/" +
-                                    str(ocl_ctr) + "_" + level3)
-                            ocl_ctr = ocl_ctr + 1
-                        elif os.path.isdir(copy_dir):
-                            os.system("cp -rf " + copy_dir + " " + pwd + "/" +
-                                    str(counter['cpp_kernels']) + "_cpp_kernels/" +
-                                    str(cpp_ctr) + "_" + level3)
-                            cpp_ctr = cpp_ctr + 1
-                if level2 in application_list:
-                    copy_dir = os.path.abspath(sdaccel_folder + '/' + level1 +
-                            '/' + level2)
-                    if os.path.isdir(copy_dir):
-                        os.system("cp -rf " + copy_dir + " " + pwd + "/" +
-                                    str(counter['applications']) + "_applications/" +
-                                    str(app_ctr) + "_" + level2)
-                        app_ctr = app_ctr + 1
-    
-    os.system(pwd + "/common/utility/makefile_gen/update_makegen_all.sh")
-    os.system(pwd + "/common/utility/readme_gen/update_all_readme.sh")
-    os.system(pwd + "/common/utility/check_readme.sh")
-    os.system(pwd + "/common/utility/check_makefile.sh")
-            
-#    for level1 in os.listdir(sdaccel_folder):
-#        if level1 in libutil_list:
-#            copy_dir = os.path.abspath(sdaccel_folder + '/' + level1)
-#            os.system("cp -rf " + copy_dir + " " + pwd + "/common/") 
+pwd = os.path.dirname(sys.path[0])
+script, folder = argv
+sdaccel_folder = os.path.abspath(folder)
+os.system("mkdir -p 200_host 300_cpp_kernels 400_rtl_kernels 500_ocl_kernels 600_applications")
 
-                  
+# Copy script begins
+# Hello World
+os.system("cp -rf " + sdaccel_folder +
+"/getting_started/hello_world/helloworld_c/* " + pwd +
+"/101_helloworld")
+# Host
+os.system("cp -rf " + sdaccel_folder +
+"/getting_started/host/concurrent_kernel_execution_c/ " + pwd +
+"/200_host/201_concurrent_kernel_execution")
+os.system("cp -rf " + sdaccel_folder +
+"/getting_started/host/copy_buffer_c/ " + pwd +
+"/200_host/202_copy_buffer")
+os.system("cp -rf " + sdaccel_folder +
+"/getting_started/host/data_transfer_c/ " + pwd +
+"/200_host/203_data_transfer")
+os.system("cp -rf " + sdaccel_folder +
+"/getting_started/host/device_query_c/ " + pwd +
+"/200_host/204_device_query")
+os.system("cp -rf " + sdaccel_folder +
+"/getting_started/host/device_query_cpp/ " + pwd +
+"/200_host/205_device_query_cpp")
+os.system("cp -rf " + sdaccel_folder +
+"/getting_started/host/errors_c/ " + pwd +
+"/200_host/206_errors")
+os.system("cp -rf " + sdaccel_folder +
+"/getting_started/host/errors_cpp/ " + pwd +
+"/200_host/207_errors_cpp")
+os.system("cp -rf " + sdaccel_folder +
+"/getting_started/host/host_global_bandwidth/ " + pwd +
+"/200_host/208_host_global_bandwidth")
+os.system("cp -rf " + sdaccel_folder +
+"/getting_started/host/kernel_swap_c/ " + pwd +
+"/200_host/209_kernel_swap")
+os.system("cp -rf " + sdaccel_folder +
+"/getting_started/host/multiple_devices_c/ " + pwd +
+"/200_host/210_multiple_devices")
+os.system("cp -rf " + sdaccel_folder +
+"/getting_started/host/multiple_process_c/ " + pwd +
+"/200_host/211_multiple_process")
+os.system("cp -rf " + sdaccel_folder +
+"/getting_started/host/overlap_c/ " + pwd +
+"/200_host/212_overlap")
+os.system("cp -rf " + sdaccel_folder +
+"/getting_started/host/stream_access_c/ " + pwd +
+"/200_host/213_stream_access")
+os.system("cp -rf " + sdaccel_folder +
+"/getting_started/host/sub_devices_c/ " + pwd +
+"/200_host/214_sub_devices")
+# CPP Kernel
+os.system("cp -rf " + sdaccel_folder +
+"/getting_started/clk_freq/critical_path_c/ " + pwd +
+"/300_cpp_kernels/301_critical_path")
+os.system("cp -rf " + sdaccel_folder +
+"/getting_started/clk_freq/large_loop_c/ " + pwd +
+"/300_cpp_kernels/302_large_loop")
+os.system("cp -rf " + sdaccel_folder +
+"/getting_started/clk_freq/split_kernel_c/ " + pwd +
+"/300_cpp_kernels/303_split_kernel")
+os.system("cp -rf " + sdaccel_folder +
+"/getting_started/clk_freq/too_many_cu_c/ " + pwd +
+"/300_cpp_kernels/304_too_many_cu")
+os.system("cp -rf " + sdaccel_folder +
+"/getting_started/dataflow/dataflow_stream_array_c/ " + pwd +
+"/300_cpp_kernels/305_dataflow_stream_array")
+os.system("cp -rf " + sdaccel_folder +
+"/getting_started/dataflow/dataflow_stream_c/ " + pwd +
+"/300_cpp_kernels/306_dataflow_stream")
+os.system("cp -rf " + sdaccel_folder +
+"/getting_started/kernel_opt/aos_vs_soa_c/ " + pwd +
+"/300_cpp_kernels/307_aos_vs_soa")
+os.system("cp -rf " + sdaccel_folder +
+"/getting_started/kernel_opt/array_partition_c/ " + pwd +
+"/300_cpp_kernels/308_array_partition")
+os.system("cp -rf " + sdaccel_folder +
+"/getting_started/kernel_opt/dependence_inter_c/ " + pwd +
+"/300_cpp_kernels/309_dependence_inter")
+os.system("cp -rf " + sdaccel_folder +
+"/getting_started/kernel_opt/lmem_2rw_c/ " + pwd +
+"/300_cpp_kernels/310_lmem_2rw")
+os.system("cp -rf " + sdaccel_folder +
+"/getting_started/kernel_opt/loop_fusion_c/ " + pwd +
+"/300_cpp_kernels/311_loop_fusion")
+os.system("cp -rf " + sdaccel_folder +
+"/getting_started/kernel_opt/loop_pipeline_c/ " + pwd +
+"/300_cpp_kernels/312_loop_pipeline")
+os.system("cp -rf " + sdaccel_folder +
+"/getting_started/kernel_opt/loop_reorder_c/ " + pwd +
+"/300_cpp_kernels/313_loop_reorder")
+os.system("cp -rf " + sdaccel_folder +
+"/getting_started/kernel_opt/partition_cyclicblock_c/ " + pwd +
+"/300_cpp_kernels/314_partition_cyclicblock")
+os.system("cp -rf " + sdaccel_folder +
+"/getting_started/kernel_opt/shift_register_c/ " + pwd +
+"/300_cpp_kernels/315_shift_register")
+os.system("cp -rf " + sdaccel_folder +
+"/getting_started/kernel_opt/systolic_array_c/ " + pwd +
+"/300_cpp_kernels/316_systolic_array")
+os.system("cp -rf " + sdaccel_folder +
+"/getting_started/kernel_to_gmem/burst_rw_c/ " + pwd +
+"/300_cpp_kernels/317_burst_rw")
+os.system("cp -rf " + sdaccel_folder +
+"/getting_started/kernel_to_gmem/custom_datatype_c/ " + pwd +
+"/300_cpp_kernels/318_custom_datatype")
+os.system("cp -rf " + sdaccel_folder +
+"/getting_started/kernel_to_gmem/full_array_2d_c/ " + pwd +
+"/300_cpp_kernels/319_full_array_2d")
+os.system("cp -rf " + sdaccel_folder +
+"/getting_started/kernel_to_gmem/gmem_2banks_c/ " + pwd +
+"/300_cpp_kernels/320_gmem_2banks")
+os.system("cp -rf " + sdaccel_folder +
+"/getting_started/kernel_to_gmem/kernel_global_bandwidth/ " + pwd +
+"/300_cpp_kernels/321_kernel_global_bandwidth")
+os.system("cp -rf " + sdaccel_folder +
+"/getting_started/kernel_to_gmem/memcoalesce_hang_c/ " + pwd +
+"/300_cpp_kernels/322_memcoalesce_hang")
+os.system("cp -rf " + sdaccel_folder +
+"/getting_started/kernel_to_gmem/plram_access_c/ " + pwd +
+"/300_cpp_kernels/323_plram_access")
+os.system("cp -rf " + sdaccel_folder +
+"/getting_started/kernel_to_gmem/row_array_2d_c/ " + pwd +
+"/300_cpp_kernels/324_row_array_2d")
+os.system("cp -rf " + sdaccel_folder +
+"/getting_started/kernel_to_gmem/slr_assign/ " + pwd +
+"/300_cpp_kernels/325_slr_assign")
+os.system("cp -rf " + sdaccel_folder +
+"/getting_started/kernel_to_gmem/wide_mem_rw_c/ " + pwd +
+"/300_cpp_kernels/326_wide_mem_rw")
+os.system("cp -rf " + sdaccel_folder +
+"/getting_started/kernel_to_gmem/window_array_2d_c/ " + pwd +
+"/300_cpp_kernels/327_window_array_2d")
+# RTL Kernels
+os.system("cp -rf " + sdaccel_folder +
+"/getting_started/rtl_kernel/rtl_adder_pipes/ " + pwd +
+"/400_rtl_kernels/401_rtl_adder_pipes")
+os.system("cp -rf " + sdaccel_folder +
+"/getting_started/rtl_kernel/rtl_vadd/ " + pwd +
+"/400_rtl_kernels/402_rtl_vadd")
+os.system("cp -rf " + sdaccel_folder +
+"/getting_started/rtl_kernel/rtl_vadd_2clks/ " + pwd +
+"/400_rtl_kernels/403_rtl_vadd_2clks")
+os.system("cp -rf " + sdaccel_folder +
+"/getting_started/rtl_kernel/rtl_vadd_2kernels/ " + pwd +
+"/400_rtl_kernels/404_rtl_vadd_2kernels")
+os.system("cp -rf " + sdaccel_folder +
+"/getting_started/rtl_kernel/rtl_vadd_hw_debug/ " + pwd +
+"/400_rtl_kernels/405_rtl_vadd_hw_debug")
+os.system("cp -rf " + sdaccel_folder +
+"/getting_started/rtl_kernel/rtl_vadd_mixed_c_vadd/ " + pwd +
+"/400_rtl_kernels/406_rtl_vadd_mixed_c_vadd")
+# OCL Kernels
+os.system("cp -rf " + sdaccel_folder +
+"/getting_started/clk_freq/large_loop_ocl/ " + pwd +
+"/500_ocl_kernels/501_large_loop_ocl")
+os.system("cp -rf " + sdaccel_folder +
+"/getting_started/clk_freq/split_kernel_ocl/ " + pwd +
+"/500_ocl_kernels/502_split_kernel_ocl")
+os.system("cp -rf " + sdaccel_folder +
+"/getting_started/clk_freq/too_many_cu_ocl/ " + pwd +
+"/500_ocl_kernels/503_too_many_cu_ocl")
+os.system("cp -rf " + sdaccel_folder +
+"/getting_started/dataflow/dataflow_func_ocl/ " + pwd +
+"/500_ocl_kernels/504_dataflow_func_ocl")
+os.system("cp -rf " + sdaccel_folder +
+"/getting_started/dataflow/dataflow_pipes_ocl/ " + pwd +
+"/500_ocl_kernels/505_dataflow_pipes_ocl")
+os.system("cp -rf " + sdaccel_folder +
+"/getting_started/dataflow/dataflow_subfunc_ocl/ " + pwd +
+"/500_ocl_kernels/506_dataflow_subfunc_ocl")
+os.system("cp -rf " + sdaccel_folder +
+"/getting_started/debug/debug_printf_ocl/ " + pwd +
+"/500_ocl_kernels/507_debug_printf_ocl")
+os.system("cp -rf " + sdaccel_folder +
+"/getting_started/debug/debug_profile_ocl/ " + pwd +
+"/500_ocl_kernels/508_debug_profile_ocl")
+os.system("cp -rf " + sdaccel_folder +
+"/getting_started/hello_world/helloworld_ocl/ " + pwd +
+"/500_ocl_kernels/509_helloworld_ocl")
+os.system("cp -rf " + sdaccel_folder +
+"/getting_started/kernel_opt/array_partition_ocl/ " + pwd +
+"/500_ocl_kernels/510_array_partition_ocl")
+os.system("cp -rf " + sdaccel_folder +
+"/getting_started/kernel_opt/lmem_2rw_ocl/ " + pwd +
+"/500_ocl_kernels/511_lmem_2rw_ocl")
+os.system("cp -rf " + sdaccel_folder +
+"/getting_started/kernel_opt/loop_fusion_ocl/ " + pwd +
+"/500_ocl_kernels/512_loop_fusion_ocl")
+os.system("cp -rf " + sdaccel_folder +
+"/getting_started/kernel_opt/loop_reorder_ocl/ " + pwd +
+"/500_ocl_kernels/513_loop_reorder_ocl")
+os.system("cp -rf " + sdaccel_folder +
+"/getting_started/kernel_opt/partition_cyclicblock_ocl/ " + pwd +
+"/500_ocl_kernels/514_partition_cyclicblock_ocl")
+os.system("cp -rf " + sdaccel_folder +
+"/getting_started/kernel_opt/shift_register_ocl/ " + pwd +
+"/500_ocl_kernels/515_shift_register_ocl")
+os.system("cp -rf " + sdaccel_folder +
+"/getting_started/kernel_opt/sum_scan_ocl/ " + pwd +
+"/500_ocl_kernels/516_sum_scan_ocl")
+os.system("cp -rf " + sdaccel_folder +
+"/getting_started/kernel_opt/systolic_array_ocl/ " + pwd +
+"/500_ocl_kernels/517_systolic_array_ocl")
+os.system("cp -rf " + sdaccel_folder +
+"/getting_started/kernel_opt/vectorization_memorycoalescing_ocl/ " + pwd +
+"/500_ocl_kernels/518_vectorization_memorycoalescing_ocl")
+os.system("cp -rf " + sdaccel_folder +
+"/getting_started/kernel_to_gmem/burst_rw_ocl/ " + pwd +
+"/500_ocl_kernels/519_burst_rw_ocl")
+os.system("cp -rf " + sdaccel_folder +
+"/getting_started/kernel_to_gmem/full_array_2d_ocl/ " + pwd +
+"/500_ocl_kernels/520_full_array_2d_ocl")
+os.system("cp -rf " + sdaccel_folder +
+"/getting_started/kernel_to_gmem/gmem_2banks_ocl/ " + pwd +
+"/500_ocl_kernels/521_gmem_2banks_ocl")
+os.system("cp -rf " + sdaccel_folder +
+"/getting_started/kernel_to_gmem/row_array_2d_ocl/ " + pwd +
+"/500_ocl_kernels/522_row_array_2d_ocl")
+os.system("cp -rf " + sdaccel_folder +
+"/getting_started/kernel_to_gmem/wide_mem_rw_ocl/ " + pwd +
+"/500_ocl_kernels/523_wide_mem_rw_ocl")
+# Applications
+os.system("cp -rf " + sdaccel_folder +
+"/acceleration/kmeans/ " + pwd +
+"/600_applications/601_kmeans")
+os.system("cp -rf " + sdaccel_folder +
+"/vision/median_filter/ " + pwd +
+"/600_applications/602_median_filter")
+os.system("cp -rf " + sdaccel_folder +
+"/vision/watermarking/ " + pwd +
+"/600_applications/603_watermarking")
 
+os.system(pwd + "/common/utility/makefile_gen/update_makegen_all.sh")
+#os.system(pwd + "/common/utility/readme_gen/update_all_readme.sh")
+#os.system(pwd + "/common/utility/check_readme.sh")
+os.system(pwd + "/common/utility/check_makefile.sh")
 
-                   
+# Since the new Makefile structute has changed we need to copy some files like
+# config.mk in rtl_kernel examples from Scout present repo.
