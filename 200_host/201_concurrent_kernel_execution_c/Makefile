@@ -33,8 +33,8 @@ TARGET = hw
 include ./utils.mk
 
 DSA := $(call device2sandsa, $(DEVICE))
-BUILD_DIR := ./_x.$(TARGET).$(DSA)
-XCLBIN_DIR := ./build_dir.$(TARGET).$(DSA)
+TEMP_DIR := ./_x.$(TARGET).$(DSA)
+BUILD_DIR := ./build_dir.$(TARGET).$(DSA)
 
 CXX := $(XILINX_SDX)/bin/xcpp
 XOCC := $(XILINX_SDX)/bin/xocc
@@ -55,18 +55,18 @@ CXXFLAGS += -fmessage-length=0
 LDFLAGS += -lrt -lstdc++ 
 
 # Kernel compiler global settings
-CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps --report_dir $(XCLBIN_DIR)/reports
+CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps --report_dir $(BUILD_DIR)/reports
 
 
 EXECUTABLE = concurrent_execution
-CMD_ARGS = $(XCLBIN_DIR)/matrix_ops.xclbin
+CMD_ARGS = $(BUILD_DIR)/matrix_ops.xclbin
 
-EMCONFIG_DIR = $(BUILD_DIR)
+EMCONFIG_DIR = $(TEMP_DIR)
 
-BINARY_CONTAINERS += $(XCLBIN_DIR)/matrix_ops.xclbin
-BINARY_CONTAINER_matrix_ops_OBJS += $(BUILD_DIR)/madd.xo
-BINARY_CONTAINER_matrix_ops_OBJS += $(BUILD_DIR)/mscale.xo
-BINARY_CONTAINER_matrix_ops_OBJS += $(BUILD_DIR)/mmult.xo
+BINARY_CONTAINERS += $(BUILD_DIR)/matrix_ops.xclbin
+BINARY_CONTAINER_matrix_ops_OBJS += $(TEMP_DIR)/madd.xo
+BINARY_CONTAINER_matrix_ops_OBJS += $(TEMP_DIR)/mscale.xo
+BINARY_CONTAINER_matrix_ops_OBJS += $(TEMP_DIR)/mmult.xo
 
 CP = cp -rf
 
@@ -80,18 +80,18 @@ exe: $(EXECUTABLE)
 build: $(BINARY_CONTAINERS)
 
 # Building kernel
-$(BUILD_DIR)/madd.xo: src/madd.cpp
+$(TEMP_DIR)/madd.xo: src/madd.cpp
+	mkdir -p $(TEMP_DIR)
+	$(XOCC) $(CLFLAGS) --temp_dir $(TEMP_DIR) -c -k madd -I'$(<D)' -o'$@' '$<'
+$(TEMP_DIR)/mscale.xo: src/mscale.cpp
+	mkdir -p $(TEMP_DIR)
+	$(XOCC) $(CLFLAGS) --temp_dir $(TEMP_DIR) -c -k mscale -I'$(<D)' -o'$@' '$<'
+$(TEMP_DIR)/mmult.xo: src/mmult.cpp
+	mkdir -p $(TEMP_DIR)
+	$(XOCC) $(CLFLAGS) --temp_dir $(TEMP_DIR) -c -k mmult -I'$(<D)' -o'$@' '$<'
+$(BUILD_DIR)/matrix_ops.xclbin: $(BINARY_CONTAINER_matrix_ops_OBJS)
 	mkdir -p $(BUILD_DIR)
-	$(XOCC) $(CLFLAGS) --temp_dir $(BUILD_DIR) -c -k madd -I'$(<D)' -o'$@' '$<'
-$(BUILD_DIR)/mscale.xo: src/mscale.cpp
-	mkdir -p $(BUILD_DIR)
-	$(XOCC) $(CLFLAGS) --temp_dir $(BUILD_DIR) -c -k mscale -I'$(<D)' -o'$@' '$<'
-$(BUILD_DIR)/mmult.xo: src/mmult.cpp
-	mkdir -p $(BUILD_DIR)
-	$(XOCC) $(CLFLAGS) --temp_dir $(BUILD_DIR) -c -k mmult -I'$(<D)' -o'$@' '$<'
-$(XCLBIN_DIR)/matrix_ops.xclbin: $(BINARY_CONTAINER_matrix_ops_OBJS)
-	mkdir -p $(XCLBIN_DIR)
-	$(XOCC) $(CLFLAGS) --temp_dir $(XCLBIN_DIR) -l $(LDCLFLAGS) --nk madd:1 --nk mscale:1 --nk mmult:1 -o'$@' $(+)
+	$(XOCC) $(CLFLAGS) --temp_dir $(BUILD_DIR) -l $(LDCLFLAGS) --nk madd:1 --nk mscale:1 --nk mmult:1 -o'$@' $(+)
 
 # Building Host
 $(EXECUTABLE): check-xrt $(HOST_SRCS) $(HOST_HDRS)
@@ -104,9 +104,9 @@ $(EMCONFIG_DIR)/emconfig.json:
 check: all
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 	$(CP) $(EMCONFIG_DIR)/emconfig.json .
-	XCL_EMULATION_MODE=$(TARGET) ./$(EXECUTABLE) $(XCLBIN_DIR)/matrix_ops.xclbin
+	XCL_EMULATION_MODE=$(TARGET) ./$(EXECUTABLE) $(BUILD_DIR)/matrix_ops.xclbin
 else
-	 ./$(EXECUTABLE) $(XCLBIN_DIR)/matrix_ops.xclbin
+	 ./$(EXECUTABLE) $(BUILD_DIR)/matrix_ops.xclbin
 endif
 	sdx_analyze profile -i sdaccel_profile_summary.csv -f html
 

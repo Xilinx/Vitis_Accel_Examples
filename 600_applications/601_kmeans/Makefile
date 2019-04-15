@@ -33,8 +33,8 @@ TARGET = hw
 include ./utils.mk
 
 DSA := $(call device2sandsa, $(DEVICE))
-BUILD_DIR := ./_x.$(TARGET).$(DSA)
-XCLBIN_DIR := ./build_dir.$(TARGET).$(DSA)
+TEMP_DIR := ./_x.$(TARGET).$(DSA)
+BUILD_DIR := ./build_dir.$(TARGET).$(DSA)
 
 CXX := $(XILINX_SDX)/bin/xcpp
 XOCC := $(XILINX_SDX)/bin/xocc
@@ -59,16 +59,16 @@ CXXFLAGS += -fmessage-length=0
 LDFLAGS += -lrt -lstdc++ 
 
 # Kernel compiler global settings
-CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps --report_dir $(XCLBIN_DIR)/reports
+CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps --report_dir $(BUILD_DIR)/reports
 
 
 EXECUTABLE = host_kmeans
-CMD_ARGS = -x $(XCLBIN_DIR)/kmeans.xclbin -i ./data/100 -c ./data/100.gold_c5 -m 5 -n 5 -g 2
+CMD_ARGS = -x $(BUILD_DIR)/kmeans.xclbin -i ./data/100 -c ./data/100.gold_c5 -m 5 -n 5 -g 2
 
-EMCONFIG_DIR = $(BUILD_DIR)
+EMCONFIG_DIR = $(TEMP_DIR)
 
-BINARY_CONTAINERS += $(XCLBIN_DIR)/kmeans.xclbin
-BINARY_CONTAINER_kmeans_OBJS += $(BUILD_DIR)/kmeans.xo
+BINARY_CONTAINERS += $(BUILD_DIR)/kmeans.xclbin
+BINARY_CONTAINER_kmeans_OBJS += $(TEMP_DIR)/kmeans.xo
 
 CP = cp -rf
 DATA = ./data
@@ -83,12 +83,12 @@ exe: $(EXECUTABLE)
 build: $(BINARY_CONTAINERS)
 
 # Building kernel
-$(BUILD_DIR)/kmeans.xo: src/kmeans.cl
+$(TEMP_DIR)/kmeans.xo: src/kmeans.cl
+	mkdir -p $(TEMP_DIR)
+	$(XOCC) $(CLFLAGS) --temp_dir $(TEMP_DIR) -c -k kmeans -I'$(<D)' -o'$@' '$<'
+$(BUILD_DIR)/kmeans.xclbin: $(BINARY_CONTAINER_kmeans_OBJS)
 	mkdir -p $(BUILD_DIR)
-	$(XOCC) $(CLFLAGS) --temp_dir $(BUILD_DIR) -c -k kmeans -I'$(<D)' -o'$@' '$<'
-$(XCLBIN_DIR)/kmeans.xclbin: $(BINARY_CONTAINER_kmeans_OBJS)
-	mkdir -p $(XCLBIN_DIR)
-	$(XOCC) $(CLFLAGS) --temp_dir $(XCLBIN_DIR) -l $(LDCLFLAGS) --nk kmeans:2 -o'$@' $(+)
+	$(XOCC) $(CLFLAGS) --temp_dir $(BUILD_DIR) -l $(LDCLFLAGS) --nk kmeans:2 -o'$@' $(+)
 
 # Building Host
 $(EXECUTABLE): check-xrt $(HOST_SRCS) $(HOST_HDRS)
@@ -101,9 +101,9 @@ $(EMCONFIG_DIR)/emconfig.json:
 check: all
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 	$(CP) $(EMCONFIG_DIR)/emconfig.json .
-	XCL_EMULATION_MODE=$(TARGET) ./$(EXECUTABLE) -x $(XCLBIN_DIR)/kmeans.xclbin -i ./data/100 -c ./data/100.gold_c5 -m 5 -n 5 -g 2
+	XCL_EMULATION_MODE=$(TARGET) ./$(EXECUTABLE) -x $(BUILD_DIR)/kmeans.xclbin -i ./data/100 -c ./data/100.gold_c5 -m 5 -n 5 -g 2
 else
-	 ./$(EXECUTABLE) -x $(XCLBIN_DIR)/kmeans.xclbin -i ./data/100 -c ./data/100.gold_c5 -m 5 -n 5 -g 2
+	 ./$(EXECUTABLE) -x $(BUILD_DIR)/kmeans.xclbin -i ./data/100 -c ./data/100.gold_c5 -m 5 -n 5 -g 2
 endif
 	sdx_analyze profile -i sdaccel_profile_summary.csv -f html
 

@@ -33,8 +33,8 @@ TARGET = hw
 include ./utils.mk
 
 DSA := $(call device2sandsa, $(DEVICE))
-BUILD_DIR := ./_x.$(TARGET).$(DSA)
-XCLBIN_DIR := ./build_dir.$(TARGET).$(DSA)
+TEMP_DIR := ./_x.$(TARGET).$(DSA)
+BUILD_DIR := ./build_dir.$(TARGET).$(DSA)
 
 CXX := $(XILINX_SDX)/bin/xcpp
 XOCC := $(XILINX_SDX)/bin/xocc
@@ -55,17 +55,17 @@ CXXFLAGS += -fmessage-length=0
 LDFLAGS += -lrt -lstdc++ 
 
 # Kernel compiler global settings
-CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps --report_dir $(XCLBIN_DIR)/reports
+CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps --report_dir $(BUILD_DIR)/reports
 
 
 EXECUTABLE = loop_fusion
-CMD_ARGS = $(XCLBIN_DIR)/nearest_neighbor.xclbin
+CMD_ARGS = $(BUILD_DIR)/nearest_neighbor.xclbin
 
-EMCONFIG_DIR = $(BUILD_DIR)
+EMCONFIG_DIR = $(TEMP_DIR)
 
-BINARY_CONTAINERS += $(XCLBIN_DIR)/nearest_neighbor.xclbin
-BINARY_CONTAINER_nearest_neighbor_OBJS += $(BUILD_DIR)/nearest_neighbor_loop_fusion.xo
-BINARY_CONTAINER_nearest_neighbor_OBJS += $(BUILD_DIR)/nearest_neighbor.xo
+BINARY_CONTAINERS += $(BUILD_DIR)/nearest_neighbor.xclbin
+BINARY_CONTAINER_nearest_neighbor_OBJS += $(TEMP_DIR)/nearest_neighbor_loop_fusion.xo
+BINARY_CONTAINER_nearest_neighbor_OBJS += $(TEMP_DIR)/nearest_neighbor.xo
 
 CP = cp -rf
 
@@ -79,15 +79,15 @@ exe: $(EXECUTABLE)
 build: $(BINARY_CONTAINERS)
 
 # Building kernel
-$(BUILD_DIR)/nearest_neighbor_loop_fusion.xo: src/nearest_neighbor.cpp
+$(TEMP_DIR)/nearest_neighbor_loop_fusion.xo: src/nearest_neighbor.cpp
+	mkdir -p $(TEMP_DIR)
+	$(XOCC) $(CLFLAGS) --temp_dir $(TEMP_DIR) -c -k nearest_neighbor_loop_fusion -I'$(<D)' -o'$@' '$<'
+$(TEMP_DIR)/nearest_neighbor.xo: src/nearest_neighbor_bad.cpp
+	mkdir -p $(TEMP_DIR)
+	$(XOCC) $(CLFLAGS) --temp_dir $(TEMP_DIR) -c -k nearest_neighbor -I'$(<D)' -o'$@' '$<'
+$(BUILD_DIR)/nearest_neighbor.xclbin: $(BINARY_CONTAINER_nearest_neighbor_OBJS)
 	mkdir -p $(BUILD_DIR)
-	$(XOCC) $(CLFLAGS) --temp_dir $(BUILD_DIR) -c -k nearest_neighbor_loop_fusion -I'$(<D)' -o'$@' '$<'
-$(BUILD_DIR)/nearest_neighbor.xo: src/nearest_neighbor_bad.cpp
-	mkdir -p $(BUILD_DIR)
-	$(XOCC) $(CLFLAGS) --temp_dir $(BUILD_DIR) -c -k nearest_neighbor -I'$(<D)' -o'$@' '$<'
-$(XCLBIN_DIR)/nearest_neighbor.xclbin: $(BINARY_CONTAINER_nearest_neighbor_OBJS)
-	mkdir -p $(XCLBIN_DIR)
-	$(XOCC) $(CLFLAGS) --temp_dir $(XCLBIN_DIR) -l $(LDCLFLAGS) --nk nearest_neighbor_loop_fusion:1 --nk nearest_neighbor:1 -o'$@' $(+)
+	$(XOCC) $(CLFLAGS) --temp_dir $(BUILD_DIR) -l $(LDCLFLAGS) --nk nearest_neighbor_loop_fusion:1 --nk nearest_neighbor:1 -o'$@' $(+)
 
 # Building Host
 $(EXECUTABLE): check-xrt $(HOST_SRCS) $(HOST_HDRS)
@@ -100,9 +100,9 @@ $(EMCONFIG_DIR)/emconfig.json:
 check: all
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 	$(CP) $(EMCONFIG_DIR)/emconfig.json .
-	XCL_EMULATION_MODE=$(TARGET) ./$(EXECUTABLE) $(XCLBIN_DIR)/nearest_neighbor.xclbin
+	XCL_EMULATION_MODE=$(TARGET) ./$(EXECUTABLE) $(BUILD_DIR)/nearest_neighbor.xclbin
 else
-	 ./$(EXECUTABLE) $(XCLBIN_DIR)/nearest_neighbor.xclbin
+	 ./$(EXECUTABLE) $(BUILD_DIR)/nearest_neighbor.xclbin
 endif
 	sdx_analyze profile -i sdaccel_profile_summary.csv -f html
 
