@@ -33,8 +33,8 @@ TARGET = hw
 include ./utils.mk
 
 DSA := $(call device2sandsa, $(DEVICE))
-BUILD_DIR := ./_x.$(TARGET).$(DSA)
-XCLBIN_DIR := ./build_dir.$(TARGET).$(DSA)
+TEMP_DIR := ./_x.$(TARGET).$(DSA)
+BUILD_DIR := ./build_dir.$(TARGET).$(DSA)
 
 CXX := $(XILINX_SDX)/bin/xcpp
 XOCC := $(XILINX_SDX)/bin/xocc
@@ -52,11 +52,11 @@ CXXFLAGS += -fmessage-length=0
 LDFLAGS += -lrt -lstdc++ 
 
 # Kernel compiler global settings
-CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps --report_dir $(XCLBIN_DIR)/reports
+CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps --report_dir $(BUILD_DIR)/reports
 
 EXECUTABLE = device_query
 
-EMCONFIG_DIR = $(BUILD_DIR)
+EMCONFIG_DIR = $(TEMP_DIR)
 
 
 CP = cp -rf

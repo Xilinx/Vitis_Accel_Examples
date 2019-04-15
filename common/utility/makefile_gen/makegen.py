@@ -24,8 +24,8 @@ def create_params(target,data):
     target.write("include ./utils.mk\n")
     target.write("\n")
     target.write("DSA := $(call device2sandsa, $(DEVICE))\n")
-    target.write("BUILD_DIR := ./_x.$(TARGET).$(DSA)\n")
-    target.write("XCLBIN_DIR := ./build_dir.$(TARGET).$(DSA)\n")
+    target.write("TEMP_DIR := ./_x.$(TARGET).$(DSA)\n")
+    target.write("BUILD_DIR := ./build_dir.$(TARGET).$(DSA)\n")
     target.write("\n")
 
     target.write("CXX := ")
@@ -120,7 +120,7 @@ def add_host_flags(target, data):
 def add_kernel_flags(target, data):
     target.write("# Kernel compiler global settings\n")
     target.write("CLFLAGS += ")
-    target.write("-t $(TARGET) --platform $(DEVICE) --save-temps --report_dir $(XCLBIN_DIR)/reports\n")   
+    target.write("-t $(TARGET) --platform $(DEVICE) --save-temps --report_dir $(BUILD_DIR)/reports\n")   
 
     if "containers" in data:
         for con in data["containers"]:
@@ -176,13 +176,13 @@ def add_kernel_flags(target, data):
 	cmd_args = data["cmd_args"].split(" ")
 	for cmdargs in cmd_args[0:]:
 	    target.write(" ")
-            cmdargs = cmdargs.replace('BUILD', '$(XCLBIN_DIR)')
+            cmdargs = cmdargs.replace('BUILD', '$(BUILD_DIR)')
             cmdargs = cmdargs.replace('PROJECT', '.')
 	    target.write(cmdargs)
 
     target.write("\n\n")
 
-    target.write("EMCONFIG_DIR = $(BUILD_DIR)")
+    target.write("EMCONFIG_DIR = $(TEMP_DIR)")
     target.write("\n\n")
 
     return
@@ -190,14 +190,14 @@ def add_kernel_flags(target, data):
 def add_containers(target, data):
     if "containers" in data:
 	for con in data["containers"]:
-	    target.write("BINARY_CONTAINERS += $(XCLBIN_DIR)/")
+	    target.write("BINARY_CONTAINERS += $(BUILD_DIR)/")
             target.write(con["name"])
             target.write(".xclbin\n")
 	    if "accelerators" in con:
 		for acc in con["accelerators"]:
 		    target.write("BINARY_CONTAINER_")
                     target.write(con["name"])
-                    target.write("_OBJS += $(BUILD_DIR)/") 
+                    target.write("_OBJS += $(TEMP_DIR)/") 
 		    target.write(acc["name"])
                     target.write(".xo\n")       	
     target.write("\n")
@@ -208,29 +208,29 @@ def building_kernel(target, data):
 	for con in data["containers"]:
 	    if "accelerators" in con:
 		for acc in con["accelerators"]:
-		    target.write("$(BUILD_DIR)/")
+		    target.write("$(TEMP_DIR)/")
             	    target.write(acc["name"])
             	    target.write(".xo: ")
 		    target.write(acc["location"])
 		    target.write("\n")
-                    target.write("\tmkdir -p $(BUILD_DIR)\n")
+                    target.write("\tmkdir -p $(TEMP_DIR)\n")
                     target.write("\t$(XOCC) $(CLFLAGS) --temp_dir ")
-                    target.write("$(BUILD_DIR) ")
+                    target.write("$(TEMP_DIR) ")
                     target.write("-c -k ")
                     target.write(acc["name"])
                     target.write(" -I'$(<D)'")
                     target.write(" -o'$@' '$<'\n")
     if "containers" in data:
         for con in data["containers"]:
-            target.write("$(XCLBIN_DIR)/")
+            target.write("$(BUILD_DIR)/")
             target.write(con["name"])
             target.write(".xclbin:")
             target.write(" $(BINARY_CONTAINER_")
             target.write(con["name"])
             target.write("_OBJS)\n")
-            target.write("\tmkdir -p $(XCLBIN_DIR)\n")
+            target.write("\tmkdir -p $(BUILD_DIR)\n")
             target.write("\t$(XOCC) $(CLFLAGS) --temp_dir ")
-            target.write("$(XCLBIN_DIR) ")
+            target.write("$(BUILD_DIR) ")
             target.write("-l $(LDCLFLAGS)")
             for acc in con["accelerators"]:
                 target.write(" --nk ")
@@ -248,18 +248,18 @@ def building_kernel_rtl(target, data):
     target.write("# Building kernel\n")
     if "containers" in data:
 	for con in data["containers"]:
-	    target.write("$(XCLBIN_DIR)/")
+	    target.write("$(BUILD_DIR)/")
             target.write(con["name"])
             target.write(".xclbin:")
 	    target.write(" $(BINARY_CONTAINER_")
             target.write(con["name"])
             target.write("_OBJS)\n")
-	    target.write("\tmkdir -p $(XCLBIN_DIR)\n")
+	    target.write("\tmkdir -p $(BUILD_DIR)\n")
 	    target.write("\t$(XOCC) $(CLFLAGS) $(LDCLFLAGS) -lo")
-	    target.write(" $(XCLBIN_DIR)/")
+	    target.write(" $(BUILD_DIR)/")
 	    target.write(con["name"])
             for acc in con["accelerators"]:
-                target.write(" $(XCLBIN_DIR)/")
+                target.write(" $(BUILD_DIR)/")
 		target.write(acc["name"])
 	    target.write("\n\n")
     return
@@ -373,7 +373,7 @@ def mk_check(target, data):
         args = data["cmd_args"].split(" ")    
         for arg in args[0:]:
             target.write(" ")
-            arg = arg.replace('BUILD', '$(XCLBIN_DIR)')
+            arg = arg.replace('BUILD', '$(BUILD_DIR)')
 	    arg = arg.replace('PROJECT', '.')
 	    target.write(arg)
     target.write("\nelse\n")        
@@ -382,7 +382,7 @@ def mk_check(target, data):
         args = data["cmd_args"].split(" ")    
         for arg in args[0:]:
             target.write(" ")
-	    arg = arg.replace('BUILD', '$(XCLBIN_DIR)')
+	    arg = arg.replace('BUILD', '$(BUILD_DIR)')
 	    arg = arg.replace('PROJECT', '.')
 	    target.write(arg)
     target.write("\nendif\n")

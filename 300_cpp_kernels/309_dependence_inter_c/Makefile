@@ -33,8 +33,8 @@ TARGET = hw
 include ./utils.mk
 
 DSA := $(call device2sandsa, $(DEVICE))
-BUILD_DIR := ./_x.$(TARGET).$(DSA)
-XCLBIN_DIR := ./build_dir.$(TARGET).$(DSA)
+TEMP_DIR := ./_x.$(TARGET).$(DSA)
+BUILD_DIR := ./build_dir.$(TARGET).$(DSA)
 
 CXX := $(XILINX_SDX)/bin/xcpp
 XOCC := $(XILINX_SDX)/bin/xocc
@@ -55,16 +55,16 @@ CXXFLAGS += -fmessage-length=0
 LDFLAGS += -lrt -lstdc++ 
 
 # Kernel compiler global settings
-CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps --report_dir $(XCLBIN_DIR)/reports
+CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps --report_dir $(BUILD_DIR)/reports
 
 
 EXECUTABLE = host
-CMD_ARGS = $(XCLBIN_DIR)/vconv.xclbin
+CMD_ARGS = $(BUILD_DIR)/vconv.xclbin
 
-EMCONFIG_DIR = $(BUILD_DIR)
+EMCONFIG_DIR = $(TEMP_DIR)
 
-BINARY_CONTAINERS += $(XCLBIN_DIR)/vconv.xclbin
-BINARY_CONTAINER_vconv_OBJS += $(BUILD_DIR)/vconv.xo
+BINARY_CONTAINERS += $(BUILD_DIR)/vconv.xclbin
+BINARY_CONTAINER_vconv_OBJS += $(TEMP_DIR)/vconv.xo
 
 CP = cp -rf
 
@@ -78,12 +78,12 @@ exe: $(EXECUTABLE)
 build: $(BINARY_CONTAINERS)
 
 # Building kernel
-$(BUILD_DIR)/vconv.xo: src/vconv.cpp
+$(TEMP_DIR)/vconv.xo: src/vconv.cpp
+	mkdir -p $(TEMP_DIR)
+	$(XOCC) $(CLFLAGS) --temp_dir $(TEMP_DIR) -c -k vconv -I'$(<D)' -o'$@' '$<'
+$(BUILD_DIR)/vconv.xclbin: $(BINARY_CONTAINER_vconv_OBJS)
 	mkdir -p $(BUILD_DIR)
-	$(XOCC) $(CLFLAGS) --temp_dir $(BUILD_DIR) -c -k vconv -I'$(<D)' -o'$@' '$<'
-$(XCLBIN_DIR)/vconv.xclbin: $(BINARY_CONTAINER_vconv_OBJS)
-	mkdir -p $(XCLBIN_DIR)
-	$(XOCC) $(CLFLAGS) --temp_dir $(XCLBIN_DIR) -l $(LDCLFLAGS) --nk vconv:1 -o'$@' $(+)
+	$(XOCC) $(CLFLAGS) --temp_dir $(BUILD_DIR) -l $(LDCLFLAGS) --nk vconv:1 -o'$@' $(+)
 
 # Building Host
 $(EXECUTABLE): check-xrt $(HOST_SRCS) $(HOST_HDRS)
@@ -96,9 +96,9 @@ $(EMCONFIG_DIR)/emconfig.json:
 check: all
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 	$(CP) $(EMCONFIG_DIR)/emconfig.json .
-	XCL_EMULATION_MODE=$(TARGET) ./$(EXECUTABLE) $(XCLBIN_DIR)/vconv.xclbin
+	XCL_EMULATION_MODE=$(TARGET) ./$(EXECUTABLE) $(BUILD_DIR)/vconv.xclbin
 else
-	 ./$(EXECUTABLE) $(XCLBIN_DIR)/vconv.xclbin
+	 ./$(EXECUTABLE) $(BUILD_DIR)/vconv.xclbin
 endif
 	sdx_analyze profile -i sdaccel_profile_summary.csv -f html
 

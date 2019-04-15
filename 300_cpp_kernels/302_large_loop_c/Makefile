@@ -33,8 +33,8 @@ TARGET = hw
 include ./utils.mk
 
 DSA := $(call device2sandsa, $(DEVICE))
-BUILD_DIR := ./_x.$(TARGET).$(DSA)
-XCLBIN_DIR := ./build_dir.$(TARGET).$(DSA)
+TEMP_DIR := ./_x.$(TARGET).$(DSA)
+BUILD_DIR := ./build_dir.$(TARGET).$(DSA)
 
 CXX := $(XILINX_SDX)/bin/xcpp
 XOCC := $(XILINX_SDX)/bin/xocc
@@ -55,19 +55,19 @@ CXXFLAGS += -fmessage-length=0
 LDFLAGS += -lrt -lstdc++ 
 
 # Kernel compiler global settings
-CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps --report_dir $(XCLBIN_DIR)/reports
+CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps --report_dir $(BUILD_DIR)/reports
 
 
 
 EXECUTABLE = host
-CMD_ARGS = $(XCLBIN_DIR)/cnn_GOOD.xclbin $(XCLBIN_DIR)/cnn_BAD.xclbin
+CMD_ARGS = $(BUILD_DIR)/cnn_GOOD.xclbin $(BUILD_DIR)/cnn_BAD.xclbin
 
-EMCONFIG_DIR = $(BUILD_DIR)
+EMCONFIG_DIR = $(TEMP_DIR)
 
-BINARY_CONTAINERS += $(XCLBIN_DIR)/cnn_GOOD.xclbin
-BINARY_CONTAINER_cnn_GOOD_OBJS += $(BUILD_DIR)/cnn_GOOD.xo
-BINARY_CONTAINERS += $(XCLBIN_DIR)/cnn_BAD.xclbin
-BINARY_CONTAINER_cnn_BAD_OBJS += $(BUILD_DIR)/cnn_BAD.xo
+BINARY_CONTAINERS += $(BUILD_DIR)/cnn_GOOD.xclbin
+BINARY_CONTAINER_cnn_GOOD_OBJS += $(TEMP_DIR)/cnn_GOOD.xo
+BINARY_CONTAINERS += $(BUILD_DIR)/cnn_BAD.xclbin
+BINARY_CONTAINER_cnn_BAD_OBJS += $(TEMP_DIR)/cnn_BAD.xo
 
 CP = cp -rf
 
@@ -81,18 +81,18 @@ exe: $(EXECUTABLE)
 build: $(BINARY_CONTAINERS)
 
 # Building kernel
-$(BUILD_DIR)/cnn_GOOD.xo: src/cnn_convolution.cpp
+$(TEMP_DIR)/cnn_GOOD.xo: src/cnn_convolution.cpp
+	mkdir -p $(TEMP_DIR)
+	$(XOCC) $(CLFLAGS) --temp_dir $(TEMP_DIR) -c -k cnn_GOOD -I'$(<D)' -o'$@' '$<'
+$(TEMP_DIR)/cnn_BAD.xo: src/cnn_convolution_bad.cpp
+	mkdir -p $(TEMP_DIR)
+	$(XOCC) $(CLFLAGS) --temp_dir $(TEMP_DIR) -c -k cnn_BAD -I'$(<D)' -o'$@' '$<'
+$(BUILD_DIR)/cnn_GOOD.xclbin: $(BINARY_CONTAINER_cnn_GOOD_OBJS)
 	mkdir -p $(BUILD_DIR)
-	$(XOCC) $(CLFLAGS) --temp_dir $(BUILD_DIR) -c -k cnn_GOOD -I'$(<D)' -o'$@' '$<'
-$(BUILD_DIR)/cnn_BAD.xo: src/cnn_convolution_bad.cpp
+	$(XOCC) $(CLFLAGS) --temp_dir $(BUILD_DIR) -l $(LDCLFLAGS) --nk cnn_GOOD:4 -o'$@' $(+)
+$(BUILD_DIR)/cnn_BAD.xclbin: $(BINARY_CONTAINER_cnn_BAD_OBJS)
 	mkdir -p $(BUILD_DIR)
-	$(XOCC) $(CLFLAGS) --temp_dir $(BUILD_DIR) -c -k cnn_BAD -I'$(<D)' -o'$@' '$<'
-$(XCLBIN_DIR)/cnn_GOOD.xclbin: $(BINARY_CONTAINER_cnn_GOOD_OBJS)
-	mkdir -p $(XCLBIN_DIR)
-	$(XOCC) $(CLFLAGS) --temp_dir $(XCLBIN_DIR) -l $(LDCLFLAGS) --nk cnn_GOOD:4 -o'$@' $(+)
-$(XCLBIN_DIR)/cnn_BAD.xclbin: $(BINARY_CONTAINER_cnn_BAD_OBJS)
-	mkdir -p $(XCLBIN_DIR)
-	$(XOCC) $(CLFLAGS) --temp_dir $(XCLBIN_DIR) -l $(LDCLFLAGS) --nk cnn_BAD:1 -o'$@' $(+)
+	$(XOCC) $(CLFLAGS) --temp_dir $(BUILD_DIR) -l $(LDCLFLAGS) --nk cnn_BAD:1 -o'$@' $(+)
 
 # Building Host
 $(EXECUTABLE): check-xrt $(HOST_SRCS) $(HOST_HDRS)
@@ -105,9 +105,9 @@ $(EMCONFIG_DIR)/emconfig.json:
 check: all
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 	$(CP) $(EMCONFIG_DIR)/emconfig.json .
-	XCL_EMULATION_MODE=$(TARGET) ./$(EXECUTABLE) $(XCLBIN_DIR)/cnn_GOOD.xclbin $(XCLBIN_DIR)/cnn_BAD.xclbin
+	XCL_EMULATION_MODE=$(TARGET) ./$(EXECUTABLE) $(BUILD_DIR)/cnn_GOOD.xclbin $(BUILD_DIR)/cnn_BAD.xclbin
 else
-	 ./$(EXECUTABLE) $(XCLBIN_DIR)/cnn_GOOD.xclbin $(XCLBIN_DIR)/cnn_BAD.xclbin
+	 ./$(EXECUTABLE) $(BUILD_DIR)/cnn_GOOD.xclbin $(BUILD_DIR)/cnn_BAD.xclbin
 endif
 	sdx_analyze profile -i sdaccel_profile_summary.csv -f html
 

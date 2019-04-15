@@ -33,8 +33,8 @@ TARGET = hw
 include ./utils.mk
 
 DSA := $(call device2sandsa, $(DEVICE))
-BUILD_DIR := ./_x.$(TARGET).$(DSA)
-XCLBIN_DIR := ./build_dir.$(TARGET).$(DSA)
+TEMP_DIR := ./_x.$(TARGET).$(DSA)
+BUILD_DIR := ./build_dir.$(TARGET).$(DSA)
 
 CXX := $(XILINX_SDX)/bin/xcpp
 XOCC := $(XILINX_SDX)/bin/xocc
@@ -52,16 +52,16 @@ CXXFLAGS += -fmessage-length=0
 LDFLAGS += -lrt -lstdc++ 
 
 # Kernel compiler global settings
-CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps --report_dir $(XCLBIN_DIR)/reports
+CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps --report_dir $(BUILD_DIR)/reports
 
 
 EXECUTABLE = errors
-CMD_ARGS = $(XCLBIN_DIR)/vector_addition.xclbin
+CMD_ARGS = $(BUILD_DIR)/vector_addition.xclbin
 
-EMCONFIG_DIR = $(BUILD_DIR)
+EMCONFIG_DIR = $(TEMP_DIR)
 
-BINARY_CONTAINERS += $(XCLBIN_DIR)/vector_addition.xclbin
-BINARY_CONTAINER_vector_addition_OBJS += $(BUILD_DIR)/vector_add.xo
+BINARY_CONTAINERS += $(BUILD_DIR)/vector_addition.xclbin
+BINARY_CONTAINER_vector_addition_OBJS += $(TEMP_DIR)/vector_add.xo
 
 CP = cp -rf
 
@@ -75,12 +75,12 @@ exe: $(EXECUTABLE)
 build: $(BINARY_CONTAINERS)
 
 # Building kernel
-$(BUILD_DIR)/vector_add.xo: src/vector_addition.cpp
+$(TEMP_DIR)/vector_add.xo: src/vector_addition.cpp
+	mkdir -p $(TEMP_DIR)
+	$(XOCC) $(CLFLAGS) --temp_dir $(TEMP_DIR) -c -k vector_add -I'$(<D)' -o'$@' '$<'
+$(BUILD_DIR)/vector_addition.xclbin: $(BINARY_CONTAINER_vector_addition_OBJS)
 	mkdir -p $(BUILD_DIR)
-	$(XOCC) $(CLFLAGS) --temp_dir $(BUILD_DIR) -c -k vector_add -I'$(<D)' -o'$@' '$<'
-$(XCLBIN_DIR)/vector_addition.xclbin: $(BINARY_CONTAINER_vector_addition_OBJS)
-	mkdir -p $(XCLBIN_DIR)
-	$(XOCC) $(CLFLAGS) --temp_dir $(XCLBIN_DIR) -l $(LDCLFLAGS) --nk vector_add:1 -o'$@' $(+)
+	$(XOCC) $(CLFLAGS) --temp_dir $(BUILD_DIR) -l $(LDCLFLAGS) --nk vector_add:1 -o'$@' $(+)
 
 # Building Host
 $(EXECUTABLE): check-xrt $(HOST_SRCS) $(HOST_HDRS)
@@ -93,9 +93,9 @@ $(EMCONFIG_DIR)/emconfig.json:
 check: all
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 	$(CP) $(EMCONFIG_DIR)/emconfig.json .
-	XCL_EMULATION_MODE=$(TARGET) ./$(EXECUTABLE) $(XCLBIN_DIR)/vector_addition.xclbin
+	XCL_EMULATION_MODE=$(TARGET) ./$(EXECUTABLE) $(BUILD_DIR)/vector_addition.xclbin
 else
-	 ./$(EXECUTABLE) $(XCLBIN_DIR)/vector_addition.xclbin
+	 ./$(EXECUTABLE) $(BUILD_DIR)/vector_addition.xclbin
 endif
 	sdx_analyze profile -i sdaccel_profile_summary.csv -f html
 

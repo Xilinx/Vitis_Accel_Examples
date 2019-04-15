@@ -33,8 +33,8 @@ TARGET = hw
 include ./utils.mk
 
 DSA := $(call device2sandsa, $(DEVICE))
-BUILD_DIR := ./_x.$(TARGET).$(DSA)
-XCLBIN_DIR := ./build_dir.$(TARGET).$(DSA)
+TEMP_DIR := ./_x.$(TARGET).$(DSA)
+BUILD_DIR := ./build_dir.$(TARGET).$(DSA)
 
 CXX := $(XILINX_SDX)/bin/xcpp
 XOCC := $(XILINX_SDX)/bin/xocc
@@ -57,17 +57,17 @@ CXXFLAGS += -fmessage-length=0
 LDFLAGS += -lrt -lstdc++ 
 
 # Kernel compiler global settings
-CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps --report_dir $(XCLBIN_DIR)/reports
+CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps --report_dir $(BUILD_DIR)/reports
 
 
 EXECUTABLE = host
-CMD_ARGS = $(XCLBIN_DIR)/vadd.xclbin
+CMD_ARGS = $(BUILD_DIR)/vadd.xclbin
 
-EMCONFIG_DIR = $(BUILD_DIR)
+EMCONFIG_DIR = $(TEMP_DIR)
 
-BINARY_CONTAINERS += $(XCLBIN_DIR)/vadd.xclbin
-BINARY_CONTAINER_vadd_OBJS += $(BUILD_DIR)/vadd0.xo
-BINARY_CONTAINER_vadd_OBJS += $(BUILD_DIR)/vadd1.xo
+BINARY_CONTAINERS += $(BUILD_DIR)/vadd.xclbin
+BINARY_CONTAINER_vadd_OBJS += $(TEMP_DIR)/vadd0.xo
+BINARY_CONTAINER_vadd_OBJS += $(TEMP_DIR)/vadd1.xo
 
 CP = cp -rf
 
@@ -81,9 +81,9 @@ exe: $(EXECUTABLE)
 build: $(BINARY_CONTAINERS)
 
 # Building kernel
-$(XCLBIN_DIR)/vadd.xclbin: $(BINARY_CONTAINER_vadd_OBJS)
-	mkdir -p $(XCLBIN_DIR)
-	$(XOCC) $(CLFLAGS) $(LDCLFLAGS) -lo $(XCLBIN_DIR)/vadd $(XCLBIN_DIR)/vadd0 $(XCLBIN_DIR)/vadd1
+$(BUILD_DIR)/vadd.xclbin: $(BINARY_CONTAINER_vadd_OBJS)
+	mkdir -p $(BUILD_DIR)
+	$(XOCC) $(CLFLAGS) $(LDCLFLAGS) -lo $(BUILD_DIR)/vadd $(BUILD_DIR)/vadd0 $(BUILD_DIR)/vadd1
 
 # Building Host
 $(EXECUTABLE): check-xrt $(HOST_SRCS) $(HOST_HDRS)
@@ -96,9 +96,9 @@ $(EMCONFIG_DIR)/emconfig.json:
 check: all
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 	$(CP) $(EMCONFIG_DIR)/emconfig.json .
-	XCL_EMULATION_MODE=$(TARGET) ./$(EXECUTABLE) $(XCLBIN_DIR)/vadd.xclbin
+	XCL_EMULATION_MODE=$(TARGET) ./$(EXECUTABLE) $(BUILD_DIR)/vadd.xclbin
 else
-	 ./$(EXECUTABLE) $(XCLBIN_DIR)/vadd.xclbin
+	 ./$(EXECUTABLE) $(BUILD_DIR)/vadd.xclbin
 endif
 ifneq ($(TARGET),$(findstring $(TARGET), hw hw_emu))
 $(warning WARNING:Application supports only hw hw_emu TARGET. Please use the target for running the application)

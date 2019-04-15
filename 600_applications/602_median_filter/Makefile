@@ -33,8 +33,8 @@ TARGET = hw
 include ./utils.mk
 
 DSA := $(call device2sandsa, $(DEVICE))
-BUILD_DIR := ./_x.$(TARGET).$(DSA)
-XCLBIN_DIR := ./build_dir.$(TARGET).$(DSA)
+TEMP_DIR := ./_x.$(TARGET).$(DSA)
+BUILD_DIR := ./build_dir.$(TARGET).$(DSA)
 
 CXX := $(XILINX_SDX)/bin/xcpp
 XOCC := $(XILINX_SDX)/bin/xocc
@@ -56,16 +56,16 @@ CXXFLAGS += -fmessage-length=0
 LDFLAGS += -lrt -lstdc++ 
 
 # Kernel compiler global settings
-CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps --report_dir $(XCLBIN_DIR)/reports
+CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps --report_dir $(BUILD_DIR)/reports
 
 
 EXECUTABLE = median
-CMD_ARGS = $(XCLBIN_DIR)/krnl_median.xclbin ./data/inputImage.bmp ./data/goldenImage.bmp
+CMD_ARGS = $(BUILD_DIR)/krnl_median.xclbin ./data/inputImage.bmp ./data/goldenImage.bmp
 
-EMCONFIG_DIR = $(BUILD_DIR)
+EMCONFIG_DIR = $(TEMP_DIR)
 
-BINARY_CONTAINERS += $(XCLBIN_DIR)/krnl_median.xclbin
-BINARY_CONTAINER_krnl_median_OBJS += $(BUILD_DIR)/median.xo
+BINARY_CONTAINERS += $(BUILD_DIR)/krnl_median.xclbin
+BINARY_CONTAINER_krnl_median_OBJS += $(TEMP_DIR)/median.xo
 
 CP = cp -rf
 DATA = ./data
@@ -80,12 +80,12 @@ exe: $(EXECUTABLE)
 build: $(BINARY_CONTAINERS)
 
 # Building kernel
-$(BUILD_DIR)/median.xo: src/krnl_medianFilter.cl
+$(TEMP_DIR)/median.xo: src/krnl_medianFilter.cl
+	mkdir -p $(TEMP_DIR)
+	$(XOCC) $(CLFLAGS) --temp_dir $(TEMP_DIR) -c -k median -I'$(<D)' -o'$@' '$<'
+$(BUILD_DIR)/krnl_median.xclbin: $(BINARY_CONTAINER_krnl_median_OBJS)
 	mkdir -p $(BUILD_DIR)
-	$(XOCC) $(CLFLAGS) --temp_dir $(BUILD_DIR) -c -k median -I'$(<D)' -o'$@' '$<'
-$(XCLBIN_DIR)/krnl_median.xclbin: $(BINARY_CONTAINER_krnl_median_OBJS)
-	mkdir -p $(XCLBIN_DIR)
-	$(XOCC) $(CLFLAGS) --temp_dir $(XCLBIN_DIR) -l $(LDCLFLAGS) --nk median:1 -o'$@' $(+)
+	$(XOCC) $(CLFLAGS) --temp_dir $(BUILD_DIR) -l $(LDCLFLAGS) --nk median:1 -o'$@' $(+)
 
 # Building Host
 $(EXECUTABLE): check-xrt $(HOST_SRCS) $(HOST_HDRS)
@@ -98,9 +98,9 @@ $(EMCONFIG_DIR)/emconfig.json:
 check: all
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 	$(CP) $(EMCONFIG_DIR)/emconfig.json .
-	XCL_EMULATION_MODE=$(TARGET) ./$(EXECUTABLE) $(XCLBIN_DIR)/krnl_median.xclbin ./data/inputImage.bmp ./data/goldenImage.bmp
+	XCL_EMULATION_MODE=$(TARGET) ./$(EXECUTABLE) $(BUILD_DIR)/krnl_median.xclbin ./data/inputImage.bmp ./data/goldenImage.bmp
 else
-	 ./$(EXECUTABLE) $(XCLBIN_DIR)/krnl_median.xclbin ./data/inputImage.bmp ./data/goldenImage.bmp
+	 ./$(EXECUTABLE) $(BUILD_DIR)/krnl_median.xclbin ./data/inputImage.bmp ./data/goldenImage.bmp
 endif
 	sdx_analyze profile -i sdaccel_profile_summary.csv -f html
 
