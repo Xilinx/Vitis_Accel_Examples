@@ -1,34 +1,45 @@
 {
-    "runtime": ["OpenCL"],
-    "example": "Loop Iteration Dependency (C)",
+    "cmd_args": "BUILD/vconv.xclbin", 
+    "contributors": [
+        {
+            "url": "http://www.xilinx.com", 
+            "group": "Xilinx"
+        }
+    ], 
+    "host_exe": "host", 
     "overview": [
-      "This Example demonstrates the HLS pragma 'DEPENDENCE'.Using 'DEPENDENCE' pragma, user can provide additional dependency details to the compiler by specifying if the dependency in consecutive loop iterations on buffer is true/false, which allows the compiler to perform unrolling/pipelining to get better performance."
-    ],
-    "key_concepts": [ "Inter Dependence"],
-    "keywords": ["DEPENDENCE", "inter", "WAR"],
+        "This Example demonstrates the HLS pragma 'DEPENDENCE'.Using 'DEPENDENCE' pragma, user can provide additional dependency details to the compiler by specifying if the dependency in consecutive loop iterations on buffer is true/false, which allows the compiler to perform unrolling/pipelining to get better performance."
+    ], 
+    "includes": [
+        {
+            "name": "xcl2", 
+            "location": "GIT_REPO_DIR/common/includes/xcl2/"
+        }
+    ], 
+    "key_concepts": [
+        "Inter Dependence"
+    ], 
+    "keywords": [
+        "DEPENDENCE", 
+        "inter", 
+        "WAR"
+    ], 
+    "runtime": [
+        "OpenCL"
+    ], 
     "os": [
         "Linux"
-    ],
-    "libs": [
-        "xcl2"
-    ],
-    "host_exe": "host",
-    "cmd_args": "BUILD/vconv.xclbin",
+    ], 
+    "example": "Loop Iteration Dependency (C)", 
     "containers": [
-	{
-	    "name": "vconv",
-	    "accelerators": [
-        	{
-            	    "name": "vconv", 
-                    "location": "src/vconv.cpp"
-        	}
-	    ]
-	}	
-    ],
-    "contributors" : [
         {
-            "group": "Xilinx",
-            "url" : "http://www.xilinx.com"
+            "accelerators": [
+                {
+                    "name": "vconv", 
+                    "location": "src/vconv.cpp"
+                }
+            ], 
+            "name": "vconv"
         }
     ]
 }

@@ -1,33 +1,40 @@
 {
-    "runtime": ["OpenCL"],
-    "example": "Full 2D Array Read/Write (CL)",
+    "cmd_args": "BUILD/mmult.xclbin", 
+    "contributors": [
+        {
+            "url": "http://www.xilinx.com", 
+            "group": "Xilinx"
+        }
+    ], 
+    "host_exe": "host", 
     "overview": [
         "This is a simple example of accessing full data from 2d array"
-    ],
-    "key_concepts": [ "2D data full array Access"],
+    ], 
+    "includes": [
+        {
+            "name": "xcl2", 
+            "location": "GIT_REPO_DIR/common/includes/xcl2/"
+        }
+    ], 
+    "key_concepts": [
+        "2D data full array Access"
+    ], 
+    "runtime": [
+        "OpenCL"
+    ], 
     "os": [
         "Linux"
-    ],
-    "libs": [
-        "xcl2"
-    ],
-    "host_exe": "host",
-    "cmd_args": "BUILD/mmult.xclbin",
+    ], 
+    "example": "Full 2D Array Read/Write (CL)", 
     "containers": [
-    {
-        "name": "mmult",        
-        "accelerators": [
         {
-            "name": "mmult", 
-            "location": "src/mmult.cl"
-        }
-       ]
-     }                
-    ],
-    "contributors" : [
-        {
-            "group": "Xilinx",
-            "url" : "http://www.xilinx.com"
+            "accelerators": [
+                {
+                    "name": "mmult", 
+                    "location": "src/mmult.cl"
+                }
+            ], 
+            "name": "mmult"
         }
     ]
 }

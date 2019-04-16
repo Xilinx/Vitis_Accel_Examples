@@ -1,38 +1,49 @@
 {
-    "runtime": ["OpenCL"],
-    "example": "Loop Fusion (CL)",
+    "cmd_args": "BUILD/nearest_neighbor.xclbin", 
+    "contributors": [
+        {
+            "url": "http://www.xilinx.com", 
+            "group": "Xilinx"
+        }
+    ], 
+    "host_exe": "loop_fusion", 
     "overview": [
         "This example will demonstrate how to fuse two loops into one to improve the performance of an OpenCL kernel."
-    ],
-    "key_concepts": [ "Kernel Optimization", "Loop Fusion", "Loop Pipelining" ],
-    "keywords": [ "xcl_pipeline_loop"],
+    ], 
+    "includes": [
+        {
+            "name": "xcl2", 
+            "location": "GIT_REPO_DIR/common/includes/xcl2/"
+        }
+    ], 
+    "key_concepts": [
+        "Kernel Optimization", 
+        "Loop Fusion", 
+        "Loop Pipelining"
+    ], 
+    "keywords": [
+        "xcl_pipeline_loop"
+    ], 
+    "runtime": [
+        "OpenCL"
+    ], 
     "os": [
         "Linux"
-    ],
-    "libs": [
-        "xcl2"
-    ],
-    "host_exe": "loop_fusion",
-    "cmd_args": "BUILD/nearest_neighbor.xclbin",
+    ], 
+    "example": "Loop Fusion (CL)", 
     "containers": [
-    {
-        "name": "nearest_neighbor",        
-        "accelerators": [
         {
-            "name": "nearest_neighbor", 
-            "location": "src/nearest_neighbor.cl"
-        },
-        {
-            "name": "nearest_neighbor_loop_fusion", 
-            "location": "src/nearest_neighbor.cl"
-        }
-       ]
-     }
-    ],
-    "contributors" : [
-        {
-            "group": "Xilinx",
-            "url" : "http://www.xilinx.com"
+            "accelerators": [
+                {
+                    "name": "nearest_neighbor", 
+                    "location": "src/nearest_neighbor.cl"
+                }, 
+                {
+                    "name": "nearest_neighbor_loop_fusion", 
+                    "location": "src/nearest_neighbor.cl"
+                }
+            ], 
+            "name": "nearest_neighbor"
         }
     ]
 }

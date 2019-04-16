@@ -1,35 +1,45 @@
 {
-    "runtime": ["OpenCL"],
-    "example": "Dataflow Function OpenCL(CL)",
+    "cmd_args": "BUILD/adder.xclbin", 
+    "contributors": [
+        {
+            "url": "http://www.xilinx.com", 
+            "group": "Xilinx"
+        }
+    ], 
+    "host_exe": "host", 
     "overview": [
         "This is simple example of vector addition to demonstrate Dataflow functionality in OpenCL Kernel. OpenCL Dataflow allows user to run multiple functions together to achieve higher throughput."
-    ],
-    "key_concepts": [ "Function/Task Level Parallelism"],
-    "keywords": [ "xcl_dataflow" , "xclDataflowFifoDepth"],
+    ], 
+    "includes": [
+        {
+            "name": "xcl2", 
+            "location": "GIT_REPO_DIR/common/includes/xcl2/"
+        }
+    ], 
+    "key_concepts": [
+        "Function/Task Level Parallelism"
+    ], 
+    "keywords": [
+        "xcl_dataflow", 
+        "xclDataflowFifoDepth"
+    ], 
+    "runtime": [
+        "OpenCL"
+    ], 
     "os": [
         "Linux"
-    ],
-    "libs": [
-        "xcl2"
-    ],
-    "host_exe": "host",
-    "cmd_args": "BUILD/adder.xclbin",
-    "containers" : [
+    ], 
+    "example": "Dataflow Function OpenCL(CL)", 
+    "containers": [
         {
-            "name" : "adder",
             "accelerators": [
                 {
-                    "name"      : "adder", 
-                    "location"  : "src/adder.cl",
-                    "clflags"   : "--xp param:compiler.xclDataflowFifoDepth=32"
+                    "clflags": "--xp param:compiler.xclDataflowFifoDepth=32", 
+                    "name": "adder", 
+                    "location": "src/adder.cl"
                 }
-            ]
-        }
-    ],
-    "contributors" : [
-        {
-            "group": "Xilinx",
-            "url" : "http://www.xilinx.com"
+            ], 
+            "name": "adder"
         }
     ]
 }
