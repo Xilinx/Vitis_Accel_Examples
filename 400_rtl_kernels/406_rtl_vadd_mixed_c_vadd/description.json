@@ -1,49 +1,59 @@
 {
-    "example": "Mixed Kernels (RTL & C)",
-    "overview": [
-        "This example has one RTL kernel and one C kernel. Both RTL kernel and C kernel perform vector addition. The C kernel reads the output from RTL kernel as one of two inputs."
-    ],
-    "key_concepts": [ "Mixed Kernels"],
-    "os": [
-        "Linux"
-    ],
-    "libs": [
-        "xcl2"
-    ],
-    "config_make": "config.mk",
-    "output_files": "tmp_kernel_pack* packaged_kernel*",
-    "host_srcs": "src/host.cpp",
-    "runtime": ["OpenCL"],
-    "host_exe": "host",
-    "cmd_args": "BUILD/vadd.xclbin",
-    "targets": ["hw", "hw_emu"],
-    "containers": [
-	{
-	    "name": "vadd",
-	    "accelerators": [
-		{
-		    "name": "rtl_vadd",
-		    "kernel_type": "RTL"
-		},
-		{
-		    "name": "krnl_vadd",
-		    "location": "src/krnl_vadd.cpp"
-		}
-	    ]
-	}
-    ],
-    "contributors" : [
+    "config_make": "config.mk", 
+    "cmd_args": "BUILD/vadd.xclbin", 
+    "revision": [
         {
-            "group": "Xilinx",
-            "url" : "http://www.xilinx.com"
-        }
-    ],
-    "revision" : [
-        {
-            "date" : "July2017",
-            "version": "1.0",
+            "date": "July2017", 
+            "version": "1.0", 
             "description": "Initial Xilinx Release"
         }
-    ],
-    "sdx_gui": "false"
+    ], 
+    "contributors": [
+        {
+            "url": "http://www.xilinx.com", 
+            "group": "Xilinx"
+        }
+    ], 
+    "host_exe": "host", 
+    "overview": [
+        "This example has one RTL kernel and one C kernel. Both RTL kernel and C kernel perform vector addition. The C kernel reads the output from RTL kernel as one of two inputs."
+    ], 
+    "targets": [
+        "hw", 
+        "hw_emu"
+    ], 
+    "host_srcs": "src/host.cpp", 
+    "key_concepts": [
+        "Mixed Kernels"
+    ], 
+    "sdx_gui": "false", 
+    "includes": [
+        {
+            "name": "xcl2", 
+            "location": "GIT_REPO_DIR/common/includes/xcl2/"
+        }
+    ], 
+    "runtime": [
+        "OpenCL"
+    ], 
+    "os": [
+        "Linux"
+    ], 
+    "example": "Mixed Kernels (RTL & C)", 
+    "containers": [
+        {
+            "accelerators": [
+                {
+                    "kernel_type": "RTL", 
+                    "name": "rtl_vadd"
+                }, 
+                {
+                    "name": "krnl_vadd", 
+                    "location": "src/krnl_vadd.cpp"
+                }
+            ], 
+            "name": "vadd"
+        }
+    ], 
+    "output_files": "tmp_kernel_pack* packaged_kernel*"
 }

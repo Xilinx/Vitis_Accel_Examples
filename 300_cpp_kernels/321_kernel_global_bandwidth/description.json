@@ -1,42 +1,47 @@
 {
-    "runtime": ["OpenCL"],
-    "example" : "kernel_global",
-    "overview" : [
-        "Bandwidth test of global to local memory."
-    ],
-    "os": [
-        "Linux"
-    ],
-    "libs": [
-        "xcl2"
-    ],
-    "host_srcs": "src/kernel_global_bandwidth.cpp",
-    "host_exe": "kernel_global",
-    "cmd_args": "BUILD/krnl_kernel_global.xclbin",
-    "config_make": "config.mk",
-    "containers": [
-        {
-            "name": "krnl_kernel_global", 
-            "accelerators": [
-                {
-                    "name": "bandwidth",
-                    "max_memory_ports": "true",
-                    "location": "src/kernel.cl"
-                }
-            ]
-        }
-    ],
-    "contributors" : [
-        {
-            "group": "Xilinx",
-            "url" : "http://www.xilinx.com"
-        }
-    ],
+    "config_make": "config.mk", 
     "testinfo": {
         "level_up": [
-        {
-            "hw": "1"
-        }
+            {
+                "hw": "1"
+            }
         ]
-    }
+    }, 
+    "cmd_args": "BUILD/krnl_kernel_global.xclbin", 
+    "contributors": [
+        {
+            "url": "http://www.xilinx.com", 
+            "group": "Xilinx"
+        }
+    ], 
+    "host_exe": "kernel_global", 
+    "overview": [
+        "Bandwidth test of global to local memory."
+    ], 
+    "includes": [
+        {
+            "name": "xcl2", 
+            "location": "GIT_REPO_DIR/common/includes/xcl2/"
+        }
+    ], 
+    "host_srcs": "src/kernel_global_bandwidth.cpp", 
+    "runtime": [
+        "OpenCL"
+    ], 
+    "os": [
+        "Linux"
+    ], 
+    "example": "kernel_global", 
+    "containers": [
+        {
+            "accelerators": [
+                {
+                    "max_memory_ports": "true", 
+                    "name": "bandwidth", 
+                    "location": "src/kernel.cl"
+                }
+            ], 
+            "name": "krnl_kernel_global"
+        }
+    ]
 }

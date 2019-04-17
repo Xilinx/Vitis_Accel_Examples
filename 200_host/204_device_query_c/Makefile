@@ -37,10 +37,10 @@ TEMP_DIR := ./_x.$(TARGET).$(DSA)
 BUILD_DIR := ./build_dir.$(TARGET).$(DSA)
 
 CXX := $(XILINX_SDX)/bin/xcpp
-XOCC := $(XILINX_SDX)/bin/xocc
+XOCC := v++
 
 #Include Libraries
-include $(ABS_COMMON_REPO)/common/libs/opencl/opencl.mk
+include $(ABS_COMMON_REPO)/common/includes/opencl/opencl.mk
 
 CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++14
 LDFLAGS += $(opencl_LDFLAGS)
