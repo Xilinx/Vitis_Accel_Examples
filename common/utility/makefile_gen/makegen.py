@@ -30,8 +30,7 @@ def create_params(target,data):
 
     target.write("CXX := ")
     target.write("$(XILINX_SDX)/bin/xcpp\n")
-    target.write("XOCC := ")
-    target.write("$(XILINX_SDX)/bin/xocc\n")
+    target.write("XOCC := v++\n")
     target.write("\n")
     add_libs1(target, data)
     add_libs2(target, data) 
@@ -46,35 +45,35 @@ def create_params(target,data):
 
 def add_libs1(target, data):
     target.write("#Include Libraries\n")
-    target.write("include $(ABS_COMMON_REPO)/common/libs/opencl/opencl.mk\n")
-    if "libs" in data:
-        for lib in data["libs"]:
-            target.write("include $(ABS_COMMON_REPO)/common/libs/")
-            target.write(lib)
-            target.write("/")
-            target.write(lib)
+    target.write("include $(ABS_COMMON_REPO)/common/includes/opencl/opencl.mk\n")
+    if "includes" in data:
+        for lib in data["includes"]:
+            path = lib["location"]
+            path = path.replace('GIT_REPO_DIR', '$(ABS_COMMON_REPO)')
+            target.write("include " + path)
+            target.write(lib["name"])
             target.write(".mk")
             target.write("\n")
     return
 
 def add_libs2(target, data):
-    if "libs" in data:
+    if "includes" in data:
         target.write("CXXFLAGS +=")
-        for lib in data["libs"]:
+        for lib in data["includes"]:
             target.write(" $(")
-            target.write(lib)
+            target.write(lib["name"])
             target.write("_CXXFLAGS)")
         target.write("\n")
         target.write("LDFLAGS +=")
-        for lib in data["libs"]:
+        for lib in data["includes"]:
             target.write(" $(")
-            target.write(lib)
+            target.write(lib["name"])
             target.write("_LDFLAGS)")
         target.write("\n")
         target.write("HOST_SRCS +=")
-        for lib in data["libs"]:
+        for lib in data["includes"]:
             target.write(" $(")
-            target.write(lib)
+            target.write(lib["name"])
             target.write("_SRCS)")
     target.write("\n")
     if "linker" in data:
