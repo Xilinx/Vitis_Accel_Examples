@@ -1,34 +1,44 @@
 {
-    "runtime": ["OpenCL"],
-    "example": "Read/Write Row of 2D Array (CL)",
+    "cmd_args": "BUILD/row_array_2d.xclbin", 
+    "contributors": [
+        {
+            "url": "http://www.xilinx.com", 
+            "group": "Xilinx"
+        }
+    ], 
+    "host_exe": "host", 
     "overview": [
         "This is a simple example of accessing each row of data from 2d array"
-    ],
-    "key_concepts": [ "Row of 2D data array access"],
-    "keywords": ["xcl_dataflow", "xcl_pipeline_loop"],
+    ], 
+    "includes": [
+        {
+            "name": "xcl2", 
+            "location": "GIT_REPO_DIR/common/includes/xcl2/"
+        }
+    ], 
+    "key_concepts": [
+        "Row of 2D data array access"
+    ], 
+    "keywords": [
+        "xcl_dataflow", 
+        "xcl_pipeline_loop"
+    ], 
+    "runtime": [
+        "OpenCL"
+    ], 
     "os": [
         "Linux"
-    ],
-    "libs": [
-        "xcl2"
-    ],
-    "host_exe": "host",
-    "cmd_args": "BUILD/row_array_2d.xclbin",
+    ], 
+    "example": "Read/Write Row of 2D Array (CL)", 
     "containers": [
-    {
-        "name": "row_array_2d",        
-        "accelerators": [
         {
-            "name": "row_array_2d", 
-            "location": "src/row_array_2d.cl"
-        }
-       ]
-     }           
-    ],
-    "contributors" : [
-        {
-            "group": "Xilinx",
-            "url" : "http://www.xilinx.com"
+            "accelerators": [
+                {
+                    "name": "row_array_2d", 
+                    "location": "src/row_array_2d.cl"
+                }
+            ], 
+            "name": "row_array_2d"
         }
     ]
 }

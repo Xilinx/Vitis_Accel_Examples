@@ -1,34 +1,49 @@
 {
-    "runtime": ["OpenCL"],
-    "example": "Burst Read/Write (C)",
+    "cmd_args": "BUILD/vadd.xclbin", 
+    "contributors": [
+        {
+            "url": "http://www.xilinx.com", 
+            "group": "Xilinx"
+        }
+    ], 
+    "host_exe": "host", 
     "overview": [
         "This is simple example of using AXI4-master interface for burst read and write"
-    ],
-    "key_concepts": [ "burst access"],
-    "keywords": ["memcpy", "max_read_burst_length", "max_write_burst_length"],
+    ], 
+    "includes": [
+        {
+            "name": "xcl2", 
+            "location": "GIT_REPO_DIR/common/includes/xcl2/"
+        }, 
+        {
+            "name": "bitmap", 
+            "location": "GIT_REPO_DIR/common/includes/bitmap/"
+        }
+    ], 
+    "key_concepts": [
+        "burst access"
+    ], 
+    "keywords": [
+        "memcpy", 
+        "max_read_burst_length", 
+        "max_write_burst_length"
+    ], 
+    "runtime": [
+        "OpenCL"
+    ], 
     "os": [
         "Linux"
-    ],
-    "libs": [
-        "xcl2","bitmap"
-    ],
-    "host_exe": "host",
-    "cmd_args": "BUILD/vadd.xclbin",
+    ], 
+    "example": "Burst Read/Write (C)", 
     "containers": [
-    {
-        "name": "vadd",        
-        "accelerators": [
         {
-            "name": "vadd", 
-            "location": "src/vadd.cpp"
-        }
-       ]
-     }                
-    ],
-    "contributors" : [
-        {
-            "group": "Xilinx",
-            "url" : "http://www.xilinx.com"
+            "accelerators": [
+                {
+                    "name": "vadd", 
+                    "location": "src/vadd.cpp"
+                }
+            ], 
+            "name": "vadd"
         }
     ]
 }

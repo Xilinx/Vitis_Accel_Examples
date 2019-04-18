@@ -1,42 +1,54 @@
 {
-    "runtime": ["OpenCL"],
-    "example": "Concurrent Kernel Execution (C)",
+    "cmd_args": "BUILD/matrix_ops.xclbin", 
+    "contributors": [
+        {
+            "url": "http://www.xilinx.com", 
+            "group": "Xilinx"
+        }
+    ], 
+    "host_exe": "concurrent_execution", 
     "overview": [
         "This example will demonstrate how to use multiple and out of order command queues to simultaneously execute multiple kernels on an FPGA."
-    ],
-    "key_concepts": [ "Concurrent execution", "Out of Order Command Queues", "Multiple Command Queues"],
-    "keywords": [ "CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE" , "clSetEventCallback()" ],
+    ], 
+    "includes": [
+        {
+            "name": "xcl2", 
+            "location": "GIT_REPO_DIR/common/includes/xcl2/"
+        }
+    ], 
+    "key_concepts": [
+        "Concurrent execution", 
+        "Out of Order Command Queues", 
+        "Multiple Command Queues"
+    ], 
+    "keywords": [
+        "CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE", 
+        "clSetEventCallback()"
+    ], 
+    "runtime": [
+        "OpenCL"
+    ], 
     "os": [
         "Linux"
-    ],
-    "libs": [
-        "xcl2"
-    ],
-    "host_exe": "concurrent_execution",
-    "cmd_args": "BUILD/matrix_ops.xclbin",
-    "containers": [	
-	{
-	"name": "matrix_ops", 
-	"accelerators": [
+    ], 
+    "example": "Concurrent Kernel Execution (C)", 
+    "containers": [
         {
-            "name": "madd", 
-            "location": "src/madd.cpp"
-        },
-        {
-            "name": "mscale", 
-            "location": "src/mscale.cpp"
-        },
-        {
-            "name": "mmult", 
-            "location": "src/mmult.cpp"
-        }
-    	]
-	}
-    ],
-    "contributors" : [
-        {
-            "group": "Xilinx",
-            "url" : "http://www.xilinx.com"
+            "accelerators": [
+                {
+                    "name": "madd", 
+                    "location": "src/madd.cpp"
+                }, 
+                {
+                    "name": "mscale", 
+                    "location": "src/mscale.cpp"
+                }, 
+                {
+                    "name": "mmult", 
+                    "location": "src/mmult.cpp"
+                }
+            ], 
+            "name": "matrix_ops"
         }
     ]
 }

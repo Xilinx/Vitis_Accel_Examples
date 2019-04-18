@@ -25,28 +25,23 @@ help::
 	$(ECHO) ""
 
 # Points to Utility Directory
-COMMON_REPO = ../../../
+COMMON_REPO = ../../
 ABS_COMMON_REPO = $(shell readlink -f $(COMMON_REPO))
 
-TARGETS := hw
-TARGET := $(TARGETS)
-DEVICE := $(DEVICES)
-XCLBIN := ./xclbin
+TARGET = hw
 
 include ./utils.mk
 
 DSA := $(call device2sandsa, $(DEVICE))
-BUILD_DIR := ./_x.$(TARGET).$(DSA)
-
-BUILD_DIR_krnl_vmul = $(BUILD_DIR)/krnl_vmul
-BUILD_DIR_krnl_vadd = $(BUILD_DIR)/krnl_vadd
+TEMP_DIR := ./_x.$(TARGET).$(DSA)
+BUILD_DIR := ./build_dir.$(TARGET).$(DSA)
 
 CXX := $(XILINX_SDX)/bin/xcpp
-XOCC := $(XILINX_SDX)/bin/xocc
+XOCC := v++
 
 #Include Libraries
-include $(ABS_COMMON_REPO)/libs/opencl/opencl.mk
-include $(ABS_COMMON_REPO)/libs/xcl2/xcl2.mk
+include $(ABS_COMMON_REPO)/common/includes/opencl/opencl.mk
+include $(ABS_COMMON_REPO)/common/includes/xcl2/xcl2.mk
 CXXFLAGS += $(xcl2_CXXFLAGS)
 LDFLAGS += $(xcl2_LDFLAGS)
 HOST_SRCS += $(xcl2_SRCS)
@@ -60,19 +55,19 @@ CXXFLAGS += -fmessage-length=0
 LDFLAGS += -lrt -lstdc++ 
 
 # Kernel compiler global settings
-CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps 
+CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps --report_dir $(BUILD_DIR)/reports
 
 
 
 EXECUTABLE = vmulvadd
-CMD_ARGS = $(XCLBIN)/krnl_vmul.$(TARGET).$(DSA).xclbin $(XCLBIN)/krnl_vadd.$(TARGET).$(DSA).xclbin
+CMD_ARGS = $(BUILD_DIR)/krnl_vmul.xclbin $(BUILD_DIR)/krnl_vadd.xclbin
 
-EMCONFIG_DIR = $(XCLBIN)/$(DSA)
+EMCONFIG_DIR = $(TEMP_DIR)
 
-BINARY_CONTAINERS += $(XCLBIN)/krnl_vmul.$(TARGET).$(DSA).xclbin
-BINARY_CONTAINER_krnl_vmul_OBJS += $(XCLBIN)/krnl_vmul.$(TARGET).$(DSA).xo
-BINARY_CONTAINERS += $(XCLBIN)/krnl_vadd.$(TARGET).$(DSA).xclbin
-BINARY_CONTAINER_krnl_vadd_OBJS += $(XCLBIN)/krnl_vadd.$(TARGET).$(DSA).xo
+BINARY_CONTAINERS += $(BUILD_DIR)/krnl_vmul.xclbin
+BINARY_CONTAINER_krnl_vmul_OBJS += $(TEMP_DIR)/krnl_vmul.xo
+BINARY_CONTAINERS += $(BUILD_DIR)/krnl_vadd.xclbin
+BINARY_CONTAINER_krnl_vadd_OBJS += $(TEMP_DIR)/krnl_vadd.xo
 
 CP = cp -rf
 
@@ -86,18 +81,18 @@ exe: $(EXECUTABLE)
 build: $(BINARY_CONTAINERS)
 
 # Building kernel
-$(XCLBIN)/krnl_vmul.$(TARGET).$(DSA).xo: src/krnl_vmul.cpp
-	mkdir -p $(XCLBIN)
-	$(XOCC) $(CLFLAGS) --temp_dir $(BUILD_DIR_krnl_vmul) -c -k krnl_vmul -I'$(<D)' -o'$@' '$<'
-$(XCLBIN)/krnl_vadd.$(TARGET).$(DSA).xo: src/krnl_vadd.cpp
-	mkdir -p $(XCLBIN)
-	$(XOCC) $(CLFLAGS) --temp_dir $(BUILD_DIR_krnl_vadd) -c -k krnl_vadd -I'$(<D)' -o'$@' '$<'
-$(XCLBIN)/krnl_vmul.$(TARGET).$(DSA).xclbin: $(BINARY_CONTAINER_krnl_vmul_OBJS)
-	mkdir -p $(XCLBIN)
-	$(XOCC) $(CLFLAGS) --temp_dir $(BUILD_DIR_krnl_vmul) -l $(LDCLFLAGS) --nk krnl_vmul:1 -o'$@' $(+)
-$(XCLBIN)/krnl_vadd.$(TARGET).$(DSA).xclbin: $(BINARY_CONTAINER_krnl_vadd_OBJS)
-	mkdir -p $(XCLBIN)
-	$(XOCC) $(CLFLAGS) --temp_dir $(BUILD_DIR_krnl_vadd) -l $(LDCLFLAGS) --nk krnl_vadd:1 -o'$@' $(+)
+$(TEMP_DIR)/krnl_vmul.xo: src/krnl_vmul.cpp
+	mkdir -p $(TEMP_DIR)
+	$(XOCC) $(CLFLAGS) --temp_dir $(TEMP_DIR) -c -k krnl_vmul -I'$(<D)' -o'$@' '$<'
+$(TEMP_DIR)/krnl_vadd.xo: src/krnl_vadd.cpp
+	mkdir -p $(TEMP_DIR)
+	$(XOCC) $(CLFLAGS) --temp_dir $(TEMP_DIR) -c -k krnl_vadd -I'$(<D)' -o'$@' '$<'
+$(BUILD_DIR)/krnl_vmul.xclbin: $(BINARY_CONTAINER_krnl_vmul_OBJS)
+	mkdir -p $(BUILD_DIR)
+	$(XOCC) $(CLFLAGS) --temp_dir $(BUILD_DIR) -l $(LDCLFLAGS) --nk krnl_vmul:1 -o'$@' $(+)
+$(BUILD_DIR)/krnl_vadd.xclbin: $(BINARY_CONTAINER_krnl_vadd_OBJS)
+	mkdir -p $(BUILD_DIR)
+	$(XOCC) $(CLFLAGS) --temp_dir $(BUILD_DIR) -l $(LDCLFLAGS) --nk krnl_vadd:1 -o'$@' $(+)
 
 # Building Host
 $(EXECUTABLE): check-xrt $(HOST_SRCS) $(HOST_HDRS)
@@ -110,17 +105,17 @@ $(EMCONFIG_DIR)/emconfig.json:
 check: all
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 	$(CP) $(EMCONFIG_DIR)/emconfig.json .
-	XCL_EMULATION_MODE=$(TARGET) ./$(EXECUTABLE) $(XCLBIN)/krnl_vmul.$(TARGET).$(DSA).xclbin $(XCLBIN)/krnl_vadd.$(TARGET).$(DSA).xclbin
+	XCL_EMULATION_MODE=$(TARGET) ./$(EXECUTABLE) $(BUILD_DIR)/krnl_vmul.xclbin $(BUILD_DIR)/krnl_vadd.xclbin
 else
-	 ./$(EXECUTABLE) $(XCLBIN)/krnl_vmul.$(TARGET).$(DSA).xclbin $(XCLBIN)/krnl_vadd.$(TARGET).$(DSA).xclbin
+	 ./$(EXECUTABLE) $(BUILD_DIR)/krnl_vmul.xclbin $(BUILD_DIR)/krnl_vadd.xclbin
 endif
 	sdx_analyze profile -i sdaccel_profile_summary.csv -f html
 
 run_nimbix: all
-	$(COMMON_REPO)/utility/nimbix/run_nimbix.py $(EXECUTABLE) $(CMD_ARGS) $(DSA)
+	$(COMMON_REPO)/common/utility/nimbix/run_nimbix.py $(EXECUTABLE) $(CMD_ARGS) $(DSA)
 
 aws_build: check-aws_repo $(BINARY_CONTAINERS)
-	$(COMMON_REPO)/utility/aws/run_aws.py $(BINARY_CONTAINERS)
+	$(COMMON_REPO)/common/utility/aws/run_aws.py $(BINARY_CONTAINERS)
 
 # Cleaning stuff
 clean:

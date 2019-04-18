@@ -25,28 +25,23 @@ help::
 	$(ECHO) ""
 
 # Points to Utility Directory
-COMMON_REPO = ../../../
+COMMON_REPO = ../../
 ABS_COMMON_REPO = $(shell readlink -f $(COMMON_REPO))
 
-TARGETS := hw
-TARGET := $(TARGETS)
-DEVICE := $(DEVICES)
-XCLBIN := ./xclbin
+TARGET = hw
 
 include ./utils.mk
 
 DSA := $(call device2sandsa, $(DEVICE))
-BUILD_DIR := ./_x.$(TARGET).$(DSA)
-
-BUILD_DIR_vadd_GOOD = $(BUILD_DIR)/vadd_GOOD
-BUILD_DIR_vadd_BAD = $(BUILD_DIR)/vadd_BAD
+TEMP_DIR := ./_x.$(TARGET).$(DSA)
+BUILD_DIR := ./build_dir.$(TARGET).$(DSA)
 
 CXX := $(XILINX_SDX)/bin/xcpp
-XOCC := $(XILINX_SDX)/bin/xocc
+XOCC := v++
 
 #Include Libraries
-include $(ABS_COMMON_REPO)/libs/opencl/opencl.mk
-include $(ABS_COMMON_REPO)/libs/xcl2/xcl2.mk
+include $(ABS_COMMON_REPO)/common/includes/opencl/opencl.mk
+include $(ABS_COMMON_REPO)/common/includes/xcl2/xcl2.mk
 CXXFLAGS += $(xcl2_CXXFLAGS)
 LDFLAGS += $(xcl2_LDFLAGS)
 HOST_SRCS += $(xcl2_SRCS)
@@ -60,19 +55,19 @@ CXXFLAGS += -fmessage-length=0
 LDFLAGS += -lrt -lstdc++ 
 
 # Kernel compiler global settings
-CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps 
+CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps --report_dir $(BUILD_DIR)/reports
 
 
 
 EXECUTABLE = host
-CMD_ARGS = $(XCLBIN)/vadd_GOOD.$(TARGET).$(DSA).xclbin $(XCLBIN)/vadd_BAD.$(TARGET).$(DSA).xclbin
+CMD_ARGS = $(BUILD_DIR)/vadd_GOOD.xclbin $(BUILD_DIR)/vadd_BAD.xclbin
 
-EMCONFIG_DIR = $(XCLBIN)/$(DSA)
+EMCONFIG_DIR = $(TEMP_DIR)
 
-BINARY_CONTAINERS += $(XCLBIN)/vadd_GOOD.$(TARGET).$(DSA).xclbin
-BINARY_CONTAINER_vadd_GOOD_OBJS += $(XCLBIN)/vadd_GOOD.$(TARGET).$(DSA).xo
-BINARY_CONTAINERS += $(XCLBIN)/vadd_BAD.$(TARGET).$(DSA).xclbin
-BINARY_CONTAINER_vadd_BAD_OBJS += $(XCLBIN)/vadd_BAD.$(TARGET).$(DSA).xo
+BINARY_CONTAINERS += $(BUILD_DIR)/vadd_GOOD.xclbin
+BINARY_CONTAINER_vadd_GOOD_OBJS += $(TEMP_DIR)/vadd_GOOD.xo
+BINARY_CONTAINERS += $(BUILD_DIR)/vadd_BAD.xclbin
+BINARY_CONTAINER_vadd_BAD_OBJS += $(TEMP_DIR)/vadd_BAD.xo
 
 CP = cp -rf
 
@@ -86,18 +81,18 @@ exe: $(EXECUTABLE)
 build: $(BINARY_CONTAINERS)
 
 # Building kernel
-$(XCLBIN)/vadd_GOOD.$(TARGET).$(DSA).xo: src/vadd.cpp
-	mkdir -p $(XCLBIN)
-	$(XOCC) $(CLFLAGS) --temp_dir $(BUILD_DIR_vadd_GOOD) -c -k vadd_GOOD -I'$(<D)' -o'$@' '$<'
-$(XCLBIN)/vadd_BAD.$(TARGET).$(DSA).xo: src/vadd_bad.cpp
-	mkdir -p $(XCLBIN)
-	$(XOCC) $(CLFLAGS) --temp_dir $(BUILD_DIR_vadd_BAD) -c -k vadd_BAD -I'$(<D)' -o'$@' '$<'
-$(XCLBIN)/vadd_GOOD.$(TARGET).$(DSA).xclbin: $(BINARY_CONTAINER_vadd_GOOD_OBJS)
-	mkdir -p $(XCLBIN)
-	$(XOCC) $(CLFLAGS) --temp_dir $(BUILD_DIR_vadd_GOOD) -l $(LDCLFLAGS) --nk vadd_GOOD:1 -o'$@' $(+)
-$(XCLBIN)/vadd_BAD.$(TARGET).$(DSA).xclbin: $(BINARY_CONTAINER_vadd_BAD_OBJS)
-	mkdir -p $(XCLBIN)
-	$(XOCC) $(CLFLAGS) --temp_dir $(BUILD_DIR_vadd_BAD) -l $(LDCLFLAGS) --nk vadd_BAD:8 -o'$@' $(+)
+$(TEMP_DIR)/vadd_GOOD.xo: src/vadd.cpp
+	mkdir -p $(TEMP_DIR)
+	$(XOCC) $(CLFLAGS) --temp_dir $(TEMP_DIR) -c -k vadd_GOOD -I'$(<D)' -o'$@' '$<'
+$(TEMP_DIR)/vadd_BAD.xo: src/vadd_bad.cpp
+	mkdir -p $(TEMP_DIR)
+	$(XOCC) $(CLFLAGS) --temp_dir $(TEMP_DIR) -c -k vadd_BAD -I'$(<D)' -o'$@' '$<'
+$(BUILD_DIR)/vadd_GOOD.xclbin: $(BINARY_CONTAINER_vadd_GOOD_OBJS)
+	mkdir -p $(BUILD_DIR)
+	$(XOCC) $(CLFLAGS) --temp_dir $(BUILD_DIR) -l $(LDCLFLAGS) --nk vadd_GOOD:1 -o'$@' $(+)
+$(BUILD_DIR)/vadd_BAD.xclbin: $(BINARY_CONTAINER_vadd_BAD_OBJS)
+	mkdir -p $(BUILD_DIR)
+	$(XOCC) $(CLFLAGS) --temp_dir $(BUILD_DIR) -l $(LDCLFLAGS) --nk vadd_BAD:8 -o'$@' $(+)
 
 # Building Host
 $(EXECUTABLE): check-xrt $(HOST_SRCS) $(HOST_HDRS)
@@ -110,17 +105,17 @@ $(EMCONFIG_DIR)/emconfig.json:
 check: all
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 	$(CP) $(EMCONFIG_DIR)/emconfig.json .
-	XCL_EMULATION_MODE=$(TARGET) ./$(EXECUTABLE) $(XCLBIN)/vadd_GOOD.$(TARGET).$(DSA).xclbin $(XCLBIN)/vadd_BAD.$(TARGET).$(DSA).xclbin
+	XCL_EMULATION_MODE=$(TARGET) ./$(EXECUTABLE) $(BUILD_DIR)/vadd_GOOD.xclbin $(BUILD_DIR)/vadd_BAD.xclbin
 else
-	 ./$(EXECUTABLE) $(XCLBIN)/vadd_GOOD.$(TARGET).$(DSA).xclbin $(XCLBIN)/vadd_BAD.$(TARGET).$(DSA).xclbin
+	 ./$(EXECUTABLE) $(BUILD_DIR)/vadd_GOOD.xclbin $(BUILD_DIR)/vadd_BAD.xclbin
 endif
 	sdx_analyze profile -i sdaccel_profile_summary.csv -f html
 
 run_nimbix: all
-	$(COMMON_REPO)/utility/nimbix/run_nimbix.py $(EXECUTABLE) $(CMD_ARGS) $(DSA)
+	$(COMMON_REPO)/common/utility/nimbix/run_nimbix.py $(EXECUTABLE) $(CMD_ARGS) $(DSA)
 
 aws_build: check-aws_repo $(BINARY_CONTAINERS)
-	$(COMMON_REPO)/utility/aws/run_aws.py $(BINARY_CONTAINERS)
+	$(COMMON_REPO)/common/utility/aws/run_aws.py $(BINARY_CONTAINERS)
 
 # Cleaning stuff
 clean:

@@ -1,34 +1,50 @@
 {
-    "runtime": ["OpenCL"],
-    "example": "Overlap Host and HLS kernels (C)",
+    "cmd_args": "BUILD/vector_addition.xclbin", 
+    "contributors": [
+        {
+            "url": "http://www.xilinx.com", 
+            "group": "Xilinx"
+        }
+    ], 
+    "host_exe": "overlap", 
     "overview": [
         "This examples demonstrates techniques that allow user to overlap Host(CPU) and FPGA computation in an application. It will cover asynchronous operations and event object."
-    ],
-    "key_concepts": [ "OpenCL API", "Synchronize Host and FPGA", "Asynchronous Processing", "Events", "Asynchronous memcpy"],
-    "keywords": [ "cl_event" , "clCreateCommandQueue", "CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE", "clEnqueueMigrateMemObjects"],
+    ], 
+    "includes": [
+        {
+            "name": "xcl2", 
+            "location": "GIT_REPO_DIR/common/includes/xcl2/"
+        }
+    ], 
+    "key_concepts": [
+        "OpenCL API", 
+        "Synchronize Host and FPGA", 
+        "Asynchronous Processing", 
+        "Events", 
+        "Asynchronous memcpy"
+    ], 
+    "keywords": [
+        "cl_event", 
+        "clCreateCommandQueue", 
+        "CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE", 
+        "clEnqueueMigrateMemObjects"
+    ], 
+    "runtime": [
+        "OpenCL"
+    ], 
     "os": [
         "Linux"
-    ],
-    "host_exe": "overlap",
-    "cmd_args": "BUILD/vector_addition.xclbin",
-    "libs": [
-        "xcl2"
     ], 
+    "example": "Overlap Host and HLS kernels (C)", 
     "containers": [
-    {
-        "name": "vector_addition",
-        "accelerators": [
         {
-            "name": "vadd", 
-            "location": "src/vector_addition.cpp"
-        }
-       ]
-     }
-    ],
-    "contributors" : [
-        {
-            "group": "Xilinx",
-            "url" : "http://www.xilinx.com"
+            "accelerators": [
+                {
+                    "name": "vadd", 
+                    "location": "src/vector_addition.cpp"
+                }
+            ], 
+            "name": "vector_addition"
         }
     ]
 }

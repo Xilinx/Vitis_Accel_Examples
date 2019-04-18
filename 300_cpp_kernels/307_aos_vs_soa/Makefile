@@ -25,27 +25,23 @@ help::
 	$(ECHO) ""
 
 # Points to Utility Directory
-COMMON_REPO = ../../../
+COMMON_REPO = ../../
 ABS_COMMON_REPO = $(shell readlink -f $(COMMON_REPO))
 
-TARGETS := hw
-TARGET := $(TARGETS)
-DEVICE := $(DEVICES)
-XCLBIN := ./xclbin
+TARGET = hw
 
 include ./utils.mk
 
 DSA := $(call device2sandsa, $(DEVICE))
-BUILD_DIR := ./_x.$(TARGET).$(DSA)
-
-BUILD_DIR_dot = $(BUILD_DIR)/dot
+TEMP_DIR := ./_x.$(TARGET).$(DSA)
+BUILD_DIR := ./build_dir.$(TARGET).$(DSA)
 
 CXX := $(XILINX_SDX)/bin/xcpp
-XOCC := $(XILINX_SDX)/bin/xocc
+XOCC := v++
 
 #Include Libraries
-include $(ABS_COMMON_REPO)/libs/opencl/opencl.mk
-include $(ABS_COMMON_REPO)/libs/xcl2/xcl2.mk
+include $(ABS_COMMON_REPO)/common/includes/opencl/opencl.mk
+include $(ABS_COMMON_REPO)/common/includes/xcl2/xcl2.mk
 CXXFLAGS += $(xcl2_CXXFLAGS)
 LDFLAGS += $(xcl2_LDFLAGS)
 HOST_SRCS += $(xcl2_SRCS)
@@ -59,17 +55,17 @@ CXXFLAGS += -fmessage-length=0
 LDFLAGS += -lrt -lstdc++ 
 
 # Kernel compiler global settings
-CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps 
+CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps --report_dir $(BUILD_DIR)/reports
 
 
 EXECUTABLE = aos_vs_soa
-CMD_ARGS = $(XCLBIN)/dot.$(TARGET).$(DSA).xclbin
+CMD_ARGS = $(BUILD_DIR)/dot.xclbin
 
-EMCONFIG_DIR = $(XCLBIN)/$(DSA)
+EMCONFIG_DIR = $(TEMP_DIR)
 
-BINARY_CONTAINERS += $(XCLBIN)/dot.$(TARGET).$(DSA).xclbin
-BINARY_CONTAINER_dot_OBJS += $(XCLBIN)/dot_aos.$(TARGET).$(DSA).xo
-BINARY_CONTAINER_dot_OBJS += $(XCLBIN)/dot_soa.$(TARGET).$(DSA).xo
+BINARY_CONTAINERS += $(BUILD_DIR)/dot.xclbin
+BINARY_CONTAINER_dot_OBJS += $(TEMP_DIR)/dot_aos.xo
+BINARY_CONTAINER_dot_OBJS += $(TEMP_DIR)/dot_soa.xo
 
 CP = cp -rf
 
@@ -83,15 +79,15 @@ exe: $(EXECUTABLE)
 build: $(BINARY_CONTAINERS)
 
 # Building kernel
-$(XCLBIN)/dot_aos.$(TARGET).$(DSA).xo: src/dot_aos.cpp
-	mkdir -p $(XCLBIN)
-	$(XOCC) $(CLFLAGS) --temp_dir $(BUILD_DIR_dot) -c -k dot_aos -I'$(<D)' -o'$@' '$<'
-$(XCLBIN)/dot_soa.$(TARGET).$(DSA).xo: src/dot_soa.cpp
-	mkdir -p $(XCLBIN)
-	$(XOCC) $(CLFLAGS) --temp_dir $(BUILD_DIR_dot) -c -k dot_soa -I'$(<D)' -o'$@' '$<'
-$(XCLBIN)/dot.$(TARGET).$(DSA).xclbin: $(BINARY_CONTAINER_dot_OBJS)
-	mkdir -p $(XCLBIN)
-	$(XOCC) $(CLFLAGS) --temp_dir $(BUILD_DIR_dot) -l $(LDCLFLAGS) --nk dot_aos:1 --nk dot_soa:1 -o'$@' $(+)
+$(TEMP_DIR)/dot_aos.xo: src/dot_aos.cpp
+	mkdir -p $(TEMP_DIR)
+	$(XOCC) $(CLFLAGS) --temp_dir $(TEMP_DIR) -c -k dot_aos -I'$(<D)' -o'$@' '$<'
+$(TEMP_DIR)/dot_soa.xo: src/dot_soa.cpp
+	mkdir -p $(TEMP_DIR)
+	$(XOCC) $(CLFLAGS) --temp_dir $(TEMP_DIR) -c -k dot_soa -I'$(<D)' -o'$@' '$<'
+$(BUILD_DIR)/dot.xclbin: $(BINARY_CONTAINER_dot_OBJS)
+	mkdir -p $(BUILD_DIR)
+	$(XOCC) $(CLFLAGS) --temp_dir $(BUILD_DIR) -l $(LDCLFLAGS) --nk dot_aos:1 --nk dot_soa:1 -o'$@' $(+)
 
 # Building Host
 $(EXECUTABLE): check-xrt $(HOST_SRCS) $(HOST_HDRS)
@@ -104,17 +100,17 @@ $(EMCONFIG_DIR)/emconfig.json:
 check: all
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 	$(CP) $(EMCONFIG_DIR)/emconfig.json .
-	XCL_EMULATION_MODE=$(TARGET) ./$(EXECUTABLE) $(XCLBIN)/dot.$(TARGET).$(DSA).xclbin
+	XCL_EMULATION_MODE=$(TARGET) ./$(EXECUTABLE) $(BUILD_DIR)/dot.xclbin
 else
-	 ./$(EXECUTABLE) $(XCLBIN)/dot.$(TARGET).$(DSA).xclbin
+	 ./$(EXECUTABLE) $(BUILD_DIR)/dot.xclbin
 endif
 	sdx_analyze profile -i sdaccel_profile_summary.csv -f html
 
 run_nimbix: all
-	$(COMMON_REPO)/utility/nimbix/run_nimbix.py $(EXECUTABLE) $(CMD_ARGS) $(DSA)
+	$(COMMON_REPO)/common/utility/nimbix/run_nimbix.py $(EXECUTABLE) $(CMD_ARGS) $(DSA)
 
 aws_build: check-aws_repo $(BINARY_CONTAINERS)
-	$(COMMON_REPO)/utility/aws/run_aws.py $(BINARY_CONTAINERS)
+	$(COMMON_REPO)/common/utility/aws/run_aws.py $(BINARY_CONTAINERS)
 
 # Cleaning stuff
 clean:

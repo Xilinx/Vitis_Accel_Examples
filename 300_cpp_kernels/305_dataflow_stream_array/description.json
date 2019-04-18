@@ -1,36 +1,46 @@
 {
-    "runtime": ["OpenCL"],
-    "example": "Dataflow Using HLS Stream (C)",
+    "cmd_args": "BUILD/N_stage_Adders.xclbin", 
+    "contributors": [
+        {
+            "url": "http://www.xilinx.com", 
+            "group": "Xilinx"
+        }
+    ], 
+    "host_exe": "host", 
     "overview": [
         "This is simple example of Multiple Stages Vector Addition to demonstrate Array of Stream usage in HLS C Kernel Code."
-    ],
-    "key_concepts": [ "Array of Stream"],
-    "keywords": [ "dataflow" , "hls::stream<>"],
+    ], 
+    "includes": [
+        {
+            "name": "xcl2", 
+            "location": "GIT_REPO_DIR/common/includes/xcl2/"
+        }
+    ], 
+    "key_concepts": [
+        "Array of Stream"
+    ], 
+    "keywords": [
+        "dataflow", 
+        "hls::stream<>"
+    ], 
+    "runtime": [
+        "OpenCL"
+    ], 
     "os": [
         "Linux"
-    ],
-    "libs": [
-        "xcl2"
-    ],
-    "host_exe": "host",
-    "cmd_args": "BUILD/N_stage_Adders.xclbin",
+    ], 
+    "example": "Dataflow Using HLS Stream (C)", 
     "containers": [
         {
-            "name": "N_stage_Adders",
-            "ldclflags": "--xp param:compiler.axiDeadLockFree=yes",
             "accelerators": [
-               {
-                  "name": "N_stage_Adders",
-                  "clflags": "--xp param:compiler.axiDeadLockFree=yes",
-                  "location": "src/N_stage_adders.cpp"
-               }
-            ]
-        }
-     ],    
-    "contributors" : [
-        {
-            "group": "Xilinx",
-            "url" : "http://www.xilinx.com"
+                {
+                    "location": "src/N_stage_adders.cpp", 
+                    "name": "N_stage_Adders", 
+                    "clflags": "--xp param:compiler.axiDeadLockFree=yes"
+                }
+            ], 
+            "ldclflags": "--xp param:compiler.axiDeadLockFree=yes", 
+            "name": "N_stage_Adders"
         }
     ]
 }
