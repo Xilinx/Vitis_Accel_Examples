@@ -4,7 +4,7 @@ kernel_global
 Bandwidth test of global to local memory.
 
 
-For more information, please refer: [details.md][]
+For Setup instructions, please refer: [setup.md][]
 
-[details.md]: details.md
+[setup.md]: setup.md
 

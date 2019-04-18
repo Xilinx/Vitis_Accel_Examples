@@ -6,7 +6,7 @@ Simple example of vector addition using RTL Kernel
 ***KEY CONCEPTS:*** RTL Kernel
 
 
-For more information, please refer: [details.md][]
+For Setup instructions, please refer: [setup.md][]
 
-[details.md]: details.md
+[setup.md]: setup.md
 

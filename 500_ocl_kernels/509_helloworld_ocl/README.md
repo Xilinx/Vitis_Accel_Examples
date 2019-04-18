@@ -6,7 +6,7 @@ This example is a simple OpenCL application. It will highlight the basic flow of
 ***KEY CONCEPTS:*** OpenCL API
 
 
-For more information, please refer: [details.md][]
+For Setup instructions, please refer: [setup.md][]
 
-[details.md]: details.md
+[setup.md]: setup.md
 

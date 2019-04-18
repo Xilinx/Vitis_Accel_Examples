@@ -8,7 +8,7 @@ This is a simple example of matrix multiplication (Row x Col) to demonstrate how
 ***KEYWORDS:*** xcl_pipeline_loop, xcl_array_partition(complete, 2)
 
 
-For more information, please refer: [details.md][]
+For Setup instructions, please refer: [setup.md][]
 
-[details.md]: details.md
+[setup.md]: setup.md
 

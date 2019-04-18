@@ -11,7 +11,7 @@ This is an example that showcases the Hardware Debug of Vector Addition RTL Kern
 ***KEY CONCEPTS:*** RTL Kernel Debug
 
 
-For more information, please refer: [details.md][]
+For Setup instructions, please refer: [setup.md][]
 
-[details.md]: details.md
+[setup.md]: setup.md
 

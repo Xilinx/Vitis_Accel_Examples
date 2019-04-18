@@ -8,7 +8,7 @@ This example is a simple OpenCL application which highlights the vectorization c
 ***KEYWORDS:*** vec_type_hint
 
 
-For more information, please refer: [details.md][]
+For Setup instructions, please refer: [setup.md][]
 
-[details.md]: details.md
+[setup.md]: setup.md
 

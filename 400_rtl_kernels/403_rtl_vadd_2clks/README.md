@@ -8,7 +8,7 @@ This example shows vector addition with 2 kernel clocks using RTL Kernel.
 ***KEYWORDS:*** --kernel_frequency
 
 
-For more information, please refer: [details.md][]
+For Setup instructions, please refer: [setup.md][]
 
-[details.md]: details.md
+[setup.md]: setup.md
 

@@ -6,7 +6,7 @@ This example has one RTL kernel and one C kernel. Both RTL kernel and C kernel p
 ***KEY CONCEPTS:*** Mixed Kernels
 
 
-For more information, please refer: [details.md][]
+For Setup instructions, please refer: [setup.md][]
 
-[details.md]: details.md
+[setup.md]: setup.md
 

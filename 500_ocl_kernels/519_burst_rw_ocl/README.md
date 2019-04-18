@@ -8,7 +8,7 @@ This is simple example of using AXI4-master interface for burst read and write
 ***KEYWORDS:*** param:compiler.interfaceWrBurstLen, param:compiler.interfaceRdBurstLen
 
 
-For more information, please refer: [details.md][]
+For Setup instructions, please refer: [setup.md][]
 
-[details.md]: details.md
+[setup.md]: setup.md
 

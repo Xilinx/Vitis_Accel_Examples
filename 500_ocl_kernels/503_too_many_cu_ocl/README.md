@@ -8,7 +8,7 @@ This is simple example of vector addition to demonstrate effectiveness of using 
 ***KEYWORDS:*** xcl_array_partition(complete, 1), xcl_pipeline_loop
 
 
-For more information, please refer: [details.md][]
+For Setup instructions, please refer: [setup.md][]
 
-[details.md]: details.md
+[setup.md]: setup.md
 

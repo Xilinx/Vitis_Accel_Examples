@@ -8,7 +8,7 @@ This is a simple example to explain the usage of pipeline and array partitioning
 ***KEYWORDS:*** xcl_array_partition, xcl_pipeline_loop
 
 
-For more information, please refer: [details.md][]
+For Setup instructions, please refer: [setup.md][]
 
-[details.md]: details.md
+[setup.md]: setup.md
 

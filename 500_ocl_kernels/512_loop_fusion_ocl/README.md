@@ -8,7 +8,7 @@ This example will demonstrate how to fuse two loops into one to improve the perf
 ***KEYWORDS:*** xcl_pipeline_loop
 
 
-For more information, please refer: [details.md][]
+For Setup instructions, please refer: [setup.md][]
 
-[details.md]: details.md
+[setup.md]: setup.md
 

@@ -4,7 +4,7 @@ host_global
 Host to global memory bandwidth test
 
 
-For more information, please refer: [details.md][]
+For Setup instructions, please refer: [setup.md][]
 
-[details.md]: details.md
+[setup.md]: setup.md
 
