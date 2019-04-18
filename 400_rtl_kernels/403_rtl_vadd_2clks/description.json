@@ -1,60 +1,47 @@
 {
-    "config_make": "config.mk", 
-    "cmd_args": "BUILD/vadd.xclbin", 
-    "revision": [
-        {
-            "date": "JAN2017", 
-            "version": "1.0", 
-            "description": "Initial Xilinx Release"
-        }
-    ], 
-    "contributors": [
-        {
-            "url": "http://www.xilinx.com", 
-            "group": "Xilinx"
-        }
-    ], 
-    "host_srcs": "src/host.cpp", 
+    "runtime": ["OpenCL"],
+    "example": "Vector Addition with 2 Kernel Clocks (RTL)",
     "overview": [
         "This example shows vector addition with 2 kernel clocks using RTL Kernel."
-    ], 
-    "host_exe": "host", 
-    "targets": [
-        "hw", 
-        "hw_emu"
-    ], 
-    "key_concepts": [
-        "RTL Kernel", 
-        "Multiple Kernel Clocks"
-    ], 
-    "sdx_gui": false, 
-    "keywords": [
-        "--kernel_frequency"
-    ], 
-    "includes": [
-        {
-            "name": "xcl2", 
-            "location": "GIT_REPO_DIR/common/includes/xcl2/"
-        }
-    ], 
-    "runtime": [
-        "OpenCL"
-    ], 
+    ],
+    "key_concepts": [ "RTL Kernel", "Multiple Kernel Clocks"],
+    "keywords": [ "--kernel_frequency"],
     "os": [
         "Linux"
-    ], 
-    "example": "Vector Addition with 2 Kernel Clocks (RTL)", 
+    ],
+    "libs": [
+        "xcl2"
+    ],
+    "config_make": "config.mk",
+    "output_files": "tmp_kernel_pack* packaged_kernel*",
+    "host_srcs": "src/host.cpp",
+    "host_exe": "host",
+    "cmd_args": "BUILD/vadd.xclbin",
+    "targets": ["hw", "hw_emu"],
     "containers": [
+    	{
+	"name": "vadd",
+	"ldclflags": "--kernel_frequency \"0:150|1:250\"",
+	"accelerators": [
+	    {
+		"name": "vadd",
+		"kernel_type": "RTL"
+	    }
+	]
+	}
+    ],
+    "contributors" : [
         {
-            "accelerators": [
-                {
-                    "kernel_type": "RTL", 
-                    "name": "vadd"
-                }
-            ], 
-            "ldclflags": "--kernel_frequency \"0:150|1:250\"", 
-            "name": "vadd"
+            "group": "Xilinx",
+            "url" : "http://www.xilinx.com"
         }
-    ], 
-    "output_files": "tmp_kernel_pack* packaged_kernel*"
+    ],
+    "revision" : [
+        {
+            "date" : "JAN2017",
+            "version": "1.0",
+            "description": "Initial Xilinx Release"
+        }
+    ],
+    "sdx_gui": false
 }

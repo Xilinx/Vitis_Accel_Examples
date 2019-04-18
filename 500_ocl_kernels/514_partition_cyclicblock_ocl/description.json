@@ -1,60 +1,46 @@
 {
-    "testinfo": {
-        "level_up": [
-            {
-                "hw": "1"
-            }
-        ]
-    }, 
-    "cmd_args": "BUILD/matmul.xclbin", 
-    "contributors": [
-        {
-            "url": "http://www.xilinx.com", 
-            "group": "Xilinx"
-        }
-    ], 
-    "host_exe": "array_partition", 
+    "runtime": ["OpenCL"],
+    "example": "Array Block and Cyclic Partitioning (CL)",
     "overview": [
         "This example shows how to use array block and cyclic partitioning to improve performance of a kernel"
-    ], 
-    "includes": [
-        {
-            "name": "xcl2", 
-            "location": "GIT_REPO_DIR/common/includes/xcl2/"
-        }
-    ], 
-    "key_concepts": [
-        "Kernel Optimization", 
-        "Array Partitioning", 
-        "Block Partition", 
-        "Cyclic Partition"
-    ], 
-    "keywords": [
-        "xcl_array_partition", 
-        "cyclic", 
-        "block"
-    ], 
-    "runtime": [
-        "OpenCL"
-    ], 
+    ],
+    "key_concepts": [ "Kernel Optimization", "Array Partitioning", "Block Partition", "Cyclic Partition"],
+    "keywords": [ "xcl_array_partition", "cyclic", "block"],
     "os": [
         "Linux"
-    ], 
-    "example": "Array Block and Cyclic Partitioning (CL)", 
+    ],
+    "libs": [
+        "xcl2"
+    ],
+    "host_exe": "array_partition",
+    "cmd_args": "BUILD/matmul.xclbin",
+    "output_files": "output.png",        
     "containers": [
+    {
+        "name": "matmul",        
+        "accelerators": [
         {
-            "accelerators": [
-                {
-                    "name": "matmul_naive", 
-                    "location": "src/matmul.cl"
-                }, 
-                {
-                    "name": "matmul_partition", 
-                    "location": "src/matmul.cl"
-                }
-            ], 
-            "name": "matmul"
+            "name": "matmul_naive", 
+            "location": "src/matmul.cl"
+        },
+        {
+            "name": "matmul_partition", 
+            "location": "src/matmul.cl"
         }
-    ], 
-    "output_files": "output.png"
+       ]
+     }
+    ],
+    "contributors" : [
+        {
+            "group": "Xilinx",
+            "url" : "http://www.xilinx.com"
+        }
+    ],
+    "testinfo": {
+        "level_up": [
+        {
+            "hw": "1"
+        }
+        ]
+    }
 }

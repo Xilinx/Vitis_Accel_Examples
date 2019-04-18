@@ -3,14 +3,15 @@
 # be overridden through the make command line
 #+-------------------------------------------------------------------------------
 
-REPORT := yes
+REPORT := no
 PROFILE := no
 DEBUG := no
 
 #'estimate' for estimate report generation
 #'system' for system report generation
-ifeq ($(REPORT), yes)
-CLFLAGS += --report_level estimate
+ifneq ($(REPORT), no)
+CLFLAGS += --report estimate
+CLLDFLAGS += --report system
 endif
 
 #Generates profile summary report
@@ -41,9 +42,9 @@ PERIOD=.
 UNDERSCORE=_
 sanitize_dsa = $(strip $(subst $(PERIOD),$(UNDERSCORE),$(subst $(COLON),$(UNDERSCORE),$(1))))
 
-device2dsa = $(if $(filter $(suffix $(1)),.xpfm),$(shell $(COMMON_REPO)/common/utility/parsexpmf.py $(1) dsa 2>/dev/null),$(1))
+device2dsa = $(if $(filter $(suffix $(1)),.xpfm),$(shell $(COMMON_REPO)/utility/parsexpmf.py $(1) dsa 2>/dev/null),$(1))
 device2sandsa = $(call sanitize_dsa,$(call device2dsa,$(1)))
-device2dep = $(if $(filter $(suffix $(1)),.xpfm),$(dir $(1))/$(shell $(COMMON_REPO)/common/utility/parsexpmf.py $(1) hw 2>/dev/null) $(1),)
+device2dep = $(if $(filter $(suffix $(1)),.xpfm),$(dir $(1))/$(shell $(COMMON_REPO)/utility/parsexpmf.py $(1) hw 2>/dev/null) $(1),)
 
 # Cleaning stuff
 RM = rm -f
@@ -54,7 +55,7 @@ ECHO:= @echo
 docs: README.md
 
 README.md: description.json
-	$(ABS_COMMON_REPO)/common/utility/readme_gen/readme_gen.py description.json
+	$(ABS_COMMON_REPO)/utility/readme_gen/readme_gen.py description.json
 
 check-devices:
 ifndef DEVICE

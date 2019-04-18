@@ -1,41 +1,34 @@
 {
+    "runtime": ["OpenCL"],
+    "example" : "host_global",
+    "overview" : [
+        "Host to global memory bandwidth test"
+    ],
     "os": [
         "Linux"
-    ], 
-    "contributors": [
-        {
-            "url": "http://www.xilinx.com", 
-            "group": "Xilinx"
-        }
-    ], 
-    "host_exe": "host_global", 
-    "overview": [
-        "Host to global memory bandwidth test"
-    ], 
-    "includes": [
-        {
-            "name": "xcl2", 
-            "location": "GIT_REPO_DIR/common/includes/xcl2/"
-        }
-    ], 
-    "nboard": [
-        "xilinx_u280-es1_xdma"
-    ], 
-    "runtime": [
-        "OpenCL"
-    ], 
-    "cmd_args": "BUILD/krnl_host_global.xclbin", 
-    "example": "host_global", 
+    ],
+    "host_exe": "host_global",
+    "cmd_args": "BUILD/krnl_host_global.xclbin",
+    "output_files": "metric1.csv",
+    "nboard":["xilinx_u280-es1_xdma"],
+    "libs": [
+        "xcl2"
+    ],
     "containers": [
+    {
+       "name": "krnl_host_global",
+       "accelerators": [
         {
-            "accelerators": [
-                {
-                    "name": "bandwidth", 
-                    "location": "src/kernel.cpp"
-                }
-            ], 
-            "name": "krnl_host_global"
+            "name": "bandwidth", 
+            "location": "src/kernel.cpp"
         }
-    ], 
-    "output_files": "metric1.csv"
+       ]
+      }           
+    ],
+    "contributors" : [
+        {
+            "group": "Xilinx",
+            "url" : "http://www.xilinx.com"
+        }
+    ]
 }

@@ -25,23 +25,29 @@ help::
 	$(ECHO) ""
 
 # Points to Utility Directory
-COMMON_REPO = ../../
+COMMON_REPO = ../../../
 ABS_COMMON_REPO = $(shell readlink -f $(COMMON_REPO))
 
-TARGET = hw
+TARGETS := hw
+TARGET := $(TARGETS)
+DEVICE := $(DEVICES)
+XCLBIN := ./xclbin
 
 include ./utils.mk
 
 DSA := $(call device2sandsa, $(DEVICE))
-TEMP_DIR := ./_x.$(TARGET).$(DSA)
-BUILD_DIR := ./build_dir.$(TARGET).$(DSA)
+BUILD_DIR := ./_x.$(TARGET).$(DSA)
+
 
 CXX := $(XILINX_SDX)/bin/xcpp
-XOCC := v++
+XOCC := $(XILINX_SDX)/bin/xocc
 
 #Include Libraries
-include $(ABS_COMMON_REPO)/common/includes/opencl/opencl.mk
-
+include $(ABS_COMMON_REPO)/libs/opencl/opencl.mk
+include $(ABS_COMMON_REPO)/libs/xcl2/xcl2.mk
+CXXFLAGS += $(xcl2_CXXFLAGS)
+LDFLAGS += $(xcl2_LDFLAGS)
+HOST_SRCS += $(xcl2_SRCS)
 CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++14
 LDFLAGS += $(opencl_LDFLAGS)
 
@@ -52,11 +58,11 @@ CXXFLAGS += -fmessage-length=0
 LDFLAGS += -lrt -lstdc++ 
 
 # Kernel compiler global settings
-CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps --report_dir $(BUILD_DIR)/reports
+CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps 
 
 EXECUTABLE = device_query
 
-EMCONFIG_DIR = $(TEMP_DIR)
+EMCONFIG_DIR = $(XCLBIN)/$(DSA)
 
 
 CP = cp -rf
@@ -90,10 +96,10 @@ endif
 	sdx_analyze profile -i sdaccel_profile_summary.csv -f html
 
 run_nimbix: all
-	$(COMMON_REPO)/common/utility/nimbix/run_nimbix.py $(EXECUTABLE) $(DSA)
+	$(COMMON_REPO)/utility/nimbix/run_nimbix.py $(EXECUTABLE) $(DSA)
 
 aws_build: check-aws_repo $(BINARY_CONTAINERS)
-	$(COMMON_REPO)/common/utility/aws/run_aws.py $(BINARY_CONTAINERS)
+	$(COMMON_REPO)/utility/aws/run_aws.py $(BINARY_CONTAINERS)
 
 # Cleaning stuff
 clean:

@@ -244,7 +244,7 @@ os.system("cp -rf " + sdaccel_folder +
 "/vision/watermarking/ " + pwd +
 "/600_applications/603_watermarking")
 
-os.system(pwd + "/common/utility/makefile_gen/update_makegen_all.sh")
+#os.system(pwd + "/common/utility/makefile_gen/update_makegen_all.sh")
 #os.system(pwd + "/common/utility/readme_gen/update_all_readme.sh")
 #os.system(pwd + "/common/utility/check_readme.sh")
 #os.system(pwd + "/common/utility/check_makefile.sh")

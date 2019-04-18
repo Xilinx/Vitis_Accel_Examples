@@ -1,55 +1,45 @@
 {
-    "config_make": "config.mk", 
-    "cmd_args": "BUILD/vadd.xclbin", 
-    "revision": [
-        {
-            "date": "JAN2017", 
-            "version": "1.0", 
-            "description": "Initial Xilinx Release"
-        }
-    ], 
-    "contributors": [
-        {
-            "url": "http://www.xilinx.com", 
-            "group": "Xilinx"
-        }
-    ], 
-    "host_exe": "host", 
+    "runtime": ["OpenCL"],
+    "example": "Vector Addition With RTL Kernel (RTL)",
     "overview": [
         "Simple example of vector addition using RTL Kernel"
-    ], 
-    "targets": [
-        "hw", 
-        "hw_emu"
-    ], 
-    "host_srcs": "src/host.cpp", 
-    "key_concepts": [
-        "RTL Kernel"
-    ], 
-    "sdx_gui": false, 
-    "includes": [
-        {
-            "name": "xcl2", 
-            "location": "GIT_REPO_DIR/common/includes/xcl2/"
-        }
-    ], 
-    "runtime": [
-        "OpenCL"
-    ], 
+    ],
+    "key_concepts": [ "RTL Kernel"],
     "os": [
         "Linux"
-    ], 
-    "example": "Vector Addition With RTL Kernel (RTL)", 
+    ],
+    "libs": [
+        "xcl2"
+    ],
+    "config_make": "config.mk",
+    "output_files": "tmp_kernel_pack* packaged_kernel*",
+    "host_srcs": "src/host.cpp",
+    "host_exe": "host",
+    "cmd_args": "BUILD/vadd.xclbin",
+    "targets": ["hw", "hw_emu"],
     "containers": [
+    	{
+	"name": "vadd",
+	"accelerators": [
+	    {
+		"name": "vadd",
+		"kernel_type": "RTL"
+	    }
+	]
+	}
+    ],
+    "contributors" : [
         {
-            "accelerators": [
-                {
-                    "kernel_type": "RTL", 
-                    "name": "vadd"
-                }
-            ], 
-            "name": "vadd"
+            "group": "Xilinx",
+            "url" : "http://www.xilinx.com"
         }
-    ], 
-    "output_files": "tmp_kernel_pack* packaged_kernel*"
+    ],
+    "revision" : [
+        {
+            "date" : "JAN2017",
+            "version": "1.0",
+            "description": "Initial Xilinx Release"
+        }
+    ],
+    "sdx_gui": false
 }
