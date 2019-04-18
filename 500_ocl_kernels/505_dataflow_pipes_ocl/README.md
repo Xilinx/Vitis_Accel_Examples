@@ -8,7 +8,7 @@ This is simple example of vector addition to demonstrate OpenCL Pipe Memory usag
 ***KEYWORDS:*** pipe, xcl_reqd_pipe_depth, read_pipe_block(), write_pipe_block()
 
 
-For more information, please refer: [details.md][]
+For Setup instructions, please refer: [setup.md][]
 
-[details.md]: details.md
+[setup.md]: setup.md
 

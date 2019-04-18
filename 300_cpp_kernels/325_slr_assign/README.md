@@ -8,7 +8,7 @@ This is simple example to describe SLR assignment information for a platform des
 ***KEYWORDS:*** slr
 
 
-For more information, please refer: [details.md][]
+For Setup instructions, please refer: [setup.md][]
 
-[details.md]: details.md
+[setup.md]: setup.md
 

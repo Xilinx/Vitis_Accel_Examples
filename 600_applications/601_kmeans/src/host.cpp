@@ -88,7 +88,7 @@ int main(int argc, char **argv) {
              
     float **features;
     float **cluster_centres=NULL;
-    int     i, j, index;
+    int     i, j, index, status;
     int     nloops = 1;/* default value */
             
     int     isRMSE = 0;
@@ -213,7 +213,7 @@ int main(int argc, char **argv) {
     
     //FPGA Based cluster
     cluster_centres = NULL;
-    index = cluster(
+    status = cluster(
                     fpga,
                     npoints,            /* number of data points */
                     nfeatures,          /* number of features for each point */
@@ -227,6 +227,7 @@ int main(int argc, char **argv) {
                     isRMSE,             /* calculate RMSE */
                     nloops,             /* number of iteration for each number of clusters */
                     binaryFile,         /* Binary file string */
+                    index,
                     goldenfile.c_str());        
     
     //cluster_timing = omp_get_wtime() - cluster_timing;
@@ -278,6 +279,6 @@ int main(int argc, char **argv) {
     free(features[0]);
     free(features);    
  
-    return(0);
+    return status;
 }
 

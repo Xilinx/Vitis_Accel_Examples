@@ -6,7 +6,7 @@ This example shows an adder with pipes using 3 RTL kernels.
 ***KEY CONCEPTS:*** RTL Kernel, Multiple RTL Kernels
 
 
-For more information, please refer: [details.md][]
+For Setup instructions, please refer: [setup.md][]
 
-[details.md]: details.md
+[setup.md]: setup.md
 

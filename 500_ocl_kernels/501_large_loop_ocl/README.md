@@ -8,7 +8,7 @@ This is a CNN (Convolutional Neural Network) based example which mainly focuses 
 ***KEYWORDS:*** xcl_array_partition, xcl_pipeline_loop, always_inline
 
 
-For more information, please refer: [details.md][]
+For Setup instructions, please refer: [setup.md][]
 
-[details.md]: details.md
+[setup.md]: setup.md
 

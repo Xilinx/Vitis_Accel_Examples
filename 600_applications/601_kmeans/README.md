@@ -33,7 +33,7 @@ __Usage__
 	 -o               : output cluster center coordinates [default=off]
 
 
-For more information, please refer: [details.md][]
+For Setup instructions, please refer: [setup.md][]
 
-[details.md]: details.md
+[setup.md]: setup.md
 

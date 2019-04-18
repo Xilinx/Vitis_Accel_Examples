@@ -9,7 +9,7 @@ Board|Image Size|Frames / Second
 xilinx:adm-pcie-ku3:2ddr-xpr|1024 x 768|2,658
 xilinx:xil-accel-rd-ku115:4ddr-xpr|1024 x 768|3526
 
-For more information, please refer: [details.md][]
+For Setup instructions, please refer: [setup.md][]
 
-[details.md]: details.md
+[setup.md]: setup.md
 

@@ -110,7 +110,7 @@ private:
 float   euclid_dist_2        (float*, float*, int);
 int     find_nearest_point   (float* , int, float**, int);
 float   rms_err(float**, int, int, float**, int);
-int     cluster(FPGA_KMEANS* fpga, int, int, float**, int, int, float, int*, float***, float*, int, int, std::string &binaryFile, const char* goldenFile = NULL);
+int     cluster(FPGA_KMEANS* fpga, int, int, float**, int, int, float, int*, float***, float*, int, int, std::string &binaryFile, int &index, const char* goldenFile = NULL);
 float** kmeans_clustering_cmodel(float **feature, int nfeatures, int npoints, int nclusters, float threshold, 
         int* iteration, int *membership); 
 

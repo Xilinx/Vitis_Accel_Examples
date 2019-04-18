@@ -8,7 +8,7 @@ This example shows how to use array partitioning to improve performance of a ker
 ***KEYWORDS:*** xcl_array_partition, complete
 
 
-For more information, please refer: [details.md][]
+For Setup instructions, please refer: [setup.md][]
 
-[details.md]: details.md
+[setup.md]: setup.md
 

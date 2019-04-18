@@ -8,7 +8,7 @@ This is simple example of vector addition to demonstrate Dataflow functionality 
 ***KEYWORDS:*** xcl_dataflow, xclDataflowFifoDepth
 
 
-For more information, please refer: [details.md][]
+For Setup instructions, please refer: [setup.md][]
 
-[details.md]: details.md
+[setup.md]: setup.md
 

@@ -8,7 +8,7 @@ This is a multi-filter image processing application to showcase effectiveness of
 ***KEYWORDS:*** xcl_dataflow, xcl_array_partition, xcl_pipeline_loop
 
 
-For more information, please refer: [details.md][]
+For Setup instructions, please refer: [setup.md][]
 
-[details.md]: details.md
+[setup.md]: setup.md
 

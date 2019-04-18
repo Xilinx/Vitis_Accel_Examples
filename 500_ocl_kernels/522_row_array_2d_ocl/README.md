@@ -8,7 +8,7 @@ This is a simple example of accessing each row of data from 2d array
 ***KEYWORDS:*** xcl_dataflow, xcl_pipeline_loop
 
 
-For more information, please refer: [details.md][]
+For Setup instructions, please refer: [setup.md][]
 
-[details.md]: details.md
+[setup.md]: setup.md
 

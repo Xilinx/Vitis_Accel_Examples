@@ -12,13 +12,13 @@ sys.dont_write_bytecode = True
 pwd = os.path.dirname(sys.path[0])
 script, folder = argv
 sdaccel_folder = os.path.abspath(folder)
-os.system("mkdir -p 200_host 300_cpp_kernels 400_rtl_kernels 500_ocl_kernels 600_applications")
+os.system("mkdir -p 100_hello_world 200_host 300_cpp_kernels 400_rtl_kernels 500_ocl_kernels 600_applications")
 
 # Copy script begins
 # Hello World
 os.system("cp -rf " + sdaccel_folder +
-"/getting_started/hello_world/helloworld_c/* " + pwd +
-"/101_helloworld")
+"/getting_started/hello_world/helloworld_c/ " + pwd +
+"/100_hello_world/101_hello_world")
 # Host
 os.system("cp -rf " + sdaccel_folder +
 "/getting_started/host/concurrent_kernel_execution_c/ " + pwd +
@@ -244,10 +244,10 @@ os.system("cp -rf " + sdaccel_folder +
 "/vision/watermarking/ " + pwd +
 "/600_applications/603_watermarking")
 
-os.system(pwd + "/common/utility/makefile_gen/update_makegen_all.sh")
+#os.system(pwd + "/common/utility/makefile_gen/update_makegen_all.sh")
 #os.system(pwd + "/common/utility/readme_gen/update_all_readme.sh")
 #os.system(pwd + "/common/utility/check_readme.sh")
-os.system(pwd + "/common/utility/check_makefile.sh")
+#os.system(pwd + "/common/utility/check_makefile.sh")
 
 # Since the new Makefile structute has changed we need to copy some files like
 # config.mk in rtl_kernel examples from Scout present repo.

@@ -6,7 +6,7 @@ This is simple example of vector addition and printing profile data (wall clock 
 ***KEY CONCEPTS:*** Use of Profile API, Waveform Dumping and loading
 
 
-For more information, please refer: [details.md][]
+For Setup instructions, please refer: [setup.md][]
 
-[details.md]: details.md
+[setup.md]: setup.md
 

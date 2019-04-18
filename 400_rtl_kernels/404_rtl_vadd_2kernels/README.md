@@ -6,7 +6,7 @@ This example has two RTL Kernels. Both Kernel_0 and Kernel_1 perform vector addi
 ***KEY CONCEPTS:*** Multiple RTL Kernels
 
 
-For more information, please refer: [details.md][]
+For Setup instructions, please refer: [setup.md][]
 
-[details.md]: details.md
+[setup.md]: setup.md
 

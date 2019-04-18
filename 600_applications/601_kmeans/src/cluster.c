@@ -88,11 +88,13 @@ int cluster(
             int     isRMSE,                 /* calculate RMSE */
             int     nloops,                 /* number of iteration for each number of clusters */
             std::string &binaryFile,        /* Binary file string */
+            int     &index,
             const char*   goldenFile                  
             )
 {    
     int     nclusters;          /* number of clusters k */
-    int     index =0;           /* number of iteration to reach the best RMSE */
+    int status = 0;             /* Return status*/
+    index =0;                   /* number of iteration to reach the best RMSE */
     float   rmse;               /* RMSE for each clustering */
     int    *membership;         /* which cluster a data point belongs to */
     int    *cmodel_membership;  /* which cluster a data point belongs to */
@@ -171,7 +173,8 @@ int cluster(
             }
             float mismatch_rate = float( 100 * mismatch) / npoints;
             if (mismatch_rate> 10 ){
-                printf("FAILED:Based on C-Model: Points Membership Mismatch %d Mismatch Rate %.3f \n",mismatch, mismatch_rate);
+                printf("ERROR::FAILED:Based on C-Model: Points Membership Mismatch %d Mismatch Rate %.3f \n",mismatch, mismatch_rate);
+                status = 1;
             }else{
                 printf("PASSED:Based on C-Model: Points membership with Match Rate %.3f and mismatch %d with Cmodel. \n", 100.0 - mismatch_rate, mismatch);
             }
@@ -196,7 +199,8 @@ int cluster(
                 }
                 float mismatch_rate = float (100 * mismatch) / npoints;
                 if (mismatch_rate > 10){
-                    printf("FAILED:Based on Golden File: Points Membership Mismatch %d Mismatch Rate %.4f \n",mismatch, mismatch_rate);
+                    printf("ERROR::FAILED:Based on Golden File: Points Membership Mismatch %d Mismatch Rate %.4f \n",mismatch, mismatch_rate);
+                    status = 1;
                 }else{
                     printf("PASSED:Based on Golden File: Points membership with Match Rate %.4f and mismatches only %d compare to GoldenFile. \n", 100.0 - mismatch_rate, mismatch);
                 }
@@ -239,5 +243,5 @@ int cluster(
     free(membership);
     free(cmodel_membership);
 
-    return index;
+    return status;
 }

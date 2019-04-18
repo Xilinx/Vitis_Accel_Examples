@@ -8,7 +8,7 @@ This example demonstrates how to shift values in registers in each clock cycle
 ***KEYWORDS:*** xcl_array_partition, getprofilingInfo()
 
 
-For more information, please refer: [details.md][]
+For Setup instructions, please refer: [setup.md][]
 
-[details.md]: details.md
+[setup.md]: setup.md
 

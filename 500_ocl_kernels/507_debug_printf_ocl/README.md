@@ -8,7 +8,7 @@ This is simple example of vector addition and printing of data that is computati
 ***KEYWORDS:*** printf, param:compiler.enableAutoPipelining=false
 
 
-For more information, please refer: [details.md][]
+For Setup instructions, please refer: [setup.md][]
 
-[details.md]: details.md
+[setup.md]: setup.md
 
