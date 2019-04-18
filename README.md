@@ -86,7 +86,7 @@ Hello World example for new users.
 Collection of examples geared at OpenCL host code for optimized interfacing with Xilinx Devices
 
 - ### CPP KERNELS
-This page contains examples for users who are new to Xilinx SDx OpenCL Flows. The focus of the examples is towards code optimization using C++ kernels for Xilinx devices.
+This page contains examples for users who are new to Xilinx SDx OpenCL Flows. The focus of the examples is towards code optimization using HLS C/C++ kernels for Xilinx devices.
 
 - ### RTL KERNELS
 Collection of RTL Kernel Based Examples
@@ -121,14 +121,3 @@ To execute these example using the Scout GUI, follow the setup instructions in [
 [Scout User Guides]: http://www.xilinx.com/support/documentation-navigation/development-tools/software-development/sdaccel.html?resultsTablePreSelect=documenttype:SeeAll#documentation
 [Scout Forums]: https://forums.xilinx.com/t5/Scout/bd-p/SDx
 [Scout GUI README]: ./GUIREADME.md
-
-# ScoutExamples
-
-S.No.   | Category  | Description 
---------|-----------|-----------------------------------------
-1 | hello_world      |Hello World example for new users
-2 | host      |OpenCL host code for optimized interfacing with Xilinx Devices
-3 | cpp_kernel     |HLS C/C++ Based Examples.
-4 | rtl_kernels     |RTL Kernel based Examples.
-5 | ocl_kernels      |OCL Kernel based Examples
-6 | applications     |Application which shows acceleration on FPGA.
