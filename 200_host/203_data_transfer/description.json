@@ -1,0 +1,34 @@
+{
+    "runtime": ["OpenCL"],
+    "example": "Data Transfer (C)",
+    "overview": [
+        "This example illustrates several ways to use the OpenCL API to transfer data to and from the FPGA"
+    ],
+    "key_concepts": [ "OpenCL API" , "Data Transfer", "Write Buffers", "Read Buffers", "Map Buffers", "Async Memcpy"],
+    "keywords": [ "enqueueWriteBuffer()" , "enqueueReadBuffer()", "enqueueMapBuffer()", "enqueueUnmapMemObject()", "enqueueMigrateMemObjects()"],
+    "os": [
+        "Linux"
+    ],
+    "host_exe": "data_transfer",
+    "cmd_args": "BUILD/dummy_kernel.xclbin",
+    "libs": [
+        "xcl2"
+    ],
+    "containers": [
+        {
+            "name": "dummy_kernel",
+            "accelerators": [
+                {
+                    "name": "dummy_kernel",
+                    "location": "src/dummy_kernel.cpp"
+                }    
+            ]
+        }
+    ],
+    "contributors" : [
+        {
+            "group": "Xilinx",
+            "url" : "http://www.xilinx.com"
+        }
+    ]
+}

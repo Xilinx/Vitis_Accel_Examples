@@ -1,0 +1,44 @@
+{
+    "runtime": ["OpenCL"],
+    "example": "Multiple Process (C)",
+    "overview": [
+        "This example will demonstrate how to run multiple processes to utilize multiple kernels simultaneously on an FPGA device. Multiple processes can share access to the same device provided each process uses the same xclbin. Processes share access to all device resources but there is no support for exclusive access to resources by any process."
+    ],
+    "key_concepts": [ "Concurrent execution", "Multiple HLS kernels", "Multiple Process Support"],
+    "keywords": [ "PID" , "fork", "XCL_MULTIPROCESS_MODE",  "multiprocess"],
+    "os": [
+        "Linux"
+    ],
+    "libs": [
+        "xcl2"
+    ],
+    "host_exe": "host",
+    "cmd_args": "BUILD/multi_krnl.xclbin",
+    "containers": [	
+	{
+	"name": "multi_krnl",
+	"accelerators": [
+            {
+                "name": "krnl_vadd", 
+                "location": "src/krnl_vadd.cpp"
+
+            },
+            {
+                "name": "krnl_vmul",
+                "location": "src/krnl_vmul.cpp"
+            },
+            {
+                "name": "krnl_vsub", 
+                "location": "src/krnl_vsub.cpp"
+            }
+        ]
+	}
+    ],
+    "contributors" : [
+        {
+            "group": "Xilinx",
+            "url" : "http://www.xilinx.com"
+        }
+    ],
+    "match_ini": "false"
+}

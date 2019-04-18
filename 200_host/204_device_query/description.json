@@ -1,0 +1,19 @@
+{
+    "runtime": ["OpenCL"],
+    "example": "Device Query (C)",
+    "overview": [
+        "This example prints the OpenCL properties of the platform and its devices. It also displays the limits and capabilities of the hardware."
+    ],
+    "key_concepts": [ "OpenCL API" , "Querying device properties"],
+    "keywords": [ "clGetPlatformIDs()" , "clGetPlatformInfo()", "clGetDeviceIDs()", "clGetDeviceInfo()"],
+    "os": [
+        "Linux"
+    ],
+    "host_exe": "device_query",
+    "contributors" : [
+        {
+            "group": "Xilinx",
+            "url" : "http://www.xilinx.com"
+        }
+    ]
+}

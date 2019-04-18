@@ -1,0 +1,38 @@
+{
+    "containers": [
+        {
+            "name": "vector_addition", 
+            "meet_system_timing": "true", 
+            "accelerators": [
+                {
+                    "name": "vadd", 
+                    "check_timing": "true", 
+                    "PipelineType": "none", 
+                    "check_latency": "true", 
+                    "check_warning": "false"
+                }, 
+                {
+                    "name": "vadd_pipelined", 
+                    "check_timing": "true", 
+                    "PipelineType": "none", 
+                    "check_latency": "true", 
+                    "check_warning": "false",
+                    "loops": [
+                        {
+                            "name": "read_a", 
+                            "PipelineII": "1"
+                        }, 
+                        {
+                            "name": "read_b", 
+                            "PipelineII": "1"
+                        }, 
+                        {
+                            "name": "write_c", 
+                            "PipelineII": "1"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
