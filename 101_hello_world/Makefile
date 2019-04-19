@@ -25,7 +25,7 @@ help::
 	$(ECHO) ""
 
 # Points to Utility Directory
-COMMON_REPO = ../../
+COMMON_REPO = ../
 ABS_COMMON_REPO = $(shell readlink -f $(COMMON_REPO))
 
 TARGET = hw
@@ -58,13 +58,13 @@ LDFLAGS += -lrt -lstdc++
 CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps --report_dir $(BUILD_DIR)/reports
 
 
-EXECUTABLE = multiple_devices
-CMD_ARGS = $(BUILD_DIR)/vector_addition.xclbin
+EXECUTABLE = host
+CMD_ARGS = $(BUILD_DIR)/vadd.xclbin
 
 EMCONFIG_DIR = $(TEMP_DIR)
 
-BINARY_CONTAINERS += $(BUILD_DIR)/vector_addition.xclbin
-BINARY_CONTAINER_vector_addition_OBJS += $(TEMP_DIR)/vadd.xo
+BINARY_CONTAINERS += $(BUILD_DIR)/vadd.xclbin
+BINARY_CONTAINER_vadd_OBJS += $(TEMP_DIR)/vadd.xo
 
 CP = cp -rf
 
@@ -78,10 +78,10 @@ exe: $(EXECUTABLE)
 build: $(BINARY_CONTAINERS)
 
 # Building kernel
-$(TEMP_DIR)/vadd.xo: src/vector_addition.cpp
+$(TEMP_DIR)/vadd.xo: src/vadd.cpp
 	mkdir -p $(TEMP_DIR)
 	$(XOCC) $(CLFLAGS) --temp_dir $(TEMP_DIR) -c -k vadd -I'$(<D)' -o'$@' '$<'
-$(BUILD_DIR)/vector_addition.xclbin: $(BINARY_CONTAINER_vector_addition_OBJS)
+$(BUILD_DIR)/vadd.xclbin: $(BINARY_CONTAINER_vadd_OBJS)
 	mkdir -p $(BUILD_DIR)
 	$(XOCC) $(CLFLAGS) --temp_dir $(BUILD_DIR) -l $(LDCLFLAGS) --nk vadd:1 -o'$@' $(+)
 
@@ -91,14 +91,14 @@ $(EXECUTABLE): check-xrt $(HOST_SRCS) $(HOST_HDRS)
 
 emconfig:$(EMCONFIG_DIR)/emconfig.json
 $(EMCONFIG_DIR)/emconfig.json:
-	emconfigutil --platform $(DEVICE) --od $(EMCONFIG_DIR) --nd 2
+	emconfigutil --platform $(DEVICE) --od $(EMCONFIG_DIR)
 
 check: all
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 	$(CP) $(EMCONFIG_DIR)/emconfig.json .
-	XCL_EMULATION_MODE=$(TARGET) ./$(EXECUTABLE) $(BUILD_DIR)/vector_addition.xclbin
+	XCL_EMULATION_MODE=$(TARGET) ./$(EXECUTABLE) $(BUILD_DIR)/vadd.xclbin
 else
-	 ./$(EXECUTABLE) $(BUILD_DIR)/vector_addition.xclbin
+	 ./$(EXECUTABLE) $(BUILD_DIR)/vadd.xclbin
 endif
 	sdx_analyze profile -i sdaccel_profile_summary.csv -f html
 
