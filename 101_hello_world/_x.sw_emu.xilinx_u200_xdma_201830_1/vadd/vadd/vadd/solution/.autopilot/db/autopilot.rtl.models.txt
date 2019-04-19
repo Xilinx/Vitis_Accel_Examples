@@ -1,4 +1,0 @@
-vadd_vadd_v1_buffer
-vadd_vadd_control_s_axi
-vadd_vadd_gmem_m_axi
-vadd

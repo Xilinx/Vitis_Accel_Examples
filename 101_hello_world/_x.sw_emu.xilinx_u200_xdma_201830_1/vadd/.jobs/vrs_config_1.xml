@@ -1,5 +1,0 @@
-<?xml version="1.0"?>
-<Runs Version="1" Minor="0">
-	<Run Id="vadd" LaunchDir="/proj/xhdhdstaff3/rsarkari/scout/ScoutExamples/101_hello_world/_x.sw_emu.xilinx_u200_xdma_201830_1/vadd/vadd" FlowId="Build_IP" FromStepId="vivado_hls" ToStepId="vivado_hls"/>
-</Runs>
-

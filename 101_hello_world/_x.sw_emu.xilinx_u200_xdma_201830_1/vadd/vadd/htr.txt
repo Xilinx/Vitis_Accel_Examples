@@ -1,9 +1,0 @@
-#
-# v++(TM)
-# htr.txt: a v++-generated description of how-to-repeat the
-#          the basic steps of a run.  Note that runme.bat/sh needs
-#          to be invoked for v++ to track run status.
-# Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
-#
-
-vivado_hls -f vadd.tcl -messageDb vivado_hls.pb
