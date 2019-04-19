@@ -1,0 +1,42 @@
+{
+    "runtime": ["OpenCL"],
+    "example": "Concurrent Kernel Execution (C)",
+    "overview": [
+        "This example will demonstrate how to use multiple and out of order command queues to simultaneously execute multiple kernels on an FPGA."
+    ],
+    "key_concepts": [ "Concurrent execution", "Out of Order Command Queues", "Multiple Command Queues"],
+    "keywords": [ "CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE" , "clSetEventCallback()" ],
+    "os": [
+        "Linux"
+    ],
+    "libs": [
+        "xcl2"
+    ],
+    "host_exe": "concurrent_execution",
+    "cmd_args": "BUILD/matrix_ops.xclbin",
+    "containers": [	
+	{
+	"name": "matrix_ops", 
+	"accelerators": [
+        {
+            "name": "madd", 
+            "location": "src/madd.cpp"
+        },
+        {
+            "name": "mscale", 
+            "location": "src/mscale.cpp"
+        },
+        {
+            "name": "mmult", 
+            "location": "src/mmult.cpp"
+        }
+    	]
+	}
+    ],
+    "contributors" : [
+        {
+            "group": "Xilinx",
+            "url" : "http://www.xilinx.com"
+        }
+    ]
+}

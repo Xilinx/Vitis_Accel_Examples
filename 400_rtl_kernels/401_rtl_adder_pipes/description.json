@@ -1,64 +1,53 @@
 {
-    "config_make": "config.mk", 
-    "cmd_args": "BUILD/adder.xclbin", 
-    "revision": [
-        {
-            "date": "JAN2017", 
-            "version": "1.0", 
-            "description": "Initial Xilinx Release"
-        }
-    ], 
-    "contributors": [
-        {
-            "url": "http://www.xilinx.com", 
-            "group": "Xilinx"
-        }
-    ], 
-    "host_exe": "host", 
+    "runtime": ["OpenCL"],
+    "example": "Adder With Pipes (RTL)",
     "overview": [
         "This example shows an adder with pipes using 3 RTL kernels."
-    ], 
-    "targets": [
-        "hw", 
-        "hw_emu"
-    ], 
-    "host_srcs": "src/host.cpp", 
-    "key_concepts": [
-        "RTL Kernel", 
-        "Multiple RTL Kernels"
-    ], 
-    "sdx_gui": false, 
-    "includes": [
-        {
-            "name": "xcl2", 
-            "location": "GIT_REPO_DIR/common/includes/xcl2/"
-        }
-    ], 
-    "runtime": [
-        "OpenCL"
-    ], 
+    ],
+    "key_concepts": [ "RTL Kernel", "Multiple RTL Kernels"],
     "os": [
         "Linux"
-    ], 
-    "example": "Adder With Pipes (RTL)", 
+    ],
+    "libs": [
+        "xcl2"
+    ],
+    "config_make": "config.mk",
+    "output_files": "tmp_kernel_pack* packaged_kernel*",
+    "host_exe": "host",
+    "host_srcs": "src/host.cpp",
+    "cmd_args": "BUILD/adder.xclbin",
+    "targets": ["hw", "hw_emu"],
     "containers": [
+    {
+	"name": "adder",
+	"accelerators": [
+	{
+	"name": "input",
+	"kernel_type": "RTL"
+	},
+	{
+	"name": "adder",
+	"kernel_type": "RTL"
+	},
+	{
+	"name": "output",
+	"kernel_type": "RTL"
+	}
+	]
+    }
+    ],
+    "contributors" : [
         {
-            "accelerators": [
-                {
-                    "kernel_type": "RTL", 
-                    "name": "input"
-                }, 
-                {
-                    "kernel_type": "RTL", 
-                    "name": "adder"
-                }, 
-                {
-                    "kernel_type": "RTL", 
-                    "name": "output"
-                }
-            ], 
-            "name": "adder"
+            "group": "Xilinx",
+            "url" : "http://www.xilinx.com"
         }
-    ], 
-    "output_files": "tmp_kernel_pack* packaged_kernel*"
+    ],
+    "revision" : [
+        {
+            "date" : "JAN2017",
+            "version": "1.0",
+            "description": "Initial Xilinx Release"
+        }
+    ],
+    "sdx_gui": false
 }

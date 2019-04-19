@@ -18,50 +18,47 @@ os.system("mkdir -p 100_hello_world 200_host 300_cpp_kernels 400_rtl_kernels 500
 # Hello World
 os.system("cp -rf " + sdaccel_folder +
 "/getting_started/hello_world/helloworld_c/ " + pwd +
-"/100_hello_world/101_hello_world")
+"/101_hello_world")
 # Host
 os.system("cp -rf " + sdaccel_folder +
 "/getting_started/host/concurrent_kernel_execution_c/ " + pwd +
-"/200_host/201_concurrent_kernel_execution")
+"/200_host/207_concurrent_kernel_execution")
 os.system("cp -rf " + sdaccel_folder +
 "/getting_started/host/copy_buffer_c/ " + pwd +
-"/200_host/202_copy_buffer")
+"/200_host/210_copy_buffer")
 os.system("cp -rf " + sdaccel_folder +
 "/getting_started/host/data_transfer_c/ " + pwd +
-"/200_host/203_data_transfer")
+"/200_host/205_data_transfer")
 os.system("cp -rf " + sdaccel_folder +
 "/getting_started/host/device_query_c/ " + pwd +
-"/200_host/204_device_query")
+"/200_host/201_device_query")
 os.system("cp -rf " + sdaccel_folder +
 "/getting_started/host/device_query_cpp/ " + pwd +
-"/200_host/205_device_query_cpp")
+"/200_host/202_device_query_cpp")
 os.system("cp -rf " + sdaccel_folder +
 "/getting_started/host/errors_c/ " + pwd +
-"/200_host/206_errors")
+"/200_host/203_errors")
 os.system("cp -rf " + sdaccel_folder +
 "/getting_started/host/errors_cpp/ " + pwd +
-"/200_host/207_errors_cpp")
+"/200_host/204_errors_cpp")
 os.system("cp -rf " + sdaccel_folder +
 "/getting_started/host/host_global_bandwidth/ " + pwd +
-"/200_host/208_host_global_bandwidth")
+"/200_host/206_host_global_bandwidth")
 os.system("cp -rf " + sdaccel_folder +
 "/getting_started/host/kernel_swap_c/ " + pwd +
-"/200_host/209_kernel_swap")
-os.system("cp -rf " + sdaccel_folder +
-"/getting_started/host/multiple_devices_c/ " + pwd +
-"/200_host/210_multiple_devices")
+"/200_host/208_kernel_swap")
 os.system("cp -rf " + sdaccel_folder +
 "/getting_started/host/multiple_process_c/ " + pwd +
 "/200_host/211_multiple_process")
 os.system("cp -rf " + sdaccel_folder +
 "/getting_started/host/overlap_c/ " + pwd +
-"/200_host/212_overlap")
+"/200_host/209_overlap")
 os.system("cp -rf " + sdaccel_folder +
 "/getting_started/host/stream_access_c/ " + pwd +
 "/200_host/213_stream_access")
 os.system("cp -rf " + sdaccel_folder +
 "/getting_started/host/sub_devices_c/ " + pwd +
-"/200_host/214_sub_devices")
+"/200_host/212_sub_devices")
 # CPP Kernel
 os.system("cp -rf " + sdaccel_folder +
 "/getting_started/clk_freq/critical_path_c/ " + pwd +
@@ -166,73 +163,73 @@ os.system("cp -rf " + sdaccel_folder +
 # OCL Kernels
 os.system("cp -rf " + sdaccel_folder +
 "/getting_started/clk_freq/large_loop_ocl/ " + pwd +
-"/500_ocl_kernels/501_large_loop_ocl")
+"/500_ocl_kernels/501_cl_large_loop")
 os.system("cp -rf " + sdaccel_folder +
 "/getting_started/clk_freq/split_kernel_ocl/ " + pwd +
-"/500_ocl_kernels/502_split_kernel_ocl")
+"/500_ocl_kernels/502_cl_split_kernel")
 os.system("cp -rf " + sdaccel_folder +
 "/getting_started/clk_freq/too_many_cu_ocl/ " + pwd +
-"/500_ocl_kernels/503_too_many_cu_ocl")
+"/500_ocl_kernels/503_cl_too_many_cu")
 os.system("cp -rf " + sdaccel_folder +
 "/getting_started/dataflow/dataflow_func_ocl/ " + pwd +
-"/500_ocl_kernels/504_dataflow_func_ocl")
+"/500_ocl_kernels/504_cl_dataflow_func")
 os.system("cp -rf " + sdaccel_folder +
 "/getting_started/dataflow/dataflow_pipes_ocl/ " + pwd +
-"/500_ocl_kernels/505_dataflow_pipes_ocl")
+"/500_ocl_kernels/505_cl_dataflow_pipes")
 os.system("cp -rf " + sdaccel_folder +
 "/getting_started/dataflow/dataflow_subfunc_ocl/ " + pwd +
-"/500_ocl_kernels/506_dataflow_subfunc_ocl")
+"/500_ocl_kernels/506_cl_dataflow_subfunc")
 os.system("cp -rf " + sdaccel_folder +
 "/getting_started/debug/debug_printf_ocl/ " + pwd +
-"/500_ocl_kernels/507_debug_printf_ocl")
+"/500_ocl_kernels/507_cl_debug_printf")
 os.system("cp -rf " + sdaccel_folder +
 "/getting_started/debug/debug_profile_ocl/ " + pwd +
-"/500_ocl_kernels/508_debug_profile_ocl")
+"/500_ocl_kernels/508_cl_debug_profile")
 os.system("cp -rf " + sdaccel_folder +
 "/getting_started/hello_world/helloworld_ocl/ " + pwd +
-"/500_ocl_kernels/509_helloworld_ocl")
+"/500_ocl_kernels/509_cl_helloworld")
 os.system("cp -rf " + sdaccel_folder +
 "/getting_started/kernel_opt/array_partition_ocl/ " + pwd +
-"/500_ocl_kernels/510_array_partition_ocl")
+"/500_ocl_kernels/510_cl_array_partition")
 os.system("cp -rf " + sdaccel_folder +
 "/getting_started/kernel_opt/lmem_2rw_ocl/ " + pwd +
-"/500_ocl_kernels/511_lmem_2rw_ocl")
+"/500_ocl_kernels/511_cl_lmem_2rw")
 os.system("cp -rf " + sdaccel_folder +
 "/getting_started/kernel_opt/loop_fusion_ocl/ " + pwd +
-"/500_ocl_kernels/512_loop_fusion_ocl")
+"/500_ocl_kernels/512_cl_loop_fusion")
 os.system("cp -rf " + sdaccel_folder +
 "/getting_started/kernel_opt/loop_reorder_ocl/ " + pwd +
-"/500_ocl_kernels/513_loop_reorder_ocl")
+"/500_ocl_kernels/513_cl_loop_reorder")
 os.system("cp -rf " + sdaccel_folder +
 "/getting_started/kernel_opt/partition_cyclicblock_ocl/ " + pwd +
-"/500_ocl_kernels/514_partition_cyclicblock_ocl")
+"/500_ocl_kernels/514_cl_partition_cyclicblock")
 os.system("cp -rf " + sdaccel_folder +
 "/getting_started/kernel_opt/shift_register_ocl/ " + pwd +
-"/500_ocl_kernels/515_shift_register_ocl")
+"/500_ocl_kernels/515_cl_shift_register")
 os.system("cp -rf " + sdaccel_folder +
 "/getting_started/kernel_opt/sum_scan_ocl/ " + pwd +
-"/500_ocl_kernels/516_sum_scan_ocl")
+"/500_ocl_kernels/516_cl_sum_scan")
 os.system("cp -rf " + sdaccel_folder +
 "/getting_started/kernel_opt/systolic_array_ocl/ " + pwd +
-"/500_ocl_kernels/517_systolic_array_ocl")
+"/500_ocl_kernels/517_cl_systolic_array")
 os.system("cp -rf " + sdaccel_folder +
 "/getting_started/kernel_opt/vectorization_memorycoalescing_ocl/ " + pwd +
-"/500_ocl_kernels/518_vectorization_memorycoalescing_ocl")
+"/500_ocl_kernels/518_cl_vectorization_memorycoalescing")
 os.system("cp -rf " + sdaccel_folder +
 "/getting_started/kernel_to_gmem/burst_rw_ocl/ " + pwd +
-"/500_ocl_kernels/519_burst_rw_ocl")
+"/500_ocl_kernels/519_cl_burst_rw")
 os.system("cp -rf " + sdaccel_folder +
 "/getting_started/kernel_to_gmem/full_array_2d_ocl/ " + pwd +
-"/500_ocl_kernels/520_full_array_2d_ocl")
+"/500_ocl_kernels/520_cl_full_array_2d")
 os.system("cp -rf " + sdaccel_folder +
 "/getting_started/kernel_to_gmem/gmem_2banks_ocl/ " + pwd +
-"/500_ocl_kernels/521_gmem_2banks_ocl")
+"/500_ocl_kernels/521_cl_gmem_2banks")
 os.system("cp -rf " + sdaccel_folder +
 "/getting_started/kernel_to_gmem/row_array_2d_ocl/ " + pwd +
-"/500_ocl_kernels/522_row_array_2d_ocl")
+"/500_ocl_kernels/522_cl_row_array_2d")
 os.system("cp -rf " + sdaccel_folder +
 "/getting_started/kernel_to_gmem/wide_mem_rw_ocl/ " + pwd +
-"/500_ocl_kernels/523_wide_mem_rw_ocl")
+"/500_ocl_kernels/523_cl_wide_mem_rw")
 # Applications
 os.system("cp -rf " + sdaccel_folder +
 "/acceleration/kmeans/ " + pwd +

@@ -1,0 +1,35 @@
+{
+    "runtime": ["OpenCL"],
+    "example": "Printf Usage in Kernel code (CL)",
+    "overview": [
+        "This is simple example of vector addition and printing of data that is computational result (addition). It is based on vectored addition that demonstrates printing of work item data (integer product in this case)"
+    ],
+    "key_concepts": [ "Use of print statements for debugging"],
+    "keywords": [ "printf", "param:compiler.enableAutoPipelining=false"],
+    "os": [
+        "Linux"
+    ],
+    "libs": [
+        "xcl2"
+    ],
+    "host_exe": "host",
+    "cmd_args": "BUILD/vadd.xclbin",
+    "containers": [
+        {
+            "name": "vadd", 
+            "accelerators": [
+                {
+                    "name": "krnl_vadd", 
+                    "clflags" : "--xp param:compiler.enableAutoPipelining=false",
+                    "location": "src/vadd.cl"
+                }
+            ]
+        }
+    ],
+    "contributors" : [
+        {
+            "group": "Xilinx",
+            "url" : "http://www.xilinx.com"
+        }
+    ]
+}

@@ -1,49 +1,38 @@
 {
-    "cmd_args": "BUILD/fir.xclbin", 
-    "contributors": [
-        {
-            "url": "http://www.xilinx.com", 
-            "group": "Xilinx"
-        }
-    ], 
-    "host_exe": "host", 
+    "runtime": ["OpenCL"],
+    "example": "Shift Register (C)",
     "overview": [
         "This example demonstrates how to shift values in registers in each clock cycle"
-    ], 
-    "includes": [
-        {
-            "name": "xcl2", 
-            "location": "GIT_REPO_DIR/common/includes/xcl2/"
-        }
-    ], 
-    "key_concepts": [
-        "Kernel Optimization", 
-        "Shift Register", 
-        "FIR"
-    ], 
-    "keywords": [
-        "#pragma HLS ARRAY_PARTITION"
-    ], 
-    "runtime": [
-        "OpenCL"
-    ], 
+    ],
+    "key_concepts": [ "Kernel Optimization", "Shift Register", "FIR"],
+    "keywords": [ "#pragma HLS ARRAY_PARTITION" ],
     "os": [
         "Linux"
-    ], 
-    "example": "Shift Register (C)", 
+    ],
+    "libs": [
+        "xcl2"
+    ],
+    "host_exe": "host",
+    "cmd_args": "BUILD/fir.xclbin",
     "containers": [
+    {
+        "name": "fir",        
+        "accelerators": [
         {
-            "accelerators": [
-                {
-                    "name": "fir_naive", 
-                    "location": "src/fir_naive.cpp"
-                }, 
-                {
-                    "name": "fir_shift_register", 
-                    "location": "src/fir_shift_register.cpp"
-                }
-            ], 
-            "name": "fir"
+            "name": "fir_naive", 
+            "location": "src/fir_naive.cpp"
+        },
+        {
+            "name": "fir_shift_register", 
+            "location": "src/fir_shift_register.cpp"
+        }
+       ]
+      }
+    ],
+    "contributors" : [
+        {
+            "group": "Xilinx",
+            "url" : "http://www.xilinx.com"
         }
     ]
 }

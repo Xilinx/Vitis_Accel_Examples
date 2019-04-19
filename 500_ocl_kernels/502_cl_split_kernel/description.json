@@ -1,0 +1,53 @@
+{
+    "runtime": ["OpenCL"],
+    "example": "Large application Splits into Multiple Kernels(CL)",
+    "overview": [
+        "This is a multi-filter image processing application to showcase effectiveness of Dataflow/Streams usage. This examples is intended to help developers to break down the complex kernel into multiple sub-functions using OpenCL Dataflow. It presents a way to concurrently execute multiple functions with better area utilization compared to a complex single kernel implementation. The main objective of this example is to showcase a way to build a optimal FPGA design which achieves maximum frequency with optimal resource utilization and achieves better performance compared to single kernel implementations."
+    ],
+    "key_concepts": [ "Dataflow" , "Stream"],
+    "keywords": [ "xcl_dataflow", "xcl_array_partition", "xcl_pipeline_loop"],
+    "os": [
+        "Linux"
+    ],
+    "host_exe": "host",
+    "cmd_args": "BUILD/sketch_GOOD.xclbin BUILD/sketch_BAD.xclbin PROJECT/data/car_128x128.bmp",
+    "output_files": "output.bmp",        
+    "libs": [
+        "xcl2", 
+        "bitmap"
+    ],
+    "containers": [
+        {
+            "name": "sketch_GOOD", 
+            "accelerators" : [
+                {
+                    "name": "sketch_GOOD",
+                    "clflags" : "--xp param:compiler.xclDataflowFifoDepth=16",
+                    "location": "src/sketch.cl"
+                }
+            ]
+        },
+        {
+            "name": "sketch_BAD", 
+            "accelerators" : [
+                {
+                    "name": "sketch_BAD", 
+                    "location": "src/sketch_bad.cl"
+                }
+            ]
+        }
+    ],
+    "contributors" : [
+        {
+            "group": "Xilinx",
+            "url" : "http://www.xilinx.com"
+        }
+    ],
+    "testinfo": {
+        "level_up": [
+        {
+            "hw": "1"
+        }
+        ]
+    }
+}

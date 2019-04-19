@@ -1,44 +1,34 @@
 {
-    "cmd_args": "BUILD/adder.xclbin", 
-    "contributors": [
-        {
-            "url": "http://www.xilinx.com", 
-            "group": "Xilinx"
-        }
-    ], 
-    "host_exe": "host", 
+    "runtime": ["OpenCL"],
+    "example": "Dataflow Using HLS Stream",
     "overview": [
         "This is simple example of vector addition to demonstrate Dataflow functionality of HLS. HLS Dataflow allows user to schedule multiple task together to achieve higher throughput."
-    ], 
-    "includes": [
-        {
-            "name": "xcl2", 
-            "location": "GIT_REPO_DIR/common/includes/xcl2/"
-        }
-    ], 
-    "key_concepts": [
-        "Task Level Parallelism"
-    ], 
-    "keywords": [
-        "dataflow", 
-        "hls::stream<>"
-    ], 
-    "runtime": [
-        "OpenCL"
-    ], 
+    ],
+    "key_concepts": [ "Task Level Parallelism"],
+    "keywords": [ "dataflow" , "hls::stream<>"],
     "os": [
         "Linux"
-    ], 
-    "example": "Dataflow Using HLS Stream", 
+    ],
+    "libs": [
+        "xcl2"
+    ],
+    "host_exe": "host",
+    "cmd_args": "BUILD/adder.xclbin",
     "containers": [
+    {
+        "name": "adder",       
+        "accelerators": [
         {
-            "accelerators": [
-                {
-                    "name": "adder", 
-                    "location": "src/adder.cpp"
-                }
-            ], 
-            "name": "adder"
+            "name": "adder", 
+            "location": "src/adder.cpp"
+        }
+       ]
+     }           
+    ],
+    "contributors" : [
+        {
+            "group": "Xilinx",
+            "url" : "http://www.xilinx.com"
         }
     ]
 }

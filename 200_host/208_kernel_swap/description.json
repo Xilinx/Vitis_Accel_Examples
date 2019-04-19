@@ -1,0 +1,45 @@
+{
+    "runtime": ["OpenCL"],
+    "example" : "Vector Add - Vector Multiplication for XPR Devices",
+    "overview" : [
+        "This example shows how host can swap the kernels and share same buffer between two kernels which are exist in separate binary containers. Dynamic platforms does not persist the buffer data so host has to migrate data from device to host memory before swapping the next kernel. After kernel swap, host has to migrate the buffer back to device."
+    ],
+    "key_concepts": [ "Handling Buffer sharing across multiple binaries", "Multiple Kernel Binaries"],
+    "keywords": [ "clEnqueueMigrateMemObjects()", "CL_MIGRATE_MEM_OBJECT_HOST"],
+    "os": [
+        "Linux"
+    ],
+    "libs": [
+        "xcl2"
+    ],
+    "host_exe": "vmulvadd",
+    "cmd_args": "BUILD/krnl_vmul.xclbin BUILD/krnl_vadd.xclbin",
+    "containers": [
+        {
+            "name": "krnl_vmul",
+            "accelerators": [
+                {
+                    "name": "krnl_vmul", 
+                    "location": "src/krnl_vmul.cpp", 
+                    "container": "krnl_vmul"
+                }
+            ]
+        }, 
+        {
+            "name": "krnl_vadd",
+            "accelerators": [
+                {
+                    "name": "krnl_vadd", 
+                    "location": "src/krnl_vadd.cpp", 
+                    "container": "krnl_vadd"
+                }
+            ]
+        }
+    ],
+    "contributors" : [
+        {
+            "group": "Xilinx",
+            "url" : "http://www.xilinx.com"
+        }
+    ] 
+}

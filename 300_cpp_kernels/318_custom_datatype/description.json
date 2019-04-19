@@ -1,50 +1,35 @@
 {
-    "cmd_args": "BUILD/rgb_to_hsv.xclbin PROJECT/data/input.bmp", 
-    "contributors": [
-        {
-            "url": "http://www.xilinx.com", 
-            "group": "Xilinx"
-        }
-    ], 
-    "host_exe": "host", 
+    "runtime": ["OpenCL"],
+    "example": "Custom Data Type (C)",
     "overview": [
         "This is simple example of RGB to HSV conversion to demonstrate Custom DATA Type usages in C Based Kernel. Xilinx HLS Compiler Supports Custom Data Type to use for operation as well as Memory Interface between Kernel and Global Memory."
-    ], 
-    "includes": [
-        {
-            "name": "xcl2", 
-            "location": "GIT_REPO_DIR/common/includes/xcl2/"
-        }, 
-        {
-            "name": "bitmap", 
-            "location": "GIT_REPO_DIR/common/includes/bitmap/"
-        }
-    ], 
-    "key_concepts": [
-        "Custom Datatype"
-    ], 
-    "keywords": [
-        "struct", 
-        "#pragma HLS data_pack", 
-        "#pragma HLS LOOP_TRIPCOUNT"
-    ], 
-    "runtime": [
-        "OpenCL"
-    ], 
+    ],
+    "key_concepts": ["Custom Datatype"],
+    "keywords": ["struct", "#pragma HLS data_pack", "#pragma HLS LOOP_TRIPCOUNT"],
     "os": [
         "Linux"
-    ], 
-    "example": "Custom Data Type (C)", 
+    ],
+    "libs": [
+        "xcl2", "bitmap"
+    ],
+    "host_exe": "host",
+    "cmd_args" : "BUILD/rgb_to_hsv.xclbin PROJECT/data/input.bmp",
+    "output_files": "output.bmp",        
     "containers": [
+    {
+        "name": "rgb_to_hsv",        
+        "accelerators": [
         {
-            "accelerators": [
-                {
-                    "name": "rgb_to_hsv", 
-                    "location": "src/rgb_to_hsv.cpp"
-                }
-            ], 
-            "name": "rgb_to_hsv"
+            "name": "rgb_to_hsv", 
+            "location": "src/rgb_to_hsv.cpp"
         }
-    ], 
-    "output_files": "output.bmp"
+       ]
+      }            
+    ],
+    "contributors" : [
+        {
+            "group": "Xilinx",
+            "url" : "http://www.xilinx.com"
+        }
+    ]
 }
