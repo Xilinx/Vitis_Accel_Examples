@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="vadd" dir="">
+  <FileSets>
+    <FileSet Name="kernel_vadd" Type="DesignSrcs">
+      <File Path="/proj/xhdhdstaff3/rsarkari/scout/ScoutExamples/101_hello_world/src/vadd.cpp"/>
+      <Config/>
+    </FileSet>
+  </FileSets>
+  <Runs/>
+</project>

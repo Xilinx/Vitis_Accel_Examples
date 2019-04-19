@@ -1,0 +1,2 @@
+performing high-level synthesis for kernel: vadd
+Log file: /proj/xhdhdstaff3/rsarkari/scout/ScoutExamples/101_hello_world/_x.sw_emu.xilinx_u200_xdma_201830_1/vadd/vadd/vivado_hls.log

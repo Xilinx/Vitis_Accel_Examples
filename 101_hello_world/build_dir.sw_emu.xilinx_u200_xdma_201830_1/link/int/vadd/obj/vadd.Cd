@@ -1,0 +1,5 @@
+obj/vadd.o: \
+ /proj/xhdhdstaff3/rsarkari/scout/ScoutExamples/101_hello_world/build_dir.sw_emu.xilinx_u200_xdma_201830_1/link/int/xo/vadd/vadd/cpu_sources/vadd.cpp \
+ /usr/include/stdc-predef.h
+
+/usr/include/stdc-predef.h:

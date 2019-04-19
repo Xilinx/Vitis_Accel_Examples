@@ -1,0 +1,3 @@
+
+ô
+v++_link_vadd$992b35fc-c6b6-4865-aa41-9e75bd700e85—v++  --report_level estimate -t sw_emu --platform /proj/xbuilds/2018.3_released/internal_platforms/xilinx_u200_xdma_201830_1/xilinx_u200_xdma_201830_1.xpfm --save-temps --report_dir ./build_dir.sw_emu.xilinx_u200_xdma_201830_1/reports --temp_dir ./build_dir.sw_emu.xilinx_u200_xdma_201830_1 -l --nk vadd:1 -obuild_dir.sw_emu.xilinx_u200_xdma_201830_1/vadd.xclbin _x.sw_emu.xilinx_u200_xdma_201830_1/vadd.xo *—"’/proj/xhdhdstaff3/rsarkari/scout/ScoutExamples/101_hello_world/build_dir.sw_emu.xilinx_u200_xdma_201830_1/reports/link/v++_link_vadd_guidance.html2ˆ"ƒ/proj/xhdhdstaff3/rsarkari/scout/ScoutExamples/101_hello_world/build_dir.sw_emu.xilinx_u200_xdma_201830_1/v++_link_vadd_guidance.pb

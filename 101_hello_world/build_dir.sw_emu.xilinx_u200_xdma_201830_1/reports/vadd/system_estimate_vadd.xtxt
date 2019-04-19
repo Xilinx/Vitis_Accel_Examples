@@ -1,0 +1,39 @@
+===============================================================================
+Version:    v++ v2019.1 (64-bit)
+Build:      SW Build 2514510 on Mon Apr 15 08:01:32 MDT 2019
+Copyright:  Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
+Created:    Fri Apr 19 12:11:59 2019
+===============================================================================
+
+-------------------------------------------------------------------------------
+Design Name:             vadd
+Target Device:           xilinx:u200:xdma:201830.1
+Target Clock:            300.000000MHz
+Total number of kernels: 1
+-------------------------------------------------------------------------------
+
+Kernel Summary
+Kernel Name  Type  Target              OpenCL Library  Compute Units
+-----------  ----  ------------------  --------------  -------------
+vadd         c     fpga0:OCL_REGION_0  vadd            1
+
+
+-------------------------------------------------------------------------------
+OpenCL Binary:     vadd
+Kernels mapped to: clc_region
+
+Timing Information (MHz)
+Compute Unit  Kernel Name  Module Name  Target Frequency  Estimated Frequency
+------------  -----------  -----------  ----------------  -------------------
+vadd_1        vadd         vadd         300.300293        411.015198
+
+Latency Information (clock cycles)
+Compute Unit  Kernel Name  Module Name  Start Interval  Best Case  Avg Case  Worst Case
+------------  -----------  -----------  --------------  ---------  --------  ----------
+vadd_1        vadd         vadd         16503 ~ 16515   16502      16510     16514
+
+Area Information
+Compute Unit  Kernel Name  Module Name  FF    LUT   DSP  BRAM  URAM
+------------  -----------  -----------  ----  ----  ---  ----  ----
+vadd_1        vadd         vadd         2066  2193  0    8     0
+-------------------------------------------------------------------------------

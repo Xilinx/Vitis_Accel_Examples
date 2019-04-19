@@ -1,0 +1,33 @@
+<AutoPilot:solution xmlns:AutoPilot="com.autoesl.autopilot.solution">
+    <name>
+        <value string="solution"/>
+    </name>
+    <project>
+        <value string="vadd"/>
+    </project>
+    <targetInfo>
+        <TargetInfo value="xcu200:-fsgd2104:-2-e"/>
+    </targetInfo>
+    <libraryList>
+        <library value="xilinx/virtexuplus/virtexuplus" name="DefaultPlatform"/>
+        <library value="xilinx/virtexuplus/virtexuplus_fpv7" name="DefaultPlatform"/>
+    </libraryList>
+    <config>
+        <config_sdx optimization_level="0" target="xocc"/>
+        <config_export vivado_phys_opt="none" format="ip_catalog" ipname="vadd"/>
+        <config_bind effort="medium"/>
+        <config_schedule effort="medium" enable_dsp_full_reg="1"/>
+        <config_compile pipeline_loops="64" name_max_length="256" blackbox=""/>
+        <config_rtl register_reset_num="3" module_auto_prefix="1"/>
+        <config_interface m_axi_addr64="1"/>
+        <config_dataflow strict_mode="warning"/>
+        <schedule model="vadd"/>
+    </config>
+    <clockList>
+        <clock name="default" default="false" uncertainty="27.000000%" period="300MHz"/>
+    </clockList>
+    <ExportDesign askAgain="true" evaluate="false" rtl="verilog" formatName="ip_catalog">
+        <Format formatName="ip_catalog" description="" vendor="" library="" ipname="vadd" version="" driver_input_dir="" display_name="" taxonomy=""/>
+    </ExportDesign>
+</AutoPilot:solution>
+
