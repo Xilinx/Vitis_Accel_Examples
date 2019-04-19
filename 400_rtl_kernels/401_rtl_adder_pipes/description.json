@@ -1,53 +1,64 @@
 {
-    "runtime": ["OpenCL"],
-    "example": "Adder With Pipes (RTL)",
-    "overview": [
-        "This example shows an adder with pipes using 3 RTL kernels."
-    ],
-    "key_concepts": [ "RTL Kernel", "Multiple RTL Kernels"],
-    "os": [
-        "Linux"
-    ],
-    "libs": [
-        "xcl2"
-    ],
-    "config_make": "config.mk",
-    "output_files": "tmp_kernel_pack* packaged_kernel*",
-    "host_exe": "host",
-    "host_srcs": "src/host.cpp",
-    "cmd_args": "BUILD/adder.xclbin",
-    "targets": ["hw", "hw_emu"],
-    "containers": [
-    {
-	"name": "adder",
-	"accelerators": [
-	{
-	"name": "input",
-	"kernel_type": "RTL"
-	},
-	{
-	"name": "adder",
-	"kernel_type": "RTL"
-	},
-	{
-	"name": "output",
-	"kernel_type": "RTL"
-	}
-	]
-    }
-    ],
-    "contributors" : [
+    "config_make": "config.mk", 
+    "cmd_args": "BUILD/adder.xclbin", 
+    "revision": [
         {
-            "group": "Xilinx",
-            "url" : "http://www.xilinx.com"
-        }
-    ],
-    "revision" : [
-        {
-            "date" : "JAN2017",
-            "version": "1.0",
+            "date": "JAN2017", 
+            "version": "1.0", 
             "description": "Initial Xilinx Release"
         }
-    ],
-    "sdx_gui": false
+    ], 
+    "contributors": [
+        {
+            "url": "http://www.xilinx.com", 
+            "group": "Xilinx"
+        }
+    ], 
+    "host_exe": "host", 
+    "overview": [
+        "This example shows an adder with pipes using 3 RTL kernels."
+    ], 
+    "targets": [
+        "hw", 
+        "hw_emu"
+    ], 
+    "host_srcs": "src/host.cpp", 
+    "key_concepts": [
+        "RTL Kernel", 
+        "Multiple RTL Kernels"
+    ], 
+    "sdx_gui": false, 
+    "includes": [
+        {
+            "name": "xcl2", 
+            "location": "GIT_REPO_DIR/common/includes/xcl2/"
+        }
+    ], 
+    "runtime": [
+        "OpenCL"
+    ], 
+    "os": [
+        "Linux"
+    ], 
+    "example": "Adder With Pipes (RTL)", 
+    "containers": [
+        {
+            "accelerators": [
+                {
+                    "kernel_type": "RTL", 
+                    "name": "input"
+                }, 
+                {
+                    "kernel_type": "RTL", 
+                    "name": "adder"
+                }, 
+                {
+                    "kernel_type": "RTL", 
+                    "name": "output"
+                }
+            ], 
+            "name": "adder"
+        }
+    ], 
+    "output_files": "tmp_kernel_pack* packaged_kernel*"
 }

@@ -1,33 +1,40 @@
 {
-    "runtime": ["OpenCL"],
-    "example": "Hello World (CL)",
+    "cmd_args": "BUILD/vector_addition.xclbin", 
+    "contributors": [
+        {
+            "url": "http://www.xilinx.com", 
+            "group": "Xilinx"
+        }
+    ], 
+    "host_exe": "helloworld", 
     "overview": [
         "This example is a simple OpenCL application. It will highlight the basic flow of an OpenCL application."
-    ],
-    "key_concepts": [ "OpenCL API"],
+    ], 
+    "includes": [
+        {
+            "name": "xcl2", 
+            "location": "GIT_REPO_DIR/common/includes/xcl2/"
+        }
+    ], 
+    "key_concepts": [
+        "OpenCL API"
+    ], 
+    "runtime": [
+        "OpenCL"
+    ], 
     "os": [
         "Linux"
-    ],
-    "libs": [
-        "xcl2"
-    ],
-    "host_exe": "helloworld",
-    "cmd_args": "BUILD/vector_addition.xclbin",
+    ], 
+    "example": "Hello World (CL)", 
     "containers": [
-    {
-        "name": "vector_addition",    
-        "accelerators": [
         {
-            "name": "vector_add", 
-            "location": "src/vector_addition.cl"
-        }
-       ]
-     }
-    ],
-    "contributors" : [
-        {
-            "group": "Xilinx",
-            "url" : "http://www.xilinx.com"
+            "accelerators": [
+                {
+                    "name": "vector_add", 
+                    "location": "src/vector_addition.cl"
+                }
+            ], 
+            "name": "vector_addition"
         }
     ]
 }

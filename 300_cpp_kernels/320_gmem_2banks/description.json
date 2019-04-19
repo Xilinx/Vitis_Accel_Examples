@@ -1,39 +1,55 @@
 {
-    "runtime": ["OpenCL"],
-    "example": "Global Memory Two Banks (C)",
+    "cmd_args": "BUILD/apply_watermark.xclbin PROJECT/data/input.bmp PROJECT/data/golden.bmp", 
+    "contributors": [
+        {
+            "url": "http://www.xilinx.com", 
+            "group": "Xilinx"
+        }
+    ], 
+    "host_exe": "host", 
     "overview": [
         "This example of 2ddr to demonstrate on how to use 2ddr DSA. How to create buffers in each DDR."
-    ],
-    "key_concepts": [ "Multiple Banks"],
-    "keywords": [ "max_memory_ports", "misc:map_connect",
-            "XCL_MEM_DDR_BANK0", "XCL_MEM_DDR_BANK1", "XCL_MEM_DDR_BANKx",
-            "HLS Interface m_axi bundle"],
+    ], 
+    "includes": [
+        {
+            "name": "xcl2", 
+            "location": "GIT_REPO_DIR/common/includes/xcl2/"
+        }, 
+        {
+            "name": "bitmap", 
+            "location": "GIT_REPO_DIR/common/includes/bitmap/"
+        }
+    ], 
+    "key_concepts": [
+        "Multiple Banks"
+    ], 
+    "keywords": [
+        "max_memory_ports", 
+        "misc:map_connect", 
+        "XCL_MEM_DDR_BANK0", 
+        "XCL_MEM_DDR_BANK1", 
+        "XCL_MEM_DDR_BANKx", 
+        "HLS Interface m_axi bundle"
+    ], 
+    "runtime": [
+        "OpenCL"
+    ], 
     "os": [
         "Linux"
-    ],
-    "libs": [
-        "xcl2","bitmap"
-    ],
-    "host_exe": "host",
-    "cmd_args" : "BUILD/apply_watermark.xclbin PROJECT/data/input.bmp PROJECT/data/golden.bmp",
-    "output_files": "output.bmp",        
+    ], 
+    "example": "Global Memory Two Banks (C)", 
     "containers": [
         {
-            "name": "apply_watermark", 
-            "ldclflags" : "--sp apply_watermark_1.m_axi_gmem0:DDR[0] --sp apply_watermark_1.m_axi_gmem1:DDR[1]",
             "accelerators": [
                 {
-                    "name": "apply_watermark",
                     "max_memory_ports": "true", 
+                    "name": "apply_watermark", 
                     "location": "src/apply_watermark.cpp"
                 }
-            ]
+            ], 
+            "ldclflags": "--sp apply_watermark_1.m_axi_gmem0:DDR[0] --sp apply_watermark_1.m_axi_gmem1:DDR[1]", 
+            "name": "apply_watermark"
         }
-    ],
-    "contributors" : [
-        {
-            "group": "Xilinx",
-            "url" : "http://www.xilinx.com"
-        }
-    ]
+    ], 
+    "output_files": "output.bmp"
 }
