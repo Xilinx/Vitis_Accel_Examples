@@ -111,7 +111,7 @@ ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 else
 	 ./$(EXECUTABLE) $(BUILD_DIR)/sketch_GOOD.xclbin $(BUILD_DIR)/sketch_BAD.xclbin ./data/car_128x128.bmp
 endif
-	sdx_analyze profile -i sdaccel_profile_summary.csv -f html
+	sdx_analyze profile -i profile_summary.csv -f html
 
 run_nimbix: all
 	$(COMMON_REPO)/common/utility/nimbix/run_nimbix.py $(EXECUTABLE) $(CMD_ARGS) $(DSA)
@@ -122,10 +122,10 @@ aws_build: check-aws_repo $(BINARY_CONTAINERS)
 # Cleaning stuff
 clean:
 	-$(RMDIR) $(EXECUTABLE) $(XCLBIN)/{*sw_emu*,*hw_emu*} 
-	-$(RMDIR) sdaccel_* TempConfig system_estimate.xtxt *.rpt
+	-$(RMDIR) profile_* TempConfig system_estimate.xtxt *.rpt
 	-$(RMDIR) src/*.ll _xocc_* .Xil emconfig.json dltmp* xmltmp* *.log *.jou *.wcfg *.wdb
 
 cleanall: clean
-	-$(RMDIR) $(XCLBIN)
+	-$(RMDIR) $(BUILD_DIR)
 	-$(RMDIR) _x.*
 	-$(RMDIR) ./output.bmp 
