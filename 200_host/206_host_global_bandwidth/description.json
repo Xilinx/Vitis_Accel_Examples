@@ -37,5 +37,6 @@
             "name": "krnl_host_global"
         }
     ], 
-    "output_files": "metric1.csv"
+    "output_files": "metric1.csv",
+    "match_ini": "false"
 }

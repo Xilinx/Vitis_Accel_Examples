@@ -25,7 +25,7 @@ update_file() {
 		pushd . > /dev/null 
 		cd $(dirname $1)
 		$appDir/utility/makefile_gen/makegen.py description.json #> /dev/null 2>&1
-		#$appDir/utility/makefile_gen/desc_gen.py description.json #> /dev/null 2>&1
+        #$appDir/utility/makefile_gen/desc_gen.py description.json #> /dev/null 2>&1
 		popd >/dev/null
 	fi
 }
