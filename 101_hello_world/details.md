@@ -6,7 +6,7 @@ This example introduces the basic structure of host and kernel code. Kernel v_ad
 
 
 Kernel arguments specify the inputs read from the global memory and outputs written back to it.
-HLS interface pragma is used to specify the protocol used for transfer of data between global memory and the kernel and creation of
+HLS INTERFACE pragma is used to specify the protocol used for transfer of data between global memory and the kernel and creation of
 RTL ports during interface synthesis.
 
 `#pragma HLS INTERFACE m_axi port=in1  offset=slave bundle=gmem`
