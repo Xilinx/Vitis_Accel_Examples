@@ -1,5 +1,5 @@
 
-<h1>Hello World
+__Hello World__
 
 
 This example introduces the basic structure of host and kernel code. Kernel v_add optimizes a simple vector addition.
@@ -43,6 +43,6 @@ The for loops used have the following requirements to implement burst read/write
         #pragma HLS LOOP_TRIPCOUNT min=c_size max=c_size
         #pragma HLS PIPELINE II=1
 	    out_r[i + j] = vout_buffer[j];
-            }    
-        ```
+    }   
+```
 
