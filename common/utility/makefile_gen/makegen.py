@@ -29,7 +29,7 @@ def create_params(target,data):
     target.write("\n")
 
     target.write("CXX := ")
-    target.write("$(XILINX_SDX)/bin/xcpp\n")
+    target.write("$(XILINX_SCOUT)/bin/xcpp\n")
     target.write("XOCC := v++\n")
     target.write("\n")
     add_libs1(target, data)
