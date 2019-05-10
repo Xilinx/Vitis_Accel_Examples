@@ -24,7 +24,7 @@ cl_uint platform_count;
     vector<cl_platform_id> platforms(platform_count);
     OCL_CHECK(clGetPlatformIDs(platform_count, platforms.data(), nullptr));
 ```
-These IDs and other information pertaining to these platforms is then printed using `print_platform_info` function which calls clGetPlatformInfo with different flags.
+These IDs and other information pertaining to these platforms is then printed using `print_platform_info` function which calls `clGetPlatformInfo` with different flags.
 ```c
 for (int p = 0; p < (int)platform_count; ++p) {
         print_platform_info(platforms[p]);
