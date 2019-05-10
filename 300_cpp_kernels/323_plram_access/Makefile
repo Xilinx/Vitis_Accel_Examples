@@ -55,7 +55,7 @@ CXXFLAGS += -fmessage-length=0
 LDFLAGS += -lrt -lstdc++ 
 
 # Kernel compiler global settings
-CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps --report_dir $(BUILD_DIR)/reports
+CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps 
 
 # Kernel linker flags
 LDCLFLAGS += --sp mmult_1.a:PLRAM[0] --sp mmult_1.b:DDR[0] --sp mmult_1.c:PLRAM[1]

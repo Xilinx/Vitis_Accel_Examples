@@ -119,7 +119,8 @@ def add_host_flags(target, data):
 def add_kernel_flags(target, data):
     target.write("# Kernel compiler global settings\n")
     target.write("CLFLAGS += ")
-    target.write("-t $(TARGET) --platform $(DEVICE) --save-temps --report_dir $(BUILD_DIR)/reports\n")   
+    #target.write("-t $(TARGET) --platform $(DEVICE) --save-temps --report_dir $(BUILD_DIR)/reports\n")   
+    target.write("-t $(TARGET) --platform $(DEVICE) --save-temps \n")   
 
     if "containers" in data:
         for con in data["containers"]:
