@@ -7,12 +7,11 @@ This example illustrates two ways to implement concurrent kernel execution.
 
 3 kernels `mscale`, `madd` and `mmult` are used for scaling, adding and multiplication operations on matrices respectively. Addition operation needs to wait for scaling to complete but multiplication is independent of both these operations.
 
-`multiple_command_queues` function implements two command queues, one for scaling and addition and other for multiplication operation. `cl::event` objects are used to monitor the operations in the command queue and `set_callback` function is used to get the status of these events.
+`multiple_command_queues` function implements two command queues, one for scaling and addition and other for multiplication operation. `cl::event` objects are used to monitor the operations in the command queue.
 ```c++
-OCL_CHECK(err, cl::CommandQueue ordered_queue1(context, device, CL_QUEUE_PROFILING_ENABLE, &err));
-OCL_CHECK(err, cl::CommandQueue ordered_queue2(context, device, CL_QUEUE_PROFILING_ENABLE, &err));
+cl::CommandQueue ordered_queue1(context, device, CL_QUEUE_PROFILING_ENABLE, &err);
+cl::CommandQueue ordered_queue2(context, device, CL_QUEUE_PROFILING_ENABLE, &err);
 ```  
-
 
 `out_of_order_queue` function implements a single command queue with out of order execution enabled which means that enqueues in the command queue can execute concurrently without waiting for a previous execution to finish.
 
