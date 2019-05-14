@@ -22,7 +22,7 @@ std::cout << "Creating Buffers..." << std::endl;
 
  Results computed by the kernel in the present cycle can be read by the host up until the next cycle finishes. This allows the operation to go on in a pipelined manner.
 
- OpenCL read and writes can be made asynchronous by using `CL_FALSE` flag in APIs and `cl::Event` objects can be used to synchronize these operations. Such as computation on a data (kernel enqueue)  should not start until the data has been written into the relevant buffers.
+ OpenCL read and writes can be made asynchronous by using `CL_FALSE` flag in APIs and `cl::Event` objects can be used to synchronize these operations. Such as computation on data (kernel enqueue)  should not start until the data has been written into the relevant buffers.
 ```c++
 OCL_CHECK(err, err = q.enqueueMigrateMemObjects({buffer_a[flag], buffer_b[flag]}, 0/*0 means from host*/, NULL, &write_event[0]));
   set_callback(write_event[0], "ooo_queue");
