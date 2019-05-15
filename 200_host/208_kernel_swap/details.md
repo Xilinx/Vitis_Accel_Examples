@@ -1,26 +1,30 @@
 Kernel Swap
 ============
 
-This example illustrates how kernels in different binaries can share the resources allocated by host. Two kernels `krnl_vadd` and `krnl_vmult` are created in seperate binaries.
+This example shows how host can swap the kernels and share same buffer between two kernels which are exist in separate binary containers. All the SDx platforms does not persist the buffer data if device is reprogrammed by different binary. So host has to migrate data from device to host memory before swapping the next binary. After re-programming the binary, host has to migrate the buffer back to device for next kernel operation.
 
+In design, host application first program the device using binary containing krnl_vmult and execute the operation. 
 
+Pointer `h_temp` in host is used to store the result of first kernel and provide the data to next kernel operation.
 
-Pointer `h_temp` is shared by both these kernels.
+During first kernel call, d_mul buffer is created using h_temp buffer. 
 
-`krnl_vmult` uses it to store the multiplication result back from kernel to host.
 ```c++
-OCL_CHECK(err, cl::Buffer d_mul(context, CL_MEM_USE_HOST_PTR | CL_MEM_READ_WRITE,
-                   sizeof(int) * LENGTH, h_temp.data(), &err));
+cl::Buffer d_mul(context, CL_MEM_USE_HOST_PTR | CL_MEM_READ_WRITE, sizeof(int) * LENGTH, h_temp.data(), &err);
 ```                   
 
-`krnl_vadd` uses it to get the elements for addition operation.
-```c++
-cl::Buffer d_temp(context, CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY,  
-                sizeof(int) * LENGTH, h_temp.data());
-```
+Once kernel finish the operation, result of kernel will be read from device to host into h_temp buffer
 
-_Note :_  The temporary pointer(h_temp) is created mainly for the dynamic platforms,
-since in the dynamic platforms we will not be able to load a second xclbin
-unless all the cl buffers are released before calling cl::Program a second
-time in the same process.
+```c++
+q.enqueueMigrateMemObjects({d_mul},CL_MIGRATE_MEM_OBJECT_HOST);
+```   
+
+After this Host is ready to reprogram the 2nd Binary.
+cl::Program program(context, devices, vadd_bins);
+
+After reprogramming with new binary, a new buffer d_temp will be created using same h_temp host pointer. 
+ cl::Buffer d_temp(context, CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY,   sizeof(int) * LENGTH, h_temp.data());
+ 
+And data will be transfered from host to device for 2nd kernel execution.
+q.enqueueMigrateMemObjects({d_temp}, 0/* 0 means from host*/);
 
