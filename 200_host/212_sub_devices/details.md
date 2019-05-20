@@ -1,6 +1,6 @@
-OPenCL Subdevices
+OpenCL Subdevices
 ==================
-This example illustrates how to create `OPenCL subdevices` which use a single kernel multiple times.
+This example illustrates how to create `OpenCL subdevices` which use a single kernel multiple times.
 Each of these subdevices can act as a seperate device and can have its own command queue, buffers, sequencing and program (However, same program can also be used). Any OpenCL API with device as a parameter can have subdevice as a parameter as well.
 
 ```c++
