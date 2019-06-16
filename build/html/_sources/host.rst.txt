@@ -1,0 +1,23 @@
+.. _host.rst
+
+Host
+====
+
+OpenCL host code for optimized interfacing with Xilinx Devices
+
+.. toctree::
+   :maxdepth: 1
+   :caption: List of Examples
+
+   deviceq.rst
+   deviceqcpp.rst
+   error.rst
+   errorcpp.rst
+   datatransfer.rst
+   hgb.rst
+   cke.rst
+   kswap.rst
+   overlap.rst
+   copybuffer.rst
+   multipleprocess.rst
+   subdevices.rst

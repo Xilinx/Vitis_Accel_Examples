@@ -1,0 +1,4 @@
+.. _apps.rst
+
+Applications
+============

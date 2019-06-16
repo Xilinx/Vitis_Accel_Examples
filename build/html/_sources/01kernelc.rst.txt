@@ -1,0 +1,8 @@
+.. _01kernelc.rst
+
+Matrix Multiplication with OpenCL Kernel
+========================================
+
+This is a simple example of HLS matrix multiplication (Row x Col).
+
+<Details to be added...>

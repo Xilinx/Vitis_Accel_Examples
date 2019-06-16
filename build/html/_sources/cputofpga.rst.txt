@@ -1,0 +1,16 @@
+.. _cputofpga.rst
+
+CPU to FPGA
+===========
+
+This section consists of examples that showcase the CPU to FPGA conversion with kernel optimizations.
+
+.. toctree::
+   :maxdepth: 1
+   :caption: CPU to FPGA Examples
+
+   00cpu.rst
+   01kernelc.rst
+   02localmemc.rst
+   03burstrwc.rst
+   04partitionc.rst

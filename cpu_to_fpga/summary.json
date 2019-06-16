@@ -1,8 +1,0 @@
-{
-    "overview": [
-        "CPU to FPGA Examples"
-    ],
-    "description": [
-        "Labs to showcase the cpu to fpga conversion with kernel optimizations." 
-    ]
-}
