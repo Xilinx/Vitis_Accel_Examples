@@ -1,6 +1,5 @@
 
 
-
 <!DOCTYPE html>
 <!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
@@ -9,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Index &mdash; Scout Git Examples 1.1 documentation</title>
+  <title>Vector Add - Vector Multiplication for XPR Devices &mdash; Scout Git Examples 1.1 documentation</title>
   
 
   
@@ -34,8 +33,10 @@
   
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <link rel="index" title="Index" href="#" />
-    <link rel="search" title="Search" href="search.html" /> 
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Overlap Host and HLS kernels (C)" href="overlap.html" />
+    <link rel="prev" title="Concurrent Kernel Execution (C)" href="cke.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -88,10 +89,24 @@
 <li class="toctree-l1"><a class="reference internal" href="support.html">Support</a></li>
 </ul>
 <p class="caption"><span class="caption-text">List of Examples</span></p>
-<ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="helloworld.html">Hello World</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cputofpga.html">CPU to FPGA</a></li>
-<li class="toctree-l1"><a class="reference internal" href="host.html">Host</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="host.html">Host</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="deviceq.html">Device Query (C)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="deviceqcpp.html">Device Query (CPP)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="error.html">Error Handling (C)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="errorcpp.html">Error Handling (CPP)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datatransfer.html">Data Transfer (C)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hgb.html">Host Global Bandwidth</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cke.html">Concurrent Kernel Execution (C)</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Vector Add - Vector Multiplication for XPR Devices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overlap.html">Overlap Host and HLS kernels (C)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="copybuffer.html">Copy Buffer (C)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="multipleprocess.html">Multiple Process (C)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="subdevices.html">Sub Devices (C)</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="sysopt.html">System Optimizations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cpp.html">C++ Kernels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="rtl.html">RTL Kernels</a></li>
@@ -146,12 +161,16 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li>Index</li>
+          <li><a href="host.html">Host</a> &raquo;</li>
+        
+      <li>Vector Add - Vector Multiplication for XPR Devices</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
+            <a href="_sources/kswap.rst.txt" rel="nofollow"> View page source</a>
+          
         
       </li>
     
@@ -163,11 +182,11 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-
-<h1 id="index">Index</h1>
-
-<div class="genindex-jumpbox">
- 
+  <div class="section" id="vector-add-vector-multiplication-for-xpr-devices">
+<h1>Vector Add - Vector Multiplication for XPR Devices<a class="headerlink" href="#vector-add-vector-multiplication-for-xpr-devices" title="Permalink to this headline">¶</a></h1>
+<p>This example shows how host can swap the kernels and share same buffer between two kernels which are exist in separate binary containers. Dynamic platforms does not persist the buffer data so host has to migrate data from device to host memory before swapping the next kernel. After kernel swap, host has to migrate the buffer back to device.</p>
+<p><strong>KEY CONCEPTS</strong>: Handling Buffer sharing across multiple binaries, Multiple Kernel Binaries</p>
+<p><strong>KEYWORDS</strong>: clEnqueueMigrateMemObjects(), CL_MIGRATE_MEM_OBJECT_HOST</p>
 </div>
 
 
@@ -175,6 +194,15 @@
            
           </div>
           <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="overlap.html" class="btn btn-neutral float-right" title="Overlap Host and HLS kernels (C)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="cke.html" class="btn btn-neutral float-left" title="Concurrent Kernel Execution (C)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
   
 
   <hr/>

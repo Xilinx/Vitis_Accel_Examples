@@ -1,0 +1,8 @@
+.. _support.rst
+
+Support
+=======
+
+For questions and to get help on any project in this repository or your own projects, visit the Scout Forums.
+
+To execute these example using the Scout GUI, follow the setup instructions in Scout GUI README.

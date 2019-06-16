@@ -1,0 +1,6 @@
+.. _hgb.rst
+
+Host Global Bandwidth
+=====================
+
+Host to global memory bandwidth test

@@ -1,0 +1,4 @@
+.. _ocl.rst
+
+OpenCL Kernels
+==============

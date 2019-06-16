@@ -3,18 +3,38 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to Scout Git Examples Repository's documentation!
-=========================================================
+Scout Git Examples' Documentation
+=================================
+Welcome to the Scout Git Examples' documentation. The repository contains
+the latest examples to get you started with application optimization targeting Xilinx
+PCIe FPGA acceleration boards and Xilinx SoC FPGA acceleration boards. All examples are
+ready to be compiled and executed on Scout supported boards and accelerated cloud service partners.
+
+.. toctree::
+   :maxdepth: 1
+   :caption: Table of Contents
+
+   prerequisites.rst
+   platforms.rst
+   compile_execute.rst
+   cloud.rst
+   support.rst
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
+   :caption: List of Examples
 
+   helloworld.rst
+   cputofpga.rst
+   host.rst
+   sysopt.rst
+   cpp.rst
+   rtl.rst
+   ocl.rst
+   apps.rst
+   
+.. toctree::
+   :maxdepth: 1
+   :caption: Common Utilities
 
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+   common.rst

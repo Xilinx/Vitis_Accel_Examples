@@ -1,6 +1,5 @@
 
 
-
 <!DOCTYPE html>
 <!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
@@ -9,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Index &mdash; Scout Git Examples 1.1 documentation</title>
+  <title>Host &mdash; Scout Git Examples 1.1 documentation</title>
   
 
   
@@ -34,8 +33,10 @@
   
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <link rel="index" title="Index" href="#" />
-    <link rel="search" title="Search" href="search.html" /> 
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Device Query (C)" href="deviceq.html" />
+    <link rel="prev" title="Matrix Multiplication Array Partition and Loop Unroll" href="04partitionc.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -88,10 +89,24 @@
 <li class="toctree-l1"><a class="reference internal" href="support.html">Support</a></li>
 </ul>
 <p class="caption"><span class="caption-text">List of Examples</span></p>
-<ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="helloworld.html">Hello World</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cputofpga.html">CPU to FPGA</a></li>
-<li class="toctree-l1"><a class="reference internal" href="host.html">Host</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Host</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="deviceq.html">Device Query (C)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="deviceqcpp.html">Device Query (CPP)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="error.html">Error Handling (C)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="errorcpp.html">Error Handling (CPP)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datatransfer.html">Data Transfer (C)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hgb.html">Host Global Bandwidth</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cke.html">Concurrent Kernel Execution (C)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="kswap.html">Vector Add - Vector Multiplication for XPR Devices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overlap.html">Overlap Host and HLS kernels (C)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="copybuffer.html">Copy Buffer (C)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="multipleprocess.html">Multiple Process (C)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="subdevices.html">Sub Devices (C)</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="sysopt.html">System Optimizations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cpp.html">C++ Kernels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="rtl.html">RTL Kernels</a></li>
@@ -146,12 +161,14 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li>Index</li>
+      <li>Host</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
+            <a href="_sources/host.rst.txt" rel="nofollow"> View page source</a>
+          
         
       </li>
     
@@ -163,11 +180,26 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-
-<h1 id="index">Index</h1>
-
-<div class="genindex-jumpbox">
- 
+  <div class="section" id="host">
+<h1>Host<a class="headerlink" href="#host" title="Permalink to this headline">¶</a></h1>
+<p>OpenCL host code for optimized interfacing with Xilinx Devices</p>
+<div class="toctree-wrapper compound">
+<p class="caption"><span class="caption-text">List of Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="deviceq.html">Device Query (C)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deviceqcpp.html">Device Query (CPP)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="error.html">Error Handling (C)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="errorcpp.html">Error Handling (CPP)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="datatransfer.html">Data Transfer (C)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hgb.html">Host Global Bandwidth</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cke.html">Concurrent Kernel Execution (C)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="kswap.html">Vector Add - Vector Multiplication for XPR Devices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="overlap.html">Overlap Host and HLS kernels (C)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="copybuffer.html">Copy Buffer (C)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="multipleprocess.html">Multiple Process (C)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="subdevices.html">Sub Devices (C)</a></li>
+</ul>
+</div>
 </div>
 
 
@@ -175,6 +207,15 @@
            
           </div>
           <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="deviceq.html" class="btn btn-neutral float-right" title="Device Query (C)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="04partitionc.html" class="btn btn-neutral float-left" title="Matrix Multiplication Array Partition and Loop Unroll" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
   
 
   <hr/>
