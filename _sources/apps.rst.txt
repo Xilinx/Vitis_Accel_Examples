@@ -1,0 +1,14 @@
+.. _apps.rst
+
+Applications
+============
+
+This page contains collection of examples in processor offloading to FPGA based compute units.
+
+.. toctree::
+   :maxdepth: 1
+   :caption: List of Applications
+
+   kmeans.rst
+   mfilter.rst
+   watermark.rst

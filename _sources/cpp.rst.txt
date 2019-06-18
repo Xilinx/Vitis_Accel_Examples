@@ -1,0 +1,38 @@
+.. _cpp.rst
+
+C++ Kernels
+===========
+
+This page contains examples for users who are new to Xilinx SDx OpenCL Flows. The focus of the examples is towards code optimization using HLS C/C++ kernels for Xilinx devices.
+
+.. toctree::
+   :maxdepth: 1
+   :caption: List of Examples
+
+   cpath.rst
+   lloop.rst
+   splitkc.rst
+   toomanycuc.rst
+   dstreamarray.rst
+   dstream.rst
+   avs.rst
+   apartition.rst
+   dinter.rst
+   lmem2rw.rst
+   lfusion.rst
+   lpipeline.rst
+   lreorder.rst
+   cyclicblock.rst
+   shiftr.rst
+   systolic.rst
+   burstrw.rst
+   cdatatype.rst
+   fullarray.rst
+   gmem2.rst
+   kgb.rst
+   memcoal.rst
+   plram.rst
+   rowarray.rst
+   slr.rst
+   widemem.rst
+   windowarray.rst

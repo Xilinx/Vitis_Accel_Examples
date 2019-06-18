@@ -1,4 +1,0 @@
-.. _apps.rst
-
-Applications
-============
