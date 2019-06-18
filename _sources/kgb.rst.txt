@@ -1,0 +1,6 @@
+.. _kgb.rst
+
+Kernel Global Bandwidth
+=======================
+
+Bandwidth test of global to local memory.

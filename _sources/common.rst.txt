@@ -1,0 +1,11 @@
+.. _common.rst
+
+Common Files
+============
+
+The common files' section contains:
+
+- Collection of common files used across all examples to assist in the quick development of application host code. 
+- Collection of utility functions used as part of the Makefiles in all of the examples. This set includes Makefile rules and scripts to launch SCOUT compiled applications onto boards hosted by Nimbix directly from the developers terminal shell.
+
+

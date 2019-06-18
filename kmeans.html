@@ -1,0 +1,242 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>K-Means &mdash; Scout Git Examples 1.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Common Files" href="common.html" />
+    <link rel="prev" title="Applications" href="apps.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Scout Git Examples
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Table of Contents</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="prerequisites.html">Prerequisites</a></li>
+<li class="toctree-l1"><a class="reference internal" href="platforms.html">Supported Platforms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="compile_execute.html">Compilation and Execution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cloud.html">Cloud Execution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="support.html">Support</a></li>
+</ul>
+<p class="caption"><span class="caption-text">List of Examples</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="helloworld.html">Hello World</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cputofpga.html">CPU to FPGA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="host.html">Host</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sysopt.html">System Optimizations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cpp.html">C++ Kernels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rtl.html">RTL Kernels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ocl.html">OpenCL Kernels</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="apps.html">Applications</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">K-Means</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Common Utilities</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="common.html">Common Files</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Scout Git Examples</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="apps.html">Applications</a> &raquo;</li>
+        
+      <li>K-Means</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/kmeans.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="k-means">
+<h1>K-Means<a class="headerlink" href="#k-means" title="Permalink to this headline">¶</a></h1>
+<p>This is OpenCL Based K-Means clustering Implementation for Xilinx FPGA Devices. K-means clustering is a method of vector quantization, that is popular for cluster analysis in data mining. K-means clustering aims to partition n observations into k clusters in which each observation belongs to the cluster with the nearest mean, serving as a prototype of the cluster.</p>
+<p>The application sets two compute units by default so that it will fit all Xilinx Devices. For bigger Xilinx Devices, user can increase the number of Compute units in Makefile and can get better performance. It is tested upto 6 compute units for ku115 device and got approximately 6x improvement with respect to single compute units, which shows that application is more compute bound (not memory bound) and performance is directly proportional to number of compute units.</p>
+<p>Note: This application is ported from <a class="reference external" href="https://www.cs.virginia.edu/~skadron/wiki/rodinia/">Rodinia</a>.</p>
+<p>Usage</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">kmeans</span> <span class="o">-</span><span class="n">i</span> <span class="n">input_file</span> <span class="p">[</span><span class="o">-</span><span class="n">m</span> <span class="n">max_nclusters</span> <span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">n</span> <span class="n">min_nclusters</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">g</span> <span class="n">global_size</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">c</span> <span class="n">golden_file</span><span class="p">]</span> <span class="p">[</span><span class="n">options</span><span class="p">]</span>
+
+<span class="o">-</span><span class="n">i</span> <span class="n">filename</span>      <span class="p">:</span> <span class="n">file</span> <span class="n">containing</span> <span class="n">data</span> <span class="n">to</span> <span class="n">be</span> <span class="n">clustered</span>
+<span class="o">-</span><span class="n">m</span> <span class="n">max_nclusters</span> <span class="p">:</span> <span class="n">maximum</span> <span class="n">number</span> <span class="n">of</span> <span class="n">clusters</span> <span class="n">allowed</span> <span class="p">[</span><span class="n">default</span><span class="o">=</span><span class="mi">5</span><span class="p">]</span>
+<span class="o">-</span><span class="n">n</span> <span class="n">min_nclusters</span> <span class="p">:</span> <span class="n">minimum</span> <span class="n">number</span> <span class="n">of</span> <span class="n">clusters</span> <span class="n">allowed</span> <span class="p">[</span><span class="n">default</span><span class="o">=</span><span class="mi">5</span><span class="p">]</span>
+<span class="o">-</span><span class="n">g</span> <span class="n">global_size</span>   <span class="p">:</span> <span class="n">Specify</span> <span class="k">global</span> <span class="n">size</span> <span class="p">[</span><span class="n">default</span><span class="o">=</span><span class="mi">1</span><span class="p">]</span>
+<span class="o">-</span><span class="n">c</span> <span class="n">golden_file</span>   <span class="p">:</span> <span class="n">Golden</span> <span class="n">File</span> <span class="k">for</span> <span class="n">result</span> <span class="n">comparison</span>
+<span class="o">-</span><span class="n">b</span>               <span class="p">:</span> <span class="nb">input</span> <span class="n">file</span> <span class="ow">is</span> <span class="ow">in</span> <span class="n">binary</span> <span class="nb">format</span>
+<span class="o">-</span><span class="n">o</span>               <span class="p">:</span> <span class="n">output</span> <span class="n">cluster</span> <span class="n">center</span> <span class="n">coordinates</span> <span class="p">[</span><span class="n">default</span><span class="o">=</span><span class="n">off</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="common.html" class="btn btn-neutral float-right" title="Common Files" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="apps.html" class="btn btn-neutral float-left" title="Applications" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Xilinx Inc.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
