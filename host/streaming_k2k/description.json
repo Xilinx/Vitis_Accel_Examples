@@ -1,0 +1,69 @@
+{
+    "cmd_args": "BUILD/krnl_stream_vadd_vmult.xclbin", 
+    "contributors": [
+        {
+            "url": "http://www.xilinx.com", 
+            "group": "Xilinx"
+        }
+    ], 
+    "host_srcs": "src/host.cpp", 
+    "overview": [
+        "This is a simple kernel to kernel streaming Vector Add and Vector Multiply C Kernel that demonstrates on how to process a stream of data for computation between two kernels."
+    ], 
+    "linker": {
+        "options": [
+            "-pthread"
+        ]
+    }, 
+    "includes": [
+        {
+            "name": "xcl2", 
+            "location": "GIT_REPO_DIR/common/includes/xcl2/"
+        }
+    ], 
+    "keywords": [
+        "cl_stream", 
+        "CL_STREAM_EOT", 
+        "CL_STREAM_NONBLOCKING"
+    ], 
+    "key_concepts": [
+        "Read/Write Stream", 
+        "Create/Release Stream"
+    ], 
+    "host_exe": "vadd_stream", 
+    "nboard": [
+        "xilinx_u200_xdma", 
+        "xilinx_u250_xdma", 
+        "xilinx_u280_xdma", 
+        "xilinx_u280-es1_xdma", 
+        "xilinx_aws-vu9p-f1-04261818", 
+        "xilinx:u200:xdma", 
+        "xilinx:u250:xdma", 
+        "xilinx:u280:xdma", 
+        "xilinx:u280-es1:xdma", 
+        "xilinx:aws-vu9p-f1-04261818:dynamic"
+    ], 
+    "runtime": [
+        "OpenCL"
+    ], 
+    "os": [
+        "Linux"
+    ], 
+    "example": "Stream Kernel to Kernel Vector Addition and Multiplication", 
+    "containers": [
+        {
+            "accelerators": [
+                {
+                    "name": "krnl_stream_vadd", 
+                    "location": "src/krnl_stream_vadd.cpp"
+                }, 
+                {
+                    "name": "krnl_stream_vmult", 
+                    "location": "src/krnl_stream_vmult.cpp"
+                }
+            ], 
+            "ldclflags": " --sc krnl_stream_vadd_1.output:krnl_stream_vmult_1.b", 
+            "name": "krnl_stream_vadd_vmult"
+        }
+    ]
+}

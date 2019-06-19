@@ -13,8 +13,12 @@ echo $BASEDIR
 for i in "${dir_list[@]}"
 do
     cd $i
-    echo "Updating README for = $i"
-    rm README.md
+    if grep -qr '"match_readme": "false"' .; then
+        echo "Ignoring README.md ::" $i
+    else
+        echo "Updating README for = $i"
+        rm README.md
+    fi
     make docs
     git add README.md
     cd $BASEDIR

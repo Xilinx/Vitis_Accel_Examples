@@ -1,0 +1,42 @@
+{
+    "cmd_args": "BUILD/mmult.xclbin", 
+    "contributors": [
+        {
+            "url": "http://www.xilinx.com", 
+            "group": "Xilinx"
+        }
+    ], 
+    "host_exe": "host", 
+    "overview": [
+        "This is a simple example of matrix multiplication (Row x Col) to demonstrate how to reduce number of memory accesses using local memory."
+    ], 
+    "includes": [
+        {
+            "name": "xcl2", 
+            "location": "GIT_REPO_DIR/common/includes/xcl2/"
+        }
+    ], 
+    "key_concepts": [
+        "Kernel Optimization", 
+        "Local Memory"
+    ], 
+    "runtime": [
+        "OpenCL"
+    ], 
+    "os": [
+        "Linux"
+    ], 
+    "example": "02 Matrix Multiplication with Local Memory", 
+    "containers": [
+        {
+            "accelerators": [
+                {
+                    "location": "src/mmult.cpp", 
+                    "name": "mmult", 
+                    "clflags": "--xp param:compiler.enableAutoPipelining=false"
+                }
+            ], 
+            "name": "mmult"
+        }
+    ]
+}

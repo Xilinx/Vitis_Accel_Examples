@@ -1,8 +1,0 @@
-{
-    "overview": [
-        "OpenCL Kernel Examples"
-    ],
-    "description": [
-        "This page contains examples for users who are new to Xilinx SDx OpenCL Flows. The focus of the examples is towards code optimization using OpenCL kernels for Xilinx devices."
-    ]
-}

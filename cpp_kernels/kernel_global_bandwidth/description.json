@@ -1,0 +1,51 @@
+{
+    "config_make": "config.mk", 
+    "testinfo": {
+        "level_up": [
+            {
+                "hw": "1"
+            }
+        ]
+    }, 
+    "cmd_args": "BUILD/krnl_kernel_global.xclbin", 
+    "contributors": [
+        {
+            "url": "http://www.xilinx.com", 
+            "group": "Xilinx"
+        }
+    ], 
+    "host_srcs": "src/kernel_global_bandwidth.cpp", 
+    "overview": [
+        "Bandwidth test of global to local memory."
+    ], 
+    "host_exe": "kernel_global", 
+    "includes": [
+        {
+            "name": "xcl2", 
+            "location": "GIT_REPO_DIR/common/includes/xcl2/"
+        }
+    ], 
+    "nboard": [
+        "xilinx_aws-vu9p-f1-04261818", 
+        "xilinx:aws-vu9p-f1-04261818:dynamic"
+    ], 
+    "runtime": [
+        "OpenCL"
+    ], 
+    "os": [
+        "Linux"
+    ], 
+    "example": "kernel_global", 
+    "containers": [
+        {
+            "accelerators": [
+                {
+                    "max_memory_ports": "true", 
+                    "name": "bandwidth", 
+                    "location": "src/kernel.cl"
+                }
+            ], 
+            "name": "krnl_kernel_global"
+        }
+    ]
+}

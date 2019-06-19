@@ -16,24 +16,26 @@ def create_params(target,data):
     while diff > 0:
 	target.write("../")
 	diff -= 1 
+    target.write("common/")
     target.write("\n")
     target.write("ABS_COMMON_REPO = $(shell readlink -f $(COMMON_REPO))\n")
     target.write("\n")
-    target.write("TARGET = hw\n")
+    target.write("TARGET := hw\n")
     target.write("\n")
     target.write("include ./utils.mk\n")
     target.write("\n")
-    target.write("DSA := $(call device2sandsa, $(DEVICE))\n")
+    target.write("DSA := $(call device2dsa, $(DEVICE))\n")
     target.write("TEMP_DIR := ./_x.$(TARGET).$(DSA)\n")
     target.write("BUILD_DIR := ./build_dir.$(TARGET).$(DSA)\n")
     target.write("\n")
 
     target.write("CXX := ")
-    target.write("$(XILINX_SCOUT)/bin/xcpp\n")
-    target.write("XOCC := v++\n")
+    target.write("$(XILINX_SDX)/bin/xcpp\n")
+    target.write("XOCC := ")
+    target.write("v++\n")
     target.write("\n")
-    add_libs1(target, data)
-    add_libs2(target, data) 
+    add_includes1(target, data)
+    add_includes2(target, data) 
     if "config_make" in data:
 	target.write("include ")
 	target.write(data["config_make"])
@@ -43,20 +45,20 @@ def create_params(target,data):
     target.write("\n")
     return
 
-def add_libs1(target, data):
+def add_includes1(target, data):
     target.write("#Include Libraries\n")
-    target.write("include $(ABS_COMMON_REPO)/common/includes/opencl/opencl.mk\n")
+    target.write("include $(ABS_COMMON_REPO)/includes/opencl/opencl.mk\n")
     if "includes" in data:
         for lib in data["includes"]:
-            path = lib["location"]
-            path = path.replace('GIT_REPO_DIR', '$(ABS_COMMON_REPO)')
-            target.write("include " + path)
+            target.write("include $(ABS_COMMON_REPO)/includes/")
+            target.write(lib["name"])
+            target.write("/")
             target.write(lib["name"])
             target.write(".mk")
             target.write("\n")
     return
 
-def add_libs2(target, data):
+def add_includes2(target, data):
     if "includes" in data:
         target.write("CXXFLAGS +=")
         for lib in data["includes"]:
@@ -77,8 +79,8 @@ def add_libs2(target, data):
             target.write("_SRCS)")
     target.write("\n")
     if "linker" in data:
+        target.write("\nCXXFLAGS +=")
         if "libraries" in data["linker"]:
-            target.write("\nCXXFLAGS +=")
             for lin in data["linker"]["libraries"]:
                 target.write(" ")
                 target.write("-l")
@@ -119,8 +121,7 @@ def add_host_flags(target, data):
 def add_kernel_flags(target, data):
     target.write("# Kernel compiler global settings\n")
     target.write("CLFLAGS += ")
-    #target.write("-t $(TARGET) --platform $(DEVICE) --save-temps --report_dir $(BUILD_DIR)/reports\n")   
-    target.write("-t $(TARGET) --platform $(DEVICE) --save-temps \n")   
+    target.write("-t $(TARGET) --platform $(DEVICE) --save-temps --report_dir $(BUILD_DIR)/reports\n")   
 
     if "containers" in data:
         for con in data["containers"]:
@@ -247,21 +248,18 @@ def building_kernel(target, data):
 def building_kernel_rtl(target, data):
     target.write("# Building kernel\n")
     if "containers" in data:
-	for con in data["containers"]:
-	    target.write("$(BUILD_DIR)/")
+        for con in data["containers"]:
+            target.write("$(BUILD_DIR)/")
             target.write(con["name"])
             target.write(".xclbin:")
-	    target.write(" $(BINARY_CONTAINER_")
+            target.write(" $(BINARY_CONTAINER_")
             target.write(con["name"])
             target.write("_OBJS)\n")
-	    target.write("\tmkdir -p $(BUILD_DIR)\n")
-	    target.write("\t$(XOCC) $(CLFLAGS) $(LDCLFLAGS) -lo")
-	    target.write(" $(BUILD_DIR)/")
-	    target.write(con["name"])
-            for acc in con["accelerators"]:
-                target.write(" $(BUILD_DIR)/")
-		target.write(acc["name"])
-	    target.write("\n\n")
+            target.write("\tmkdir -p $(BUILD_DIR)\n")
+            target.write("\t$(XOCC) $(CLFLAGS) --temp_dir ")
+            target.write("$(BUILD_DIR) ")
+            target.write("-l $(LDCLFLAGS)")
+            target.write(" -o'$@' $(+)\n\n")
     return
 
 def building_host(target, data):
@@ -278,16 +276,6 @@ def building_host(target, data):
     target.write("\n\n")        
     return
 
-def building_host_rtl(target, data):
-    target.write("# Building Host\n")
-    target.write("$(EXECUTABLE): check-xrt $(HOST_SRCS) $(HOST_HDRS)\n")
-    target.write("\t$(CXX) $(CXXFLAGS) $(HOST_SRCS) $(HOST_HDRS) -o '$@' $(LDFLAGS)\n")
-    target.write("\n")
-    target.write("emconfig:emconfig.json\n")
-    target.write("emconfig.json:\n")
-    target.write("\temconfigutil --platform $(DSA) --nd 1\n\n")
-    return
-
 def profile_report(target):
     target.write("[Debug]\n")
     target.write("profile=true\n")
@@ -298,12 +286,12 @@ def mk_clean(target, data):
     target.write("# Cleaning stuff\n")
     target.write("clean:\n")
     target.write("\t-$(RMDIR) $(EXECUTABLE) $(XCLBIN)/{*sw_emu*,*hw_emu*} \n")
-    target.write("\t-$(RMDIR) profile_* TempConfig system_estimate.xtxt *.rpt\n")
+    target.write("\t-$(RMDIR) profile_* TempConfig system_estimate.xtxt *.rpt *.csv \n")
     target.write("\t-$(RMDIR) src/*.ll _xocc_* .Xil emconfig.json dltmp* xmltmp* *.log *.jou *.wcfg *.wdb\n")
     target.write("\n")
 
     target.write("cleanall: clean\n")
-    target.write("\t-$(RMDIR) $(BUILD_DIR)\n")
+    target.write("\t-$(RMDIR) build_dir*\n")
     target.write("\t-$(RMDIR) _x.*\n")
     if "output_files" in data:         
         target.write("\t-$(RMDIR) ")
@@ -408,13 +396,13 @@ def mk_check(target, data):
 def run_nimbix(target, data):
     target.write("run_nimbix: all\n")
     if "cmd_args" in data:
-    	target.write("\t$(COMMON_REPO)/common/utility/nimbix/run_nimbix.py $(EXECUTABLE) $(CMD_ARGS) $(DSA)\n\n")
+    	target.write("\t$(COMMON_REPO)/utility/nimbix/run_nimbix.py $(EXECUTABLE) $(CMD_ARGS) $(DSA)\n\n")
     else:
-    	target.write("\t$(COMMON_REPO)/common/utility/nimbix/run_nimbix.py $(EXECUTABLE) $(DSA)\n\n")	
+    	target.write("\t$(COMMON_REPO)/utility/nimbix/run_nimbix.py $(EXECUTABLE) $(DSA)\n\n")	
     
 def aws_build(target):
     target.write("aws_build: check-aws_repo $(BINARY_CONTAINERS)\n")
-    target.write("\t$(COMMON_REPO)/common/utility/aws/run_aws.py $(BINARY_CONTAINERS)\n\n")
+    target.write("\t$(COMMON_REPO)/utility/aws/run_aws.py $(BINARY_CONTAINERS)\n\n")
 
 def mk_help(target):
     target.write(".PHONY: help\n")
@@ -444,6 +432,80 @@ def mk_help(target):
     target.write("\t$(ECHO) \"\"\n")
     target.write("\n")
 
+def report_gen(target, data):
+    target.write("#+-------------------------------------------------------------------------------\n")
+    target.write("# The following parameters are assigned with default values. These parameters can\n")
+    target.write("# be overridden through the make command line\n")
+    target.write("#+-------------------------------------------------------------------------------\n")
+    target.write("\n")
+
+    if "testinfo" in data and "profile" in data["testinfo"] and data["testinfo"]["profile"] == "no":
+        pass
+    else:
+        target.write("PROFILE := no\n")
+        target.write("\n")
+        target.write("#Generates profile summary report\n")
+        target.write("ifeq ($(PROFILE), yes)\n")
+        target.write("LDCLFLAGS += --profile_kernel data:all:all:all\n")
+        target.write("endif\n")
+        target.write("\n")
+    
+    target.write("DEBUG := no\n")
+    target.write("\n")
+    target.write("#Generates debug summary report\n")
+    target.write("ifeq ($(DEBUG), yes)\n")
+    target.write("CLFLAGS += --dk protocol:all:all:all\n")
+    target.write("endif\n")
+    target.write("\n")
+
+def device2dsa_gen(target):
+    target.write("#   device2dsa - create a filesystem friendly name from device name\n")
+    target.write("#   $(1) - full name of device\n")
+    target.write("device2dsa = $(strip $(patsubst %.xpfm, % , $(shell basename $(DEVICE))))\n")
+    target.write("\n")
+
+def util_checks(target):
+    target.write("#Checks for XILINX_SDX\n")
+    target.write("ifndef XILINX_SDX\n")
+    target.write("$(error XILINX_SDX variable is not set, please set correctly and rerun)\n")
+    target.write("endif\n")
+    target.write("\n")
+
+    target.write("#Checks for XILINX_XRT\n")
+    target.write("check-xrt:\n")
+    target.write("ifndef XILINX_XRT\n")
+    target.write("\t$(error XILINX_XRT variable is not set, please set correctly and rerun)\n")
+    target.write("endif\n")
+    target.write("\n")
+
+    target.write("check-devices:\n")
+    target.write("ifndef DEVICE\n")
+    target.write("\t$(error DEVICE not set. Please set the DEVICE properly and rerun. Run \"make help\" for more details.)\n")
+    target.write("endif\n")
+    target.write("\n")
+
+    target.write("check-aws_repo:\n")
+    target.write("ifndef SDACCEL_DIR\n")
+    target.write("\t$(error SDACCEL_DIR not set. Please set it properly and rerun. Run \"make help\" for more details.)\n")
+    target.write("endif\n")
+    target.write("\n")
+
+def clean_util(target):
+    target.write("# Cleaning stuff\n")
+    target.write("RM = rm -f\n")
+    target.write("RMDIR = rm -rf\n")
+    target.write("\n")
+    target.write("ECHO:= @echo\n")
+    target.write("\n")
+    
+def readme_gen(target):
+    target.write("docs: README.md\n")
+    target.write("\n")
+    target.write("README.md: description.json\n")
+    target.write("\t$(ABS_COMMON_REPO)/utility/readme_gen/readme_gen.py description.json")
+    target.write("\n")   
+
+    
 def create_mk(target, data):
     mk_help(target)
     create_params(target,data)
@@ -457,26 +519,19 @@ def create_mk(target, data):
     mk_clean(target,data)
     return 
 
-def create_utils(target):
-    dirName = os.getcwd()
-    dirNameList = list(dirName.split("/"))
-    dirNameIndex = dirNameList.index("ScoutExamples")
-    diff = len(dirNameList) - dirNameIndex - 1
-    while diff > 0:
-	    os.chdir('..')
-	    diff -= 1
-    os.chdir("common/utility")
-    source = open("utils.mk", "r")
-    data = source.read()
-    target.write(data)
-
+def create_utils(target, data): 
+    report_gen(target, data) 
+    util_checks(target)
+    device2dsa_gen(target)
+    clean_util(target)
+    readme_gen(target)
+    return
 
 script, desc_file = argv
 desc = open(desc_file, 'r')
 data = json.load(desc)
 desc.close()
 
-err = True
 if "match_ini" in data and data["match_ini"] == "false":
     print "Error:: xrt.ini File Manually Edited:: Auto-file Generator Failed"
     err = False
@@ -487,14 +542,12 @@ else:
 
 if "match_makefile" in data and data["match_makefile"] == "false":
     print "Error:: Makefile Manually Edited:: AutoMakefile Generator Failed"
-    err = False
 else:
     print "Generating Auto-Makefile for %s" %data["example"]
     target = open("Makefile", "w")
     create_mk(target, data)
     print "Generating utils.mk file for %s" %data["example"]
     target = open("utils.mk", "w+")
-    create_utils(target)
+    create_utils(target, data)
 
-assert err, "Auto-file Generator Failed"
 target.close

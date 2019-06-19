@@ -1,0 +1,61 @@
+{
+    "config_make": "config.mk", 
+    "testinfo": {
+        "level_up": [
+            {
+                "hw": "1"
+            }
+        ]
+    }, 
+    "cmd_args": "BUILD/krnl_kernel_global.xclbin", 
+    "contributors": [
+        {
+            "url": "http://www.xilinx.com", 
+            "group": "Xilinx"
+        }
+    ], 
+    "host_srcs": "src/kernel_global_bandwidth.cpp", 
+    "overview": [
+        "Bandwidth test of global to local memory."
+    ], 
+    "host_exe": "kernel_global", 
+    "includes": [
+        {
+            "name": "xcl2", 
+            "location": "GIT_REPO_DIR/common/includes/xcl2/"
+        }
+    ], 
+    "nboard": [
+        "xilinx_u280-es1_xdma", 
+        "xilinx_u200_xdma", 
+        "xilinx_u200_qdma", 
+        "xilinx_u250_xdma", 
+        "xilinx_u280_xdma", 
+        "xilinx_u250_qdma", 
+        "xilinx:u280-es1:xdma", 
+        "xilinx:u200:xdma", 
+        "xilinx:u200:qdma", 
+        "xilinx:u250:xdma", 
+        "xilinx:u280:xdma", 
+        "xilinx:u250:qdma"
+    ], 
+    "runtime": [
+        "OpenCL"
+    ], 
+    "os": [
+        "Linux"
+    ], 
+    "example": "kernel_global", 
+    "containers": [
+        {
+            "accelerators": [
+                {
+                    "max_memory_ports": "true", 
+                    "name": "bandwidth", 
+                    "location": "src/kernel.cl"
+                }
+            ], 
+            "name": "krnl_kernel_global"
+        }
+    ]
+}

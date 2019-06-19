@@ -1,0 +1,76 @@
+{
+    "config_make": "config.mk", 
+    "cmd_args": "BUILD/myadder.xclbin", 
+    "contributors": [
+        {
+            "url": "http://www.xilinx.com", 
+            "group": "Xilinx"
+        }
+    ], 
+    "host_srcs": "src/host.cpp", 
+    "overview": [
+        "This is a simple Vector Increment RTL Kernel to Kernel design with 1 Stream input and 1 Stream output that demonstrates on how to process an input stream of data for computation in an application."
+    ], 
+    "linker": {
+        "options": [
+            "-pthread"
+        ]
+    }, 
+    "targets": [
+        "hw", 
+        "hw_emu"
+    ], 
+    "keywords": [
+        "cl_stream", 
+        "CL_STREAM_EOT"
+    ], 
+    "key_concepts": [
+        "Read/Write Stream", 
+        "Create/Release Stream", 
+        "RTL Kernel"
+    ], 
+    "host_exe": "vadd_stream", 
+    "sdx_gui": false, 
+    "nboard": [
+        "xilinx_u200_xdma", 
+        "xilinx_u250_xdma", 
+        "xilinx_u280_xdma", 
+        "xilinx_u280-es1_xdma", 
+        "xilinx_aws-vu9p-f1-04261818", 
+        "xilinx:u200:xdma", 
+        "xilinx:u250:xdma", 
+        "xilinx:u280:xdma", 
+        "xilinx:u280-es1:xdma", 
+        "xilinx:aws-vu9p-f1-04261818:dynamic"
+    ], 
+    "includes": [
+        {
+            "name": "xcl2", 
+            "location": "GIT_REPO_DIR/common/includes/xcl2/"
+        }
+    ], 
+    "runtime": [
+        "OpenCL"
+    ], 
+    "os": [
+        "Linux"
+    ], 
+    "example": "Stream Kernel to Kernel Vector Increment (RTL)", 
+    "containers": [
+        {
+            "accelerators": [
+                {
+                    "kernel_type": "RTL", 
+                    "name": "myadder1"
+                }, 
+                {
+                    "kernel_type": "RTL", 
+                    "name": "myadder2"
+                }
+            ], 
+            "ldclflags": "--sc myadder1_1.out:myadder2_1.in", 
+            "name": "myadder"
+        }
+    ], 
+    "output_files": "tmp_kernel_pack* packaged_kernel* _x* *_ex project* pinfo.json *.xo"
+}
