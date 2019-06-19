@@ -1,0 +1,8 @@
+{
+    "overview": [
+        "Host Examples"
+    ],
+    "description": [
+        "OpenCL host code for optimized interfacing with Xilinx Devices."
+    ]
+}
