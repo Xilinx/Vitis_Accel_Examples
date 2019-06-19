@@ -1,0 +1,49 @@
+{
+    "cmd_args": "BUILD/vadd.xclbin", 
+    "contributors": [
+        {
+            "url": "http://www.xilinx.com", 
+            "group": "Xilinx"
+        }
+    ], 
+    "host_exe": "host", 
+    "overview": [
+        "This is simple example of vector addition to demonstrate how to connect each compute unit to different banks and how to use these compute units in host applications"
+    ], 
+    "includes": [
+        {
+            "name": "xcl2", 
+            "location": "GIT_REPO_DIR/common/includes/xcl2/"
+        }
+    ], 
+    "nboard": [
+        "xilinx_aws-vu9p-f1-04261818", 
+        "xilinx:aws:vu9p:f1:04261818"
+    ], 
+    "key_concepts": [
+        "Multiple Compute Units"
+    ], 
+    "keywords": [
+        "#pragma HLS PIPELINE"
+    ], 
+    "runtime": [
+        "OpenCL"
+    ], 
+    "os": [
+        "Linux"
+    ], 
+    "example": "Vector Addition ~ Asymmetrical Multiple Compute Units (C) ", 
+    "containers": [
+        {
+            "accelerators": [
+                {
+                    "num_compute_units": "4:vadd_1.vadd_2.vadd_3.vadd_4", 
+                    "name": "vadd", 
+                    "location": "src/vadd.cpp"
+                }
+            ], 
+            "ldclflags": "--sp vadd_1.in1:DDR[0] --sp vadd_1.in2:DDR[0] --sp vadd_1.out:DDR[0] --sp vadd_2.in1:DDR[1] --sp vadd_2.in2:DDR[1] --sp vadd_2.out:DDR[1] --sp vadd_3.in1:PLRAM[0] --sp vadd_3.in2:PLRAM[0] --sp vadd_3.out:PLRAM[0] --sp vadd_4.in1:PLRAM[1] --sp vadd_4.in2:PLRAM[1] --sp vadd_4.out:PLRAM[1]  ", 
+            "name": "vadd"
+        }
+    ]
+}

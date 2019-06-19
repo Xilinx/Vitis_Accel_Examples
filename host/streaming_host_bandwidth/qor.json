@@ -1,0 +1,23 @@
+{
+    "containers": [
+        {
+            "name": "krnl_stream_adder1", 
+            "meet_system_timing": "true", 
+            "accelerators": [
+                {
+                    "name": "krnl_stream_adder1", 
+                    "check_timing": "true", 
+                    "PipelineType": "none", 
+                    "check_latency": "false", 
+                    "check_warning": "true", 
+                    "loops": [
+                        {
+                            "name": "adder1", 
+                            "PipelineII": "1"
+                        } 
+                    ]
+                }
+            ]
+        }
+    ]
+}

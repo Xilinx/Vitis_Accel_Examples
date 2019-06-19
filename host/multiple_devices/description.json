@@ -1,0 +1,47 @@
+{
+    "cmd_args": "BUILD/vector_addition.xclbin", 
+    "num_devices": "2", 
+    "contributors": [
+        {
+            "url": "http://www.xilinx.com", 
+            "group": "Xilinx"
+        }
+    ], 
+    "host_exe": "multiple_devices", 
+    "overview": [
+        "This example show how to take advantage of multiple FPGAs on a system. It will show how to initialized an OpenCL context, allocate memory on the two devices and execute a kernel on each FPGA."
+    ], 
+    "includes": [
+        {
+            "name": "xcl2", 
+            "location": "GIT_REPO_DIR/common/includes/xcl2/"
+        }
+    ], 
+    "key_concepts": [
+        "OpenCL API", 
+        "Multi-FPGA Execution", 
+        "Event Handling"
+    ], 
+    "keywords": [
+        "cl_device_id", 
+        "clGetDeviceIDs()"
+    ], 
+    "runtime": [
+        "OpenCL"
+    ], 
+    "os": [
+        "Linux"
+    ], 
+    "example": "Multiple FPGA Devices Execution Concurrently (C)", 
+    "containers": [
+        {
+            "accelerators": [
+                {
+                    "name": "vadd", 
+                    "location": "src/vector_addition.cpp"
+                }
+            ], 
+            "name": "vector_addition"
+        }
+    ]
+}

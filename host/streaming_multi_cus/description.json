@@ -1,0 +1,59 @@
+{
+    "cmd_args": "BUILD/krnl_stream_vadd.xclbin", 
+    "contributors": [
+        {
+            "url": "http://www.xilinx.com", 
+            "group": "Xilinx"
+        }
+    ], 
+    "host_exe": "vadd_stream", 
+    "overview": [
+        "This is a simple Vector Add C Kernel design with 2 Stream inputs and 1 Stream output that demonstrates on how to process an input stream of data for computation in an application using multiple compute units."
+    ], 
+    "includes": [
+        {
+            "name": "xcl2", 
+            "location": "GIT_REPO_DIR/common/includes/xcl2/"
+        }
+    ], 
+    "keywords": [
+        "cl_stream", 
+        "CL_STREAM_EOT", 
+        "Multiple Compute Units"
+    ], 
+    "key_concepts": [
+        "Read/Write Stream", 
+        "Create/Release Stream"
+    ], 
+    "nboard": [
+        "xilinx_u200_xdma", 
+        "xilinx_u250_xdma", 
+        "xilinx_u280_xdma", 
+        "xilinx_u280-es1_xdma", 
+        "xilinx_aws-vu9p-f1-04261818", 
+        "xilinx:u200:xdma", 
+        "xilinx:u250:xdma", 
+        "xilinx:u280:xdma", 
+        "xilinx:u280-es1:xdma", 
+        "xilinx:aws-vu9p-f1-04261818:dynamic"
+    ], 
+    "runtime": [
+        "OpenCL"
+    ], 
+    "os": [
+        "Linux"
+    ], 
+    "example": "Stream Vector Addition (Multiple Compute Units)", 
+    "containers": [
+        {
+            "accelerators": [
+                {
+                    "num_compute_units": "4:vadd_1.vadd_2.vadd_3.vadd_4", 
+                    "name": "krnl_stream_vadd", 
+                    "location": "src/krnl_stream_vadd.cpp"
+                }
+            ], 
+            "name": "krnl_stream_vadd"
+        }
+    ]
+}

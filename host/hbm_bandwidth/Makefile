@@ -1,0 +1,159 @@
+.PHONY: help
+
+help::
+	$(ECHO) "Makefile Usage:"
+	$(ECHO) "  make all TARGET=<sw_emu/hw_emu/hw> DEVICE=<FPGA platform>"
+	$(ECHO) "      Command to generate the design for specified Target and Device."
+	$(ECHO) ""
+	$(ECHO) "  make clean "
+	$(ECHO) "      Command to remove the generated non-hardware files."
+	$(ECHO) ""
+	$(ECHO) "  make cleanall"
+	$(ECHO) "      Command to remove all the generated files."
+	$(ECHO) ""
+	$(ECHO) "  make check TARGET=<sw_emu/hw_emu/hw> DEVICE=<FPGA platform>"
+	$(ECHO) "      Command to run application in emulation."
+	$(ECHO) ""
+	$(ECHO) "  make build TARGET=<sw_emu/hw_emu/hw> DEVICE=<FPGA platform>"
+	$(ECHO) "      Command to build xclbin application."
+	$(ECHO) ""
+	$(ECHO) "  make run_nimbix DEVICE=<FPGA platform>"
+	$(ECHO) "      Command to run application on Nimbix Cloud."
+	$(ECHO) ""
+	$(ECHO) "  make aws_build DEVICE=<FPGA platform>"
+	$(ECHO) "      Command to build AWS xclbin application on AWS Cloud."
+	$(ECHO) ""
+
+# Points to Utility Directory
+COMMON_REPO = ../../common/
+ABS_COMMON_REPO = $(shell readlink -f $(COMMON_REPO))
+
+TARGET := hw
+
+include ./utils.mk
+
+DSA := $(call device2dsa, $(DEVICE))
+TEMP_DIR := ./_x.$(TARGET).$(DSA)
+BUILD_DIR := ./build_dir.$(TARGET).$(DSA)
+
+CXX := $(XILINX_SDX)/bin/xcpp
+XOCC := v++
+
+#Include Libraries
+include $(ABS_COMMON_REPO)/includes/opencl/opencl.mk
+include $(ABS_COMMON_REPO)/includes/xcl2/xcl2.mk
+CXXFLAGS += $(xcl2_CXXFLAGS)
+LDFLAGS += $(xcl2_LDFLAGS)
+HOST_SRCS += $(xcl2_SRCS)
+CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++14
+LDFLAGS += $(opencl_LDFLAGS)
+
+HOST_SRCS += src/host.cpp
+
+# Host compiler global settings
+CXXFLAGS += -fmessage-length=0
+LDFLAGS += -lrt -lstdc++ 
+
+# Kernel compiler global settings
+CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps --report_dir $(BUILD_DIR)/reports
+
+# Kernel linker flags
+LDCLFLAGS += --sp krnl_vaddmul_1.m_axi_gmem0:HBM[0] --sp krnl_vaddmul_1.m_axi_gmem1:HBM[1] --sp krnl_vaddmul_1.m_axi_gmem2:HBM[2] --sp krnl_vaddmul_1.m_axi_gmem3:HBM[3] --sp krnl_vaddmul_2.m_axi_gmem0:HBM[4] --sp krnl_vaddmul_2.m_axi_gmem1:HBM[5] --sp krnl_vaddmul_2.m_axi_gmem2:HBM[6] --sp krnl_vaddmul_2.m_axi_gmem3:HBM[7] --sp krnl_vaddmul_3.m_axi_gmem0:HBM[8] --sp krnl_vaddmul_3.m_axi_gmem1:HBM[9] --sp krnl_vaddmul_3.m_axi_gmem2:HBM[10] --sp krnl_vaddmul_3.m_axi_gmem3:HBM[11] --sp krnl_vaddmul_4.m_axi_gmem0:HBM[12] --sp krnl_vaddmul_4.m_axi_gmem1:HBM[13] --sp krnl_vaddmul_4.m_axi_gmem2:HBM[14] --sp krnl_vaddmul_4.m_axi_gmem3:HBM[15] --sp krnl_vaddmul_5.m_axi_gmem0:HBM[16] --sp krnl_vaddmul_5.m_axi_gmem1:HBM[17] --sp krnl_vaddmul_5.m_axi_gmem2:HBM[18] --sp krnl_vaddmul_5.m_axi_gmem3:HBM[19] --sp krnl_vaddmul_6.m_axi_gmem0:HBM[20] --sp krnl_vaddmul_6.m_axi_gmem1:HBM[21] --sp krnl_vaddmul_6.m_axi_gmem2:HBM[22] --sp krnl_vaddmul_6.m_axi_gmem3:HBM[23] --sp krnl_vaddmul_7.m_axi_gmem0:HBM[24] --sp krnl_vaddmul_7.m_axi_gmem1:HBM[25] --sp krnl_vaddmul_7.m_axi_gmem2:HBM[26] --sp krnl_vaddmul_7.m_axi_gmem3:HBM[27] --sp krnl_vaddmul_8.m_axi_gmem0:HBM[28] --sp krnl_vaddmul_8.m_axi_gmem1:HBM[29] --sp krnl_vaddmul_8.m_axi_gmem2:HBM[30] --sp krnl_vaddmul_8.m_axi_gmem3:HBM[31]
+
+EXECUTABLE = host
+CMD_ARGS = $(BUILD_DIR)/krnl_vaddmul.xclbin
+
+EMCONFIG_DIR = $(TEMP_DIR)
+
+BINARY_CONTAINERS += $(BUILD_DIR)/krnl_vaddmul.xclbin
+BINARY_CONTAINER_krnl_vaddmul_OBJS += $(TEMP_DIR)/krnl_vaddmul.xo
+
+CP = cp -rf
+
+.PHONY: all clean cleanall docs emconfig
+all: check-devices $(EXECUTABLE) $(BINARY_CONTAINERS) emconfig
+
+.PHONY: exe
+exe: $(EXECUTABLE)
+
+.PHONY: build
+build: $(BINARY_CONTAINERS)
+
+# Building kernel
+$(TEMP_DIR)/krnl_vaddmul.xo: src/krnl_vaddmul.cpp
+	mkdir -p $(TEMP_DIR)
+	$(XOCC) $(CLFLAGS) --temp_dir $(TEMP_DIR) -c -k krnl_vaddmul -I'$(<D)' -o'$@' '$<'
+$(BUILD_DIR)/krnl_vaddmul.xclbin: $(BINARY_CONTAINER_krnl_vaddmul_OBJS)
+	mkdir -p $(BUILD_DIR)
+	$(XOCC) $(CLFLAGS) --temp_dir $(BUILD_DIR) -l $(LDCLFLAGS) --nk krnl_vaddmul:8 -o'$@' $(+)
+
+# Building Host
+$(EXECUTABLE): check-xrt $(HOST_SRCS) $(HOST_HDRS)
+	$(CXX) $(CXXFLAGS) $(HOST_SRCS) $(HOST_HDRS) -o '$@' $(LDFLAGS)
+
+emconfig:$(EMCONFIG_DIR)/emconfig.json
+$(EMCONFIG_DIR)/emconfig.json:
+	emconfigutil --platform $(DEVICE) --od $(EMCONFIG_DIR)
+
+check: all
+ifeq ($(findstring xilinx_u200_xdma, $(DEVICE)), xilinx_u200_xdma)
+$(error Nothing to be done for make)
+endif
+ifeq ($(findstring xilinx_u200_qdma, $(DEVICE)), xilinx_u200_qdma)
+$(error Nothing to be done for make)
+endif
+ifeq ($(findstring xilinx_u250_xdma, $(DEVICE)), xilinx_u250_xdma)
+$(error Nothing to be done for make)
+endif
+ifeq ($(findstring xilinx_u250_qdma, $(DEVICE)), xilinx_u250_qdma)
+$(error Nothing to be done for make)
+endif
+ifeq ($(findstring xilinx_vcu1525_dynamic, $(DEVICE)), xilinx_vcu1525_dynamic)
+$(error Nothing to be done for make)
+endif
+ifeq ($(findstring xilinx_aws-vu9p-f1-04261818, $(DEVICE)), xilinx_aws-vu9p-f1-04261818)
+$(error Nothing to be done for make)
+endif
+ifeq ($(findstring xilinx:u200:xdma, $(DEVICE)), xilinx:u200:xdma)
+$(error Nothing to be done for make)
+endif
+ifeq ($(findstring xilinx:u200:qdma, $(DEVICE)), xilinx:u200:qdma)
+$(error Nothing to be done for make)
+endif
+ifeq ($(findstring xilinx:u250:xdma, $(DEVICE)), xilinx:u250:xdma)
+$(error Nothing to be done for make)
+endif
+ifeq ($(findstring xilinx:u250:qdma, $(DEVICE)), xilinx:u250:qdma)
+$(error Nothing to be done for make)
+endif
+ifeq ($(findstring xilinx:vcu1525:dynamic, $(DEVICE)), xilinx:vcu1525:dynamic)
+$(error Nothing to be done for make)
+endif
+ifeq ($(findstring xilinx:aws-vu9p-f1-04261818:dynamic, $(DEVICE)), xilinx:aws-vu9p-f1-04261818:dynamic)
+$(error Nothing to be done for make)
+endif
+
+ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
+	$(CP) $(EMCONFIG_DIR)/emconfig.json .
+	XCL_EMULATION_MODE=$(TARGET) ./$(EXECUTABLE) $(BUILD_DIR)/krnl_vaddmul.xclbin
+else
+	 ./$(EXECUTABLE) $(BUILD_DIR)/krnl_vaddmul.xclbin
+endif
+	sdx_analyze profile -i profile_summary.csv -f html
+
+run_nimbix: all
+	$(COMMON_REPO)/utility/nimbix/run_nimbix.py $(EXECUTABLE) $(CMD_ARGS) $(DSA)
+
+aws_build: check-aws_repo $(BINARY_CONTAINERS)
+	$(COMMON_REPO)/utility/aws/run_aws.py $(BINARY_CONTAINERS)
+
+# Cleaning stuff
+clean:
+	-$(RMDIR) $(EXECUTABLE) $(XCLBIN)/{*sw_emu*,*hw_emu*} 
+	-$(RMDIR) profile_* TempConfig system_estimate.xtxt *.rpt *.csv 
+	-$(RMDIR) src/*.ll _xocc_* .Xil emconfig.json dltmp* xmltmp* *.log *.jou *.wcfg *.wdb
+
+cleanall: clean
+	-$(RMDIR) build_dir*
+	-$(RMDIR) _x.*
+

@@ -1,0 +1,54 @@
+{
+    "cmd_args": "BUILD/vmult_vadd.xclbin", 
+    "contributors": [
+        {
+            "url": "http://www.xilinx.com", 
+            "group": "Xilinx"
+        }
+    ], 
+    "host_exe": "host", 
+    "overview": [
+        "This is simple example to describe SLR assignment information for a platform design. This example highlights how to provide extra input to assign the logic of the kernel into a nominated SLR. In this example we are assigning first kernel(Vector Multiplication) to SLR0 and assigning the second kernel(Vector Addition) to SLR1"
+    ], 
+    "includes": [
+        {
+            "name": "xcl2", 
+            "location": "GIT_REPO_DIR/common/includes/xcl2/"
+        }
+    ], 
+    "key_concepts": [
+        "SLR Assignments"
+    ], 
+    "keywords": [
+        "slr"
+    ], 
+    "nboard": [
+        "xilinx_vcu1525_dynamic", 
+        "xilinx_u280-es1_xdma", 
+        "xilinx:vcu1525:dynamic", 
+        "xilinx:u280-es1:xdma"
+    ], 
+    "runtime": [
+        "OpenCL"
+    ], 
+    "os": [
+        "Linux"
+    ], 
+    "example": "SLR Assign (CL)", 
+    "containers": [
+        {
+            "accelerators": [
+                {
+                    "name": "vmult", 
+                    "location": "src/kernel.cl"
+                }, 
+                {
+                    "name": "vadd", 
+                    "location": "src/kernel.cl"
+                }
+            ], 
+            "ldclflags": "--slr vmult_1:SLR0 --slr vadd_1:SLR1", 
+            "name": "vmult_vadd"
+        }
+    ]
+}

@@ -2,10 +2,10 @@
 
 HEAD=
 
-if [[ "$CHANGE_TARGET" == "" ]]; then
+if [[ "$BRANCH_NAME" == "" ]]; then
 	HEAD=remotes/origin/master
 else
-	HEAD=remotes/origin/${CHANGE_TARGET}
+	HEAD=remotes/origin/${BRANCH_NAME}
 fi
 
 PROJS=$(git ls-files | grep description.json | sed -e 's/\.\///' -e 's/\/description.json//')

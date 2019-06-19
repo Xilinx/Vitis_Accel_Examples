@@ -1,0 +1,23 @@
+{
+    "containers": [
+        {
+            "name": "krnl_vaddmul", 
+            "meet_system_timing": "true", 
+            "accelerators": [
+                {
+                    "name": "krnl_vaddmul", 
+                    "check_timing": "true", 
+                    "PipelineType": "none", 
+                    "check_latency": "false", 
+                    "check_warning": "true", 
+                    "loops": [
+                        {
+                            "name": "L_vops1", 
+                            "PipelineII": "1"
+                        }
+                    ]
+                }
+            ]
+        } 
+    ]
+}

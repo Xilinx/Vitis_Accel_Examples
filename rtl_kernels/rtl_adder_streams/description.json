@@ -1,0 +1,59 @@
+{
+    "config_make": "config.mk", 
+    "cmd_args": "BUILD/adder.xclbin", 
+    "contributors": [
+        {
+            "url": "http://www.xilinx.com", 
+            "group": "Xilinx"
+        }
+    ], 
+    "host_exe": "host", 
+    "overview": [
+        "This example shows an adder with streams using 3 RTL kernels."
+    ], 
+    "targets": [
+        "hw", 
+        "hw_emu"
+    ], 
+    "host_srcs": "src/host.cpp", 
+    "key_concepts": [
+        "RTL Kernel", 
+        "Multiple RTL Kernels"
+    ], 
+    "match_ini": "false", 
+    "sdx_gui": false, 
+    "includes": [
+        {
+            "name": "xcl2", 
+            "location": "GIT_REPO_DIR/common/includes/xcl2/"
+        }
+    ], 
+    "runtime": [
+        "OpenCL"
+    ], 
+    "os": [
+        "Linux"
+    ], 
+    "example": "Adder With Streams (RTL)", 
+    "containers": [
+        {
+            "accelerators": [
+                {
+                    "kernel_type": "RTL", 
+                    "name": "input"
+                }, 
+                {
+                    "kernel_type": "RTL", 
+                    "name": "adder"
+                }, 
+                {
+                    "kernel_type": "RTL", 
+                    "name": "output"
+                }
+            ], 
+            "ldclflags": "--sc krnl_input_stage_rtl_1.p0:krnl_adder_stage_rtl_1.p0 --sc krnl_adder_stage_rtl_1.p1:krnl_output_stage_rtl_1.p1", 
+            "name": "adder"
+        }
+    ], 
+    "output_files": "tmp_kernel_pack* packaged_kernel* _x* *.xo"
+}

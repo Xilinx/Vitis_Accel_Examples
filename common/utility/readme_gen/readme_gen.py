@@ -5,35 +5,42 @@ import json
 import os
 import subprocess
 
-DSA = 'xilinx_vcu1525_dynamic'
-VERSION = 'SDx 2018.3'
+DSA = 'xilinx_u200_qdma'
+VERSION = 'SDx 2019.1'
 DEVICES = {
-    'xilinx_u200_xdma_201820_1': {
+    'xilinx_aws-vu9p-f1-04261818': {
        'version': '5.0',
+       'name': 'Xilinx Only 5.0 Shell',
+    },	
+    'xilinx_u200_qdma': {
+       'version': '201910_1',
        'name': 'Xilinx Alveo U200',
-       'nae':  'nx6'
+       'nae':  'nx5u_xdma_201830_1'
     },
-    'xilinx_u250_xdma_201820_1': {
-       'version': '5.0',
+    'xilinx_u280_xdma': {
+       'version': '201910_1',
+       'name': 'Xilinx Alveo U280'
+    },
+    'xilinx_u280-es1_xdma': {
+       'version': '201910_1',
+       'name': 'Xilinx Alveo U280',
+       'nae':  'nx7u_xdma_201830_1'
+    },
+    'xilinx_u200_xdma': {
+       'version': '201830_1',
+       'name': 'Xilinx Alveo U200',
+       'nae':  'nx5u_xdma_201830_1'
+    },
+    'xilinx_u250_qdma': {
+       'version': '201910_1',
+       'name': 'Xilinx Alveo U250'
+    },
+    'xilinx_u250_xdma': {
+       'version': '201830_1',
        'name': 'Xilinx Alveo U250',
-       'nae':  'nx7'
-    },
-    'xilinx_vcu1525_dynamic': {
-       'version': '5.0',
-       'name': 'Xilinx Virtex UltraScale+ VCU1525',
-       'nae':  'nx5'
+       'nae':  'nx6u_xdma_201830_1'
     }
 }
-
-def header(target,data):
-    target.write(data["example"])
-    target.write("\n")
-    target.write("======================\n\n")
-    target.write("This file contains the following sections:\n\n")
-    target.write("1. SUPPORTED PLATFORMS\n")
-    target.write("2. DESIGN FILES\n")
-    target.write("3. COMMAND LINE ARGUMENTS\n\n\n")
-    return
 
 def overview(target,data):
     target.write(data["example"])
@@ -80,18 +87,12 @@ def overview(target,data):
             if word_count != 0:
                 target.write(", ")
         target.write("\n\n")
-
-    target.write("\nFor Setup instructions, please refer: ")
-    target.write("[setup.md][]")
-    target.write("\n\n")
-    target.write("[setup.md]: setup.md")
-    target.write("\n\n")
     return
 
 def requirements(target,data):
-    target.write("## 1. SUPPORTED PLATFORMS\n")
-    target.write("Board | Device Name | Software Version\n")
-    target.write("------|-------------|-----------------\n")
+    target.write("## SUPPORTED PLATFORMS\n")
+    target.write("Platform | Board             | Software Version\n")
+    target.write("---------|-------------------|-----------------\n")
 
     boards = []
     if 'board' in data:
@@ -104,18 +105,17 @@ def requirements(target,data):
         boards = [word for word in DEVICES if word not in nboard]
 
     for board in boards:
-        target.write(DEVICES[board]['name'])
-        target.write("|")
         target.write(board)
         target.write("|")
-        for version in VERSION:
-            target.write(version)
+        target.write(DEVICES[board]['name'])
+        target.write("|")
+        target.write(VERSION)
         target.write("\n")
     target.write("\n\n") 
     return
 
 def hierarchy(target):
-    target.write("## 2. DESIGN FILES\n")
+    target.write("##  DESIGN FILES\n")
     target.write("Application code is located in the src directory. ")
     target.write("Accelerator binary files will be compiled to the xclbin directory. ")
     target.write("The xclbin directory is required by the Makefile and its contents will be filled during compilation. A listing of all the files ")
@@ -130,7 +130,7 @@ def hierarchy(target):
     return
 
 def commandargs(target,data):
-    target.write("## 3. COMMAND LINE ARGUMENTS\n")
+    target.write("##  COMMAND LINE ARGUMENTS\n")
     target.write("Once the environment has been configured, the application can be executed by\n")
     target.write("```\n")
     if not "cmd_args" in data:
@@ -150,8 +150,8 @@ def commandargs(target,data):
 
 
 def nimbix(target):
-    target.write("The developer instance hosting the Scout tools on Nimbix is not directly connected to an FPGA accelerator card.\n")
-    target.write("FPGA Accelerator cards are available as part of the Scout Runtime application. There are several ways of executing an application on the available cards:\n\n")
+    target.write("The developer instance hosting the SDAccel tools on Nimbix is not directly connected to an FPGA accelerator card.\n")
+    target.write("FPGA Accelerator cards are available as part of the SDAccel Runtime application. There are several ways of executing an application on the available cards:\n\n")
     target.write("***Submit the application from the developer to runtime instances (recommended flow)***\n")
     target.write("* Create a credentials file for the runtime machine based on your Nimbix username and API key. For more information on how to obtain the API key, refer to ")
     target.write("[Nimbix Application Submission README][]. The credentials file ( ~/.nimbix_creds.json ) should look like\n")
@@ -162,7 +162,7 @@ def nimbix(target):
     target.write("}\n")
     target.write("```\n\n")
     target.write("where the values for username and apikey have been set to the values from your Nimbix account.\n\n")
-    target.write("*NOTE:* The home directory of a Scout developer instance is not persistent across sessions. Only files stored in the /data directory are kept between sessions.")
+    target.write("*NOTE:* The home directory of a SDAccel developer instance is not persistent across sessions. Only files stored in the /data directory are kept between sessions.")
     target.write("It is recommended that a copy of the nimbix_creds.json file be stored in the /data directory and copied to the appropriate location in the home directory ")
     target.write("at the start of each development session.\n")
     target.write("* Launch the application\n")
@@ -218,7 +218,7 @@ def nimbix(target):
 script, desc_file = argv
 
 # load the description file
-print "Scout README File Genarator"
+print "SDAccel README File Genarator"
 desc = open(desc_file,'r')
 
 # load the json data from the file
@@ -227,19 +227,14 @@ desc.close()
 
 assert("OpenCL" in data['runtime'])
 
-print "Generating the Setup details file for %s" %data["example"]
-target = open("setup.md", "w+")
-header(target,data)
-requirements(target,data)
-hierarchy(target)
-commandargs(target,data)
-
-
 if "match_readme" in data and data["match_readme"] == "false":
     print "ERROR:: README Manually Edited:: README Generator Failed\n"
 else:
     print "Generating the README for %s" % data["example"]
     target = open("README.md","w")
     overview(target,data)
+    requirements(target,data)
+    hierarchy(target)
+    commandargs(target,data)
 
 target.close

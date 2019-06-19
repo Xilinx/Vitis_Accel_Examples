@@ -25,7 +25,7 @@ update_file() {
 		pushd . > /dev/null 
 		cd $(dirname $1)
 		$appDir/utility/makefile_gen/makegen.py description.json #> /dev/null 2>&1
-        #$appDir/utility/makefile_gen/desc_gen.py description.json #> /dev/null 2>&1
+#        $appDir/utility/makefile_gen/descgen.py description.json #> /dev/null 2>&1
 		popd >/dev/null
 	fi
 }
@@ -37,8 +37,8 @@ for f in $VCS_FILES; do
 	if [[ ($f == */description.json) ]]; then
 		if grep -q '"match_makefile": "false"' $f; then
 			echo $f
-			echo "Makefile Manually Edited:: AutoMakefile Generator Failed"
-        else
+			echo "Makefile Manually Edited:: AutoMakefile Generator Failed"			
+		else
 			echo $f
 			update_file $(readlink -f $f)
 		fi

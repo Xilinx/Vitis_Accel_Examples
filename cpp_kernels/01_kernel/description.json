@@ -1,0 +1,49 @@
+{
+    "testinfo": {
+        "levels": [
+            {
+                "hw_emu": "1"
+            }
+        ], 
+        "parkinglot": "true"
+    }, 
+    "cmd_args": "BUILD/mmult.xclbin", 
+    "contributors": [
+        {
+            "url": "http://www.xilinx.com", 
+            "group": "Xilinx"
+        }
+    ], 
+    "host_exe": "host", 
+    "overview": [
+        "This is a simple example of HLS matrix multiplication (Row x Col)."
+    ], 
+    "includes": [
+        {
+            "name": "xcl2", 
+            "location": "GIT_REPO_DIR/common/includes/xcl2/"
+        }
+    ], 
+    "key_concepts": [
+        "OpenCL APIs"
+    ], 
+    "runtime": [
+        "OpenCL"
+    ], 
+    "os": [
+        "Linux"
+    ], 
+    "example": "01 Matrix Multiplication with OpenCL Kernel", 
+    "containers": [
+        {
+            "accelerators": [
+                {
+                    "location": "src/mmult.cpp", 
+                    "name": "mmult", 
+                    "clflags": "--xp param:compiler.enableAutoPipelining=false"
+                }
+            ], 
+            "name": "mmult"
+        }
+    ]
+}
