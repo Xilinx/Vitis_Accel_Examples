@@ -8,6 +8,7 @@ This example shows an adder with streams using 3 RTL kernels.
 ## SUPPORTED PLATFORMS
 Platform | Board             | Software Version
 ---------|-------------------|-----------------
+xilinx_aws-vu9p-f1-04261818|Xilinx Only 5.0 Shell|SDx 2019.1
 xilinx_u200_qdma|Xilinx Alveo U200|SDx 2019.1
 xilinx_u280_xdma|Xilinx Alveo U280|SDx 2019.1
 xilinx_u250_qdma|Xilinx Alveo U250|SDx 2019.1

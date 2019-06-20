@@ -8,6 +8,7 @@ This is a simple example of matrix multiplication (Row x Col) to demonstrate how
 ## SUPPORTED PLATFORMS
 Platform | Board             | Software Version
 ---------|-------------------|-----------------
+xilinx_aws-vu9p-f1-04261818|Xilinx Only 5.0 Shell|SDx 2019.1
 xilinx_u200_qdma|Xilinx Alveo U200|SDx 2019.1
 xilinx_u280_xdma|Xilinx Alveo U280|SDx 2019.1
 xilinx_u250_qdma|Xilinx Alveo U250|SDx 2019.1
