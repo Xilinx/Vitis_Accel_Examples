@@ -2,10 +2,10 @@
 
 |category|
 
-Hello World
-===========
+`Hello World`_
+==============
 
-This example introduces the basic structure of host and kernel code. Kernel v_add optimizes a simple vector addition.
+This example introduces the basic structure of host and kernel code. Kernel vadd optimizes a simple vector addition.
 
 
 Kernel arguments specify the inputs read from the global memory and outputs written back to it.
@@ -56,3 +56,5 @@ The for loops used have the following requirements to implement burst read/write
 
 .. |category| image:: https://img.shields.io/badge/Category-Beginner's-brightgreen.svg?style=popout-square&logo=appveyor
    :target: https://gitenterprise.xilinx.com/SDxGitExamples/ScoutExamples/tree/master/hello_world   
+
+.. _Hello World: https://gitenterprise.xilinx.com/SDxGitExamples/ScoutExamples/tree/master/hello_world
