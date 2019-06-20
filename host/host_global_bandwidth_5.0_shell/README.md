@@ -6,7 +6,7 @@ Host to global memory bandwidth test for 5.0 shell
 ## SUPPORTED PLATFORMS
 Platform | Board             | Software Version
 ---------|-------------------|-----------------
-xilinx_aws-vu9p-f1-04261818|Xilinx Only 5.0 Shell|SDx 2019.1
+xilinx_aws-vu9p-f1-04261818|Xilinx Only 5.0 Shell|SCOUT 2019.1
 
 
 ##  DESIGN FILES

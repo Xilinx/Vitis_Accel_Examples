@@ -6,7 +6,7 @@ import os
 import subprocess
 
 DSA = 'xilinx_u200_qdma'
-VERSION = 'SDx 2019.1'
+VERSION = 'SCOUT 2019.1'
 DEVICES = {
     'xilinx_aws-vu9p-f1-04261818': {
        'version': '5.0',
