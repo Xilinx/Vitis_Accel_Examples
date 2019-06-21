@@ -36,7 +36,7 @@ DSA := $(call device2dsa, $(DEVICE))
 TEMP_DIR := ./_x.$(TARGET).$(DSA)
 BUILD_DIR := ./build_dir.$(TARGET).$(DSA)
 
-CXX := $(XILINX_SDX)/bin/xcpp
+CXX := $(XILINX_SCOUT)/bin/xcpp
 XOCC := v++
 
 #Include Libraries

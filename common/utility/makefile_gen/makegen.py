@@ -30,7 +30,7 @@ def create_params(target,data):
     target.write("\n")
 
     target.write("CXX := ")
-    target.write("$(XILINX_SDX)/bin/xcpp\n")
+    target.write("$(XILINX_SCOUT)/bin/xcpp\n")
     target.write("XOCC := ")
     target.write("v++\n")
     target.write("\n")
@@ -465,9 +465,9 @@ def device2dsa_gen(target):
     target.write("\n")
 
 def util_checks(target):
-    target.write("#Checks for XILINX_SDX\n")
-    target.write("ifndef XILINX_SDX\n")
-    target.write("$(error XILINX_SDX variable is not set, please set correctly and rerun)\n")
+    target.write("#Checks for XILINX_SCOUT\n")
+    target.write("ifndef XILINX_SCOUT\n")
+    target.write("$(error XILINX_SCOUT variable is not set, please set correctly and rerun)\n")
     target.write("endif\n")
     target.write("\n")
 
