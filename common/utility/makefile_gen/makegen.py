@@ -16,7 +16,6 @@ def create_params(target,data):
     while diff > 0:
 	target.write("../")
 	diff -= 1 
-    target.write("common/")
     target.write("\n")
     target.write("ABS_COMMON_REPO = $(shell readlink -f $(COMMON_REPO))\n")
     target.write("\n")
@@ -47,10 +46,10 @@ def create_params(target,data):
 
 def add_includes1(target, data):
     target.write("#Include Libraries\n")
-    target.write("include $(ABS_COMMON_REPO)/includes/opencl/opencl.mk\n")
+    target.write("include $(ABS_COMMON_REPO)/common/includes/opencl/opencl.mk\n")
     if "includes" in data:
         for lib in data["includes"]:
-            target.write("include $(ABS_COMMON_REPO)/includes/")
+            target.write("include $(ABS_COMMON_REPO)/common/includes/")
             target.write(lib["name"])
             target.write("/")
             target.write(lib["name"])
@@ -396,13 +395,13 @@ def mk_check(target, data):
 def run_nimbix(target, data):
     target.write("run_nimbix: all\n")
     if "cmd_args" in data:
-    	target.write("\t$(COMMON_REPO)/utility/nimbix/run_nimbix.py $(EXECUTABLE) $(CMD_ARGS) $(DSA)\n\n")
+    	target.write("\t$(COMMON_REPO)/common/utility/nimbix/run_nimbix.py $(EXECUTABLE) $(CMD_ARGS) $(DSA)\n\n")
     else:
-    	target.write("\t$(COMMON_REPO)/utility/nimbix/run_nimbix.py $(EXECUTABLE) $(DSA)\n\n")	
+    	target.write("\t$(COMMON_REPO)/common/utility/nimbix/run_nimbix.py $(EXECUTABLE) $(DSA)\n\n")	
     
 def aws_build(target):
     target.write("aws_build: check-aws_repo $(BINARY_CONTAINERS)\n")
-    target.write("\t$(COMMON_REPO)/utility/aws/run_aws.py $(BINARY_CONTAINERS)\n\n")
+    target.write("\t$(COMMON_REPO)/common/utility/aws/run_aws.py $(BINARY_CONTAINERS)\n\n")
 
 def mk_help(target):
     target.write(".PHONY: help\n")
@@ -502,7 +501,7 @@ def readme_gen(target):
     target.write("docs: README.md\n")
     target.write("\n")
     target.write("README.md: description.json\n")
-    target.write("\t$(ABS_COMMON_REPO)/utility/readme_gen/readme_gen.py description.json")
+    target.write("\t$(ABS_COMMON_REPO)/common/utility/readme_gen/readme_gen.py description.json")
     target.write("\n")   
 
     
