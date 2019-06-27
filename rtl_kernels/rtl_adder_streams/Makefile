@@ -57,7 +57,7 @@ CXXFLAGS += -fmessage-length=0
 LDFLAGS += -lrt -lstdc++ 
 
 # Kernel compiler global settings
-CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps --report_dir $(BUILD_DIR)/reports
+CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps 
 
 # Kernel linker flags
 LDCLFLAGS += --sc krnl_input_stage_rtl_1.p0:krnl_adder_stage_rtl_1.p0 --sc krnl_adder_stage_rtl_1.p1:krnl_output_stage_rtl_1.p1

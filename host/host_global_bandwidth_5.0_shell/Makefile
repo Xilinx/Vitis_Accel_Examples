@@ -55,7 +55,7 @@ CXXFLAGS += -fmessage-length=0
 LDFLAGS += -lrt -lstdc++ 
 
 # Kernel compiler global settings
-CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps --report_dir $(BUILD_DIR)/reports
+CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps 
 
 # Kernel linker flags
 LDCLFLAGS += --sp bandwidth_1.m_axi_gmem0:bank0 --sp bandwidth_1.m_axi_gmem1:bank1
