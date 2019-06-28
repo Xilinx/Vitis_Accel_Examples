@@ -78,5 +78,5 @@ host_list.append(host_dict)
 dict_new['host'] = host_list
 data.update(dict_new)
 
-target = open('description_test.json', 'w+')
+target = open('description.json', 'w+')
 json.dump(data, target, indent=4, sort_keys=False)
