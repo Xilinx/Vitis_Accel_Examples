@@ -13,7 +13,7 @@ desc.close()
 
 #top level list : dict_new
 dict_new = {}
-if 'name' in data:
+if 'example' in data:
 	dict_new['name'] = data.pop('example')
 if 'overview' in data:
 	dict_new['description'] = data.pop('overview')
@@ -31,11 +31,19 @@ host_dict = {}
 if 'host_exe' in data:
 	host_dict['host_exe'] = data.pop('host_exe')
 if 'host_srcs' in data:
-	host_dict['sources'] = data.pop('host_srcs')
+	srcs = data['host_srcs'].split(" ")
+	host_dict['sources'] = srcs
+	del data['host_srcs'] 
+if 'host_hdrs' in data:
+	hdrs = data['host_hdrs'].split(" ")
+	host_dict['sources'].extend(hdrs)
+	del data['host_hdrs']
 
 linker_list = []
 linker_dict = {}
-linker_dict['librarypaths'] = "REPO_DIR/common/includes/"
+library_paths = []
+library_paths.append("REPO_DIR/common/includes/")
+linker_dict['librarypaths'] = library_paths
 if 'libs' in data:
 	library = []
 	for item in data['libs']:
@@ -49,7 +57,7 @@ host_dict['linker'] = linker_list
 	 
 
 
-if 'libs' in data:
+if 'libs' or 'compiler' in data:
 	compiler_list = []
 	compiler_dict = {}
 	include_paths = []
@@ -57,6 +65,8 @@ if 'libs' in data:
 		include_paths.append('REPO_DIR/common/includes/'+ item)	
 	compiler_dict['includepaths'] = include_paths
 	del data['libs']
+	if 'compiler' in data:
+		compiler_dict.update(data['compiler'])
 	compiler_list.append(compiler_dict)
 	host_dict['compiler'] = compiler_list
 
