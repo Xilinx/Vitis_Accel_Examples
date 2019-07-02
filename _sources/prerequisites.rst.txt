@@ -5,10 +5,10 @@ Prerequisites
 
 Scout Git Examples Assumes that user is familiar with Basic Scout Environment, Setup, Programming and Debugging Flow. If not, it is recommended to cover these topics from Scout User Guides:
 
-.. toctree::
-   :maxdepth: 1
-   :caption: Scout User Guides
+    * `Scout Development Environment`_ 
+    * `Scout Programming Guide`_ 
+    * `Scout Debugging Guide`_ 
 
-    Scout Development Environment <https://www.xilinx.com/support/documentation/sw_manuals/xilinx2018_3/ug1023-sdaccel-user-guide.pdf>
-    Scout Programming Guide <https://www.xilinx.com/support/documentation/sw_manuals/xilinx2018_3/ug1277-sdaccel-programmers-guide.pdf>
-    Scout Debugging Guide <https://www.xilinx.com/support/documentation/sw_manuals/xilinx2018_3/ug1281-sdaccel-debugging-guide.pdf>
+.. _Scout Development Environment: https://www.xilinx.com/support/documentation/sw_manuals/xilinx2018_3/ug1023-sdaccel-user-guide.pdf
+.. _Scout Programming Guide: https://www.xilinx.com/support/documentation/sw_manuals/xilinx2018_3/ug1277-sdaccel-programmers-guide.pdf
+.. _Scout Debugging Guide: https://www.xilinx.com/support/documentation/sw_manuals/xilinx2018_3/ug1281-sdaccel-debugging-guide.pdf
