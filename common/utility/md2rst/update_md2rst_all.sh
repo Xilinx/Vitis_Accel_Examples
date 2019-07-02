@@ -32,7 +32,7 @@ update_file() {
         # Run the .md to .rst file generator using correct path to pandoc
         $appDir/pandoc-2.7.3/bin/pandoc -f markdown D_README.md -t rst -o $b_name.rst
         # move the generated .rst to desired folder
-        mv $b_name.rst $appDir/../../testsphinx/source/
+        mv $b_name.rst $appDir/../../test/
         # delete the detailed readme
         rm D_README.md
         # Locate the desired folder and run sphinx to generate html files from
