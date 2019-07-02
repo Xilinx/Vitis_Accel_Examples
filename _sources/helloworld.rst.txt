@@ -54,7 +54,7 @@ The for loops used have the following requirements to implement burst read/write
            out_r[i + j] = vout_buffer[j];
    }
 
-.. |category| image:: https://img.shields.io/badge/Category-Beginner's-brightgreen.svg?style=popout-square&logo=appveyor
+.. |category| image:: https://img.shields.io/badge/Category-Hello_World-brightgreen.svg?style=popout-square&logo=appveyor
    :target: https://gitenterprise.xilinx.com/SDxGitExamples/ScoutExamples/tree/master/hello_world   
 
 .. _Hello World: https://gitenterprise.xilinx.com/SDxGitExamples/ScoutExamples/tree/master/hello_world
