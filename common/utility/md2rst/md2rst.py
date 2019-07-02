@@ -8,7 +8,7 @@ from collections import OrderedDict
 from itertools import islice
 
 DSA = 'xilinx_u200_qdma'
-VERSION = 'SDx 2019.1'
+VERSION = 'SCOUT 2019.1'
 AWS_DEVICES = {
     'xilinx_aws-vu9p-f1-04261818': {
        'version': '5.0',
@@ -159,7 +159,7 @@ def commandargs(target,data):
 		target.write("\n\n")
 		target.write("This application requires OpenCV runtime libraries. If the host does not have OpenCV installed use the Xilinx included libraries with the following command:")
 		target.write("\n\n")
-		target.write("`export LD_LIBRARY_PATH=$XILINX_SDX/lnx64/tools/opencv/:$LD_LIBRARY_PATH`")
+		target.write("`export LD_LIBRARY_PATH=$XILINX_SCOUT/lnx64/tools/opencv/:$LD_LIBRARY_PATH`")
 		target.write("\n\n") 
     	
     target.write("Once the environment has been configured, the application can be executed by\n")
@@ -181,8 +181,8 @@ def commandargs(target,data):
 
 
 def nimbix(target):
-    target.write("The developer instance hosting the SDAccel tools on Nimbix is not directly connected to an FPGA accelerator card.\n")
-    target.write("FPGA Accelerator cards are available as part of the SDAccel Runtime application. There are several ways of executing an application on the available cards:\n\n")
+    target.write("The developer instance hosting the SCOUT tools on Nimbix is not directly connected to an FPGA accelerator card.\n")
+    target.write("FPGA Accelerator cards are available as part of the SCOUT Runtime application. There are several ways of executing an application on the available cards:\n\n")
     target.write("***Submit the application from the developer to runtime instances (recommended flow)***\n")
     target.write("* Create a credentials file for the runtime machine based on your Nimbix username and API key. For more information on how to obtain the API key, refer to ")
     target.write("[Nimbix Application Submission README][]. The credentials file ( ~/.nimbix_creds.json ) should look like\n")
@@ -193,7 +193,7 @@ def nimbix(target):
     target.write("}\n")
     target.write("```\n\n")
     target.write("where the values for username and apikey have been set to the values from your Nimbix account.\n\n")
-    target.write("*NOTE:* The home directory of a SDAccel developer instance is not persistent across sessions. Only files stored in the /data directory are kept between sessions.")
+    target.write("*NOTE:* The home directory of a SCOUT developer instance is not persistent across sessions. Only files stored in the /data directory are kept between sessions.")
     target.write("It is recommended that a copy of the nimbix_creds.json file be stored in the /data directory and copied to the appropriate location in the home directory ")
     target.write("at the start of each development session.\n")
     target.write("* Launch the application\n")
@@ -249,7 +249,7 @@ def nimbix(target):
 script, desc_file = argv
 
 # load the description file
-print "SDAccel README File Genarator"
+print "SCOUT README File Genarator"
 desc = open(desc_file,'r')
 
 # load the json data from the file
