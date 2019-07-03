@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Compilation and Execution &mdash; Scout Git Examples 1.1 documentation</title>
+  <title>Compilation and Execution &mdash; SCOUT Git Examples&#39; Documentation 2019.2 documentation</title>
   
 
   
@@ -50,7 +50,7 @@
           
 
           
-            <a href="index.html" class="icon icon-home"> Scout Git Examples
+            <a href="index.html" class="icon icon-home"> SCOUT Git Examples' Documentation
           
 
           
@@ -87,16 +87,15 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Compilation and Execution</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#compiling-for-application-emulation">Compiling for Application Emulation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#executing-emulated-application">Executing Emulated Application</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#compiling-for-application-execution-in-the-fpga-accelerator-card">Compiling for Application Execution in the FPGA Accelerator Card</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#compiling-for-fpga-accelerator-card">Compiling for FPGA Accelerator Card</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="cloud.html">Cloud Execution</a></li>
 <li class="toctree-l1"><a class="reference internal" href="support.html">Support</a></li>
 </ul>
-<p class="caption"><span class="caption-text">List of Examples</span></p>
+<p class="caption"><span class="caption-text">Category of Examples</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="helloworld.html">Hello World</a></li>
-<li class="toctree-l1"><a class="reference internal" href="cputofpga.html">CPU to FPGA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hello_world.html">Hello World (HLS C/C++ Kernel)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="host.html">Host</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sysopt.html">System Optimizations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cpp.html">C++ Kernels</a></li>
@@ -121,7 +120,7 @@
       <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="index.html">Scout Git Examples</a>
+          <a href="index.html">SCOUT Git Examples' Documentation</a>
         
       </nav>
 
@@ -173,7 +172,7 @@
             
   <div class="section" id="compilation-and-execution">
 <h1>Compilation and Execution<a class="headerlink" href="#compilation-and-execution" title="Permalink to this headline">¶</a></h1>
-<p>It is primarily recommended to start with [Hello World][] example which makes the new users aware about the basic structure of an Scout based Application.</p>
+<p>It is primarily recommended to start with Hello World example which makes the new users aware about the basic structure of an Scout based Application.</p>
 <div class="section" id="compiling-for-application-emulation">
 <h2>Compiling for Application Emulation<a class="headerlink" href="#compiling-for-application-emulation" title="Permalink to this headline">¶</a></h2>
 <p>As part of the capabilities available to an application developer, Scout includes environments to test the correctness of an application at both a software functional level and a hardware emulated level.</p>
@@ -189,8 +188,7 @@ It is recommended that all applications are executed in at least the sw_emu mode
 <em>hw_emu = hardware emulation</em></p>
 </div></blockquote>
 <p><strong>NOTE:</strong> The software emulation flow is a functional correctness check only. It does not estimate the performance of the application in hardware.</p>
-<p>The hardware emulation flow is a cycle accurate simulation of the hardware generated for the application. As such, it is expected for this simulation to take a long time.
-It is recommended that for this example the user skips running hardware emulation or modifies the example to work on a reduced data set.</p>
+<p>The hardware emulation flow is a cycle accurate simulation of the hardware generated for the application. Also, it is expected for this simulation to take a long time.</p>
 </div>
 <div class="section" id="executing-emulated-application">
 <h2>Executing Emulated Application<a class="headerlink" href="#executing-emulated-application" title="Permalink to this headline">¶</a></h2>
@@ -207,16 +205,15 @@ It is recommended that for this example the user skips running hardware emulatio
 </div></blockquote>
 <p>If the application has not been previously compiled, the check makefile rule will compile and execute the application in the emulation mode selected by the user.</p>
 </div>
-<div class="section" id="compiling-for-application-execution-in-the-fpga-accelerator-card">
-<h2>Compiling for Application Execution in the FPGA Accelerator Card<a class="headerlink" href="#compiling-for-application-execution-in-the-fpga-accelerator-card" title="Permalink to this headline">¶</a></h2>
-<p>The command to compile the application for execution on the FPGA acceleration
+<div class="section" id="compiling-for-fpga-accelerator-card">
+<h2>Compiling for FPGA Accelerator Card<a class="headerlink" href="#compiling-for-fpga-accelerator-card" title="Permalink to this headline">¶</a></h2>
+<p>The command to compile for the FPGA acceleration
 board is:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="o">&lt;</span><span class="n">PATH</span> <span class="n">TO</span> <span class="n">SAMPLE</span> <span class="n">APPLICATION</span><span class="o">&gt;</span>
-<span class="n">make</span> <span class="nb">all</span> <span class="n">DEVICE</span><span class="o">=&lt;</span><span class="n">FPGA</span> <span class="n">Platform</span><span class="o">&gt;</span>
+<span class="n">make</span> <span class="nb">all</span> <span class="n">DEVICE</span><span class="o">=&lt;</span><span class="n">FPGA</span> <span class="n">Platform</span><span class="o">&gt;</span> <span class="n">TARGET</span><span class="o">=&lt;</span><span class="n">hw</span><span class="o">&gt;</span>
 </pre></div>
 </div>
-<p>The default target for the makefile is to compile for hardware. Therefore, setting the TARGETS option is not required.</p>
-<p><strong>NOTE:</strong> Compilation for application execution in hardware generates custom logic to implement the functionality of the kernels in an application.
+<p><strong>NOTE:</strong> Compilation for hardware generates custom logic to implement the functionality of the kernels in an application.
 It is typical for hardware compile times to range from 30 minutes to a couple of hours.</p>
 </div>
 </div>
@@ -241,7 +238,7 @@ It is typical for hardware compile times to range from 30 minutes to a couple of
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2019, Xilinx Inc.
+        &copy; Copyright 2019, Rajat Sarkari
 
     </p>
   </div>

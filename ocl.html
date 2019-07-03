@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>OpenCL Kernels &mdash; Scout Git Examples 1.1 documentation</title>
+  <title>OpenCL Kernels &mdash; SCOUT Git Examples&#39; Documentation 2019.2 documentation</title>
   
 
   
@@ -35,8 +35,8 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Applications" href="apps.html" />
-    <link rel="prev" title="RTL Kernels" href="rtl.html" /> 
+    <link rel="next" title="Array Partitioning (CL)" href="cl_array_partition.html" />
+    <link rel="prev" title="Mixed Kernels (RTL &amp; C)" href="rtl_vadd_mixed_c_vadd.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -50,7 +50,7 @@
           
 
           
-            <a href="index.html" class="icon icon-home"> Scout Git Examples
+            <a href="index.html" class="icon icon-home"> SCOUT Git Examples' Documentation
           
 
           
@@ -88,15 +88,39 @@
 <li class="toctree-l1"><a class="reference internal" href="cloud.html">Cloud Execution</a></li>
 <li class="toctree-l1"><a class="reference internal" href="support.html">Support</a></li>
 </ul>
-<p class="caption"><span class="caption-text">List of Examples</span></p>
+<p class="caption"><span class="caption-text">Category of Examples</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="helloworld.html">Hello World</a></li>
-<li class="toctree-l1"><a class="reference internal" href="cputofpga.html">CPU to FPGA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hello_world.html">Hello World (HLS C/C++ Kernel)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="host.html">Host</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sysopt.html">System Optimizations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cpp.html">C++ Kernels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="rtl.html">RTL Kernels</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">OpenCL Kernels</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">OpenCL Kernels</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="cl_array_partition.html">Array Partitioning (CL)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cl_burst_rw.html">Burst Read/Write (CL)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cl_dataflow_func.html">Dataflow Function OpenCL(CL)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cl_dataflow_pipes.html">Blocking Pipes (CL)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cl_dataflow_subfunc.html">Dataflow SubFunction OpenCL(CL)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cl_debug_printf.html">Printf Usage in Kernel code (CL)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cl_full_array_2d.html">Full 2D Array Read/Write (CL)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cl_gmem_2banks.html">Global Memory Two Banks (CL)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cl_gmem_2banks_5.0_shell.html">Global Memory Two Banks (CL) for 5.0 shell</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cl_helloworld.html">Hello World (CL)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cl_large_loop.html">Clock Frequency ~ Large Loop Count (CL)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cl_lmem_2rw.html">Two Parallel Read/Write on Local Memory (CL)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cl_loop_fusion.html">Loop Fusion (CL)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cl_loop_reorder.html">Loop Reorder for better Performance(CL)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cl_partition_cyclicblock.html">Array Block and Cyclic Partitioning (CL)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cl_row_array_2d.html">Read/Write Row of 2D Array (CL)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cl_shift_register.html">Shift Register (CL)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cl_split_kernel.html">Large application Splits into Multiple Kernels(CL)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cl_sum_scan.html">Parallel Prefix Sum (CL)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cl_systolic_array.html">Systolic Array Implementation (CL)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cl_too_many_cu.html">Clock Frequency ~ Too Many Compute Units (CL)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cl_vectorization_memorycoalescing.html">Vectorization (CL)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cl_wide_mem_rw.html">Wide Memory Read/Write (CL)</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="apps.html">Applications</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Common Utilities</span></p>
@@ -116,7 +140,7 @@
       <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="index.html">Scout Git Examples</a>
+          <a href="index.html">SCOUT Git Examples' Documentation</a>
         
       </nav>
 
@@ -168,6 +192,35 @@
             
   <div class="section" id="opencl-kernels">
 <h1>OpenCL Kernels<a class="headerlink" href="#opencl-kernels" title="Permalink to this headline">¶</a></h1>
+<p>This section contains OpenCL Kernel Examples.</p>
+<div class="toctree-wrapper compound">
+<p class="caption"><span class="caption-text">List of Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="cl_array_partition.html">Array Partitioning (CL)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cl_burst_rw.html">Burst Read/Write (CL)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cl_dataflow_func.html">Dataflow Function OpenCL(CL)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cl_dataflow_pipes.html">Blocking Pipes (CL)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cl_dataflow_subfunc.html">Dataflow SubFunction OpenCL(CL)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cl_debug_printf.html">Printf Usage in Kernel code (CL)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cl_full_array_2d.html">Full 2D Array Read/Write (CL)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cl_gmem_2banks.html">Global Memory Two Banks (CL)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cl_gmem_2banks_5.0_shell.html">Global Memory Two Banks (CL) for 5.0 shell</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cl_helloworld.html">Hello World (CL)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cl_large_loop.html">Clock Frequency ~ Large Loop Count (CL)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cl_lmem_2rw.html">Two Parallel Read/Write on Local Memory (CL)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cl_loop_fusion.html">Loop Fusion (CL)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cl_loop_reorder.html">Loop Reorder for better Performance(CL)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cl_partition_cyclicblock.html">Array Block and Cyclic Partitioning (CL)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cl_row_array_2d.html">Read/Write Row of 2D Array (CL)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cl_shift_register.html">Shift Register (CL)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cl_split_kernel.html">Large application Splits into Multiple Kernels(CL)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cl_sum_scan.html">Parallel Prefix Sum (CL)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cl_systolic_array.html">Systolic Array Implementation (CL)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cl_too_many_cu.html">Clock Frequency ~ Too Many Compute Units (CL)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cl_vectorization_memorycoalescing.html">Vectorization (CL)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cl_wide_mem_rw.html">Wide Memory Read/Write (CL)</a></li>
+</ul>
+</div>
 </div>
 
 
@@ -178,10 +231,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="apps.html" class="btn btn-neutral float-right" title="Applications" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="cl_array_partition.html" class="btn btn-neutral float-right" title="Array Partitioning (CL)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="rtl.html" class="btn btn-neutral float-left" title="RTL Kernels" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="rtl_vadd_mixed_c_vadd.html" class="btn btn-neutral float-left" title="Mixed Kernels (RTL &amp; C)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -190,7 +243,7 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2019, Xilinx Inc.
+        &copy; Copyright 2019, Rajat Sarkari
 
     </p>
   </div>

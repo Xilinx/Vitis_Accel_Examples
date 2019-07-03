@@ -10,5 +10,5 @@ This page contains collection of examples in processor offloading to FPGA based 
    :caption: List of Applications
 
    kmeans.rst
-   mfilter.rst
-   watermark.rst
+   median_filter.rst
+   watermarking.rst

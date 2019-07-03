@@ -1,8 +1,0 @@
-.. _rtlvadd.rst
-
-Vector Addition With RTL Kernel (RTL)
-=====================================
-
-Simple example of vector addition using RTL Kernel
-
-**KEY CONCEPTS**: RTL Kernel
