@@ -9,8 +9,11 @@ Collection of RTL Kernel Based Examples.
    :maxdepth: 1
    :caption: List of Examples
 
-   rtlvadd.rst
-   rtl2clks.rst
-   rtl2kernels.rst
-   rtlhw.rst
-   rtlmixed.rst
+   rtl_adder_streams.rst
+   rtl_streaming_free_running.rst
+   rtl_streaming_k2k.rst
+   rtl_vadd.rst
+   rtl_vadd_2clks.rst
+   rtl_vadd_2kernels.rst
+   rtl_vadd_hw_debug.rst
+   rtl_vadd_mixed_c_vadd.rst

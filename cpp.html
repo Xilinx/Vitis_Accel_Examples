@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>C++ Kernels &mdash; Scout Git Examples 1.1 documentation</title>
+  <title>C++ Kernels &mdash; SCOUT Git Examples&#39; Documentation 2019.2 documentation</title>
   
 
   
@@ -35,7 +35,7 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Critical Path (C)" href="cpath.html" />
+    <link rel="next" title="00 Matrix Multiplication" href="00_cpu.html" />
     <link rel="prev" title="System Optimizations" href="sysopt.html" /> 
 </head>
 
@@ -50,7 +50,7 @@
           
 
           
-            <a href="index.html" class="icon icon-home"> Scout Git Examples
+            <a href="index.html" class="icon icon-home"> SCOUT Git Examples' Documentation
           
 
           
@@ -88,40 +88,47 @@
 <li class="toctree-l1"><a class="reference internal" href="cloud.html">Cloud Execution</a></li>
 <li class="toctree-l1"><a class="reference internal" href="support.html">Support</a></li>
 </ul>
-<p class="caption"><span class="caption-text">List of Examples</span></p>
+<p class="caption"><span class="caption-text">Category of Examples</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="helloworld.html">Hello World</a></li>
-<li class="toctree-l1"><a class="reference internal" href="cputofpga.html">CPU to FPGA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hello_world.html">Hello World (HLS C/C++ Kernel)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="host.html">Host</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sysopt.html">System Optimizations</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">C++ Kernels</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="cpath.html">Critical Path (C)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="lloop.html">Clock Frequency ~ Large Loop Count (C)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="splitkc.html">Large application Splits into Multiple Kernels (C)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="toomanycuc.html">Clock Frequency ~ Too Many Compute Units (C)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="dstreamarray.html">Dataflow Using HLS Stream (C)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="dstream.html">Dataflow Using HLS Stream</a></li>
-<li class="toctree-l2"><a class="reference internal" href="avs.html">Array of Structure(AoS) vs Structure of Arrays(SoA) (C)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="apartition.html">Array Partition (HLS C/C++ Kernel)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="dinter.html">Loop Iteration Dependency (C)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="lmem2rw.html">Two Parallel Read/Write on Local Memory (C)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="lfusion.html">Loop Fusion (C)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="lpipeline.html">Loop Pipelining (C)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="lreorder.html">Loop Reorder for better Performance(C)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="cyclicblock.html">Array Block and Cyclic Partitioning (C)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="shiftr.html">Shift Register (C)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="systolic.html">Systolic Array Implementation (C)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="burstrw.html">Burst Read/Write (C)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="cdatatype.html">Custom Data Type (C)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="fullarray.html">Full 2D Array Read/Write (C)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="gmem2.html">Global Memory Two Banks (C)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="kgb.html">Kernel Global Bandwidth</a></li>
-<li class="toctree-l2"><a class="reference internal" href="memcoal.html">Memory Coalesce Deadlock/Hang Handling (C)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="plram.html">PLRAM access (C)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="rowarray.html">Read/Write Row of 2D Array (C)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="slr.html">SLR Assign (CL)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="widemem.html">Wide Memory Read/Write (C)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="windowarray.html">Read/Write Window of 2D Array (C)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="00_cpu.html">00 Matrix Multiplication</a></li>
+<li class="toctree-l2"><a class="reference internal" href="01_kernel.html">01 Matrix Multiplication with OpenCL Kernel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02_local_mem.html">02 Matrix Multiplication with Local Memory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03_burst_rw.html">03 Matrix Multiplication Burst Read Write</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04_partition.html">04 Matrix Multiplication Array Partition and Loop Unroll</a></li>
+<li class="toctree-l2"><a class="reference internal" href="aos_vs_soa.html">Array of Structure(AoS) vs Structure of Arrays(SoA) (C)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="array_partition.html">Array Partition (HLS C/C++ Kernel)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="burst_rw.html">Burst Read/Write (C)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="critical_path.html">Critical Path (C)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="custom_datatype.html">Custom Data Type (C)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dataflow_stream.html">Dataflow Using HLS Stream</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dataflow_stream_array.html">Dataflow Using HLS Stream (C)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="debug_profile.html">Printing Profile Data and Dumping Waveform file (C)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dependence_inter.html">Loop Iteration Dependency (C)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="full_array_2d.html">Full 2D Array Read/Write (C)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gmem_2banks.html">Global Memory Two Banks (C)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gmem_2banks_5.0_shell.html">Global Memory Two Banks (C) for 5.0 shell</a></li>
+<li class="toctree-l2"><a class="reference internal" href="kernel_global_bandwidth.html">kernel_global</a></li>
+<li class="toctree-l2"><a class="reference internal" href="kernel_global_bandwidth_5.0_shell.html">kernel_global</a></li>
+<li class="toctree-l2"><a class="reference internal" href="large_loop.html">Clock Frequency ~ Large Loop Count (C)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lmem_2rw.html">Two Parallel Read/Write on Local Memory (C)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="loop_fusion.html">Loop Fusion (C)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="loop_pipeline.html">Loop Pipelining (C)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="loop_reorder.html">Loop Reorder for better Performance(C)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="memcoalesce_hang.html">Memory Coalesce Deadlock/Hang Handling (C)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="partition_cyclicblock.html">Array Block and Cyclic Partitioning (C)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plram_access.html">PLRAM access (C)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="row_array_2d.html">Read/Write Row of 2D Array (C)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="shift_register.html">Shift Register (C)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="slr_assign.html">SLR Assign (CL)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="split_kernel.html">Large application Splits into Multiple Kernels (C)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="systolic_array.html">Systolic Array Implementation (C)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="too_many_cu.html">Clock Frequency ~ Too Many Compute Units (C)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="wide_mem_rw.html">Wide Memory Read/Write (C)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="window_array_2d.html">Read/Write Window of 2D Array (C)</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="rtl.html">RTL Kernels</a></li>
@@ -145,7 +152,7 @@
       <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="index.html">Scout Git Examples</a>
+          <a href="index.html">SCOUT Git Examples' Documentation</a>
         
       </nav>
 
@@ -201,33 +208,41 @@
 <div class="toctree-wrapper compound">
 <p class="caption"><span class="caption-text">List of Examples</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="cpath.html">Critical Path (C)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="lloop.html">Clock Frequency ~ Large Loop Count (C)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="splitkc.html">Large application Splits into Multiple Kernels (C)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="toomanycuc.html">Clock Frequency ~ Too Many Compute Units (C)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="dstreamarray.html">Dataflow Using HLS Stream (C)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="dstream.html">Dataflow Using HLS Stream</a></li>
-<li class="toctree-l1"><a class="reference internal" href="avs.html">Array of Structure(AoS) vs Structure of Arrays(SoA) (C)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="apartition.html">Array Partition (HLS C/C++ Kernel)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="dinter.html">Loop Iteration Dependency (C)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="lmem2rw.html">Two Parallel Read/Write on Local Memory (C)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="lfusion.html">Loop Fusion (C)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="lpipeline.html">Loop Pipelining (C)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="lreorder.html">Loop Reorder for better Performance(C)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="cyclicblock.html">Array Block and Cyclic Partitioning (C)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="shiftr.html">Shift Register (C)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="systolic.html">Systolic Array Implementation (C)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="burstrw.html">Burst Read/Write (C)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="cdatatype.html">Custom Data Type (C)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="fullarray.html">Full 2D Array Read/Write (C)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="gmem2.html">Global Memory Two Banks (C)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="kgb.html">Kernel Global Bandwidth</a></li>
-<li class="toctree-l1"><a class="reference internal" href="memcoal.html">Memory Coalesce Deadlock/Hang Handling (C)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="plram.html">PLRAM access (C)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="rowarray.html">Read/Write Row of 2D Array (C)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="slr.html">SLR Assign (CL)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="widemem.html">Wide Memory Read/Write (C)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="windowarray.html">Read/Write Window of 2D Array (C)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="00_cpu.html">00 Matrix Multiplication</a></li>
+<li class="toctree-l1"><a class="reference internal" href="01_kernel.html">01 Matrix Multiplication with OpenCL Kernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02_local_mem.html">02 Matrix Multiplication with Local Memory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03_burst_rw.html">03 Matrix Multiplication Burst Read Write</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04_partition.html">04 Matrix Multiplication Array Partition and Loop Unroll</a></li>
+<li class="toctree-l1"><a class="reference internal" href="aos_vs_soa.html">Array of Structure(AoS) vs Structure of Arrays(SoA) (C)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="array_partition.html">Array Partition (HLS C/C++ Kernel)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="burst_rw.html">Burst Read/Write (C)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="critical_path.html">Critical Path (C)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="custom_datatype.html">Custom Data Type (C)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dataflow_stream.html">Dataflow Using HLS Stream</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dataflow_stream_array.html">Dataflow Using HLS Stream (C)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="debug_profile.html">Printing Profile Data and Dumping Waveform file (C)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dependence_inter.html">Loop Iteration Dependency (C)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="full_array_2d.html">Full 2D Array Read/Write (C)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gmem_2banks.html">Global Memory Two Banks (C)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gmem_2banks_5.0_shell.html">Global Memory Two Banks (C) for 5.0 shell</a></li>
+<li class="toctree-l1"><a class="reference internal" href="kernel_global_bandwidth.html">kernel_global</a></li>
+<li class="toctree-l1"><a class="reference internal" href="kernel_global_bandwidth_5.0_shell.html">kernel_global</a></li>
+<li class="toctree-l1"><a class="reference internal" href="large_loop.html">Clock Frequency ~ Large Loop Count (C)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lmem_2rw.html">Two Parallel Read/Write on Local Memory (C)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="loop_fusion.html">Loop Fusion (C)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="loop_pipeline.html">Loop Pipelining (C)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="loop_reorder.html">Loop Reorder for better Performance(C)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="memcoalesce_hang.html">Memory Coalesce Deadlock/Hang Handling (C)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="partition_cyclicblock.html">Array Block and Cyclic Partitioning (C)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="plram_access.html">PLRAM access (C)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="row_array_2d.html">Read/Write Row of 2D Array (C)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="shift_register.html">Shift Register (C)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="slr_assign.html">SLR Assign (CL)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="split_kernel.html">Large application Splits into Multiple Kernels (C)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="systolic_array.html">Systolic Array Implementation (C)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="too_many_cu.html">Clock Frequency ~ Too Many Compute Units (C)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wide_mem_rw.html">Wide Memory Read/Write (C)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="window_array_2d.html">Read/Write Window of 2D Array (C)</a></li>
 </ul>
 </div>
 </div>
@@ -240,7 +255,7 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="cpath.html" class="btn btn-neutral float-right" title="Critical Path (C)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="00_cpu.html" class="btn btn-neutral float-right" title="00 Matrix Multiplication" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="sysopt.html" class="btn btn-neutral float-left" title="System Optimizations" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
@@ -252,7 +267,7 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2019, Xilinx Inc.
+        &copy; Copyright 2019, Rajat Sarkari
 
     </p>
   </div>

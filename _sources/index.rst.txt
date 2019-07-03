@@ -21,11 +21,10 @@ ready to be compiled and executed on Scout supported boards and accelerated clou
    support.rst
 
 .. toctree::
-   :maxdepth: 2
-   :caption: List of Examples
+   :maxdepth: 1
+   :caption: Category of Examples
 
-   helloworld.rst
-   cputofpga.rst
+   hello_world.rst
    host.rst
    sysopt.rst
    cpp.rst

@@ -1,8 +1,0 @@
-.. _00cpu.rst
-
-Matrix Multiplication
-=====================
-
-This is a simple example of matrix multiplication (Row x Col).
-
-<Details to be added...>
