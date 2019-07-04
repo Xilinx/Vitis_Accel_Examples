@@ -22,81 +22,93 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 **********/
 // Work load of each CU
-#define BUFFER_SIZE 4096
+#define BUFFER_SIZE 1024
+#define DATA_SIZE 4096
+
+//TRIPCOUNT indentifier
+const unsigned int c_len = DATA_SIZE / BUFFER_SIZE;
+const unsigned int c_size = BUFFER_SIZE;
+
+/*
+    Vector Addition Kernel Implementation 
+    Arguments:
+        in1   (input)     --> Input Vector1
+        in2   (input)     --> Input Vector2
+        out_r   (output)    --> Output Vector
+        size  (input)     --> Size of Vector in Integer
+*/
 
 extern "C" {
-void vadd(const int *in1, // Read-Only Vector 1
-          const int *in2, // Read-Only Vector 2
-          int *out,       // Output Result
-          int size,       // Size of Vector Data
-          int cu_id,      // CU ID
-          int num_cu      // Number of CUs
+void vadd(const unsigned int *in1, // Read-Only Vector 1
+          const unsigned int *in2, // Read-Only Vector 2
+          unsigned int *out_r,     // Output Result
+          int size                 // Size in integer
 ) {
-   #pragma HLS INTERFACE m_axi port=in1 offset=slave bundle=gmem
-   #pragma HLS INTERFACE m_axi port=in2 offset=slave bundle=gmem
-   #pragma HLS INTERFACE m_axi port=out offset=slave bundle=gmem
+// SDAccel kernel must have one and only one s_axilite interface which will be used by host application to configure the kernel.
+// Here bundle control is defined which is s_axilite interface and associated with all the arguments (in1, in2, out_r and size),
+// control interface must also be associated with "return".
+// All the global memory access arguments must be associated to one m_axi(AXI Master Interface). Here all three arguments(in1, in2, out_r) are
+// associated to bundle gmem which means that a AXI master interface named "gmem" will be created in Kernel and all these variables will be
+// accessing global memory through this interface.
+// Multiple interfaces can also be created based on the requirements. For example when multiple memory accessing arguments need access to
+// global memory simultaneously, user can create multiple master interfaces and can connect to different arguments.
+#pragma HLS INTERFACE m_axi port = in1 offset = slave bundle = gmem
+#pragma HLS INTERFACE m_axi port = in2 offset = slave bundle = gmem
+#pragma HLS INTERFACE m_axi port = out_r offset = slave bundle = gmem
+#pragma HLS INTERFACE s_axilite port = in1 bundle = control
+#pragma HLS INTERFACE s_axilite port = in2 bundle = control
+#pragma HLS INTERFACE s_axilite port = out_r bundle = control
+#pragma HLS INTERFACE s_axilite port = size bundle = control
+#pragma HLS INTERFACE s_axilite port = return bundle = control
 
-   #pragma HLS INTERFACE s_axilite port=in1 bundle=control
-   #pragma HLS INTERFACE s_axilite port=in2 bundle=control
-   #pragma HLS INTERFACE s_axilite port=out bundle=control
-   #pragma HLS INTERFACE s_axilite port=size bundle=control
-   #pragma HLS INTERFACE s_axilite port=cu_id bundle=control
-   #pragma HLS INTERFACE s_axilite port=num_cu bundle=control
-   #pragma HLS INTERFACE s_axilite port=return bundle=control
+    unsigned int v1_buffer[BUFFER_SIZE];   // Local memory to store vector1
+    unsigned int v2_buffer[BUFFER_SIZE];   // Local memory to store vector2
+    unsigned int vout_buffer[BUFFER_SIZE]; // Local Memory to store result
 
-    // Local memory to store input and output vectors
-    // Local memory is implemented as BRAM memory blocks
-    // SDx assigns an independent local buffers for each compute unit
-    // For example : if 8 compute units are used, each compute unit gets
-    // three local buffers, a total 3*8 = 24 local buffers are allocated.
-    int in1_lcl[BUFFER_SIZE];
-    int in2_lcl[BUFFER_SIZE];
-    int out_lcl[BUFFER_SIZE];
+    //Per iteration of this loop perform BUFFER_SIZE vector addition
+    for (int i = 0; i < size; i += BUFFER_SIZE) {
+       #pragma HLS LOOP_TRIPCOUNT min=c_len max=c_len
+        int chunk_size = BUFFER_SIZE;
+        //boundary checks
+        if ((i + BUFFER_SIZE) > size)
+            chunk_size = size - i;
 
-    int global_size = num_cu;
-    // Computes vector addition operation iteratively over entire data set
-    for (int offset = 0; offset < size; offset += BUFFER_SIZE * global_size) {
-    // Enables burst reads on input vectors from global memory
-    // Each Work_Item asynchronously moves its work load from global memory
-    // to local memory (in1_lcl, in2_lcl) associated per each Work_Group
+        // Transferring data in bursts hides the memory access latency as well as improves bandwidth utilization and efficiency of the memory controller.
+        // It is recommended to infer burst transfers from successive requests of data from consecutive address locations.
+        // A local memory vl_local is used for buffering the data from a single burst. The entire input vector is read in multiple bursts.
+        // The choice of LOCAL_MEM_SIZE depends on the specific applications and available on-chip memory on target FPGA.
+        // burst read of v1 and v2 vector from global memory
 
-    // Burst read for in1_lcl
-    readIn1:
-        for (int j = 0; j < BUFFER_SIZE; j++) {
+    read1:
+        for (int j = 0; j < chunk_size; j++) {
+           #pragma HLS LOOP_TRIPCOUNT min=c_size max=c_size
            #pragma HLS PIPELINE II=1
-            in1_lcl[j] = in1[cu_id * BUFFER_SIZE + offset + j];
+            v1_buffer[j] = in1[i + j];
         }
 
-    // Burst read for in2_lcl
-    readIn2:
-        for (int j = 0; j < BUFFER_SIZE; j++) {
+    read2:
+        for (int j = 0; j < chunk_size; j++) {
+           #pragma HLS LOOP_TRIPCOUNT min=c_size max=c_size
            #pragma HLS PIPELINE II=1
-            in2_lcl[j] = in2[cu_id * BUFFER_SIZE + offset + j];
+            v2_buffer[j] = in2[i + j];
         }
 
-    // Performs vector addition.
-    // Vector addition is operated on elements across multiple
-    // compute units in parallel
-
-    // This computation results in SIMD (Single Instruction Multiple
-    // Data) type of execution over multiple CUs
-
-    // Pipeline Operations
+        // PIPELINE pragma reduces the initiation interval for loop by allowing the
+        // concurrent executions of operations
     vadd:
-        for (int i = 0; i < BUFFER_SIZE; i++) {
+        for (int j = 0; j < chunk_size; j++) {
+           #pragma HLS LOOP_TRIPCOUNT min=c_size max=c_size
            #pragma HLS PIPELINE II=1
-            out_lcl[i] = in1_lcl[i] + in2_lcl[i];
+            //perform vector addition
+            vout_buffer[j] = v1_buffer[j] + v2_buffer[j];
         }
 
-    // Burst write from kernel to global memory on "out" vector
-    // Each Work_Item writes back results from local buffers to global memory
-    // based on Work_Group which it belongs to.
-
-    // Burst write from out_lcl
-    writeOut:
-        for (int j = 0; j < BUFFER_SIZE; j++) {
+    //burst write the result
+    write:
+        for (int j = 0; j < chunk_size; j++) {
+           #pragma HLS LOOP_TRIPCOUNT min=c_size max=c_size
            #pragma HLS PIPELINE II=1
-            out[cu_id * BUFFER_SIZE + offset + j] = out_lcl[j];
+            out_r[i + j] = vout_buffer[j];
         }
     }
 }

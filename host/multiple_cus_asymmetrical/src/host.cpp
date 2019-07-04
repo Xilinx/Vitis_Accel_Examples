@@ -28,11 +28,10 @@ In this example, we will demonstrate how each compute unit can be connected to d
 #include <string>
 #include <unistd.h>
 #include <vector>
-
 // This file is required for OpenCL C++ wrapper APIs
 #include "xcl2.hpp"
 
-auto constexpr c_test_size = 4 * 1024; //4KB data
+auto constexpr c_test_size = 4 * 4096; //16KB data
 auto constexpr NCU = 4;
 
 ////////////////////RESET FUNCTION//////////////////////////////////////////
@@ -61,13 +60,16 @@ bool verify(int *sw_results, int *hw_results, int size) {
 ////////MAIN FUNCTION//////////
 int main(int argc, char **argv) {
     unsigned int size = c_test_size;
+    unsigned int chunk_size = size/NCU;
 
     // I/O Data Vectors
     std::vector<int, aligned_allocator<int>> source_in1(size);
     std::vector<int, aligned_allocator<int>> source_in2(size);
     std::vector<int, aligned_allocator<int>> source_hw_results(size);
     std::vector<int> sw_results(size);
-
+    
+    reset(source_in1.data(), source_in2.data(), sw_results.data(), source_hw_results.data(), size);
+     
     if (argc != 2) {
         std::cout << "Usage: " << argv[0] << " <XCLBIN File>" << std::endl;
         return EXIT_FAILURE;
@@ -129,7 +131,7 @@ int main(int argc, char **argv) {
     }
 
     // Creating Buffers
-    size_t vector_size_bytes = size * sizeof(int);
+    size_t vector_size_bytes = chunk_size * sizeof(int);
     std::vector<cl::Buffer> buffer_in1(NCU);
     std::vector<cl::Buffer> buffer_in2(NCU);
     std::vector<cl::Buffer> buffer_output(NCU);
@@ -139,21 +141,21 @@ int main(int argc, char **argv) {
                       cl::Buffer(context,
                                  CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY,
                                  vector_size_bytes,
-                                 source_in1.data(),
+                                 source_in1.data() + (i * chunk_size),
                                  &err));
         OCL_CHECK(err,
                   buffer_in2[i] =
                       cl::Buffer(context,
                                  CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY,
                                  vector_size_bytes,
-                                 source_in2.data(),
+                                 source_in2.data() + (i * chunk_size),
                                  &err));
         OCL_CHECK(err,
                   buffer_output[i] =
                       cl::Buffer(context,
                                  CL_MEM_USE_HOST_PTR | CL_MEM_WRITE_ONLY,
                                  vector_size_bytes,
-                                 source_hw_results.data(),
+                                 source_hw_results.data() + (i * chunk_size),
                                  &err));
     }
 
@@ -165,9 +167,7 @@ int main(int argc, char **argv) {
         OCL_CHECK(err, err = krnls[i].setArg(narg++, buffer_in1[i]));
         OCL_CHECK(err, err = krnls[i].setArg(narg++, buffer_in2[i]));
         OCL_CHECK(err, err = krnls[i].setArg(narg++, buffer_output[i]));
-        OCL_CHECK(err, err = krnls[i].setArg(narg++, size));
-        OCL_CHECK(err, err = krnls[i].setArg(narg++, i));
-        OCL_CHECK(err, err = krnls[i].setArg(narg++, NCU));
+        OCL_CHECK(err, err = krnls[i].setArg(narg++, chunk_size));
 
         //Copy input data to device global memory
         OCL_CHECK(err,

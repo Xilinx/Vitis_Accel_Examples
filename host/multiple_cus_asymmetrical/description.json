@@ -1,14 +1,24 @@
 {
-    "cmd_args": "BUILD/vadd.xclbin", 
+    "ndevice": [
+        "xilinx_aws-vu9p-f1-04261818", 
+        "xilinx:aws:vu9p:f1:04261818"
+    ], 
+    "name": "Vector Addition ~ Asymmetrical Multiple Compute Units (C) ", 
     "contributors": [
         {
             "url": "http://www.xilinx.com", 
             "group": "Xilinx"
         }
     ], 
-    "host_exe": "host", 
-    "overview": [
-        "This is simple example of vector addition to demonstrate how to connect each compute unit to different banks and how to use these compute units in host applications"
+    "launch": [
+        {
+            "cmd_args": "BUILD/vadd.xclbin", 
+            "name": "sw_emu"
+        }, 
+        {
+            "cmd_args": "BUILD/vadd.xclbin", 
+            "name": "hw_emu"
+        }
     ], 
     "includes": [
         {
@@ -16,9 +26,20 @@
             "location": "GIT_REPO_DIR/common/includes/xcl2/"
         }
     ], 
-    "nboard": [
-        "xilinx_aws-vu9p-f1-04261818", 
-        "xilinx:aws:vu9p:f1:04261818"
+    "host": [
+        {
+            "compiler": [
+                {}
+            ], 
+            "linker": [
+                {
+                    "librarypaths": [
+                        "REPO_DIR/common/includes/"
+                    ]
+                }
+            ], 
+            "host_exe": "host"
+        }
     ], 
     "key_concepts": [
         "Multiple Compute Units"
@@ -32,7 +53,6 @@
     "os": [
         "Linux"
     ], 
-    "example": "Vector Addition ~ Asymmetrical Multiple Compute Units (C) ", 
     "containers": [
         {
             "accelerators": [
@@ -42,8 +62,11 @@
                     "location": "src/vadd.cpp"
                 }
             ], 
-            "ldclflags": "--sp vadd_1.in1:DDR[0] --sp vadd_1.in2:DDR[0] --sp vadd_1.out:DDR[0] --sp vadd_2.in1:DDR[1] --sp vadd_2.in2:DDR[1] --sp vadd_2.out:DDR[1] --sp vadd_3.in1:PLRAM[0] --sp vadd_3.in2:PLRAM[0] --sp vadd_3.out:PLRAM[0] --sp vadd_4.in1:PLRAM[1] --sp vadd_4.in2:PLRAM[1] --sp vadd_4.out:PLRAM[1]  ", 
+            "ldclflags": "--sp vadd_1.in1:DDR[0] --sp vadd_1.in2:DDR[0] --sp vadd_1.out_r:DDR[0] --sp vadd_2.in1:DDR[1] --sp vadd_2.in2:DDR[1] --sp vadd_2.out_r:DDR[1] --sp vadd_3.in1:PLRAM[0] --sp vadd_3.in2:PLRAM[0] --sp vadd_3.out_r:PLRAM[0] --sp vadd_4.in1:PLRAM[1] --sp vadd_4.in2:PLRAM[1] --sp vadd_4.out_r:PLRAM[1]  ", 
             "name": "vadd"
         }
+    ], 
+    "description": [
+        "This is simple example of vector addition to demonstrate how to connect each compute unit to different banks and how to use these compute units in host applications"
     ]
 }
