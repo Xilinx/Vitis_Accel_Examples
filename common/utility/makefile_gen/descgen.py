@@ -60,11 +60,12 @@ host_dict['linker'] = linker_list
 if 'libs' or 'compiler' in data:
 	compiler_list = []
 	compiler_dict = {}
-	include_paths = []
-	for item in data['libs']:
-		include_paths.append('REPO_DIR/common/includes/'+ item)	
-	compiler_dict['includepaths'] = include_paths
-	del data['libs']
+	if 'libs' in data:	
+		include_paths = []
+		for item in data['libs']:
+			include_paths.append('REPO_DIR/common/includes/'+ item)	
+		compiler_dict['includepaths'] = include_paths
+		del data['libs']
 	if 'compiler' in data:
 		compiler_dict.update(data['compiler'])
 	compiler_list.append(compiler_dict)
