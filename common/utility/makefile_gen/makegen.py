@@ -6,6 +6,8 @@ import os
 import re
 import subprocess
 
+
+
 def create_params(target,data):    
     target.write("# Points to Utility Directory\n")
     dirName = os.getcwd()
@@ -44,48 +46,45 @@ def create_params(target,data):
     target.write("\n")
     return
 
+
+#adding lib.mk
 def add_includes1(target, data):
     target.write("#Include Libraries\n")
     target.write("include $(ABS_COMMON_REPO)/common/includes/opencl/opencl.mk\n")
-    if "includes" in data:
-        for lib in data["includes"]:
-            target.write("include $(ABS_COMMON_REPO)/common/includes/")
-            target.write(lib["name"])
+    if "libraries" in data["host"][0]["linker"][0]:
+        for lib in data["host"][0]["linker"][0]["libraries"]:
+            target.write("include "+ data["host"][0]["linker"][0]["librarypaths"][0].replace("REPO_DIR","$(ABS_COMMON_REPO)"))
+            target.write(lib)
             target.write("/")
-            target.write(lib["name"])
+            target.write(lib)
             target.write(".mk")
             target.write("\n")
     return
 
 def add_includes2(target, data):
-    if "includes" in data:
+    if "libraries" in data["host"][0]["linker"][0]:
         target.write("CXXFLAGS +=")
-        for lib in data["includes"]:
+        for lib in data["host"][0]["linker"][0]["libraries"]:
             target.write(" $(")
-            target.write(lib["name"])
+            target.write(lib)
             target.write("_CXXFLAGS)")
         target.write("\n")
         target.write("LDFLAGS +=")
-        for lib in data["includes"]:
+        for lib in data["host"][0]["linker"][0]["libraries"]:
             target.write(" $(")
-            target.write(lib["name"])
+            target.write(lib)
             target.write("_LDFLAGS)")
         target.write("\n")
         target.write("HOST_SRCS +=")
-        for lib in data["includes"]:
+        for lib in data["host"][0]["linker"][0]["libraries"]:
             target.write(" $(")
-            target.write(lib["name"])
+            target.write(lib)
             target.write("_SRCS)")
-    target.write("\n")
-    if "linker" in data:
-        target.write("\nCXXFLAGS +=")
-        if "libraries" in data["linker"]:
-            for lin in data["linker"]["libraries"]:
-                target.write(" ")
-                target.write("-l")
-                target.write(lin)
-        if "options" in data["linker"]:
-            for lin in data["linker"]["options"]:
+    
+    if "linker" in data["host"][0]:
+        if "options" in data["host"][0]["linker"][0]:
+            target.write("\nCXXFLAGS +=")
+            for lin in data["host"][0]["linker"][0]["options"]:
   	        target.write(" ")
 	        target.write(lin)
         target.write("\n")                
@@ -93,23 +92,20 @@ def add_includes2(target, data):
 
 def add_host_flags(target, data):
     target.write("HOST_SRCS += ")
-    if "host_srcs" in data:
-    	target.write(data["host_srcs"])
+    if "sources" in data["host"][0]:
+	for src in data["host"][0]["sources"]:
+    		target.write(src+ " ")
 	target.write("\n")
     else:
 	target.write("src/host.cpp\n")
-    if "host_hdrs" in data:
-	target.write("HOST_HDRS += ")
-	target.write(data["host_hdrs"])
-	target.write("\n")
     target.write("\n")
-    target.write("# Host compiler global settings\n")
+    target.write("# Host compiler global settings\n")  	
     target.write("CXXFLAGS += ")
     target.write("-fmessage-length=0")
         
-    if "compiler" in data:
-	if "options" in data["compiler"]:
-	    target.write(data["compiler"]["options"])
+    if "compiler" in data["host"]:
+	if "options" in data["host"][0]["compiler"][0]:
+	    target.write(data["host"][0]["compiler"][0]["options"])
     target.write("\n")	
     target.write("LDFLAGS += ")
     target.write("-lrt -lstdc++ ")
@@ -143,10 +139,10 @@ def add_kernel_flags(target, data):
 			target.write(flg)
                     target.write("\n")
     
-    if "compiler" in data:
-        if "symbols" in data["compiler"]:
+    if "compiler" in data["host"]:
+        if "symbols" in data["host"]["compiler"]:
             target.write("\nCXXFLAGS +=")
-            for sym in data["compiler"]["symbols"]:
+            for sym in data["host"][0]["compiler"][0]["symbols"]:
                 target.write(" ")
                 target.write("-D")
                 target.write(sym)
@@ -166,14 +162,14 @@ def add_kernel_flags(target, data):
             target.write("\n")
     target.write("\n")
     target.write("EXECUTABLE = ")
-    if "host_exe" in data:
-        target.write(data["host_exe"])    
+    if "host_exe" in data["host"][0]:
+        target.write(data["host"][0]["host_exe"])    
     else: 
         target.write("host")
-    if "cmd_args" in data:
+    if "launch" in data:
     	target.write("\n")
         target.write("CMD_ARGS =")
-	cmd_args = data["cmd_args"].split(" ")
+	cmd_args = data["launch"][0]["cmd_args"].split(" ")
 	for cmdargs in cmd_args[0:]:
 	    target.write(" ")
             cmdargs = cmdargs.replace('BUILD', '$(BUILD_DIR)')
@@ -307,8 +303,8 @@ def mk_build_all(target, data):
     target.write("CP = cp -rf\n")
 
     args = []
-    if "cmd_args" in data:
-        args = data["cmd_args"].split(" ")
+    if "cmd_args" in data["launch"][0]:
+        args = data["launch"][0]["cmd_args"].split(" ")
         if any("/data" in string for string in args):
             target.write("DATA = ./data\n")
 
@@ -343,8 +339,8 @@ def mk_build_all(target, data):
 
 def mk_check(target, data):
     target.write("check: all\n")
-    if "nboard" in data:
-        for board in data["nboard"]:
+    if "ndevice" in data:
+        for board in data["ndevice"]:
             target.write("ifeq ($(findstring ")
 	    target.write(board)
 	    target.write(", $(DEVICE)), ")
@@ -356,8 +352,10 @@ def mk_check(target, data):
     target.write("ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))\n")
     target.write("\t$(CP) $(EMCONFIG_DIR)/emconfig.json .\n") 
     target.write("\tXCL_EMULATION_MODE=$(TARGET) ./$(EXECUTABLE)")
-    if "cmd_args" in data:
-        args = data["cmd_args"].split(" ")    
+    
+    		
+    if "cmd_args" in data["launch"][0]:
+        args = data["launch"][0]["cmd_args"].split(" ")    
         for arg in args[0:]:
             target.write(" ")
             arg = arg.replace('BUILD', '$(BUILD_DIR)')
@@ -365,8 +363,9 @@ def mk_check(target, data):
 	    target.write(arg)
     target.write("\nelse\n")        
     target.write("\t ./$(EXECUTABLE)")
-    if "cmd_args" in data:
-        args = data["cmd_args"].split(" ")    
+	
+    if "cmd_args" in data["launch"][0]:
+        args = data["launch"][0]["cmd_args"].split(" ")    
         for arg in args[0:]:
             target.write(" ")
 	    arg = arg.replace('BUILD', '$(BUILD_DIR)')
@@ -388,13 +387,13 @@ def mk_check(target, data):
         target.write("endif\n")
         target.write("\n")
 
-    if data["example"] != "00 Matrix Multiplication":
+    if data["name"] != "00 Matrix Multiplication":
 	target.write("\tsdx_analyze profile -i profile_summary.csv -f html\n")
     target.write("\n")
 
 def run_nimbix(target, data):
     target.write("run_nimbix: all\n")
-    if "cmd_args" in data:
+    if "cmd_args" in data["launch"][0]:
     	target.write("\t$(COMMON_REPO)/common/utility/nimbix/run_nimbix.py $(EXECUTABLE) $(CMD_ARGS) $(DSA)\n\n")
     else:
     	target.write("\t$(COMMON_REPO)/common/utility/nimbix/run_nimbix.py $(EXECUTABLE) $(DSA)\n\n")	
@@ -535,17 +534,17 @@ if "match_ini" in data and data["match_ini"] == "false":
     print "Error:: xrt.ini File Manually Edited:: Auto-file Generator Failed"
     err = False
 else:
-    print "Generating xrt.ini file for %s" %data["example"]
+    print "Generating xrt.ini file for %s" %data["name"]
     target = open("xrt.ini","w+")
     profile_report(target)
 
 if "match_makefile" in data and data["match_makefile"] == "false":
     print "Error:: Makefile Manually Edited:: AutoMakefile Generator Failed"
 else:
-    print "Generating Auto-Makefile for %s" %data["example"]
+    print "Generating Auto-Makefile for %s" %data["name"]
     target = open("Makefile", "w")
     create_mk(target, data)
-    print "Generating utils.mk file for %s" %data["example"]
+    print "Generating utils.mk file for %s" %data["name"]
     target = open("utils.mk", "w+")
     create_utils(target, data)
 
