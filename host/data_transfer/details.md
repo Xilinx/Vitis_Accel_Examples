@@ -1,10 +1,7 @@
 Data Transfer
 ==============
 
-This example deals with OpeCL APIs for data transfer between host and kernel.
-Data is written and read back from the kernels using different APIs and  verified using `verify` function.
-
-Host writes the data to be used by kernels during execution to the global memory using buffers. These buffers are accessible to kernels and they can read and write to these according to the permissions provided by the host in the API. Data written to these buffers by the kernels is then read back by the host.
+This example deals with OpeCL APIs for data transfer between host and kernel. Host writes the data to be used by kernels during execution to the global memory using buffers. These buffers are accessible to kernels and they can read and write to these according to the permissions provided by the host in the API. Data written to these buffers by the kernels is then read back by the host.
 
 __Various APIs used are listed below :__
 
@@ -54,7 +51,7 @@ ptr = q.enqueueMapBuffer(buffer2, CL_TRUE, CL_MAP_READ,
 
 * The behavior of OpenCL function calls that enqueue commands that write or copy to regions of a memory object that are mapped is undefined.
 
-`clEnqueueMigrateMemObjects` is another API used to transfer data between host and the kernels. It does immediate migration of data to DDR memory when it is called rather than when the kernel is enqueued for execution.
+`clEnqueueMigrateMemObjects` is another API used to transfer data between host and the kernels. It does immediate migration of data to DDR memory when it is called rather than when the kernel is enqueued for execution. Using this command reduces the latency of the application. 
 ```c++
 q.enqueueMigrateMemObjects({buffer_mem}, 0 /* 0 means from host*/ ));
 q.enqueueMigrateMemObjects({buffer_mem}, CL_MIGRATE_MEM_OBJECT_HOST));
