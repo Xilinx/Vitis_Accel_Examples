@@ -1,6 +1,6 @@
 Device Query
 ================
-This example prints devices available on this machine and their corresponding capabilities. Platform IDs and Device IDs can be extracted using Open CL APIs which are subsequently needed to configure the context and command queues on the device.
+This example prints devices available on this machine and their corresponding capabilities. Platform IDs and Device IDs can be extracted using Open CL APIs which are subsequently needed to configure the context and command queues for communication between host and device.
 
 `clGetPlatformIDs` API is used to get the information about the platforms available. It returns a list of OpenCL platforms found on the machine and their corresponding IDs.
 
