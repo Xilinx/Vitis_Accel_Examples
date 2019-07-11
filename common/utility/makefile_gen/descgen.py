@@ -44,10 +44,10 @@ linker_dict = {}
 library_paths = []
 library_paths.append("REPO_DIR/common/includes/")
 linker_dict['librarypaths'] = library_paths
-if 'libs' in data:
+if 'includes' in data:
 	library = []
-	for item in data['libs']:
-		library.append(item)
+	for item in data['includes']:
+		library.append(item["name"])
 	linker_dict['libraries'] = library
 if 'linker' in data:
 	linker_dict.update(data['linker'])
@@ -57,23 +57,23 @@ host_dict['linker'] = linker_list
 	 
 
 
-if 'libs' or 'compiler' in data:
+if 'includes' or 'compiler' in data:
 	compiler_list = []
 	compiler_dict = {}
-	if 'libs' in data:	
+	if 'includes' in data:	
 		include_paths = []
-		for item in data['libs']:
-			include_paths.append('REPO_DIR/common/includes/'+ item)	
+		for item in data['includes']:
+			include_paths.append('REPO_DIR/common/includes/'+ item["name"])	
 		compiler_dict['includepaths'] = include_paths
-		del data['libs']
+		del data['includes']
 	if 'compiler' in data:
 		compiler_dict.update(data['compiler'])
 	compiler_list.append(compiler_dict)
 	host_dict['compiler'] = compiler_list
 
-launch_list = []
 
 if 'cmd_args' in data:
+	launch_list = []
 	emu_cmd_dictny = {}
 	emu_cmd_dictny['name'] = 'sw_emu'
 	emu_cmd_dictny['cmd_args'] = data['cmd_args']
@@ -82,7 +82,7 @@ if 'cmd_args' in data:
 	emu_cmd_dictny1['name'] = 'hw_emu'
 	emu_cmd_dictny1['cmd_args'] = data.pop('cmd_args')
 	launch_list.append(emu_cmd_dictny1)
-dict_new['launch'] = launch_list  
+	dict_new['launch'] = launch_list  
 
 
 host_list.append(host_dict)
