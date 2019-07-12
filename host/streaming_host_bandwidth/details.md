@@ -55,16 +55,3 @@ nb_wr_req.flags = CL_STREAM_EOT | CL_STREAM_NONBLOCKING;
     xcl::Stream::releaseStream(write_stream_a);
 ```
 
-hls::stream kernels use a special class `qdma_axis<D,0,0>` which requires the header file `ap_axi_sdata.h`. It has variables `data`,`last` and `keep` to manage the data transfer.
-
-`data`: Internally qdma_axis datatype has `ap_uint<D>` which can be accessed by `get_data()` and `set_data()` methods.
-
-`keep`: For all data before last, `keep` variable must be set to `-1` to denote all bytes of data are valid.   
-
-```c++
-      t_out.set_data(tmpOut);
-      t_out.set_last(t1.get_last());
-      t_out.set_keep(-1);
-```
-
-`last`: Final data transferred must be identified by the last variable. get_last() and set_last() methods are used to access/set the last variable. Kernel doesn't know how many data items are coming through the stream. Stream is polled using get_last() and breaks when get_last() returns 1.
