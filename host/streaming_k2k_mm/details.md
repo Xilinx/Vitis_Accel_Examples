@@ -22,5 +22,5 @@ HLS pragma must be defined for every streaming interface.
 ```c++
 #pragma HLS INTERFACE axis port=out
 ```
-`hls::stream` kernels use a special class `ap_axiu<D,0,0,0>` for intra-kernel streams  which requires the header file `ap_axi_sdata.h`. It has variables `data`,`last` and `keep` to manage the data transfer.`
+`hls::stream` kernels use a special class `ap_axiu<D,0,0,0>` for intra-kernel streams  which requires the header file `ap_axi_sdata.h`. It has variables `data`,`last` and `keep` to manage the data transfer.
 
