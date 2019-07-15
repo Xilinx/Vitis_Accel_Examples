@@ -231,7 +231,7 @@ if "match_readme" in data and data["match_readme"] == "false":
     print "ERROR:: README Manually Edited:: README Generator Failed\n"
 else:
     print "Generating the README for %s" % data["name"]
-    target = open("README1.md","w")
+    target = open("README.md","w")
     overview(target,data)
     requirements(target,data)
     hierarchy(target)
