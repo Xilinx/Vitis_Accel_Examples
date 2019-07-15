@@ -46,7 +46,7 @@ HLS pragma must be defined for every streaming interface.
 #pragma HLS INTERFACE axis port=in1
 ```
 
-`hls::stream` kernels use a special class `qdma_axis<D,0,0,0>` for host to kernel streams  which requires the header file `ap_axi_sdata.h`. It has variables `data`,`last` and `keep` to manage the data transfer.`
+`hls::stream` kernels use a special class `qdma_axis<D,0,0,0>` for host to kernel streams  which requires the header file `ap_axi_sdata.h`. It has variables `data`,`last` and `keep` to manage the data transfer.
 
 `data`: Internally qdma_axis datatype has `ap_uint<D>` which can be accessed by `get_data()` and `set_data()` methods.
 
