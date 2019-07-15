@@ -38,8 +38,10 @@ xcl::Stream::writeStream(write_stream_b[i], (h_b.data() + i * no_of_elem), vecto
 Since non-blocking streams are asynchronous and return immediately, `xcl::stream::pollStream` is a blocking API used to monitor the status of completion of the transfer through streams, it returns the execution to the host code after streams are completed.
 
 ```c++
-    cl_streams_poll_req_completions poll_req[2]{0, 0};
-    auto num_compl = 2;
+    int num_compl = 3 * NCU;
+    cl_streams_poll_req_completions *poll_req;
+    poll_req = (cl_streams_poll_req_completions *)malloc(sizeof(cl_streams_poll_req_completions) * num_compl);
+    memset(poll_req, 0, sizeof(cl_streams_poll_req_completions) * num_compl);
     xcl::Stream::pollStreams(device.get(), poll_req, num_compl, num_compl, &num_compl, 50000, &ret);
 ```  
 
