@@ -43,10 +43,10 @@ DEVICES = {
 }
 
 def overview(target,data):
-    target.write(data["example"])
+    target.write(data["name"])
     target.write("\n")
     target.write("======================\n\n")
-    target.write(('\n').join(data["overview"]))
+    target.write(('\n').join(data["description"]))
     target.write("\n\n")
     if 'more_info' in data:
         target.write(('\n').join(data["more_info"]))
@@ -95,13 +95,13 @@ def requirements(target,data):
     target.write("---------|-------------------|-----------------\n")
 
     boards = []
-    if 'board' in data:
-        board = data['board']
+    if 'device' in data:
+        board = data['device']
         boards = [word for word in DEVICES if word in board]
     else:
         nboard = []
-        if 'nboard' in data:
-            nboard = data['nboard']
+        if 'ndevice' in data:
+            nboard = data['ndevice']
         boards = [word for word in DEVICES if word not in nboard]
 
     for board in boards:
@@ -133,11 +133,11 @@ def commandargs(target,data):
     target.write("##  COMMAND LINE ARGUMENTS\n")
     target.write("Once the environment has been configured, the application can be executed by\n")
     target.write("```\n")
-    if not "cmd_args" in data:
-        target.write('./' + data["host_exe"])
+    if not "cmd_args" in data["launch"][0]:
+        target.write('./' + data["host"][0]["host_exe"])
     else:
-        target.write('./' + data["host_exe"])
-        args = data["cmd_args"].split(" ")
+        target.write('./' + data["host"][0]["host_exe"])
+        args = data["launch"][0]["cmd_args"].split(" ")
         for arg in args[0:]:
             target.write(" ")
             arg = arg.replace('BUILD/', '<')
@@ -175,17 +175,17 @@ def nimbix(target):
     target.write("```\n")
     dirName = os.getcwd()
     dirNameList = list(dirName.split("/"))
-    dirNameIndex = dirNameList.index("apps")
+    dirNameIndex = dirNameList.index("ScoutExamples")
     diff = len(dirNameList) - dirNameIndex - 1
     while diff > 0:
 	    target.write("../")
 	    diff -= 1 
     target.write("utility/nimbix/nimbix-run.py -- ")
-    if not "cmd_args" in data:
-        target.write('./' + data["host_exe"])
+    if not "cmd_args" in data["launch"][0]:
+        target.write('./' + data["host"][0]["host_exe"])
     else:
-        target.write('./' + data["host_exe"])
-        args = data["cmd_args"].split(" ")
+        target.write('./' + data["host"][0]["host_exe"])
+        args = data["launch"][0]["cmd_args"].split(" ")
         for arg in args[0:]:
             target.write(" ")
             arg = arg.replace('BUILD', './xclbin')
@@ -199,11 +199,11 @@ def nimbix(target):
     target.write("* Launch the application using the Nimbix web interface as described in [Nimbix Getting Started Guide][]\n")
     target.write("* Make sure that the application launch options in the Nimbix web interface reflect the applications command line syntax\n")
     target.write("```\n")
-    if not "cmd_args" in data:
-        target.write('./' + data["host_exe"])
+    if not "cmd_args" in data["launch"][0]:
+        target.write('./' + data["host"][0]["host_exe"])
     else:
-        target.write('./' + data["host_exe"])
-        args = data["cmd_args"].split(" ")
+        target.write('./' + data["host"][0]["host_exe"])
+        args = data["launch"][1]["cmd_args"].split(" ")
         for arg in args[0:]:
             target.write(" ")
             arg = arg.replace('BUILD', './xclbin')
@@ -230,8 +230,8 @@ assert("OpenCL" in data['runtime'])
 if "match_readme" in data and data["match_readme"] == "false":
     print "ERROR:: README Manually Edited:: README Generator Failed\n"
 else:
-    print "Generating the README for %s" % data["example"]
-    target = open("README.md","w")
+    print "Generating the README for %s" % data["name"]
+    target = open("README1.md","w")
     overview(target,data)
     requirements(target,data)
     hierarchy(target)
