@@ -24,7 +24,7 @@ HLS pragma must be defined for every streaming interface.
 ```
 `hls::stream` kernels use a special class `ap_axiu<D,0,0,0>` for intra-kernel streams  which requires the header file `ap_axi_sdata.h`. It has variables `data`,`last` and `keep` to manage the data transfer.
 
-Producer kernel `krnl_stream_vadd` uses `.write` to write to the output stream and consumer kernel `krnl_stream_vmult` uses `.read` to read its input stream.
+Producer kernel `krnl_stream_vadd` uses `write()` to write to the output stream and consumer kernel `krnl_stream_vmult` uses `read()` to read its input stream.
 
 ```c++
 vadd:
