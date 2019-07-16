@@ -44,4 +44,5 @@ vadd:
         out[i] = in1[i] * v2.data;
     }
     ```
-
+Producer kernel stream output port must be connected to consumer kernel stream input port during the `xocc` linking stage.
+`xocc -l --sc krnl_stream_vadd_1.out:krnl_stream_vmult_1.in2`
