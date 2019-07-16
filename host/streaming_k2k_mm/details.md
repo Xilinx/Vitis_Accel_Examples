@@ -19,9 +19,6 @@ Producer kernel stream output port must be connected to consumer kernel stream i
 
    `xocc -l --sc krnl_stream_vadd_1.out:krnl_stream_vmult_1.in2`
 
-
-Since this example employs only a kernel to kernel stream, no stream APIs are required in the host code.
-
 HLS pragma must be defined for every streaming interface.
 ```c++
 #pragma HLS INTERFACE axis port=out
