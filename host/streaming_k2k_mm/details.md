@@ -5,7 +5,7 @@ This example demonstrates how kernels can have memory mapped inputs along with s
 
 `kernel_stream_vadd` has two memory mapped inputs and one stream output. `kernel_stream_vmult` has one memory mapped input along with kernel to kernel stream from `kernel_stream_vadd` which acts as its second input.
 
-Kernel arguments are not required to be setup in host code for kernel to kernel streaming interfaces. Argument 2 for kernel_vadd and argument 1 for kernel_vmult are not declared.  
+Kernel arguments are not required to be setup in host code for kernel to kernel streaming interfaces. Argument 2 for `kernel_vadd` and argument 1 for `kernel_vmult` are not declared.  
 
 ```c++
 err = krnl_vadd.setArg(0, buffer_in1);
@@ -15,6 +15,10 @@ err = krnl_vmult.setArg(0, buffer_in3));
 err = krnl_vmult.setArg(2, buffer_output));
 err = krnl_vmult.setArg(3, size));
 ```
+Producer kernel stream output port must be connected to consumer kernel stream input port during the `xocc` linking stage.
+
+   `xocc -l --sc krnl_stream_vadd_1.out:krnl_stream_vmult_1.in2`
+
 
 Since this example employs only a kernel to kernel stream, no stream APIs are required in the host code.
 
@@ -35,16 +39,14 @@ vadd:
         v.data = res;
         out.write(v);
     }
-   ```
-   ```c++
+```  
+
+```c++         
    vmult:
     for (int i = 0; i < size; i++) {
        #pragma HLS PIPELINE II=1
         pkt v2 = in2.read();
         out[i] = in1[i] * v2.data;
     }
-    ```
+```
     
-Producer kernel stream output port must be connected to consumer kernel stream input port during the `xocc` linking stage.
-
-   `xocc -l --sc krnl_stream_vadd_1.out:krnl_stream_vmult_1.in2`
