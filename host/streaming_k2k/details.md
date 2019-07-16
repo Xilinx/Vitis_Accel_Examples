@@ -73,3 +73,7 @@ typedef ap_axiu<DWIDTH, 0, 0, 0> trans_pkt;
 ```
 
 `last`: Final data transferred must be identified by the last variable. get_last() and set_last() methods are used to access/set the last variable. Kernel doesn't know how many data items are coming through the stream. Stream is polled by calling get_last() after every transfer and breaks when get_last() returns 1.
+
+Producer kernel streaming output port needs to be connected to consumer kernel stream input port during `xocc` linking stage.
+
+`xocc -l --sc krnl_stream_vadd_1.output:krnl_stream_vmult_1.b`
