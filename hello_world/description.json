@@ -23,13 +23,20 @@
             "host_exe": "host",
             "linker": [
                 {
+                    "libraries": [
+                        "xcl2"
+                    ],
                     "librarypaths": [
                         "REPO_DIR/common/includes/"
                     ]
                 }
             ], 
             "compiler": [
-                {}
+                {
+                    "includepaths": [
+                        "REPO_DIR/common/includes/xcl2"
+                    ]                
+                }
             ]
         }
     ], 

@@ -374,21 +374,20 @@ def mk_check(target, data):
 	        arg = arg.replace('PROJECT', '.')
 	        target.write(arg)
     target.write("\nendif\n")
-    if "launch" in data:
-        if "targets" in data:
-            target.write("ifneq ($(TARGET),$(findstring $(TARGET),")
-            args = data["targets"]
-            for arg in args:
-                target.write(" ")
-                target.write(arg)
-            target.write("))\n")
-            target.write("$(warning WARNING:Application supports only")
-            for arg in args:
-                target.write(" ")
-                target.write(arg)
-            target.write(" TARGET. Please use the target for running the application)\n")
-            target.write("endif\n")
-            target.write("\n")
+    if "targets" in data:
+        target.write("ifneq ($(TARGET),$(findstring $(TARGET),")
+        args = data["targets"]
+        for arg in args:
+            target.write(" ")
+            target.write(arg)
+        target.write("))\n")
+        target.write("$(warning WARNING:Application supports only")
+        for arg in args:
+            target.write(" ")
+            target.write(arg)
+        target.write(" TARGET. Please use the target for running the application)\n")
+        target.write("endif\n")
+        target.write("\n")
 
     if data["name"] != "00 Matrix Multiplication":
 	target.write("\tsdx_analyze profile -i profile_summary.csv -f html\n")

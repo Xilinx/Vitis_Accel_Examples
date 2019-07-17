@@ -87,6 +87,10 @@ ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 else
 	 ./$(EXECUTABLE)
 endif
+ifneq ($(TARGET),$(findstring $(TARGET), sw_emu))
+$(warning WARNING:Application supports only sw_emu TARGET. Please use the target for running the application)
+endif
+
 
 run_nimbix: all
 	$(COMMON_REPO)/common/utility/nimbix/run_nimbix.py $(EXECUTABLE) $(DSA)

@@ -22,3 +22,9 @@ Application code is located in the src directory. Accelerator binary files will 
 src/host.cpp
 ```
 
+##  COMMAND LINE ARGUMENTS
+Once the environment has been configured, the application can be executed by
+```
+./host
+```
+

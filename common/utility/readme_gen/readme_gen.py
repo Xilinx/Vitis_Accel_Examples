@@ -130,10 +130,10 @@ def hierarchy(target):
     return
 
 def commandargs(target,data):
+    target.write("##  COMMAND LINE ARGUMENTS\n")
+    target.write("Once the environment has been configured, the application can be executed by\n")
+    target.write("```\n")
     if "launch" in data:
-        target.write("##  COMMAND LINE ARGUMENTS\n")
-        target.write("Once the environment has been configured, the application can be executed by\n")
-        target.write("```\n")
         if not "cmd_args" in data["launch"][0]:
             target.write('./' + data["host"][0]["host_exe"])
         else:
@@ -145,8 +145,10 @@ def commandargs(target,data):
                 arg = arg.replace('PROJECT', '.')
                 arg = arg.replace('.xclbin', ' XCLBIN>') 
                 target.write(arg)
-        target.write("\n```\n")
-        target.write("\n")
+    else:
+        target.write('./' + data["host"][0]["host_exe"])
+    target.write("\n```\n")
+    target.write("\n")
 
 
 
