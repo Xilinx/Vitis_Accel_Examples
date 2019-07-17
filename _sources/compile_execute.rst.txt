@@ -3,7 +3,7 @@
 Compilation and Execution
 =========================
 
-It is primarily recommended to start with [Hello World][] example which makes the new users aware about the basic structure of an Scout based Application.
+It is primarily recommended to start with Hello World example which makes the new users aware about the basic structure of an Scout based Application.
 
 Compiling for Application Emulation
 -----------------------------------
@@ -26,8 +26,7 @@ where,
 
 **NOTE:** The software emulation flow is a functional correctness check only. It does not estimate the performance of the application in hardware.
 
-The hardware emulation flow is a cycle accurate simulation of the hardware generated for the application. As such, it is expected for this simulation to take a long time.
-It is recommended that for this example the user skips running hardware emulation or modifies the example to work on a reduced data set.
+The hardware emulation flow is a cycle accurate simulation of the hardware generated for the application. Also, it is expected for this simulation to take a long time.
 
 Executing Emulated Application
 ------------------------------
@@ -47,18 +46,16 @@ where,
 
 If the application has not been previously compiled, the check makefile rule will compile and execute the application in the emulation mode selected by the user.
 
-Compiling for Application Execution in the FPGA Accelerator Card
-----------------------------------------------------------------
+Compiling for FPGA Accelerator Card
+-----------------------------------
 
-The command to compile the application for execution on the FPGA acceleration
+The command to compile for the FPGA acceleration
 board is:
 
 ::
 
     cd <PATH TO SAMPLE APPLICATION>
-    make all DEVICE=<FPGA Platform>
+    make all DEVICE=<FPGA Platform> TARGET=<hw>
 
-The default target for the makefile is to compile for hardware. Therefore, setting the TARGETS option is not required.
-
-**NOTE:** Compilation for application execution in hardware generates custom logic to implement the functionality of the kernels in an application.
+**NOTE:** Compilation for hardware generates custom logic to implement the functionality of the kernels in an application.
 It is typical for hardware compile times to range from 30 minutes to a couple of hours.
