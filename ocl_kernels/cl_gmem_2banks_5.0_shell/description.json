@@ -1,26 +1,5 @@
 {
-    "cmd_args": "BUILD/apply_watermark.xclbin PROJECT/data/input.bmp PROJECT/data/golden.bmp", 
-    "contributors": [
-        {
-            "url": "http://www.xilinx.com", 
-            "group": "Xilinx"
-        }
-    ], 
-    "host_exe": "host", 
-    "overview": [
-        "This example of 2ddr to demonstrate on how to use 2ddr DSA. How to create buffers in each DDR."
-    ], 
-    "includes": [
-        {
-            "name": "xcl2", 
-            "location": "GIT_REPO_DIR/common/includes/xcl2/"
-        }, 
-        {
-            "name": "bitmap", 
-            "location": "GIT_REPO_DIR/common/includes/bitmap/"
-        }
-    ], 
-    "nboard": [
+    "ndevice": [
         "xilinx_u280-es1_xdma", 
         "xilinx_u200_xdma", 
         "xilinx_u200_qdma", 
@@ -38,20 +17,63 @@
         "xilinx:u280:xdma", 
         "xilinx:u250:qdma"
     ], 
-    "key_concepts": [
-        "Multiple Banks"
+    "os": [
+        "Linux"
     ], 
+    "contributors": [
+        {
+            "url": "http://www.xilinx.com", 
+            "group": "Xilinx"
+        }
+    ], 
+    "launch": [
+        {
+            "cmd_args": "BUILD/apply_watermark.xclbin PROJECT/data/input.bmp PROJECT/data/golden.bmp", 
+            "name": "sw_emu"
+        }, 
+        {
+            "cmd_args": "BUILD/apply_watermark.xclbin PROJECT/data/input.bmp PROJECT/data/golden.bmp", 
+            "name": "hw_emu"
+        }
+    ], 
+    "description": [
+        "This example of 2ddr to demonstrate on how to use 2ddr DSA. How to create buffers in each DDR."
+    ], 
+    "name": "Global Memory Two Banks (CL) for 5.0 shell", 
     "keywords": [
         "max_memory_ports", 
         "misc:map_connect"
     ], 
+    "host": [
+        {
+            "compiler": [
+                {
+                    "includepaths": [
+                        "REPO_DIR/common/includes/xcl2", 
+                        "REPO_DIR/common/includes/bitmap"
+                    ]
+                }
+            ], 
+            "linker": [
+                {
+                    "libraries": [
+                        "xcl2", 
+                        "bitmap"
+                    ], 
+                    "librarypaths": [
+                        "REPO_DIR/common/includes/"
+                    ]
+                }
+            ], 
+            "host_exe": "host"
+        }
+    ], 
+    "key_concepts": [
+        "Multiple Banks"
+    ], 
     "runtime": [
         "OpenCL"
     ], 
-    "os": [
-        "Linux"
-    ], 
-    "example": "Global Memory Two Banks (CL) for 5.0 shell", 
     "containers": [
         {
             "accelerators": [

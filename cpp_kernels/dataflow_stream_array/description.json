@@ -1,19 +1,46 @@
 {
-    "cmd_args": "BUILD/N_stage_Adders.xclbin", 
+    "os": [
+        "Linux"
+    ], 
     "contributors": [
         {
             "url": "http://www.xilinx.com", 
             "group": "Xilinx"
         }
     ], 
-    "host_exe": "host", 
-    "overview": [
+    "launch": [
+        {
+            "cmd_args": "BUILD/N_stage_Adders.xclbin", 
+            "name": "sw_emu"
+        }, 
+        {
+            "cmd_args": "BUILD/N_stage_Adders.xclbin", 
+            "name": "hw_emu"
+        }
+    ], 
+    "description": [
         "This is simple example of Multiple Stages Vector Addition to demonstrate Array of Stream usage in HLS C Kernel Code."
     ], 
-    "includes": [
+    "host": [
         {
-            "name": "xcl2", 
-            "location": "GIT_REPO_DIR/common/includes/xcl2/"
+            "compiler": [
+                {
+                    "includepaths": [
+                        "REPO_DIR/common/includes/xcl2"
+                    ]
+                }
+            ], 
+            "linker": [
+                {
+                    "libraries": [
+                        "xcl2"
+                    ], 
+                    "librarypaths": [
+                        "REPO_DIR/common/includes/"
+                    ]
+                }
+            ], 
+            "host_exe": "host"
         }
     ], 
     "key_concepts": [
@@ -26,21 +53,18 @@
     "runtime": [
         "OpenCL"
     ], 
-    "os": [
-        "Linux"
-    ], 
-    "example": "Dataflow Using HLS Stream (C)", 
     "containers": [
         {
             "accelerators": [
                 {
+                    "clflags": "--xp param:compiler.axiDeadLockFree=yes", 
                     "location": "src/N_stage_adders.cpp", 
-                    "name": "N_stage_Adders", 
-                    "clflags": "--xp param:compiler.axiDeadLockFree=yes"
+                    "name": "N_stage_Adders"
                 }
             ], 
             "ldclflags": "--xp param:compiler.axiDeadLockFree=yes", 
             "name": "N_stage_Adders"
         }
-    ]
+    ], 
+    "name": "Dataflow Using HLS Stream (C)"
 }

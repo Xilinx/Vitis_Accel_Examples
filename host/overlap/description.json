@@ -1,19 +1,46 @@
 {
-    "cmd_args": "BUILD/vector_addition.xclbin", 
+    "os": [
+        "Linux"
+    ], 
     "contributors": [
         {
             "url": "http://www.xilinx.com", 
             "group": "Xilinx"
         }
     ], 
-    "host_exe": "overlap", 
-    "overview": [
+    "launch": [
+        {
+            "cmd_args": "BUILD/vector_addition.xclbin", 
+            "name": "sw_emu"
+        }, 
+        {
+            "cmd_args": "BUILD/vector_addition.xclbin", 
+            "name": "hw_emu"
+        }
+    ], 
+    "description": [
         "This examples demonstrates techniques that allow user to overlap Host(CPU) and FPGA computation in an application. It will cover asynchronous operations and event object."
     ], 
-    "includes": [
+    "host": [
         {
-            "name": "xcl2", 
-            "location": "GIT_REPO_DIR/common/includes/xcl2/"
+            "compiler": [
+                {
+                    "includepaths": [
+                        "REPO_DIR/common/includes/xcl2"
+                    ]
+                }
+            ], 
+            "linker": [
+                {
+                    "libraries": [
+                        "xcl2"
+                    ], 
+                    "librarypaths": [
+                        "REPO_DIR/common/includes/"
+                    ]
+                }
+            ], 
+            "host_exe": "overlap"
         }
     ], 
     "key_concepts": [
@@ -32,10 +59,6 @@
     "runtime": [
         "OpenCL"
     ], 
-    "os": [
-        "Linux"
-    ], 
-    "example": "Overlap Host and HLS kernels (C)", 
     "containers": [
         {
             "accelerators": [
@@ -46,5 +69,6 @@
             ], 
             "name": "vector_addition"
         }
-    ]
+    ], 
+    "name": "Overlap Host and HLS kernels (C)"
 }

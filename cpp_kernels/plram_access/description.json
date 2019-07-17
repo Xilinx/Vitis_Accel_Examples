@@ -1,39 +1,62 @@
 {
-    "cmd_args": "BUILD/mmult.xclbin", 
+    "ndevice": [
+        "xilinx_aws-vu9p-f1-04261818", 
+        "xilinx:aws-vu9p-f1-04261818:dynamic"
+    ], 
+    "os": [
+        "Linux"
+    ], 
     "contributors": [
         {
             "url": "http://www.xilinx.com", 
             "group": "Xilinx"
         }
     ], 
-    "host_exe": "host", 
-    "overview": [
-        "This example shows the usage of PLRAM and how to use it with simple matrix multiplication (Row x Col)."
-    ], 
-    "includes": [
+    "launch": [
         {
-            "name": "xcl2", 
-            "location": "GIT_REPO_DIR/common/includes/xcl2/"
+            "cmd_args": "BUILD/mmult.xclbin", 
+            "name": "sw_emu"
+        }, 
+        {
+            "cmd_args": "BUILD/mmult.xclbin", 
+            "name": "hw_emu"
         }
     ], 
-    "nboard": [
-        "xilinx_aws-vu9p-f1-04261818", 
-        "xilinx:aws-vu9p-f1-04261818:dynamic"
+    "description": [
+        "This example shows the usage of PLRAM and how to use it with simple matrix multiplication (Row x Col)."
+    ], 
+    "keywords": [
+        "PLRAM"
+    ], 
+    "host": [
+        {
+            "compiler": [
+                {
+                    "includepaths": [
+                        "REPO_DIR/common/includes/xcl2"
+                    ]
+                }
+            ], 
+            "linker": [
+                {
+                    "libraries": [
+                        "xcl2"
+                    ], 
+                    "librarypaths": [
+                        "REPO_DIR/common/includes/"
+                    ]
+                }
+            ], 
+            "host_exe": "host"
+        }
     ], 
     "key_concepts": [
         "SDx Memory Hierarchy", 
         "PLRAMs"
     ], 
-    "keywords": [
-        "PLRAM"
-    ], 
     "runtime": [
         "OpenCL"
     ], 
-    "os": [
-        "Linux"
-    ], 
-    "example": "PLRAM access (C)", 
     "containers": [
         {
             "accelerators": [
@@ -45,5 +68,6 @@
             "ldclflags": "--sp mmult_1.a:PLRAM[0] --sp mmult_1.b:DDR[0] --sp mmult_1.c:PLRAM[1]", 
             "name": "mmult"
         }
-    ]
+    ], 
+    "name": "PLRAM access (C)"
 }

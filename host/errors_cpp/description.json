@@ -2,21 +2,48 @@
     "testinfo": {
         "negative": "true"
     }, 
-    "cmd_args": "BUILD/vector_addition.xclbin", 
+    "os": [
+        "Linux"
+    ], 
     "contributors": [
         {
             "url": "http://www.xilinx.com", 
             "group": "Xilinx"
         }
     ], 
-    "host_exe": "errors", 
-    "overview": [
+    "launch": [
+        {
+            "cmd_args": "BUILD/vector_addition.xclbin", 
+            "name": "sw_emu"
+        }, 
+        {
+            "cmd_args": "BUILD/vector_addition.xclbin", 
+            "name": "hw_emu"
+        }
+    ], 
+    "description": [
         "This example discuss the different reasons for errors in OpenCL C++ and how to handle them at runtime."
     ], 
-    "includes": [
+    "host": [
         {
-            "name": "xcl2", 
-            "location": "GIT_REPO_DIR/common/includes/xcl2/"
+            "compiler": [
+                {
+                    "includepaths": [
+                        "REPO_DIR/common/includes/xcl2"
+                    ]
+                }
+            ], 
+            "linker": [
+                {
+                    "libraries": [
+                        "xcl2"
+                    ], 
+                    "librarypaths": [
+                        "REPO_DIR/common/includes/"
+                    ]
+                }
+            ], 
+            "host_exe": "errors"
         }
     ], 
     "key_concepts": [
@@ -34,10 +61,6 @@
     "runtime": [
         "OpenCL"
     ], 
-    "os": [
-        "Linux"
-    ], 
-    "example": "Error Handling (CPP)", 
     "containers": [
         {
             "accelerators": [
@@ -48,5 +71,6 @@
             ], 
             "name": "vector_addition"
         }
-    ]
+    ], 
+    "name": "Error Handling (CPP)"
 }

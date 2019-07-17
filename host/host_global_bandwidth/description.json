@@ -1,35 +1,59 @@
 {
-    "os": [
-        "Linux"
+    "ndevice": [
+        "xilinx_u280-es1_xdma", 
+        "xilinx_aws-vu9p-f1-04261818", 
+        "xilinx:u280-es1:xdma", 
+        "xilinx:aws-vu9p-f1-04261818:dynamic"
     ], 
+    "name": "host_global", 
     "contributors": [
         {
             "url": "http://www.xilinx.com", 
             "group": "Xilinx"
         }
     ], 
-    "host_exe": "host_global", 
-    "overview": [
+    "launch": [
+        {
+            "cmd_args": "BUILD/krnl_host_global.xclbin", 
+            "name": "sw_emu"
+        }, 
+        {
+            "cmd_args": "BUILD/krnl_host_global.xclbin", 
+            "name": "hw_emu"
+        }
+    ], 
+    "description": [
         "Host to global memory bandwidth test"
     ], 
-    "includes": [
+    "host": [
         {
-            "name": "xcl2", 
-            "location": "GIT_REPO_DIR/common/includes/xcl2/"
+            "compiler": [
+                {
+                    "includepaths": [
+                        "REPO_DIR/common/includes/xcl2"
+                    ]
+                }
+            ], 
+            "linker": [
+                {
+                    "libraries": [
+                        "xcl2"
+                    ], 
+                    "librarypaths": [
+                        "REPO_DIR/common/includes/"
+                    ]
+                }
+            ], 
+            "host_exe": "host_global"
         }
     ], 
     "match_ini": "false", 
-    "nboard": [
-        "xilinx_u280-es1_xdma", 
-        "xilinx_aws-vu9p-f1-04261818", 
-        "xilinx:u280-es1:xdma", 
-        "xilinx:aws-vu9p-f1-04261818:dynamic"
-    ], 
     "runtime": [
         "OpenCL"
     ], 
-    "cmd_args": "BUILD/krnl_host_global.xclbin", 
-    "example": "host_global", 
+    "os": [
+        "Linux"
+    ], 
     "containers": [
         {
             "accelerators": [

@@ -303,10 +303,11 @@ def mk_build_all(target, data):
     target.write("CP = cp -rf\n")
 
     args = []
-    if "cmd_args" in data["launch"][0]:
-        args = data["launch"][0]["cmd_args"].split(" ")
-        if any("/data" in string for string in args):
-            target.write("DATA = ./data\n")
+    if "launch" in data:
+        if "cmd_args" in data["launch"][0]:
+            args = data["launch"][0]["cmd_args"].split(" ")
+            if any("/data" in string for string in args):
+                target.write("DATA = ./data\n")
 
     target.write("\n")
 
@@ -353,39 +354,41 @@ def mk_check(target, data):
     target.write("\t$(CP) $(EMCONFIG_DIR)/emconfig.json .\n") 
     target.write("\tXCL_EMULATION_MODE=$(TARGET) ./$(EXECUTABLE)")
     
-    		
-    if "cmd_args" in data["launch"][0]:
-        args = data["launch"][0]["cmd_args"].split(" ")    
-        for arg in args[0:]:
-            target.write(" ")
-            arg = arg.replace('BUILD', '$(BUILD_DIR)')
-	    arg = arg.replace('PROJECT', '.')
-	    target.write(arg)
+    if "launch" in data:	
+        if "cmd_args" in data["launch"][0]:
+            args = data["launch"][0]["cmd_args"].split(" ")    
+            for arg in args[0:]:
+                target.write(" ")
+                arg = arg.replace('BUILD', '$(BUILD_DIR)')
+	        arg = arg.replace('PROJECT', '.')
+	        target.write(arg)
     target.write("\nelse\n")        
     target.write("\t ./$(EXECUTABLE)")
 	
-    if "cmd_args" in data["launch"][0]:
-        args = data["launch"][0]["cmd_args"].split(" ")    
-        for arg in args[0:]:
-            target.write(" ")
-	    arg = arg.replace('BUILD', '$(BUILD_DIR)')
-	    arg = arg.replace('PROJECT', '.')
-	    target.write(arg)
+    if "launch" in data:
+        if "cmd_args" in data["launch"][0]:
+            args = data["launch"][0]["cmd_args"].split(" ")    
+            for arg in args[0:]:
+                target.write(" ")
+	        arg = arg.replace('BUILD', '$(BUILD_DIR)')
+	        arg = arg.replace('PROJECT', '.')
+	        target.write(arg)
     target.write("\nendif\n")
-    if "targets" in data:
-        target.write("ifneq ($(TARGET),$(findstring $(TARGET),")
-        args = data["targets"]
-        for arg in args:
-            target.write(" ")
-            target.write(arg)
-        target.write("))\n")
-        target.write("$(warning WARNING:Application supports only")
-        for arg in args:
-            target.write(" ")
-            target.write(arg)
-        target.write(" TARGET. Please use the target for running the application)\n")
-        target.write("endif\n")
-        target.write("\n")
+    if "launch" in data:
+        if "targets" in data:
+            target.write("ifneq ($(TARGET),$(findstring $(TARGET),")
+            args = data["targets"]
+            for arg in args:
+                target.write(" ")
+                target.write(arg)
+            target.write("))\n")
+            target.write("$(warning WARNING:Application supports only")
+            for arg in args:
+                target.write(" ")
+                target.write(arg)
+            target.write(" TARGET. Please use the target for running the application)\n")
+            target.write("endif\n")
+            target.write("\n")
 
     if data["name"] != "00 Matrix Multiplication":
 	target.write("\tsdx_analyze profile -i profile_summary.csv -f html\n")
@@ -393,10 +396,11 @@ def mk_check(target, data):
 
 def run_nimbix(target, data):
     target.write("run_nimbix: all\n")
-    if "cmd_args" in data["launch"][0]:
-    	target.write("\t$(COMMON_REPO)/common/utility/nimbix/run_nimbix.py $(EXECUTABLE) $(CMD_ARGS) $(DSA)\n\n")
+    if "launch" in data:
+        if "cmd_args" in data["launch"][0]:
+    	    target.write("\t$(COMMON_REPO)/common/utility/nimbix/run_nimbix.py $(EXECUTABLE) $(CMD_ARGS) $(DSA)\n\n")
     else:
-    	target.write("\t$(COMMON_REPO)/common/utility/nimbix/run_nimbix.py $(EXECUTABLE) $(DSA)\n\n")	
+        target.write("\t$(COMMON_REPO)/common/utility/nimbix/run_nimbix.py $(EXECUTABLE) $(DSA)\n\n")	
     
 def aws_build(target):
     target.write("aws_build: check-aws_repo $(BINARY_CONTAINERS)\n")

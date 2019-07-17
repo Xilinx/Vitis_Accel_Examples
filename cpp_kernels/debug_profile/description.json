@@ -6,21 +6,48 @@
             }
         ]
     }, 
-    "cmd_args": "BUILD/vadd.xclbin", 
+    "os": [
+        "Linux"
+    ], 
     "contributors": [
         {
             "url": "http://www.xilinx.com", 
             "group": "Xilinx"
         }
     ], 
-    "host_exe": "host", 
-    "overview": [
+    "launch": [
+        {
+            "cmd_args": "BUILD/vadd.xclbin", 
+            "name": "sw_emu"
+        }, 
+        {
+            "cmd_args": "BUILD/vadd.xclbin", 
+            "name": "hw_emu"
+        }
+    ], 
+    "description": [
         "This is simple example of vector addition and printing profile data (wall clock time taken between start and stop). It also dump a waveform file which can be reloaded to vivado to see the waveform. Run command 'vivado -source ./scripts/open_waveform.tcl -tclargs <device_name>-<kernel_name>.<target>.<device_name>.wdb' to launch waveform viewer. User can also update batch to gui in sdaccel.ini file to see the live waveform while running application."
     ], 
-    "includes": [
+    "host": [
         {
-            "name": "xcl2", 
-            "location": "GIT_REPO_DIR/common/includes/xcl2/"
+            "compiler": [
+                {
+                    "includepaths": [
+                        "REPO_DIR/common/includes/xcl2"
+                    ]
+                }
+            ], 
+            "linker": [
+                {
+                    "libraries": [
+                        "xcl2"
+                    ], 
+                    "librarypaths": [
+                        "REPO_DIR/common/includes/"
+                    ]
+                }
+            ], 
+            "host_exe": "host"
         }
     ], 
     "key_concepts": [
@@ -31,20 +58,17 @@
     "runtime": [
         "OpenCL"
     ], 
-    "os": [
-        "Linux"
-    ], 
-    "example": " Printing Profile Data and Dumping Waveform file (C)", 
     "containers": [
         {
             "accelerators": [
                 {
+                    "location": "src/vadd.cpp", 
                     "clflags": "--profile_kernel data:all:all:all", 
-                    "name": "krnl_vadd", 
-                    "location": "src/vadd.cpp"
+                    "name": "krnl_vadd"
                 }
             ], 
             "name": "vadd"
         }
-    ]
+    ], 
+    "name": " Printing Profile Data and Dumping Waveform file (C)"
 }

@@ -1,31 +1,5 @@
 {
-    "cmd_args": "BUILD/krnl_vadd.xclbin", 
-    "contributors": [
-        {
-            "url": "http://www.xilinx.com", 
-            "group": "Xilinx"
-        }
-    ], 
-    "host_exe": "host", 
-    "overview": [
-        "This is a simple example of vector addition to describe how to use HLS kernels with HBM (High Bandwidth Memory) for achieving high throughput."
-    ], 
-    "includes": [
-        {
-            "name": "xcl2", 
-            "location": "GIT_REPO_DIR/common/includes/xcl2/"
-        }
-    ], 
-    "key_concepts": [
-        "High Bandwidth Memory", 
-        "Multiple HBM Banks"
-    ], 
-    "keywords": [
-        "HBM", 
-        "XCL_MEM_TOPOLOGY", 
-        "cl_mem_ext_ptr_t"
-    ], 
-    "nboard": [
+    "ndevice": [
         "xilinx_u200_xdma", 
         "xilinx_u200_qdma", 
         "xilinx_u250_xdma", 
@@ -39,13 +13,62 @@
         "xilinx:vcu1525:dynamic", 
         "xilinx:aws-vu9p-f1-04261818:dynamic"
     ], 
-    "runtime": [
-        "OpenCL"
-    ], 
     "os": [
         "Linux"
     ], 
-    "example": "HBM Simple Vector Addition", 
+    "contributors": [
+        {
+            "url": "http://www.xilinx.com", 
+            "group": "Xilinx"
+        }
+    ], 
+    "launch": [
+        {
+            "cmd_args": "BUILD/krnl_vadd.xclbin", 
+            "name": "sw_emu"
+        }, 
+        {
+            "cmd_args": "BUILD/krnl_vadd.xclbin", 
+            "name": "hw_emu"
+        }
+    ], 
+    "description": [
+        "This is a simple example of vector addition to describe how to use HLS kernels with HBM (High Bandwidth Memory) for achieving high throughput."
+    ], 
+    "host": [
+        {
+            "compiler": [
+                {
+                    "includepaths": [
+                        "REPO_DIR/common/includes/xcl2"
+                    ]
+                }
+            ], 
+            "linker": [
+                {
+                    "libraries": [
+                        "xcl2"
+                    ], 
+                    "librarypaths": [
+                        "REPO_DIR/common/includes/"
+                    ]
+                }
+            ], 
+            "host_exe": "host"
+        }
+    ], 
+    "key_concepts": [
+        "High Bandwidth Memory", 
+        "Multiple HBM Banks"
+    ], 
+    "keywords": [
+        "HBM", 
+        "XCL_MEM_TOPOLOGY", 
+        "cl_mem_ext_ptr_t"
+    ], 
+    "runtime": [
+        "OpenCL"
+    ], 
     "containers": [
         {
             "accelerators": [
@@ -57,5 +80,6 @@
             "ldclflags": "--sp krnl_vadd_1.m_axi_gmem0:HBM[0:3] --sp krnl_vadd_1.m_axi_gmem1:HBM[0:3]", 
             "name": "krnl_vadd"
         }
-    ]
+    ], 
+    "name": "HBM Simple Vector Addition"
 }

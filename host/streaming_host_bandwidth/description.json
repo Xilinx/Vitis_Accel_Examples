@@ -1,37 +1,5 @@
 {
-    "cmd_args": "BUILD/krnl_stream_adder1.xclbin", 
-    "contributors": [
-        {
-            "url": "http://www.xilinx.com", 
-            "group": "Xilinx"
-        }
-    ], 
-    "host_srcs": "src/host.cpp", 
-    "overview": [
-        "This is a simple Vector Increment C Kernel design with 1 Stream input and 1 Stream output that demonstrates on how to process an input stream of data for computation in an application and the Host to Device streaming bandwidth test."
-    ], 
-    "linker": {
-        "options": [
-            "-pthread"
-        ]
-    }, 
-    "includes": [
-        {
-            "name": "xcl2", 
-            "location": "GIT_REPO_DIR/common/includes/xcl2/"
-        }
-    ], 
-    "keywords": [
-        "cl_stream", 
-        "CL_STREAM_EOT", 
-        "CL_STREAM_NONBLOCKING"
-    ], 
-    "key_concepts": [
-        "Read/Write Stream", 
-        "Create/Release Stream"
-    ], 
-    "host_exe": "vadd_stream", 
-    "nboard": [
+    "ndevice": [
         "xilinx_u200_xdma", 
         "xilinx_u250_xdma", 
         "xilinx_u280_xdma", 
@@ -43,13 +11,68 @@
         "xilinx:u280-es1:xdma", 
         "xilinx:aws-vu9p-f1-04261818:dynamic"
     ], 
-    "runtime": [
-        "OpenCL"
-    ], 
     "os": [
         "Linux"
     ], 
-    "example": "Host Streaming Bandwidth (C)", 
+    "contributors": [
+        {
+            "url": "http://www.xilinx.com", 
+            "group": "Xilinx"
+        }
+    ], 
+    "launch": [
+        {
+            "cmd_args": "BUILD/krnl_stream_adder1.xclbin", 
+            "name": "sw_emu"
+        }, 
+        {
+            "cmd_args": "BUILD/krnl_stream_adder1.xclbin", 
+            "name": "hw_emu"
+        }
+    ], 
+    "description": [
+        "This is a simple Vector Increment C Kernel design with 1 Stream input and 1 Stream output that demonstrates on how to process an input stream of data for computation in an application and the Host to Device streaming bandwidth test."
+    ], 
+    "host": [
+        {
+            "sources": [
+                "src/host.cpp"
+            ], 
+            "compiler": [
+                {
+                    "includepaths": [
+                        "REPO_DIR/common/includes/xcl2"
+                    ]
+                }
+            ], 
+            "linker": [
+                {
+                    "libraries": [
+                        "xcl2"
+                    ], 
+                    "librarypaths": [
+                        "REPO_DIR/common/includes/"
+                    ], 
+                    "options": [
+                        "-pthread"
+                    ]
+                }
+            ], 
+            "host_exe": "vadd_stream"
+        }
+    ], 
+    "key_concepts": [
+        "Read/Write Stream", 
+        "Create/Release Stream"
+    ], 
+    "keywords": [
+        "cl_stream", 
+        "CL_STREAM_EOT", 
+        "CL_STREAM_NONBLOCKING"
+    ], 
+    "runtime": [
+        "OpenCL"
+    ], 
     "containers": [
         {
             "accelerators": [
@@ -60,5 +83,6 @@
             ], 
             "name": "krnl_stream_adder1"
         }
-    ]
+    ], 
+    "name": "Host Streaming Bandwidth (C)"
 }

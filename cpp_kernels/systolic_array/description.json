@@ -6,21 +6,48 @@
             }
         ]
     }, 
-    "cmd_args": "BUILD/mmult.xclbin", 
+    "os": [
+        "Linux"
+    ], 
     "contributors": [
         {
             "url": "http://www.xilinx.com", 
             "group": "Xilinx"
         }
     ], 
-    "host_exe": "host", 
-    "overview": [
+    "launch": [
+        {
+            "cmd_args": "BUILD/mmult.xclbin", 
+            "name": "sw_emu"
+        }, 
+        {
+            "cmd_args": "BUILD/mmult.xclbin", 
+            "name": "hw_emu"
+        }
+    ], 
+    "description": [
         "This is a simple example of matrix multiplication (Row x Col) to help developers learn systolic array based algorithm design. Note : Systolic array based algorithm design is well suited for FPGA."
     ], 
-    "includes": [
+    "host": [
         {
-            "name": "xcl2", 
-            "location": "GIT_REPO_DIR/common/includes/xcl2/"
+            "compiler": [
+                {
+                    "includepaths": [
+                        "REPO_DIR/common/includes/xcl2"
+                    ]
+                }
+            ], 
+            "linker": [
+                {
+                    "libraries": [
+                        "xcl2"
+                    ], 
+                    "librarypaths": [
+                        "REPO_DIR/common/includes/"
+                    ]
+                }
+            ], 
+            "host_exe": "host"
         }
     ], 
     "Key Concepts": [
@@ -33,10 +60,6 @@
     "runtime": [
         "OpenCL"
     ], 
-    "os": [
-        "Linux"
-    ], 
-    "example": "Systolic Array Implementation (C)", 
     "containers": [
         {
             "accelerators": [
@@ -47,5 +70,6 @@
             ], 
             "name": "mmult"
         }
-    ]
+    ], 
+    "name": "Systolic Array Implementation (C)"
 }

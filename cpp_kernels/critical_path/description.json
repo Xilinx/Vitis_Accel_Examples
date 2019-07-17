@@ -1,23 +1,49 @@
 {
-    "cmd_args": "BUILD/apply_watermark_GOOD.xclbin PROJECT/data/input.bmp PROJECT/data/golden.bmp", 
+    "os": [
+        "Linux"
+    ], 
     "contributors": [
         {
             "url": "http://www.xilinx.com", 
             "group": "Xilinx"
         }
     ], 
-    "host_exe": "host", 
-    "overview": [
-        "This example shows a normal coding style which could lead to critical path issue and design will give degraded timing.  Example also contains better coding style which can improve design timing."
-    ], 
-    "includes": [
+    "launch": [
         {
-            "name": "xcl2", 
-            "location": "GIT_REPO_DIR/common/includes/xcl2/"
+            "cmd_args": "BUILD/apply_watermark_GOOD.xclbin PROJECT/data/input.bmp PROJECT/data/golden.bmp", 
+            "name": "sw_emu"
         }, 
         {
-            "name": "bitmap", 
-            "location": "GIT_REPO_DIR/common/includes/bitmap/"
+            "cmd_args": "BUILD/apply_watermark_GOOD.xclbin PROJECT/data/input.bmp PROJECT/data/golden.bmp", 
+            "name": "hw_emu"
+        }
+    ], 
+    "description": [
+        "This example shows a normal coding style which could lead to critical path issue and design will give degraded timing.  Example also contains better coding style which can improve design timing."
+    ], 
+    "name": "Critical Path (C)", 
+    "host": [
+        {
+            "compiler": [
+                {
+                    "includepaths": [
+                        "REPO_DIR/common/includes/xcl2", 
+                        "REPO_DIR/common/includes/bitmap"
+                    ]
+                }
+            ], 
+            "linker": [
+                {
+                    "libraries": [
+                        "xcl2", 
+                        "bitmap"
+                    ], 
+                    "librarypaths": [
+                        "REPO_DIR/common/includes/"
+                    ]
+                }
+            ], 
+            "host_exe": "host"
         }
     ], 
     "key_concepts": [
@@ -27,17 +53,13 @@
     "runtime": [
         "OpenCL"
     ], 
-    "os": [
-        "Linux"
-    ], 
-    "example": "Critical Path (C)", 
     "containers": [
         {
             "accelerators": [
                 {
+                    "clflags": "-DBAD_DESIGN=0", 
                     "location": "src/apply_watermark.cpp", 
-                    "name": "apply_watermark", 
-                    "clflags": "-DBAD_DESIGN=0"
+                    "name": "apply_watermark"
                 }
             ], 
             "name": "apply_watermark_GOOD"

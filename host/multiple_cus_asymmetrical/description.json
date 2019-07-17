@@ -20,25 +20,26 @@
             "name": "hw_emu"
         }
     ], 
-    "includes": [
-        {
-            "name": "xcl2", 
-            "location": "GIT_REPO_DIR/common/includes/xcl2/"
-        }
-    ], 
     "host": [
         {
-            "compiler": [
-                {}
-            ], 
+            "host_exe": "host",
             "linker": [
                 {
+                    "libraries": [
+                        "xcl2"
+                    ], 
                     "librarypaths": [
                         "REPO_DIR/common/includes/"
                     ]
                 }
             ], 
-            "host_exe": "host"
+            "compiler": [
+                {
+                    "includepaths": [
+                        "REPO_DIR/common/includes/xcl2"
+                    ]
+                }
+            ]
         }
     ], 
     "key_concepts": [
@@ -57,9 +58,9 @@
         {
             "accelerators": [
                 {
-                    "num_compute_units": "4:vadd_1.vadd_2.vadd_3.vadd_4", 
+                    "location": "src/vadd.cpp", 
                     "name": "vadd", 
-                    "location": "src/vadd.cpp"
+                    "num_compute_units": "4:vadd_1.vadd_2.vadd_3.vadd_4"
                 }
             ], 
             "ldclflags": "--sp vadd_1.in1:DDR[0] --sp vadd_1.in2:DDR[0] --sp vadd_1.out_r:DDR[0] --sp vadd_2.in1:DDR[1] --sp vadd_2.in2:DDR[1] --sp vadd_2.out_r:DDR[1] --sp vadd_3.in1:PLRAM[0] --sp vadd_3.in2:PLRAM[0] --sp vadd_3.out_r:PLRAM[0] --sp vadd_4.in1:PLRAM[1] --sp vadd_4.in2:PLRAM[1] --sp vadd_4.out_r:PLRAM[1]  ", 

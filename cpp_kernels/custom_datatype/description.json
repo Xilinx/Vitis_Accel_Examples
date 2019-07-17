@@ -1,23 +1,49 @@
 {
-    "cmd_args": "BUILD/rgb_to_hsv.xclbin PROJECT/data/input.bmp", 
+    "os": [
+        "Linux"
+    ], 
     "contributors": [
         {
             "url": "http://www.xilinx.com", 
             "group": "Xilinx"
         }
     ], 
-    "host_exe": "host", 
-    "overview": [
-        "This is simple example of RGB to HSV conversion to demonstrate Custom DATA Type usages in C Based Kernel. Xilinx HLS Compiler Supports Custom Data Type to use for operation as well as Memory Interface between Kernel and Global Memory."
-    ], 
-    "includes": [
+    "launch": [
         {
-            "name": "xcl2", 
-            "location": "GIT_REPO_DIR/common/includes/xcl2/"
+            "cmd_args": "BUILD/rgb_to_hsv.xclbin PROJECT/data/input.bmp", 
+            "name": "sw_emu"
         }, 
         {
-            "name": "bitmap", 
-            "location": "GIT_REPO_DIR/common/includes/bitmap/"
+            "cmd_args": "BUILD/rgb_to_hsv.xclbin PROJECT/data/input.bmp", 
+            "name": "hw_emu"
+        }
+    ], 
+    "description": [
+        "This is simple example of RGB to HSV conversion to demonstrate Custom DATA Type usages in C Based Kernel. Xilinx HLS Compiler Supports Custom Data Type to use for operation as well as Memory Interface between Kernel and Global Memory."
+    ], 
+    "name": "Custom Data Type (C)", 
+    "host": [
+        {
+            "compiler": [
+                {
+                    "includepaths": [
+                        "REPO_DIR/common/includes/xcl2", 
+                        "REPO_DIR/common/includes/bitmap"
+                    ]
+                }
+            ], 
+            "linker": [
+                {
+                    "libraries": [
+                        "xcl2", 
+                        "bitmap"
+                    ], 
+                    "librarypaths": [
+                        "REPO_DIR/common/includes/"
+                    ]
+                }
+            ], 
+            "host_exe": "host"
         }
     ], 
     "key_concepts": [
@@ -31,10 +57,6 @@
     "runtime": [
         "OpenCL"
     ], 
-    "os": [
-        "Linux"
-    ], 
-    "example": "Custom Data Type (C)", 
     "containers": [
         {
             "accelerators": [

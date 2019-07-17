@@ -1,19 +1,46 @@
 {
-    "cmd_args": "BUILD/adder.xclbin", 
+    "os": [
+        "Linux"
+    ], 
     "contributors": [
         {
             "url": "http://www.xilinx.com", 
             "group": "Xilinx"
         }
     ], 
-    "host_exe": "host", 
-    "overview": [
+    "launch": [
+        {
+            "cmd_args": "BUILD/adder.xclbin", 
+            "name": "sw_emu"
+        }, 
+        {
+            "cmd_args": "BUILD/adder.xclbin", 
+            "name": "hw_emu"
+        }
+    ], 
+    "description": [
         "This is simple example of vector addition to demonstrate Dataflow functionality in OpenCL Kernel. OpenCL Dataflow allows user to run multiple functions together to achieve higher throughput."
     ], 
-    "includes": [
+    "host": [
         {
-            "name": "xcl2", 
-            "location": "GIT_REPO_DIR/common/includes/xcl2/"
+            "compiler": [
+                {
+                    "includepaths": [
+                        "REPO_DIR/common/includes/xcl2"
+                    ]
+                }
+            ], 
+            "linker": [
+                {
+                    "libraries": [
+                        "xcl2"
+                    ], 
+                    "librarypaths": [
+                        "REPO_DIR/common/includes/"
+                    ]
+                }
+            ], 
+            "host_exe": "host"
         }
     ], 
     "key_concepts": [
@@ -26,20 +53,17 @@
     "runtime": [
         "OpenCL"
     ], 
-    "os": [
-        "Linux"
-    ], 
-    "example": "Dataflow Function OpenCL(CL)", 
     "containers": [
         {
             "accelerators": [
                 {
+                    "location": "src/adder.cl", 
                     "clflags": "--xp param:compiler.xclDataflowFifoDepth=32", 
-                    "name": "adder", 
-                    "location": "src/adder.cl"
+                    "name": "adder"
                 }
             ], 
             "name": "adder"
         }
-    ]
+    ], 
+    "name": "Dataflow Function OpenCL(CL)"
 }

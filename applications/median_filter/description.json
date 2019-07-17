@@ -4,26 +4,52 @@
         "Image Size", 
         "Frames / Second"
     ], 
-    "host_srcs": "src/medianFilter.cpp", 
+    "name": "Median Filter", 
     "contributors": [
         {
             "url": "http://www.xilinx.com", 
             "group": "Xilinx"
         }
     ], 
-    "host_exe": "median", 
-    "overview": [
+    "launch": [
+        {
+            "cmd_args": "BUILD/krnl_median.xclbin PROJECT/data/inputImage.bmp PROJECT/data/goldenImage.bmp", 
+            "name": "sw_emu"
+        }, 
+        {
+            "cmd_args": "BUILD/krnl_median.xclbin PROJECT/data/inputImage.bmp PROJECT/data/goldenImage.bmp", 
+            "name": "hw_emu"
+        }
+    ], 
+    "description": [
         "This is an optimized implementation of a median filter being used to remove noise in images targeting execution on an SDAccel supported FPGA acceleration card."
     ], 
     "xcl": false, 
-    "includes": [
+    "host": [
         {
-            "name": "xcl2", 
-            "location": "GIT_REPO_DIR/common/includes/xcl2/"
-        }, 
-        {
-            "name": "bitmap", 
-            "location": "GIT_REPO_DIR/common/includes/bitmap/"
+            "sources": [
+                "src/medianFilter.cpp"
+            ], 
+            "compiler": [
+                {
+                    "includepaths": [
+                        "REPO_DIR/common/includes/xcl2", 
+                        "REPO_DIR/common/includes/bitmap"
+                    ]
+                }
+            ], 
+            "linker": [
+                {
+                    "libraries": [
+                        "xcl2", 
+                        "bitmap"
+                    ], 
+                    "librarypaths": [
+                        "REPO_DIR/common/includes/"
+                    ]
+                }
+            ], 
+            "host_exe": "median"
         }
     ], 
     "opencv": true, 
@@ -37,8 +63,6 @@
     "runtime": [
         "OpenCL"
     ], 
-    "cmd_args": "BUILD/krnl_median.xclbin PROJECT/data/inputImage.bmp PROJECT/data/goldenImage.bmp", 
-    "example": "Median Filter", 
     "containers": [
         {
             "accelerators": [
