@@ -3,6 +3,12 @@ Vector Addition ~ Asymmetrical Multiple Compute Units (C)
 
 This example demonstrates how multiple compute units can do parallel processing where these compute units are asymmetrical i.e.  connected to different memory banks(and potentially can perform unique tasks).
 
+For kernels to execute concurrently, command queue is initialized with out of order execution mode enabled.
+
+```c++
+q = cl::CommandQueue(context, device,  CL_QUEUE_PROFILING_ENABLE | CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE, &err);
+```
+
 Kernel input and output ports can be connected to different memory banks for improved bandwidth. `--sp` option is used to specify such connections in `xocc` link stage.
 
 `--sp vadd_1.in1:DDR[0] --sp vadd_1.in2:DDR[0] --sp vadd_1.out_r:DDR[0] --sp vadd_2.in1:DDR[1] --sp vadd_2.in2:DDR[1] --sp vadd_2.out_r:DDR[1]`
