@@ -1,43 +1,65 @@
 {
-    "cmd_args": "BUILD/apply_watermark.xclbin PROJECT/data/input.bmp PROJECT/data/golden.bmp", 
+    "ndevice": [
+        "xilinx_aws-vu9p-f1-04261818", 
+        "xilinx:aws-vu9p-f1-04261818:dynamic"
+    ], 
+    "os": [
+        "Linux"
+    ], 
     "contributors": [
         {
             "url": "http://www.xilinx.com", 
             "group": "Xilinx"
         }
     ], 
-    "host_exe": "host", 
-    "overview": [
-        "This example of 2ddr to demonstrate on how to use 2ddr DSA. How to create buffers in each DDR."
-    ], 
-    "includes": [
+    "launch": [
         {
-            "name": "xcl2", 
-            "location": "GIT_REPO_DIR/common/includes/xcl2/"
+            "cmd_args": "BUILD/apply_watermark.xclbin PROJECT/data/input.bmp PROJECT/data/golden.bmp", 
+            "name": "sw_emu"
         }, 
         {
-            "name": "bitmap", 
-            "location": "GIT_REPO_DIR/common/includes/bitmap/"
+            "cmd_args": "BUILD/apply_watermark.xclbin PROJECT/data/input.bmp PROJECT/data/golden.bmp", 
+            "name": "hw_emu"
         }
     ], 
-    "nboard": [
-        "xilinx_aws-vu9p-f1-04261818", 
-        "xilinx:aws-vu9p-f1-04261818:dynamic"
+    "description": [
+        "This example of 2ddr to demonstrate on how to use 2ddr DSA. How to create buffers in each DDR."
     ], 
-    "key_concepts": [
-        "Multiple Banks"
-    ], 
+    "name": "Global Memory Two Banks (CL)", 
     "keywords": [
         "max_memory_ports", 
         "misc:map_connect"
     ], 
+    "host": [
+        {
+            "compiler": [
+                {
+                    "includepaths": [
+                        "REPO_DIR/common/includes/xcl2", 
+                        "REPO_DIR/common/includes/bitmap"
+                    ]
+                }
+            ], 
+            "linker": [
+                {
+                    "libraries": [
+                        "xcl2", 
+                        "bitmap"
+                    ], 
+                    "librarypaths": [
+                        "REPO_DIR/common/includes/"
+                    ]
+                }
+            ], 
+            "host_exe": "host"
+        }
+    ], 
+    "key_concepts": [
+        "Multiple Banks"
+    ], 
     "runtime": [
         "OpenCL"
     ], 
-    "os": [
-        "Linux"
-    ], 
-    "example": "Global Memory Two Banks (CL)", 
     "containers": [
         {
             "accelerators": [

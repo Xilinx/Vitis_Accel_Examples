@@ -7,25 +7,7 @@
             }
         ]
     }, 
-    "cmd_args": "BUILD/krnl_kernel_global.xclbin", 
-    "contributors": [
-        {
-            "url": "http://www.xilinx.com", 
-            "group": "Xilinx"
-        }
-    ], 
-    "host_srcs": "src/kernel_global_bandwidth.cpp", 
-    "overview": [
-        "Bandwidth test of global to local memory."
-    ], 
-    "host_exe": "kernel_global", 
-    "includes": [
-        {
-            "name": "xcl2", 
-            "location": "GIT_REPO_DIR/common/includes/xcl2/"
-        }
-    ], 
-    "nboard": [
+    "ndevice": [
         "xilinx_u280-es1_xdma", 
         "xilinx_u200_xdma", 
         "xilinx_u200_qdma", 
@@ -39,13 +21,56 @@
         "xilinx:u280:xdma", 
         "xilinx:u250:qdma"
     ], 
-    "runtime": [
-        "OpenCL"
-    ], 
     "os": [
         "Linux"
     ], 
-    "example": "kernel_global", 
+    "contributors": [
+        {
+            "url": "http://www.xilinx.com", 
+            "group": "Xilinx"
+        }
+    ], 
+    "launch": [
+        {
+            "cmd_args": "BUILD/krnl_kernel_global.xclbin", 
+            "name": "sw_emu"
+        }, 
+        {
+            "cmd_args": "BUILD/krnl_kernel_global.xclbin", 
+            "name": "hw_emu"
+        }
+    ], 
+    "description": [
+        "Bandwidth test of global to local memory."
+    ], 
+    "host": [
+        {
+            "sources": [
+                "src/kernel_global_bandwidth.cpp"
+            ], 
+            "compiler": [
+                {
+                    "includepaths": [
+                        "REPO_DIR/common/includes/xcl2"
+                    ]
+                }
+            ], 
+            "linker": [
+                {
+                    "libraries": [
+                        "xcl2"
+                    ], 
+                    "librarypaths": [
+                        "REPO_DIR/common/includes/"
+                    ]
+                }
+            ], 
+            "host_exe": "kernel_global"
+        }
+    ], 
+    "runtime": [
+        "OpenCL"
+    ], 
     "containers": [
         {
             "accelerators": [
@@ -57,5 +82,6 @@
             ], 
             "name": "krnl_kernel_global"
         }
-    ]
+    ], 
+    "name": "kernel_global"
 }

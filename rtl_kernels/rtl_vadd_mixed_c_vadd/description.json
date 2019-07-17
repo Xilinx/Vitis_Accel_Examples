@@ -1,12 +1,7 @@
 {
     "config_make": "config.mk", 
-    "cmd_args": "BUILD/vadd.xclbin", 
-    "revision": [
-        {
-            "date": "July2017", 
-            "version": "1.0", 
-            "description": "Initial Xilinx Release"
-        }
+    "os": [
+        "Linux"
     ], 
     "contributors": [
         {
@@ -14,32 +9,57 @@
             "group": "Xilinx"
         }
     ], 
-    "host_exe": "host", 
-    "overview": [
+    "launch": [
+        {
+            "cmd_args": "BUILD/vadd.xclbin", 
+            "name": "sw_emu"
+        }, 
+        {
+            "cmd_args": "BUILD/vadd.xclbin", 
+            "name": "hw_emu"
+        }
+    ], 
+    "output_files": "tmp_kernel_pack* packaged_kernel*", 
+    "gui": "false", 
+    "description": [
         "This example has one RTL kernel and one C kernel. Both RTL kernel and C kernel perform vector addition. The C kernel reads the output from RTL kernel as one of two inputs."
+    ], 
+    "name": "Mixed Kernels (RTL & C)", 
+    "host": [
+        {
+            "sources": [
+                "src/host.cpp"
+            ], 
+            "compiler": [
+                {
+                    "includepaths": [
+                        "REPO_DIR/common/includes/xcl2"
+                    ]
+                }
+            ], 
+            "linker": [
+                {
+                    "libraries": [
+                        "xcl2"
+                    ], 
+                    "librarypaths": [
+                        "REPO_DIR/common/includes/"
+                    ]
+                }
+            ], 
+            "host_exe": "host"
+        }
+    ], 
+    "key_concepts": [
+        "Mixed Kernels"
+    ], 
+    "runtime": [
+        "OpenCL"
     ], 
     "targets": [
         "hw", 
         "hw_emu"
     ], 
-    "host_srcs": "src/host.cpp", 
-    "key_concepts": [
-        "Mixed Kernels"
-    ], 
-    "sdx_gui": "false", 
-    "includes": [
-        {
-            "name": "xcl2", 
-            "location": "GIT_REPO_DIR/common/includes/xcl2/"
-        }
-    ], 
-    "runtime": [
-        "OpenCL"
-    ], 
-    "os": [
-        "Linux"
-    ], 
-    "example": "Mixed Kernels (RTL & C)", 
     "containers": [
         {
             "accelerators": [
@@ -55,5 +75,11 @@
             "name": "vadd"
         }
     ], 
-    "output_files": "tmp_kernel_pack* packaged_kernel*"
+    "revision": [
+        {
+            "date": "July2017", 
+            "version": "1.0", 
+            "description": "Initial Xilinx Release"
+        }
+    ]
 }

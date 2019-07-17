@@ -49,7 +49,7 @@ HOST_SRCS += $(xcl2_SRCS) $(bitmap_SRCS)
 CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++14
 LDFLAGS += $(opencl_LDFLAGS)
 
-HOST_SRCS += src/watermarking.cpp
+HOST_SRCS += src/watermarking.cpp 
 
 # Host compiler global settings
 CXXFLAGS += -fmessage-length=0

@@ -1,19 +1,46 @@
 {
-    "cmd_args": "BUILD/nearest_neighbor.xclbin", 
+    "os": [
+        "Linux"
+    ], 
     "contributors": [
         {
             "url": "http://www.xilinx.com", 
             "group": "Xilinx"
         }
     ], 
-    "host_exe": "loop_fusion", 
-    "overview": [
+    "launch": [
+        {
+            "cmd_args": "BUILD/nearest_neighbor.xclbin", 
+            "name": "sw_emu"
+        }, 
+        {
+            "cmd_args": "BUILD/nearest_neighbor.xclbin", 
+            "name": "hw_emu"
+        }
+    ], 
+    "description": [
         "This example will demonstrate how to fuse two loops into one to improve the performance of an OpenCL  C/C++ Kernel."
     ], 
-    "includes": [
+    "host": [
         {
-            "name": "xcl2", 
-            "location": "GIT_REPO_DIR/common/includes/xcl2/"
+            "compiler": [
+                {
+                    "includepaths": [
+                        "REPO_DIR/common/includes/xcl2"
+                    ]
+                }
+            ], 
+            "linker": [
+                {
+                    "libraries": [
+                        "xcl2"
+                    ], 
+                    "librarypaths": [
+                        "REPO_DIR/common/includes/"
+                    ]
+                }
+            ], 
+            "host_exe": "loop_fusion"
         }
     ], 
     "key_concepts": [
@@ -27,10 +54,6 @@
     "runtime": [
         "OpenCL"
     ], 
-    "os": [
-        "Linux"
-    ], 
-    "example": "Loop Fusion (C)", 
     "containers": [
         {
             "accelerators": [
@@ -45,5 +68,6 @@
             ], 
             "name": "nearest_neighbor"
         }
-    ]
+    ], 
+    "name": "Loop Fusion (C)"
 }

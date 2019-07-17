@@ -6,21 +6,48 @@
             }
         ]
     }, 
-    "cmd_args": "BUILD/cnn_GOOD.xclbin BUILD/cnn_BAD.xclbin", 
+    "os": [
+        "Linux"
+    ], 
     "contributors": [
         {
             "url": "http://www.xilinx.com", 
             "group": "Xilinx"
         }
     ], 
-    "host_exe": "host", 
-    "overview": [
+    "launch": [
+        {
+            "cmd_args": "BUILD/cnn_GOOD.xclbin BUILD/cnn_BAD.xclbin", 
+            "name": "sw_emu"
+        }, 
+        {
+            "cmd_args": "BUILD/cnn_GOOD.xclbin BUILD/cnn_BAD.xclbin", 
+            "name": "hw_emu"
+        }
+    ], 
+    "description": [
         "This is a CNN (Convolutional Neural Network) based example which mainly focuses on Convolution operation of a CNN network. The goal of this example is to demonstrate a method to overcome kernel design timing failure issue. It also presents the effectiveness of using multiple compute units to improve performance."
     ], 
-    "includes": [
+    "host": [
         {
-            "name": "xcl2", 
-            "location": "GIT_REPO_DIR/common/includes/xcl2/"
+            "compiler": [
+                {
+                    "includepaths": [
+                        "REPO_DIR/common/includes/xcl2"
+                    ]
+                }
+            ], 
+            "linker": [
+                {
+                    "libraries": [
+                        "xcl2"
+                    ], 
+                    "librarypaths": [
+                        "REPO_DIR/common/includes/"
+                    ]
+                }
+            ], 
+            "host_exe": "host"
         }
     ], 
     "key_concepts": [
@@ -36,17 +63,13 @@
     "runtime": [
         "OpenCL"
     ], 
-    "os": [
-        "Linux"
-    ], 
-    "example": "Clock Frequency ~ Large Loop Count (C)", 
     "containers": [
         {
             "accelerators": [
                 {
+                    "num_compute_units": "4", 
                     "location": "src/cnn_convolution.cpp", 
-                    "name": "cnn_GOOD", 
-                    "num_compute_units": "4"
+                    "name": "cnn_GOOD"
                 }
             ], 
             "name": "cnn_GOOD"
@@ -60,5 +83,6 @@
             ], 
             "name": "cnn_BAD"
         }
-    ]
+    ], 
+    "name": "Clock Frequency ~ Large Loop Count (C)"
 }

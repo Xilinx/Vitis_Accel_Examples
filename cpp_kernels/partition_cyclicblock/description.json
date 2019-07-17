@@ -6,21 +6,49 @@
             }
         ]
     }, 
-    "cmd_args": "BUILD/matmul.xclbin", 
+    "os": [
+        "Linux"
+    ], 
     "contributors": [
         {
             "url": "http://www.xilinx.com", 
             "group": "Xilinx"
         }
     ], 
-    "host_exe": "array_partition", 
-    "overview": [
+    "launch": [
+        {
+            "cmd_args": "BUILD/matmul.xclbin", 
+            "name": "sw_emu"
+        }, 
+        {
+            "cmd_args": "BUILD/matmul.xclbin", 
+            "name": "hw_emu"
+        }
+    ], 
+    "description": [
         "This example shows how to use array block and cyclic partitioning to improve performance of a kernel"
     ], 
-    "includes": [
+    "name": "Array Block and Cyclic Partitioning (C)", 
+    "host": [
         {
-            "name": "xcl2", 
-            "location": "GIT_REPO_DIR/common/includes/xcl2/"
+            "compiler": [
+                {
+                    "includepaths": [
+                        "REPO_DIR/common/includes/xcl2"
+                    ]
+                }
+            ], 
+            "linker": [
+                {
+                    "libraries": [
+                        "xcl2"
+                    ], 
+                    "librarypaths": [
+                        "REPO_DIR/common/includes/"
+                    ]
+                }
+            ], 
+            "host_exe": "array_partition"
         }
     ], 
     "key_concepts": [
@@ -39,10 +67,6 @@
     "runtime": [
         "OpenCL"
     ], 
-    "os": [
-        "Linux"
-    ], 
-    "example": "Array Block and Cyclic Partitioning (C)", 
     "containers": [
         {
             "accelerators": [

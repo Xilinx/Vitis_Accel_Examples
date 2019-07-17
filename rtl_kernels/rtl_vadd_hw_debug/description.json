@@ -1,12 +1,7 @@
 {
     "config_make": "config.mk", 
-    "cmd_args": "BUILD/vadd.xclbin", 
-    "revision": [
-        {
-            "date": "Oct2017", 
-            "version": "1.0", 
-            "description": "SDx 2017.4 Xilinx Release"
-        }
+    "description": [
+        "This is an example that showcases the Hardware Debug of Vector Addition RTL Kernel in Hardware."
     ], 
     "contributors": [
         {
@@ -14,34 +9,65 @@
             "group": "Xilinx"
         }
     ], 
-    "host_exe": "host", 
-    "output_files": "tmp_kernel_pack* packaged_kernel*", 
-    "overview": [
-        "This is an example that showcases the Hardware Debug of Vector Addition RTL Kernel in Hardware."
-    ], 
     "xcl": true, 
+    "host": [
+        {
+            "sources": [
+                "src/host.cpp"
+            ], 
+            "compiler": [
+                {
+                    "includepaths": [
+                        "REPO_DIR/common/includes/xcl2"
+                    ]
+                }
+            ], 
+            "linker": [
+                {
+                    "libraries": [
+                        "xcl2"
+                    ], 
+                    "librarypaths": [
+                        "REPO_DIR/common/includes/"
+                    ]
+                }
+            ], 
+            "host_exe": "host"
+        }
+    ], 
+    "key_concepts": [
+        "RTL Kernel Debug"
+    ], 
     "targets": [
         "hw", 
         "hw_emu"
     ], 
-    "host_srcs": "src/host.cpp", 
-    "key_concepts": [
-        "RTL Kernel Debug"
-    ], 
-    "sdx_gui": false, 
-    "includes": [
+    "output_files": "tmp_kernel_pack* packaged_kernel*", 
+    "revision": [
         {
-            "name": "xcl2", 
-            "location": "GIT_REPO_DIR/common/includes/xcl2/"
+            "date": "Oct2017", 
+            "version": "1.0", 
+            "description": "SDx 2017.4 Xilinx Release"
         }
     ], 
+    "launch": [
+        {
+            "cmd_args": "BUILD/vadd.xclbin", 
+            "name": "sw_emu"
+        }, 
+        {
+            "cmd_args": "BUILD/vadd.xclbin", 
+            "name": "hw_emu"
+        }
+    ], 
+    "gui": false, 
+    "name": "Hardware Debug of Vector Addition With RTL Kernel (RTL)", 
     "runtime": [
         "OpenCL"
     ], 
     "os": [
         "Linux"
     ], 
-    "example": "Hardware Debug of Vector Addition With RTL Kernel (RTL)", 
     "containers": [
         {
             "accelerators": [

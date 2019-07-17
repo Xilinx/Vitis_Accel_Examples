@@ -50,7 +50,7 @@ include config.mk
 CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++14
 LDFLAGS += $(opencl_LDFLAGS)
 
-HOST_SRCS += src/host.cpp
+HOST_SRCS += src/host.cpp 
 
 # Host compiler global settings
 CXXFLAGS += -fmessage-length=0

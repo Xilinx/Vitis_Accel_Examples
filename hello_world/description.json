@@ -1,19 +1,43 @@
 {
-    "cmd_args": "BUILD/vadd.xclbin", 
+    "description": [
+        "This is simple example of vector addition to describe how to use HLS kernels in Sdx Environment. This example highlights the concepts like PIPELINE which increases the kernel performance "
+    ], 
     "contributors": [
         {
             "url": "http://www.xilinx.com", 
             "group": "Xilinx"
         }
     ], 
-    "host_exe": "host", 
-    "overview": [
-        "This is simple example of vector addition to describe how to use HLS kernels in Sdx Environment. This example highlights the concepts like PIPELINE which increases the kernel performance "
-    ], 
-    "includes": [
+    "launch": [
         {
-            "name": "xcl2", 
-            "location": "GIT_REPO_DIR/common/includes/xcl2/"
+            "cmd_args": "BUILD/vadd.xclbin", 
+            "name": "sw_emu"
+        }, 
+        {
+            "cmd_args": "BUILD/vadd.xclbin", 
+            "name": "hw_emu"
+        }
+    ], 
+    "host": [
+        {
+            "host_exe": "host",
+            "linker": [
+                {
+                    "libraries": [
+                        "xcl2"
+                    ],
+                    "librarypaths": [
+                        "REPO_DIR/common/includes/"
+                    ]
+                }
+            ], 
+            "compiler": [
+                {
+                    "includepaths": [
+                        "REPO_DIR/common/includes/xcl2"
+                    ]                
+                }
+            ]
         }
     ], 
     "key_concepts": [
@@ -33,7 +57,6 @@
     "os": [
         "Linux"
     ], 
-    "example": "Hello World (HLS C/C++ Kernel)", 
     "containers": [
         {
             "accelerators": [
@@ -44,5 +67,6 @@
             ], 
             "name": "vadd"
         }
-    ]
+    ], 
+    "name": "Hello World (HLS C/C++ Kernel)"
 }

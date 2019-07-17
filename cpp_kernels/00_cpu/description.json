@@ -1,15 +1,29 @@
 {
+    "name": "00 Matrix Multiplication", 
     "contributors": [
         {
             "url": "http://www.xilinx.com", 
             "group": "Xilinx"
         }
     ], 
-    "host_exe": "host", 
-    "overview": [
-        "This is a simple example of matrix multiplication (Row x Col)."
+    "targets": [
+        "sw_emu"
     ], 
-    "example": "00 Matrix Multiplication", 
+    "host": [
+        {
+            "compiler": [
+                {}
+            ], 
+            "linker": [
+                {
+                    "librarypaths": [
+                        "REPO_DIR/common/includes/"
+                    ]
+                }
+            ], 
+            "host_exe": "host"
+        }
+    ], 
     "match_ini": "false", 
     "runtime": [
         "OpenCL"
@@ -17,7 +31,7 @@
     "os": [
         "Linux"
     ], 
-    "targets": [
-        "sw_emu"
+    "description": [
+        "This is a simple example of matrix multiplication (Row x Col)."
     ]
 }

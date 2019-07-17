@@ -1,13 +1,25 @@
 {
+    "name": "Device Query (C)", 
     "contributors": [
         {
             "url": "http://www.xilinx.com", 
             "group": "Xilinx"
         }
     ], 
-    "host_exe": "device_query", 
-    "overview": [
-        "This example prints the OpenCL properties of the platform and its devices. It also displays the limits and capabilities of the hardware."
+    "host": [
+        {
+            "compiler": [
+                {}
+            ], 
+            "linker": [
+                {
+                    "librarypaths": [
+                        "REPO_DIR/common/includes/"
+                    ]
+                }
+            ], 
+            "host_exe": "device_query"
+        }
     ], 
     "key_concepts": [
         "OpenCL API", 
@@ -25,5 +37,7 @@
     "os": [
         "Linux"
     ], 
-    "example": "Device Query (C)"
+    "description": [
+        "This example prints the OpenCL properties of the platform and its devices. It also displays the limits and capabilities of the hardware."
+    ]
 }
