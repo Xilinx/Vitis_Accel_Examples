@@ -10,8 +10,8 @@ This is a simple Vector Increment C Kernel design with 1 Stream input and 1 Stre
 ## SUPPORTED PLATFORMS
 Platform | Board             | Software Version
 ---------|-------------------|-----------------
-xilinx_u200_qdma|Xilinx Alveo U200|SCOUT 2019.1
-xilinx_u250_qdma|Xilinx Alveo U250|SCOUT 2019.1
+xilinx_u200_qdma|Xilinx Alveo U200|SCOUT 2019.2
+xilinx_u250_qdma|Xilinx Alveo U250|SCOUT 2019.2
 
 
 ##  DESIGN FILES

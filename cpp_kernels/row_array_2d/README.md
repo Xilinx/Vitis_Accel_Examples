@@ -10,13 +10,12 @@ This is a simple example of accessing each row of data from 2d array
 ## SUPPORTED PLATFORMS
 Platform | Board             | Software Version
 ---------|-------------------|-----------------
-xilinx_aws-vu9p-f1-04261818|Xilinx Only 5.0 Shell|SCOUT 2019.1
-xilinx_u200_qdma|Xilinx Alveo U200|SCOUT 2019.1
-xilinx_u280_xdma|Xilinx Alveo U280|SCOUT 2019.1
-xilinx_u250_qdma|Xilinx Alveo U250|SCOUT 2019.1
-xilinx_u200_xdma|Xilinx Alveo U200|SCOUT 2019.1
-xilinx_u250_xdma|Xilinx Alveo U250|SCOUT 2019.1
-xilinx_u280-es1_xdma|Xilinx Alveo U280|SCOUT 2019.1
+xilinx_u200_qdma|Xilinx Alveo U200|SCOUT 2019.2
+xilinx_u280_xdma|Xilinx Alveo U280|SCOUT 2019.2
+xilinx_u250_qdma|Xilinx Alveo U250|SCOUT 2019.2
+xilinx_u200_xdma|Xilinx Alveo U200|SCOUT 2019.2
+xilinx_u250_xdma|Xilinx Alveo U250|SCOUT 2019.2
+xilinx_u280-es1_xdma|Xilinx Alveo U280|SCOUT 2019.2
 
 
 ##  DESIGN FILES

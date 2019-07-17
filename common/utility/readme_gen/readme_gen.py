@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 from sys import argv
-from collections import OrderedDict
 import json
+from collections import OrderedDict
 import os
 import subprocess
 
@@ -143,15 +143,6 @@ def hierarchy(target):
 
 def commandargs(target,data):
     target.write("##  COMMAND LINE ARGUMENTS\n")
-    if 'host' in data:
-	if 'opencv' in data['host'][0]['linker'['libraries']:
-		target.write("***OpenCV for Example Applications***")
-		target.write("\n\n")
-		target.write("This application requires OpenCV runtime libraries. If the host does not have OpenCV installed use the Xilinx included libraries with the following command:")
-		target.write("\n\n")
-		target.write("`export LD_LIBRARY_PATH=$XILINX_SCOUT/lnx64/tools/opencv/:$LD_LIBRARY_PATH`")
-		target.write("\n\n") 
-
     target.write("Once the environment has been configured, the application can be executed by\n")
     target.write("```\n")
     if "launch" in data:
