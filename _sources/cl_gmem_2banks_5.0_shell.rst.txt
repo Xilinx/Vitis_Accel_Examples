@@ -1,5 +1,5 @@
-Global Memory Two Banks (CL) for 5.0 shell
-==========================================
+Global Memory Two Banks for 5.0 shell
+=====================================
 
 This example of 2ddr to demonstrate on how to use 2ddr DSA. How to
 create buffers in each DDR.
@@ -14,7 +14,7 @@ SUPPORTED PLATFORMS
 ======== ============== ================
 Platform Board          Software Version
 ======== ============== ================
-Xilinx   5.0 Shell only SCOUT 2019.1
+Xilinx   5.0 Shell only SCOUT 2019.2
 ======== ============== ================
 
 DESIGN FILES

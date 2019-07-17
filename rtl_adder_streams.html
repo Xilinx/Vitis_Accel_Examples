@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Adder With Streams (RTL) &mdash; SCOUT Git Examples&#39; Documentation 2019.2 documentation</title>
+  <title>Adder With Streams &mdash; SCOUT Git Examples&#39; Documentation 2019.2 documentation</title>
   
 
   
@@ -35,7 +35,7 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Stream Vector Increment (RTL): Free Running" href="rtl_streaming_free_running.html" />
+    <link rel="next" title="Stream Vector Increment : Free Running" href="rtl_streaming_free_running.html" />
     <link rel="prev" title="RTL Kernels" href="rtl.html" /> 
 </head>
 
@@ -90,23 +90,23 @@
 </ul>
 <p class="caption"><span class="caption-text">Category of Examples</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="hello_world.html">Hello World (HLS C/C++ Kernel)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hello_world.html">Hello World</a></li>
 <li class="toctree-l1"><a class="reference internal" href="host.html">Host</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sysopt.html">System Optimizations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cpp.html">C++ Kernels</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="rtl.html">RTL Kernels</a><ul class="current">
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Adder With Streams (RTL)</a><ul>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Adder With Streams</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#supported-platforms">SUPPORTED PLATFORMS</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#design-files">DESIGN FILES</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#command-line-arguments">COMMAND LINE ARGUMENTS</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="rtl_streaming_free_running.html">Stream Vector Increment (RTL): Free Running</a></li>
-<li class="toctree-l2"><a class="reference internal" href="rtl_streaming_k2k.html">Stream Kernel to Kernel Vector Increment (RTL)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="rtl_vadd.html">Vector Addition With RTL Kernel (RTL)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="rtl_vadd_2clks.html">Vector Addition with 2 Kernel Clocks (RTL)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="rtl_vadd_2kernels.html">Multiple RTL Kernels (RTL)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="rtl_vadd_hw_debug.html">Hardware Debug of Vector Addition With RTL Kernel (RTL)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rtl_streaming_free_running.html">Stream Vector Increment : Free Running</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rtl_streaming_k2k.html">Stream Kernel to Kernel Vector Increment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rtl_vadd.html">Vector Addition With RTL Kernel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rtl_vadd_2clks.html">Vector Addition with 2 Kernel Clocks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rtl_vadd_2kernels.html">Multiple RTL Kernels</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rtl_vadd_hw_debug.html">Hardware Debug of Vector Addition With RTL Kernel</a></li>
 <li class="toctree-l2"><a class="reference internal" href="rtl_vadd_mixed_c_vadd.html">Mixed Kernels (RTL &amp; C)</a></li>
 </ul>
 </li>
@@ -163,7 +163,7 @@
         
           <li><a href="rtl.html">RTL Kernels</a> &raquo;</li>
         
-      <li>Adder With Streams (RTL)</li>
+      <li>Adder With Streams</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -182,8 +182,8 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="adder-with-streams-rtl">
-<h1>Adder With Streams (RTL)<a class="headerlink" href="#adder-with-streams-rtl" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="adder-with-streams">
+<h1>Adder With Streams<a class="headerlink" href="#adder-with-streams" title="Permalink to this headline">¶</a></h1>
 <p>This example shows an adder with streams using 3 RTL kernels.</p>
 <p><strong>KEY CONCEPTS:</strong> RTL Kernel, Multiple RTL Kernels</p>
 <div class="section" id="supported-platforms">
@@ -203,27 +203,27 @@
 <tbody>
 <tr class="row-even"><td><p>xilinx_u200_qdma</p></td>
 <td><p>Xilinx Alveo U200</p></td>
-<td><p>SCOUT 2019.1</p></td>
+<td><p>SCOUT 2019.2</p></td>
 </tr>
 <tr class="row-odd"><td><p>xilinx_u280_xdma</p></td>
 <td><p>Xilinx Alveo U280</p></td>
-<td><p>SCOUT 2019.1</p></td>
+<td><p>SCOUT 2019.2</p></td>
 </tr>
 <tr class="row-even"><td><p>xilinx_u250_qdma</p></td>
 <td><p>Xilinx Alveo U250</p></td>
-<td><p>SCOUT 2019.1</p></td>
+<td><p>SCOUT 2019.2</p></td>
 </tr>
 <tr class="row-odd"><td><p>xilinx_u200_xdma</p></td>
 <td><p>Xilinx Alveo U200</p></td>
-<td><p>SCOUT 2019.1</p></td>
+<td><p>SCOUT 2019.2</p></td>
 </tr>
 <tr class="row-even"><td><p>xilinx_u250_xdma</p></td>
 <td><p>Xilinx Alveo U250</p></td>
-<td><p>SCOUT 2019.1</p></td>
+<td><p>SCOUT 2019.2</p></td>
 </tr>
 <tr class="row-odd"><td><p>xilinx_u280-es1_xdma</p></td>
 <td><p>Xilinx Alveo U280</p></td>
-<td><p>SCOUT 2019.1</p></td>
+<td><p>SCOUT 2019.2</p></td>
 </tr>
 </tbody>
 </table>
@@ -281,7 +281,7 @@ executed by</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="rtl_streaming_free_running.html" class="btn btn-neutral float-right" title="Stream Vector Increment (RTL): Free Running" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="rtl_streaming_free_running.html" class="btn btn-neutral float-right" title="Stream Vector Increment : Free Running" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="rtl.html" class="btn btn-neutral float-left" title="RTL Kernels" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

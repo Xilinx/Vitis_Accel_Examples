@@ -90,14 +90,14 @@
 </ul>
 <p class="caption"><span class="caption-text">Category of Examples</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="hello_world.html">Hello World (HLS C/C++ Kernel)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hello_world.html">Hello World</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="host.html">Host</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="concurrent_kernel_execution.html">Concurrent Kernel Execution (C)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="copy_buffer.html">Copy Buffer (C)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="data_transfer.html">Data Transfer (C)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="device_query.html">Device Query (C)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="concurrent_kernel_execution.html">Concurrent Kernel Execution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="copy_buffer.html">Copy Buffer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="data_transfer.html">Data Transfer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="device_query.html">Device Query</a></li>
 <li class="toctree-l2"><a class="reference internal" href="device_query_cpp.html">Device Query (CPP)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="errors.html">Error Handling (C)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="errors.html">Error Handling</a></li>
 <li class="toctree-l2"><a class="reference internal" href="errors_cpp.html">Error Handling (CPP)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="hbm_bandwidth.html">HBM Bandwidth</a></li>
 <li class="toctree-l2"><a class="reference internal" href="hbm_simple.html">HBM Simple Vector Addition</a></li>
@@ -109,17 +109,17 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="host_global_bandwidth_5.0_shell.html">host_global_5.0_shell</a></li>
 <li class="toctree-l2"><a class="reference internal" href="kernel_swap.html">Vector Add - Vector Multiplication for XPR Devices</a></li>
-<li class="toctree-l2"><a class="reference internal" href="multiple_cus_asymmetrical.html">Vector Addition ~ Asymmetrical Multiple Compute Units (C)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="multiple_devices.html">Multiple FPGA Devices Execution Concurrently (C)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="multiple_process.html">Multiple Process (C)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="overlap.html">Overlap Host and HLS kernels (C)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="streaming_host_bandwidth.html">Host Streaming Bandwidth (C)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="multiple_cus_asymmetrical.html">Vector Addition ~ Asymmetrical Multiple Compute Units</a></li>
+<li class="toctree-l2"><a class="reference internal" href="multiple_devices.html">Multiple FPGA Devices Execution Concurrently</a></li>
+<li class="toctree-l2"><a class="reference internal" href="multiple_process.html">Multiple Process</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overlap.html">Overlap Host and HLS kernels</a></li>
+<li class="toctree-l2"><a class="reference internal" href="streaming_host_bandwidth.html">Host Streaming Bandwidth</a></li>
 <li class="toctree-l2"><a class="reference internal" href="streaming_k2k.html">Stream Kernel to Kernel Vector Addition and Multiplication</a></li>
 <li class="toctree-l2"><a class="reference internal" href="streaming_k2k_mm.html">Stream Kernel to Kernel Vector Addition and Multiplication</a></li>
 <li class="toctree-l2"><a class="reference internal" href="streaming_mm_mixed.html">Stream Vector Addition with OpenCL Buffers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="streaming_multi_cus.html">Stream Vector Addition (Multiple Compute Units)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="streaming_simple.html">Stream Vector Addition (C)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="sub_devices.html">Sub Devices (C)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="streaming_simple.html">Stream Vector Addition</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sub_devices.html">Sub Devices</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="sysopt.html">System Optimizations</a></li>
@@ -200,6 +200,29 @@
   <div class="section" id="host-global">
 <h1>host_global<a class="headerlink" href="#host-global" title="Permalink to this headline">¶</a></h1>
 <p>Host to global memory bandwidth test</p>
+<p>This example tests the bandwidth of the interconnect between host and
+global memory for 3 cases : host to global memory transfer, global
+memory to host transfer and bidirectional transfer. Host and device are
+connected via PCIe interconnect and latency of this interconnect can be
+seen as the acceleration tax for the application. Hence, these transfers
+should be efficiently managed.</p>
+<p>Different combinations of buffer sizes and number of buffers are created
+and data to be transferred is filled into buffers using
+<code class="docutils literal notranslate"><span class="pre">clEnqueueFillBuffer</span></code> API in which pattern with which buffers are to
+be filled can be specified.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">err</span> <span class="o">=</span> <span class="n">command_queue</span><span class="p">.</span><span class="n">enqueueFillBuffer</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">((</span><span class="n">cl</span><span class="o">::</span><span class="n">Buffer</span><span class="o">&amp;</span><span class="p">)</span><span class="n">mems</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">nxtcnt</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>For bandwidth test, <code class="docutils literal notranslate"><span class="pre">clenqueueMigrateMemObjects()</span></code> API is used to
+transfer the data from host to global memory and vice versa.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">err</span> <span class="o">=</span> <span class="n">commands</span><span class="p">.</span><span class="n">enqueueMigrateMemObjects</span><span class="p">(</span><span class="n">mems1</span><span class="p">,</span> <span class="mi">0</span><span class="cm">/* 0 means from host*/</span><span class="p">);</span>
+<span class="n">err</span> <span class="o">=</span> <span class="n">commands</span><span class="p">.</span><span class="n">enqueueMigrateMemObjects</span><span class="p">(</span><span class="n">mems2</span><span class="p">,</span> <span class="n">CL_MIGRATE_MEM_OBJECT_HOST</span><span class="p">);</span>
+</pre></div>
+</div>
+<p><strong>Note :</strong> From software emulation log it can be seen that for larger
+number of buffers of small sizes , throughput achieved for transfer is
+less whereas for small number of buffers with larger sizes, throughput
+achieved for transfer is more.</p>
 <div class="section" id="supported-platforms">
 <h2>SUPPORTED PLATFORMS<a class="headerlink" href="#supported-platforms" title="Permalink to this headline">¶</a></h2>
 <table class="docutils align-center">
@@ -217,23 +240,23 @@
 <tbody>
 <tr class="row-even"><td><p>xilinx_u200_qdma</p></td>
 <td><p>Xilinx Alveo U200</p></td>
-<td><p>SCOUT 2019.1</p></td>
+<td><p>SCOUT 2019.2</p></td>
 </tr>
 <tr class="row-odd"><td><p>xilinx_u280_xdma</p></td>
 <td><p>Xilinx Alveo U280</p></td>
-<td><p>SCOUT 2019.1</p></td>
+<td><p>SCOUT 2019.2</p></td>
 </tr>
 <tr class="row-even"><td><p>xilinx_u250_qdma</p></td>
 <td><p>Xilinx Alveo U250</p></td>
-<td><p>SCOUT 2019.1</p></td>
+<td><p>SCOUT 2019.2</p></td>
 </tr>
 <tr class="row-odd"><td><p>xilinx_u200_xdma</p></td>
 <td><p>Xilinx Alveo U200</p></td>
-<td><p>SCOUT 2019.1</p></td>
+<td><p>SCOUT 2019.2</p></td>
 </tr>
 <tr class="row-even"><td><p>xilinx_u250_xdma</p></td>
 <td><p>Xilinx Alveo U250</p></td>
-<td><p>SCOUT 2019.1</p></td>
+<td><p>SCOUT 2019.2</p></td>
 </tr>
 </tbody>
 </table>

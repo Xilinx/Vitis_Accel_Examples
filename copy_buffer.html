@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Copy Buffer (C) &mdash; SCOUT Git Examples&#39; Documentation 2019.2 documentation</title>
+  <title>Copy Buffer &mdash; SCOUT Git Examples&#39; Documentation 2019.2 documentation</title>
   
 
   
@@ -35,8 +35,8 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Data Transfer (C)" href="data_transfer.html" />
-    <link rel="prev" title="Concurrent Kernel Execution (C)" href="concurrent_kernel_execution.html" /> 
+    <link rel="next" title="Data Transfer" href="data_transfer.html" />
+    <link rel="prev" title="Concurrent Kernel Execution" href="concurrent_kernel_execution.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -90,36 +90,36 @@
 </ul>
 <p class="caption"><span class="caption-text">Category of Examples</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="hello_world.html">Hello World (HLS C/C++ Kernel)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hello_world.html">Hello World</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="host.html">Host</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="concurrent_kernel_execution.html">Concurrent Kernel Execution (C)</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Copy Buffer (C)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="concurrent_kernel_execution.html">Concurrent Kernel Execution</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Copy Buffer</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#supported-platforms">SUPPORTED PLATFORMS</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#design-files">DESIGN FILES</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#command-line-arguments">COMMAND LINE ARGUMENTS</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="data_transfer.html">Data Transfer (C)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="device_query.html">Device Query (C)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="data_transfer.html">Data Transfer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="device_query.html">Device Query</a></li>
 <li class="toctree-l2"><a class="reference internal" href="device_query_cpp.html">Device Query (CPP)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="errors.html">Error Handling (C)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="errors.html">Error Handling</a></li>
 <li class="toctree-l2"><a class="reference internal" href="errors_cpp.html">Error Handling (CPP)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="hbm_bandwidth.html">HBM Bandwidth</a></li>
 <li class="toctree-l2"><a class="reference internal" href="hbm_simple.html">HBM Simple Vector Addition</a></li>
 <li class="toctree-l2"><a class="reference internal" href="host_global_bandwidth.html">host_global</a></li>
 <li class="toctree-l2"><a class="reference internal" href="host_global_bandwidth_5.0_shell.html">host_global_5.0_shell</a></li>
 <li class="toctree-l2"><a class="reference internal" href="kernel_swap.html">Vector Add - Vector Multiplication for XPR Devices</a></li>
-<li class="toctree-l2"><a class="reference internal" href="multiple_cus_asymmetrical.html">Vector Addition ~ Asymmetrical Multiple Compute Units (C)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="multiple_devices.html">Multiple FPGA Devices Execution Concurrently (C)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="multiple_process.html">Multiple Process (C)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="overlap.html">Overlap Host and HLS kernels (C)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="streaming_host_bandwidth.html">Host Streaming Bandwidth (C)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="multiple_cus_asymmetrical.html">Vector Addition ~ Asymmetrical Multiple Compute Units</a></li>
+<li class="toctree-l2"><a class="reference internal" href="multiple_devices.html">Multiple FPGA Devices Execution Concurrently</a></li>
+<li class="toctree-l2"><a class="reference internal" href="multiple_process.html">Multiple Process</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overlap.html">Overlap Host and HLS kernels</a></li>
+<li class="toctree-l2"><a class="reference internal" href="streaming_host_bandwidth.html">Host Streaming Bandwidth</a></li>
 <li class="toctree-l2"><a class="reference internal" href="streaming_k2k.html">Stream Kernel to Kernel Vector Addition and Multiplication</a></li>
 <li class="toctree-l2"><a class="reference internal" href="streaming_k2k_mm.html">Stream Kernel to Kernel Vector Addition and Multiplication</a></li>
 <li class="toctree-l2"><a class="reference internal" href="streaming_mm_mixed.html">Stream Vector Addition with OpenCL Buffers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="streaming_multi_cus.html">Stream Vector Addition (Multiple Compute Units)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="streaming_simple.html">Stream Vector Addition (C)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="sub_devices.html">Sub Devices (C)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="streaming_simple.html">Stream Vector Addition</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sub_devices.html">Sub Devices</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="sysopt.html">System Optimizations</a></li>
@@ -178,7 +178,7 @@
         
           <li><a href="host.html">Host</a> &raquo;</li>
         
-      <li>Copy Buffer (C)</li>
+      <li>Copy Buffer</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -197,12 +197,21 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="copy-buffer-c">
-<h1>Copy Buffer (C)<a class="headerlink" href="#copy-buffer-c" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="copy-buffer">
+<h1>Copy Buffer<a class="headerlink" href="#copy-buffer" title="Permalink to this headline">¶</a></h1>
 <p>This Copy Buffer example demonstrate how one buffer can be copied from
 another buffer.</p>
 <p><strong>KEY CONCEPTS:</strong> Copy Buffer</p>
 <p><strong>KEYWORDS:</strong> cl::CommandQueue::enqueueCopyBuffer()</p>
+<p>This example illustrates the use of <code class="docutils literal notranslate"><span class="pre">clEnqueueCopyBuffer</span></code> API which is
+used to copy the contents of a buffer into another buffer.</p>
+<p>Contents of <code class="docutils literal notranslate"><span class="pre">buffer_a</span></code> are copied into <code class="docutils literal notranslate"><span class="pre">buffer_b</span></code>.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">err</span> <span class="o">=</span> <span class="n">q</span><span class="p">.</span><span class="n">enqueueCopyBuffer</span><span class="p">(</span><span class="n">buffer_a</span><span class="p">,</span> <span class="n">buffer_b</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span> <span class="n">size_in_bytes</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Then contents of these buffers are added and result is verified by the
+host(should be twice the elements of buffer_a).
+<code class="docutils literal notranslate"><span class="pre">c++</span>&#160; <span class="pre">for</span> <span class="pre">(int</span> <span class="pre">i</span> <span class="pre">=</span> <span class="pre">0;</span> <span class="pre">i</span> <span class="pre">&lt;</span> <span class="pre">DATA_SIZE;</span> <span class="pre">i++)</span> <span class="pre">{</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">int</span> <span class="pre">host_result</span> <span class="pre">=</span> <span class="pre">source_a[i]</span> <span class="pre">+</span> <span class="pre">source_a[i];</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">if</span> <span class="pre">(source_results[i]</span> <span class="pre">!=</span> <span class="pre">host_result)</span> <span class="pre">{</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">printf(error_message.c_str(),</span> <span class="pre">i,</span> <span class="pre">host_result,</span> <span class="pre">source_results[i]);</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">match</span> <span class="pre">=</span> <span class="pre">1;</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">break;</span></code></p>
 <div class="section" id="supported-platforms">
 <h2>SUPPORTED PLATFORMS<a class="headerlink" href="#supported-platforms" title="Permalink to this headline">¶</a></h2>
 <table class="docutils align-center">
@@ -220,27 +229,27 @@ another buffer.</p>
 <tbody>
 <tr class="row-even"><td><p>xilinx_u200_qdma</p></td>
 <td><p>Xilinx Alveo U200</p></td>
-<td><p>SCOUT 2019.1</p></td>
+<td><p>SCOUT 2019.2</p></td>
 </tr>
 <tr class="row-odd"><td><p>xilinx_u280_xdma</p></td>
 <td><p>Xilinx Alveo U280</p></td>
-<td><p>SCOUT 2019.1</p></td>
+<td><p>SCOUT 2019.2</p></td>
 </tr>
 <tr class="row-even"><td><p>xilinx_u250_qdma</p></td>
 <td><p>Xilinx Alveo U250</p></td>
-<td><p>SCOUT 2019.1</p></td>
+<td><p>SCOUT 2019.2</p></td>
 </tr>
 <tr class="row-odd"><td><p>xilinx_u200_xdma</p></td>
 <td><p>Xilinx Alveo U200</p></td>
-<td><p>SCOUT 2019.1</p></td>
+<td><p>SCOUT 2019.2</p></td>
 </tr>
 <tr class="row-even"><td><p>xilinx_u250_xdma</p></td>
 <td><p>Xilinx Alveo U250</p></td>
-<td><p>SCOUT 2019.1</p></td>
+<td><p>SCOUT 2019.2</p></td>
 </tr>
 <tr class="row-odd"><td><p>xilinx_u280-es1_xdma</p></td>
 <td><p>Xilinx Alveo U280</p></td>
-<td><p>SCOUT 2019.1</p></td>
+<td><p>SCOUT 2019.2</p></td>
 </tr>
 </tbody>
 </table>
@@ -274,10 +283,10 @@ executed by</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="data_transfer.html" class="btn btn-neutral float-right" title="Data Transfer (C)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="data_transfer.html" class="btn btn-neutral float-right" title="Data Transfer" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="concurrent_kernel_execution.html" class="btn btn-neutral float-left" title="Concurrent Kernel Execution (C)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="concurrent_kernel_execution.html" class="btn btn-neutral float-left" title="Concurrent Kernel Execution" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

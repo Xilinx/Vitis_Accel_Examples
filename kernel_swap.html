@@ -35,7 +35,7 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Vector Addition ~ Asymmetrical Multiple Compute Units (C)" href="multiple_cus_asymmetrical.html" />
+    <link rel="next" title="Vector Addition ~ Asymmetrical Multiple Compute Units" href="multiple_cus_asymmetrical.html" />
     <link rel="prev" title="host_global_5.0_shell" href="host_global_bandwidth_5.0_shell.html" /> 
 </head>
 
@@ -90,14 +90,14 @@
 </ul>
 <p class="caption"><span class="caption-text">Category of Examples</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="hello_world.html">Hello World (HLS C/C++ Kernel)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hello_world.html">Hello World</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="host.html">Host</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="concurrent_kernel_execution.html">Concurrent Kernel Execution (C)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="copy_buffer.html">Copy Buffer (C)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="data_transfer.html">Data Transfer (C)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="device_query.html">Device Query (C)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="concurrent_kernel_execution.html">Concurrent Kernel Execution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="copy_buffer.html">Copy Buffer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="data_transfer.html">Data Transfer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="device_query.html">Device Query</a></li>
 <li class="toctree-l2"><a class="reference internal" href="device_query_cpp.html">Device Query (CPP)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="errors.html">Error Handling (C)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="errors.html">Error Handling</a></li>
 <li class="toctree-l2"><a class="reference internal" href="errors_cpp.html">Error Handling (CPP)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="hbm_bandwidth.html">HBM Bandwidth</a></li>
 <li class="toctree-l2"><a class="reference internal" href="hbm_simple.html">HBM Simple Vector Addition</a></li>
@@ -109,17 +109,17 @@
 <li class="toctree-l3"><a class="reference internal" href="#command-line-arguments">COMMAND LINE ARGUMENTS</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="multiple_cus_asymmetrical.html">Vector Addition ~ Asymmetrical Multiple Compute Units (C)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="multiple_devices.html">Multiple FPGA Devices Execution Concurrently (C)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="multiple_process.html">Multiple Process (C)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="overlap.html">Overlap Host and HLS kernels (C)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="streaming_host_bandwidth.html">Host Streaming Bandwidth (C)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="multiple_cus_asymmetrical.html">Vector Addition ~ Asymmetrical Multiple Compute Units</a></li>
+<li class="toctree-l2"><a class="reference internal" href="multiple_devices.html">Multiple FPGA Devices Execution Concurrently</a></li>
+<li class="toctree-l2"><a class="reference internal" href="multiple_process.html">Multiple Process</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overlap.html">Overlap Host and HLS kernels</a></li>
+<li class="toctree-l2"><a class="reference internal" href="streaming_host_bandwidth.html">Host Streaming Bandwidth</a></li>
 <li class="toctree-l2"><a class="reference internal" href="streaming_k2k.html">Stream Kernel to Kernel Vector Addition and Multiplication</a></li>
 <li class="toctree-l2"><a class="reference internal" href="streaming_k2k_mm.html">Stream Kernel to Kernel Vector Addition and Multiplication</a></li>
 <li class="toctree-l2"><a class="reference internal" href="streaming_mm_mixed.html">Stream Vector Addition with OpenCL Buffers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="streaming_multi_cus.html">Stream Vector Addition (Multiple Compute Units)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="streaming_simple.html">Stream Vector Addition (C)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="sub_devices.html">Sub Devices (C)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="streaming_simple.html">Stream Vector Addition</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sub_devices.html">Sub Devices</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="sysopt.html">System Optimizations</a></li>
@@ -207,6 +207,41 @@ After kernel swap, host has to migrate the buffer back to device.</p>
 <p><strong>KEY CONCEPTS:</strong> Handling Buffer sharing across multiple binaries,
 Multiple Kernel Binaries</p>
 <p><strong>KEYWORDS:</strong> clEnqueueMigrateMemObjects(), CL_MIGRATE_MEM_OBJECT_HOST</p>
+<p>This example shows how host can swap the kernels and share the same
+buffer between two kernels which exist in separate binary containers.
+All the SDx platforms do not persist the buffer data if device is
+reprogrammed by different binary. So host has to migrate data from
+device to host memory before swapping the next binary. After
+re-programming the binary, host has to migrate the buffer back to device
+for next kernel operation.</p>
+<p>In design, host application first programs the device using binary
+containing <code class="docutils literal notranslate"><span class="pre">krnl_vmult</span></code> and executes the operation.</p>
+<p>Pointer <code class="docutils literal notranslate"><span class="pre">h_temp</span></code> in host is used to store the result of first kernel
+and provide the data to next kernel operation.</p>
+<p>During first kernel call, <code class="docutils literal notranslate"><span class="pre">d_mul</span></code> buffer is created using <code class="docutils literal notranslate"><span class="pre">h_temp</span></code>
+buffer.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">cl</span><span class="o">::</span><span class="n">Buffer</span> <span class="n">d_mul</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">CL_MEM_USE_HOST_PTR</span> <span class="o">|</span> <span class="n">CL_MEM_READ_WRITE</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span> <span class="o">*</span> <span class="n">LENGTH</span><span class="p">,</span> <span class="n">h_temp</span><span class="p">.</span><span class="n">data</span><span class="p">(),</span> <span class="o">&amp;</span><span class="n">err</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Once kernel finishes the operation, result of the kernel will be read
+from device to host into <code class="docutils literal notranslate"><span class="pre">h_temp</span></code> buffer.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">q</span><span class="p">.</span><span class="n">enqueueMigrateMemObjects</span><span class="p">({</span><span class="n">d_mul</span><span class="p">},</span><span class="n">CL_MIGRATE_MEM_OBJECT_HOST</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>After this, Host is ready to reprogram the 2nd Binary.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">cl</span><span class="o">::</span><span class="n">Program</span> <span class="n">program</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">devices</span><span class="p">,</span> <span class="n">vadd_bins</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>After reprogramming with new binary, a new buffer <code class="docutils literal notranslate"><span class="pre">d_temp</span></code> will be
+created using same <code class="docutils literal notranslate"><span class="pre">h_temp</span></code> host pointer.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">cl</span><span class="o">::</span><span class="n">Buffer</span> <span class="n">d_temp</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">CL_MEM_USE_HOST_PTR</span> <span class="o">|</span> <span class="n">CL_MEM_READ_ONLY</span><span class="p">,</span>   <span class="k">sizeof</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span> <span class="o">*</span> <span class="n">LENGTH</span><span class="p">,</span> <span class="n">h_temp</span><span class="p">.</span><span class="n">data</span><span class="p">());</span>
+</pre></div>
+</div>
+<p>And data will be transfered from host to device for 2nd kernel’s
+execution.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">q</span><span class="p">.</span><span class="n">enqueueMigrateMemObjects</span><span class="p">({</span><span class="n">d_temp</span><span class="p">},</span> <span class="mi">0</span><span class="cm">/* 0 means from host*/</span><span class="p">);</span>
+</pre></div>
+</div>
 <div class="section" id="supported-platforms">
 <h2>SUPPORTED PLATFORMS<a class="headerlink" href="#supported-platforms" title="Permalink to this headline">¶</a></h2>
 <table class="docutils align-center">
@@ -224,27 +259,27 @@ Multiple Kernel Binaries</p>
 <tbody>
 <tr class="row-even"><td><p>xilinx_u200_qdma</p></td>
 <td><p>Xilinx Alveo U200</p></td>
-<td><p>SCOUT 2019.1</p></td>
+<td><p>SCOUT 2019.2</p></td>
 </tr>
 <tr class="row-odd"><td><p>xilinx_u280_xdma</p></td>
 <td><p>Xilinx Alveo U280</p></td>
-<td><p>SCOUT 2019.1</p></td>
+<td><p>SCOUT 2019.2</p></td>
 </tr>
 <tr class="row-even"><td><p>xilinx_u250_qdma</p></td>
 <td><p>Xilinx Alveo U250</p></td>
-<td><p>SCOUT 2019.1</p></td>
+<td><p>SCOUT 2019.2</p></td>
 </tr>
 <tr class="row-odd"><td><p>xilinx_u200_xdma</p></td>
 <td><p>Xilinx Alveo U200</p></td>
-<td><p>SCOUT 2019.1</p></td>
+<td><p>SCOUT 2019.2</p></td>
 </tr>
 <tr class="row-even"><td><p>xilinx_u250_xdma</p></td>
 <td><p>Xilinx Alveo U250</p></td>
-<td><p>SCOUT 2019.1</p></td>
+<td><p>SCOUT 2019.2</p></td>
 </tr>
 <tr class="row-odd"><td><p>xilinx_u280-es1_xdma</p></td>
 <td><p>Xilinx Alveo U280</p></td>
-<td><p>SCOUT 2019.1</p></td>
+<td><p>SCOUT 2019.2</p></td>
 </tr>
 </tbody>
 </table>
@@ -279,7 +314,7 @@ executed by</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="multiple_cus_asymmetrical.html" class="btn btn-neutral float-right" title="Vector Addition ~ Asymmetrical Multiple Compute Units (C)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="multiple_cus_asymmetrical.html" class="btn btn-neutral float-right" title="Vector Addition ~ Asymmetrical Multiple Compute Units" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="host_global_bandwidth_5.0_shell.html" class="btn btn-neutral float-left" title="host_global_5.0_shell" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Overlap Host and HLS kernels (C) &mdash; SCOUT Git Examples&#39; Documentation 2019.2 documentation</title>
+  <title>Overlap Host and HLS kernels &mdash; SCOUT Git Examples&#39; Documentation 2019.2 documentation</title>
   
 
   
@@ -35,8 +35,8 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Host Streaming Bandwidth (C)" href="streaming_host_bandwidth.html" />
-    <link rel="prev" title="Multiple Process (C)" href="multiple_process.html" /> 
+    <link rel="next" title="Host Streaming Bandwidth" href="streaming_host_bandwidth.html" />
+    <link rel="prev" title="Multiple Process" href="multiple_process.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -90,36 +90,36 @@
 </ul>
 <p class="caption"><span class="caption-text">Category of Examples</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="hello_world.html">Hello World (HLS C/C++ Kernel)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hello_world.html">Hello World</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="host.html">Host</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="concurrent_kernel_execution.html">Concurrent Kernel Execution (C)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="copy_buffer.html">Copy Buffer (C)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="data_transfer.html">Data Transfer (C)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="device_query.html">Device Query (C)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="concurrent_kernel_execution.html">Concurrent Kernel Execution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="copy_buffer.html">Copy Buffer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="data_transfer.html">Data Transfer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="device_query.html">Device Query</a></li>
 <li class="toctree-l2"><a class="reference internal" href="device_query_cpp.html">Device Query (CPP)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="errors.html">Error Handling (C)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="errors.html">Error Handling</a></li>
 <li class="toctree-l2"><a class="reference internal" href="errors_cpp.html">Error Handling (CPP)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="hbm_bandwidth.html">HBM Bandwidth</a></li>
 <li class="toctree-l2"><a class="reference internal" href="hbm_simple.html">HBM Simple Vector Addition</a></li>
 <li class="toctree-l2"><a class="reference internal" href="host_global_bandwidth.html">host_global</a></li>
 <li class="toctree-l2"><a class="reference internal" href="host_global_bandwidth_5.0_shell.html">host_global_5.0_shell</a></li>
 <li class="toctree-l2"><a class="reference internal" href="kernel_swap.html">Vector Add - Vector Multiplication for XPR Devices</a></li>
-<li class="toctree-l2"><a class="reference internal" href="multiple_cus_asymmetrical.html">Vector Addition ~ Asymmetrical Multiple Compute Units (C)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="multiple_devices.html">Multiple FPGA Devices Execution Concurrently (C)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="multiple_process.html">Multiple Process (C)</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Overlap Host and HLS kernels (C)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="multiple_cus_asymmetrical.html">Vector Addition ~ Asymmetrical Multiple Compute Units</a></li>
+<li class="toctree-l2"><a class="reference internal" href="multiple_devices.html">Multiple FPGA Devices Execution Concurrently</a></li>
+<li class="toctree-l2"><a class="reference internal" href="multiple_process.html">Multiple Process</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Overlap Host and HLS kernels</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#supported-platforms">SUPPORTED PLATFORMS</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#design-files">DESIGN FILES</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#command-line-arguments">COMMAND LINE ARGUMENTS</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="streaming_host_bandwidth.html">Host Streaming Bandwidth (C)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="streaming_host_bandwidth.html">Host Streaming Bandwidth</a></li>
 <li class="toctree-l2"><a class="reference internal" href="streaming_k2k.html">Stream Kernel to Kernel Vector Addition and Multiplication</a></li>
 <li class="toctree-l2"><a class="reference internal" href="streaming_k2k_mm.html">Stream Kernel to Kernel Vector Addition and Multiplication</a></li>
 <li class="toctree-l2"><a class="reference internal" href="streaming_mm_mixed.html">Stream Vector Addition with OpenCL Buffers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="streaming_multi_cus.html">Stream Vector Addition (Multiple Compute Units)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="streaming_simple.html">Stream Vector Addition (C)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="sub_devices.html">Sub Devices (C)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="streaming_simple.html">Stream Vector Addition</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sub_devices.html">Sub Devices</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="sysopt.html">System Optimizations</a></li>
@@ -178,7 +178,7 @@
         
           <li><a href="host.html">Host</a> &raquo;</li>
         
-      <li>Overlap Host and HLS kernels (C)</li>
+      <li>Overlap Host and HLS kernels</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -197,8 +197,8 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="overlap-host-and-hls-kernels-c">
-<h1>Overlap Host and HLS kernels (C)<a class="headerlink" href="#overlap-host-and-hls-kernels-c" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="overlap-host-and-hls-kernels">
+<h1>Overlap Host and HLS kernels<a class="headerlink" href="#overlap-host-and-hls-kernels" title="Permalink to this headline">¶</a></h1>
 <p>This examples demonstrates techniques that allow user to overlap
 Host(CPU) and FPGA computation in an application. It will cover
 asynchronous operations and event object.</p>
@@ -206,6 +206,44 @@ asynchronous operations and event object.</p>
 Processing, Events, Asynchronous memcpy</p>
 <p><strong>KEYWORDS:</strong> cl_event, clCreateCommandQueue,
 CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE, clEnqueueMigrateMemObjects</p>
+<p>This example illustrates how host’s read and write tasks can be
+synchronized with kernel’s computational tasks to achieve low latency in
+cases where data is too large to fit on FPGA or it is being streamed
+from a sensor or a network.</p>
+<p>PCIe is a high bandwidth full duplex interconnect between host and FPGA.
+It can read and write data to FPGA simultaneously with low latency. This
+allows overlap of host and kernel tasks.</p>
+<p><code class="docutils literal notranslate"><span class="pre">Kernel</span> <span class="pre">vadd</span></code> is a simple addition kernel which adds two numbers from
+buffers a and b and stores the result in buffer c. Each of a,b and c
+have <code class="docutils literal notranslate"><span class="pre">two</span> <span class="pre">buffers</span></code> which are enqueued for write,read operations
+alternatively using a flag so that the hardware can be kept busy by the
+previous iteration while next iteration’s data is being written into the
+buffer.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">cl</span><span class="o">::</span><span class="n">Buffer</span> <span class="n">buffer_a</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">buffer_b</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">buffer_c</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span>
+<span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Creating Buffers...&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+  <span class="n">buffer_a</span><span class="p">[</span><span class="n">flag</span><span class="p">]</span> <span class="o">=</span> <span class="n">cl</span><span class="o">::</span><span class="n">Buffer</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">CL_MEM_READ_ONLY</span> <span class="o">|</span> <span class="n">CL_MEM_USE_HOST_PTR</span><span class="p">,</span>
+          <span class="n">bytes_per_iteration</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">A</span><span class="p">[</span><span class="n">iteration_idx</span> <span class="o">*</span> <span class="n">elements_per_iteration</span><span class="p">],</span> <span class="o">&amp;</span><span class="n">err</span><span class="p">));</span>
+  <span class="n">buffer_b</span><span class="p">[</span><span class="n">flag</span><span class="p">]</span> <span class="o">=</span> <span class="n">cl</span><span class="o">::</span><span class="n">Buffer</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">CL_MEM_READ_ONLY</span> <span class="o">|</span> <span class="n">CL_MEM_USE_HOST_PTR</span><span class="p">,</span>
+          <span class="n">bytes_per_iteration</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">B</span><span class="p">[</span><span class="n">iteration_idx</span> <span class="o">*</span> <span class="n">elements_per_iteration</span><span class="p">],</span> <span class="o">&amp;</span><span class="n">err</span><span class="p">);</span>
+  <span class="n">buffer_c</span><span class="p">[</span><span class="n">flag</span><span class="p">]</span> <span class="o">=</span> <span class="n">cl</span><span class="o">::</span><span class="n">Buffer</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">CL_MEM_WRITE_ONLY</span> <span class="o">|</span> <span class="n">CL_MEM_USE_HOST_PTR</span><span class="p">,</span>
+          <span class="n">bytes_per_iteration</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">device_result</span><span class="p">[</span><span class="n">iteration_idx</span> <span class="o">*</span> <span class="n">elements_per_iteration</span><span class="p">],</span> <span class="o">&amp;</span><span class="n">err</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Results computed by the kernel in the present cycle can be read by the
+host up until the next cycle finishes. This allows the operation to go
+on in a pipelined manner.</p>
+<p>OpenCL read and writes can be made <code class="docutils literal notranslate"><span class="pre">asynchronous</span></code> by using
+<code class="docutils literal notranslate"><span class="pre">CL_FALSE</span></code> flag in APIs and <code class="docutils literal notranslate"><span class="pre">cl::Event</span></code> objects can be used to
+synchronize these operations. Such as computation on data (kernel
+enqueue) should not start until the data has been written into the
+relevant buffers.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">err</span> <span class="o">=</span> <span class="n">q</span><span class="p">.</span><span class="n">enqueueMigrateMemObjects</span><span class="p">({</span><span class="n">buffer_a</span><span class="p">[</span><span class="n">flag</span><span class="p">],</span> <span class="n">buffer_b</span><span class="p">[</span><span class="n">flag</span><span class="p">]},</span> <span class="mi">0</span><span class="cm">/*0 means from host*/</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">write_event</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+  <span class="n">set_callback</span><span class="p">(</span><span class="n">write_event</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s">&quot;ooo_queue&quot;</span><span class="p">);</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">cl</span><span class="o">::</span><span class="n">Event</span><span class="o">&gt;</span> <span class="n">waitList</span><span class="p">;</span>
+    <span class="n">waitList</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">write_event</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+    <span class="n">err</span> <span class="o">=</span> <span class="n">q</span><span class="p">.</span><span class="n">enqueueNDRangeKernel</span><span class="p">(</span><span class="n">krnl_vadd</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">waitList</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">kernel_events</span><span class="p">[</span><span class="n">flag</span><span class="p">]);</span>
+</pre></div>
+</div>
 <div class="section" id="supported-platforms">
 <h2>SUPPORTED PLATFORMS<a class="headerlink" href="#supported-platforms" title="Permalink to this headline">¶</a></h2>
 <table class="docutils align-center">
@@ -223,27 +261,27 @@ CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE, clEnqueueMigrateMemObjects</p>
 <tbody>
 <tr class="row-even"><td><p>xilinx_u200_qdma</p></td>
 <td><p>Xilinx Alveo U200</p></td>
-<td><p>SCOUT 2019.1</p></td>
+<td><p>SCOUT 2019.2</p></td>
 </tr>
 <tr class="row-odd"><td><p>xilinx_u280_xdma</p></td>
 <td><p>Xilinx Alveo U280</p></td>
-<td><p>SCOUT 2019.1</p></td>
+<td><p>SCOUT 2019.2</p></td>
 </tr>
 <tr class="row-even"><td><p>xilinx_u250_qdma</p></td>
 <td><p>Xilinx Alveo U250</p></td>
-<td><p>SCOUT 2019.1</p></td>
+<td><p>SCOUT 2019.2</p></td>
 </tr>
 <tr class="row-odd"><td><p>xilinx_u200_xdma</p></td>
 <td><p>Xilinx Alveo U200</p></td>
-<td><p>SCOUT 2019.1</p></td>
+<td><p>SCOUT 2019.2</p></td>
 </tr>
 <tr class="row-even"><td><p>xilinx_u250_xdma</p></td>
 <td><p>Xilinx Alveo U250</p></td>
-<td><p>SCOUT 2019.1</p></td>
+<td><p>SCOUT 2019.2</p></td>
 </tr>
 <tr class="row-odd"><td><p>xilinx_u280-es1_xdma</p></td>
 <td><p>Xilinx Alveo U280</p></td>
-<td><p>SCOUT 2019.1</p></td>
+<td><p>SCOUT 2019.2</p></td>
 </tr>
 </tbody>
 </table>
@@ -277,10 +315,10 @@ executed by</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="streaming_host_bandwidth.html" class="btn btn-neutral float-right" title="Host Streaming Bandwidth (C)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="streaming_host_bandwidth.html" class="btn btn-neutral float-right" title="Host Streaming Bandwidth" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="multiple_process.html" class="btn btn-neutral float-left" title="Multiple Process (C)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="multiple_process.html" class="btn btn-neutral float-left" title="Multiple Process" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

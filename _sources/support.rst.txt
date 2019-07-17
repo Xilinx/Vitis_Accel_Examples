@@ -3,6 +3,7 @@
 Support
 =======
 
-For questions and to get help on any project in this repository or your own projects, visit the Scout Forums.
+For questions and to get help on any project in this repository or your own projects, visit the `Scout Forums`_.
 
-To execute these example using the Scout GUI, follow the setup instructions in Scout GUI README.
+.. _Scout Forums: https://forums.xilinx.com/t5/SDAccel/bd-p/SDx
+
