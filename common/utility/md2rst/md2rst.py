@@ -8,7 +8,7 @@ from collections import OrderedDict
 from itertools import islice
 
 DSA = 'xilinx_u200_qdma'
-VERSION = 'SCOUT 2019.1'
+VERSION = 'SCOUT 2019.2'
 AWS_DEVICES = {
     'xilinx_aws-vu9p-f1-04261818': {
        'version': '5.0',
@@ -48,10 +48,15 @@ DEVICES = {
 }
 
 def overview(target,data):
-    target.write(data["example"])
+    title = data["name"]
+    title = title.replace("(C)", "")
+    title = title.replace("(CL)", "")
+    title = title.replace("(RTL)", "")
+    title = title.replace("(HLS C/C++ Kernel)", "")
+    target.write(title)
     target.write("\n")
     target.write("======================\n\n")
-    target.write(('\n').join(data["overview"]))
+    target.write(('\n').join(data["description"]))
     target.write("\n\n")
     if 'more_info' in data:
         target.write(('\n').join(data["more_info"]))
@@ -153,15 +158,6 @@ def hierarchy(target):
 
 def commandargs(target,data):
     target.write("##  COMMAND LINE ARGUMENTS\n")
-    if 'host' in data:
-	if 'opencv' in data['host'][0]['linker']['libraries']:
-		target.write("***OpenCV for Example Applications***")
-		target.write("\n\n")
-		target.write("This application requires OpenCV runtime libraries. If the host does not have OpenCV installed use the Xilinx included libraries with the following command:")
-		target.write("\n\n")
-		target.write("`export LD_LIBRARY_PATH=$XILINX_SCOUT/lnx64/tools/opencv/:$LD_LIBRARY_PATH`")
-		target.write("\n\n") 
-    	
     target.write("Once the environment has been configured, the application can be executed by\n")
     target.write("```\n")
     if "launch" in data:
@@ -198,7 +194,7 @@ assert("OpenCL" in data['runtime'])
 if "match_readme" in data and data["match_readme"] == "false":
     print "ERROR:: README Manually Edited:: README Generator Failed\n"
 else:
-    print "Generating the README for %s" % data["example"]
+    print "Generating the README for %s" % data["name"]
     target = open("D_README.md","w")
     overview(target,data)
     requirements(target,data)
