@@ -11,6 +11,6 @@ Example        | Description           | Key Concepts / Keywords
 [watermarking/][]|This is an optimized implementation of a watermarking application to add watermarking to images targeting execution on an SDAccel supported FPGA acceleration card.|
 
 [.]:.
-[601_kmeans/]:./kmeans/
-[602_median_filter/]:./median_filter/
-[603_watermarking/]:./watermarking/
+[kmeans/]:./kmeans/
+[median_filter/]:./median_filter/
+[watermarking/]:./watermarking/
