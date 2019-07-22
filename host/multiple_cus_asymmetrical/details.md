@@ -1,7 +1,7 @@
 Vector Addition ~ Asymmetrical Multiple Compute Units (C)
 =========================================================
 
-This example demonstrates how multiple compute units can do parallel processing where these compute units are asymmetrical i.e.  connected to different memory banks(and potentially can perform unique tasks).
+This example demonstrates how multiple compute units can do parallel processing where these compute units are asymmetrical i.e.  connected to different memory banks.
 
 For kernels to execute concurrently, command queue is initialized with out of order execution mode enabled.
 
