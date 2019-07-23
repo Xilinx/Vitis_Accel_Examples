@@ -3,6 +3,8 @@ Stream Vector addition with OpenCL Buffers
 
 This example demontrates how to process an input stream of data from host for computation along with memory mapped OpenCL buffer inputs. `krnl_stream_vadd` has 1 stream input, one memory mapped buffer input and 1 stream output.
 
+The APIs used for streaming operations are custom stream APIs that binds to Xilinx Streaming APIs.
+
 Streaming class needs to be initialized before use.
 ```c++
 xcl::Stream::init(platform_id);
