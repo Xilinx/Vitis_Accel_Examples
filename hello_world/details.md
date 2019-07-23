@@ -1,6 +1,6 @@
 Hello World
 =============
-This example introduces the basic structure of host and kernel code. Kernel vadd optimizes a simple vector addition.
+This example introduces the basic structure of host and kernel code. Kernel `vadd` optimizes a simple vector addition.
 
 
 Kernel arguments specify the inputs read from the global memory and outputs written back to it.
