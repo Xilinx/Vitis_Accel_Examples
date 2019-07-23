@@ -5,6 +5,8 @@ This example demonstrates how stream interfaces can be setup from host to kernel
 
 Stream interface doesn't require address management as access to data is done in sequential manner. PCIe interconnect between host and device has high bandwidth which can be used to transfer data to and from FPGA while keeping the FPGA busy with computation. Stream interfaces are useful for applications where either the data is too big to reside on an FPGA or data is being streamed from a sensor network.
 
+The APIs used for streaming operations are custom stream APIs that binds to Xilinx Streaming APIs.
+
 Streaming class needs to be initialized before use.
 ```c++
 xcl::Stream::init(platform_id);
