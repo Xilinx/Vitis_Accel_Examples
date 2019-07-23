@@ -7,12 +7,13 @@ Streaming class needs to be initialized before use.
 ```c++
 xcl::Stream::init(platform_id);
 ```
-For stream, Device connection to the kernel is specified by using `cl_mem_ext_ptr_t`extention pointer.
+For stream, Device connection to the kernel is specified by using `cl_mem_ext_ptr_t` extention pointer.
 ```c++
 cl_mem_ext_ptr_t ext;
 ext.param = krnl_adder1.get();
 ext.obj = NULL;
 ```
+The APIs used for streaming operations are custom stream APIs that binds to Xilinx Streaming APIs.
 
 `xcl::stream::createStream` API is used to create a stream and read and write properties are determined by the flags `CL_STREAM_WRITE_ONLY` and `CL_STREAM_READ_ONLY` .`.flags` is used to specify the kernel argument to which stream is connected.
 
