@@ -20,7 +20,7 @@ maximum number of iterations to help the tool to analyze how the loop's latency 
 
 Loop iterations are done sequentially on a CPU, i.e. it will take multiple clock cycles for a new iteration to begin execution. FPGA can pipeline these iterations
 to increase the throughput of the application by beginning a new iteration every cycle. `HLS PIPELINE` pragma is used to implement pipeline and "option `II`" can be
-used to mention the Initiation interval (No. of clock cycles before a new loop iteration can be started).
+used to mention the *Initiation interval* (No. of clock cycles before a new loop iteration can be started).
 
 
 ```c++
