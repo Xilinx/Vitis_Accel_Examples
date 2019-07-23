@@ -17,7 +17,9 @@ err = krnl_vmult.setArg(3, size));
 ```
 Producer kernel stream output port must be connected to consumer kernel stream input port during the `xocc` linking stage.
 
-   `xocc -l --sc krnl_stream_vadd_1.out:krnl_stream_vmult_1.in2`
+```
+xocc -l --sc krnl_stream_vadd_1.out:krnl_stream_vmult_1.in2
+```
 
 HLS pragma must be defined for every streaming interface.
 ```c++
@@ -39,7 +41,7 @@ vadd:
 ```  
 
 ```c++         
-   vmult:
+vmult:
     for (int i = 0; i < size; i++) {
        #pragma HLS PIPELINE II=1
         pkt v2 = in2.read();
