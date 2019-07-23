@@ -27,7 +27,7 @@ This is done to achieve low memory access latency and also for efficient use of 
 Similarly, results are stored in a buffer and are written to global memory in a burst.
 The for loops used have the following requirements to implement burst read/write:
 - Pipeline the loop : Loop pipeline must have II(Initiation interval) = 1
-- Aligned memory : Memory addressesses for read/write should be contiguous
+- Aligned memory : Memory addresses for read/write should be contiguous.
 
 ```C
     read1: for (int j = 0 ; j < chunk_size ; j++){
