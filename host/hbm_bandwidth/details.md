@@ -17,4 +17,5 @@ inBufExt1[i].param = 0;
 inBufExt1[i].flags = bank[i * 4];
 ```
 HBM memory must be associated to respective kernel I/O ports using --sp option in kernel linking stage.
+
 `LDCLFLAGS += --sp krnl_vaddmul_1.m_axi_gmem0:HBM[0] --sp krnl_vaddmul_1.m_axi_gmem1:HBM[1] --sp krnl_vaddmul_1.m_axi_gmem2:HBM[2] --sp krnl_vaddmul_1.m_axi_gmem3:HBM[3]`
