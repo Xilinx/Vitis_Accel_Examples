@@ -204,6 +204,104 @@ Multiply C Kernel that demonstrates on how to process a stream of data
 for computation between two kernels.</p>
 <p><strong>KEY CONCEPTS:</strong> Read/Write Stream, Create/Release Stream</p>
 <p><strong>KEYWORDS:</strong> cl_stream, CL_STREAM_EOT, CL_STREAM_NONBLOCKING</p>
+<p>This example demonstrates how two kernels <code class="docutils literal notranslate"><span class="pre">kernel_stream_vadd</span></code> and
+<code class="docutils literal notranslate"><span class="pre">kernel_stream_vmult</span></code> can communicate through a stream interface.
+Rather than loading the results from producer kernel
+<code class="docutils literal notranslate"><span class="pre">kernel_stream_vadd</span></code> to global memory and then to consumer kernel
+<code class="docutils literal notranslate"><span class="pre">kernel_stream_vmult</span></code> we can use stream to transfer this data
+directly. It reduces the latency of the application and also saves the
+memory resources for other operations.</p>
+<p>For kernel to kernel streaming transfer, kernel to kernel data transfer
+ports don’t need <code class="docutils literal notranslate"><span class="pre">clSetKernelArg</span></code> from host code.</p>
+<p>Producer kernel streaming output port needs to be connected to consumer
+kernel stream input port during <code class="docutils literal notranslate"><span class="pre">xocc</span></code> linking stage.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">xocc</span> <span class="o">-</span><span class="n">l</span> <span class="o">--</span><span class="n">sc</span> <span class="n">krnl_stream_vadd_1</span><span class="o">.</span><span class="n">output</span><span class="p">:</span><span class="n">krnl_stream_vmult_1</span><span class="o">.</span><span class="n">b</span>
+</pre></div>
+</div>
+<p>The APIs used for streaming operations are custom stream APIs that binds
+to Xilinx Streaming APIs.</p>
+<p>Streaming class needs to be initialized before use.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">xcl</span><span class="o">::</span><span class="n">Stream</span><span class="o">::</span><span class="n">init</span><span class="p">(</span><span class="n">platform_id</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>For stream, Device connection to the kernel is specified by using
+<code class="docutils literal notranslate"><span class="pre">cl_mem_ext_ptr_t</span></code> extention pointer.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">cl_mem_ext_ptr_t</span> <span class="n">ext</span><span class="p">;</span>
+<span class="n">ext</span><span class="p">.</span><span class="n">param</span> <span class="o">=</span> <span class="n">krnl_adder1</span><span class="p">.</span><span class="n">get</span><span class="p">();</span>
+<span class="n">ext</span><span class="p">.</span><span class="n">obj</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">xcl::stream::createStream</span></code> API is used to create a stream and read
+and write properties are determined by the flags
+<code class="docutils literal notranslate"><span class="pre">CL_STREAM_WRITE_ONLY</span></code> and <code class="docutils literal notranslate"><span class="pre">CL_STREAM_READ_ONLY</span></code> . <code class="docutils literal notranslate"><span class="pre">.flags</span></code> is
+used to specify the kernel argument to which stream is connected.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">cl_stream</span> <span class="n">read_stream</span><span class="p">;</span>
+<span class="n">ext</span><span class="p">.</span><span class="n">flags</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+<span class="n">read_stream</span> <span class="o">=</span> <span class="n">xcl</span><span class="o">::</span><span class="n">Stream</span><span class="o">::</span><span class="n">createStream</span><span class="p">(</span><span class="n">device</span><span class="p">.</span><span class="n">get</span><span class="p">(),</span> <span class="n">CL_STREAM_READ_ONLY</span><span class="p">,</span> <span class="n">CL_STREAM</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">ext</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">ret</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Transfer initiation for reading and writing to streams requires
+declaration of following atribute. Successful stream transfer depends
+upon determining the end of transfer signal, indicated by
+<code class="docutils literal notranslate"><span class="pre">CL_STREAM_EOT</span></code> flag.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">cl_stream_xfer_req</span> <span class="n">b_wr_req</span><span class="p">{</span><span class="mi">0</span><span class="p">};</span>
+<span class="n">b_wr_req</span><span class="p">.</span><span class="n">flags</span> <span class="o">=</span> <span class="n">CL_STREAM_EOT</span><span class="p">;</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">xcl::clReadstream</span></code> and <code class="docutils literal notranslate"><span class="pre">xcl::clWritestream</span></code> APIs are used to read
+from and write to streams respectively.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">xcl</span><span class="o">::</span><span class="n">Stream</span><span class="o">::</span><span class="n">writeStream</span><span class="p">(</span><span class="n">write_stream_a</span><span class="p">,</span> <span class="n">h_a</span><span class="p">.</span><span class="n">data</span><span class="p">(),</span> <span class="n">vector_size_bytes</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">b_wr_req</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">ret</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>For non-blocking stream, other operations can be carried out while data
+is being written into or being read from the stream. Non-blocking stream
+requires <code class="docutils literal notranslate"><span class="pre">CL_STREAM_NONBLOCKING</span></code> flag to be specified in the transfer
+initiation request.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">nb_wr_req</span><span class="p">.</span><span class="n">flags</span> <span class="o">=</span> <span class="n">CL_STREAM_EOT</span> <span class="o">|</span> <span class="n">CL_STREAM_NONBLOCKING</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>Since non-blocking streams are asynchronous and return immediately,
+<code class="docutils literal notranslate"><span class="pre">xcl::stream::pollStream</span></code> is a blocking API used to monitor the status
+of completion of the transfer through streams, it returns the execution
+to the host code after streams are completed.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">cl_streams_poll_req_completions</span> <span class="n">poll_req</span><span class="p">[</span><span class="mi">4</span><span class="p">]{</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">};</span>
+<span class="k">auto</span> <span class="n">num_compl</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span>
+<span class="n">xcl</span><span class="o">::</span><span class="n">Stream</span><span class="o">::</span><span class="n">pollStreams</span><span class="p">(</span><span class="n">device</span><span class="p">.</span><span class="n">get</span><span class="p">(),</span> <span class="n">poll_req</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">num_compl</span><span class="p">,</span> <span class="mi">50000</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">ret</span><span class="p">);</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">xcl::clreleaseStream</span></code> is used to free streaming resources and the
+memory associated with them.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">xcl</span><span class="o">::</span><span class="n">Stream</span><span class="o">::</span><span class="n">releaseStream</span><span class="p">(</span><span class="n">read_stream</span><span class="p">);</span>
+<span class="n">xcl</span><span class="o">::</span><span class="n">Stream</span><span class="o">::</span><span class="n">releaseStream</span><span class="p">(</span><span class="n">write_stream_a</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Host to kernel streams require the datatype <code class="docutils literal notranslate"><span class="pre">qdma_axis&lt;D,0,0,0&gt;</span></code> and
+intra-kernel streaming interface should be defined by hls::stream with
+the <code class="docutils literal notranslate"><span class="pre">ap_axiu&lt;D,0,0,0&gt;</span></code> datatype. These datatypes need the header file
+<code class="docutils literal notranslate"><span class="pre">ap_axi_sdata.h</span></code>.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span> <span class="n">qdma_axis</span><span class="o">&lt;</span><span class="n">DWIDTH</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="o">&gt;</span> <span class="n">pkt</span><span class="p">;</span>
+<span class="k">typedef</span> <span class="n">ap_axiu</span><span class="o">&lt;</span><span class="n">DWIDTH</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="o">&gt;</span> <span class="n">trans_pkt</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>These classes have variables <code class="docutils literal notranslate"><span class="pre">data</span></code>,<code class="docutils literal notranslate"><span class="pre">last</span></code> and <code class="docutils literal notranslate"><span class="pre">keep</span></code> to manage
+the data transfer.</p>
+<p><code class="docutils literal notranslate"><span class="pre">data</span></code>: Internally qdma_axis datatype has <code class="docutils literal notranslate"><span class="pre">ap_uint&lt;D&gt;</span></code> which can be
+accessed by <code class="docutils literal notranslate"><span class="pre">get_data()</span></code> and <code class="docutils literal notranslate"><span class="pre">set_data()</span></code> methods.</p>
+<p><code class="docutils literal notranslate"><span class="pre">keep</span></code>: For all data before last, <code class="docutils literal notranslate"><span class="pre">keep</span></code> variable must be set to
+<code class="docutils literal notranslate"><span class="pre">-1</span></code> to denote all bytes of data are valid. For the last data, the
+kernel has the flexibility to send fewer bytes. For example, for the
+four bytes data transfer, the kernel can truncate the last data by
+sending 1 byte or 2 bytes or 3 bytes by using set_keep() function.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">t_out</span><span class="p">.</span><span class="n">set_data</span><span class="p">(</span><span class="n">tmpOut</span><span class="p">);</span>
+<span class="n">t_out</span><span class="p">.</span><span class="n">set_last</span><span class="p">(</span><span class="n">t1</span><span class="p">.</span><span class="n">get_last</span><span class="p">());</span>
+<span class="n">t_out</span><span class="p">.</span><span class="n">set_keep</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">);</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">last</span></code>: Final data transferred must be identified by the last
+variable. get_last() and set_last() methods are used to access/set the
+last variable. Kernel doesn’t know how many data items are coming
+through the stream. Stream is polled by calling get_last() after every
+transfer and breaks when get_last() returns 1.</p>
 <div class="section" id="supported-platforms">
 <h2>SUPPORTED PLATFORMS<a class="headerlink" href="#supported-platforms" title="Permalink to this headline">¶</a></h2>
 <table class="docutils align-center">
@@ -272,7 +370,7 @@ executed by</p>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2019, Rajat Sarkari
+        &copy; Copyright 2019, Xilinx Inc.
 
     </p>
   </div>

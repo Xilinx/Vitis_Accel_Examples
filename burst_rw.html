@@ -215,6 +215,22 @@
 write</p>
 <p><strong>KEY CONCEPTS:</strong> burst access</p>
 <p><strong>KEYWORDS:</strong> memcpy, max_read_burst_length, max_write_burst_length</p>
+<p>The usual reason for having a burst mode capability, or using burst
+mode, is to increase data throughput. This example demonstrates how
+multiple items can be read from global memory to kernel’s local memory
+in a single burst. This is done to achieve low memory access latency and
+also for efficient use of bandwidth provided by the <code class="docutils literal notranslate"><span class="pre">m_axi</span></code> interface.
+Similarly, computation results are stored in a buffer and are written to
+global memory in a burst.</p>
+<p><code class="docutils literal notranslate"><span class="pre">#pragma</span> <span class="pre">HLS</span> <span class="pre">PIPELINE</span> <span class="pre">II=1</span></code></p>
+<p>The for loops used have the following requirements to implement burst
+read/write:</p>
+<ul class="simple">
+<li><p>Pipeline the loop : Loop pipeline must have II(Initiation interval) =
+1 specfied by the pipeline pragma inside the loop.</p></li>
+<li><p>Aligned memory : Memory addresses for read/write should be
+contiguous.</p></li>
+</ul>
 <div class="section" id="supported-platforms">
 <h2>SUPPORTED PLATFORMS<a class="headerlink" href="#supported-platforms" title="Permalink to this headline">¶</a></h2>
 <table class="docutils align-center">
@@ -298,7 +314,7 @@ executed by</p>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2019, Rajat Sarkari
+        &copy; Copyright 2019, Xilinx Inc.
 
     </p>
   </div>

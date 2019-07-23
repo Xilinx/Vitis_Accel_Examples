@@ -216,6 +216,24 @@ demonstrate how to achieve better performance by array partitioning,
 using HLS kernel in SDx Environment.</p>
 <p><strong>KEY CONCEPTS:</strong> Kernel Optimization, HLS C Kernel, Array Partition</p>
 <p><strong>KEYWORDS:</strong> #pragma HLS ARRAY_PARTITION, complete</p>
+<p>This example demonstrates how <code class="docutils literal notranslate"><span class="pre">array</span> <span class="pre">partition</span></code> in HLS kernels can
+improve the performance of an application. Operations like matrix
+multiplication require multiple accesses to data in memory for a single
+iteration.</p>
+<p><code class="docutils literal notranslate"><span class="pre">#pragma</span> <span class="pre">HLS</span> <span class="pre">array</span> <span class="pre">partition</span></code> is used to partition an array into
+multiple smaller arrays or memories with more number of ports for read
+and write operations. This results in improved throughput of the design.</p>
+<p>Arrays can be partitioned in three ways, <code class="docutils literal notranslate"><span class="pre">cyclic</span></code> where elements are
+put into smaller arrays one by one in the interleaved manner until the
+whole array is partitioned, <code class="docutils literal notranslate"><span class="pre">block</span></code> where elements are put into
+smaller arrays from continuous blocks of original array and <code class="docutils literal notranslate"><span class="pre">complete</span></code>
+where array is decomposed into individual elements each having its own
+read/write ports.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#pragma HLS ARRAY_PARTITION variable = B dim = 2 complete</span>
+<span class="cp">#pragma HLS ARRAY_PARTITION variable = C dim = 2 complete</span>
+<span class="cp">#pragma HLS ARRAY_PARTITION variable = temp_sum dim = 1 complete</span>
+</pre></div>
+</div>
 <div class="section" id="supported-platforms">
 <h2>SUPPORTED PLATFORMS<a class="headerlink" href="#supported-platforms" title="Permalink to this headline">¶</a></h2>
 <table class="docutils align-center">
@@ -300,7 +318,7 @@ executed by</p>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2019, Rajat Sarkari
+        &copy; Copyright 2019, Xilinx Inc.
 
     </p>
   </div>

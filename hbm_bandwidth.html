@@ -204,6 +204,35 @@ a kernel which has access to all HBM banks (0:31). Host application
 allocate buffer into all HBM banks and run these 8 compute units
 concurrently and measure the overall bandwidth between Kernel and HBM
 Memory.</p>
+<p>This is host application to test HBM interface bandwidth. Design
+contains 8 compute units of Kernel. Each compute unit has full access to
+all HBM memory (0 to 31). Host application allocate buffers into all 32
+HBM Banks (16 Input buffers and 16 output buffers). Host application
+runs all 8 compute units together and measures the overall HBM
+bandwidth.</p>
+<p>HBM is a high performance RAM interface for 3D-stacked DRAM. HBM can
+provide bandwidth upto <strong>307 GB/s</strong> with low power consumption (20% as
+compared to GDDR5). These 32 memory resources referenced as HBM [0:31]
+by XOCC and these are accessed via 16 memory controllers.</p>
+<p><code class="docutils literal notranslate"><span class="pre">CL_MEM_EXT_PTR_XILINX</span></code> flag must be specified while creating buffers
+using HBM.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">buffer_input1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">cl</span><span class="o">::</span><span class="n">Buffer</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">CL_MEM_READ_ONLY</span> <span class="o">|</span> <span class="n">CL_MEM_EXT_PTR_XILINX</span> <span class="o">|</span> <span class="n">CL_MEM_USE_HOST_PTR</span><span class="p">,</span>
+                              <span class="k">sizeof</span><span class="p">(</span><span class="kt">uint32_t</span><span class="p">)</span> <span class="o">*</span> <span class="n">dataSize</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">inBufExt1</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="o">&amp;</span><span class="n">err</span><span class="p">));</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">cl_mem_ext_ptr</span></code> object needs to be used in cases where memory
+assignment is done by user explicitly.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">inBufExt1</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">obj</span> <span class="o">=</span> <span class="n">source_in1</span><span class="p">.</span><span class="n">data</span><span class="p">();</span>
+<span class="n">inBufExt1</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">param</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="n">inBufExt1</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">flags</span> <span class="o">=</span> <span class="n">bank</span><span class="p">[</span><span class="n">i</span> <span class="o">*</span> <span class="mi">4</span><span class="p">];</span>
+</pre></div>
+</div>
+<p>HBM memory must be associated to respective kernel I/O ports using
+<code class="docutils literal notranslate"><span class="pre">--sp</span></code> option in kernel linking stage.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">LDCLFLAGS</span> <span class="o">+=</span> <span class="o">--</span><span class="n">sp</span> <span class="n">krnl_vaddmul_1</span><span class="o">.</span><span class="n">m_axi_gmem0</span><span class="p">:</span><span class="n">HBM</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">--</span><span class="n">sp</span> <span class="n">krnl_vaddmul_1</span><span class="o">.</span><span class="n">m_axi_gmem1</span><span class="p">:</span><span class="n">HBM</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+             <span class="o">--</span><span class="n">sp</span> <span class="n">krnl_vaddmul_1</span><span class="o">.</span><span class="n">m_axi_gmem2</span><span class="p">:</span><span class="n">HBM</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">--</span><span class="n">sp</span> <span class="n">krnl_vaddmul_1</span><span class="o">.</span><span class="n">m_axi_gmem3</span><span class="p">:</span><span class="n">HBM</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+</pre></div>
+</div>
 <div class="section" id="supported-platforms">
 <h2>SUPPORTED PLATFORMS<a class="headerlink" href="#supported-platforms" title="Permalink to this headline">¶</a></h2>
 <table class="docutils align-center">
@@ -272,7 +301,7 @@ executed by</p>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2019, Rajat Sarkari
+        &copy; Copyright 2019, Xilinx Inc.
 
     </p>
   </div>

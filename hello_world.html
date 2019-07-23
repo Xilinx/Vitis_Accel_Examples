@@ -177,6 +177,54 @@ kernels in Sdx Environment. This example highlights the concepts like
 PIPELINE which increases the kernel performance</p>
 <p><strong>KEY CONCEPTS:</strong> HLS C Kernel, OpenCL Host APIs</p>
 <p><strong>KEYWORDS:</strong> gmem, bundle, #pragma HLS INTERFACE, m_axi, s_axi4lite</p>
+<p>This example introduces the basic structure of host and kernel code.
+Kernel <code class="docutils literal notranslate"><span class="pre">vadd</span></code> optimizes a simple vector addition.</p>
+<p>Kernel arguments specify the inputs read from the global memory and
+outputs written back to it. HLS interface pragma is used to specify the
+protocol used for transfer of data between global memory and the kernel
+and creation of RTL ports during interface synthesis.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#pragma HLS INTERFACE m_axi port=in1  offset=slave bundle=gmem</span>
+</pre></div>
+</div>
+<p>If the number of loop iterations are unknown, tool cannot report the
+loop latency. In these cases, <code class="docutils literal notranslate"><span class="pre">HLS</span> <span class="pre">LOOP_TRIPCOUNT</span></code> pragma can be used
+to specify minimum and maximum number of iterations to help the tool to
+analyze how the loop’s latency contributes to the total latency of the
+application.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#pragma HLS LOOP_TRIPCOUNT min=c_len max=c_len</span>
+</pre></div>
+</div>
+<p>Loop iterations are done sequentially on a CPU, i.e. it will take
+multiple clock cycles for a new iteration to begin execution. FPGA can
+pipeline these iterations to increase the throughput of the application
+by beginning a new iteration every cycle. <code class="docutils literal notranslate"><span class="pre">HLS</span> <span class="pre">PIPELINE</span></code> pragma is
+used to implement pipeline and “option <code class="docutils literal notranslate"><span class="pre">II</span></code>” can be used to mention
+the <em>Initiation interval</em> (No. of clock cycles before a new loop
+iteration can be started).</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#pragma HLS PIPELINE II=1</span>
+</pre></div>
+</div>
+<p>Rather than reading individual items for addition, buffers are created
+in kernel’s local memory and multiple items are read in a single burst.
+This is done to achieve low memory access latency and also for efficient
+use of bandwidth provided by the m_axi interface. Similarly, results are
+stored in a buffer and are written to global memory in a burst. The for
+loops used have the following requirements to implement burst
+read/write: - Pipeline the loop : Loop pipeline must have <code class="docutils literal notranslate"><span class="pre">II</span></code>
+(Initiation interval) = 1 - Aligned memory : Memory addresses for
+read/write should be contiguous.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="nl">read1</span><span class="p">:</span> <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span> <span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">chunk_size</span> <span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">){</span>
+    <span class="cp">#pragma HLS LOOP_TRIPCOUNT min=c_size max=c_size</span>
+    <span class="cp">#pragma HLS PIPELINE II=1</span>
+        <span class="n">v1_buffer</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">in1</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="n">j</span><span class="p">];</span>
+    <span class="p">}</span>
+<span class="nl">write</span><span class="p">:</span> <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span> <span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">chunk_size</span> <span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">){</span>
+    <span class="cp">#pragma HLS LOOP_TRIPCOUNT min=c_size max=c_size</span>
+    <span class="cp">#pragma HLS PIPELINE II=1</span>
+        <span class="n">out_r</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">vout_buffer</span><span class="p">[</span><span class="n">j</span><span class="p">];</span>
+    <span class="p">}</span>
+</pre></div>
+</div>
 <div class="section" id="supported-platforms">
 <h2>SUPPORTED PLATFORMS<a class="headerlink" href="#supported-platforms" title="Permalink to this headline">¶</a></h2>
 <table class="docutils align-center">
@@ -260,7 +308,7 @@ executed by</p>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2019, Rajat Sarkari
+        &copy; Copyright 2019, Xilinx Inc.
 
     </p>
   </div>
