@@ -2,6 +2,8 @@ Stream Vector Addition (Multiple Compute Units)
 ================================================
 This example demonstrates how a kernel with stream interfaces can be instantiated into multiple compute units. Kernel performs a vector addition to the input streams and writes the results to the output stream.
 
+The APIs used for streaming operations are custom stream APIs that binds to Xilinx Streaming APIs.
+
 Streaming class needs to be initialized before use.
 ```c++
 xcl::Stream::init(platform_id);
