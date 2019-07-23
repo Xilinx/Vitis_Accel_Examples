@@ -203,6 +203,34 @@
 kernels with HBM (High Bandwidth Memory) for achieving high throughput.</p>
 <p><strong>KEY CONCEPTS:</strong> High Bandwidth Memory, Multiple HBM Banks</p>
 <p><strong>KEYWORDS:</strong> HBM, XCL_MEM_TOPOLOGY, cl_mem_ext_ptr_t</p>
+<p>This example demonstrates how HBM (High Bandwidth Memory) can be
+interfaced to reduce the latency of global memory transfers. Two cases
+are executed, one HBM bank used for two inputs and one output; three
+banks used one each for two inputs and one output. Individual bank for
+each buffer will provide more bandwidth for the application.</p>
+<p>HBM is a high performance RAM interface for 3D-stacked DRAM. HBM can
+provide bandwidth upto 307 GB/s with low power consumption (20% as
+compared to GDDR5). There are 32 memory resources referenced as HBM
+[0:31] by XOCC and these are accessed via 16 memory controllers.</p>
+<p><code class="docutils literal notranslate"><span class="pre">cl_mem_ext_ptr</span></code> object needs to be used in cases where memory
+assingment is done by user.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">cl_mem_ext_ptr_t</span> <span class="n">inBufExt1</span><span class="p">,</span> <span class="n">inBufExt2</span><span class="p">,</span> <span class="n">outBufExt</span><span class="p">;</span>
+<span class="n">inBufExt1</span><span class="p">.</span><span class="n">obj</span> <span class="o">=</span> <span class="n">source_in1</span><span class="p">.</span><span class="n">data</span><span class="p">();</span>
+<span class="n">inBufExt1</span><span class="p">.</span><span class="n">param</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="n">inBufExt1</span><span class="p">.</span><span class="n">flags</span> <span class="o">=</span> <span class="n">bank_assign</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">CL_MEM_EXT_PTR_XILINX</span></code> must be specified while creating buffers using
+HBM.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">cl</span><span class="o">::</span><span class="n">Buffer</span> <span class="n">buffer_input1</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">CL_MEM_READ_ONLY</span> <span class="o">|</span> <span class="n">CL_MEM_EXT_PTR_XILINX</span> <span class="o">|</span> <span class="n">CL_MEM_USE_HOST_PTR</span><span class="p">,</span>
+                          <span class="k">sizeof</span><span class="p">(</span><span class="kt">uint32_t</span><span class="p">)</span> <span class="o">*</span> <span class="n">size</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">inBufExt1</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">err</span><span class="p">));</span>
+</pre></div>
+</div>
+<p>HBM memory must be associated to respective kernel I/O ports using
+<code class="docutils literal notranslate"><span class="pre">--sp</span></code> option in kernel linking stage.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">LDCLFLAGS</span> <span class="o">+=</span> <span class="o">--</span><span class="n">sp</span> <span class="n">krnl_vadd_1</span><span class="o">.</span><span class="n">m_axi_gmem0</span><span class="p">:</span><span class="n">HBM</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span> <span class="o">--</span><span class="n">sp</span> <span class="n">krnl_vadd_1</span><span class="o">.</span><span class="n">m_axi_gmem1</span><span class="p">:</span><span class="n">HBM</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span>
+</pre></div>
+</div>
 <div class="section" id="supported-platforms">
 <h2>SUPPORTED PLATFORMS<a class="headerlink" href="#supported-platforms" title="Permalink to this headline">¶</a></h2>
 <table class="docutils align-center">
@@ -270,7 +298,7 @@ executed by</p>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2019, Rajat Sarkari
+        &copy; Copyright 2019, Xilinx Inc.
 
     </p>
   </div>

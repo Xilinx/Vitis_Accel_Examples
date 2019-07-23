@@ -200,6 +200,29 @@
   <div class="section" id="host-global-5-0-shell">
 <h1>host_global_5.0_shell<a class="headerlink" href="#host-global-5-0-shell" title="Permalink to this headline">¶</a></h1>
 <p>Host to global memory bandwidth test for 5.0 shell</p>
+<p>This example tests the bandwidth of the interconnect between host and
+global memory for 3 cases: * host to global memory transfer, * global
+memory to host transfer, and * bidirectional transfer</p>
+<p>Host and device are connected via PCIe interconnect and latency of this
+interconnect can be seen as the acceleration tax for the application.
+Hence, these transfers should be efficiently managed.</p>
+<p>Different combinations of buffer sizes and number of buffers are created
+and data to be transferred is filled into buffers using
+<code class="docutils literal notranslate"><span class="pre">clEnqueueFillBuffer</span></code> API in which pattern with which buffers are to
+be filled can be specified.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">err</span> <span class="o">=</span> <span class="n">command_queue</span><span class="p">.</span><span class="n">enqueueFillBuffer</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">((</span><span class="n">cl</span><span class="o">::</span><span class="n">Buffer</span><span class="o">&amp;</span><span class="p">)</span><span class="n">mems</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">nxtcnt</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>For bandwidth test, <code class="docutils literal notranslate"><span class="pre">clenqueueMigrateMemObjects()</span></code> API is used to
+transfer the data from host to global memory and vice versa.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">err</span> <span class="o">=</span> <span class="n">commands</span><span class="p">.</span><span class="n">enqueueMigrateMemObjects</span><span class="p">(</span><span class="n">mems1</span><span class="p">,</span> <span class="mi">0</span><span class="cm">/* 0 means from host*/</span><span class="p">);</span>
+<span class="n">err</span> <span class="o">=</span> <span class="n">commands</span><span class="p">.</span><span class="n">enqueueMigrateMemObjects</span><span class="p">(</span><span class="n">mems2</span><span class="p">,</span> <span class="n">CL_MIGRATE_MEM_OBJECT_HOST</span><span class="p">);</span>
+</pre></div>
+</div>
+<p><strong>Note :</strong> From software emulation log it can be seen that for larger
+number of buffers of small sizes , throughput achieved for transfer is
+less whereas for small number of buffers with larger sizes, throughput
+achieved for transfer is more.</p>
 <div class="section" id="supported-platforms">
 <h2>SUPPORTED PLATFORMS<a class="headerlink" href="#supported-platforms" title="Permalink to this headline">¶</a></h2>
 <table class="docutils align-center">
@@ -263,7 +286,7 @@ executed by</p>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2019, Rajat Sarkari
+        &copy; Copyright 2019, Xilinx Inc.
 
     </p>
   </div>

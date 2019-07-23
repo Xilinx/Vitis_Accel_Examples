@@ -204,6 +204,30 @@ It will show how to initialized an OpenCL context, allocate memory on
 the two devices and execute a kernel on each FPGA.</p>
 <p><strong>KEY CONCEPTS:</strong> OpenCL API, Multi-FPGA Execution, Event Handling</p>
 <p><strong>KEYWORDS:</strong> cl_device_id, clGetDeviceIDs()</p>
+<p>This example demonstrates how multiple FPGA devices can be configured on
+a system.</p>
+<p>OpenCL context and queues are initialized for each FPGA.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">contexts</span><span class="p">[</span><span class="n">d</span><span class="p">]</span> <span class="o">=</span><span class="n">cl</span><span class="o">::</span><span class="n">Context</span><span class="p">(</span><span class="n">devices</span><span class="p">[</span><span class="n">d</span><span class="p">],</span> <span class="n">props</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">err</span><span class="p">);</span>
+<span class="n">queues</span><span class="p">[</span><span class="n">d</span><span class="p">]</span> <span class="o">=</span> <span class="n">cl</span><span class="o">::</span><span class="n">CommandQueue</span><span class="p">(</span><span class="n">contexts</span><span class="p">[</span><span class="n">d</span><span class="p">],</span> <span class="n">devices</span><span class="p">[</span><span class="n">d</span><span class="p">],</span> <span class="n">CL_QUEUE_PROFILING_ENABLE</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">err</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Each FPGA device needs to be loaded and programmed with binary file and
+a kernel each is created for FPGAs on the system.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">fileBuf</span><span class="p">[</span><span class="n">d</span><span class="p">]</span> <span class="o">=</span> <span class="n">xcl</span><span class="o">::</span><span class="n">read_binary_file</span><span class="p">(</span><span class="n">binaryFile</span><span class="p">,</span> <span class="n">fileBufSize</span><span class="p">);</span>
+<span class="n">bins</span><span class="p">[</span><span class="n">d</span><span class="p">].</span><span class="n">push_back</span><span class="p">({</span><span class="n">fileBuf</span><span class="p">[</span><span class="n">d</span><span class="p">],</span> <span class="n">fileBufSize</span><span class="p">});</span>
+<span class="n">programs</span><span class="p">[</span><span class="n">d</span><span class="p">]</span> <span class="o">=</span> <span class="n">load_cl2_binary</span><span class="p">(</span><span class="n">bins</span><span class="p">[</span><span class="n">d</span><span class="p">],</span> <span class="n">devices</span><span class="p">[</span><span class="n">d</span><span class="p">],</span> <span class="n">contexts</span><span class="p">[</span><span class="n">d</span><span class="p">]);</span>
+<span class="n">kernels</span><span class="p">[</span><span class="n">d</span><span class="p">]</span> <span class="o">=</span> <span class="n">cl</span><span class="o">::</span><span class="n">Kernel</span><span class="p">(</span><span class="n">programs</span><span class="p">[</span><span class="n">d</span><span class="p">],</span> <span class="s">&quot;vadd&quot;</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">err</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Buffers are also created for each FPGA seperately.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">buffer_a</span><span class="p">[</span><span class="n">d</span><span class="p">]</span> <span class="o">=</span> <span class="n">cl</span><span class="o">::</span><span class="n">Buffer</span><span class="p">(</span><span class="n">contexts</span><span class="p">[</span><span class="n">d</span><span class="p">],</span> <span class="n">CL_MEM_USE_HOST_PTR</span> <span class="o">|</span> <span class="n">CL_MEM_READ_ONLY</span><span class="p">,</span> <span class="n">size_per_device</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">A</span><span class="p">[</span><span class="n">offset</span><span class="p">],</span> <span class="o">&amp;</span><span class="n">err</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Kernels are enqueued into queues for each FPGA and <code class="docutils literal notranslate"><span class="pre">cl_events</span></code> can be
+used to synchronize the kernel operations across devices.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">err</span> <span class="o">=</span> <span class="n">queues</span><span class="p">[</span><span class="n">d</span><span class="p">].</span><span class="n">enqueueTask</span><span class="p">(</span><span class="n">kernels</span><span class="p">[</span><span class="n">d</span><span class="p">],</span> <span class="nb">NULL</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">events</span><span class="p">[</span><span class="n">d</span><span class="p">]);</span>
+</pre></div>
+</div>
 <div class="section" id="supported-platforms">
 <h2>SUPPORTED PLATFORMS<a class="headerlink" href="#supported-platforms" title="Permalink to this headline">¶</a></h2>
 <table class="docutils align-center">
@@ -287,7 +311,7 @@ executed by</p>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2019, Rajat Sarkari
+        &copy; Copyright 2019, Xilinx Inc.
 
     </p>
   </div>

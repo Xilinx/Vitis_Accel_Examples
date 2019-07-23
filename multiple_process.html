@@ -216,12 +216,16 @@ support for exclusive access to resources by any process.</p>
 will acquire the kernel’s compute units and will be scheduled in a
 first-come first-serve manner. All processes have the same priority in
 Xilinx Runtime(XRT) Environment.</p>
-<p><strong>PREREQUISITE</strong></p>
-<p>To enable multi-process support, add the following entry to sdaccel.ini
-in the same directory as all the executable(s):</p>
-<p><code class="docutils literal notranslate"><span class="pre">[Runtime]</span>&#160;&#160;&#160;&#160;&#160; <span class="pre">multiprocess=true</span></code></p>
+<p><strong>PREREQUISITE</strong>: To enable multi-process support, add the following
+entry to sdaccel.ini in the same directory as all the executable(s):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">Runtime</span><span class="p">]</span>
+<span class="n">multiprocess</span><span class="o">=</span><span class="n">true</span>
+</pre></div>
+</div>
 <p>Also, the Host is required to set the environment variable:</p>
-<p><code class="docutils literal notranslate"><span class="pre">XCL_MULTIPROCESS_MODE</span> <span class="pre">=</span> <span class="pre">1</span></code></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">XCL_MULTIPROCESS_MODE</span> <span class="o">=</span> <span class="mi">1</span>
+</pre></div>
+</div>
 <p>The example comprises of three different kernels for performing vector
 addition, subtraction and multiplication. The host uses C provided
 function <code class="docutils literal notranslate"><span class="pre">fork()</span></code> for invoking different child process for each of the
@@ -333,7 +337,7 @@ executed by</p>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2019, Rajat Sarkari
+        &copy; Copyright 2019, Xilinx Inc.
 
     </p>
   </div>

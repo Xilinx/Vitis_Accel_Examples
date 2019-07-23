@@ -206,6 +206,57 @@ to kernel 2, and 1 memory mapped output that demonstrates on how to
 process a stream of data for computation between two kernels.</p>
 <p><strong>KEY CONCEPTS:</strong> Read/Write Stream, Create/Release Stream</p>
 <p><strong>KEYWORDS:</strong> cl_stream, CL_STREAM_EOT, CL_STREAM_BLOCKING</p>
+<p>This example demonstrates how kernels can have memory mapped inputs
+along with stream interface from one kernel to another.</p>
+<p><code class="docutils literal notranslate"><span class="pre">kernel_stream_vadd</span></code> has two memory mapped inputs and one stream
+output. <code class="docutils literal notranslate"><span class="pre">kernel_stream_vmult</span></code> has one memory mapped input along with
+kernel to kernel stream from <code class="docutils literal notranslate"><span class="pre">kernel_stream_vadd</span></code> which acts as its
+second input.</p>
+<p>Kernel arguments are not required to be setup in host code for kernel to
+kernel streaming interfaces. Argument 2 for <code class="docutils literal notranslate"><span class="pre">kernel_vadd</span></code> and argument
+1 for <code class="docutils literal notranslate"><span class="pre">kernel_vmult</span></code> are not declared.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">err</span> <span class="o">=</span> <span class="n">krnl_vadd</span><span class="p">.</span><span class="n">setArg</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">buffer_in1</span><span class="p">);</span>
+<span class="n">err</span> <span class="o">=</span> <span class="n">krnl_vadd</span><span class="p">.</span><span class="n">setArg</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">buffer_in2</span><span class="p">);</span>
+<span class="n">err</span> <span class="o">=</span> <span class="n">krnl_vadd</span><span class="p">.</span><span class="n">setArg</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">size</span><span class="p">));</span>
+<span class="n">err</span> <span class="o">=</span> <span class="n">krnl_vmult</span><span class="p">.</span><span class="n">setArg</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">buffer_in3</span><span class="p">));</span>
+<span class="n">err</span> <span class="o">=</span> <span class="n">krnl_vmult</span><span class="p">.</span><span class="n">setArg</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">buffer_output</span><span class="p">));</span>
+<span class="n">err</span> <span class="o">=</span> <span class="n">krnl_vmult</span><span class="p">.</span><span class="n">setArg</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">size</span><span class="p">));</span>
+</pre></div>
+</div>
+<p>Producer kernel stream output port must be connected to consumer kernel
+stream input port during the <code class="docutils literal notranslate"><span class="pre">xocc</span></code> linking stage.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">xocc</span> <span class="o">-</span><span class="n">l</span> <span class="o">--</span><span class="n">sc</span> <span class="n">krnl_stream_vadd_1</span><span class="o">.</span><span class="n">out</span><span class="p">:</span><span class="n">krnl_stream_vmult_1</span><span class="o">.</span><span class="n">in2</span>
+</pre></div>
+</div>
+<p>HLS pragma must be defined for every streaming interface.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#pragma HLS INTERFACE axis port=out</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">hls::stream</span></code> kernels use a special class <code class="docutils literal notranslate"><span class="pre">ap_axiu&lt;D,0,0,0&gt;</span></code> for
+intra-kernel streams which requires the header file <code class="docutils literal notranslate"><span class="pre">ap_axi_sdata.h</span></code>.
+It has variables <code class="docutils literal notranslate"><span class="pre">data</span></code>,<code class="docutils literal notranslate"><span class="pre">last</span></code> and <code class="docutils literal notranslate"><span class="pre">keep</span></code> to manage the data
+transfer.</p>
+<p>Producer kernel <code class="docutils literal notranslate"><span class="pre">krnl_stream_vadd</span></code> uses <code class="docutils literal notranslate"><span class="pre">write()</span></code> to write to the
+output stream and consumer kernel <code class="docutils literal notranslate"><span class="pre">krnl_stream_vmult</span></code> uses <code class="docutils literal notranslate"><span class="pre">read()</span></code>
+to read its input stream.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="nl">vadd</span><span class="p">:</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">size</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="cp">#pragma HLS PIPELINE II=1</span>
+        <span class="kt">int</span> <span class="n">res</span> <span class="o">=</span> <span class="n">in1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">in2</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+        <span class="n">pkt</span> <span class="n">v</span><span class="p">;</span>
+        <span class="n">v</span><span class="p">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">res</span><span class="p">;</span>
+        <span class="n">out</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="n">v</span><span class="p">);</span>
+    <span class="p">}</span>
+</pre></div>
+</div>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="nl">vmult</span><span class="p">:</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">size</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="cp">#pragma HLS PIPELINE II=1</span>
+        <span class="n">pkt</span> <span class="n">v2</span> <span class="o">=</span> <span class="n">in2</span><span class="p">.</span><span class="n">read</span><span class="p">();</span>
+        <span class="n">out</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">in1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">v2</span><span class="p">.</span><span class="n">data</span><span class="p">;</span>
+    <span class="p">}</span>
+</pre></div>
+</div>
 <div class="section" id="supported-platforms">
 <h2>SUPPORTED PLATFORMS<a class="headerlink" href="#supported-platforms" title="Permalink to this headline">¶</a></h2>
 <table class="docutils align-center">
@@ -290,7 +341,7 @@ executed by</p>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2019, Rajat Sarkari
+        &copy; Copyright 2019, Xilinx Inc.
 
     </p>
   </div>

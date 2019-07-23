@@ -204,6 +204,26 @@ each compute unit to different banks and how to use these compute units
 in host applications</p>
 <p><strong>KEY CONCEPTS:</strong> Multiple Compute Units</p>
 <p><strong>KEYWORDS:</strong> #pragma HLS PIPELINE</p>
+<p>This example demonstrates how multiple compute units can do parallel
+processing where the compute units are asymmetrical i.e. connected to
+different memory banks.</p>
+<p>For kernels to execute concurrently, command queue is initialized with
+out of order execution mode enabled as shown below.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">q</span> <span class="o">=</span> <span class="n">cl</span><span class="o">::</span><span class="n">CommandQueue</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">device</span><span class="p">,</span>  <span class="n">CL_QUEUE_PROFILING_ENABLE</span> <span class="o">|</span> <span class="n">CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">err</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Kernel input and output ports can be connected to different memory banks
+for improved bandwidth. <code class="docutils literal notranslate"><span class="pre">--sp</span></code> option is used to specify such
+connections in <code class="docutils literal notranslate"><span class="pre">xocc</span></code> link stage.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">LDCLFLAGS</span> <span class="o">+=</span> <span class="o">--</span><span class="n">sp</span> <span class="n">vadd_1</span><span class="o">.</span><span class="n">in1</span><span class="p">:</span><span class="n">DDR</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">--</span><span class="n">sp</span> <span class="n">vadd_1</span><span class="o">.</span><span class="n">in2</span><span class="p">:</span><span class="n">DDR</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">--</span><span class="n">sp</span> <span class="n">vadd_1</span><span class="o">.</span><span class="n">out_r</span><span class="p">:</span><span class="n">DDR</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+             <span class="o">--</span><span class="n">sp</span> <span class="n">vadd_2</span><span class="o">.</span><span class="n">in1</span><span class="p">:</span><span class="n">DDR</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">--</span><span class="n">sp</span> <span class="n">vadd_2</span><span class="o">.</span><span class="n">in2</span><span class="p">:</span><span class="n">DDR</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">--</span><span class="n">sp</span> <span class="n">vadd_2</span><span class="o">.</span><span class="n">out_r</span><span class="p">:</span><span class="n">DDR</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>SDAccel allows for different kernels to be associated with different CUs
+by name in xocc linking stage using <code class="docutils literal notranslate"><span class="pre">--nk</span></code> option.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">--</span><span class="n">nk</span> <span class="n">vadd</span><span class="p">:</span><span class="mi">4</span><span class="p">:</span><span class="n">vadd_1</span><span class="o">.</span><span class="n">vadd_2</span><span class="o">.</span><span class="n">vadd_3</span><span class="o">.</span><span class="n">vadd_4</span>
+</pre></div>
+</div>
 <div class="section" id="supported-platforms">
 <h2>SUPPORTED PLATFORMS<a class="headerlink" href="#supported-platforms" title="Permalink to this headline">¶</a></h2>
 <table class="docutils align-center">
@@ -287,7 +307,7 @@ executed by</p>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2019, Rajat Sarkari
+        &copy; Copyright 2019, Xilinx Inc.
 
     </p>
   </div>
