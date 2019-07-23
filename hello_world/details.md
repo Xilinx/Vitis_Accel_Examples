@@ -44,5 +44,5 @@ The for loops used have the following requirements to implement burst read/write
         #pragma HLS LOOP_TRIPCOUNT min=c_size max=c_size
         #pragma HLS PIPELINE II=1
             out_r[i + j] = vout_buffer[j];
-            }    
+        }    
 ```
