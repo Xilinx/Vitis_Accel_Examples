@@ -7,8 +7,11 @@ For kernel to kernel streaming transfer, kernel to kernel data transfer ports do
 
 Producer kernel streaming output port needs to be connected to consumer kernel stream input port during `xocc` linking stage.
 
-`xocc -l --sc krnl_stream_vadd_1.output:krnl_stream_vmult_1.b`
+```
+xocc -l --sc krnl_stream_vadd_1.output:krnl_stream_vmult_1.b
+```
 
+The APIs used for streaming operations are custom stream APIs that binds to Xilinx Streaming APIs.
 
 Streaming class needs to be initialized before use.
 ```c++
