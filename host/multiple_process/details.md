@@ -5,25 +5,28 @@ This example will demonstrate how to run multiple processes to utilize multiple 
 Multiple processes can share access to the same device provided each process uses the same xclbin.
 Processes share access to all device resources but there is no support for exclusive access to resources by any process.
 
-If two or more processes execute the same kernel, then these processes will acquire the kernel's compute units and will be
+If two or more processes execute the same kernel, then these processes will
+acquire the kernel's compute units and will be
 scheduled in a first-come first-serve manner. All processes have the same priority in Xilinx Runtime(XRT) Environment.
 
-__PREREQUISITE__
+__PREREQUISITE__: To enable multi-process support, add the following entry to sdaccel.ini in the same directory as all the executable(s):
 
-To enable multi-process support, add the following entry to sdaccel.ini in the same directory as all the executable(s):
-
-`	 [Runtime]
-	 multiprocess=true`
+```
+[Runtime]
+multiprocess=true
+```
 
 Also, the Host is required to set the environment variable:
 
-`XCL_MULTIPROCESS_MODE = 1`
-
+```
+XCL_MULTIPROCESS_MODE = 1
+```
 
 The example comprises of three different kernels for performing vector addition, subtraction and multiplication.
 The host uses C provided function `fork()` for invoking different child process for each of the kernel to execute.
 The three child processes created can be identified by their process ID using the function `getpid()`. Similarly, if required, parent process ID
 can also be achieved using the function `getppid()`.
+
 ```c
 	 for(int i=0; i< num_of_child_process; i++) {
 	     if(fork() == 0) {
@@ -32,6 +35,7 @@ can also be achieved using the function `getppid()`.
 	     }
 	 }
 ```
+
 For each of the process, the following tasks can be viewed along with their PID:
 1. Transfer the Input Data to Device
 2. Launch Kernel
