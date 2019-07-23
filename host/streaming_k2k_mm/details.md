@@ -32,7 +32,7 @@ Producer kernel `krnl_stream_vadd` uses `write()` to write to the output stream 
 ```c++
 vadd:
     for (int i = 0; i < size; i++) {
-       #pragma HLS PIPELINE II=1
+    #pragma HLS PIPELINE II=1
         int res = in1[i] + in2[i];
         pkt v;
         v.data = res;
@@ -43,7 +43,7 @@ vadd:
 ```c++         
 vmult:
     for (int i = 0; i < size; i++) {
-       #pragma HLS PIPELINE II=1
+    #pragma HLS PIPELINE II=1
         pkt v2 = in2.read();
         out[i] = in1[i] * v2.data;
     }
