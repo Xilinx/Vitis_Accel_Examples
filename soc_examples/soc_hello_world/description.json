@@ -1,0 +1,68 @@
+{
+    "os": [
+        "Linux"
+    ], 
+    "contributors": [
+        {
+            "url": "http://www.xilinx.com", 
+            "group": "Xilinx"
+        }
+    ], 
+    "ndevice": [
+        "xilinx_u280-es1_xdma", 
+        "xilinx_u200_xdma", 
+        "xilinx_u200_qdma", 
+        "xilinx_u250_xdma", 
+        "xilinx_u280_xdma", 
+        "xilinx_u250_qdma", 
+        "xilinx:u280-es1:xdma", 
+        "xilinx:u200:xdma", 
+        "xilinx:u200:qdma", 
+        "xilinx:u250:xdma", 
+        "xilinx:u280:xdma", 
+        "xilinx:u250:qdma"
+    ], 
+    "launch": [
+        {
+            "cmd_args": "BUILD/vector_addition.xclbin", 
+            "name": "sw_emu"
+        }, 
+        {
+            "cmd_args": "BUILD/vector_addition.xclbin", 
+            "name": "hw_emu"
+        }
+    ], 
+    "description": [
+        "This example is a simple OpenCL application. It will highlight the basic flow of an OpenCL application for SoC platforms."
+    ], 
+    "host": [
+        {
+            "compiler": [
+                {
+                    "includepaths": [
+                        "REPO_DIR/common/includes/xcl2"
+                    ]
+                }
+            ], 
+            "host_exe": "helloworld"
+        }
+    ], 
+    "key_concepts": [
+        "OpenCL API"
+    ], 
+    "runtime": [
+        "OpenCL"
+    ], 
+    "containers": [
+        {
+            "accelerators": [
+                {
+                    "name": "krnl_vadd", 
+                    "location": "src/krnl_vadd.cl"
+                }
+            ], 
+            "name": "krnl_vadd"
+        }
+    ], 
+    "name": "Hello World (CL-SoC)"
+}
