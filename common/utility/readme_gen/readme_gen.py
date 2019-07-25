@@ -147,9 +147,9 @@ def commandargs(target,data):
     target.write("```\n")
     if "launch" in data:
         if not "cmd_args" in data["launch"][0]:
-            target.write('./' + data["host"][0]["host_exe"])
+            target.write('./' + data["host"]["host_exe"])
         else:
-            target.write('./' + data["host"][0]["host_exe"])
+            target.write('./' + data["host"]["host_exe"])
             args = data["launch"][0]["cmd_args"].split(" ")
             for arg in args[0:]:
                 target.write(" ")
@@ -158,7 +158,7 @@ def commandargs(target,data):
                 arg = arg.replace('.xclbin', ' XCLBIN>') 
                 target.write(arg)
     else:
-        target.write('./' + data["host"][0]["host_exe"])
+        target.write('./' + data["host"]["host_exe"])
     target.write("\n```\n")
     target.write("\n")
 
