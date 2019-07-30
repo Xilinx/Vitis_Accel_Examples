@@ -51,52 +51,58 @@ def create_params(target,data):
 def add_includes1(target, data):
     target.write("#Include Libraries\n")
     target.write("include $(ABS_COMMON_REPO)/common/includes/opencl/opencl.mk\n")
-    if "libraries" in data["host"][0]["linker"][0]:
-        for lib in data["host"][0]["linker"][0]["libraries"]:
-            target.write("include "+ data["host"][0]["linker"][0]["librarypaths"][0].replace("REPO_DIR","$(ABS_COMMON_REPO)"))
-            target.write(lib)
-            target.write("/")
-            target.write(lib)
-            target.write(".mk")
-            target.write("\n")
+    if "host" in data:
+	if "compiler" in data["host"]:	
+    		if "includepaths" in data["host"]["compiler"]:
+        		for path in data["host"]["compiler"]["includepaths"]:
+            			target.write("include "+ path.replace("REPO_DIR","$(ABS_COMMON_REPO)"))
+            			#target.write(lib)
+            			target.write("/")
+            			target.write(path.split("/")[-1])
+            			target.write(".mk")
+            			target.write("\n")
     return
 
 def add_includes2(target, data):
-    if "libraries" in data["host"][0]["linker"][0]:
-        target.write("CXXFLAGS +=")
-        for lib in data["host"][0]["linker"][0]["libraries"]:
-            target.write(" $(")
-            target.write(lib)
-            target.write("_CXXFLAGS)")
-        target.write("\n")
-        target.write("LDFLAGS +=")
-        for lib in data["host"][0]["linker"][0]["libraries"]:
-            target.write(" $(")
-            target.write(lib)
-            target.write("_LDFLAGS)")
-        target.write("\n")
-        target.write("HOST_SRCS +=")
-        for lib in data["host"][0]["linker"][0]["libraries"]:
-            target.write(" $(")
-            target.write(lib)
-            target.write("_SRCS)")
+    if "host" in data:
+	if "compiler" in data["host"]:		
+    		if "includepaths" in data["host"]["compiler"]:
+        		target.write("CXXFLAGS +=")
+        		for path in data["host"]["compiler"]["includepaths"]:
+            			target.write(" $(")
+            			target.write(path.split("/")[-1])
+            			target.write("_CXXFLAGS)")
+        		target.write("\n")
+        		target.write("LDFLAGS +=")
+        		for path in data["host"]["compiler"]["includepaths"]:
+            			target.write(" $(")
+            			target.write(path.split("/")[-1])
+            			target.write("_LDFLAGS)")
+        		target.write("\n")
+        		target.write("HOST_SRCS +=")
+        		for path in data["host"]["compiler"]["includepaths"]:
+            			target.write(" $(")
+            			target.write(path.split("/")[-1])
+            			target.write("_SRCS)")
     
-    if "linker" in data["host"][0]:
-        if "options" in data["host"][0]["linker"][0]:
-            target.write("\nCXXFLAGS +=")
-            for lin in data["host"][0]["linker"][0]["options"]:
-  	        target.write(" ")
-	        target.write(lin)
-        target.write("\n")                
-    return
+     	if "linker" in data["host"]:
+        	if "options" in data["host"]["linker"]:
+            		target.write("\nCXXFLAGS +=")
+            		for option in data["host"]["linker"]["options"]:
+  	        		target.write(" ")
+	        		target.write(option)
+   	target.write("\n")                
+   	return
 
 def add_host_flags(target, data):
     target.write("HOST_SRCS += ")
-    if "sources" in data["host"][0]:
-	for src in data["host"][0]["sources"]:
-    		target.write(src+ " ")
-	target.write("\n")
-    else:
+    source_flag = 0
+    if "sources" in data["host"]["compiler"]:
+	for src in data["host"]["compiler"]["sources"]:
+		if "src" in src.split("/"):
+    			target.write(src+ " ")
+			source_flag+=1
+    if not source_flag:
 	target.write("src/host.cpp\n")
     target.write("\n")
     target.write("# Host compiler global settings\n")  	
@@ -104,8 +110,8 @@ def add_host_flags(target, data):
     target.write("-fmessage-length=0")
         
     if "compiler" in data["host"]:
-	if "options" in data["host"][0]["compiler"][0]:
-	    target.write(data["host"][0]["compiler"][0]["options"])
+	if "options" in data["host"]["compiler"]:
+	    target.write(data["host"]["compiler"]["options"])
     target.write("\n")	
     target.write("LDFLAGS += ")
     target.write("-lrt -lstdc++ ")
@@ -142,7 +148,7 @@ def add_kernel_flags(target, data):
     if "compiler" in data["host"]:
         if "symbols" in data["host"]["compiler"]:
             target.write("\nCXXFLAGS +=")
-            for sym in data["host"][0]["compiler"][0]["symbols"]:
+            for sym in data["host"]["compiler"]["symbols"]:
                 target.write(" ")
                 target.write("-D")
                 target.write(sym)
@@ -162,8 +168,8 @@ def add_kernel_flags(target, data):
             target.write("\n")
     target.write("\n")
     target.write("EXECUTABLE = ")
-    if "host_exe" in data["host"][0]:
-        target.write(data["host"][0]["host_exe"])    
+    if "host_exe" in data["host"]:
+        target.write(data["host"]["host_exe"])    
     else: 
         target.write("host")
     if "launch" in data:
