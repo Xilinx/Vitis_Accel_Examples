@@ -1,21 +1,5 @@
 {
-    "ndevice": [
-        "xilinx_u280-es1_xdma", 
-        "xilinx_u200_xdma", 
-        "xilinx_u200_qdma", 
-        "xilinx_u250_xdma", 
-        "xilinx_u280_xdma", 
-        "xilinx_u250_qdma", 
-        "xilinx:u280-es1:xdma", 
-        "xilinx:u200:xdma", 
-        "xilinx:u200:qdma", 
-        "xilinx:u250:xdma", 
-        "xilinx:u280:xdma", 
-        "xilinx:u250:qdma"
-    ], 
-    "description": [
-        "This example is a simple OpenCL application. It will highlight the basic flow of an OpenCL application for SoC platforms."
-    ], 
+    "name": "Hello World (CL-SoC)", 
     "contributors": [
         {
             "url": "http://www.xilinx.com", 
@@ -24,22 +8,46 @@
     ], 
     "launch": [
         {
-            "cmd_args": "BUILD/vector_addition.xclbin", 
-            "name": "sw_emu"
-        }, 
-        {
-            "cmd_args": "BUILD/vector_addition.xclbin", 
-            "name": "hw_emu"
+            "cmd_args": "BUILD/vadd.xclbin", 
+            "name": "generic launch for all flows"
         }
+    ],
+    "nboard": [
+        "xilinx_u280-es1_xdma", 
+        "xilinx_u200_xdma", 
+        "xilinx_u200_qdma", 
+        "xilinx_u250_xdma", 
+	    "xilinx_u280_xdma", 
+	    "xilinx_u250_qdma",
+        "xilinx:u280-es1:xdma", 
+        "xilinx:u200:xdma", 
+        "xilinx:u200:qdma", 
+        "xilinx:u250:xdma", 
+	    "xilinx:u280:xdma",
+	    "xilinx:u250:qdma"
     ], 
-    "platform_type": "pcie", 
+    "platform_type": "soc", 
     "host": {
         "compiler": {
-            "sources": []
-        }
+            "sources": [
+                "REPO_DIR/common/includes/xcl2"
+            ], 
+            "includepaths": [
+                "REPO_DIR/common/includes/xcl2"
+            ]
+        }, 
+        "host_exe": "host"
     }, 
     "key_concepts": [
-        "OpenCL API"
+        "OpenCL Kernel", 
+        "OpenCL Host APIs"
+    ], 
+    "keywords": [
+        "gmem", 
+        "bundle", 
+        "#pragma HLS INTERFACE", 
+        "m_axi", 
+        "s_axi4lite"
     ], 
     "runtime": [
         "OpenCL"
@@ -51,12 +59,14 @@
         {
             "accelerators": [
                 {
-                    "name": "krnl_vadd", 
-                    "location": "src/krnl_vadd.cl"
+                    "name": "vadd", 
+                    "location": "src/vadd.cpp"
                 }
             ], 
-            "name": "krnl_vadd"
+            "name": "vadd"
         }
     ], 
-    "name": "Hello World (CL-SoC)"
+    "description": [
+        "This is simple example of vector addition to describe how to use OpenCL kernels in Scout Environment. This example highlights the concepts like PIPELINE which increases the kernel performance. "
+    ]
 }

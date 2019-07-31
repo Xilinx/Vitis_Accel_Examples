@@ -1,13 +1,12 @@
 VIVADO := $(XILINX_VIVADO)/bin/vivado
-$(XCLBIN)/input.$(TARGET).$(DSA).xo:
-	mkdir -p $(XCLBIN)
-	$(VIVADO) -mode batch -source scripts/gen_input_xo.tcl -tclargs $(XCLBIN)/input.$(TARGET).$(DSA).xo
+$(TEMP_DIR)/input.xo:
+	mkdir -p $(TEMP_DIR)
+	$(VIVADO) -mode batch -source scripts/gen_input_xo.tcl -tclargs $(TEMP_DIR)/input.xo
 
-$(XCLBIN)/adder.$(TARGET).$(DSA).xo: 
-	mkdir -p $(XCLBIN)
-	$(VIVADO) -mode batch -source scripts/gen_adder_xo.tcl -tclargs $(XCLBIN)/adder.$(TARGET).$(DSA).xo
+$(TEMP_DIR)/adder.xo: 
+	mkdir -p $(TEMP_DIR)
+	$(VIVADO) -mode batch -source scripts/gen_adder_xo.tcl -tclargs $(TEMP_DIR)/adder.xo
 
-$(XCLBIN)/output.$(TARGET).$(DSA).xo:
-	mkdir -p $(XCLBIN)
-	$(VIVADO) -mode batch -source scripts/gen_output_xo.tcl -tclargs $(XCLBIN)/output.$(TARGET).$(DSA).xo
-
+$(TEMP_DIR)/output.xo:
+	mkdir -p $(TEMP_DIR)
+	$(VIVADO) -mode batch -source scripts/gen_output_xo.tcl -tclargs $(TEMP_DIR)/output.xo

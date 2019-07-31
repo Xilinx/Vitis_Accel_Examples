@@ -42,7 +42,7 @@ set xo_pathname  [lindex $::argv 1]
 
 set pinfo [file join [pwd] "pinfo.json"]
 if {[file exists ${xpfm_path}]} {
-    exec $::env(XILINX_SDX)/bin/platforminfo -j $pinfo -p ${xpfm_path}
+    exec $::env(XILINX_VITIS)/bin/platforminfo -j $pinfo -p ${xpfm_path}
 }
 
 if {[file exists "myadder1_ex"]} {

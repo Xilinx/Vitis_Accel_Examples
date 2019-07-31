@@ -36,7 +36,7 @@ DSA := $(call device2dsa, $(DEVICE))
 TEMP_DIR := ./_x.$(TARGET).$(DSA)
 BUILD_DIR := ./build_dir.$(TARGET).$(DSA)
 
-CXX := $(XILINX_SCOUT)/bin/xcpp
+CXX := $(XILINX_VITIS)/bin/xcpp
 XOCC := v++
 
 #Include Libraries
@@ -121,5 +121,5 @@ clean:
 
 cleanall: clean
 	-$(RMDIR) build_dir*
-	-$(RMDIR) _x.*
+	-$(RMDIR) _x.* xclbin.run_summary
 	-$(RMDIR) ./tmp_kernel_pack* ./packaged_kernel* 
