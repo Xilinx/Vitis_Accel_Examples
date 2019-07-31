@@ -1,7 +1,5 @@
 {
-    "os": [
-        "Linux"
-    ], 
+    "name": "Concurrent Kernel Execution (C)", 
     "contributors": [
         {
             "url": "http://www.xilinx.com", 
@@ -11,38 +9,21 @@
     "launch": [
         {
             "cmd_args": "BUILD/matrix_ops.xclbin", 
-            "name": "sw_emu"
+            "name": "generic launch for all flows"
+        }
+    ], 
+    "platform_type": "pcie", 
+    "host": {
+        "compiler": {
+            "sources": [
+                "REPO_DIR/common/includes/xcl2"
+            ], 
+            "includepaths": [
+                "REPO_DIR/common/includes/xcl2"
+            ]
         }, 
-        {
-            "cmd_args": "BUILD/matrix_ops.xclbin", 
-            "name": "hw_emu"
-        }
-    ], 
-    "description": [
-        "This example will demonstrate how to use multiple and out of order command queues to simultaneously execute multiple kernels on an FPGA."
-    ], 
-    "host": [
-        {
-            "compiler": [
-                {
-                    "includepaths": [
-                        "REPO_DIR/common/includes/xcl2"
-                    ]
-                }
-            ], 
-            "linker": [
-                {
-                    "libraries": [
-                        "xcl2"
-                    ], 
-                    "librarypaths": [
-                        "REPO_DIR/common/includes/"
-                    ]
-                }
-            ], 
-            "host_exe": "concurrent_execution"
-        }
-    ], 
+        "host_exe": "concurrent_execution"
+    }, 
     "key_concepts": [
         "Concurrent execution", 
         "Out of Order Command Queues", 
@@ -54,6 +35,9 @@
     ], 
     "runtime": [
         "OpenCL"
+    ], 
+    "os": [
+        "Linux"
     ], 
     "containers": [
         {
@@ -74,5 +58,7 @@
             "name": "matrix_ops"
         }
     ], 
-    "name": "Concurrent Kernel Execution (C)"
+    "description": [
+        "This example will demonstrate how to use multiple and out of order command queues to simultaneously execute multiple kernels on an FPGA."
+    ]
 }

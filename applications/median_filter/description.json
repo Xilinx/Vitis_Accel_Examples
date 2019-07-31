@@ -11,48 +11,32 @@
             "group": "Xilinx"
         }
     ], 
-    "launch": [
-        {
-            "cmd_args": "BUILD/krnl_median.xclbin PROJECT/data/inputImage.bmp PROJECT/data/goldenImage.bmp", 
-            "name": "sw_emu"
-        }, 
-        {
-            "cmd_args": "BUILD/krnl_median.xclbin PROJECT/data/inputImage.bmp PROJECT/data/goldenImage.bmp", 
-            "name": "hw_emu"
-        }
-    ], 
+    "platform_type": "pcie", 
     "description": [
         "This is an optimized implementation of a median filter being used to remove noise in images targeting execution on an SDAccel supported FPGA acceleration card."
     ], 
-    "xcl": false, 
-    "host": [
+    "launch": [
         {
-            "sources": [
-                "src/medianFilter.cpp"
-            ], 
-            "compiler": [
-                {
-                    "includepaths": [
-                        "REPO_DIR/common/includes/xcl2", 
-                        "REPO_DIR/common/includes/bitmap"
-                    ]
-                }
-            ], 
-            "linker": [
-                {
-                    "libraries": [
-                        "xcl2", 
-                        "bitmap"
-                    ], 
-                    "librarypaths": [
-                        "REPO_DIR/common/includes/"
-                    ]
-                }
-            ], 
-            "host_exe": "median"
+            "cmd_args": "BUILD/krnl_median.xclbin PROJECT/data/inputImage.bmp PROJECT/data/goldenImage.bmp", 
+            "name": "generic launch for all flows"
         }
     ], 
+    "xcl": false, 
     "opencv": true, 
+    "host": {
+        "compiler": {
+            "sources": [
+                "REPO_DIR/common/includes/xcl2", 
+                "REPO_DIR/common/includes/bitmap", 
+                "src/medianFilter.cpp"
+            ], 
+            "includepaths": [
+                "REPO_DIR/common/includes/xcl2", 
+                "REPO_DIR/common/includes/bitmap"
+            ]
+        }, 
+        "host_exe": "median"
+    }, 
     "performance": [
         [
             "xilinx:adm-pcie-7v3:1ddr", 

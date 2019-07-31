@@ -36,7 +36,7 @@ DSA := $(call device2dsa, $(DEVICE))
 TEMP_DIR := ./_x.$(TARGET).$(DSA)
 BUILD_DIR := ./build_dir.$(TARGET).$(DSA)
 
-CXX := $(XILINX_SCOUT)/bin/xcpp
+CXX := $(XILINX_VITIS)/bin/xcpp
 XOCC := v++
 
 #Include Libraries
@@ -50,7 +50,6 @@ CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++14
 LDFLAGS += $(opencl_LDFLAGS)
 
 HOST_SRCS += src/watermarking.cpp 
-
 # Host compiler global settings
 CXXFLAGS += -fmessage-length=0
 LDFLAGS += -lrt -lstdc++ 
@@ -58,6 +57,7 @@ LDFLAGS += -lrt -lstdc++
 # Kernel compiler global settings
 CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps 
 CLFLAGS += --max_memory_ports apply_watermark
+
 
 # Kernel linker flags
 LDCLFLAGS += --sp apply_watermark_1.m_axi_gmem0:DDR[0] --sp apply_watermark_1.m_axi_gmem1:DDR[1]
@@ -128,5 +128,5 @@ clean:
 
 cleanall: clean
 	-$(RMDIR) build_dir*
-	-$(RMDIR) _x.*
+	-$(RMDIR) _x.* xclbin.run_summary
 	-$(RMDIR) ./output.bmp 

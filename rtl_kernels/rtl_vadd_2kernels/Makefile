@@ -36,7 +36,7 @@ DSA := $(call device2dsa, $(DEVICE))
 TEMP_DIR := ./_x.$(TARGET).$(DSA)
 BUILD_DIR := ./build_dir.$(TARGET).$(DSA)
 
-CXX := $(XILINX_SCOUT)/bin/xcpp
+CXX := $(XILINX_VITIS)/bin/xcpp
 XOCC := v++
 
 #Include Libraries
@@ -51,13 +51,13 @@ CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++14
 LDFLAGS += $(opencl_LDFLAGS)
 
 HOST_SRCS += src/host.cpp 
-
 # Host compiler global settings
 CXXFLAGS += -fmessage-length=0
 LDFLAGS += -lrt -lstdc++ 
 
 # Kernel compiler global settings
 CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps 
+
 
 
 EXECUTABLE = host
@@ -120,5 +120,5 @@ clean:
 
 cleanall: clean
 	-$(RMDIR) build_dir*
-	-$(RMDIR) _x.*
+	-$(RMDIR) _x.* xclbin.run_summary
 	-$(RMDIR) ./tmp_kernel_pack* ./packaged_kernel* 

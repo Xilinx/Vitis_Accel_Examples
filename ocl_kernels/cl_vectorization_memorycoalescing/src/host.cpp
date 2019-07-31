@@ -65,7 +65,6 @@ int main(int argc, char *argv[]) {
     int size = DATA_SIZE;
     size_t vector_size_bytes = sizeof(int) * DATA_SIZE;
     cl_int err;
-    unsigned fileBufSize;
 
     std::vector<int, aligned_allocator<int>> source_in1(vector_size_bytes);
     std::vector<int, aligned_allocator<int>> source_in2(vector_size_bytes);
@@ -93,8 +92,8 @@ int main(int argc, char *argv[]) {
     OCL_CHECK(err,
               std::string device_name = device.getInfo<CL_DEVICE_NAME>(&err));
 
-    auto fileBuf = xcl::read_binary_file(binaryFile, fileBufSize);
-    cl::Program::Binaries bins{{fileBuf, fileBufSize}};
+   auto fileBuf = xcl::read_binary_file(binaryFile);
+   cl::Program::Binaries bins{{fileBuf.data(), fileBuf.size()}};
     devices.resize(1);
     OCL_CHECK(err, cl::Program program(context, devices, bins, NULL, &err));
     OCL_CHECK(err, cl::Kernel kernel(program, "vec_add", &err));
@@ -165,7 +164,6 @@ int main(int argc, char *argv[]) {
         }
     }
 
-    delete[] fileBuf;
 
     std::cout << "TEST " << (match ? "PASSED" : "FAILED") << std::endl;
     return (match ? EXIT_SUCCESS : EXIT_FAILURE);

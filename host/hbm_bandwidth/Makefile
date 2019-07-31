@@ -36,7 +36,7 @@ DSA := $(call device2dsa, $(DEVICE))
 TEMP_DIR := ./_x.$(TARGET).$(DSA)
 BUILD_DIR := ./build_dir.$(TARGET).$(DSA)
 
-CXX := $(XILINX_SCOUT)/bin/xcpp
+CXX := $(XILINX_VITIS)/bin/xcpp
 XOCC := v++
 
 #Include Libraries
@@ -56,6 +56,7 @@ LDFLAGS += -lrt -lstdc++
 
 # Kernel compiler global settings
 CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps 
+
 
 # Kernel linker flags
 LDCLFLAGS += --sp krnl_vaddmul_1.m_axi_gmem0:HBM[0] --sp krnl_vaddmul_1.m_axi_gmem1:HBM[1] --sp krnl_vaddmul_1.m_axi_gmem2:HBM[2] --sp krnl_vaddmul_1.m_axi_gmem3:HBM[3] --sp krnl_vaddmul_2.m_axi_gmem0:HBM[4] --sp krnl_vaddmul_2.m_axi_gmem1:HBM[5] --sp krnl_vaddmul_2.m_axi_gmem2:HBM[6] --sp krnl_vaddmul_2.m_axi_gmem3:HBM[7] --sp krnl_vaddmul_3.m_axi_gmem0:HBM[8] --sp krnl_vaddmul_3.m_axi_gmem1:HBM[9] --sp krnl_vaddmul_3.m_axi_gmem2:HBM[10] --sp krnl_vaddmul_3.m_axi_gmem3:HBM[11] --sp krnl_vaddmul_4.m_axi_gmem0:HBM[12] --sp krnl_vaddmul_4.m_axi_gmem1:HBM[13] --sp krnl_vaddmul_4.m_axi_gmem2:HBM[14] --sp krnl_vaddmul_4.m_axi_gmem3:HBM[15] --sp krnl_vaddmul_5.m_axi_gmem0:HBM[16] --sp krnl_vaddmul_5.m_axi_gmem1:HBM[17] --sp krnl_vaddmul_5.m_axi_gmem2:HBM[18] --sp krnl_vaddmul_5.m_axi_gmem3:HBM[19] --sp krnl_vaddmul_6.m_axi_gmem0:HBM[20] --sp krnl_vaddmul_6.m_axi_gmem1:HBM[21] --sp krnl_vaddmul_6.m_axi_gmem2:HBM[22] --sp krnl_vaddmul_6.m_axi_gmem3:HBM[23] --sp krnl_vaddmul_7.m_axi_gmem0:HBM[24] --sp krnl_vaddmul_7.m_axi_gmem1:HBM[25] --sp krnl_vaddmul_7.m_axi_gmem2:HBM[26] --sp krnl_vaddmul_7.m_axi_gmem3:HBM[27] --sp krnl_vaddmul_8.m_axi_gmem0:HBM[28] --sp krnl_vaddmul_8.m_axi_gmem1:HBM[29] --sp krnl_vaddmul_8.m_axi_gmem2:HBM[30] --sp krnl_vaddmul_8.m_axi_gmem3:HBM[31]
@@ -155,5 +156,5 @@ clean:
 
 cleanall: clean
 	-$(RMDIR) build_dir*
-	-$(RMDIR) _x.*
+	-$(RMDIR) _x.* xclbin.run_summary
 

@@ -11,9 +11,7 @@
         "xilinx:u280-es1:xdma", 
         "xilinx:aws-vu9p-f1-04261818:dynamic"
     ], 
-    "os": [
-        "Linux"
-    ], 
+    "name": "Stream Kernel to Kernel Vector Addition and Multiplication", 
     "contributors": [
         {
             "url": "http://www.xilinx.com", 
@@ -23,55 +21,43 @@
     "launch": [
         {
             "cmd_args": "BUILD/krnl_stream_vadd_vmult.xclbin", 
-            "name": "sw_emu"
-        }, 
-        {
-            "cmd_args": "BUILD/krnl_stream_vadd_vmult.xclbin", 
-            "name": "hw_emu"
+            "name": "generic launch for all flows"
         }
     ], 
     "description": [
         "This is a simple kernel to kernel streaming Vector Add and Vector Multiply C Kernel that demonstrates on how to process a stream of data for computation between two kernels."
-    ], 
-    "host": [
-        {
-            "sources": [
-                "src/host.cpp"
-            ], 
-            "compiler": [
-                {
-                    "includepaths": [
-                        "REPO_DIR/common/includes/xcl2"
-                    ]
-                }
-            ], 
-            "linker": [
-                {
-                    "libraries": [
-                        "xcl2"
-                    ], 
-                    "librarypaths": [
-                        "REPO_DIR/common/includes/"
-                    ], 
-                    "options": [
-                        "-pthread"
-                    ]
-                }
-            ], 
-            "host_exe": "vadd_stream"
-        }
-    ], 
-    "key_concepts": [
-        "Read/Write Stream", 
-        "Create/Release Stream"
     ], 
     "keywords": [
         "cl_stream", 
         "CL_STREAM_EOT", 
         "CL_STREAM_NONBLOCKING"
     ], 
+    "host": {
+        "compiler": {
+            "sources": [
+                "REPO_DIR/common/includes/xcl2", 
+                "src/host.cpp"
+            ], 
+            "includepaths": [
+                "REPO_DIR/common/includes/xcl2"
+            ]
+        }, 
+        "linker": {
+            "options": [
+                "-pthread"
+            ]
+        }, 
+        "host_exe": "vadd_stream"
+    }, 
+    "key_concepts": [
+        "Read/Write Stream", 
+        "Create/Release Stream"
+    ], 
     "runtime": [
         "OpenCL"
+    ], 
+    "os": [
+        "Linux"
     ], 
     "containers": [
         {
@@ -89,5 +75,5 @@
             "name": "krnl_stream_vadd_vmult"
         }
     ], 
-    "name": "Stream Kernel to Kernel Vector Addition and Multiplication"
+    "platform_type": "pcie"
 }

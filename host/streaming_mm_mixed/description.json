@@ -11,9 +11,7 @@
         "xilinx:u280-es1:xdma", 
         "xilinx:aws-vu9p-f1-04261818:dynamic"
     ], 
-    "os": [
-        "Linux"
-    ], 
+    "name": "Stream Vector Addition with OpenCL Buffers", 
     "contributors": [
         {
             "url": "http://www.xilinx.com", 
@@ -23,55 +21,43 @@
     "launch": [
         {
             "cmd_args": "BUILD/krnl_stream_vadd.xclbin", 
-            "name": "sw_emu"
-        }, 
-        {
-            "cmd_args": "BUILD/krnl_stream_vadd.xclbin", 
-            "name": "hw_emu"
+            "name": "generic launch for all flows"
         }
     ], 
     "description": [
         "This is a simple streaming Vector Addition C Kernel design with 1 Stream input, 1 memory mapped input to the kernel, and 1 stream output that demonstrates on how to process a stream of data for computation along with OpenCL buffers."
-    ], 
-    "host": [
-        {
-            "sources": [
-                "src/host.cpp"
-            ], 
-            "compiler": [
-                {
-                    "includepaths": [
-                        "REPO_DIR/common/includes/xcl2"
-                    ]
-                }
-            ], 
-            "linker": [
-                {
-                    "libraries": [
-                        "xcl2"
-                    ], 
-                    "librarypaths": [
-                        "REPO_DIR/common/includes/"
-                    ], 
-                    "options": [
-                        "-pthread"
-                    ]
-                }
-            ], 
-            "host_exe": "vadd_stream"
-        }
-    ], 
-    "key_concepts": [
-        "Read/Write Stream", 
-        "Create/Release Stream"
     ], 
     "keywords": [
         "cl_stream", 
         "CL_STREAM_EOT", 
         "CL_STREAM_BLOCKING"
     ], 
+    "host": {
+        "compiler": {
+            "sources": [
+                "REPO_DIR/common/includes/xcl2", 
+                "src/host.cpp"
+            ], 
+            "includepaths": [
+                "REPO_DIR/common/includes/xcl2"
+            ]
+        }, 
+        "linker": {
+            "options": [
+                "-pthread"
+            ]
+        }, 
+        "host_exe": "vadd_stream"
+    }, 
+    "key_concepts": [
+        "Read/Write Stream", 
+        "Create/Release Stream"
+    ], 
     "runtime": [
         "OpenCL"
+    ], 
+    "os": [
+        "Linux"
     ], 
     "containers": [
         {
@@ -84,5 +70,5 @@
             "name": "krnl_stream_vadd"
         }
     ], 
-    "name": "Stream Vector Addition with OpenCL Buffers"
+    "platform_type": "pcie"
 }

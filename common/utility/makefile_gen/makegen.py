@@ -12,7 +12,7 @@ def create_params(target,data):
     target.write("# Points to Utility Directory\n")
     dirName = os.getcwd()
     dirNameList = list(dirName.split("/"))
-    dirNameIndex = dirNameList.index("ScoutExamples")
+    dirNameIndex = dirNameList.index("VitisExamples")
     diff = len(dirNameList) - dirNameIndex - 1
     target.write("COMMON_REPO = ")
     while diff > 0:
@@ -31,7 +31,7 @@ def create_params(target,data):
     target.write("\n")
 
     target.write("CXX := ")
-    target.write("$(XILINX_SCOUT)/bin/xcpp\n")
+    target.write("$(XILINX_VITIS)/bin/xcpp\n")
     target.write("XOCC := ")
     target.write("v++\n")
     target.write("\n")
@@ -293,7 +293,7 @@ def mk_clean(target, data):
 
     target.write("cleanall: clean\n")
     target.write("\t-$(RMDIR) build_dir*\n")
-    target.write("\t-$(RMDIR) _x.*\n")
+    target.write("\t-$(RMDIR) _x.* xclbin.run_summary\n")
     if "output_files" in data:         
         target.write("\t-$(RMDIR) ")
         args = data["output_files"].split(" ")
@@ -472,9 +472,9 @@ def device2dsa_gen(target):
     target.write("\n")
 
 def util_checks(target):
-    target.write("#Checks for XILINX_SCOUT\n")
-    target.write("ifndef XILINX_SCOUT\n")
-    target.write("$(error XILINX_SCOUT variable is not set, please set correctly and rerun)\n")
+    target.write("#Checks for XILINX_VITIS\n")
+    target.write("ifndef XILINX_VITIS\n")
+    target.write("$(error XILINX_VITIS variable is not set, please set correctly and rerun)\n")
     target.write("endif\n")
     target.write("\n")
 

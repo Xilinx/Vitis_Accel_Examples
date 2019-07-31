@@ -17,7 +17,9 @@
         "xilinx:u280:xdma", 
         "xilinx:u250:qdma"
     ], 
-    "name": "host_global_5.0_shell", 
+    "os": [
+        "Linux"
+    ], 
     "contributors": [
         {
             "url": "http://www.xilinx.com", 
@@ -27,43 +29,27 @@
     "launch": [
         {
             "cmd_args": "BUILD/krnl_host_global.xclbin", 
-            "name": "sw_emu"
-        }, 
-        {
-            "cmd_args": "BUILD/krnl_host_global.xclbin", 
-            "name": "hw_emu"
+            "name": "generic launch for all flows"
         }
     ], 
     "description": [
         "Host to global memory bandwidth test for 5.0 shell"
     ], 
-    "host": [
-        {
-            "compiler": [
-                {
-                    "includepaths": [
-                        "REPO_DIR/common/includes/xcl2"
-                    ]
-                }
+    "name": "host_global_5.0_shell", 
+    "platform_type": "pcie", 
+    "host": {
+        "compiler": {
+            "sources": [
+                "REPO_DIR/common/includes/xcl2"
             ], 
-            "linker": [
-                {
-                    "libraries": [
-                        "xcl2"
-                    ], 
-                    "librarypaths": [
-                        "REPO_DIR/common/includes/"
-                    ]
-                }
-            ], 
-            "host_exe": "host_global"
-        }
-    ], 
+            "includepaths": [
+                "REPO_DIR/common/includes/xcl2"
+            ]
+        }, 
+        "host_exe": "host_global"
+    }, 
     "runtime": [
         "OpenCL"
-    ], 
-    "os": [
-        "Linux"
     ], 
     "containers": [
         {

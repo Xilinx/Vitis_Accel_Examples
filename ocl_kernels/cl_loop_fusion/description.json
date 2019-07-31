@@ -1,7 +1,5 @@
 {
-    "os": [
-        "Linux"
-    ], 
+    "name": "Loop Fusion (CL)", 
     "contributors": [
         {
             "url": "http://www.xilinx.com", 
@@ -11,38 +9,21 @@
     "launch": [
         {
             "cmd_args": "BUILD/nearest_neighbor.xclbin", 
-            "name": "sw_emu"
+            "name": "generic launch for all flows"
+        }
+    ], 
+    "platform_type": "pcie", 
+    "host": {
+        "compiler": {
+            "sources": [
+                "REPO_DIR/common/includes/xcl2"
+            ], 
+            "includepaths": [
+                "REPO_DIR/common/includes/xcl2"
+            ]
         }, 
-        {
-            "cmd_args": "BUILD/nearest_neighbor.xclbin", 
-            "name": "hw_emu"
-        }
-    ], 
-    "description": [
-        "This example will demonstrate how to fuse two loops into one to improve the performance of an OpenCL kernel."
-    ], 
-    "host": [
-        {
-            "compiler": [
-                {
-                    "includepaths": [
-                        "REPO_DIR/common/includes/xcl2"
-                    ]
-                }
-            ], 
-            "linker": [
-                {
-                    "libraries": [
-                        "xcl2"
-                    ], 
-                    "librarypaths": [
-                        "REPO_DIR/common/includes/"
-                    ]
-                }
-            ], 
-            "host_exe": "loop_fusion"
-        }
-    ], 
+        "host_exe": "loop_fusion"
+    }, 
     "key_concepts": [
         "Kernel Optimization", 
         "Loop Fusion", 
@@ -53,6 +34,9 @@
     ], 
     "runtime": [
         "OpenCL"
+    ], 
+    "os": [
+        "Linux"
     ], 
     "containers": [
         {
@@ -69,5 +53,7 @@
             "name": "nearest_neighbor"
         }
     ], 
-    "name": "Loop Fusion (CL)"
+    "description": [
+        "This example will demonstrate how to fuse two loops into one to improve the performance of an OpenCL kernel."
+    ]
 }

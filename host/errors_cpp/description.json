@@ -2,9 +2,7 @@
     "testinfo": {
         "negative": "true"
     }, 
-    "os": [
-        "Linux"
-    ], 
+    "name": "Error Handling (CPP)", 
     "contributors": [
         {
             "url": "http://www.xilinx.com", 
@@ -14,38 +12,21 @@
     "launch": [
         {
             "cmd_args": "BUILD/vector_addition.xclbin", 
-            "name": "sw_emu"
+            "name": "generic launch for all flows"
+        }
+    ], 
+    "platform_type": "pcie", 
+    "host": {
+        "compiler": {
+            "sources": [
+                "REPO_DIR/common/includes/xcl2"
+            ], 
+            "includepaths": [
+                "REPO_DIR/common/includes/xcl2"
+            ]
         }, 
-        {
-            "cmd_args": "BUILD/vector_addition.xclbin", 
-            "name": "hw_emu"
-        }
-    ], 
-    "description": [
-        "This example discuss the different reasons for errors in OpenCL C++ and how to handle them at runtime."
-    ], 
-    "host": [
-        {
-            "compiler": [
-                {
-                    "includepaths": [
-                        "REPO_DIR/common/includes/xcl2"
-                    ]
-                }
-            ], 
-            "linker": [
-                {
-                    "libraries": [
-                        "xcl2"
-                    ], 
-                    "librarypaths": [
-                        "REPO_DIR/common/includes/"
-                    ]
-                }
-            ], 
-            "host_exe": "errors"
-        }
-    ], 
+        "host_exe": "errors"
+    }, 
     "key_concepts": [
         "OpenCL C++ API", 
         "Error handling"
@@ -61,6 +42,9 @@
     "runtime": [
         "OpenCL"
     ], 
+    "os": [
+        "Linux"
+    ], 
     "containers": [
         {
             "accelerators": [
@@ -72,5 +56,7 @@
             "name": "vector_addition"
         }
     ], 
-    "name": "Error Handling (CPP)"
+    "description": [
+        "This example discuss the different reasons for errors in OpenCL C++ and how to handle them at runtime."
+    ]
 }

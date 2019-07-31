@@ -1,8 +1,6 @@
 {
     "num_devices": "2", 
-    "os": [
-        "Linux"
-    ], 
+    "name": "Multiple FPGA Devices Execution Concurrently (C)", 
     "contributors": [
         {
             "url": "http://www.xilinx.com", 
@@ -12,38 +10,21 @@
     "launch": [
         {
             "cmd_args": "BUILD/vector_addition.xclbin", 
-            "name": "sw_emu"
+            "name": "generic launch for all flows"
+        }
+    ], 
+    "platform_type": "pcie", 
+    "host": {
+        "compiler": {
+            "sources": [
+                "REPO_DIR/common/includes/xcl2"
+            ], 
+            "includepaths": [
+                "REPO_DIR/common/includes/xcl2"
+            ]
         }, 
-        {
-            "cmd_args": "BUILD/vector_addition.xclbin", 
-            "name": "hw_emu"
-        }
-    ], 
-    "description": [
-        "This example show how to take advantage of multiple FPGAs on a system. It will show how to initialized an OpenCL context, allocate memory on the two devices and execute a kernel on each FPGA."
-    ], 
-    "host": [
-        {
-            "compiler": [
-                {
-                    "includepaths": [
-                        "REPO_DIR/common/includes/xcl2"
-                    ]
-                }
-            ], 
-            "linker": [
-                {
-                    "libraries": [
-                        "xcl2"
-                    ], 
-                    "librarypaths": [
-                        "REPO_DIR/common/includes/"
-                    ]
-                }
-            ], 
-            "host_exe": "multiple_devices"
-        }
-    ], 
+        "host_exe": "multiple_devices"
+    }, 
     "key_concepts": [
         "OpenCL API", 
         "Multi-FPGA Execution", 
@@ -56,6 +37,9 @@
     "runtime": [
         "OpenCL"
     ], 
+    "os": [
+        "Linux"
+    ], 
     "containers": [
         {
             "accelerators": [
@@ -67,5 +51,7 @@
             "name": "vector_addition"
         }
     ], 
-    "name": "Multiple FPGA Devices Execution Concurrently (C)"
+    "description": [
+        "This example show how to take advantage of multiple FPGAs on a system. It will show how to initialized an OpenCL context, allocate memory on the two devices and execute a kernel on each FPGA."
+    ]
 }

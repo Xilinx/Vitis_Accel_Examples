@@ -1,4 +1,4 @@
-kernel_global
+kernel_global for 5.0 shell
 ======================
 
 Bandwidth test of global to local memory.
@@ -6,6 +6,7 @@ Bandwidth test of global to local memory.
 ## SUPPORTED PLATFORMS
 Platform | Board             | Software Version
 ---------|-------------------|-----------------
+Xilinx|Xilinx Only 5.0 Shell|VITIS 2019.2
 
 
 ##  DESIGN FILES

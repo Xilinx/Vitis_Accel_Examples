@@ -6,7 +6,7 @@ import os
 import subprocess
 
 DSA = 'xilinx_u200_qdma'
-VERSION = 'SCOUT 2019.2'
+VERSION = 'VITIS 2019.2'
 AWS_DEVICES = {
     'xilinx_aws-vu9p-f1-04261818': {
        'version': '5.0',
@@ -168,7 +168,7 @@ def commandargs(target,data):
 script, desc_file = argv
 
 # load the description file
-print "SCOUT README File Genarator"
+print "VITIS README File Genarator"
 desc = open(desc_file,'r')
 
 # load the json data from the file

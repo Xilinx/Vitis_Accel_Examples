@@ -1,5 +1,45 @@
 {
     "config_make": "config.mk", 
+    "description": [
+        "This is a simple Vector Increment RTL Kernel to Kernel design with 1 Stream input and 1 Stream output that demonstrates on how to process an input stream of data for computation in an application."
+    ], 
+    "contributors": [
+        {
+            "url": "http://www.xilinx.com", 
+            "group": "Xilinx"
+        }
+    ], 
+    "host": {
+        "compiler": {
+            "sources": [
+                "REPO_DIR/common/includes/xcl2", 
+                "src/host.cpp"
+            ], 
+            "includepaths": [
+                "REPO_DIR/common/includes/xcl2"
+            ]
+        }, 
+        "linker": {
+            "options": [
+                "-pthread"
+            ]
+        }, 
+        "host_exe": "vadd_stream"
+    }, 
+    "key_concepts": [
+        "Read/Write Stream", 
+        "Create/Release Stream", 
+        "RTL Kernel"
+    ], 
+    "keywords": [
+        "cl_stream", 
+        "CL_STREAM_EOT"
+    ], 
+    "targets": [
+        "hw", 
+        "hw_emu"
+    ], 
+    "output_files": "tmp_kernel_pack* packaged_kernel* _x* *_ex project* pinfo.json *.xo", 
     "ndevice": [
         "xilinx_u200_xdma", 
         "xilinx_u250_xdma", 
@@ -13,72 +53,19 @@
         "xilinx:aws-vu9p-f1-04261818:dynamic"
     ], 
     "name": "Stream Kernel to Kernel Vector Increment (RTL)", 
-    "contributors": [
-        {
-            "url": "http://www.xilinx.com", 
-            "group": "Xilinx"
-        }
-    ], 
     "launch": [
         {
             "cmd_args": "BUILD/myadder.xclbin", 
-            "name": "sw_emu"
-        }, 
-        {
-            "cmd_args": "BUILD/myadder.xclbin", 
-            "name": "hw_emu"
+            "name": "generic launch for all flows"
         }
     ], 
     "gui": false, 
-    "description": [
-        "This is a simple Vector Increment RTL Kernel to Kernel design with 1 Stream input and 1 Stream output that demonstrates on how to process an input stream of data for computation in an application."
-    ], 
-    "host": [
-        {
-            "sources": [
-                "src/host.cpp"
-            ], 
-            "compiler": [
-                {
-                    "includepaths": [
-                        "REPO_DIR/common/includes/xcl2"
-                    ]
-                }
-            ], 
-            "linker": [
-                {
-                    "libraries": [
-                        "xcl2"
-                    ], 
-                    "librarypaths": [
-                        "REPO_DIR/common/includes/"
-                    ], 
-                    "options": [
-                        "-pthread"
-                    ]
-                }
-            ], 
-            "host_exe": "vadd_stream"
-        }
-    ], 
-    "key_concepts": [
-        "Read/Write Stream", 
-        "Create/Release Stream", 
-        "RTL Kernel"
-    ], 
-    "keywords": [
-        "cl_stream", 
-        "CL_STREAM_EOT"
-    ], 
+    "platform_type": "pcie", 
     "runtime": [
         "OpenCL"
     ], 
     "os": [
         "Linux"
-    ], 
-    "targets": [
-        "hw", 
-        "hw_emu"
     ], 
     "containers": [
         {
@@ -95,6 +82,5 @@
             "ldclflags": "--sc myadder1_1.out:myadder2_1.in", 
             "name": "myadder"
         }
-    ], 
-    "output_files": "tmp_kernel_pack* packaged_kernel* _x* *_ex project* pinfo.json *.xo"
+    ]
 }

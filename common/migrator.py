@@ -92,7 +92,7 @@ os.system("cp -rf " + sdaccel_folder +
 "/host/sub_devices")
 os.system("cp -rf " + sdaccel_folder +
 "/getting_started/debug/debug_profile_c/* " + pwd +
-"/cpp_kernels/debug_profile")
+"/host/debug_profile")
 
 # CPP Kernel
 os.system("cp -rf " + sdaccel_folder +

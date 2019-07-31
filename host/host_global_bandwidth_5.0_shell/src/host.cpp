@@ -167,7 +167,6 @@ int main(int argc, char **argv) {
                          {536870912, 2}};
 
     cl_int err;
-    unsigned fileBufSize;
     // The get_xil_devices will return vector of Xilinx Devices
     auto devices = xcl::get_xil_devices();
     auto device = devices[0];
@@ -186,8 +185,8 @@ int main(int argc, char **argv) {
     std::cout << "Found Device=" << device_name.c_str() << std::endl;
 
     // read_binary() command will find the OpenCL binary file
-    auto fileBuf = xcl::read_binary_file(binaryFile, fileBufSize);
-    cl::Program::Binaries bins{{fileBuf, fileBufSize}};
+   auto fileBuf = xcl::read_binary_file(binaryFile);
+   cl::Program::Binaries bins{{fileBuf.data(), fileBuf.size()}};
     devices.resize(1);
     OCL_CHECK(err, cl::Program program(context, devices, bins, NULL, &err));
     OCL_CHECK(err, cl::Kernel krnl_bandwidth(program, "bandwidth", &err));
@@ -294,7 +293,6 @@ int main(int argc, char **argv) {
         }
     }
 
-    delete[] fileBuf;
     printf("\nTEST PASSED\n");
     // Shutdown and cleanup
     handle.close();

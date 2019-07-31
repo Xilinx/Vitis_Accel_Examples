@@ -1,7 +1,5 @@
 {
-    "os": [
-        "Linux"
-    ], 
+    "name": "Overlap Host and HLS kernels (C)", 
     "contributors": [
         {
             "url": "http://www.xilinx.com", 
@@ -11,38 +9,21 @@
     "launch": [
         {
             "cmd_args": "BUILD/vector_addition.xclbin", 
-            "name": "sw_emu"
+            "name": "generic launch for all flows"
+        }
+    ], 
+    "platform_type": "pcie", 
+    "host": {
+        "compiler": {
+            "sources": [
+                "REPO_DIR/common/includes/xcl2"
+            ], 
+            "includepaths": [
+                "REPO_DIR/common/includes/xcl2"
+            ]
         }, 
-        {
-            "cmd_args": "BUILD/vector_addition.xclbin", 
-            "name": "hw_emu"
-        }
-    ], 
-    "description": [
-        "This examples demonstrates techniques that allow user to overlap Host(CPU) and FPGA computation in an application. It will cover asynchronous operations and event object."
-    ], 
-    "host": [
-        {
-            "compiler": [
-                {
-                    "includepaths": [
-                        "REPO_DIR/common/includes/xcl2"
-                    ]
-                }
-            ], 
-            "linker": [
-                {
-                    "libraries": [
-                        "xcl2"
-                    ], 
-                    "librarypaths": [
-                        "REPO_DIR/common/includes/"
-                    ]
-                }
-            ], 
-            "host_exe": "overlap"
-        }
-    ], 
+        "host_exe": "overlap"
+    }, 
     "key_concepts": [
         "OpenCL API", 
         "Synchronize Host and FPGA", 
@@ -59,6 +40,9 @@
     "runtime": [
         "OpenCL"
     ], 
+    "os": [
+        "Linux"
+    ], 
     "containers": [
         {
             "accelerators": [
@@ -70,5 +54,7 @@
             "name": "vector_addition"
         }
     ], 
-    "name": "Overlap Host and HLS kernels (C)"
+    "description": [
+        "This examples demonstrates techniques that allow user to overlap Host(CPU) and FPGA computation in an application. It will cover asynchronous operations and event object."
+    ]
 }

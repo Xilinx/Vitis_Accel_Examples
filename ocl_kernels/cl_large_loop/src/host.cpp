@@ -119,10 +119,9 @@ uint64_t run_opencl_cnn(std::vector<cl::Device> &devices,
                         int i_chan,
                         int o_chan) {
     cl_int err;
-    unsigned fileBufSize;
 
-    auto fileBuf = xcl::read_binary_file(binaryFile, fileBufSize);
-    cl::Program::Binaries bins{{fileBuf, fileBufSize}};
+   auto fileBuf = xcl::read_binary_file(binaryFile);
+   cl::Program::Binaries bins{{fileBuf.data(), fileBuf.size()}};
     devices.resize(1);
     OCL_CHECK(err, cl::Program program(context, devices, bins, NULL, &err));
     cl::Kernel krnl_cnn_conv;
@@ -203,7 +202,6 @@ uint64_t run_opencl_cnn(std::vector<cl::Device> &devices,
               err = q.enqueueMigrateMemObjects({buffer_output},
                                                CL_MIGRATE_MEM_OBJECT_HOST));
     OCL_CHECK(err, err = q.finish());
-    delete[] fileBuf;
 
     std::cout << "Finished " << (good ? "GOOD" : "BAD") << " Kernel"
               << std::endl;

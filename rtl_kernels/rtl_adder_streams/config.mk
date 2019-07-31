@@ -10,4 +10,3 @@ $(TEMP_DIR)/adder.xo:
 $(TEMP_DIR)/output.xo:
 	mkdir -p $(TEMP_DIR)
 	$(VIVADO) -mode batch -source scripts/gen_output_xo.tcl -tclargs $(TEMP_DIR)/output.xo
-

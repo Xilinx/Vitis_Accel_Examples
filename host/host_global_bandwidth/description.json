@@ -5,7 +5,9 @@
         "xilinx:u280-es1:xdma", 
         "xilinx:aws-vu9p-f1-04261818:dynamic"
     ], 
-    "name": "host_global", 
+    "os": [
+        "Linux"
+    ], 
     "contributors": [
         {
             "url": "http://www.xilinx.com", 
@@ -15,44 +17,28 @@
     "launch": [
         {
             "cmd_args": "BUILD/krnl_host_global.xclbin", 
-            "name": "sw_emu"
-        }, 
-        {
-            "cmd_args": "BUILD/krnl_host_global.xclbin", 
-            "name": "hw_emu"
+            "name": "generic launch for all flows"
         }
     ], 
     "description": [
         "Host to global memory bandwidth test"
     ], 
-    "host": [
-        {
-            "compiler": [
-                {
-                    "includepaths": [
-                        "REPO_DIR/common/includes/xcl2"
-                    ]
-                }
+    "name": "host_global", 
+    "platform_type": "pcie", 
+    "host": {
+        "compiler": {
+            "sources": [
+                "REPO_DIR/common/includes/xcl2"
             ], 
-            "linker": [
-                {
-                    "libraries": [
-                        "xcl2"
-                    ], 
-                    "librarypaths": [
-                        "REPO_DIR/common/includes/"
-                    ]
-                }
-            ], 
-            "host_exe": "host_global"
-        }
-    ], 
+            "includepaths": [
+                "REPO_DIR/common/includes/xcl2"
+            ]
+        }, 
+        "host_exe": "host_global"
+    }, 
     "match_ini": "false", 
     "runtime": [
         "OpenCL"
-    ], 
-    "os": [
-        "Linux"
     ], 
     "containers": [
         {

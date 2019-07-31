@@ -1,11 +1,7 @@
 {
     "config_make": "config.mk", 
-    "revision": [
-        {
-            "date": "JAN2017", 
-            "version": "1.0", 
-            "description": "Initial Xilinx Release"
-        }
+    "description": [
+        "This example shows vector addition with 2 kernel clocks using RTL Kernel."
     ], 
     "contributors": [
         {
@@ -13,46 +9,18 @@
             "group": "Xilinx"
         }
     ], 
-    "launch": [
-        {
-            "cmd_args": "BUILD/vadd.xclbin", 
-            "name": "sw_emu"
-        }, 
-        {
-            "cmd_args": "BUILD/vadd.xclbin", 
-            "name": "hw_emu"
-        }
-    ], 
-    "gui": false, 
-    "description": [
-        "This example shows vector addition with 2 kernel clocks using RTL Kernel."
-    ], 
-    "name": "Vector Addition with 2 Kernel Clocks (RTL)", 
-    "host": [
-        {
+    "host": {
+        "compiler": {
             "sources": [
+                "REPO_DIR/common/includes/xcl2", 
                 "src/host.cpp"
             ], 
-            "compiler": [
-                {
-                    "includepaths": [
-                        "REPO_DIR/common/includes/xcl2"
-                    ]
-                }
-            ], 
-            "linker": [
-                {
-                    "libraries": [
-                        "xcl2"
-                    ], 
-                    "librarypaths": [
-                        "REPO_DIR/common/includes/"
-                    ]
-                }
-            ], 
-            "host_exe": "host"
-        }
-    ], 
+            "includepaths": [
+                "REPO_DIR/common/includes/xcl2"
+            ]
+        }, 
+        "host_exe": "host"
+    }, 
     "key_concepts": [
         "RTL Kernel", 
         "Multiple Kernel Clocks"
@@ -60,15 +28,25 @@
     "keywords": [
         "--kernel_frequency"
     ], 
+    "targets": [
+        "hw", 
+        "hw_emu"
+    ], 
+    "output_files": "tmp_kernel_pack* packaged_kernel*", 
+    "name": "Vector Addition with 2 Kernel Clocks (RTL)", 
+    "launch": [
+        {
+            "cmd_args": "BUILD/vadd.xclbin", 
+            "name": "generic launch for all flows"
+        }
+    ], 
+    "gui": false, 
+    "platform_type": "pcie", 
     "runtime": [
         "OpenCL"
     ], 
     "os": [
         "Linux"
-    ], 
-    "targets": [
-        "hw", 
-        "hw_emu"
     ], 
     "containers": [
         {
@@ -82,5 +60,11 @@
             "name": "vadd"
         }
     ], 
-    "output_files": "tmp_kernel_pack* packaged_kernel*"
+    "revision": [
+        {
+            "date": "JAN2017", 
+            "version": "1.0", 
+            "description": "Initial Xilinx Release"
+        }
+    ]
 }

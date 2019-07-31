@@ -47,9 +47,9 @@ auto constexpr NCU = 4;
 ////////////////////RESET FUNCTION//////////////////////////////////
 int reset(int *a, int *b, int *sw_results, int *hw_results, unsigned int size) {
     //Fill the input vectors with data
+    std::generate(a, a + size, std::rand);
+    std::generate(b, b + size, std::rand);
     for (size_t i = 0; i < size; i++) {
-        a[i] = rand() % size;
-        b[i] = rand() % size;
         hw_results[i] = 0;
         sw_results[i] = a[i] + b[i];
     }
@@ -83,6 +83,8 @@ int main(int argc, char **argv) {
     std::vector<int, aligned_allocator<int>> hw_results(size);
     std::vector<int> sw_results(size);
 
+    reset(h_a.data(), h_b.data(), sw_results.data(), hw_results.data(), size);
+
     if (argc != 2) {
         std::cout << "Usage: " << argv[0] << " <XCLBIN File>" << std::endl;
         return EXIT_FAILURE;
@@ -96,7 +98,6 @@ int main(int argc, char **argv) {
 
     // OpenCL Host Code Begins
     cl_int err;
-    unsigned fileBufSize;
 
     int no_of_elem = size / NCU;
 
@@ -127,8 +128,8 @@ int main(int argc, char **argv) {
 
     // read_binary_file() is a utility API which will load the binaryFile
     // and will return the pointer to file buffer.
-    auto fileBuf = xcl::read_binary_file(binaryFile, fileBufSize);
-    cl::Program::Binaries bins{{fileBuf, fileBufSize}};
+   auto fileBuf = xcl::read_binary_file(binaryFile);
+   cl::Program::Binaries bins{{fileBuf.data(), fileBuf.size()}};
     devices.resize(1);
 
     // Creating Program

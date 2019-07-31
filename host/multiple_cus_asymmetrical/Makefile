@@ -36,7 +36,7 @@ DSA := $(call device2dsa, $(DEVICE))
 TEMP_DIR := ./_x.$(TARGET).$(DSA)
 BUILD_DIR := ./build_dir.$(TARGET).$(DSA)
 
-CXX := $(XILINX_SCOUT)/bin/xcpp
+CXX := $(XILINX_VITIS)/bin/xcpp
 XOCC := v++
 
 #Include Libraries
@@ -56,6 +56,7 @@ LDFLAGS += -lrt -lstdc++
 
 # Kernel compiler global settings
 CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps 
+
 
 # Kernel linker flags
 LDCLFLAGS += --sp vadd_1.in1:DDR[0] --sp vadd_1.in2:DDR[0] --sp vadd_1.out_r:DDR[0] --sp vadd_2.in1:DDR[1] --sp vadd_2.in2:DDR[1] --sp vadd_2.out_r:DDR[1] --sp vadd_3.in1:PLRAM[0] --sp vadd_3.in2:PLRAM[0] --sp vadd_3.out_r:PLRAM[0] --sp vadd_4.in1:PLRAM[1] --sp vadd_4.in2:PLRAM[1] --sp vadd_4.out_r:PLRAM[1]  
@@ -125,5 +126,5 @@ clean:
 
 cleanall: clean
 	-$(RMDIR) build_dir*
-	-$(RMDIR) _x.*
+	-$(RMDIR) _x.* xclbin.run_summary
 
