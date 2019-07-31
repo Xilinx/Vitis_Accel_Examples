@@ -3,7 +3,7 @@ PLRAM access (C)
 
 This example shows the usage of PLRAM and how to use it with simple matrix multiplication (Row x Col).
 
-***KEY CONCEPTS:*** SDx Memory Hierarchy, PLRAMs
+***KEY CONCEPTS:*** Vitis Memory Hierarchy, PLRAMs
 
 ***KEYWORDS:*** PLRAM
 

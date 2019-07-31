@@ -29,7 +29,7 @@
         "host_exe": "host"
     }, 
     "key_concepts": [
-        "SDx Memory Hierarchy", 
+        "Vitis Memory Hierarchy", 
         "PLRAMs"
     ], 
     "keywords": [

@@ -1,7 +1,7 @@
 Hello World (CL-SoC)
 ======================
 
-This is simple example of vector addition to describe how to use OpenCL kernels in Scout Environment. This example highlights the concepts like PIPELINE which increases the kernel performance. 
+This is simple example of vector addition to describe how to use OpenCL kernels in Vitis Environment. This example highlights the concepts like PIPELINE which increases the kernel performance. 
 
 ***KEY CONCEPTS:*** OpenCL Kernel, OpenCL Host APIs
 
@@ -10,12 +10,6 @@ This is simple example of vector addition to describe how to use OpenCL kernels 
 ## SUPPORTED PLATFORMS
 Platform | Board             | Software Version
 ---------|-------------------|-----------------
-xilinx_u200_qdma|Xilinx Alveo U200|VITIS 2019.2
-xilinx_u280_xdma|Xilinx Alveo U280|VITIS 2019.2
-xilinx_u250_qdma|Xilinx Alveo U250|VITIS 2019.2
-xilinx_u200_xdma|Xilinx Alveo U200|VITIS 2019.2
-xilinx_u250_xdma|Xilinx Alveo U250|VITIS 2019.2
-xilinx_u280-es1_xdma|Xilinx Alveo U280|VITIS 2019.2
 
 
 ##  DESIGN FILES

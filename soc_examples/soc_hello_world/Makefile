@@ -95,6 +95,43 @@ $(EMCONFIG_DIR)/emconfig.json:
 	emconfigutil --platform $(DEVICE) --od $(EMCONFIG_DIR)
 
 check: all
+ifeq ($(findstring xilinx_u280-es1_xdma, $(DEVICE)), xilinx_u280-es1_xdma)
+$(error Nothing to be done for make)
+endif
+ifeq ($(findstring xilinx_u200_xdma, $(DEVICE)), xilinx_u200_xdma)
+$(error Nothing to be done for make)
+endif
+ifeq ($(findstring xilinx_u200_qdma, $(DEVICE)), xilinx_u200_qdma)
+$(error Nothing to be done for make)
+endif
+ifeq ($(findstring xilinx_u250_xdma, $(DEVICE)), xilinx_u250_xdma)
+$(error Nothing to be done for make)
+endif
+ifeq ($(findstring xilinx_u280_xdma, $(DEVICE)), xilinx_u280_xdma)
+$(error Nothing to be done for make)
+endif
+ifeq ($(findstring xilinx_u250_qdma, $(DEVICE)), xilinx_u250_qdma)
+$(error Nothing to be done for make)
+endif
+ifeq ($(findstring xilinx:u280-es1:xdma, $(DEVICE)), xilinx:u280-es1:xdma)
+$(error Nothing to be done for make)
+endif
+ifeq ($(findstring xilinx:u200:xdma, $(DEVICE)), xilinx:u200:xdma)
+$(error Nothing to be done for make)
+endif
+ifeq ($(findstring xilinx:u200:qdma, $(DEVICE)), xilinx:u200:qdma)
+$(error Nothing to be done for make)
+endif
+ifeq ($(findstring xilinx:u250:xdma, $(DEVICE)), xilinx:u250:xdma)
+$(error Nothing to be done for make)
+endif
+ifeq ($(findstring xilinx:u280:xdma, $(DEVICE)), xilinx:u280:xdma)
+$(error Nothing to be done for make)
+endif
+ifeq ($(findstring xilinx:u250:qdma, $(DEVICE)), xilinx:u250:qdma)
+$(error Nothing to be done for make)
+endif
+
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 	$(CP) $(EMCONFIG_DIR)/emconfig.json .
 	XCL_EMULATION_MODE=$(TARGET) ./$(EXECUTABLE) $(BUILD_DIR)/vadd.xclbin
