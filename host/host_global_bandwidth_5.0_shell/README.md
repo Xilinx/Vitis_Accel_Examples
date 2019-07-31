@@ -6,7 +6,7 @@ Host to global memory bandwidth test for 5.0 shell
 ## SUPPORTED PLATFORMS
 Platform | Board             | Software Version
 ---------|-------------------|-----------------
-Xilinx|Xilinx Only 5.0 Shell|SCOUT 2019.2
+Xilinx|Xilinx Only 5.0 Shell|VITIS 2019.2
 
 
 ##  DESIGN FILES

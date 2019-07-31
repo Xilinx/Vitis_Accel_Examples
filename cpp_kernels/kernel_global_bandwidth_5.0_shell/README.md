@@ -6,7 +6,7 @@ Bandwidth test of global to local memory.
 ## SUPPORTED PLATFORMS
 Platform | Board             | Software Version
 ---------|-------------------|-----------------
-Xilinx|Xilinx Only 5.0 Shell|SCOUT 2019.2
+Xilinx|Xilinx Only 5.0 Shell|VITIS 2019.2
 
 
 ##  DESIGN FILES

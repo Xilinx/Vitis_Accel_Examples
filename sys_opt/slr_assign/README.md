@@ -10,11 +10,11 @@ This is simple example to describe SLR assignment information for a platform des
 ## SUPPORTED PLATFORMS
 Platform | Board             | Software Version
 ---------|-------------------|-----------------
-xilinx_u200_qdma|Xilinx Alveo U200|SCOUT 2019.2
-xilinx_u280_xdma|Xilinx Alveo U280|SCOUT 2019.2
-xilinx_u250_qdma|Xilinx Alveo U250|SCOUT 2019.2
-xilinx_u200_xdma|Xilinx Alveo U200|SCOUT 2019.2
-xilinx_u250_xdma|Xilinx Alveo U250|SCOUT 2019.2
+xilinx_u200_qdma|Xilinx Alveo U200|VITIS 2019.2
+xilinx_u280_xdma|Xilinx Alveo U280|VITIS 2019.2
+xilinx_u250_qdma|Xilinx Alveo U250|VITIS 2019.2
+xilinx_u200_xdma|Xilinx Alveo U200|VITIS 2019.2
+xilinx_u250_xdma|Xilinx Alveo U250|VITIS 2019.2
 
 
 ##  DESIGN FILES
