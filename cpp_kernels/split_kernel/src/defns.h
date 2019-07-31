@@ -29,16 +29,16 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #pragma once
 
-#include <cstdlib>
-
 #define CHANNELS 3
 #define MAX_WIDTH 640
 #define MAX_HEIGHT 480
+
 #define WINDOW 3
 #define SIZE (WINDOW * WINDOW)
 #define BOOST_WINDOW WINDOW
 #define MEDIAN_WINDOW WINDOW
 
+#include <cstdlib>
 #define imin(X, Y) (((X) < (Y)) ? (X) : (Y))
 #define imax(X, Y) (((X) > (Y)) ? (X) : (Y))
 #define abs(x) ((x)<0 ? -(x) : (x))

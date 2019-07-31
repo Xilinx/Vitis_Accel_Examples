@@ -1,0 +1,60 @@
+{
+    "testinfo": {
+        "level_up": [
+            {
+                "hw_emu": "1"
+            }
+        ]
+    }, 
+    "name": " Printing Profile Data and Dumping Waveform file (C)", 
+    "contributors": [
+        {
+            "url": "http://www.xilinx.com", 
+            "group": "Xilinx"
+        }
+    ], 
+    "launch": [
+        {
+            "cmd_args": "BUILD/vadd.xclbin", 
+            "name": "generic launch for all flows"
+        }
+    ], 
+    "platform_type": "pcie", 
+    "host": {
+        "compiler": {
+            "sources": [
+                "REPO_DIR/common/includes/xcl2"
+            ], 
+            "includepaths": [
+                "REPO_DIR/common/includes/xcl2"
+            ]
+        }, 
+        "host_exe": "host"
+    }, 
+    "key_concepts": [
+        "Use of Profile API", 
+        "Waveform Dumping and loading"
+    ], 
+    "match_ini": "false", 
+    "runtime": [
+        "OpenCL"
+    ], 
+    "os": [
+        "Linux"
+    ], 
+    "containers": [
+        {
+            "accelerators": [
+                {
+                    "clflags": "--profile_kernel data:all:all:all", 
+                    "name": "krnl_vadd", 
+                    "location": "src/vadd.cpp"
+                }
+            ], 
+            "name": "vadd"
+        }
+    ], 
+    "description": [
+        "This is simple example of vector addition and printing profile data (wall clock time taken between start and stop). It also dump a waveform file which can be reloaded to vivado to see the waveform. Run command 'vivado -source ./scripts/open_waveform.tcl -tclargs <device_name>-<kernel_name>.<target>.<device_name>.wdb' to launch waveform viewer. User can also update batch to gui in sdaccel.ini file to see the live waveform while running application."
+    ]
+}

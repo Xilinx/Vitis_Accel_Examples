@@ -1,8 +1,6 @@
 {
     "config_make": "config.mk", 
-    "os": [
-        "Linux"
-    ], 
+    "name": "Multiple RTL Kernels (RTL)", 
     "contributors": [
         {
             "url": "http://www.xilinx.com", 
@@ -12,11 +10,7 @@
     "launch": [
         {
             "cmd_args": "BUILD/vadd.xclbin", 
-            "name": "sw_emu"
-        }, 
-        {
-            "cmd_args": "BUILD/vadd.xclbin", 
-            "name": "hw_emu"
+            "name": "generic launch for all flows"
         }
     ], 
     "output_files": "tmp_kernel_pack* packaged_kernel*", 
@@ -24,37 +18,27 @@
     "description": [
         "This example has two RTL Kernels. Both Kernel_0 and Kernel_1 perform vector addition. The Kernel_1 reads the output from Kernel_0 as one of two inputs."
     ], 
-    "name": "Multiple RTL Kernels (RTL)", 
-    "host": [
-        {
+    "platform_type": "pcie", 
+    "host": {
+        "compiler": {
             "sources": [
+                "REPO_DIR/common/includes/xcl2", 
                 "src/host.cpp"
             ], 
-            "compiler": [
-                {
-                    "includepaths": [
-                        "REPO_DIR/common/includes/xcl2"
-                    ]
-                }
-            ], 
-            "linker": [
-                {
-                    "libraries": [
-                        "xcl2"
-                    ], 
-                    "librarypaths": [
-                        "REPO_DIR/common/includes/"
-                    ]
-                }
-            ], 
-            "host_exe": "host"
-        }
-    ], 
+            "includepaths": [
+                "REPO_DIR/common/includes/xcl2"
+            ]
+        }, 
+        "host_exe": "host"
+    }, 
     "key_concepts": [
         "Multiple RTL Kernels"
     ], 
     "runtime": [
         "OpenCL"
+    ], 
+    "os": [
+        "Linux"
     ], 
     "targets": [
         "hw", 

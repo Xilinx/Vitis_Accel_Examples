@@ -59,6 +59,7 @@ CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps
 
 
 
+
 EXECUTABLE = host
 CMD_ARGS = $(BUILD_DIR)/cnn_GOOD.xclbin $(BUILD_DIR)/cnn_BAD.xclbin
 

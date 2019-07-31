@@ -12,7 +12,7 @@ def create_params(target,data):
     target.write("# Points to Utility Directory\n")
     dirName = os.getcwd()
     dirNameList = list(dirName.split("/"))
-    dirNameIndex = dirNameList.index("ScoutExamples")
+    dirNameIndex = dirNameList.index("VitisExamples")
     diff = len(dirNameList) - dirNameIndex - 1
     target.write("COMMON_REPO = ")
     while diff > 0:

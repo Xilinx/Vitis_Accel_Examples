@@ -13,9 +13,7 @@
         "xilinx:vcu1525:dynamic", 
         "xilinx:aws-vu9p-f1-04261818:dynamic"
     ], 
-    "os": [
-        "Linux"
-    ], 
+    "name": "HBM Simple Vector Addition", 
     "contributors": [
         {
             "url": "http://www.xilinx.com", 
@@ -25,38 +23,21 @@
     "launch": [
         {
             "cmd_args": "BUILD/krnl_vadd.xclbin", 
-            "name": "sw_emu"
+            "name": "generic launch for all flows"
+        }
+    ], 
+    "platform_type": "pcie", 
+    "host": {
+        "compiler": {
+            "sources": [
+                "REPO_DIR/common/includes/xcl2"
+            ], 
+            "includepaths": [
+                "REPO_DIR/common/includes/xcl2"
+            ]
         }, 
-        {
-            "cmd_args": "BUILD/krnl_vadd.xclbin", 
-            "name": "hw_emu"
-        }
-    ], 
-    "description": [
-        "This is a simple example of vector addition to describe how to use HLS kernels with HBM (High Bandwidth Memory) for achieving high throughput."
-    ], 
-    "host": [
-        {
-            "compiler": [
-                {
-                    "includepaths": [
-                        "REPO_DIR/common/includes/xcl2"
-                    ]
-                }
-            ], 
-            "linker": [
-                {
-                    "libraries": [
-                        "xcl2"
-                    ], 
-                    "librarypaths": [
-                        "REPO_DIR/common/includes/"
-                    ]
-                }
-            ], 
-            "host_exe": "host"
-        }
-    ], 
+        "host_exe": "host"
+    }, 
     "key_concepts": [
         "High Bandwidth Memory", 
         "Multiple HBM Banks"
@@ -68,6 +49,9 @@
     ], 
     "runtime": [
         "OpenCL"
+    ], 
+    "os": [
+        "Linux"
     ], 
     "containers": [
         {
@@ -81,5 +65,7 @@
             "name": "krnl_vadd"
         }
     ], 
-    "name": "HBM Simple Vector Addition"
+    "description": [
+        "This is a simple example of vector addition to describe how to use HLS kernels with HBM (High Bandwidth Memory) for achieving high throughput."
+    ]
 }

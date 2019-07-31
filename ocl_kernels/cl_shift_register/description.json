@@ -1,7 +1,5 @@
 {
-    "os": [
-        "Linux"
-    ], 
+    "name": "Shift Register (CL)", 
     "contributors": [
         {
             "url": "http://www.xilinx.com", 
@@ -11,38 +9,21 @@
     "launch": [
         {
             "cmd_args": "BUILD/fir.xclbin", 
-            "name": "sw_emu"
+            "name": "generic launch for all flows"
+        }
+    ], 
+    "platform_type": "pcie", 
+    "host": {
+        "compiler": {
+            "sources": [
+                "REPO_DIR/common/includes/xcl2"
+            ], 
+            "includepaths": [
+                "REPO_DIR/common/includes/xcl2"
+            ]
         }, 
-        {
-            "cmd_args": "BUILD/fir.xclbin", 
-            "name": "hw_emu"
-        }
-    ], 
-    "description": [
-        "This example demonstrates how to shift values in registers in each clock cycle"
-    ], 
-    "host": [
-        {
-            "compiler": [
-                {
-                    "includepaths": [
-                        "REPO_DIR/common/includes/xcl2"
-                    ]
-                }
-            ], 
-            "linker": [
-                {
-                    "libraries": [
-                        "xcl2"
-                    ], 
-                    "librarypaths": [
-                        "REPO_DIR/common/includes/"
-                    ]
-                }
-            ], 
-            "host_exe": "shift_register"
-        }
-    ], 
+        "host_exe": "shift_register"
+    }, 
     "key_concepts": [
         "Kernel Optimization", 
         "Shift Register", 
@@ -54,6 +35,9 @@
     ], 
     "runtime": [
         "OpenCL"
+    ], 
+    "os": [
+        "Linux"
     ], 
     "containers": [
         {
@@ -70,5 +54,7 @@
             "name": "fir"
         }
     ], 
-    "name": "Shift Register (CL)"
+    "description": [
+        "This example demonstrates how to shift values in registers in each clock cycle"
+    ]
 }

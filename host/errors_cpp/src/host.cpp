@@ -217,9 +217,8 @@ int main(int argc, char **argv) {
 
     // read_binary_file() is a utility API which will load the binaryFile
     // and will return pointer to file buffer.
-    unsigned fileBufSize;
-    auto fileBuf = xcl::read_binary_file(binaryFile, fileBufSize);
-    cl::Program::Binaries bins{{fileBuf, fileBufSize}};
+   auto fileBuf = xcl::read_binary_file(binaryFile);
+   cl::Program::Binaries bins{{fileBuf.data(), fileBuf.size()}};
     cl::Program::Binaries invalid_bin;
     devices.resize(1);
 
@@ -341,7 +340,6 @@ int main(int argc, char **argv) {
         }
     }
 
-    delete[] fileBuf;
 
     std::cout << "TEST " << (match ? "PASSED" : "FAILED") << std::endl;
     return (match ? EXIT_SUCCESS : EXIT_FAILURE);

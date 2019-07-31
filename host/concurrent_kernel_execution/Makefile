@@ -58,6 +58,7 @@ LDFLAGS += -lrt -lstdc++
 CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps 
 
 
+
 EXECUTABLE = concurrent_execution
 CMD_ARGS = $(BUILD_DIR)/matrix_ops.xclbin
 

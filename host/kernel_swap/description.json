@@ -1,7 +1,5 @@
 {
-    "os": [
-        "Linux"
-    ], 
+    "name": "Vector Add - Vector Multiplication for XPR Devices", 
     "contributors": [
         {
             "url": "http://www.xilinx.com", 
@@ -11,38 +9,21 @@
     "launch": [
         {
             "cmd_args": "BUILD/krnl_vmul.xclbin BUILD/krnl_vadd.xclbin", 
-            "name": "sw_emu"
+            "name": "generic launch for all flows"
+        }
+    ], 
+    "platform_type": "pcie", 
+    "host": {
+        "compiler": {
+            "sources": [
+                "REPO_DIR/common/includes/xcl2"
+            ], 
+            "includepaths": [
+                "REPO_DIR/common/includes/xcl2"
+            ]
         }, 
-        {
-            "cmd_args": "BUILD/krnl_vmul.xclbin BUILD/krnl_vadd.xclbin", 
-            "name": "hw_emu"
-        }
-    ], 
-    "description": [
-        "This example shows how host can swap the kernels and share same buffer between two kernels which are exist in separate binary containers. Dynamic platforms does not persist the buffer data so host has to migrate data from device to host memory before swapping the next kernel. After kernel swap, host has to migrate the buffer back to device."
-    ], 
-    "host": [
-        {
-            "compiler": [
-                {
-                    "includepaths": [
-                        "REPO_DIR/common/includes/xcl2"
-                    ]
-                }
-            ], 
-            "linker": [
-                {
-                    "libraries": [
-                        "xcl2"
-                    ], 
-                    "librarypaths": [
-                        "REPO_DIR/common/includes/"
-                    ]
-                }
-            ], 
-            "host_exe": "vmulvadd"
-        }
-    ], 
+        "host_exe": "vmulvadd"
+    }, 
     "key_concepts": [
         "Handling Buffer sharing across multiple binaries", 
         "Multiple Kernel Binaries"
@@ -53,6 +34,9 @@
     ], 
     "runtime": [
         "OpenCL"
+    ], 
+    "os": [
+        "Linux"
     ], 
     "containers": [
         {
@@ -76,5 +60,7 @@
             "name": "krnl_vadd"
         }
     ], 
-    "name": "Vector Add - Vector Multiplication for XPR Devices"
+    "description": [
+        "This example shows how host can swap the kernels and share same buffer between two kernels which are exist in separate binary containers. Dynamic platforms does not persist the buffer data so host has to migrate data from device to host memory before swapping the next kernel. After kernel swap, host has to migrate the buffer back to device."
+    ]
 }

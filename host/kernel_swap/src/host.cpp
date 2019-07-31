@@ -38,7 +38,6 @@ int main(int argc, char **argv) {
     }
 
     cl_int err;
-    unsigned fileBufSize;
     std::vector<int, aligned_allocator<int>> h_a(
         LENGTH); //host memory for a vector
     std::vector<int, aligned_allocator<int>> h_b(
@@ -79,8 +78,8 @@ int main(int argc, char **argv) {
     {
         printf("INFO: loading vmul kernel\n");
         std::string vmulBinaryFile = argv[1];
-        auto fileBuf = xcl::read_binary_file(vmulBinaryFile, fileBufSize);
-        cl::Program::Binaries vmul_bins{{fileBuf, fileBufSize}};
+        auto fileBuf = xcl::read_binary_file(vmulBinaryFile);
+        cl::Program::Binaries vmul_bins{{fileBuf.data(), fileBuf.size()}};
         devices.resize(1);
         OCL_CHECK(err,
                   cl::Program program(context, devices, vmul_bins, NULL, &err));
@@ -134,14 +133,13 @@ int main(int argc, char **argv) {
                 break;
             }
         }
-        delete[] fileBuf;
     }
 
     if (match) {
         printf("INFO: loading vadd_krnl\n");
         auto vaddBinaryFile = argv[2];
-        auto fileBuf = xcl::read_binary_file(vaddBinaryFile, fileBufSize);
-        cl::Program::Binaries vadd_bins{{fileBuf, fileBufSize}};
+        auto fileBuf = xcl::read_binary_file(vaddBinaryFile);
+        cl::Program::Binaries vadd_bins{{fileBuf.data(), fileBuf.size()}};
         cl::Program program(context, devices, vadd_bins);
         cl::Kernel krnl_vadd(program, "krnl_vadd");
 
@@ -176,7 +174,6 @@ int main(int argc, char **argv) {
                 break;
             }
         }
-        delete[] fileBuf;
     }
 
     std::cout << "TEST " << (match ? "PASSED" : "FAILED") << std::endl;

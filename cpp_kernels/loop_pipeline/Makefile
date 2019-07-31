@@ -58,6 +58,7 @@ LDFLAGS += -lrt -lstdc++
 CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps 
 
 
+
 EXECUTABLE = loop_pipeline
 CMD_ARGS = $(BUILD_DIR)/vector_addition.xclbin
 

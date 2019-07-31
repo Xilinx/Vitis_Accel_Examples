@@ -48,14 +48,13 @@ Limitation:
 
 #include "multi_krnl.h"
 #include "xcl2.hpp"
+#include <algorithm>
 #include <stdlib.h>
 #include <sys/wait.h>
 #include <unistd.h>
 #include <vector>
-
 bool run_kernel(std::string &binaryFile, int krnl_id) {
     cl_int err;
-    unsigned fileBufSize;
     const char *krnl_names[] = {"krnl_vadd", "krnl_vsub", "krnl_vmul"};
 
     int pid = getpid();
@@ -70,9 +69,9 @@ bool run_kernel(std::string &binaryFile, int krnl_id) {
     std::vector<int, aligned_allocator<int>> result_hw(LENGTH);
 
     /* Create the test data and run the vector addition locally */
+    std::generate(source_a.begin(), source_a.end(), std::rand);
+    std::generate(source_b.begin(), source_b.end(), std::rand);
     for (int i = 0; i < LENGTH; i++) {
-        source_a[i] = rand() % LENGTH;
-        source_b[i] = rand() % LENGTH;
         result_hw[i] = 0;
         switch (krnl_id) {
         case 0:
@@ -101,8 +100,8 @@ bool run_kernel(std::string &binaryFile, int krnl_id) {
 
     printf("\n[PID: %d] Read XCLBIN file\n", pid);
 
-    auto fileBuf = xcl::read_binary_file(binaryFile, fileBufSize);
-    cl::Program::Binaries bins{{fileBuf, fileBufSize}};
+   auto fileBuf = xcl::read_binary_file(binaryFile);
+   cl::Program::Binaries bins{{fileBuf.data(), fileBuf.size()}};
 
     devices.resize(1);
 
@@ -174,7 +173,6 @@ bool run_kernel(std::string &binaryFile, int krnl_id) {
         }
     }
 
-    delete[] fileBuf;
 
     return krnl_match;
 }

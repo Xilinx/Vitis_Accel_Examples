@@ -6,9 +6,7 @@
             }
         ]
     }, 
-    "os": [
-        "Linux"
-    ], 
+    "name": "Large application Splits into Multiple Kernels (C)", 
     "contributors": [
         {
             "url": "http://www.xilinx.com", 
@@ -18,41 +16,26 @@
     "launch": [
         {
             "cmd_args": "BUILD/sketch_GOOD.xclbin BUILD/sketch_BAD.xclbin PROJECT/data/car_128x128.bmp", 
-            "name": "sw_emu"
-        }, 
-        {
-            "cmd_args": "BUILD/sketch_GOOD.xclbin BUILD/sketch_BAD.xclbin PROJECT/data/car_128x128.bmp", 
-            "name": "hw_emu"
+            "name": "generic launch for all flows"
         }
     ], 
     "description": [
         "This is a multi-filter image processing application to showcase effectiveness of Dataflow/Streams usage. This examples is intended to help developers to break down the complex kernels into multiple sub-functions using HLS Dataflow/Streams. It presents a way to concurrently execute multiple functions with better area utilization compared to a complex single kernel implementation. The main objective of this example is to showcase a way to build a optimal FPGA design which achieves maximum frequency with optimal resource utilization and achieves better performance compared to single complex kernel implementations."
     ], 
-    "name": "Large application Splits into Multiple Kernels (C)", 
-    "host": [
-        {
-            "compiler": [
-                {
-                    "includepaths": [
-                        "REPO_DIR/common/includes/xcl2", 
-                        "REPO_DIR/common/includes/bitmap"
-                    ]
-                }
+    "platform_type": "pcie", 
+    "host": {
+        "compiler": {
+            "sources": [
+                "REPO_DIR/common/includes/xcl2", 
+                "REPO_DIR/common/includes/bitmap"
             ], 
-            "linker": [
-                {
-                    "libraries": [
-                        "xcl2", 
-                        "bitmap"
-                    ], 
-                    "librarypaths": [
-                        "REPO_DIR/common/includes/"
-                    ]
-                }
-            ], 
-            "host_exe": "host"
-        }
-    ], 
+            "includepaths": [
+                "REPO_DIR/common/includes/xcl2", 
+                "REPO_DIR/common/includes/bitmap"
+            ]
+        }, 
+        "host_exe": "host"
+    }, 
     "key_concepts": [
         "Dataflow", 
         "Stream"
@@ -66,6 +49,9 @@
     ], 
     "runtime": [
         "OpenCL"
+    ], 
+    "os": [
+        "Linux"
     ], 
     "containers": [
         {

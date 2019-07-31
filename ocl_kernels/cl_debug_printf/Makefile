@@ -59,6 +59,7 @@ CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps
 CLFLAGS += --xp param:compiler.enableAutoPipelining=false
 
 
+
 EXECUTABLE = host
 CMD_ARGS = $(BUILD_DIR)/vadd.xclbin
 

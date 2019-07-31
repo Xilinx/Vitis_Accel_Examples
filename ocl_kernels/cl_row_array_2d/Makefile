@@ -58,6 +58,7 @@ LDFLAGS += -lrt -lstdc++
 CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps 
 
 
+
 EXECUTABLE = host
 CMD_ARGS = $(BUILD_DIR)/row_array_2d.xclbin
 

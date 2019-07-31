@@ -58,6 +58,7 @@ LDFLAGS += -lrt -lstdc++
 CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps 
 
 
+
 EXECUTABLE = array_partition
 CMD_ARGS = $(BUILD_DIR)/matmul.xclbin
 

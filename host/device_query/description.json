@@ -6,21 +6,13 @@
             "group": "Xilinx"
         }
     ], 
-    "host": [
-        {
-            "compiler": [
-                {}
-            ], 
-            "linker": [
-                {
-                    "librarypaths": [
-                        "REPO_DIR/common/includes/"
-                    ]
-                }
-            ], 
-            "host_exe": "device_query"
-        }
-    ], 
+    "platform_type": "pcie", 
+    "host": {
+        "compiler": {
+            "sources": []
+        }, 
+        "host_exe": "device_query"
+    }, 
     "key_concepts": [
         "OpenCL API", 
         "Querying device properties"

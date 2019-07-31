@@ -1,7 +1,5 @@
 {
-    "os": [
-        "Linux"
-    ], 
+    "name": "Copy Buffer (C)", 
     "contributors": [
         {
             "url": "http://www.xilinx.com", 
@@ -11,38 +9,21 @@
     "launch": [
         {
             "cmd_args": "BUILD/vector_addition.xclbin", 
-            "name": "sw_emu"
+            "name": "generic launch for all flows"
+        }
+    ], 
+    "platform_type": "pcie", 
+    "host": {
+        "compiler": {
+            "sources": [
+                "REPO_DIR/common/includes/xcl2"
+            ], 
+            "includepaths": [
+                "REPO_DIR/common/includes/xcl2"
+            ]
         }, 
-        {
-            "cmd_args": "BUILD/vector_addition.xclbin", 
-            "name": "hw_emu"
-        }
-    ], 
-    "description": [
-        "This Copy Buffer example demonstrate how one buffer can be copied from another buffer."
-    ], 
-    "host": [
-        {
-            "compiler": [
-                {
-                    "includepaths": [
-                        "REPO_DIR/common/includes/xcl2"
-                    ]
-                }
-            ], 
-            "linker": [
-                {
-                    "libraries": [
-                        "xcl2"
-                    ], 
-                    "librarypaths": [
-                        "REPO_DIR/common/includes/"
-                    ]
-                }
-            ], 
-            "host_exe": "host"
-        }
-    ], 
+        "host_exe": "host"
+    }, 
     "key_concepts": [
         "Copy Buffer"
     ], 
@@ -51,6 +32,9 @@
     ], 
     "runtime": [
         "OpenCL"
+    ], 
+    "os": [
+        "Linux"
     ], 
     "containers": [
         {
@@ -63,5 +47,7 @@
             "name": "vector_addition"
         }
     ], 
-    "name": "Copy Buffer (C)"
+    "description": [
+        "This Copy Buffer example demonstrate how one buffer can be copied from another buffer."
+    ]
 }

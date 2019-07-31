@@ -60,6 +60,7 @@ CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps
 CLFLAGS += -DBAD_DESIGN=0
 
 
+
 EXECUTABLE = host
 CMD_ARGS = $(BUILD_DIR)/apply_watermark_GOOD.xclbin ./data/input.bmp ./data/golden.bmp
 

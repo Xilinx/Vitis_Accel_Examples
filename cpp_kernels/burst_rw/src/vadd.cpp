@@ -64,11 +64,12 @@ void vadd(int *a, int size, int inc_value) {
         //boundary checks
         if ((i + BURSTBUFFERSIZE) > size)
             chunk_size = size - i;
-
-        //memcpy creates a burst access to memory
-        //multiple calls of memcpy cannot be pipelined and will be scheduled sequentially
-        //memcpy requires a local buffer to store the results of the memory transaction
-        memcpy(burstbuffer, &a[i], chunk_size * sizeof(int));
+        //burst read
+        for (int j = 0; j < chunk_size; j++) {
+           #pragma HLS LOOP_TRIPCOUNT min = c_size_min max = c_size_max
+           #pragma HLS PIPELINE II=1
+            burstbuffer[j] = a[i + j];
+        }
 
     //calculate and write results to global memory, the sequential write in a for loop can be inferred to a memory burst access
     calc_write:

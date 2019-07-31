@@ -53,13 +53,13 @@ CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++14
 LDFLAGS += $(opencl_LDFLAGS)
 
 HOST_SRCS += ./src/host.cpp ./src/cluster.c ./src/rmse.c ./src/fpga_kmeans.cpp ./src/kmeans_clustering_cmodel.c 
-
 # Host compiler global settings
 CXXFLAGS += -fmessage-length=0
 LDFLAGS += -lrt -lstdc++ 
 
 # Kernel compiler global settings
 CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps 
+
 
 
 EXECUTABLE = host_kmeans

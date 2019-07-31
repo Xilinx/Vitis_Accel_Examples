@@ -1,7 +1,5 @@
 {
-    "os": [
-        "Linux"
-    ], 
+    "name": "Array Partition (HLS C/C++ Kernel)", 
     "contributors": [
         {
             "url": "http://www.xilinx.com", 
@@ -11,38 +9,21 @@
     "launch": [
         {
             "cmd_args": "BUILD/matmul.xclbin", 
-            "name": "sw_emu"
+            "name": "generic launch for all flows"
+        }
+    ], 
+    "platform_type": "pcie", 
+    "host": {
+        "compiler": {
+            "sources": [
+                "REPO_DIR/common/includes/xcl2"
+            ], 
+            "includepaths": [
+                "REPO_DIR/common/includes/xcl2"
+            ]
         }, 
-        {
-            "cmd_args": "BUILD/matmul.xclbin", 
-            "name": "hw_emu"
-        }
-    ], 
-    "description": [
-        "This is a simple example of matrix multiplication (Row x Col) to demonstrate how to achieve better performance by array partitioning, using HLS kernel in SDx Environment."
-    ], 
-    "host": [
-        {
-            "compiler": [
-                {
-                    "includepaths": [
-                        "REPO_DIR/common/includes/xcl2"
-                    ]
-                }
-            ], 
-            "linker": [
-                {
-                    "libraries": [
-                        "xcl2"
-                    ], 
-                    "librarypaths": [
-                        "REPO_DIR/common/includes/"
-                    ]
-                }
-            ], 
-            "host_exe": "array_partition"
-        }
-    ], 
+        "host_exe": "array_partition"
+    }, 
     "key_concepts": [
         "Kernel Optimization", 
         "HLS C Kernel", 
@@ -54,6 +35,9 @@
     ], 
     "runtime": [
         "OpenCL"
+    ], 
+    "os": [
+        "Linux"
     ], 
     "containers": [
         {
@@ -70,5 +54,7 @@
             "name": "matmul"
         }
     ], 
-    "name": "Array Partition (HLS C/C++ Kernel)"
+    "description": [
+        "This is a simple example of matrix multiplication (Row x Col) to demonstrate how to achieve better performance by array partitioning, using HLS kernel in SDx Environment."
+    ]
 }

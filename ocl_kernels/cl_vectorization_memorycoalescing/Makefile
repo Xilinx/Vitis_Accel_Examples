@@ -59,6 +59,7 @@ CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps
 CLFLAGS +=  --max_memory_ports vec_add
 
 
+
 EXECUTABLE = host
 CMD_ARGS = $(BUILD_DIR)/vector_addition.xclbin
 

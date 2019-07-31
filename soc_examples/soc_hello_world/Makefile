@@ -36,29 +36,28 @@ DSA := $(call device2dsa, $(DEVICE))
 TEMP_DIR := ./_x.$(TARGET).$(DSA)
 BUILD_DIR := ./build_dir.$(TARGET).$(DSA)
 
-CXX := ${XILINX_SCOUT}/gnu/aarch64/lin/aarch64-linux/bin/aarch64-linux-gnu-g++
-XOCC := ${XILINX_SCOUT}/bin/v++
+CXX := $(XILINX_SCOUT)/bin/xcpp
+XOCC := v++
 
 #Include Libraries
 include $(ABS_COMMON_REPO)/common/includes/opencl/opencl.mk
-include $(ABS_COMMON_REPO)/common/includes/xcl2/xcl2.mk
-CXXFLAGS += $(xcl2_CXXFLAGS)
-LDFLAGS += $(xcl2_LDFLAGS)
-HOST_SRCS += $(xcl2_SRCS)
+
 CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++14
 LDFLAGS += $(opencl_LDFLAGS)
 
 HOST_SRCS += src/host.cpp
 
 # Host compiler global settings
-CXXFLAGS += -D__USE_XOPEN2K8 -fmessage-length=0 --sysroot=/proj/fisdata/fisusr/scripts/sdx_common/sysroot_temp/a53_revmin/sysroots/aarch64-xilinx-linux 
-LDFLAGS += -lrt -lstdc++ -ldl -lcrypt --sysroot=/proj/fisdata/fisusr/scripts/sdx_common/sysroot_temp/a53_revmin/sysroots/aarch64-xilinx-linux
+CXXFLAGS += -fmessage-length=0
+LDFLAGS += -lrt -lstdc++ 
 
 # Kernel compiler global settings
 CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps 
 
+
+
 EXECUTABLE = host
-CMD_ARGS = $(BUILD_DIR)/krnl_vadd.xclbin
+CMD_ARGS = $(BUILD_DIR)/vector_addition.xclbin
 
 EMCONFIG_DIR = $(TEMP_DIR)
 
@@ -82,7 +81,7 @@ $(TEMP_DIR)/krnl_vadd.xo: src/krnl_vadd.cl
 	$(XOCC) $(CLFLAGS) --temp_dir $(TEMP_DIR) -c -k krnl_vadd -I'$(<D)' -o'$@' '$<'
 $(BUILD_DIR)/krnl_vadd.xclbin: $(BINARY_CONTAINER_krnl_vadd_OBJS)
 	mkdir -p $(BUILD_DIR)
-	$(XOCC) $(CLFLAGS) --temp_dir $(BUILD_DIR) -l $(LDCLFLAGS) --nk krnl_vadd:1 -o'$@' $(+) --sys_config xrt
+	$(XOCC) $(CLFLAGS) --temp_dir $(BUILD_DIR) -l $(LDCLFLAGS) --nk krnl_vadd:1 -o'$@' $(+)
 
 # Building Host
 $(EXECUTABLE): check-xrt $(HOST_SRCS) $(HOST_HDRS)
@@ -129,11 +128,12 @@ endif
 ifeq ($(findstring xilinx:u250:qdma, $(DEVICE)), xilinx:u250:qdma)
 $(error Nothing to be done for make)
 endif
+
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 	$(CP) $(EMCONFIG_DIR)/emconfig.json .
-	XCL_EMULATION_MODE=$(TARGET) ./$(EXECUTABLE) $(BUILD_DIR)/krnl_vadd.xclbin
+	XCL_EMULATION_MODE=$(TARGET) ./$(EXECUTABLE) $(BUILD_DIR)/vector_addition.xclbin
 else
-	 ./$(EXECUTABLE) $(BUILD_DIR)/krnl_vadd.xclbin
+	 ./$(EXECUTABLE) $(BUILD_DIR)/vector_addition.xclbin
 endif
 	sdx_analyze profile -i profile_summary.csv -f html
 
@@ -152,3 +152,4 @@ clean:
 cleanall: clean
 	-$(RMDIR) build_dir*
 	-$(RMDIR) _x.*
+

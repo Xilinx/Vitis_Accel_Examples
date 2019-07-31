@@ -1,7 +1,5 @@
 {
-    "os": [
-        "Linux"
-    ], 
+    "name": "Blocking Pipes (CL)", 
     "contributors": [
         {
             "url": "http://www.xilinx.com", 
@@ -11,38 +9,21 @@
     "launch": [
         {
             "cmd_args": "BUILD/adder.xclbin", 
-            "name": "sw_emu"
+            "name": "generic launch for all flows"
+        }
+    ], 
+    "platform_type": "pcie", 
+    "host": {
+        "compiler": {
+            "sources": [
+                "REPO_DIR/common/includes/xcl2"
+            ], 
+            "includepaths": [
+                "REPO_DIR/common/includes/xcl2"
+            ]
         }, 
-        {
-            "cmd_args": "BUILD/adder.xclbin", 
-            "name": "hw_emu"
-        }
-    ], 
-    "description": [
-        "This is simple example of vector addition to demonstrate OpenCL Pipe Memory usage. OpenCL PIPE memory functionality allows user to achieve kernel-to-kernel data transfer without using global memory."
-    ], 
-    "host": [
-        {
-            "compiler": [
-                {
-                    "includepaths": [
-                        "REPO_DIR/common/includes/xcl2"
-                    ]
-                }
-            ], 
-            "linker": [
-                {
-                    "libraries": [
-                        "xcl2"
-                    ], 
-                    "librarypaths": [
-                        "REPO_DIR/common/includes/"
-                    ]
-                }
-            ], 
-            "host_exe": "host"
-        }
-    ], 
+        "host_exe": "host"
+    }, 
     "key_concepts": [
         "Dataflow", 
         "kernel to kernel pipes"
@@ -55,6 +36,9 @@
     ], 
     "runtime": [
         "OpenCL"
+    ], 
+    "os": [
+        "Linux"
     ], 
     "containers": [
         {
@@ -75,5 +59,7 @@
             "name": "adder"
         }
     ], 
-    "name": "Blocking Pipes (CL)"
+    "description": [
+        "This is simple example of vector addition to demonstrate OpenCL Pipe Memory usage. OpenCL PIPE memory functionality allows user to achieve kernel-to-kernel data transfer without using global memory."
+    ]
 }

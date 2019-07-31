@@ -58,6 +58,7 @@ LDFLAGS += -lrt -lstdc++
 CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps 
 
 
+
 EXECUTABLE = data_transfer
 CMD_ARGS = $(BUILD_DIR)/dummy_kernel.xclbin
 

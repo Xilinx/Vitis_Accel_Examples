@@ -30,6 +30,7 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <fenv.h>
 #include <math.h>
 #include <vector>
+#include <algorithm>
 
 float get_rand() {
     float ret = ((float)rand() / (float)(RAND_MAX)) * 1.0f - 0.5f;
@@ -90,14 +91,13 @@ int main(int argc, char *argv[]) {
 
     float sum = 0;
     /* Create the test data and run the vector addition locally */
+    std::generate(in.begin(),in.end(),get_rand);	
     for (unsigned i = 0; i < length; i++) {
-        in[i] = get_rand();
         out[i] = (sum += in[i]);
     }
 
     //OPENCL HOST CODE AREA START
     cl_int err;
-    unsigned fileBufSize;
     auto devices = xcl::get_xil_devices();
     auto device = devices[0];
 
@@ -107,8 +107,8 @@ int main(int argc, char *argv[]) {
         cl::CommandQueue q(context, device, CL_QUEUE_PROFILING_ENABLE, &err));
     std::string device_name = device.getInfo<CL_DEVICE_NAME>();
 
-    auto fileBuf = xcl::read_binary_file(binaryFile, fileBufSize);
-    cl::Program::Binaries bins{{fileBuf, fileBufSize}};
+   auto fileBuf = xcl::read_binary_file(binaryFile);
+   cl::Program::Binaries bins{{fileBuf.data(), fileBuf.size()}};
     devices.resize(1);
     OCL_CHECK(err, cl::Program program(context, devices, bins, NULL, &err));
     OCL_CHECK(err, cl::Kernel krnl(program, "krnl_sum_scan", &err));
@@ -187,7 +187,6 @@ int main(int argc, char *argv[]) {
         }
     }
 
-    delete[] fileBuf;
 
     printf("Success! Kernel took %ld ns to execute\n", duration);
     std::cout << "TEST " << (krnl_match ? "FAILED" : "PASSED") << std::endl;

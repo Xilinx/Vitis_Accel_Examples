@@ -26,35 +26,21 @@
     "launch": [
         {
             "cmd_args": "BUILD/krnl_vaddmul.xclbin", 
-            "name": "sw_emu"
+            "name": "generic launch for all flows"
+        }
+    ], 
+    "platform_type": "pcie", 
+    "host": {
+        "compiler": {
+            "sources": [
+                "REPO_DIR/common/includes/xcl2"
+            ], 
+            "includepaths": [
+                "REPO_DIR/common/includes/xcl2"
+            ]
         }, 
-        {
-            "cmd_args": "BUILD/krnl_vaddmul.xclbin", 
-            "name": "hw_emu"
-        }
-    ], 
-    "host": [
-        {
-            "compiler": [
-                {
-                    "includepaths": [
-                        "REPO_DIR/common/includes/xcl2"
-                    ]
-                }
-            ], 
-            "linker": [
-                {
-                    "libraries": [
-                        "xcl2"
-                    ], 
-                    "librarypaths": [
-                        "REPO_DIR/common/includes/"
-                    ]
-                }
-            ], 
-            "host_exe": "host"
-        }
-    ], 
+        "host_exe": "host"
+    }, 
     "runtime": [
         "OpenCL"
     ], 
@@ -62,9 +48,9 @@
         {
             "accelerators": [
                 {
-                    "num_compute_units": "8", 
                     "location": "src/krnl_vaddmul.cpp", 
-                    "name": "krnl_vaddmul"
+                    "name": "krnl_vaddmul", 
+                    "num_compute_units": "8"
                 }
             ], 
             "ldclflags": "--sp krnl_vaddmul_1.m_axi_gmem0:HBM[0] --sp krnl_vaddmul_1.m_axi_gmem1:HBM[1] --sp krnl_vaddmul_1.m_axi_gmem2:HBM[2] --sp krnl_vaddmul_1.m_axi_gmem3:HBM[3] --sp krnl_vaddmul_2.m_axi_gmem0:HBM[4] --sp krnl_vaddmul_2.m_axi_gmem1:HBM[5] --sp krnl_vaddmul_2.m_axi_gmem2:HBM[6] --sp krnl_vaddmul_2.m_axi_gmem3:HBM[7] --sp krnl_vaddmul_3.m_axi_gmem0:HBM[8] --sp krnl_vaddmul_3.m_axi_gmem1:HBM[9] --sp krnl_vaddmul_3.m_axi_gmem2:HBM[10] --sp krnl_vaddmul_3.m_axi_gmem3:HBM[11] --sp krnl_vaddmul_4.m_axi_gmem0:HBM[12] --sp krnl_vaddmul_4.m_axi_gmem1:HBM[13] --sp krnl_vaddmul_4.m_axi_gmem2:HBM[14] --sp krnl_vaddmul_4.m_axi_gmem3:HBM[15] --sp krnl_vaddmul_5.m_axi_gmem0:HBM[16] --sp krnl_vaddmul_5.m_axi_gmem1:HBM[17] --sp krnl_vaddmul_5.m_axi_gmem2:HBM[18] --sp krnl_vaddmul_5.m_axi_gmem3:HBM[19] --sp krnl_vaddmul_6.m_axi_gmem0:HBM[20] --sp krnl_vaddmul_6.m_axi_gmem1:HBM[21] --sp krnl_vaddmul_6.m_axi_gmem2:HBM[22] --sp krnl_vaddmul_6.m_axi_gmem3:HBM[23] --sp krnl_vaddmul_7.m_axi_gmem0:HBM[24] --sp krnl_vaddmul_7.m_axi_gmem1:HBM[25] --sp krnl_vaddmul_7.m_axi_gmem2:HBM[26] --sp krnl_vaddmul_7.m_axi_gmem3:HBM[27] --sp krnl_vaddmul_8.m_axi_gmem0:HBM[28] --sp krnl_vaddmul_8.m_axi_gmem1:HBM[29] --sp krnl_vaddmul_8.m_axi_gmem2:HBM[30] --sp krnl_vaddmul_8.m_axi_gmem3:HBM[31]", 

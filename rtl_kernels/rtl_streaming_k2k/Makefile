@@ -52,13 +52,13 @@ CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++14
 LDFLAGS += $(opencl_LDFLAGS)
 
 HOST_SRCS += src/host.cpp 
-
 # Host compiler global settings
 CXXFLAGS += -fmessage-length=0
 LDFLAGS += -lrt -lstdc++ 
 
 # Kernel compiler global settings
 CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps 
+
 
 # Kernel linker flags
 LDCLFLAGS += --sc myadder1_1.out:myadder2_1.in

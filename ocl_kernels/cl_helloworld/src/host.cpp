@@ -49,7 +49,6 @@ int main(int argc, char **argv) {
     // compute the size of array in bytes
     size_t size_in_bytes = DATA_SIZE * sizeof(int);
     cl_int err;
-    unsigned fileBufSize;
 
     // Creates a vector of DATA_SIZE elements with an initial value of 10 and 32
     vector<int, aligned_allocator<int>> source_a(DATA_SIZE, 10);
@@ -73,8 +72,8 @@ int main(int argc, char **argv) {
     // xocc compiler load into OpenCL Binary and return a pointer to file buffer
     // and it can contain many functions which can be executed on the
     // device.
-    auto fileBuf = xcl::read_binary_file(binaryFile, fileBufSize);
-    cl::Program::Binaries bins{{fileBuf, fileBufSize}};
+    auto fileBuf = xcl::read_binary_file(binaryFile);
+    cl::Program::Binaries bins{{fileBuf.data(), fileBuf.size()}};
     devices.resize(1);
     OCL_CHECK(err, cl::Program program(context, devices, bins, NULL, &err));
 
@@ -146,8 +145,6 @@ int main(int argc, char **argv) {
                 printf("\n");
         }
     }
-
-    delete[] fileBuf;
 
     std::cout << "TEST " << (match ? "FAILED" : "PASSED") << std::endl;
     return (match ? EXIT_FAILURE : EXIT_SUCCESS);

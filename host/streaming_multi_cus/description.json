@@ -11,9 +11,7 @@
         "xilinx:u280-es1:xdma", 
         "xilinx:aws-vu9p-f1-04261818:dynamic"
     ], 
-    "os": [
-        "Linux"
-    ], 
+    "name": "Stream Vector Addition (Multiple Compute Units)", 
     "contributors": [
         {
             "url": "http://www.xilinx.com", 
@@ -23,61 +21,49 @@
     "launch": [
         {
             "cmd_args": "BUILD/krnl_stream_vadd.xclbin", 
-            "name": "sw_emu"
-        }, 
-        {
-            "cmd_args": "BUILD/krnl_stream_vadd.xclbin", 
-            "name": "hw_emu"
+            "name": "generic launch for all flows"
         }
     ], 
     "description": [
         "This is a simple Vector Add C Kernel design with 2 Stream inputs and 1 Stream output that demonstrates on how to process an input stream of data for computation in an application using multiple compute units."
-    ], 
-    "host": [
-        {
-            "compiler": [
-                {
-                    "includepaths": [
-                        "REPO_DIR/common/includes/xcl2"
-                    ]
-                }
-            ], 
-            "linker": [
-                {
-                    "libraries": [
-                        "xcl2"
-                    ], 
-                    "librarypaths": [
-                        "REPO_DIR/common/includes/"
-                    ]
-                }
-            ], 
-            "host_exe": "vadd_stream"
-        }
-    ], 
-    "key_concepts": [
-        "Read/Write Stream", 
-        "Create/Release Stream"
     ], 
     "keywords": [
         "cl_stream", 
         "CL_STREAM_EOT", 
         "Multiple Compute Units"
     ], 
+    "host": {
+        "compiler": {
+            "sources": [
+                "REPO_DIR/common/includes/xcl2"
+            ], 
+            "includepaths": [
+                "REPO_DIR/common/includes/xcl2"
+            ]
+        }, 
+        "host_exe": "vadd_stream"
+    }, 
+    "key_concepts": [
+        "Read/Write Stream", 
+        "Create/Release Stream"
+    ], 
     "runtime": [
         "OpenCL"
+    ], 
+    "os": [
+        "Linux"
     ], 
     "containers": [
         {
             "accelerators": [
                 {
-                    "location": "src/krnl_stream_vadd.cpp", 
+                    "num_compute_units": "4:vadd_1.vadd_2.vadd_3.vadd_4", 
                     "name": "krnl_stream_vadd", 
-                    "num_compute_units": "4:vadd_1.vadd_2.vadd_3.vadd_4"
+                    "location": "src/krnl_stream_vadd.cpp"
                 }
             ], 
             "name": "krnl_stream_vadd"
         }
     ], 
-    "name": "Stream Vector Addition (Multiple Compute Units)"
+    "platform_type": "pcie"
 }

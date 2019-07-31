@@ -1,7 +1,5 @@
 {
-    "os": [
-        "Linux"
-    ], 
+    "name": "Burst Read/Write (C)", 
     "contributors": [
         {
             "url": "http://www.xilinx.com", 
@@ -11,40 +9,23 @@
     "launch": [
         {
             "cmd_args": "BUILD/vadd.xclbin", 
-            "name": "sw_emu"
+            "name": "generic launch for all flows"
+        }
+    ], 
+    "platform_type": "pcie", 
+    "host": {
+        "compiler": {
+            "sources": [
+                "REPO_DIR/common/includes/xcl2", 
+                "REPO_DIR/common/includes/bitmap"
+            ], 
+            "includepaths": [
+                "REPO_DIR/common/includes/xcl2", 
+                "REPO_DIR/common/includes/bitmap"
+            ]
         }, 
-        {
-            "cmd_args": "BUILD/vadd.xclbin", 
-            "name": "hw_emu"
-        }
-    ], 
-    "description": [
-        "This is simple example of using AXI4-master interface for burst read and write"
-    ], 
-    "host": [
-        {
-            "compiler": [
-                {
-                    "includepaths": [
-                        "REPO_DIR/common/includes/xcl2", 
-                        "REPO_DIR/common/includes/bitmap"
-                    ]
-                }
-            ], 
-            "linker": [
-                {
-                    "libraries": [
-                        "xcl2", 
-                        "bitmap"
-                    ], 
-                    "librarypaths": [
-                        "REPO_DIR/common/includes/"
-                    ]
-                }
-            ], 
-            "host_exe": "host"
-        }
-    ], 
+        "host_exe": "host"
+    }, 
     "key_concepts": [
         "burst access"
     ], 
@@ -55,6 +36,9 @@
     ], 
     "runtime": [
         "OpenCL"
+    ], 
+    "os": [
+        "Linux"
     ], 
     "containers": [
         {
@@ -67,5 +51,7 @@
             "name": "vadd"
         }
     ], 
-    "name": "Burst Read/Write (C)"
+    "description": [
+        "This is simple example of using AXI4-master interface for burst read and write"
+    ]
 }

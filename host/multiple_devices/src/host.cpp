@@ -54,7 +54,6 @@ int main(int argc, char **argv) {
     auto binaryFile = argv[1];
 
     cl_int err = CL_SUCCESS;
-    unsigned fileBufSize;
 
     //OPENCL HOST CODE AREA START
     // get_xil_devices() is a utility API which will find the Xilinx
@@ -81,7 +80,7 @@ int main(int argc, char **argv) {
     vector<cl::Buffer> buffer_result(device_count);
     vector<cl::Program::Binaries> bins(device_count);
     vector<cl::Platform> platform;
-    char *fileBuf[device_count];
+    std::vector<unsigned char> fileBuf[device_count];
     OCL_CHECK(err, err = cl::Platform::get(&platform));
 
     size_t size_per_device = elements_per_device * sizeof(int);
@@ -103,8 +102,8 @@ int main(int argc, char **argv) {
 
         // read_binary_file() ia a utility API which will load the binaryFile
         // and will return pointer to file buffer.
-        fileBuf[d] = xcl::read_binary_file(binaryFile, fileBufSize);
-        bins[d].push_back({fileBuf[d], fileBufSize});
+        fileBuf[d] = xcl::read_binary_file(binaryFile);
+        bins[d].push_back({fileBuf[d].data(), fileBuf[d].size()});
         programs[d] = load_cl2_binary(bins[d], devices[d], contexts[d]);
         OCL_CHECK(err, kernels[d] = cl::Kernel(programs[d], "vadd", &err));
 
@@ -169,8 +168,6 @@ int main(int argc, char **argv) {
         OCL_CHECK(err, err = queue.finish());
     }
 
-    for (int d = 0; d < (int)device_count; d++)
-        delete[] fileBuf[d];
     //OPENCL HOST CODE AREA ENDS
     bool match = true;
     for (int i = 0; i < elements; i++) {

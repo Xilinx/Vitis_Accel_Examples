@@ -3,9 +3,7 @@
         "xilinx_aws-vu9p-f1-04261818", 
         "xilinx:aws-vu9p-f1-04261818:dynamic"
     ], 
-    "os": [
-        "Linux"
-    ], 
+    "name": "Global Memory Two Banks (C)", 
     "contributors": [
         {
             "url": "http://www.xilinx.com", 
@@ -15,51 +13,39 @@
     "launch": [
         {
             "cmd_args": "BUILD/apply_watermark.xclbin PROJECT/data/input.bmp PROJECT/data/golden.bmp", 
-            "name": "sw_emu"
-        }, 
-        {
-            "cmd_args": "BUILD/apply_watermark.xclbin PROJECT/data/input.bmp PROJECT/data/golden.bmp", 
-            "name": "hw_emu"
+            "name": "generic launch for all flows"
         }
     ], 
     "description": [
         "This example of 2ddr to demonstrate on how to use 2ddr DSA. How to create buffers in each DDR."
     ], 
-    "name": "Global Memory Two Banks (C)", 
+    "platform_type": "pcie", 
+    "host": {
+        "compiler": {
+            "sources": [
+                "REPO_DIR/common/includes/xcl2", 
+                "REPO_DIR/common/includes/bitmap"
+            ], 
+            "includepaths": [
+                "REPO_DIR/common/includes/xcl2", 
+                "REPO_DIR/common/includes/bitmap"
+            ]
+        }, 
+        "host_exe": "host"
+    }, 
+    "key_concepts": [
+        "Multiple Banks"
+    ], 
     "keywords": [
         "max_memory_ports", 
         "misc:map_connect", 
         "HLS Interface m_axi bundle"
     ], 
-    "host": [
-        {
-            "compiler": [
-                {
-                    "includepaths": [
-                        "REPO_DIR/common/includes/xcl2", 
-                        "REPO_DIR/common/includes/bitmap"
-                    ]
-                }
-            ], 
-            "linker": [
-                {
-                    "libraries": [
-                        "xcl2", 
-                        "bitmap"
-                    ], 
-                    "librarypaths": [
-                        "REPO_DIR/common/includes/"
-                    ]
-                }
-            ], 
-            "host_exe": "host"
-        }
-    ], 
-    "key_concepts": [
-        "Multiple Banks"
-    ], 
     "runtime": [
         "OpenCL"
+    ], 
+    "os": [
+        "Linux"
     ], 
     "containers": [
         {

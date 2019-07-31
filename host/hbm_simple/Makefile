@@ -57,6 +57,7 @@ LDFLAGS += -lrt -lstdc++
 # Kernel compiler global settings
 CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps 
 
+
 # Kernel linker flags
 LDCLFLAGS += --sp krnl_vadd_1.m_axi_gmem0:HBM[0:3] --sp krnl_vadd_1.m_axi_gmem1:HBM[0:3]
 

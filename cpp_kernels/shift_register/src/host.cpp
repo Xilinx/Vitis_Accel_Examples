@@ -73,7 +73,6 @@ int main(int argc, char **argv) {
     std::string binaryFile = argv[1];
     size_t signal_size = xcl::is_emulation() ? SIGNAL_SIZE_IN_EMU : SIGNAL_SIZE;
     cl_int err;
-    unsigned fileBufSize;
 
     vector<int, aligned_allocator<int>> signal(signal_size);
     vector<int, aligned_allocator<int>> out(signal_size);
@@ -99,8 +98,8 @@ int main(int argc, char **argv) {
               std::string device_name = device.getInfo<CL_DEVICE_NAME>(&err));
 
     //Create Program
-    auto fileBuf = xcl::read_binary_file(binaryFile, fileBufSize);
-    cl::Program::Binaries bins{{fileBuf, fileBufSize}};
+   auto fileBuf = xcl::read_binary_file(binaryFile);
+   cl::Program::Binaries bins{{fileBuf.data(), fileBuf.size()}};
     devices.resize(1);
     OCL_CHECK(err, cl::Program program(context, devices, bins, NULL, &err));
 
@@ -171,7 +170,6 @@ int main(int argc, char **argv) {
         fir_sr_time += get_duration_ns(event);
         verify(gold, out);
     }
-    delete[] fileBuf;
     printf("Example Testdata Signal_Length=%lu for %d iteration\n",
            signal_size,
            iterations);

@@ -90,7 +90,6 @@ int main(int argc, char **argv) {
     static const int num_points = 512;
     static const int num_dims = 2;
     cl_int err;
-    unsigned fileBufSize;
 
     vector<int, aligned_allocator<int>> data(num_points * num_dims);
     vector<int, aligned_allocator<int>> input(1 * num_dims);
@@ -121,8 +120,8 @@ int main(int argc, char **argv) {
               std::string device_name = device.getInfo<CL_DEVICE_NAME>(&err));
 
     //Create Program
-    auto fileBuf = xcl::read_binary_file(binaryFile, fileBufSize);
-    cl::Program::Binaries bins{{fileBuf, fileBufSize}};
+   auto fileBuf = xcl::read_binary_file(binaryFile);
+   cl::Program::Binaries bins{{fileBuf.data(), fileBuf.size()}};
     devices.resize(1);
     OCL_CHECK(err, cl::Program program(context, devices, bins, NULL, &err));
 
@@ -211,7 +210,6 @@ int main(int argc, char **argv) {
     q.finish();
 
     verify(gold, out);
-    delete[] fileBuf;
     printf("|--------------------------------+-------------------------|\n");
     printf("Note: Wall Clock Time is meaningful for real hardware execution "
            "only, not for emulation.\n");

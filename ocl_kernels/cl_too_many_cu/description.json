@@ -6,9 +6,7 @@
             }
         ]
     }, 
-    "os": [
-        "Linux"
-    ], 
+    "name": "Clock Frequency ~ Too Many Compute Units (CL) ", 
     "contributors": [
         {
             "url": "http://www.xilinx.com", 
@@ -18,38 +16,21 @@
     "launch": [
         {
             "cmd_args": "BUILD/vadd_GOOD.xclbin BUILD/vadd_BAD.xclbin", 
-            "name": "sw_emu"
+            "name": "generic launch for all flows"
+        }
+    ], 
+    "platform_type": "pcie", 
+    "host": {
+        "compiler": {
+            "sources": [
+                "REPO_DIR/common/includes/xcl2"
+            ], 
+            "includepaths": [
+                "REPO_DIR/common/includes/xcl2"
+            ]
         }, 
-        {
-            "cmd_args": "BUILD/vadd_GOOD.xclbin BUILD/vadd_BAD.xclbin", 
-            "name": "hw_emu"
-        }
-    ], 
-    "description": [
-        "This is simple example of vector addition to demonstrate effectiveness of using single compute unit with heavy work load to achieve better performance. Bad example uses multiple compute units to achieve good performance but it results in heavy usage of FPGA resources and area due to which design fails timing. Good example uses single compute unit to compute with heavier work load, it helps in less resource utilization and also helps in kernel scalability. To switch between Good/Bad cases use the flag provided in makefile."
-    ], 
-    "host": [
-        {
-            "compiler": [
-                {
-                    "includepaths": [
-                        "REPO_DIR/common/includes/xcl2"
-                    ]
-                }
-            ], 
-            "linker": [
-                {
-                    "libraries": [
-                        "xcl2"
-                    ], 
-                    "librarypaths": [
-                        "REPO_DIR/common/includes/"
-                    ]
-                }
-            ], 
-            "host_exe": "host"
-        }
-    ], 
+        "host_exe": "host"
+    }, 
     "key_concepts": [
         "Clock Frequency", 
         "Data Level Parallelism", 
@@ -61,6 +42,9 @@
     ], 
     "runtime": [
         "OpenCL"
+    ], 
+    "os": [
+        "Linux"
     ], 
     "containers": [
         {
@@ -75,13 +59,15 @@
         {
             "accelerators": [
                 {
-                    "num_compute_units": "8", 
                     "location": "src/vadd_bad.cl", 
-                    "name": "vadd_BAD"
+                    "name": "vadd_BAD", 
+                    "num_compute_units": "8"
                 }
             ], 
             "name": "vadd_BAD"
         }
     ], 
-    "name": "Clock Frequency ~ Too Many Compute Units (CL) "
+    "description": [
+        "This is simple example of vector addition to demonstrate effectiveness of using single compute unit with heavy work load to achieve better performance. Bad example uses multiple compute units to achieve good performance but it results in heavy usage of FPGA resources and area due to which design fails timing. Good example uses single compute unit to compute with heavier work load, it helps in less resource utilization and also helps in kernel scalability. To switch between Good/Bad cases use the flag provided in makefile."
+    ]
 }

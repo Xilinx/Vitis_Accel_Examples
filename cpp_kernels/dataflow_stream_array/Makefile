@@ -58,6 +58,7 @@ LDFLAGS += -lrt -lstdc++
 CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps 
 CLFLAGS += --xp param:compiler.axiDeadLockFree=yes
 
+
 # Kernel linker flags
 LDCLFLAGS += --xp param:compiler.axiDeadLockFree=yes
 

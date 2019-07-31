@@ -60,6 +60,7 @@ CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps
 
 
 
+
 EXECUTABLE = host
 CMD_ARGS = $(BUILD_DIR)/sketch_GOOD.xclbin $(BUILD_DIR)/sketch_BAD.xclbin ./data/car_128x128.bmp
 

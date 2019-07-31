@@ -11,9 +11,7 @@
         "xilinx_aws-vu9p-f1-04261818", 
         "xilinx:aws-vu9p-f1-04261818:dynamic"
     ], 
-    "os": [
-        "Linux"
-    ], 
+    "name": "kernel_global", 
     "contributors": [
         {
             "url": "http://www.xilinx.com", 
@@ -23,43 +21,27 @@
     "launch": [
         {
             "cmd_args": "BUILD/krnl_kernel_global.xclbin", 
-            "name": "sw_emu"
-        }, 
-        {
-            "cmd_args": "BUILD/krnl_kernel_global.xclbin", 
-            "name": "hw_emu"
+            "name": "generic launch for all flows"
         }
     ], 
-    "description": [
-        "Bandwidth test of global to local memory."
-    ], 
-    "host": [
-        {
+    "platform_type": "pcie", 
+    "host": {
+        "compiler": {
             "sources": [
+                "REPO_DIR/common/includes/xcl2", 
                 "src/kernel_global_bandwidth.cpp"
             ], 
-            "compiler": [
-                {
-                    "includepaths": [
-                        "REPO_DIR/common/includes/xcl2"
-                    ]
-                }
-            ], 
-            "linker": [
-                {
-                    "libraries": [
-                        "xcl2"
-                    ], 
-                    "librarypaths": [
-                        "REPO_DIR/common/includes/"
-                    ]
-                }
-            ], 
-            "host_exe": "kernel_global"
-        }
-    ], 
+            "includepaths": [
+                "REPO_DIR/common/includes/xcl2"
+            ]
+        }, 
+        "host_exe": "kernel_global"
+    }, 
     "runtime": [
         "OpenCL"
+    ], 
+    "os": [
+        "Linux"
     ], 
     "containers": [
         {
@@ -73,5 +55,7 @@
             "name": "krnl_kernel_global"
         }
     ], 
-    "name": "kernel_global"
+    "description": [
+        "Bandwidth test of global to local memory."
+    ]
 }

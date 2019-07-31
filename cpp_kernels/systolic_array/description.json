@@ -6,9 +6,7 @@
             }
         ]
     }, 
-    "os": [
-        "Linux"
-    ], 
+    "name": "Systolic Array Implementation (C)", 
     "contributors": [
         {
             "url": "http://www.xilinx.com", 
@@ -18,38 +16,21 @@
     "launch": [
         {
             "cmd_args": "BUILD/mmult.xclbin", 
-            "name": "sw_emu"
+            "name": "generic launch for all flows"
+        }
+    ], 
+    "platform_type": "pcie", 
+    "host": {
+        "compiler": {
+            "sources": [
+                "REPO_DIR/common/includes/xcl2"
+            ], 
+            "includepaths": [
+                "REPO_DIR/common/includes/xcl2"
+            ]
         }, 
-        {
-            "cmd_args": "BUILD/mmult.xclbin", 
-            "name": "hw_emu"
-        }
-    ], 
-    "description": [
-        "This is a simple example of matrix multiplication (Row x Col) to help developers learn systolic array based algorithm design. Note : Systolic array based algorithm design is well suited for FPGA."
-    ], 
-    "host": [
-        {
-            "compiler": [
-                {
-                    "includepaths": [
-                        "REPO_DIR/common/includes/xcl2"
-                    ]
-                }
-            ], 
-            "linker": [
-                {
-                    "libraries": [
-                        "xcl2"
-                    ], 
-                    "librarypaths": [
-                        "REPO_DIR/common/includes/"
-                    ]
-                }
-            ], 
-            "host_exe": "host"
-        }
-    ], 
+        "host_exe": "host"
+    }, 
     "Key Concepts": [
         "Systolic Array"
     ], 
@@ -59,6 +40,9 @@
     ], 
     "runtime": [
         "OpenCL"
+    ], 
+    "os": [
+        "Linux"
     ], 
     "containers": [
         {
@@ -71,5 +55,7 @@
             "name": "mmult"
         }
     ], 
-    "name": "Systolic Array Implementation (C)"
+    "description": [
+        "This is a simple example of matrix multiplication (Row x Col) to help developers learn systolic array based algorithm design. Note : Systolic array based algorithm design is well suited for FPGA."
+    ]
 }

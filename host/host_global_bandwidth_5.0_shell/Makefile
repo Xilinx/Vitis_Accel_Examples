@@ -57,6 +57,7 @@ LDFLAGS += -lrt -lstdc++
 # Kernel compiler global settings
 CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps 
 
+
 # Kernel linker flags
 LDCLFLAGS += --sp bandwidth_1.m_axi_gmem0:bank0 --sp bandwidth_1.m_axi_gmem1:bank1
 
