@@ -79,7 +79,7 @@
                     "name": "myadder2"
                 }
             ], 
-            "ldclflags": "--sc myadder1_1.out:myadder2_1.in", 
+            "ldclflags": "--config connectivity.ini", 
             "name": "myadder"
         }
     ]

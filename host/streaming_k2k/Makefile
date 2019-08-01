@@ -59,7 +59,7 @@ CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps
 
 
 # Kernel linker flags
-LDCLFLAGS +=  --sc krnl_stream_vadd_1.output:krnl_stream_vmult_1.b
+LDCLFLAGS +=  --config connectivity.ini
 
 EXECUTABLE = vadd_stream
 CMD_ARGS = $(BUILD_DIR)/krnl_stream_vadd_vmult.xclbin

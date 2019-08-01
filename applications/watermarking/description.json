@@ -63,7 +63,7 @@
                     "clflags": "--max_memory_ports apply_watermark"
                 }
             ], 
-            "ldclflags": "--sp apply_watermark_1.m_axi_gmem0:DDR[0] --sp apply_watermark_1.m_axi_gmem1:DDR[1]", 
+            "ldclflags": "--config connectivity.ini", 
             "name": "apply_watermark"
         }
     ], 

@@ -59,7 +59,7 @@ CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps
 
 
 # Kernel linker flags
-LDCLFLAGS += --sp bandwidth_1.m_axi_gmem0:DDR[0] --sp bandwidth_1.m_axi_gmem1:DDR[1]
+LDCLFLAGS += --config connectivity.ini
 
 EXECUTABLE = host_global
 CMD_ARGS = $(BUILD_DIR)/krnl_host_global.xclbin

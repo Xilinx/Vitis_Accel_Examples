@@ -46,7 +46,7 @@
                     "clflags": "--xp param:compiler.axiDeadLockFree=yes"
                 }
             ], 
-            "ldclflags": "--xp param:compiler.axiDeadLockFree=yes", 
+            "ldclflags": "--config advanced.ini", 
             "name": "N_stage_Adders"
         }
     ], 

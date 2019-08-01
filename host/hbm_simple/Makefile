@@ -59,7 +59,7 @@ CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps
 
 
 # Kernel linker flags
-LDCLFLAGS += --sp krnl_vadd_1.m_axi_gmem0:HBM[0:3] --sp krnl_vadd_1.m_axi_gmem1:HBM[0:3]
+LDCLFLAGS += --config connectivity.ini
 
 EXECUTABLE = host
 CMD_ARGS = $(BUILD_DIR)/krnl_vadd.xclbin

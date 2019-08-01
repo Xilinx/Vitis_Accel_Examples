@@ -61,7 +61,7 @@
                     "name": "output"
                 }
             ], 
-            "ldclflags": "--sc krnl_input_stage_rtl_1.p0:krnl_adder_stage_rtl_1.p0 --sc krnl_adder_stage_rtl_1.p1:krnl_output_stage_rtl_1.p1", 
+            "ldclflags": "--config connectivity.ini", 
             "name": "adder"
         }
     ], 

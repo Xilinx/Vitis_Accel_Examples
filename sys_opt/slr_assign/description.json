@@ -54,7 +54,7 @@
                     "location": "src/kernel.cl"
                 }
             ], 
-            "ldclflags": "--slr vmult_1:SLR0 --slr vadd_1:SLR1", 
+            "ldclflags": "--config connectivity.ini", 
             "name": "vmult_vadd"
         }
     ], 

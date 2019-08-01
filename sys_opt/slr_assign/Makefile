@@ -59,7 +59,7 @@ CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps
 
 
 # Kernel linker flags
-LDCLFLAGS += --slr vmult_1:SLR0 --slr vadd_1:SLR1
+LDCLFLAGS += --config connectivity.ini
 
 EXECUTABLE = host
 CMD_ARGS = $(BUILD_DIR)/vmult_vadd.xclbin
