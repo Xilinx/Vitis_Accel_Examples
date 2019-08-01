@@ -49,7 +49,7 @@
                     "location": "src/mmult.cpp"
                 }
             ], 
-            "ldclflags": "--sp mmult_1.a:PLRAM[0] --sp mmult_1.b:DDR[0] --sp mmult_1.c:PLRAM[1]", 
+            "ldclflags": "--config connectivity.ini", 
             "name": "mmult"
         }
     ], 

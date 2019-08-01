@@ -61,7 +61,7 @@
                     "location": "src/krnl_vadd.cpp"
                 }
             ], 
-            "ldclflags": "--sp krnl_vadd_1.m_axi_gmem0:HBM[0:3] --sp krnl_vadd_1.m_axi_gmem1:HBM[0:3]", 
+            "ldclflags": "--config connectivity.ini", 
             "name": "krnl_vadd"
         }
     ], 

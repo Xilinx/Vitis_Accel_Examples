@@ -60,7 +60,7 @@ CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps
 
 
 # Kernel linker flags
-LDCLFLAGS += --sc krnl_input_stage_rtl_1.p0:krnl_adder_stage_rtl_1.p0 --sc krnl_adder_stage_rtl_1.p1:krnl_output_stage_rtl_1.p1
+LDCLFLAGS += --config connectivity.ini
 
 EXECUTABLE = host
 CMD_ARGS = $(BUILD_DIR)/adder.xclbin
