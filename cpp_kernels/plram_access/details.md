@@ -1,8 +1,8 @@
 PLRAM Access
 =============
-This example demonstrates how `PLRAM` feature of the SDx memory subsystem and how they integrate with the SDx design process.
+This example demonstrates how `PLRAM` feature of the Vitis memory subsystem and how they integrate with the Vitis design process.
 
-PLRAM is small shared memory which is built using the on-chip memory resources of the FPGA fabric. It is intended to provide a small amount of data storage that application kernels can share and access rapidly(lowest latency). PLRAM behaves just like the DDR memory resources managed by the SDx memory subsystem.
+PLRAM is small shared memory which is built using the on-chip memory resources of the FPGA fabric. It is intended to provide a small amount of data storage that application kernels can share and access rapidly(lowest latency). PLRAM behaves just like the DDR memory resources managed by the Vitis memory subsystem.
 
 PLRAM can be assigned to a buffer by using `--sp` option in the kernel linking stage.
 
