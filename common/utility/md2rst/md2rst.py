@@ -8,7 +8,7 @@ from collections import OrderedDict
 from itertools import islice
 
 DSA = 'xilinx_u200_qdma'
-VERSION = 'SCOUT 2019.2'
+VERSION = 'Vitis 2019.2'
 AWS_DEVICES = {
     'xilinx_aws-vu9p-f1-04261818': {
        'version': '5.0',
@@ -48,14 +48,27 @@ DEVICES = {
 }
 
 def overview(target,data):
+    target.write("<a href=\"./")
+    dirName = os.getcwd()
+    dirNameList = list(dirName.split("/"))
+    dirNameIndex = dirNameList.index("Vitis_Accel_Examples")
+    diff = len(dirNameList) - dirNameIndex - 1
+    while diff > 0:
+        target.write("../")
+        diff -= 1
+    for locs in range(dirNameIndex + 1,len(dirNameList)):
+        target.write(dirNameList[locs])
+        target.write("/")
+    target.write("\">")
     title = data["name"]
     title = title.replace("(C)", "")
     title = title.replace("(CL)", "")
     title = title.replace("(RTL)", "")
     title = title.replace("(HLS C/C++ Kernel)", "")
     target.write(title)
+    target.write("</a>")
     target.write("\n")
-    target.write("======================\n\n")
+    target.write("=====================================================\n\n")
     target.write(('\n').join(data["description"]))
     target.write("\n\n")
     if 'more_info' in data:
@@ -162,9 +175,9 @@ def commandargs(target,data):
     target.write("```\n")
     if "launch" in data:
         if not "cmd_args" in data["launch"][0]:
-            target.write('./' + data["host"][0]["host_exe"])
+            target.write('./' + data["host"]["host_exe"])
         else:
-            target.write('./' + data["host"][0]["host_exe"])
+            target.write('./' + data["host"]["host_exe"])
             args = data["launch"][0]["cmd_args"].split(" ")
             for arg in args[0:]:
                 target.write(" ")
@@ -173,16 +186,15 @@ def commandargs(target,data):
                 arg = arg.replace('.xclbin', ' XCLBIN>') 
                 target.write(arg)
     else:
-        target.write('./' + data["host"][0]["host_exe"])
+        target.write('./' + data["host"]["host_exe"])
     target.write("\n```\n")
     target.write("\n")
-
 
 # Get the argument from the description
 script, desc_file = argv
 
 # load the description file
-print "SCOUT README File Genarator"
+print "Vitis MD2RST File Genarator"
 desc = open(desc_file,'r')
 
 # load the json data from the file
