@@ -60,7 +60,7 @@
             "accelerators": [
                 {
                     "name": "vadd", 
-                    "location": "src/vadd.cpp"
+                    "location": "src/krnl_vadd.cl"
                 }
             ], 
             "name": "vadd"
