@@ -1,0 +1,12 @@
+.. _sys_opt.rst
+
+System Optimization Kernels
+===========================
+
+This page contains examples for system optimizations. The focus of the examples is towards hardware optimization using HLS C/C++ kernels for Xilinx devices.
+
+.. toctree::
+   :maxdepth: 1
+   :caption: List of Examples
+
+   slr_assign.rst
