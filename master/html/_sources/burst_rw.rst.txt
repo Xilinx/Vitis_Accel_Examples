@@ -1,0 +1,64 @@
+Burst Read/Write 
+=================
+
+This is simple example of using AXI4-master interface for burst read and
+write
+
+**KEY CONCEPTS:** burst access
+
+**KEYWORDS:** memcpy, max_read_burst_length, max_write_burst_length
+
+The usual reason for having a burst mode capability, or using burst
+mode, is to increase data throughput. This example demonstrates how
+multiple items can be read from global memory to kernel’s local memory
+in a single burst. This is done to achieve low memory access latency and
+also for efficient use of bandwidth provided by the ``m_axi`` interface.
+Similarly, computation results are stored in a buffer and are written to
+global memory in a burst.
+
+``#pragma HLS PIPELINE II=1``
+
+The for loops used have the following requirements to implement burst
+read/write:
+
+-  Pipeline the loop : Loop pipeline must have II(Initiation interval) =
+   1 specfied by the pipeline pragma inside the loop.
+-  Aligned memory : Memory addresses for read/write should be
+   contiguous.
+
+SUPPORTED PLATFORMS
+-------------------
+
+==================== ================= ================
+Platform             Board             Software Version
+==================== ================= ================
+xilinx_u200_qdma     Xilinx Alveo U200 Vitis 2019.2
+xilinx_u280_xdma     Xilinx Alveo U280 Vitis 2019.2
+xilinx_u250_qdma     Xilinx Alveo U250 Vitis 2019.2
+xilinx_u200_xdma     Xilinx Alveo U200 Vitis 2019.2
+xilinx_u250_xdma     Xilinx Alveo U250 Vitis 2019.2
+xilinx_u280-es1_xdma Xilinx Alveo U280 Vitis 2019.2
+==================== ================= ================
+
+DESIGN FILES
+------------
+
+Application code is located in the src directory. Accelerator binary
+files will be compiled to the xclbin directory. The xclbin directory is
+required by the Makefile and its contents will be filled during
+compilation. A listing of all the files in this example is shown below
+
+::
+
+   src/host.cpp
+   src/vadd.cpp
+
+COMMAND LINE ARGUMENTS
+----------------------
+
+Once the environment has been configured, the application can be
+executed by
+
+::
+
+   ./host <vadd XCLBIN>

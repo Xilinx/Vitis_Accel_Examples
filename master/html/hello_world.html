@@ -1,0 +1,342 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta content="The reStructuredText plaintext markup language" name="description" />
+<meta content="plaintext, markup language" name="keywords" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Hello World &mdash; Vitis Accel Examples&#39; Documentation 2019.2 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Host" href="host.html" />
+    <link rel="prev" title="Support" href="support.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Vitis Accel Examples' Documentation
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Table of Contents</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="prerequisites.html">Prerequisites</a></li>
+<li class="toctree-l1"><a class="reference internal" href="platforms.html">Supported Platforms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="compile_execute.html">Compilation and Execution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cloud.html">Cloud Execution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="support.html">Support</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Category of Examples</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Hello World</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#supported-platforms">SUPPORTED PLATFORMS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#design-files">DESIGN FILES</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#command-line-arguments">COMMAND LINE ARGUMENTS</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="host.html">Host</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sys_opt.html">System Optimization Kernels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cpp.html">C++ Kernels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rtl.html">RTL Kernels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ocl.html">OpenCL Kernels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apps.html">Applications</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Common Utilities</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="common.html">Common Files</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Vitis Accel Examples' Documentation</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Hello World</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/hello_world.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="hello-world">
+<h1>Hello World<a class="headerlink" href="#hello-world" title="Permalink to this headline">¶</a></h1>
+<p>This is simple example of vector addition to describe how to use HLS
+kernels in Sdx Environment. This example highlights the concepts like
+PIPELINE which increases the kernel performance</p>
+<p><strong>KEY CONCEPTS:</strong> HLS C Kernel, OpenCL Host APIs</p>
+<p><strong>KEYWORDS:</strong> gmem, bundle, #pragma HLS INTERFACE, m_axi, s_axi4lite</p>
+<p>This example introduces the basic structure of host and kernel code.
+Kernel <code class="docutils literal notranslate"><span class="pre">vadd</span></code> optimizes a simple vector addition.</p>
+<p>Kernel arguments specify the inputs read from the global memory and
+outputs written back to it. HLS interface pragma is used to specify the
+protocol used for transfer of data between global memory and the kernel
+and creation of RTL ports during interface synthesis.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#pragma HLS INTERFACE m_axi port=in1  offset=slave bundle=gmem</span>
+</pre></div>
+</div>
+<p>If the number of loop iterations are unknown, tool cannot report the
+loop latency. In these cases, <code class="docutils literal notranslate"><span class="pre">HLS</span> <span class="pre">LOOP_TRIPCOUNT</span></code> pragma can be used
+to specify minimum and maximum number of iterations to help the tool to
+analyze how the loop’s latency contributes to the total latency of the
+application.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#pragma HLS LOOP_TRIPCOUNT min=c_len max=c_len</span>
+</pre></div>
+</div>
+<p>Loop iterations are done sequentially on a CPU, i.e. it will take
+multiple clock cycles for a new iteration to begin execution. FPGA can
+pipeline these iterations to increase the throughput of the application
+by beginning a new iteration every cycle. <code class="docutils literal notranslate"><span class="pre">HLS</span> <span class="pre">PIPELINE</span></code> pragma is
+used to implement pipeline and “option <code class="docutils literal notranslate"><span class="pre">II</span></code>” can be used to mention
+the <em>Initiation interval</em> (No. of clock cycles before a new loop
+iteration can be started).</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#pragma HLS PIPELINE II=1</span>
+</pre></div>
+</div>
+<p>Rather than reading individual items for addition, buffers are created
+in kernel’s local memory and multiple items are read in a single burst.
+This is done to achieve low memory access latency and also for efficient
+use of bandwidth provided by the m_axi interface. Similarly, results are
+stored in a buffer and are written to global memory in a burst. The for
+loops used have the following requirements to implement burst
+read/write: - Pipeline the loop : Loop pipeline must have <code class="docutils literal notranslate"><span class="pre">II</span></code>
+(Initiation interval) = 1 - Aligned memory : Memory addresses for
+read/write should be contiguous.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="nl">read1</span><span class="p">:</span> <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span> <span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">chunk_size</span> <span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">){</span>
+    <span class="cp">#pragma HLS LOOP_TRIPCOUNT min=c_size max=c_size</span>
+    <span class="cp">#pragma HLS PIPELINE II=1</span>
+        <span class="n">v1_buffer</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">in1</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="n">j</span><span class="p">];</span>
+    <span class="p">}</span>
+<span class="nl">write</span><span class="p">:</span> <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span> <span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">chunk_size</span> <span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">){</span>
+    <span class="cp">#pragma HLS LOOP_TRIPCOUNT min=c_size max=c_size</span>
+    <span class="cp">#pragma HLS PIPELINE II=1</span>
+        <span class="n">out_r</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">vout_buffer</span><span class="p">[</span><span class="n">j</span><span class="p">];</span>
+    <span class="p">}</span>
+</pre></div>
+</div>
+<div class="section" id="supported-platforms">
+<h2>SUPPORTED PLATFORMS<a class="headerlink" href="#supported-platforms" title="Permalink to this headline">¶</a></h2>
+<table class="docutils align-center">
+<colgroup>
+<col style="width: 38%" />
+<col style="width: 32%" />
+<col style="width: 30%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Platform</p></th>
+<th class="head"><p>Board</p></th>
+<th class="head"><p>Software Version</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>xilinx_u200_qdma</p></td>
+<td><p>Xilinx Alveo U200</p></td>
+<td><p>Vitis 2019.2</p></td>
+</tr>
+<tr class="row-odd"><td><p>xilinx_u280_xdma</p></td>
+<td><p>Xilinx Alveo U280</p></td>
+<td><p>Vitis 2019.2</p></td>
+</tr>
+<tr class="row-even"><td><p>xilinx_u250_qdma</p></td>
+<td><p>Xilinx Alveo U250</p></td>
+<td><p>Vitis 2019.2</p></td>
+</tr>
+<tr class="row-odd"><td><p>xilinx_u200_xdma</p></td>
+<td><p>Xilinx Alveo U200</p></td>
+<td><p>Vitis 2019.2</p></td>
+</tr>
+<tr class="row-even"><td><p>xilinx_u250_xdma</p></td>
+<td><p>Xilinx Alveo U250</p></td>
+<td><p>Vitis 2019.2</p></td>
+</tr>
+<tr class="row-odd"><td><p>xilinx_u280-es1_xdma</p></td>
+<td><p>Xilinx Alveo U280</p></td>
+<td><p>Vitis 2019.2</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="design-files">
+<h2>DESIGN FILES<a class="headerlink" href="#design-files" title="Permalink to this headline">¶</a></h2>
+<p>Application code is located in the src directory. Accelerator binary
+files will be compiled to the xclbin directory. The xclbin directory is
+required by the Makefile and its contents will be filled during
+compilation. A listing of all the files in this example is shown below</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">src</span><span class="o">/</span><span class="n">host</span><span class="o">.</span><span class="n">cpp</span>
+<span class="n">src</span><span class="o">/</span><span class="n">vadd</span><span class="o">.</span><span class="n">cpp</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="command-line-arguments">
+<h2>COMMAND LINE ARGUMENTS<a class="headerlink" href="#command-line-arguments" title="Permalink to this headline">¶</a></h2>
+<p>Once the environment has been configured, the application can be
+executed by</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">host</span> <span class="o">&lt;</span><span class="n">vadd</span> <span class="n">XCLBIN</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="host.html" class="btn btn-neutral float-right" title="Host" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="support.html" class="btn btn-neutral float-left" title="Support" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Xilinx Inc.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

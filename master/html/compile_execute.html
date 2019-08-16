@@ -1,0 +1,270 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Compilation and Execution &mdash; Vitis Accel Examples&#39; Documentation 2019.2 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Cloud Execution" href="cloud.html" />
+    <link rel="prev" title="Supported Platforms" href="platforms.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Vitis Accel Examples' Documentation
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Table of Contents</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="prerequisites.html">Prerequisites</a></li>
+<li class="toctree-l1"><a class="reference internal" href="platforms.html">Supported Platforms</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Compilation and Execution</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#compiling-for-application-emulation">Compiling for Application Emulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#executing-emulated-application">Executing Emulated Application</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#compiling-for-fpga-accelerator-card">Compiling for FPGA Accelerator Card</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="cloud.html">Cloud Execution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="support.html">Support</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Category of Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="hello_world.html">Hello World</a></li>
+<li class="toctree-l1"><a class="reference internal" href="host.html">Host</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sys_opt.html">System Optimization Kernels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cpp.html">C++ Kernels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rtl.html">RTL Kernels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ocl.html">OpenCL Kernels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apps.html">Applications</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Common Utilities</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="common.html">Common Files</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Vitis Accel Examples' Documentation</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Compilation and Execution</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/compile_execute.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="compilation-and-execution">
+<h1>Compilation and Execution<a class="headerlink" href="#compilation-and-execution" title="Permalink to this headline">¶</a></h1>
+<p>It is primarily recommended to start with Hello World example which makes the new users aware about the basic structure of an Scout based Application.</p>
+<div class="section" id="compiling-for-application-emulation">
+<h2>Compiling for Application Emulation<a class="headerlink" href="#compiling-for-application-emulation" title="Permalink to this headline">¶</a></h2>
+<p>As part of the capabilities available to an application developer, Scout includes environments to test the correctness of an application at both a software functional level and a hardware emulated level.</p>
+<p>These modes, which are named sw_emu and hw_emu, allow the developer to profile and evaluate the performance of a design before compiling for board execution.
+It is recommended that all applications are executed in at least the sw_emu mode before being compiled and executed on an FPGA board.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="o">&lt;</span><span class="n">PATH</span> <span class="n">TO</span> <span class="n">SAMPLE</span> <span class="n">APPLICATION</span><span class="o">&gt;</span>
+<span class="n">make</span> <span class="nb">all</span> <span class="n">TARGET</span><span class="o">=&lt;</span><span class="n">sw_emu</span><span class="o">|</span><span class="n">hw_emu</span><span class="o">&gt;</span> <span class="n">DEVICE</span><span class="o">=&lt;</span><span class="n">FPGA</span> <span class="n">Platform</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>where,</p>
+<blockquote>
+<div><p><em>sw_emu = software emulation</em>
+<em>hw_emu = hardware emulation</em></p>
+</div></blockquote>
+<p><strong>NOTE:</strong> The software emulation flow is a functional correctness check only. It does not estimate the performance of the application in hardware.</p>
+<p>The hardware emulation flow is a cycle accurate simulation of the hardware generated for the application. Also, it is expected for this simulation to take a long time.</p>
+</div>
+<div class="section" id="executing-emulated-application">
+<h2>Executing Emulated Application<a class="headerlink" href="#executing-emulated-application" title="Permalink to this headline">¶</a></h2>
+<p><em>(Recommended Execution Flow for Example Applications in Emulation)</em></p>
+<p>The makefile for the application can directly executed the application with the following command:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="o">&lt;</span><span class="n">PATH</span> <span class="n">TO</span> <span class="n">SAMPLE</span> <span class="n">APPLICATION</span><span class="o">&gt;</span>
+<span class="n">make</span> <span class="n">check</span> <span class="n">TARGET</span><span class="o">=&lt;</span><span class="n">sw_emu</span><span class="o">|</span><span class="n">hw_emu</span><span class="o">&gt;</span> <span class="n">DEVICE</span><span class="o">=&lt;</span><span class="n">FPGA</span> <span class="n">Platform</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>where,</p>
+<blockquote>
+<div><p><em>sw_emu = software emulation</em>
+<em>hw_emu = hardware emulation</em></p>
+</div></blockquote>
+<p>If the application has not been previously compiled, the check makefile rule will compile and execute the application in the emulation mode selected by the user.</p>
+</div>
+<div class="section" id="compiling-for-fpga-accelerator-card">
+<h2>Compiling for FPGA Accelerator Card<a class="headerlink" href="#compiling-for-fpga-accelerator-card" title="Permalink to this headline">¶</a></h2>
+<p>The command to compile for the FPGA acceleration
+board is:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="o">&lt;</span><span class="n">PATH</span> <span class="n">TO</span> <span class="n">SAMPLE</span> <span class="n">APPLICATION</span><span class="o">&gt;</span>
+<span class="n">make</span> <span class="nb">all</span> <span class="n">DEVICE</span><span class="o">=&lt;</span><span class="n">FPGA</span> <span class="n">Platform</span><span class="o">&gt;</span> <span class="n">TARGET</span><span class="o">=&lt;</span><span class="n">hw</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p><strong>NOTE:</strong> Compilation for hardware generates custom logic to implement the functionality of the kernels in an application.
+It is typical for hardware compile times to range from 30 minutes to a couple of hours.</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="cloud.html" class="btn btn-neutral float-right" title="Cloud Execution" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="platforms.html" class="btn btn-neutral float-left" title="Supported Platforms" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Xilinx Inc.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

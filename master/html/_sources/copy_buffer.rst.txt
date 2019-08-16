@@ -1,0 +1,68 @@
+Copy Buffer 
+============
+
+This Copy Buffer example demonstrate how one buffer can be copied from
+another buffer.
+
+**KEY CONCEPTS:** Copy Buffer
+
+**KEYWORDS:** cl::CommandQueue::enqueueCopyBuffer()
+
+This example illustrates the use of ``clEnqueueCopyBuffer`` API which is
+used to copy the contents of a buffer into another buffer.
+
+Contents of ``buffer_a`` are copied into ``buffer_b``.
+
+.. code:: cpp
+
+   err = q.enqueueCopyBuffer(buffer_a, buffer_b, 0, 0, size_in_bytes);
+
+The contents of these buffers are added and result is verified by the
+host (should be twice the elements of buffer_a).
+
+.. code:: cpp
+
+   for (int i = 0; i < DATA_SIZE; i++) {
+       int host_result = source_a[i] + source_a[i];
+       if (source_results[i] != host_result) {
+           printf(error_message.c_str(), i, host_result, source_results[i]);
+           match = 1;
+           break;
+   }
+
+SUPPORTED PLATFORMS
+-------------------
+
+==================== ================= ================
+Platform             Board             Software Version
+==================== ================= ================
+xilinx_u200_qdma     Xilinx Alveo U200 Vitis 2019.2
+xilinx_u280_xdma     Xilinx Alveo U280 Vitis 2019.2
+xilinx_u250_qdma     Xilinx Alveo U250 Vitis 2019.2
+xilinx_u200_xdma     Xilinx Alveo U200 Vitis 2019.2
+xilinx_u250_xdma     Xilinx Alveo U250 Vitis 2019.2
+xilinx_u280-es1_xdma Xilinx Alveo U280 Vitis 2019.2
+==================== ================= ================
+
+DESIGN FILES
+------------
+
+Application code is located in the src directory. Accelerator binary
+files will be compiled to the xclbin directory. The xclbin directory is
+required by the Makefile and its contents will be filled during
+compilation. A listing of all the files in this example is shown below
+
+::
+
+   src/host.cpp
+   src/vector_addition.cpp
+
+COMMAND LINE ARGUMENTS
+----------------------
+
+Once the environment has been configured, the application can be
+executed by
+
+::
+
+   ./host <vector_addition XCLBIN>
