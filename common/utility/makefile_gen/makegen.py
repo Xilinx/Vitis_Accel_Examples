@@ -396,7 +396,7 @@ def mk_check(target, data):
         target.write("\n")
 
     if data["name"] != "00 Matrix Multiplication":
-	target.write("\tsdx_analyze profile -i profile_summary.csv -f html\n")
+	target.write("\tperf_analyze profile -i profile_summary.csv -f html\n")
     target.write("\n")
 
 def run_nimbix(target, data):
