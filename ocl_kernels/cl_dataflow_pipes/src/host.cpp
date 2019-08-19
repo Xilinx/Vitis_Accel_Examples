@@ -49,7 +49,6 @@ int main(int argc, char **argv) {
 
     size_t data_size = 1024 * 1024;
     cl_int err;
-    unsigned fileBufSize;
 
     // Reducing the data size for emulation mode
     auto xcl_mode = getenv("XCL_EMULATION_MODE");
@@ -89,8 +88,8 @@ int main(int argc, char **argv) {
 
     // read_binary_file() is a utility API which will load the binaryFile
     // and will return pointer to file buffer.
-    auto fileBuf = xcl::read_binary_file(binaryFile, fileBufSize);
-    cl::Program::Binaries bins{{fileBuf, fileBufSize}};
+   auto fileBuf = xcl::read_binary_file(binaryFile);
+   cl::Program::Binaries bins{{fileBuf.data(), fileBuf.size()}};
     devices.resize(1);
     OCL_CHECK(err, cl::Program program(context, devices, bins, NULL, &err));
     OCL_CHECK(err, cl::Kernel krnl_adder_stage(program, "adder_stage", &err));
@@ -161,7 +160,6 @@ int main(int argc, char **argv) {
         }
     }
 
-    delete[] fileBuf;
 
     std::cout << "TEST " << (match ? "PASSED" : "FAILED") << std::endl;
     return (match ? EXIT_SUCCESS : EXIT_FAILURE);

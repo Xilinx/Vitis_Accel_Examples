@@ -82,13 +82,13 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  *  *****************************************************************************************/
 
+#include "xcl2.hpp"
+#include <algorithm>
 #include <iostream>
 #include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
 #include <vector>
-
-#include "xcl2.hpp"
 
 //Number of HBM Banks required
 #define MAX_HBM_BANKCOUNT 32
@@ -211,7 +211,6 @@ int main(int argc, char *argv[]) {
     }
     cl_int err;
     std::string binaryFile = argv[1];
-    unsigned fileBufSize;
 
     // The get_xil_devices will return vector of Xilinx Devices
     auto devices = xcl::get_xil_devices();
@@ -228,9 +227,9 @@ int main(int argc, char *argv[]) {
 
     // read_binary_file() command will find the OpenCL binary file created using the
     // xocc compiler load into OpenCL Binary and return pointer to file buffer.
-    auto fileBuf = xcl::read_binary_file(binaryFile, fileBufSize);
+   auto fileBuf = xcl::read_binary_file(binaryFile);
 
-    cl::Program::Binaries bins{{fileBuf, fileBufSize}};
+   cl::Program::Binaries bins{{fileBuf.data(), fileBuf.size()}};
     devices.resize(1);
     OCL_CHECK(err, cl::Program program(context, devices, bins, NULL, &err));
     OCL_CHECK(err, cl::Kernel kernel_vadd(program, "krnl_vadd", &err));
@@ -249,9 +248,10 @@ int main(int argc, char *argv[]) {
     std::vector<int, aligned_allocator<int>> source_sw_results(dataSize);
 
     // Create the test data
+    std::generate(source_in1.begin(), source_in1.end(), std::rand);
+    std::generate(source_in2.begin(), source_in2.end(), std::rand);
+
     for (size_t i = 0; i < dataSize; i++) {
-        source_in1[i] = rand() % dataSize;
-        source_in2[i] = rand() % dataSize;
         source_sw_results[i] = source_in1[i] + source_in2[i];
         source_hw_results[i] = 0;
     }
@@ -332,7 +332,6 @@ int main(int argc, char *argv[]) {
 
     std::cout << "[CASE 2] THROUGHPUT = " << result << " GB/s " << std::endl;
 
-    delete[] fileBuf;
 
     std::cout << (match ? "TEST PASSED" : "TEST FAILED") << std::endl;
     return (match ? EXIT_SUCCESS : EXIT_FAILURE);

@@ -1,21 +1,29 @@
 {
-    "cmd_args": "BUILD/dummy_kernel.xclbin", 
+    "name": "Data Transfer (C)", 
     "contributors": [
         {
             "url": "http://www.xilinx.com", 
             "group": "Xilinx"
         }
     ], 
-    "host_exe": "data_transfer", 
-    "overview": [
-        "This example illustrates several ways to use the OpenCL API to transfer data to and from the FPGA"
-    ], 
-    "includes": [
+    "launch": [
         {
-            "name": "xcl2", 
-            "location": "GIT_REPO_DIR/common/includes/xcl2/"
+            "cmd_args": "BUILD/dummy_kernel.xclbin", 
+            "name": "generic launch for all flows"
         }
     ], 
+    "platform_type": "pcie", 
+    "host": {
+        "compiler": {
+            "sources": [
+                "REPO_DIR/common/includes/xcl2"
+            ], 
+            "includepaths": [
+                "REPO_DIR/common/includes/xcl2"
+            ]
+        }, 
+        "host_exe": "data_transfer"
+    }, 
     "key_concepts": [
         "OpenCL API", 
         "Data Transfer", 
@@ -37,7 +45,6 @@
     "os": [
         "Linux"
     ], 
-    "example": "Data Transfer (C)", 
     "containers": [
         {
             "accelerators": [
@@ -48,5 +55,8 @@
             ], 
             "name": "dummy_kernel"
         }
+    ], 
+    "description": [
+        "This example illustrates several ways to use the OpenCL API to transfer data to and from the FPGA"
     ]
 }

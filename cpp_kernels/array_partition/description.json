@@ -1,21 +1,29 @@
 {
-    "cmd_args": "BUILD/matmul.xclbin", 
+    "name": "Array Partition (HLS C/C++ Kernel)", 
     "contributors": [
         {
             "url": "http://www.xilinx.com", 
             "group": "Xilinx"
         }
     ], 
-    "host_exe": "array_partition", 
-    "overview": [
-        "This is a simple example of matrix multiplication (Row x Col) to demonstrate how to achieve better performance by array partitioning, using HLS kernel in SDx Environment."
-    ], 
-    "includes": [
+    "launch": [
         {
-            "name": "xcl2", 
-            "location": "GIT_REPO_DIR/common/includes/xcl2/"
+            "cmd_args": "BUILD/matmul.xclbin", 
+            "name": "generic launch for all flows"
         }
     ], 
+    "platform_type": "pcie", 
+    "host": {
+        "compiler": {
+            "sources": [
+                "REPO_DIR/common/includes/xcl2"
+            ], 
+            "includepaths": [
+                "REPO_DIR/common/includes/xcl2"
+            ]
+        }, 
+        "host_exe": "array_partition"
+    }, 
     "key_concepts": [
         "Kernel Optimization", 
         "HLS C Kernel", 
@@ -31,7 +39,6 @@
     "os": [
         "Linux"
     ], 
-    "example": "Array Partition (HLS C/C++ Kernel)", 
     "containers": [
         {
             "accelerators": [
@@ -46,5 +53,8 @@
             ], 
             "name": "matmul"
         }
+    ], 
+    "description": [
+        "This is a simple example of matrix multiplication (Row x Col) to demonstrate how to achieve better performance by array partitioning, using HLS kernel in Vitis Environment."
     ]
 }

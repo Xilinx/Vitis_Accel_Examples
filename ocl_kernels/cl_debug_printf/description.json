@@ -1,21 +1,29 @@
 {
-    "cmd_args": "BUILD/vadd.xclbin", 
+    "name": "Printf Usage in Kernel code (CL)", 
     "contributors": [
         {
             "url": "http://www.xilinx.com", 
             "group": "Xilinx"
         }
     ], 
-    "host_exe": "host", 
-    "overview": [
-        "This is simple example of vector addition and printing of data that is computational result (addition). It is based on vectored addition that demonstrates printing of work item data (integer product in this case)"
-    ], 
-    "includes": [
+    "launch": [
         {
-            "name": "xcl2", 
-            "location": "GIT_REPO_DIR/common/includes/xcl2/"
+            "cmd_args": "BUILD/vadd.xclbin", 
+            "name": "generic launch for all flows"
         }
     ], 
+    "platform_type": "pcie", 
+    "host": {
+        "compiler": {
+            "sources": [
+                "REPO_DIR/common/includes/xcl2"
+            ], 
+            "includepaths": [
+                "REPO_DIR/common/includes/xcl2"
+            ]
+        }, 
+        "host_exe": "host"
+    }, 
     "key_concepts": [
         "Use of print statements for debugging"
     ], 
@@ -29,7 +37,6 @@
     "os": [
         "Linux"
     ], 
-    "example": "Printf Usage in Kernel code (CL)", 
     "containers": [
         {
             "accelerators": [
@@ -41,5 +48,8 @@
             ], 
             "name": "vadd"
         }
+    ], 
+    "description": [
+        "This is simple example of vector addition and printing of data that is computational result (addition). It is based on vectored addition that demonstrates printing of work item data (integer product in this case)"
     ]
 }

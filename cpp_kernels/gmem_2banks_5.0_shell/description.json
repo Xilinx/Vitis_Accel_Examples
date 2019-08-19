@@ -1,26 +1,5 @@
 {
-    "cmd_args": "BUILD/apply_watermark.xclbin PROJECT/data/input.bmp PROJECT/data/golden.bmp", 
-    "contributors": [
-        {
-            "url": "http://www.xilinx.com", 
-            "group": "Xilinx"
-        }
-    ], 
-    "host_exe": "host", 
-    "overview": [
-        "This example of 2ddr to demonstrate on how to use 2ddr DSA. How to create buffers in each DDR."
-    ], 
-    "includes": [
-        {
-            "name": "xcl2", 
-            "location": "GIT_REPO_DIR/common/includes/xcl2/"
-        }, 
-        {
-            "name": "bitmap", 
-            "location": "GIT_REPO_DIR/common/includes/bitmap/"
-        }
-    ], 
-    "nboard": [
+    "ndevice": [
         "xilinx_u280-es1_xdma", 
         "xilinx_u200_xdma", 
         "xilinx_u200_qdma", 
@@ -38,6 +17,36 @@
         "xilinx:u280:xdma", 
         "xilinx:u250:qdma"
     ], 
+    "name": "Global Memory Two Banks (C) for 5.0 shell", 
+    "contributors": [
+        {
+            "url": "http://www.xilinx.com", 
+            "group": "Xilinx"
+        }
+    ], 
+    "launch": [
+        {
+            "cmd_args": "BUILD/apply_watermark.xclbin PROJECT/data/input.bmp PROJECT/data/golden.bmp", 
+            "name": "generic launch for all flows"
+        }
+    ], 
+    "description": [
+        "This example of 2ddr to demonstrate on how to use 2ddr DSA. How to create buffers in each DDR."
+    ], 
+    "platform_type": "pcie", 
+    "host": {
+        "compiler": {
+            "sources": [
+                "REPO_DIR/common/includes/xcl2", 
+                "REPO_DIR/common/includes/bitmap"
+            ], 
+            "includepaths": [
+                "REPO_DIR/common/includes/xcl2", 
+                "REPO_DIR/common/includes/bitmap"
+            ]
+        }, 
+        "host_exe": "host"
+    }, 
     "key_concepts": [
         "Multiple Banks"
     ], 
@@ -52,7 +61,6 @@
     "os": [
         "Linux"
     ], 
-    "example": "Global Memory Two Banks (C) for 5.0 shell", 
     "containers": [
         {
             "accelerators": [

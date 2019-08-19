@@ -1,37 +1,46 @@
 {
     "config_make": "config.mk", 
-    "cmd_args": "BUILD/myadder1.xclbin", 
+    "description": [
+        "This is a simple Vector Increment RTL Kernel design with 1 Stream input and 1 Stream output that demonstrates on how to process an input stream of data for computation in an application."
+    ], 
     "contributors": [
         {
             "url": "http://www.xilinx.com", 
             "group": "Xilinx"
         }
     ], 
-    "host_srcs": "src/host.cpp", 
-    "overview": [
-        "This is a simple Vector Increment RTL Kernel design with 1 Stream input and 1 Stream output that demonstrates on how to process an input stream of data for computation in an application."
-    ], 
-    "linker": {
-        "options": [
-            "-pthread"
-        ]
+    "host": {
+        "compiler": {
+            "sources": [
+                "REPO_DIR/common/includes/xcl2", 
+                "src/host.cpp"
+            ], 
+            "includepaths": [
+                "REPO_DIR/common/includes/xcl2"
+            ]
+        }, 
+        "linker": {
+            "options": [
+                "-pthread"
+            ]
+        }, 
+        "host_exe": "vadd_stream"
     }, 
-    "targets": [
-        "hw", 
-        "hw_emu"
-    ], 
-    "keywords": [
-        "cl_stream", 
-        "CL_STREAM_EOT"
-    ], 
     "key_concepts": [
         "Read/Write Stream", 
         "Create/Release Stream", 
         "RTL Kernel"
     ], 
-    "host_exe": "vadd_stream", 
-    "sdx_gui": false, 
-    "nboard": [
+    "keywords": [
+        "cl_stream", 
+        "CL_STREAM_EOT"
+    ], 
+    "targets": [
+        "hw", 
+        "hw_emu"
+    ], 
+    "output_files": "tmp_kernel_pack* packaged_kernel* _x* *_ex project* pinfo.json", 
+    "ndevice": [
         "xilinx_u200_xdma", 
         "xilinx_u250_xdma", 
         "xilinx_u280_xdma", 
@@ -43,19 +52,21 @@
         "xilinx:u280-es1:xdma", 
         "xilinx:aws-vu9p-f1-04261818:dynamic"
     ], 
-    "includes": [
+    "name": "Stream Vector Increment (RTL): Free Running", 
+    "launch": [
         {
-            "name": "xcl2", 
-            "location": "GIT_REPO_DIR/common/includes/xcl2/"
+            "cmd_args": "BUILD/myadder1.xclbin", 
+            "name": "generic launch for all flows"
         }
     ], 
+    "gui": false, 
+    "platform_type": "pcie", 
     "runtime": [
         "OpenCL"
     ], 
     "os": [
         "Linux"
     ], 
-    "example": "Stream Vector Increment (RTL): Free Running", 
     "containers": [
         {
             "accelerators": [
@@ -66,6 +77,5 @@
             ], 
             "name": "myadder1"
         }
-    ], 
-    "output_files": "tmp_kernel_pack* packaged_kernel* _x* *_ex project* pinfo.json"
+    ]
 }

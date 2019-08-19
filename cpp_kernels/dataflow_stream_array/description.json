@@ -1,21 +1,29 @@
 {
-    "cmd_args": "BUILD/N_stage_Adders.xclbin", 
+    "name": "Dataflow Using HLS Stream (C)", 
     "contributors": [
         {
             "url": "http://www.xilinx.com", 
             "group": "Xilinx"
         }
     ], 
-    "host_exe": "host", 
-    "overview": [
-        "This is simple example of Multiple Stages Vector Addition to demonstrate Array of Stream usage in HLS C Kernel Code."
-    ], 
-    "includes": [
+    "launch": [
         {
-            "name": "xcl2", 
-            "location": "GIT_REPO_DIR/common/includes/xcl2/"
+            "cmd_args": "BUILD/N_stage_Adders.xclbin", 
+            "name": "generic launch for all flows"
         }
     ], 
+    "platform_type": "pcie", 
+    "host": {
+        "compiler": {
+            "sources": [
+                "REPO_DIR/common/includes/xcl2"
+            ], 
+            "includepaths": [
+                "REPO_DIR/common/includes/xcl2"
+            ]
+        }, 
+        "host_exe": "host"
+    }, 
     "key_concepts": [
         "Array of Stream"
     ], 
@@ -29,7 +37,6 @@
     "os": [
         "Linux"
     ], 
-    "example": "Dataflow Using HLS Stream (C)", 
     "containers": [
         {
             "accelerators": [
@@ -39,8 +46,11 @@
                     "clflags": "--xp param:compiler.axiDeadLockFree=yes"
                 }
             ], 
-            "ldclflags": "--xp param:compiler.axiDeadLockFree=yes", 
+            "ldclflags": "--config advanced.ini", 
             "name": "N_stage_Adders"
         }
+    ], 
+    "description": [
+        "This is simple example of Multiple Stages Vector Addition to demonstrate Array of Stream usage in HLS C Kernel Code."
     ]
 }

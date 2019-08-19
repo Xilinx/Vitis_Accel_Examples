@@ -6,23 +6,31 @@
             }
         ]
     }, 
-    "cmd_args": "BUILD/vadd_GOOD.xclbin BUILD/vadd_BAD.xclbin", 
+    "name": "Clock Frequency ~ Too Many Compute Units (CL) ", 
     "contributors": [
         {
             "url": "http://www.xilinx.com", 
             "group": "Xilinx"
         }
     ], 
-    "host_exe": "host", 
-    "overview": [
-        "This is simple example of vector addition to demonstrate effectiveness of using single compute unit with heavy work load to achieve better performance. Bad example uses multiple compute units to achieve good performance but it results in heavy usage of FPGA resources and area due to which design fails timing. Good example uses single compute unit to compute with heavier work load, it helps in less resource utilization and also helps in kernel scalability. To switch between Good/Bad cases use the flag provided in makefile."
-    ], 
-    "includes": [
+    "launch": [
         {
-            "name": "xcl2", 
-            "location": "GIT_REPO_DIR/common/includes/xcl2/"
+            "cmd_args": "BUILD/vadd_GOOD.xclbin BUILD/vadd_BAD.xclbin", 
+            "name": "generic launch for all flows"
         }
     ], 
+    "platform_type": "pcie", 
+    "host": {
+        "compiler": {
+            "sources": [
+                "REPO_DIR/common/includes/xcl2"
+            ], 
+            "includepaths": [
+                "REPO_DIR/common/includes/xcl2"
+            ]
+        }, 
+        "host_exe": "host"
+    }, 
     "key_concepts": [
         "Clock Frequency", 
         "Data Level Parallelism", 
@@ -38,7 +46,6 @@
     "os": [
         "Linux"
     ], 
-    "example": "Clock Frequency ~ Too Many Compute Units (CL) ", 
     "containers": [
         {
             "accelerators": [
@@ -59,5 +66,8 @@
             ], 
             "name": "vadd_BAD"
         }
+    ], 
+    "description": [
+        "This is simple example of vector addition to demonstrate effectiveness of using single compute unit with heavy work load to achieve better performance. Bad example uses multiple compute units to achieve good performance but it results in heavy usage of FPGA resources and area due to which design fails timing. Good example uses single compute unit to compute with heavier work load, it helps in less resource utilization and also helps in kernel scalability. To switch between Good/Bad cases use the flag provided in makefile."
     ]
 }

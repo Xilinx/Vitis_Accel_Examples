@@ -1,25 +1,34 @@
 {
-    "cmd_args": "BUILD/rgb_to_hsv.xclbin PROJECT/data/input.bmp", 
+    "name": "Custom Data Type (C)", 
     "contributors": [
         {
             "url": "http://www.xilinx.com", 
             "group": "Xilinx"
         }
     ], 
-    "host_exe": "host", 
-    "overview": [
-        "This is simple example of RGB to HSV conversion to demonstrate Custom DATA Type usages in C Based Kernel. Xilinx HLS Compiler Supports Custom Data Type to use for operation as well as Memory Interface between Kernel and Global Memory."
-    ], 
-    "includes": [
+    "launch": [
         {
-            "name": "xcl2", 
-            "location": "GIT_REPO_DIR/common/includes/xcl2/"
-        }, 
-        {
-            "name": "bitmap", 
-            "location": "GIT_REPO_DIR/common/includes/bitmap/"
+            "cmd_args": "BUILD/rgb_to_hsv.xclbin PROJECT/data/input.bmp", 
+            "name": "generic launch for all flows"
         }
     ], 
+    "description": [
+        "This is simple example of RGB to HSV conversion to demonstrate Custom DATA Type usages in C Based Kernel. Xilinx HLS Compiler Supports Custom Data Type to use for operation as well as Memory Interface between Kernel and Global Memory."
+    ], 
+    "platform_type": "pcie", 
+    "host": {
+        "compiler": {
+            "sources": [
+                "REPO_DIR/common/includes/xcl2", 
+                "REPO_DIR/common/includes/bitmap"
+            ], 
+            "includepaths": [
+                "REPO_DIR/common/includes/xcl2", 
+                "REPO_DIR/common/includes/bitmap"
+            ]
+        }, 
+        "host_exe": "host"
+    }, 
     "key_concepts": [
         "Custom Datatype"
     ], 
@@ -34,7 +43,6 @@
     "os": [
         "Linux"
     ], 
-    "example": "Custom Data Type (C)", 
     "containers": [
         {
             "accelerators": [

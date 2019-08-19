@@ -1,37 +1,38 @@
 {
     "config_make": "config.mk", 
-    "cmd_args": "BUILD/vadd.xclbin", 
-    "revision": [
-        {
-            "date": "May2017", 
-            "version": "1.0", 
-            "description": "Initial Xilinx Release"
-        }
-    ], 
+    "name": "Multiple RTL Kernels (RTL)", 
     "contributors": [
         {
             "url": "http://www.xilinx.com", 
             "group": "Xilinx"
         }
     ], 
-    "host_exe": "host", 
-    "overview": [
+    "launch": [
+        {
+            "cmd_args": "BUILD/vadd.xclbin", 
+            "name": "generic launch for all flows"
+        }
+    ], 
+    "output_files": "tmp_kernel_pack* packaged_kernel*", 
+    "gui": false, 
+    "description": [
         "This example has two RTL Kernels. Both Kernel_0 and Kernel_1 perform vector addition. The Kernel_1 reads the output from Kernel_0 as one of two inputs."
     ], 
-    "targets": [
-        "hw", 
-        "hw_emu"
-    ], 
-    "host_srcs": "src/host.cpp", 
+    "platform_type": "pcie", 
+    "host": {
+        "compiler": {
+            "sources": [
+                "REPO_DIR/common/includes/xcl2", 
+                "src/host.cpp"
+            ], 
+            "includepaths": [
+                "REPO_DIR/common/includes/xcl2"
+            ]
+        }, 
+        "host_exe": "host"
+    }, 
     "key_concepts": [
         "Multiple RTL Kernels"
-    ], 
-    "sdx_gui": false, 
-    "includes": [
-        {
-            "name": "xcl2", 
-            "location": "GIT_REPO_DIR/common/includes/xcl2/"
-        }
     ], 
     "runtime": [
         "OpenCL"
@@ -39,7 +40,10 @@
     "os": [
         "Linux"
     ], 
-    "example": "Multiple RTL Kernels (RTL)", 
+    "targets": [
+        "hw", 
+        "hw_emu"
+    ], 
     "containers": [
         {
             "accelerators": [
@@ -55,5 +59,11 @@
             "name": "vadd"
         }
     ], 
-    "output_files": "tmp_kernel_pack* packaged_kernel*"
+    "revision": [
+        {
+            "date": "May2017", 
+            "version": "1.0", 
+            "description": "Initial Xilinx Release"
+        }
+    ]
 }

@@ -1,21 +1,29 @@
 {
-    "cmd_args": "BUILD/matrix_ops.xclbin", 
+    "name": "Concurrent Kernel Execution (C)", 
     "contributors": [
         {
             "url": "http://www.xilinx.com", 
             "group": "Xilinx"
         }
     ], 
-    "host_exe": "concurrent_execution", 
-    "overview": [
-        "This example will demonstrate how to use multiple and out of order command queues to simultaneously execute multiple kernels on an FPGA."
-    ], 
-    "includes": [
+    "launch": [
         {
-            "name": "xcl2", 
-            "location": "GIT_REPO_DIR/common/includes/xcl2/"
+            "cmd_args": "BUILD/matrix_ops.xclbin", 
+            "name": "generic launch for all flows"
         }
     ], 
+    "platform_type": "pcie", 
+    "host": {
+        "compiler": {
+            "sources": [
+                "REPO_DIR/common/includes/xcl2"
+            ], 
+            "includepaths": [
+                "REPO_DIR/common/includes/xcl2"
+            ]
+        }, 
+        "host_exe": "concurrent_execution"
+    }, 
     "key_concepts": [
         "Concurrent execution", 
         "Out of Order Command Queues", 
@@ -31,7 +39,6 @@
     "os": [
         "Linux"
     ], 
-    "example": "Concurrent Kernel Execution (C)", 
     "containers": [
         {
             "accelerators": [
@@ -50,5 +57,8 @@
             ], 
             "name": "matrix_ops"
         }
+    ], 
+    "description": [
+        "This example will demonstrate how to use multiple and out of order command queues to simultaneously execute multiple kernels on an FPGA."
     ]
 }

@@ -13,34 +13,21 @@
     "launch": [
         {
             "cmd_args": "BUILD/vadd.xclbin", 
-            "name": "sw_emu"
+            "name": "generic launch for all flows"
+        }
+    ], 
+    "platform_type": "pcie", 
+    "host": {
+        "compiler": {
+            "sources": [
+                "REPO_DIR/common/includes/xcl2"
+            ], 
+            "includepaths": [
+                "REPO_DIR/common/includes/xcl2"
+            ]
         }, 
-        {
-            "cmd_args": "BUILD/vadd.xclbin", 
-            "name": "hw_emu"
-        }
-    ], 
-    "includes": [
-        {
-            "name": "xcl2", 
-            "location": "GIT_REPO_DIR/common/includes/xcl2/"
-        }
-    ], 
-    "host": [
-        {
-            "compiler": [
-                {}
-            ], 
-            "linker": [
-                {
-                    "librarypaths": [
-                        "REPO_DIR/common/includes/"
-                    ]
-                }
-            ], 
-            "host_exe": "host"
-        }
-    ], 
+        "host_exe": "host"
+    }, 
     "key_concepts": [
         "Multiple Compute Units"
     ], 
@@ -62,7 +49,7 @@
                     "location": "src/vadd.cpp"
                 }
             ], 
-            "ldclflags": "--sp vadd_1.in1:DDR[0] --sp vadd_1.in2:DDR[0] --sp vadd_1.out_r:DDR[0] --sp vadd_2.in1:DDR[1] --sp vadd_2.in2:DDR[1] --sp vadd_2.out_r:DDR[1] --sp vadd_3.in1:PLRAM[0] --sp vadd_3.in2:PLRAM[0] --sp vadd_3.out_r:PLRAM[0] --sp vadd_4.in1:PLRAM[1] --sp vadd_4.in2:PLRAM[1] --sp vadd_4.out_r:PLRAM[1]  ", 
+            "ldclflags": "--config connectivity.ini",
             "name": "vadd"
         }
     ], 

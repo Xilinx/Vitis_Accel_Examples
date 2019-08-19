@@ -38,9 +38,9 @@ memory resources managed by the SDx memory subsystem.
 
 //OpenCL utility layer include
 #include "xcl2.hpp"
+#include <algorithm>
 #include <stdlib.h>
 #include <vector>
-
 //Array Size to access
 #define DATA_SIZE 8
 
@@ -75,7 +75,6 @@ void mmult_fpga(
     int size = dim;
     size_t matrix_size_bytes = sizeof(int) * size * size;
 
-    unsigned fileBufSize;
     //The get_xil_devices will return vector of Xilinx Devices
     auto devices = xcl::get_xil_devices();
     auto device = devices[0];
@@ -85,8 +84,8 @@ void mmult_fpga(
     cl::CommandQueue q(context, device, CL_QUEUE_PROFILING_ENABLE);
     auto device_name = device.getInfo<CL_DEVICE_NAME>();
 
-    auto fileBuf = xcl::read_binary_file(binaryFile, fileBufSize);
-    cl::Program::Binaries bins{{fileBuf, fileBufSize}};
+   auto fileBuf = xcl::read_binary_file(binaryFile);
+   cl::Program::Binaries bins{{fileBuf.data(), fileBuf.size()}};
     devices.resize(1);
     cl::Program program(context, devices, bins);
 
@@ -137,7 +136,6 @@ void mmult_fpga(
     q.enqueueMigrateMemObjects({buffer_output}, CL_MIGRATE_MEM_OBJECT_HOST);
     q.finish();
 
-    delete[] fileBuf;
 }
 
 int main(int argc, char **argv) {
@@ -160,9 +158,10 @@ int main(int argc, char **argv) {
         matrix_size_bytes);
 
     //Create the test data
+    std::generate(source_in1.begin(), source_in1.end(), std::rand);
+
+    std::generate(source_in2.begin(), source_in2.end(), std::rand);
     for (int i = 0; i < DATA_SIZE * DATA_SIZE; i++) {
-        source_in1[i] = rand() % size;
-        source_in2[i] = rand() % size;
         source_cpu_results[i] = 0;
         source_fpga_results[i] = 0;
     }

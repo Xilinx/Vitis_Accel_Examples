@@ -1,40 +1,50 @@
 {
     "config_make": "config.mk", 
-    "cmd_args": "BUILD/adder.xclbin", 
+    "name": "Adder With Streams (RTL)", 
     "contributors": [
         {
             "url": "http://www.xilinx.com", 
             "group": "Xilinx"
         }
     ], 
-    "host_exe": "host", 
-    "overview": [
+    "launch": [
+        {
+            "cmd_args": "BUILD/adder.xclbin", 
+            "name": "generic launch for all flows"
+        }
+    ], 
+    "gui": false, 
+    "description": [
         "This example shows an adder with streams using 3 RTL kernels."
     ], 
-    "targets": [
-        "hw", 
-        "hw_emu"
-    ], 
-    "host_srcs": "src/host.cpp", 
+    "platform_type": "pcie", 
+    "host": {
+        "compiler": {
+            "sources": [
+                "REPO_DIR/common/includes/xcl2", 
+                "src/host.cpp"
+            ], 
+            "includepaths": [
+                "REPO_DIR/common/includes/xcl2"
+            ]
+        }, 
+        "host_exe": "host"
+    }, 
     "key_concepts": [
         "RTL Kernel", 
         "Multiple RTL Kernels"
     ], 
     "match_ini": "false", 
-    "sdx_gui": false, 
-    "includes": [
-        {
-            "name": "xcl2", 
-            "location": "GIT_REPO_DIR/common/includes/xcl2/"
-        }
-    ], 
     "runtime": [
         "OpenCL"
     ], 
     "os": [
         "Linux"
     ], 
-    "example": "Adder With Streams (RTL)", 
+    "targets": [
+        "hw", 
+        "hw_emu"
+    ], 
     "containers": [
         {
             "accelerators": [
@@ -51,7 +61,7 @@
                     "name": "output"
                 }
             ], 
-            "ldclflags": "--sc krnl_input_stage_rtl_1.p0:krnl_adder_stage_rtl_1.p0 --sc krnl_adder_stage_rtl_1.p1:krnl_output_stage_rtl_1.p1", 
+            "ldclflags": "--config connectivity.ini", 
             "name": "adder"
         }
     ], 

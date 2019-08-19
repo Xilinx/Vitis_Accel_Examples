@@ -1,21 +1,29 @@
 {
-    "cmd_args": "BUILD/vadd.xclbin", 
+    "name": "Two Parallel Read/Write on Local Memory (C)", 
     "contributors": [
         {
             "url": "http://www.xilinx.com", 
             "group": "Xilinx"
         }
     ], 
-    "host_exe": "host", 
-    "overview": [
-        "This is simple example of vector addition to demonstrate how to utilized both ports of Local Memory memory."
-    ], 
-    "includes": [
+    "launch": [
         {
-            "name": "xcl2", 
-            "location": "GIT_REPO_DIR/common/includes/xcl2/"
+            "cmd_args": "BUILD/vadd.xclbin", 
+            "name": "generic launch for all flows"
         }
     ], 
+    "platform_type": "pcie", 
+    "host": {
+        "compiler": {
+            "sources": [
+                "REPO_DIR/common/includes/xcl2"
+            ], 
+            "includepaths": [
+                "REPO_DIR/common/includes/xcl2"
+            ]
+        }, 
+        "host_exe": "host"
+    }, 
     "key_concepts": [
         "Kernel Optimization", 
         "2port BRAM Utilization", 
@@ -30,7 +38,6 @@
     "os": [
         "Linux"
     ], 
-    "example": "Two Parallel Read/Write on Local Memory (C)", 
     "containers": [
         {
             "accelerators": [
@@ -41,5 +48,8 @@
             ], 
             "name": "vadd"
         }
+    ], 
+    "description": [
+        "This is simple example of vector addition to demonstrate how to utilized both ports of Local Memory memory."
     ]
 }

@@ -6,27 +6,36 @@
             }
         ]
     }, 
-    "cmd_args": "BUILD/sketch_GOOD.xclbin BUILD/sketch_BAD.xclbin PROJECT/data/car_128x128.bmp", 
+    "name": "Large application Splits into Multiple Kernels(CL)", 
     "contributors": [
         {
             "url": "http://www.xilinx.com", 
             "group": "Xilinx"
         }
     ], 
-    "host_exe": "host", 
-    "overview": [
-        "This is a multi-filter image processing application to showcase effectiveness of Dataflow/Streams usage. This examples is intended to help developers to break down the complex kernel into multiple sub-functions using OpenCL Dataflow. It presents a way to concurrently execute multiple functions with better area utilization compared to a complex single kernel implementation. The main objective of this example is to showcase a way to build a optimal FPGA design which achieves maximum frequency with optimal resource utilization and achieves better performance compared to single kernel implementations."
-    ], 
-    "includes": [
+    "launch": [
         {
-            "name": "xcl2", 
-            "location": "GIT_REPO_DIR/common/includes/xcl2/"
-        }, 
-        {
-            "name": "bitmap", 
-            "location": "GIT_REPO_DIR/common/includes/bitmap/"
+            "cmd_args": "BUILD/sketch_GOOD.xclbin BUILD/sketch_BAD.xclbin PROJECT/data/car_128x128.bmp", 
+            "name": "generic launch for all flows"
         }
     ], 
+    "description": [
+        "This is a multi-filter image processing application to showcase effectiveness of Dataflow/Streams usage. This examples is intended to help developers to break down the complex kernel into multiple sub-functions using OpenCL Dataflow. It presents a way to concurrently execute multiple functions with better area utilization compared to a complex single kernel implementation. The main objective of this example is to showcase a way to build a optimal FPGA design which achieves maximum frequency with optimal resource utilization and achieves better performance compared to single kernel implementations."
+    ], 
+    "platform_type": "pcie", 
+    "host": {
+        "compiler": {
+            "sources": [
+                "REPO_DIR/common/includes/xcl2", 
+                "REPO_DIR/common/includes/bitmap"
+            ], 
+            "includepaths": [
+                "REPO_DIR/common/includes/xcl2", 
+                "REPO_DIR/common/includes/bitmap"
+            ]
+        }, 
+        "host_exe": "host"
+    }, 
     "key_concepts": [
         "Dataflow", 
         "Stream"
@@ -42,7 +51,6 @@
     "os": [
         "Linux"
     ], 
-    "example": "Large application Splits into Multiple Kernels(CL)", 
     "containers": [
         {
             "accelerators": [

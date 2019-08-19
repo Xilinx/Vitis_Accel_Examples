@@ -7,6 +7,7 @@
             }
         ]
     }, 
+    "name": "K-Means", 
     "contributors": [
         {
             "url": "https://www.cs.virginia.edu/~skadron/wiki/rodinia/index.php/Rodinia:Accelerating_Compute-Intensive_Applications_with_Accelerators", 
@@ -17,8 +18,13 @@
             "group": "Xilinx"
         }
     ], 
-    "host_exe": "host_kmeans", 
-    "overview": [
+    "launch": [
+        {
+            "cmd_args": "-x BUILD/kmeans.xclbin -i PROJECT/data/100 -c PROJECT/data/100.gold_c5 -m 5 -n 5 -g 2", 
+            "name": "generic launch for all flows"
+        }
+    ], 
+    "description": [
         "This is OpenCL Based K-Means clustering Implementation for Xilinx FPGA ", 
         "Devices. K-means clustering is a method of vector quantization, that ", 
         "is popular for cluster analysis in data mining. K-means clustering ", 
@@ -48,26 +54,30 @@
         "\t -b               : input file is in binary format", 
         "\t -o               : output cluster center coordinates [default=off]"
     ], 
-    "includes": [
-        {
-            "name": "logger", 
-            "location": "GIT_REPO_DIR/common/includes/logger/"
+    "platform_type": "pcie", 
+    "host": {
+        "compiler": {
+            "sources": [
+                "REPO_DIR/common/includes/logger", 
+                "REPO_DIR/common/includes/cmdparser", 
+                "REPO_DIR/common/includes/xcl2", 
+                "./src/host.cpp", 
+                "./src/cluster.c", 
+                "./src/rmse.c", 
+                "./src/fpga_kmeans.cpp", 
+                "./src/kmeans_clustering_cmodel.c"
+            ], 
+            "includepaths": [
+                "REPO_DIR/common/includes/logger", 
+                "REPO_DIR/common/includes/cmdparser", 
+                "REPO_DIR/common/includes/xcl2"
+            ]
         }, 
-        {
-            "name": "cmdparser", 
-            "location": "GIT_REPO_DIR/common/includes/cmdparser/"
-        }, 
-        {
-            "name": "xcl2", 
-            "location": "GIT_REPO_DIR/common/includes/xcl2/"
-        }
-    ], 
-    "host_srcs": "./src/host.cpp ./src/cluster.c ./src/rmse.c ./src/fpga_kmeans.cpp ./src/kmeans_clustering_cmodel.c", 
+        "host_exe": "host_kmeans"
+    }, 
     "runtime": [
         "OpenCL"
     ], 
-    "cmd_args": "-x BUILD/kmeans.xclbin -i PROJECT/data/100 -c PROJECT/data/100.gold_c5 -m 5 -n 5 -g 2", 
-    "example": "K-Means", 
     "containers": [
         {
             "accelerators": [

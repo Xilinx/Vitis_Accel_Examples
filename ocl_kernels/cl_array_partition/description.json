@@ -1,21 +1,32 @@
 {
-    "cmd_args": "BUILD/matmul.xclbin", 
+    "name": "Array Partitioning (CL)", 
     "contributors": [
         {
             "url": "http://www.xilinx.com", 
             "group": "Xilinx"
         }
     ], 
-    "host_exe": "array_partition", 
-    "overview": [
-        "This example shows how to use array partitioning to improve performance of a kernel"
-    ], 
-    "includes": [
+    "launch": [
         {
-            "name": "xcl2", 
-            "location": "GIT_REPO_DIR/common/includes/xcl2/"
+            "cmd_args": "BUILD/matmul.xclbin", 
+            "name": "generic launch for all flows"
         }
     ], 
+    "description": [
+        "This example shows how to use array partitioning to improve performance of a kernel"
+    ], 
+    "platform_type": "pcie", 
+    "host": {
+        "compiler": {
+            "sources": [
+                "REPO_DIR/common/includes/xcl2"
+            ], 
+            "includepaths": [
+                "REPO_DIR/common/includes/xcl2"
+            ]
+        }, 
+        "host_exe": "array_partition"
+    }, 
     "key_concepts": [
         "Kernel Optimization", 
         "Array Partitioning"
@@ -30,7 +41,6 @@
     "os": [
         "Linux"
     ], 
-    "example": "Array Partitioning (CL)", 
     "containers": [
         {
             "accelerators": [

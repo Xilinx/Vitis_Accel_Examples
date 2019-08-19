@@ -78,9 +78,9 @@ struct aligned_allocator
 namespace xcl {
   std::vector<cl::Device> get_xil_devices();
   std::vector<cl::Device> get_devices(const std::string& vendor_name);
-  char* read_binary_file(const std::string &xclbin_file_name, unsigned &nb);
-  bool is_emulation () ;
-  bool is_hw_emulation () ;
+  std::vector<unsigned char> read_binary_file(const std::string &xclbin_file_name); 
+  bool is_emulation ();
+  bool is_hw_emulation ();
   bool is_xpr_device (const char *device_name);
     class Stream{
       public:

@@ -84,7 +84,6 @@ int main(int argc, char **argv) {
     size_t size_in_bytes = signal_size * sizeof(int);
     size_t coeff_size_in_bytes = coeff.size() * sizeof(int);
     cl_int err;
-    unsigned fileBufSize;
 
     // Initialize OpenCL context and load xclbin binary
     auto devices = xcl::get_xil_devices();
@@ -98,8 +97,8 @@ int main(int argc, char **argv) {
               std::string device_name = device.getInfo<CL_DEVICE_NAME>(&err));
 
     //Create Program
-    auto fileBuf = xcl::read_binary_file(binaryFile, fileBufSize);
-    cl::Program::Binaries bins{{fileBuf, fileBufSize}};
+   auto fileBuf = xcl::read_binary_file(binaryFile);
+   cl::Program::Binaries bins{{fileBuf.data(), fileBuf.size()}};
     devices.resize(1);
     OCL_CHECK(err, cl::Program program(context, devices, bins, NULL, &err));
 
@@ -170,7 +169,6 @@ int main(int argc, char **argv) {
         fir_sr_time += get_duration_ns(event);
         verify(gold, out);
     }
-    delete[] fileBuf;
     printf("Example Testdata Signal_Length=%lu for %d iteration\n",
            signal_size,
            iterations);

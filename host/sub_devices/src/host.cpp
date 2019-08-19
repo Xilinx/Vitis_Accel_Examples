@@ -55,7 +55,6 @@ int main(int argc, char **argv) {
     std::string vaddBinaryFile = argv[1];
     cl_int err;
     int size;
-    unsigned fileBufSize;
     const char *xcl_emu = getenv("XCL_EMULATION_MODE");
     if (xcl_emu && !strcmp(xcl_emu, "hw_emu")) {
         //Original dataset is reduced for faster execution of hardware
@@ -93,8 +92,8 @@ int main(int argc, char **argv) {
     std::string device_name = device.getInfo<CL_DEVICE_NAME>();
     std::cout << "Found Device=" << device_name.c_str() << std::endl;
 
-    char *fileBuf = xcl::read_binary_file(vaddBinaryFile, fileBufSize);
-    cl::Program::Binaries vadd_bins{{fileBuf, fileBufSize}};
+    auto fileBuf = xcl::read_binary_file(vaddBinaryFile);
+    cl::Program::Binaries vadd_bins{{fileBuf.data(), fileBuf.size()}};
     devices.resize(1);
     OCL_CHECK(err,
               cl::Program program(context, devices, vadd_bins, NULL, &err));
@@ -219,7 +218,6 @@ int main(int argc, char **argv) {
         }
     }
 
-    delete[] fileBuf;
 
     std::cout << "TEST " << (match ? "PASSED" : "FAILED") << std::endl;
     return (match ? EXIT_SUCCESS : EXIT_FAILURE);

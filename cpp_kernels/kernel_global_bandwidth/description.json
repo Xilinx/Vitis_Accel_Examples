@@ -7,35 +7,42 @@
             }
         ]
     }, 
-    "cmd_args": "BUILD/krnl_kernel_global.xclbin", 
+    "ndevice": [
+        "xilinx_aws-vu9p-f1-04261818", 
+        "xilinx:aws-vu9p-f1-04261818:dynamic"
+    ], 
+    "name": "kernel_global", 
     "contributors": [
         {
             "url": "http://www.xilinx.com", 
             "group": "Xilinx"
         }
     ], 
-    "host_srcs": "src/kernel_global_bandwidth.cpp", 
-    "overview": [
-        "Bandwidth test of global to local memory."
-    ], 
-    "host_exe": "kernel_global", 
-    "includes": [
+    "launch": [
         {
-            "name": "xcl2", 
-            "location": "GIT_REPO_DIR/common/includes/xcl2/"
+            "cmd_args": "BUILD/krnl_kernel_global.xclbin", 
+            "name": "generic launch for all flows"
         }
     ], 
-    "nboard": [
-        "xilinx_aws-vu9p-f1-04261818", 
-        "xilinx:aws-vu9p-f1-04261818:dynamic"
-    ], 
+    "platform_type": "pcie", 
+    "host": {
+        "compiler": {
+            "sources": [
+                "REPO_DIR/common/includes/xcl2", 
+                "src/kernel_global_bandwidth.cpp"
+            ], 
+            "includepaths": [
+                "REPO_DIR/common/includes/xcl2"
+            ]
+        }, 
+        "host_exe": "kernel_global"
+    }, 
     "runtime": [
         "OpenCL"
     ], 
     "os": [
         "Linux"
     ], 
-    "example": "kernel_global", 
     "containers": [
         {
             "accelerators": [
@@ -47,5 +54,8 @@
             ], 
             "name": "krnl_kernel_global"
         }
+    ], 
+    "description": [
+        "Bandwidth test of global to local memory."
     ]
 }

@@ -6,8 +6,8 @@ This is a HBM bandwidth check design. Design contains 8 compute units of a kerne
 ## SUPPORTED PLATFORMS
 Platform | Board             | Software Version
 ---------|-------------------|-----------------
-xilinx_u280_xdma|Xilinx Alveo U280|SCOUT 2019.1
-xilinx_u280-es1_xdma|Xilinx Alveo U280|SCOUT 2019.1
+xilinx_u280_xdma|Xilinx Alveo U280|VITIS 2019.2
+xilinx_u280-es1_xdma|Xilinx Alveo U280|VITIS 2019.2
 
 
 ##  DESIGN FILES

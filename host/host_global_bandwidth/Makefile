@@ -36,7 +36,7 @@ DSA := $(call device2dsa, $(DEVICE))
 TEMP_DIR := ./_x.$(TARGET).$(DSA)
 BUILD_DIR := ./build_dir.$(TARGET).$(DSA)
 
-CXX := $(XILINX_SCOUT)/bin/xcpp
+CXX := $(XILINX_VITIS)/bin/xcpp
 XOCC := v++
 
 #Include Libraries
@@ -57,8 +57,9 @@ LDFLAGS += -lrt -lstdc++
 # Kernel compiler global settings
 CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps 
 
+
 # Kernel linker flags
-LDCLFLAGS += --sp bandwidth_1.m_axi_gmem0:DDR[0] --sp bandwidth_1.m_axi_gmem1:DDR[1]
+LDCLFLAGS += --config connectivity.ini
 
 EXECUTABLE = host_global
 CMD_ARGS = $(BUILD_DIR)/krnl_host_global.xclbin
@@ -115,7 +116,7 @@ ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 else
 	 ./$(EXECUTABLE) $(BUILD_DIR)/krnl_host_global.xclbin
 endif
-	sdx_analyze profile -i profile_summary.csv -f html
+	perf_analyze profile -i profile_summary.csv -f html
 
 run_nimbix: all
 	$(COMMON_REPO)/common/utility/nimbix/run_nimbix.py $(EXECUTABLE) $(CMD_ARGS) $(DSA)
@@ -131,5 +132,5 @@ clean:
 
 cleanall: clean
 	-$(RMDIR) build_dir*
-	-$(RMDIR) _x.*
+	-$(RMDIR) _x.* xclbin.run_summary
 	-$(RMDIR) ./metric1.csv 

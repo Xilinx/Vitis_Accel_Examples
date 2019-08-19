@@ -1,25 +1,31 @@
 {
-    "cmd_args": "BUILD/vadd.xclbin", 
+    "name": "Burst Read/Write (C)", 
     "contributors": [
         {
             "url": "http://www.xilinx.com", 
             "group": "Xilinx"
         }
     ], 
-    "host_exe": "host", 
-    "overview": [
-        "This is simple example of using AXI4-master interface for burst read and write"
-    ], 
-    "includes": [
+    "launch": [
         {
-            "name": "xcl2", 
-            "location": "GIT_REPO_DIR/common/includes/xcl2/"
-        }, 
-        {
-            "name": "bitmap", 
-            "location": "GIT_REPO_DIR/common/includes/bitmap/"
+            "cmd_args": "BUILD/vadd.xclbin", 
+            "name": "generic launch for all flows"
         }
     ], 
+    "platform_type": "pcie", 
+    "host": {
+        "compiler": {
+            "sources": [
+                "REPO_DIR/common/includes/xcl2", 
+                "REPO_DIR/common/includes/bitmap"
+            ], 
+            "includepaths": [
+                "REPO_DIR/common/includes/xcl2", 
+                "REPO_DIR/common/includes/bitmap"
+            ]
+        }, 
+        "host_exe": "host"
+    }, 
     "key_concepts": [
         "burst access"
     ], 
@@ -34,7 +40,6 @@
     "os": [
         "Linux"
     ], 
-    "example": "Burst Read/Write (C)", 
     "containers": [
         {
             "accelerators": [
@@ -45,5 +50,8 @@
             ], 
             "name": "vadd"
         }
+    ], 
+    "description": [
+        "This is simple example of using AXI4-master interface for burst read and write"
     ]
 }

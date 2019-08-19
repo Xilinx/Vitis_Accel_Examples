@@ -4,29 +4,39 @@
         "Image Size", 
         "Frames / Second"
     ], 
-    "host_srcs": "src/medianFilter.cpp", 
+    "name": "Median Filter", 
     "contributors": [
         {
             "url": "http://www.xilinx.com", 
             "group": "Xilinx"
         }
     ], 
-    "host_exe": "median", 
-    "overview": [
+    "platform_type": "pcie", 
+    "description": [
         "This is an optimized implementation of a median filter being used to remove noise in images targeting execution on an SDAccel supported FPGA acceleration card."
     ], 
-    "xcl": false, 
-    "includes": [
+    "launch": [
         {
-            "name": "xcl2", 
-            "location": "GIT_REPO_DIR/common/includes/xcl2/"
-        }, 
-        {
-            "name": "bitmap", 
-            "location": "GIT_REPO_DIR/common/includes/bitmap/"
+            "cmd_args": "BUILD/krnl_median.xclbin PROJECT/data/inputImage.bmp PROJECT/data/goldenImage.bmp", 
+            "name": "generic launch for all flows"
         }
     ], 
+    "xcl": false, 
     "opencv": true, 
+    "host": {
+        "compiler": {
+            "sources": [
+                "REPO_DIR/common/includes/xcl2", 
+                "REPO_DIR/common/includes/bitmap", 
+                "src/medianFilter.cpp"
+            ], 
+            "includepaths": [
+                "REPO_DIR/common/includes/xcl2", 
+                "REPO_DIR/common/includes/bitmap"
+            ]
+        }, 
+        "host_exe": "median"
+    }, 
     "performance": [
         [
             "xilinx:adm-pcie-7v3:1ddr", 
@@ -37,8 +47,6 @@
     "runtime": [
         "OpenCL"
     ], 
-    "cmd_args": "BUILD/krnl_median.xclbin PROJECT/data/inputImage.bmp PROJECT/data/goldenImage.bmp", 
-    "example": "Median Filter", 
     "containers": [
         {
             "accelerators": [

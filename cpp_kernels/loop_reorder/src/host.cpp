@@ -81,7 +81,6 @@ int main(int argc, char **argv) {
 
     size_t matrix_size_bytes = sizeof(int) * DATA_SIZE * DATA_SIZE;
     cl_int err;
-    unsigned fileBufSize;
 
     std::vector<int, aligned_allocator<int>> source_in1(matrix_size_bytes);
     std::vector<int, aligned_allocator<int>> source_in2(matrix_size_bytes);
@@ -109,8 +108,8 @@ int main(int argc, char **argv) {
     OCL_CHECK(err,
               std::string device_name = device.getInfo<CL_DEVICE_NAME>(&err));
 
-    auto fileBuf = xcl::read_binary_file(binaryFile, fileBufSize);
-    cl::Program::Binaries bins{{fileBuf, fileBufSize}};
+   auto fileBuf = xcl::read_binary_file(binaryFile);
+   cl::Program::Binaries bins{{fileBuf.data(), fileBuf.size()}};
     devices.resize(1);
     OCL_CHECK(err, cl::Program program(context, devices, bins, NULL, &err));
     OCL_CHECK(err, cl::Kernel krnl_loop_reorder(program, "mmult", &err));
@@ -175,7 +174,6 @@ int main(int argc, char **argv) {
         }
     }
 
-    delete[] fileBuf;
 
     std::cout << "TEST " << (match ? "FAILED" : "PASSED") << std::endl;
     return (match ? EXIT_FAILURE : EXIT_SUCCESS);

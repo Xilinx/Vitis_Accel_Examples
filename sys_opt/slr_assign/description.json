@@ -1,0 +1,64 @@
+{
+    "ndevice": [
+        "xilinx_vcu1525_dynamic", 
+        "xilinx_u280-es1_xdma", 
+        "xilinx:vcu1525:dynamic", 
+        "xilinx:u280-es1:xdma"
+    ], 
+    "name": "SLR Assign (CL)", 
+    "contributors": [
+        {
+            "url": "http://www.xilinx.com", 
+            "group": "Xilinx"
+        }
+    ], 
+    "launch": [
+        {
+            "cmd_args": "BUILD/vmult_vadd.xclbin", 
+            "name": "generic launch for all flows"
+        }
+    ], 
+    "platform_type": "pcie", 
+    "host": {
+        "compiler": {
+            "sources": [
+                "REPO_DIR/common/includes/xcl2"
+            ], 
+            "includepaths": [
+                "REPO_DIR/common/includes/xcl2"
+            ]
+        }, 
+        "host_exe": "host"
+    }, 
+    "key_concepts": [
+        "SLR Assignments"
+    ], 
+    "keywords": [
+        "slr"
+    ], 
+    "runtime": [
+        "OpenCL"
+    ], 
+    "os": [
+        "Linux"
+    ], 
+    "containers": [
+        {
+            "accelerators": [
+                {
+                    "name": "vmult", 
+                    "location": "src/kernel.cl"
+                }, 
+                {
+                    "name": "vadd", 
+                    "location": "src/kernel.cl"
+                }
+            ], 
+            "ldclflags": "--config connectivity.ini", 
+            "name": "vmult_vadd"
+        }
+    ], 
+    "description": [
+        "This is simple example to describe SLR assignment information for a platform design. This example highlights how to provide extra input to assign the logic of the kernel into a nominated SLR. In this example we are assigning first kernel(Vector Multiplication) to SLR0 and assigning the second kernel(Vector Addition) to SLR1"
+    ]
+}

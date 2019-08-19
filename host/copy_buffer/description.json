@@ -1,21 +1,29 @@
 {
-    "cmd_args": "BUILD/vector_addition.xclbin", 
+    "name": "Copy Buffer (C)", 
     "contributors": [
         {
             "url": "http://www.xilinx.com", 
             "group": "Xilinx"
         }
     ], 
-    "host_exe": "host", 
-    "overview": [
-        "This Copy Buffer example demonstrate how one buffer can be copied from another buffer."
-    ], 
-    "includes": [
+    "launch": [
         {
-            "name": "xcl2", 
-            "location": "GIT_REPO_DIR/common/includes/xcl2/"
+            "cmd_args": "BUILD/vector_addition.xclbin", 
+            "name": "generic launch for all flows"
         }
     ], 
+    "platform_type": "pcie", 
+    "host": {
+        "compiler": {
+            "sources": [
+                "REPO_DIR/common/includes/xcl2"
+            ], 
+            "includepaths": [
+                "REPO_DIR/common/includes/xcl2"
+            ]
+        }, 
+        "host_exe": "host"
+    }, 
     "key_concepts": [
         "Copy Buffer"
     ], 
@@ -28,7 +36,6 @@
     "os": [
         "Linux"
     ], 
-    "example": "Copy Buffer (C)", 
     "containers": [
         {
             "accelerators": [
@@ -39,5 +46,8 @@
             ], 
             "name": "vector_addition"
         }
+    ], 
+    "description": [
+        "This Copy Buffer example demonstrate how one buffer can be copied from another buffer."
     ]
 }

@@ -1,27 +1,35 @@
 {
-    "cmd_args": "BUILD/mmult.xclbin", 
+    "ndevice": [
+        "xilinx_aws-vu9p-f1-04261818", 
+        "xilinx:aws-vu9p-f1-04261818:dynamic"
+    ], 
+    "name": "PLRAM access (C)", 
     "contributors": [
         {
             "url": "http://www.xilinx.com", 
             "group": "Xilinx"
         }
     ], 
-    "host_exe": "host", 
-    "overview": [
-        "This example shows the usage of PLRAM and how to use it with simple matrix multiplication (Row x Col)."
-    ], 
-    "includes": [
+    "launch": [
         {
-            "name": "xcl2", 
-            "location": "GIT_REPO_DIR/common/includes/xcl2/"
+            "cmd_args": "BUILD/mmult.xclbin", 
+            "name": "generic launch for all flows"
         }
     ], 
-    "nboard": [
-        "xilinx_aws-vu9p-f1-04261818", 
-        "xilinx:aws-vu9p-f1-04261818:dynamic"
-    ], 
+    "platform_type": "pcie", 
+    "host": {
+        "compiler": {
+            "sources": [
+                "REPO_DIR/common/includes/xcl2"
+            ], 
+            "includepaths": [
+                "REPO_DIR/common/includes/xcl2"
+            ]
+        }, 
+        "host_exe": "host"
+    }, 
     "key_concepts": [
-        "SDx Memory Hierarchy", 
+        "Vitis Memory Hierarchy", 
         "PLRAMs"
     ], 
     "keywords": [
@@ -33,7 +41,6 @@
     "os": [
         "Linux"
     ], 
-    "example": "PLRAM access (C)", 
     "containers": [
         {
             "accelerators": [
@@ -42,8 +49,11 @@
                     "location": "src/mmult.cpp"
                 }
             ], 
-            "ldclflags": "--sp mmult_1.a:PLRAM[0] --sp mmult_1.b:DDR[0] --sp mmult_1.c:PLRAM[1]", 
+            "ldclflags": "--config connectivity.ini", 
             "name": "mmult"
         }
+    ], 
+    "description": [
+        "This example shows the usage of PLRAM and how to use it with simple matrix multiplication (Row x Col)."
     ]
 }

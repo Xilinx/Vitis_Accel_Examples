@@ -1,37 +1,38 @@
 {
     "config_make": "config.mk", 
-    "cmd_args": "BUILD/vadd.xclbin", 
-    "revision": [
-        {
-            "date": "JAN2017", 
-            "version": "1.0", 
-            "description": "Initial Xilinx Release"
-        }
-    ], 
+    "name": "Vector Addition With RTL Kernel (RTL)", 
     "contributors": [
         {
             "url": "http://www.xilinx.com", 
             "group": "Xilinx"
         }
     ], 
-    "host_exe": "host", 
-    "overview": [
+    "launch": [
+        {
+            "cmd_args": "BUILD/vadd.xclbin", 
+            "name": "generic launch for all flows"
+        }
+    ], 
+    "output_files": "tmp_kernel_pack* packaged_kernel*", 
+    "gui": false, 
+    "description": [
         "Simple example of vector addition using RTL Kernel"
     ], 
-    "targets": [
-        "hw", 
-        "hw_emu"
-    ], 
-    "host_srcs": "src/host.cpp", 
+    "platform_type": "pcie", 
+    "host": {
+        "compiler": {
+            "sources": [
+                "REPO_DIR/common/includes/xcl2", 
+                "src/host.cpp"
+            ], 
+            "includepaths": [
+                "REPO_DIR/common/includes/xcl2"
+            ]
+        }, 
+        "host_exe": "host"
+    }, 
     "key_concepts": [
         "RTL Kernel"
-    ], 
-    "sdx_gui": false, 
-    "includes": [
-        {
-            "name": "xcl2", 
-            "location": "GIT_REPO_DIR/common/includes/xcl2/"
-        }
     ], 
     "runtime": [
         "OpenCL"
@@ -39,7 +40,10 @@
     "os": [
         "Linux"
     ], 
-    "example": "Vector Addition With RTL Kernel (RTL)", 
+    "targets": [
+        "hw", 
+        "hw_emu"
+    ], 
     "containers": [
         {
             "accelerators": [
@@ -51,5 +55,11 @@
             "name": "vadd"
         }
     ], 
-    "output_files": "tmp_kernel_pack* packaged_kernel*"
+    "revision": [
+        {
+            "date": "JAN2017", 
+            "version": "1.0", 
+            "description": "Initial Xilinx Release"
+        }
+    ]
 }

@@ -1,21 +1,29 @@
 {
-    "cmd_args": "BUILD/vector_addition.xclbin", 
+    "name": "Loop Pipelining (C)", 
     "contributors": [
         {
             "url": "http://www.xilinx.com", 
             "group": "Xilinx"
         }
     ], 
-    "host_exe": "loop_pipeline", 
-    "overview": [
-        "This example demonstrates how loop pipelining can be used to improve the performance of a kernel."
-    ], 
-    "includes": [
+    "launch": [
         {
-            "name": "xcl2", 
-            "location": "GIT_REPO_DIR/common/includes/xcl2/"
+            "cmd_args": "BUILD/vector_addition.xclbin", 
+            "name": "generic launch for all flows"
         }
     ], 
+    "platform_type": "pcie", 
+    "host": {
+        "compiler": {
+            "sources": [
+                "REPO_DIR/common/includes/xcl2"
+            ], 
+            "includepaths": [
+                "REPO_DIR/common/includes/xcl2"
+            ]
+        }, 
+        "host_exe": "loop_pipeline"
+    }, 
     "key_concepts": [
         "Kernel Optimization", 
         "Loop Pipelining"
@@ -29,7 +37,6 @@
     "os": [
         "Linux"
     ], 
-    "example": "Loop Pipelining (C)", 
     "containers": [
         {
             "accelerators": [
@@ -44,5 +51,8 @@
             ], 
             "name": "vector_addition"
         }
+    ], 
+    "description": [
+        "This example demonstrates how loop pipelining can be used to improve the performance of a kernel."
     ]
 }

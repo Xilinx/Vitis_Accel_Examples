@@ -48,7 +48,6 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 int g_global_size = 1;
 int g_vector_size = 16;
 float g_scale_factor = 1.0;
-char *g_fileBuf;
 
 #if USE_DATA_TYPE == INT_DT
 
@@ -367,7 +366,6 @@ float **FPGA_KMEANS::fpga_kmeans_clustering(
 
 int FPGA_KMEANS::fpga_kmeans_init(std::string &binaryFile) {
     cl_int err;
-    unsigned fileBufSize;
 
     auto devices = xcl::get_xil_devices();
     auto device = devices[0];
@@ -379,8 +377,8 @@ int FPGA_KMEANS::fpga_kmeans_init(std::string &binaryFile) {
     OCL_CHECK(err,
               std::string device_name = device.getInfo<CL_DEVICE_NAME>(&err));
 
-    g_fileBuf = xcl::read_binary_file(binaryFile, fileBufSize);
-    cl::Program::Binaries bins{{g_fileBuf, fileBufSize}};
+    auto g_fileBuf = xcl::read_binary_file(binaryFile);
+    cl::Program::Binaries bins{{g_fileBuf.data(), g_fileBuf.size()}};
     devices.resize(1);
     OCL_CHECK(err, g_prog = cl::Program(g_context, devices, bins, NULL, &err));
     OCL_CHECK(err, g_kernel_kmeans = cl::Kernel(g_prog, "kmeans", &err));
@@ -438,7 +436,6 @@ int FPGA_KMEANS::fpga_kmeans_allocate(int n_points,
 
 int FPGA_KMEANS::fpga_kmeans_deallocateMemory() {
     free(g_membership_OCL);
-    delete[] g_fileBuf;
     return true;
 }
 

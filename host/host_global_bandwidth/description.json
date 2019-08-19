@@ -1,4 +1,10 @@
 {
+    "ndevice": [
+        "xilinx_u280-es1_xdma", 
+        "xilinx_aws-vu9p-f1-04261818", 
+        "xilinx:u280-es1:xdma", 
+        "xilinx:aws-vu9p-f1-04261818:dynamic"
+    ], 
     "os": [
         "Linux"
     ], 
@@ -8,28 +14,32 @@
             "group": "Xilinx"
         }
     ], 
-    "host_exe": "host_global", 
-    "overview": [
-        "Host to global memory bandwidth test"
-    ], 
-    "includes": [
+    "launch": [
         {
-            "name": "xcl2", 
-            "location": "GIT_REPO_DIR/common/includes/xcl2/"
+            "cmd_args": "BUILD/krnl_host_global.xclbin", 
+            "name": "generic launch for all flows"
         }
     ], 
-    "match_ini": "false", 
-    "nboard": [
-        "xilinx_u280-es1_xdma", 
-        "xilinx_aws-vu9p-f1-04261818", 
-        "xilinx:u280-es1:xdma", 
-        "xilinx:aws-vu9p-f1-04261818:dynamic"
+    "description": [
+        "Host to global memory bandwidth test"
     ], 
+    "name": "host_global", 
+    "platform_type": "pcie", 
+    "host": {
+        "compiler": {
+            "sources": [
+                "REPO_DIR/common/includes/xcl2"
+            ], 
+            "includepaths": [
+                "REPO_DIR/common/includes/xcl2"
+            ]
+        }, 
+        "host_exe": "host_global"
+    }, 
+    "match_ini": "false", 
     "runtime": [
         "OpenCL"
     ], 
-    "cmd_args": "BUILD/krnl_host_global.xclbin", 
-    "example": "host_global", 
     "containers": [
         {
             "accelerators": [
@@ -38,7 +48,7 @@
                     "location": "src/kernel.cpp"
                 }
             ], 
-            "ldclflags": "--sp bandwidth_1.m_axi_gmem0:DDR[0] --sp bandwidth_1.m_axi_gmem1:DDR[1]", 
+            "ldclflags": "--config connectivity.ini", 
             "name": "krnl_host_global"
         }
     ], 

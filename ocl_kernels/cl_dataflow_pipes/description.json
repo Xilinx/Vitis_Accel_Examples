@@ -1,21 +1,29 @@
 {
-    "cmd_args": "BUILD/adder.xclbin", 
+    "name": "Blocking Pipes (CL)", 
     "contributors": [
         {
             "url": "http://www.xilinx.com", 
             "group": "Xilinx"
         }
     ], 
-    "host_exe": "host", 
-    "overview": [
-        "This is simple example of vector addition to demonstrate OpenCL Pipe Memory usage. OpenCL PIPE memory functionality allows user to achieve kernel-to-kernel data transfer without using global memory."
-    ], 
-    "includes": [
+    "launch": [
         {
-            "name": "xcl2", 
-            "location": "GIT_REPO_DIR/common/includes/xcl2/"
+            "cmd_args": "BUILD/adder.xclbin", 
+            "name": "generic launch for all flows"
         }
     ], 
+    "platform_type": "pcie", 
+    "host": {
+        "compiler": {
+            "sources": [
+                "REPO_DIR/common/includes/xcl2"
+            ], 
+            "includepaths": [
+                "REPO_DIR/common/includes/xcl2"
+            ]
+        }, 
+        "host_exe": "host"
+    }, 
     "key_concepts": [
         "Dataflow", 
         "kernel to kernel pipes"
@@ -32,7 +40,6 @@
     "os": [
         "Linux"
     ], 
-    "example": "Blocking Pipes (CL)", 
     "containers": [
         {
             "accelerators": [
@@ -51,5 +58,8 @@
             ], 
             "name": "adder"
         }
+    ], 
+    "description": [
+        "This is simple example of vector addition to demonstrate OpenCL Pipe Memory usage. OpenCL PIPE memory functionality allows user to achieve kernel-to-kernel data transfer without using global memory."
     ]
 }

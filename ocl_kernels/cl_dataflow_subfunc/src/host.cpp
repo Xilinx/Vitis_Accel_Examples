@@ -43,7 +43,6 @@ int main(int argc, char **argv) {
 
     //Allocate Memory in Host Memory
     cl_int err;
-    unsigned fileBufSize;
     size_t vector_size_bytes = sizeof(int) * DATA_SIZE;
     std::vector<int, aligned_allocator<int>> source_input(DATA_SIZE);
     std::vector<int, aligned_allocator<int>> source_hw_results(DATA_SIZE);
@@ -68,8 +67,8 @@ int main(int argc, char **argv) {
               std::string device_name = device.getInfo<CL_DEVICE_NAME>(&err));
 
     //Create Program and Kernel
-    auto fileBuf = xcl::read_binary_file(binaryFile, fileBufSize);
-    cl::Program::Binaries bins{{fileBuf, fileBufSize}};
+   auto fileBuf = xcl::read_binary_file(binaryFile);
+   cl::Program::Binaries bins{{fileBuf.data(), fileBuf.size()}};
     devices.resize(1);
     OCL_CHECK(err, cl::Program program(context, devices, bins, NULL, &err));
     OCL_CHECK(err, cl::Kernel krnl_adder(program, "adder", &err));
@@ -127,7 +126,6 @@ int main(int argc, char **argv) {
         }
     }
 
-    delete[] fileBuf;
 
     std::cout << "TEST " << (match ? "PASSED" : "FAILED") << std::endl;
     return (match ? EXIT_SUCCESS : EXIT_FAILURE);
