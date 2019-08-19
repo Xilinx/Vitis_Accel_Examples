@@ -36,8 +36,8 @@ DSA := $(call device2dsa, $(DEVICE))
 TEMP_DIR := ./_x.$(TARGET).$(DSA)
 BUILD_DIR := ./build_dir.$(TARGET).$(DSA)
 
-CXX := ${XILINX_SCOUT}/gnu/aarch64/lin/aarch64-linux/bin/aarch64-linux-gnu-g++
-XOCC := ${XILINX_SCOUT}/bin/v++
+CXX := ${XILINX_VITIS}/gnu/aarch64/lin/aarch64-linux/bin/aarch64-linux-gnu-g++
+XOCC := ${XILINX_VITIS}/bin/v++
 
 #Include Libraries
 include $(ABS_COMMON_REPO)/common/includes/opencl/opencl.mk
