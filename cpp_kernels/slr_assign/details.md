@@ -10,5 +10,5 @@ It might be necessary to cross an SLR region to connect to a DDR resource in a d
 
 `xocc` requires `--slr` option during the linking stage for explicit slr assignment of kernels.
 ```
-LDCLFLAGS += --slr vmult_1:SLR0 --slr vadd_1:SLR1
+--slr vmult_1:SLR0 --slr vadd_1:SLR1
 ```
