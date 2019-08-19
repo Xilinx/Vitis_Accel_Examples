@@ -201,6 +201,27 @@ create buffers in each DDR.</p>
 <p><strong>KEY CONCEPTS:</strong> Multiple Banks</p>
 <p><strong>KEYWORDS:</strong> max_memory_ports, misc:map_connect, HLS Interface m_axi
 bundle</p>
+<p>This example demonstrates how buffers can be created in two different
+DDR(Global memory) banks.</p>
+<p>By default, all the memory interfaces from all the kernels are connected
+to a single global memory bank. As a result, only one memory interface
+at a time can transfer data to and from the memory bank, limiting the
+performance of the kernel. If the FPGA contains only one DDR (or global)
+memory bank, this is the only option. However, some FPGA devices contain
+multiple DDR memory banks. You can customize the connections among the
+kernel memory interfaces and the DDR memory bank of such a device by
+altering the default connection.</p>
+<p>Seperate bundle names need to be specified for each buffer to be placed
+in different bank.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#pragma HLS INTERFACE m_axi port = input offset = slave bundle = gmem0</span>
+<span class="cp">#pragma HLS INTERFACE m_axi port = output offset = slave bundle = gmem1</span>
+</pre></div>
+</div>
+<p>Banks need to be specified using <code class="docutils literal notranslate"><span class="pre">--sp</span></code> tags in the kernel linking
+stage along with the <code class="docutils literal notranslate"><span class="pre">m_axi</span></code> interface name and kernel name.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">--</span><span class="n">sp</span> <span class="n">apply_watermark_1</span><span class="o">.</span><span class="n">m_axi_gmem0</span><span class="p">:</span><span class="n">DDR</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">--</span><span class="n">sp</span> <span class="n">apply_watermark_1</span><span class="o">.</span><span class="n">m_axi_gmem1</span><span class="p">:</span><span class="n">DDR</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
 <div class="section" id="supported-platforms">
 <h2>SUPPORTED PLATFORMS<a class="headerlink" href="#supported-platforms" title="Permalink to this headline">¶</a></h2>
 <table class="docutils align-center">

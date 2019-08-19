@@ -200,6 +200,65 @@
 cycle</p>
 <p><strong>KEY CONCEPTS:</strong> Kernel Optimization, Shift Register, FIR</p>
 <p><strong>KEYWORDS:</strong> #pragma HLS ARRAY_PARTITION</p>
+<p>This example demonstrates two ways to implement an FIR filter discrete
+convolution operation. It requires the values of all elements of FIR
+filter array for each element of the output array.</p>
+<p>In the naive implementation, limited memory ports are available from the
+<code class="docutils literal notranslate"><span class="pre">shift_reg</span></code> array to the kernel interface thus efficient pipelining of
+the operation is not possible.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span> <span class="n">coeff_reg</span><span class="p">[</span><span class="n">N_COEFF</span><span class="p">];</span>
+<span class="nl">read_coef</span><span class="p">:</span>
+ <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">N_COEFF</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+    <span class="cp">#pragma HLS PIPELINE II=1</span>
+     <span class="n">coeff_reg</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">coeff</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+
+<span class="nl">outer_loop</span><span class="p">:</span>
+ <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">signal_length</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+     <span class="kt">int</span> <span class="n">acc</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+ <span class="nl">shift_loop</span><span class="p">:</span>
+     <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">min</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">N_COEFF</span> <span class="o">-</span> <span class="mi">1</span><span class="p">);</span> <span class="n">i</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">--</span><span class="p">)</span> <span class="p">{</span>
+        <span class="cp">#pragma HLS PIPELINE II=1</span>
+         <span class="n">acc</span> <span class="o">+=</span> <span class="n">signal_r</span><span class="p">[</span><span class="n">j</span> <span class="o">-</span> <span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">coeff_reg</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+     <span class="p">}</span>
+     <span class="n">output_r</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">acc</span><span class="p">;</span>
+ <span class="p">}</span>
+</pre></div>
+</div>
+<p>In the <code class="docutils literal notranslate"><span class="pre">fir_shift_register</span></code> pragma <code class="docutils literal notranslate"><span class="pre">HLS</span> <span class="pre">ARRAY_PARTITION</span></code> is used to
+provide all array values simultaneously by partitioning the array such
+that each element has its own ports for read/write. Also, since
+<code class="docutils literal notranslate"><span class="pre">outer</span> <span class="pre">loop</span></code> uses <code class="docutils literal notranslate"><span class="pre">pragma</span> <span class="pre">HLS</span> <span class="pre">PIPELINE</span></code>, <code class="docutils literal notranslate"><span class="pre">Vivado</span> <span class="pre">HLS</span></code> compiler
+automatically applies <code class="docutils literal notranslate"><span class="pre">loop</span> <span class="pre">unrolling</span></code> to the <code class="docutils literal notranslate"><span class="pre">shift_loop</span></code>.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span> <span class="n">shift_reg</span><span class="p">[</span><span class="n">N_COEFF</span><span class="p">];</span>
+  <span class="cp">#pragma HLS ARRAY_PARTITION variable=shift_reg complete dim=0</span>
+
+<span class="nl">init_loop</span><span class="p">:</span>
+   <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">N_COEFF</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+      <span class="cp">#pragma HLS PIPELINE II=1</span>
+       <span class="n">shift_reg</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+       <span class="n">coeff_reg</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">coeff</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+   <span class="p">}</span>
+
+<span class="nl">outer_loop</span><span class="p">:</span>
+   <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">signal_length</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+      <span class="cp">#pragma HLS PIPELINE II=1</span>
+       <span class="kt">int</span> <span class="n">acc</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+       <span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="n">signal_r</span><span class="p">[</span><span class="n">j</span><span class="p">];</span>
+
+<span class="nl">shift_loop</span><span class="p">:</span>
+       <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">N_COEFF</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">--</span><span class="p">)</span> <span class="p">{</span>
+           <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+               <span class="n">acc</span> <span class="o">+=</span> <span class="n">x</span> <span class="o">*</span> <span class="n">coeff_reg</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+               <span class="n">shift_reg</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">x</span><span class="p">;</span>
+           <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+               <span class="n">shift_reg</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">shift_reg</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">];</span>
+               <span class="n">acc</span> <span class="o">+=</span> <span class="n">shift_reg</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">coeff_reg</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+           <span class="p">}</span>
+       <span class="p">}</span>
+       <span class="n">output_r</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">acc</span><span class="p">;</span>
+   <span class="p">}</span>
+</pre></div>
+</div>
 <div class="section" id="supported-platforms">
 <h2>SUPPORTED PLATFORMS<a class="headerlink" href="#supported-platforms" title="Permalink to this headline">¶</a></h2>
 <table class="docutils align-center">

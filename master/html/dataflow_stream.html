@@ -201,6 +201,25 @@ functionality of HLS. HLS Dataflow allows user to schedule multiple task
 together to achieve higher throughput.</p>
 <p><strong>KEY CONCEPTS:</strong> Task Level Parallelism</p>
 <p><strong>KEYWORDS:</strong> dataflow, hls::stream&lt;&gt;</p>
+<p>This example explains how <code class="docutils literal notranslate"><span class="pre">#pragma</span> <span class="pre">HLS</span> <span class="pre">dataflow</span></code> can be used to
+implement task level parallelism using <code class="docutils literal notranslate"><span class="pre">HLS</span> <span class="pre">Stream</span></code> datatype.</p>
+<p>If the data stored in the array is consumed or produced in a sequential
+manner, a more efficient communication mechanism is to use streaming
+data as specified by the <code class="docutils literal notranslate"><span class="pre">STREAM</span></code> pragma, where FIFOs are used instead
+of RAMs. Depth of <code class="docutils literal notranslate"><span class="pre">FIFO</span></code> can be specified by <code class="docutils literal notranslate"><span class="pre">depth</span></code> option in the
+pragma.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#pragma HLS STREAM variable = inStream depth = 32</span>
+<span class="cp">#pragma HLS STREAM variable = outStream depth = 32</span>
+</pre></div>
+</div>
+<p>Vector addition in kernel is divided into 3 sub-tasks(read, compute_add
+and write) which are then performed concurrently using <code class="docutils literal notranslate"><span class="pre">Dataflow</span></code>.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#pragma HLS dataflow</span>
+    <span class="n">read_input</span><span class="p">(</span><span class="n">in</span><span class="p">,</span> <span class="n">inStream</span><span class="p">,</span> <span class="n">size</span><span class="p">);</span>
+    <span class="n">compute_add</span><span class="p">(</span><span class="n">inStream</span><span class="p">,</span> <span class="n">outStream</span><span class="p">,</span> <span class="n">inc</span><span class="p">,</span> <span class="n">size</span><span class="p">);</span>
+    <span class="n">write_result</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="n">outStream</span><span class="p">,</span> <span class="n">size</span><span class="p">);</span>
+</pre></div>
+</div>
 <div class="section" id="supported-platforms">
 <h2>SUPPORTED PLATFORMS<a class="headerlink" href="#supported-platforms" title="Permalink to this headline">¶</a></h2>
 <table class="docutils align-center">
