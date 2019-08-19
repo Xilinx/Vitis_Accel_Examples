@@ -11,7 +11,7 @@ Seperate bundle names need to be specified for each buffer to be placed in diffe
 #pragma HLS INTERFACE m_axi port = input offset = slave bundle = gmem0
 #pragma HLS INTERFACE m_axi port = output offset = slave bundle = gmem1
 ```
-Banks need to be specified in the kernel linking stage along with the `m_axi` interface name and kernel name.
+Banks need to be specified using the `--sp` tags in the kernel linking stage along with the `m_axi` interface name and kernel name.
 ```
-LDCLFLAGS += --sp apply_watermark_1.m_axi_gmem0:bank0 --sp apply_watermark_1.m_axi_gmem1:bank1
+--sp apply_watermark_1.m_axi_gmem0:bank0 --sp apply_watermark_1.m_axi_gmem1:bank1
 ```
