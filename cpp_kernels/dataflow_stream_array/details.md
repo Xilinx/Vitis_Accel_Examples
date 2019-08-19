@@ -6,7 +6,8 @@ This example demontrates the use of an array of `HLS streams` in kernels.
 
  Kernel performs a number of vector additions. Initial vector is taken from the global memory and is written into a stream. Operator `<<` is 
  overloaded to perform a `blocking write` to a stream from a variable.
- ```c++
+ 
+```c++
  mem_rd:
     for (int i = 0; i < size; i++) {
        #pragma HLS PIPELINE II=1
@@ -14,7 +15,9 @@ This example demontrates the use of an array of `HLS streams` in kernels.
         inStream << input[i];
     }
 ```
+
 Multiple additions are performed using the `adder` function which take the input from a stream and provide the output to another stream.
+
 ```c++
 compute_loop:
     for (int i = 0; i < STAGES; i++) {
@@ -24,6 +27,7 @@ compute_loop:
 ```
 
 Finally, result is written back from stream to global memory buffer.
+
 ```c++
 static void write_result(int *output, hls::stream<int> &outStream, int size) {
 mem_wr:

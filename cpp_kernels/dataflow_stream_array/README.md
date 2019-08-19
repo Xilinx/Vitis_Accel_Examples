@@ -1,5 +1,5 @@
-Dataflow Using HLS Stream (C)
-======================
+Dataflow Using Array of HLS Stream (C)
+=====================================
 
 This is simple example of Multiple Stages Vector Addition to demonstrate Array of Stream usage in HLS C Kernel Code.
 
