@@ -200,6 +200,32 @@
 demonstrate how to achieve better pipeline II factor by loop reordering.</p>
 <p><strong>KEY CONCEPTS:</strong> Kernel Optimization, Loop reorder to improve II</p>
 <p><strong>KEYWORDS:</strong> #pragma HLS PIPELINE, #pragma HLS ARRAY_PARTITION</p>
+<p>This example demonstrates how changing the order of loop can improve the
+performance of the kernel. In this case, loop reordering helps us
+achieve better <code class="docutils literal notranslate"><span class="pre">Initiation</span> <span class="pre">Interval</span></code>(II).</p>
+<p>If matrix multiplication is performed with the commented code,
+Initiation Interval achieved is 64.</p>
+<p>With the reordered loop as shown below, II achieved is 1. Reordering
+avoids the adder tree for the sum(output) of a single output element.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="nl">lreorder1</span><span class="p">:</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">size</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+       <span class="cp">#pragma HLS LOOP_TRIPCOUNT min=c_size max=c_size</span>
+    <span class="nl">lreorder2</span><span class="p">:</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">k</span> <span class="o">&lt;</span> <span class="n">size</span><span class="p">;</span> <span class="n">k</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+           <span class="cp">#pragma HLS LOOP_TRIPCOUNT min=c_size max=c_size</span>
+           <span class="cp">#pragma HLS PIPELINE II=1</span>
+        <span class="nl">lreorder3</span><span class="p">:</span>
+            <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">MAX_SIZE</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+                <span class="kt">int</span> <span class="n">result</span> <span class="o">=</span> <span class="p">(</span><span class="n">k</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="o">?</span> <span class="mi">0</span> <span class="o">:</span> <span class="n">temp_sum</span><span class="p">[</span><span class="n">j</span><span class="p">];</span>
+                <span class="n">result</span> <span class="o">+=</span> <span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">k</span><span class="p">]</span> <span class="o">*</span> <span class="n">B</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">];</span>
+                <span class="n">temp_sum</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">result</span><span class="p">;</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">k</span> <span class="o">==</span> <span class="n">size</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+                    <span class="n">C</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">result</span><span class="p">;</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+</pre></div>
+</div>
 <div class="section" id="supported-platforms">
 <h2>SUPPORTED PLATFORMS<a class="headerlink" href="#supported-platforms" title="Permalink to this headline">¶</a></h2>
 <table class="docutils align-center">

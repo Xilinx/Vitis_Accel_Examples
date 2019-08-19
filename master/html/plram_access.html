@@ -200,6 +200,18 @@
 matrix multiplication (Row x Col).</p>
 <p><strong>KEY CONCEPTS:</strong> Vitis Memory Hierarchy, PLRAMs</p>
 <p><strong>KEYWORDS:</strong> PLRAM</p>
+<p>This example demonstrates how <code class="docutils literal notranslate"><span class="pre">PLRAM</span></code> feature of the Vitis memory
+subsystem and how they integrate with the Vitis design process.</p>
+<p>PLRAM is small shared memory which is built using the on-chip memory
+resources of the FPGA fabric. It is intended to provide a small amount
+of data storage that application kernels can share and access
+rapidly(lowest latency). PLRAM behaves just like the DDR memory
+resources managed by the Vitis memory subsystem.</p>
+<p>PLRAM can be assigned to a buffer by using <code class="docutils literal notranslate"><span class="pre">--sp</span></code> tags in the kernel
+linking stage.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">--</span><span class="n">sp</span> <span class="n">mmult_1</span><span class="o">.</span><span class="n">a</span><span class="p">:</span><span class="n">PLRAM</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">--</span><span class="n">sp</span> <span class="n">mmult_1</span><span class="o">.</span><span class="n">b</span><span class="p">:</span><span class="n">DDR</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">--</span><span class="n">sp</span> <span class="n">mmult_1</span><span class="o">.</span><span class="n">c</span><span class="p">:</span><span class="n">PLRAM</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
 <div class="section" id="supported-platforms">
 <h2>SUPPORTED PLATFORMS<a class="headerlink" href="#supported-platforms" title="Permalink to this headline">¶</a></h2>
 <table class="docutils align-center">

@@ -197,6 +197,25 @@
   <div class="section" id="kernel-global-for-5-0-shell">
 <h1>kernel_global for 5.0 shell<a class="headerlink" href="#kernel-global-for-5-0-shell" title="Permalink to this headline">¶</a></h1>
 <p>Bandwidth test of global to local memory.</p>
+<p>This example tests the bandwidth of kernel interface with global memory
+for 4 cases using 1 DDR bank to 4 DDR banks. If more than 1 input/output
+buffers are connected to one memory bank, these buffers can’t be read
+concurrently to kernel’s local memory. In such cases, buffers can be
+placed in different DDR banks to increase the bandwidth for concurrent
+transfers.</p>
+<p>User can customize these connections to global memory by explicitly
+specifying the memory banks for different inputs/outputs. Seperate
+bundle names need to be specified for each buffer to be placed in
+different bank.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#pragma HLS INTERFACE m_axi port = input offset = slave bundle = gmem0</span>
+<span class="cp">#pragma HLS INTERFACE m_axi port = output offset = slave bundle = gmem1</span>
+</pre></div>
+</div>
+<p>Banks need to be specified using <code class="docutils literal notranslate"><span class="pre">--sp</span></code> tags in the kernel linking
+stage along with the <code class="docutils literal notranslate"><span class="pre">m_axi</span></code> interface name and kernel name.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">--</span><span class="n">sp</span> <span class="n">apply_watermark_1</span><span class="o">.</span><span class="n">m_axi_gmem0</span><span class="p">:</span><span class="n">bank0</span> <span class="o">--</span><span class="n">sp</span> <span class="n">apply_watermark_1</span><span class="o">.</span><span class="n">m_axi_gmem1</span><span class="p">:</span><span class="n">bank1</span>
+</pre></div>
+</div>
 <div class="section" id="supported-platforms">
 <h2>SUPPORTED PLATFORMS<a class="headerlink" href="#supported-platforms" title="Permalink to this headline">¶</a></h2>
 <table class="docutils align-center">

@@ -201,6 +201,25 @@ improve performance of a kernel</p>
 <p><strong>KEY CONCEPTS:</strong> Kernel Optimization, Array Partitioning, Block
 Partition, Cyclic Partition</p>
 <p><strong>KEYWORDS:</strong> #pragma HLS ARRAY_PARTITION, cyclic, block, factor, dim</p>
+<p>This example demonstrates how to use array <code class="docutils literal notranslate"><span class="pre">block</span></code> and <code class="docutils literal notranslate"><span class="pre">cyclic</span></code>
+partitioning to improve the performance of the kernel. Matrix
+multiplication is performed in this example which would require repeated
+access to rows of former matrix and columns of latter. Array can be
+partitioned across different dimensions to reduce the latency of these
+transfers.</p>
+<p><code class="docutils literal notranslate"><span class="pre">#pragma</span> <span class="pre">HLS</span> <span class="pre">ARRAY_PARTITION</span></code> is used to partition an array into
+multiple smaller arrays with more number of ports for read and write
+operations. This results in improved throughput of the design.</p>
+<p>Arrays can be partitioned in three ways, <code class="docutils literal notranslate"><span class="pre">cyclic</span></code> where elements are
+put into smaller arrays one by one in the interleaved manner untill the
+whole array is partitioned, <code class="docutils literal notranslate"><span class="pre">block</span></code> where elements are put into
+smaller arrays from continuous blocks of original array(number of
+smaller arrays is defined by <code class="docutils literal notranslate"><span class="pre">factor</span></code>) and <code class="docutils literal notranslate"><span class="pre">complete</span></code> where array is
+decomposed into individual elements each having own read/write ports.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#pragma HLS ARRAY_PARTITION variable = A dim = 1 cyclic factor = 16</span>
+<span class="cp">#pragma HLS ARRAY_PARTITION variable = B dim = 1 block factor = 16</span>
+</pre></div>
+</div>
 <div class="section" id="supported-platforms">
 <h2>SUPPORTED PLATFORMS<a class="headerlink" href="#supported-platforms" title="Permalink to this headline">¶</a></h2>
 <table class="docutils align-center">

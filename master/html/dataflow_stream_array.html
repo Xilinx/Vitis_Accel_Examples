@@ -200,6 +200,39 @@
 Array of Stream usage in HLS C Kernel Code.</p>
 <p><strong>KEY CONCEPTS:</strong> Array of Stream</p>
 <p><strong>KEYWORDS:</strong> dataflow, hls::stream&lt;&gt;</p>
+<p>This example demontrates the use of an array of <code class="docutils literal notranslate"><span class="pre">HLS</span> <span class="pre">streams</span></code> in
+kernels.</p>
+<p>Kernel performs a number of vector additions. Initial vector is taken
+from the global memory and is written into a stream. Operator <code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span></code> is
+overloaded to perform a <code class="docutils literal notranslate"><span class="pre">blocking</span> <span class="pre">write</span></code> to a stream from a variable.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="nl">mem_rd</span><span class="p">:</span>
+   <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">size</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+      <span class="cp">#pragma HLS PIPELINE II=1</span>
+      <span class="cp">#pragma HLS LOOP_TRIPCOUNT min=c_size max=c_size</span>
+       <span class="n">inStream</span> <span class="o">&lt;&lt;</span> <span class="n">input</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+   <span class="p">}</span>
+</pre></div>
+</div>
+<p>Multiple additions are performed using the <code class="docutils literal notranslate"><span class="pre">adder</span></code> function which take
+the input from a stream and provide the output to another stream.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="nl">compute_loop</span><span class="p">:</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">STAGES</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+       <span class="cp">#pragma HLS UNROLL</span>
+        <span class="n">adder</span><span class="p">(</span><span class="n">streamArray</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">streamArray</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">],</span> <span class="n">incr</span><span class="p">,</span> <span class="n">size</span><span class="p">);</span>
+    <span class="p">}</span>
+</pre></div>
+</div>
+<p>Finally, result is written back from stream to global memory buffer.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">static</span> <span class="kt">void</span> <span class="nf">write_result</span><span class="p">(</span><span class="kt">int</span> <span class="o">*</span><span class="n">output</span><span class="p">,</span> <span class="n">hls</span><span class="o">::</span><span class="n">stream</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">outStream</span><span class="p">,</span> <span class="kt">int</span> <span class="n">size</span><span class="p">)</span> <span class="p">{</span>
+<span class="nl">mem_wr</span><span class="p">:</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">size</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+       <span class="cp">#pragma HLS PIPELINE II=1</span>
+       <span class="cp">#pragma HLS LOOP_TRIPCOUNT min=c_size max=c_size</span>
+        <span class="n">output</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">outStream</span><span class="p">.</span><span class="n">read</span><span class="p">();</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
 <div class="section" id="supported-platforms">
 <h2>SUPPORTED PLATFORMS<a class="headerlink" href="#supported-platforms" title="Permalink to this headline">¶</a></h2>
 <table class="docutils align-center">

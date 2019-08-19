@@ -1,5 +1,5 @@
 Printing Profile Data and Dumping Waveform file 
-===============================================
+================================================
 
 This is simple example of vector addition and printing profile data
 (wall clock time taken between start and stop). It also dump a waveform

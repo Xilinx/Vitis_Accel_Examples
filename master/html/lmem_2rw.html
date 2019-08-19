@@ -201,6 +201,23 @@ both ports of Local Memory memory.</p>
 <p><strong>KEY CONCEPTS:</strong> Kernel Optimization, 2port BRAM Utilization, two
 read/write Local Memory</p>
 <p><strong>KEYWORDS:</strong> #pragma HLS UNROLL FACTOR=2</p>
+<p>This is a simple example to demonstrate how to utilize both ports of
+local memory in kernels.</p>
+<p>Kernel’s local memory is usually <code class="docutils literal notranslate"><span class="pre">BRAM</span></code> which has two ports for
+read/write. In loops where one iteration doesn’t depend on previous
+iterations, two ports can be used to improve the performance of the
+kernel.</p>
+<p>Two ports can be utilized concurrently by using <code class="docutils literal notranslate"><span class="pre">pragma</span> <span class="pre">HLS</span> <span class="pre">UNROLL</span></code>.
+The UNROLL pragma transforms loops by creating multiples copies of the
+loop body in the register transfer level (RTL) design, which allows some
+or all loop iterations to occur in parallel.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#pragma HLS UNROLL FACTOR=2</span>
+</pre></div>
+</div>
+<p>Here loop is unrolled by a factor of 2 thus two iterations of the loop
+are executed concurrently. In this case, two ports of BRAM will be
+utilized rather than 1 reducing the total loop latency by half
+approximately.</p>
 <div class="section" id="supported-platforms">
 <h2>SUPPORTED PLATFORMS<a class="headerlink" href="#supported-platforms" title="Permalink to this headline">¶</a></h2>
 <table class="docutils align-center">
