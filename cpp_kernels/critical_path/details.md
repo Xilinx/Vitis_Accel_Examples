@@ -8,7 +8,6 @@ This example demonstrates the considerations in coding style to avoid critical p
 ```c++
 watermark:
        for (int i = 0; i < DATA_SIZE; i++, x++) {
-          #pragma HLS LOOP_TRIPCOUNT min=c_size max=c_size
           #pragma HLS UNROLL
           if (x > width) {
                x = x - width;
@@ -23,9 +22,9 @@ watermark:
 
 Using local variables and just referencing the value of `x` in every iteration and updating it outside the loop can remove this critical path 
 and thus improve the performance and timing of kernel execution.
+
 ```c++
 for (int i = 0; i < DATA_SIZE; i++) {
-           #pragma HLS LOOP_TRIPCOUNT min=c_size max=c_size
            #pragma HLS UNROLL
             uint tmp_x = x + i;
             uint tmp_y = y;
