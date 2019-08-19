@@ -58,10 +58,29 @@
             "accelerators": [
                 {
                     "name": "krnl_vadd", 
-                    "location": "src/krnl_vadd.cpp"
+                    "location": "src/krnl_vadd.cpp",
+	            "compute_units" : [
+			{
+				"arguments" : [
+					{
+						"name" : "in1",
+						"memory" : "HBM[0:3]"
+					},	 
+					{
+						"name" : "in2",
+						"memory" : "HBM[0:3]"
+					},	 
+					{
+						"name" : "out_r",
+						"memory" : "HBM[0:3]"
+					}	 
+
+				 ]
+			}
+		    ]
+				 
                 }
             ], 
-            "ldclflags": "--config connectivity.ini", 
             "name": "krnl_vadd"
         }
     ], 

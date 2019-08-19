@@ -46,10 +46,29 @@
             "accelerators": [
                 {
                     "name": "mmult", 
-                    "location": "src/mmult.cpp"
+                    "location": "src/mmult.cpp",
+		    "compute_units": [ 
+			{
+				"arguments": [
+					 {
+						"name" : "a",
+						"memory": "PLRAM[0]"
+					},
+					{
+						"name" : "b",
+						"memory" : "DDR[0]"
+							
+					},
+					{
+						"name" : "c",
+						"memory" : "PLRAM[1]"
+							
+					}
+				]
+			}
+		   	]
                 }
             ], 
-            "ldclflags": "--config connectivity.ini", 
             "name": "mmult"
         }
     ], 

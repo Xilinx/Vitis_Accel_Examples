@@ -60,10 +60,24 @@
                 {
                     "location": "src/krnl_watermarking.cl", 
                     "name": "apply_watermark", 
-                    "clflags": "--max_memory_ports apply_watermark"
+                    "clflags": "--max_memory_ports apply_watermark",
+		    "compute_units": [
+			{
+				"arguments": [
+					{
+						"name": "input",
+						"memory": "DDR[0]"
+					},
+					{
+						"name": "output",
+						"memory": "DDR[1]"
+					}
+				]
+			}
+			]		
+					
                 }
             ], 
-            "ldclflags": "--config connectivity.ini", 
             "name": "apply_watermark"
         }
     ], 

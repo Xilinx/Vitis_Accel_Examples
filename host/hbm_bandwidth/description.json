@@ -50,10 +50,181 @@
                 {
                     "location": "src/krnl_vaddmul.cpp", 
                     "name": "krnl_vaddmul", 
-                    "num_compute_units": "8"
-                }
-            ], 
-	    "ldclflags": "--config connectivity.ini",
+                    "num_compute_units": "8",
+		 "compute_units" : [
+			{
+				"arguments" : [
+					{
+						"name" : "in1",
+						"memory" : "HBM[0]"
+					},	 
+					{
+						"name" : "in2",
+						"memory" : "HBM[1]"
+					},	 
+					{
+						"name" : "out_add",
+						"memory" : "HBM[2]"
+					},	 
+					{
+						"name" : "out_mul",
+						"memory" : "HBM[3]"
+					}
+
+			          ]
+				},
+				{	
+			
+				"arguments" : [
+					{
+						"name" : "in1",
+						"memory" : "HBM[4]"
+					},	 
+					{
+						"name" : "in2",
+						"memory" : "HBM[5]"
+					},	 
+					{
+						"name" : "out_add",
+						"memory" : "HBM[6]"
+					},	 
+					{
+						"name" : "out_mul",
+						"memory" : "HBM[7]"
+					}
+
+			          ]
+				},
+				{
+				"arguments" : [
+					{
+						"name" : "in1",
+						"memory" : "HBM[8]"
+					},	 
+					{
+						"name" : "in2",
+						"memory" : "HBM[9]"
+					},	 
+					{
+						"name" : "out_add",
+						"memory" : "HBM[10]"
+					},	 
+					{
+						"name" : "out_mul",
+						"memory" : "HBM[11]"
+					}
+
+			          ]
+				},
+				{
+				"arguments" : [
+					{
+						"name" : "in1",
+						"memory" : "HBM[12]"
+					},	 
+					{
+						"name" : "in2",
+						"memory" : "HBM[13]"
+					},	 
+					{
+						"name" : "out_add",
+						"memory" : "HBM[14]"
+					},	 
+					{
+						"name" : "out_mul",
+						"memory" : "HBM[15]"
+					}
+
+			          ]
+				},
+				{
+				"arguments" : [
+					{
+						"name" : "in1",
+						"memory" : "HBM[16]"
+					},	 
+					{
+						"name" : "in2",
+						"memory" : "HBM[17]"
+					},	 
+					{
+						"name" : "out_add",
+						"memory" : "HBM[18]"
+					},	 
+					{
+						"name" : "out_mul",
+						"memory" : "HBM[19]"
+					}
+
+			          ]
+				},
+				{
+				"arguments" : [
+					{
+						"name" : "in1",
+						"memory" : "HBM[20]"
+					},	 
+					{
+						"name" : "in2",
+						"memory" : "HBM[21]"
+					},	 
+					{
+						"name" : "out_add",
+						"memory" : "HBM[22]"
+					},	 
+					{
+						"name" : "out_mul",
+						"memory" : "HBM[23]"
+					}
+
+			          ]
+				},
+				{
+				"arguments" : [
+					{
+						"name" : "in1",
+						"memory" : "HBM[24]"
+					},	 
+					{
+						"name" : "in2",
+						"memory" : "HBM[25]"
+					},	 
+					{
+						"name" : "out_add",
+						"memory" : "HBM[26]"
+					},	 
+					{
+						"name" : "out_mul",
+						"memory" : "HBM[27]"
+					}
+
+			          ]
+				},
+				{
+				"arguments" : [
+					{
+						"name" : "in1",
+						"memory" : "HBM[28]"
+					},	 
+					{
+						"name" : "in2",
+						"memory" : "HBM[29]"
+					},	 
+					{
+						"name" : "out_add",
+						"memory" : "HBM[30]"
+					},	 
+					{
+						"name" : "out_mul",
+						"memory" : "HBM[31]"
+					}
+
+			          ]
+			}
+        	    ] 
+		}
+		],
+	
             "name": "krnl_vaddmul"
         }
     ], 

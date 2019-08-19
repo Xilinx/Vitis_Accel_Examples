@@ -6,11 +6,13 @@ import os
 import re
 import subprocess
 
-
+#ini flags
+config_file = 0
 
 def create_params(target,data):    
     target.write("# Points to Utility Directory\n")
     dirName = os.getcwd()
+    #print dirName	
     dirNameList = list(dirName.split("/"))
     dirNameIndex = dirNameList.index("Vitis_Accel_Examples")
     diff = len(dirNameList) - dirNameIndex - 1
@@ -166,6 +168,17 @@ def add_kernel_flags(target, data):
 		    flg = flg.replace('PROJECT', '.')
 		    target.write(flg)
             target.write("\n")
+
+    #adding config files to linker
+    for dirs,subdirs,files in os.walk("."):
+	if "containers" in data:
+		for con in data["containers"]:
+			if con["name"]+".ini" in files:
+				target.write("\n")
+				target.write("# Adding config files to linker\n")
+				target.write("LDCLFLAGS += ")
+				target.write("--config "+con["name"]+".ini ")
+    			target.write("\n")
     target.write("\n")
     target.write("EXECUTABLE = ")
     if "host_exe" in data["host"]:
@@ -235,12 +248,9 @@ def building_kernel(target, data):
             target.write("$(BUILD_DIR) ")
             target.write("-l $(LDCLFLAGS)")
             for acc in con["accelerators"]:
-                target.write(" --nk ")
-                target.write(acc["name"])
-                if "num_compute_units" in acc.keys():
-		    target.write(":")
-		    target.write(acc["num_compute_units"])
-		else:
+                if not "num_compute_units" in acc.keys():
+                    target.write(" --nk ")
+                    target.write(acc["name"])
 		    target.write(":1")
             target.write(" -o'$@' $(+)\n")
     target.write("\n")
@@ -534,10 +544,41 @@ def create_utils(target, data):
     readme_gen(target)
     return
 
+def create_config(data):
+   if "containers" in data:
+	for con in data["containers"]:
+	    if "accelerators" in con:
+		for acc in con["accelerators"]:
+			if "compute_units" or "num_compute_units" in acc:
+				config_file = 0	
+    				for dirs,subdirs,files in os.walk("."):
+					if con["name"]+".ini" in files:
+						config_file = 1
+				if config_file:	
+					target = open(con["name"]+".ini","a")
+				else:	
+					print "Creating "+con["name"]+".ini file for %s" %data["name"]
+					target = open(con["name"]+".ini","w")
+					target.write("[connectivity]\n")
+			if "compute_units" in acc:
+				for com in acc["compute_units"]:
+					if "arguments" in com:
+						for arg in com["arguments"]:
+							target.write("sp="+acc["name"]+"_"+str(acc["compute_units"].index(com)+1)+"."+arg["name"]+":"+arg["memory"]+"\n")
+					if "slr" in com:
+						target.write("slr="+acc["name"]+"_"+str(acc["compute_units"].index(com)+1)+":"+com["slr"]+"\n")
+
+			if "num_compute_units" in acc:
+				target.write("nk="+acc["name"]+":"+acc["num_compute_units"]+"\n")
+			target.close()
+   return
+
 script, desc_file = argv
 desc = open(desc_file, 'r')
 data = json.load(desc)
 desc.close()
+
+
 
 if "match_ini" in data and data["match_ini"] == "false":
     print "Error:: xrt.ini File Manually Edited:: Auto-file Generator Failed"
@@ -547,9 +588,22 @@ else:
     target = open("xrt.ini","w+")
     profile_report(target)
 
+
+
+if "containers" in data:
+	config_flag = 0
+	for con in data["containers"]:
+		for dirs,subdirs,files in os.walk("."):
+			if con["name"]+".ini" in files:
+				config_flag = 1
+	if not config_flag:
+		create_config(data)	
+
 if "match_makefile" in data and data["match_makefile"] == "false":
     print "Error:: Makefile Manually Edited:: AutoMakefile Generator Failed"
 else:
+    	
+
     print "Generating Auto-Makefile for %s" %data["name"]
     target = open("Makefile", "w")
     create_mk(target, data)
@@ -558,3 +612,4 @@ else:
     create_utils(target, data)
 
 target.close
+

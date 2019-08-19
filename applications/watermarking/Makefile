@@ -59,8 +59,14 @@ CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps
 CLFLAGS += --max_memory_ports apply_watermark
 
 
-# Kernel linker flags
-LDCLFLAGS += --config connectivity.ini
+
+# Adding config files to linker
+LDCLFLAGS += --config apply_watermark.ini 
+
+
+
+
+
 
 EXECUTABLE = watermark
 CMD_ARGS = $(BUILD_DIR)/apply_watermark.xclbin ./data/inputImage.bmp ./data/golden.bmp
