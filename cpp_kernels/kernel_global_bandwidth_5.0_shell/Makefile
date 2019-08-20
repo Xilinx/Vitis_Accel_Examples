@@ -61,6 +61,7 @@ CLFLAGS +=  --max_memory_ports bandwidth
 
 
 
+
 EXECUTABLE = kernel_global
 CMD_ARGS = $(BUILD_DIR)/krnl_kernel_global.xclbin
 

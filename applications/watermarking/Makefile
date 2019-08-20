@@ -63,11 +63,6 @@ CLFLAGS += --max_memory_ports apply_watermark
 # Adding config files to linker
 LDCLFLAGS += --config apply_watermark.ini 
 
-
-
-
-
-
 EXECUTABLE = watermark
 CMD_ARGS = $(BUILD_DIR)/apply_watermark.xclbin ./data/inputImage.bmp ./data/golden.bmp
 

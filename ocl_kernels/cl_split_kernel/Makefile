@@ -62,6 +62,7 @@ CLFLAGS += --xp param:compiler.xclDataflowFifoDepth=16
 
 
 
+
 EXECUTABLE = host
 CMD_ARGS = $(BUILD_DIR)/sketch_GOOD.xclbin $(BUILD_DIR)/sketch_BAD.xclbin ./data/car_128x128.bmp
 

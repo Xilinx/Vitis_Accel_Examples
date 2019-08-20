@@ -63,6 +63,7 @@ CLFLAGS +=  --max_memory_ports apply_watermark
 # Kernel linker flags
 LDCLFLAGS += --sp apply_watermark_1.m_axi_gmem0:bank0 --sp apply_watermark_1.m_axi_gmem1:bank1
 
+
 EXECUTABLE = host
 CMD_ARGS = $(BUILD_DIR)/apply_watermark.xclbin ./data/input.bmp ./data/golden.bmp
 

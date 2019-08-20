@@ -63,6 +63,7 @@ CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps
 # Kernel linker flags
 LDCLFLAGS += --config connectivity.ini
 
+
 EXECUTABLE = vadd_stream
 CMD_ARGS = $(BUILD_DIR)/myadder.xclbin
 

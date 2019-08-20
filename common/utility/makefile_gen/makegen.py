@@ -178,7 +178,6 @@ def add_kernel_flags(target, data):
 				target.write("# Adding config files to linker\n")
 				target.write("LDCLFLAGS += ")
 				target.write("--config "+con["name"]+".ini ")
-    			target.write("\n")
     target.write("\n")
     target.write("EXECUTABLE = ")
     if "host_exe" in data["host"]:
@@ -545,33 +544,31 @@ def create_utils(target, data):
     return
 
 def create_config(data):
-   if "containers" in data:
-	for con in data["containers"]:
-	    if "accelerators" in con:
-		for acc in con["accelerators"]:
-			if "compute_units" or "num_compute_units" in acc:
-				config_file = 0	
-    				for dirs,subdirs,files in os.walk("."):
-					if con["name"]+".ini" in files:
-						config_file = 1
-				if config_file:	
-					target = open(con["name"]+".ini","a")
-				else:	
-					print "Creating "+con["name"]+".ini file for %s" %data["name"]
-					target = open(con["name"]+".ini","w")
-					target.write("[connectivity]\n")
-			if "compute_units" in acc:
-				for com in acc["compute_units"]:
-					if "arguments" in com:
-						for arg in com["arguments"]:
-							target.write("sp="+acc["name"]+"_"+str(acc["compute_units"].index(com)+1)+"."+arg["name"]+":"+arg["memory"]+"\n")
-					if "slr" in com:
-						target.write("slr="+acc["name"]+"_"+str(acc["compute_units"].index(com)+1)+":"+com["slr"]+"\n")
-
-			if "num_compute_units" in acc:
+    if "containers" in data:
+        for con in data["containers"]:
+            if "accelerators" in con:
+                for acc in con["accelerators"]:
+                    if "compute_units" in acc or "num_compute_units" in acc:
+                        config_file = 0	
+                        for dirs,subdirs,files in os.walk("."):
+	                    if con["name"]+".ini" in files:
+	                        config_file = 1
+			if config_file == 1:	
+		            target = open(con["name"]+".ini","a")
+		        else:	
+                            print "Creating "+con["name"]+".ini file for %s" %data["name"]
+                            target = open(con["name"]+".ini","w")
+                            target.write("[connectivity]\n")
+                    if "compute_units" in acc:
+                        for com in acc["compute_units"]:
+                            if "arguments" in com:
+                                for arg in com["arguments"]:
+                                    target.write("sp="+acc["name"]+"_"+str(acc["compute_units"].index(com)+1)+"."+arg["name"]+":"+arg["memory"]+"\n")
+                            if "slr" in com:
+                                target.write("slr="+acc["name"]+"_"+str(acc["compute_units"].index(com)+1)+":"+com["slr"]+"\n")
+                    if "num_compute_units" in acc:
 				target.write("nk="+acc["name"]+":"+acc["num_compute_units"]+"\n")
-			target.close()
-   return
+    return
 
 script, desc_file = argv
 desc = open(desc_file, 'r')
@@ -591,13 +588,13 @@ else:
 
 
 if "containers" in data:
-	config_flag = 0
+        config_flag = 0
 	for con in data["containers"]:
 		for dirs,subdirs,files in os.walk("."):
 			if con["name"]+".ini" in files:
 				config_flag = 1
 	if not config_flag:
-		create_config(data)	
+            create_config(data)	
 
 if "match_makefile" in data and data["match_makefile"] == "false":
     print "Error:: Makefile Manually Edited:: AutoMakefile Generator Failed"

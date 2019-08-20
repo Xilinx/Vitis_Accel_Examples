@@ -56,6 +56,7 @@ CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps
 
 
 
+
 EXECUTABLE = errors
 CMD_ARGS = $(BUILD_DIR)/vector_addition.xclbin
 

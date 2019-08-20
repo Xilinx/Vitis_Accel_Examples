@@ -59,6 +59,7 @@ CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps
 
 
 
+
 EXECUTABLE = median
 CMD_ARGS = $(BUILD_DIR)/krnl_median.xclbin ./data/inputImage.bmp ./data/goldenImage.bmp
 
