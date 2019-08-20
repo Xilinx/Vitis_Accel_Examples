@@ -62,7 +62,6 @@ CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps
 # Adding config files to linker
 LDCLFLAGS += --config krnl_stream_vadd.ini 
 
-
 EXECUTABLE = vadd_stream
 CMD_ARGS = $(BUILD_DIR)/krnl_stream_vadd.xclbin
 

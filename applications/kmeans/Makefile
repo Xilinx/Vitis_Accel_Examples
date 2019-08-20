@@ -62,6 +62,9 @@ CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps
 
 
 
+# Adding config files to linker
+LDCLFLAGS += --config kmeans.ini 
+
 EXECUTABLE = host_kmeans
 CMD_ARGS = -x $(BUILD_DIR)/kmeans.xclbin -i ./data/100 -c ./data/100.gold_c5 -m 5 -n 5 -g 2
 
@@ -88,7 +91,7 @@ $(TEMP_DIR)/kmeans.xo: src/kmeans.cl
 	$(XOCC) $(CLFLAGS) --temp_dir $(TEMP_DIR) -c -k kmeans -I'$(<D)' -o'$@' '$<'
 $(BUILD_DIR)/kmeans.xclbin: $(BINARY_CONTAINER_kmeans_OBJS)
 	mkdir -p $(BUILD_DIR)
-	$(XOCC) $(CLFLAGS) --temp_dir $(BUILD_DIR) -l $(LDCLFLAGS) --nk kmeans:2 -o'$@' $(+)
+	$(XOCC) $(CLFLAGS) --temp_dir $(BUILD_DIR) -l $(LDCLFLAGS) -o'$@' $(+)
 
 # Building Host
 $(EXECUTABLE): check-xrt $(HOST_SRCS) $(HOST_HDRS)

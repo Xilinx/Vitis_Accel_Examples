@@ -62,10 +62,6 @@ CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps
 # Adding config files to linker
 LDCLFLAGS += --config krnl_host_global.ini 
 
-
-
-
-
 EXECUTABLE = host_global
 CMD_ARGS = $(BUILD_DIR)/krnl_host_global.xclbin
 

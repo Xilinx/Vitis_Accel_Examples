@@ -60,6 +60,9 @@ CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps
 
 
 
+# Adding config files to linker
+LDCLFLAGS += --config cnn_GOOD.ini 
+
 EXECUTABLE = host
 CMD_ARGS = $(BUILD_DIR)/cnn_GOOD.xclbin $(BUILD_DIR)/cnn_BAD.xclbin
 
@@ -90,7 +93,7 @@ $(TEMP_DIR)/cnn_BAD.xo: src/cnn_convolution_bad.cl
 	$(XOCC) $(CLFLAGS) --temp_dir $(TEMP_DIR) -c -k cnn_BAD -I'$(<D)' -o'$@' '$<'
 $(BUILD_DIR)/cnn_GOOD.xclbin: $(BINARY_CONTAINER_cnn_GOOD_OBJS)
 	mkdir -p $(BUILD_DIR)
-	$(XOCC) $(CLFLAGS) --temp_dir $(BUILD_DIR) -l $(LDCLFLAGS) --nk cnn_GOOD:4 -o'$@' $(+)
+	$(XOCC) $(CLFLAGS) --temp_dir $(BUILD_DIR) -l $(LDCLFLAGS) -o'$@' $(+)
 $(BUILD_DIR)/cnn_BAD.xclbin: $(BINARY_CONTAINER_cnn_BAD_OBJS)
 	mkdir -p $(BUILD_DIR)
 	$(XOCC) $(CLFLAGS) --temp_dir $(BUILD_DIR) -l $(LDCLFLAGS) --nk cnn_BAD:1 -o'$@' $(+)

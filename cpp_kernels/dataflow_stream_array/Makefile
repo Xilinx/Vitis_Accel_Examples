@@ -62,6 +62,7 @@ CLFLAGS += --xp param:compiler.axiDeadLockFree=yes
 # Kernel linker flags
 LDCLFLAGS += --config advanced.ini
 
+
 EXECUTABLE = host
 CMD_ARGS = $(BUILD_DIR)/N_stage_Adders.xclbin
 

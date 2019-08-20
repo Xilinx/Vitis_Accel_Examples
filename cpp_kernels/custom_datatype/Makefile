@@ -60,6 +60,7 @@ CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps
 
 
 
+
 EXECUTABLE = host
 CMD_ARGS = $(BUILD_DIR)/rgb_to_hsv.xclbin ./data/input.bmp
 

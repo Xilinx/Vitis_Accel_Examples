@@ -60,6 +60,9 @@ CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps
 
 
 
+# Adding config files to linker
+LDCLFLAGS += --config vadd_BAD.ini 
+
 EXECUTABLE = host
 CMD_ARGS = $(BUILD_DIR)/vadd_GOOD.xclbin $(BUILD_DIR)/vadd_BAD.xclbin
 
@@ -93,7 +96,7 @@ $(BUILD_DIR)/vadd_GOOD.xclbin: $(BINARY_CONTAINER_vadd_GOOD_OBJS)
 	$(XOCC) $(CLFLAGS) --temp_dir $(BUILD_DIR) -l $(LDCLFLAGS) --nk vadd_GOOD:1 -o'$@' $(+)
 $(BUILD_DIR)/vadd_BAD.xclbin: $(BINARY_CONTAINER_vadd_BAD_OBJS)
 	mkdir -p $(BUILD_DIR)
-	$(XOCC) $(CLFLAGS) --temp_dir $(BUILD_DIR) -l $(LDCLFLAGS) --nk vadd_BAD:8 -o'$@' $(+)
+	$(XOCC) $(CLFLAGS) --temp_dir $(BUILD_DIR) -l $(LDCLFLAGS) -o'$@' $(+)
 
 # Building Host
 $(EXECUTABLE): check-xrt $(HOST_SRCS) $(HOST_HDRS)

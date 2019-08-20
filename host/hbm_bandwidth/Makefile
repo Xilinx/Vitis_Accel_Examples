@@ -62,12 +62,6 @@ CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps
 # Adding config files to linker
 LDCLFLAGS += --config krnl_vaddmul.ini 
 
-
-
-
-
-
-
 EXECUTABLE = host
 CMD_ARGS = $(BUILD_DIR)/krnl_vaddmul.xclbin
 

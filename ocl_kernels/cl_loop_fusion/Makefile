@@ -59,6 +59,7 @@ CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps
 
 
 
+
 EXECUTABLE = loop_fusion
 CMD_ARGS = $(BUILD_DIR)/nearest_neighbor.xclbin
 

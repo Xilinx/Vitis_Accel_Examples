@@ -60,6 +60,7 @@ CLFLAGS += --kernel_frequency 235
 
 
 
+
 EXECUTABLE = sum_scan
 CMD_ARGS = $(BUILD_DIR)/krnl_sum_scan.xclbin
 

@@ -62,6 +62,7 @@ CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps
 # Kernel linker flags
 LDCLFLAGS += --kernel_frequency "0:150|1:250"
 
+
 EXECUTABLE = host
 CMD_ARGS = $(BUILD_DIR)/vadd.xclbin
 

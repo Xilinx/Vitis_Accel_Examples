@@ -62,10 +62,6 @@ CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps
 # Adding config files to linker
 LDCLFLAGS += --config vmult_vadd.ini 
 
-
-
-
-
 EXECUTABLE = host
 CMD_ARGS = $(BUILD_DIR)/vmult_vadd.xclbin
 

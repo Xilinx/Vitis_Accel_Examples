@@ -62,10 +62,6 @@ CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps
 # Adding config files to linker
 LDCLFLAGS += --config mmult.ini 
 
-
-
-
-
 EXECUTABLE = host
 CMD_ARGS = $(BUILD_DIR)/mmult.xclbin
 
