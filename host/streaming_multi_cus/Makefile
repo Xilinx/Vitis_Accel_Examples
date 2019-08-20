@@ -59,6 +59,10 @@ CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps
 
 
 
+# Adding config files to linker
+LDCLFLAGS += --config krnl_stream_vadd.ini 
+
+
 EXECUTABLE = vadd_stream
 CMD_ARGS = $(BUILD_DIR)/krnl_stream_vadd.xclbin
 
@@ -84,7 +88,7 @@ $(TEMP_DIR)/krnl_stream_vadd.xo: src/krnl_stream_vadd.cpp
 	$(XOCC) $(CLFLAGS) --temp_dir $(TEMP_DIR) -c -k krnl_stream_vadd -I'$(<D)' -o'$@' '$<'
 $(BUILD_DIR)/krnl_stream_vadd.xclbin: $(BINARY_CONTAINER_krnl_stream_vadd_OBJS)
 	mkdir -p $(BUILD_DIR)
-	$(XOCC) $(CLFLAGS) --temp_dir $(BUILD_DIR) -l $(LDCLFLAGS) --nk krnl_stream_vadd:4:vadd_1.vadd_2.vadd_3.vadd_4 -o'$@' $(+)
+	$(XOCC) $(CLFLAGS) --temp_dir $(BUILD_DIR) -l $(LDCLFLAGS) -o'$@' $(+)
 
 # Building Host
 $(EXECUTABLE): check-xrt $(HOST_SRCS) $(HOST_HDRS)

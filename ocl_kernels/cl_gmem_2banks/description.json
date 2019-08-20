@@ -52,10 +52,23 @@
                 {
                     "max_memory_ports": "true", 
                     "name": "apply_watermark", 
-                    "location": "src/apply_watermark.cl"
+                    "location": "src/apply_watermark.cl",
+		    "compute_units": [
+			{
+				"arguments" : [
+					{
+						"name" : "input",
+						"memory" : "DDR[0]"
+					},
+					{
+						"name" : "output",
+						"memory" : "DDR[1]"
+					}
+				]
+			}
+		    ]		
                 }
             ], 
-            "ldclflags": "--config connectivity.ini", 
             "name": "apply_watermark"
         }
     ], 

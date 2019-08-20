@@ -58,8 +58,13 @@ LDFLAGS += -lrt -lstdc++
 CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps 
 
 
-# Kernel linker flags
-LDCLFLAGS += --config connectivity.ini
+
+# Adding config files to linker
+LDCLFLAGS += --config krnl_vadd.ini 
+
+
+
+
 
 EXECUTABLE = host
 CMD_ARGS = $(BUILD_DIR)/krnl_vadd.xclbin
