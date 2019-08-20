@@ -36,8 +36,8 @@ DSA := $(call device2dsa, $(DEVICE))
 TEMP_DIR := ./_x.$(TARGET).$(DSA)
 BUILD_DIR := ./build_dir.$(TARGET).$(DSA)
 
-CXX := $(XILINX_VITIS)/bin/xcpp
-XOCC := v++
+CXX := ${XILINX_VITIS}/gnu/aarch64/lin/aarch64-linux/bin/aarch64-linux-gnu-g++
+XOCC := ${XILINX_VITIS}/bin/v++
 
 #Include Libraries
 include $(ABS_COMMON_REPO)/common/includes/opencl/opencl.mk
@@ -51,22 +51,19 @@ LDFLAGS += $(opencl_LDFLAGS)
 HOST_SRCS += src/host.cpp
 
 # Host compiler global settings
-CXXFLAGS += -fmessage-length=0
-LDFLAGS += -lrt -lstdc++ 
+CXXFLAGS += -D__USE_XOPEN2K8 -fmessage-length=0 --sysroot=/proj/fisdata/fisusr/scripts/sdx_common/sysroot_temp/a53_revmin/sysroots/aarch64-xilinx-linux 
+LDFLAGS += -lrt -lstdc++ -ldl -lcrypt --sysroot=/proj/fisdata/fisusr/scripts/sdx_common/sysroot_temp/a53_revmin/sysroots/aarch64-xilinx-linux
 
 # Kernel compiler global settings
 CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps 
 
-
-
-
 EXECUTABLE = host
-CMD_ARGS = $(BUILD_DIR)/vadd.xclbin
+CMD_ARGS = $(BUILD_DIR)/krnl_vadd.xclbin
 
 EMCONFIG_DIR = $(TEMP_DIR)
 
-BINARY_CONTAINERS += $(BUILD_DIR)/vadd.xclbin
-BINARY_CONTAINER_vadd_OBJS += $(TEMP_DIR)/vadd.xo
+BINARY_CONTAINERS += $(BUILD_DIR)/krnl_vadd.xclbin
+BINARY_CONTAINER_krnl_vadd_OBJS += $(TEMP_DIR)/krnl_vadd.xo
 
 CP = cp -rf
 
@@ -80,12 +77,12 @@ exe: $(EXECUTABLE)
 build: $(BINARY_CONTAINERS)
 
 # Building kernel
-$(TEMP_DIR)/vadd.xo: src/vadd.cpp
+$(TEMP_DIR)/krnl_vadd.xo: src/krnl_vadd.cl
 	mkdir -p $(TEMP_DIR)
-	$(XOCC) $(CLFLAGS) --temp_dir $(TEMP_DIR) -c -k vadd -I'$(<D)' -o'$@' '$<'
-$(BUILD_DIR)/vadd.xclbin: $(BINARY_CONTAINER_vadd_OBJS)
+	$(XOCC) $(CLFLAGS) --temp_dir $(TEMP_DIR) -c -k krnl_vadd -I'$(<D)' -o'$@' '$<'
+$(BUILD_DIR)/krnl_vadd.xclbin: $(BINARY_CONTAINER_krnl_vadd_OBJS)
 	mkdir -p $(BUILD_DIR)
-	$(XOCC) $(CLFLAGS) --temp_dir $(BUILD_DIR) -l $(LDCLFLAGS) --nk vadd:1 -o'$@' $(+)
+	$(XOCC) $(CLFLAGS) --temp_dir $(BUILD_DIR) -l $(LDCLFLAGS) --nk krnl_vadd:1 -o'$@' $(+) --sys_config xrt
 
 # Building Host
 $(EXECUTABLE): check-xrt $(HOST_SRCS) $(HOST_HDRS)
@@ -132,14 +129,13 @@ endif
 ifeq ($(findstring xilinx:u250:qdma, $(DEVICE)), xilinx:u250:qdma)
 $(error Nothing to be done for make)
 endif
-
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 	$(CP) $(EMCONFIG_DIR)/emconfig.json .
-	XCL_EMULATION_MODE=$(TARGET) ./$(EXECUTABLE) $(BUILD_DIR)/vadd.xclbin
+	XCL_EMULATION_MODE=$(TARGET) ./$(EXECUTABLE) $(BUILD_DIR)/krnl_vadd.xclbin
 else
-	 ./$(EXECUTABLE) $(BUILD_DIR)/vadd.xclbin
+	 ./$(EXECUTABLE) $(BUILD_DIR)/krnl_vadd.xclbin
 endif
-	sdx_analyze profile -i profile_summary.csv -f html
+	perf_analyze profile -i profile_summary.csv -f html
 
 run_nimbix: all
 	$(COMMON_REPO)/common/utility/nimbix/run_nimbix.py $(EXECUTABLE) $(CMD_ARGS) $(DSA)
@@ -155,5 +151,4 @@ clean:
 
 cleanall: clean
 	-$(RMDIR) build_dir*
-	-$(RMDIR) _x.* xclbin.run_summary
-
+	-$(RMDIR) _x.*
