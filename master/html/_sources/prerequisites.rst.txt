@@ -3,12 +3,14 @@
 Prerequisites
 =============
 
-Scout Git Examples Assumes that user is familiar with Basic Scout Environment, Setup, Programming and Debugging Flow. If not, it is recommended to cover these topics from Scout User Guides:
+Vitis Accel Examples assumes that user is familiar with basic Vitis Environment, Setup, Programming and Debugging Flow. If not, it is recommended to cover these topics from Vitis Tutorials and User Guides:
 
-    * `Scout Development Environment`_ 
-    * `Scout Programming Guide`_ 
-    * `Scout Debugging Guide`_ 
+    * `Vitis Accel Examples Tutorials`_
+    * `Vitis Development Environment`_ 
+    * `Vitis Programming Guide`_ 
+    * `Vitis Debugging Guide`_ 
 
-.. _Scout Development Environment: https://www.xilinx.com/support/documentation/sw_manuals/xilinx2018_3/ug1023-sdaccel-user-guide.pdf
-.. _Scout Programming Guide: https://www.xilinx.com/support/documentation/sw_manuals/xilinx2018_3/ug1277-sdaccel-programmers-guide.pdf
-.. _Scout Debugging Guide: https://www.xilinx.com/support/documentation/sw_manuals/xilinx2018_3/ug1281-sdaccel-debugging-guide.pdf
+.. _Vitis Accel Examples Tutorials: https://github.com/Xilinx/SDAccel-Tutorials/blob/master/README.md
+.. _Vitis Development Environment: https://www.xilinx.com/support/documentation/sw_manuals/xilinx2018_3/ug1023-sdaccel-user-guide.pdf
+.. _Vitis Programming Guide: https://www.xilinx.com/support/documentation/sw_manuals/xilinx2018_3/ug1277-sdaccel-programmers-guide.pdf
+.. _Vitis Debugging Guide: https://www.xilinx.com/support/documentation/sw_manuals/xilinx2018_3/ug1281-sdaccel-debugging-guide.pdf
