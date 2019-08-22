@@ -60,7 +60,7 @@
                 {
                     "location": "src/krnl_watermarking.cl", 
                     "name": "apply_watermark", 
-                    "clflags": "--max_memory_ports apply_watermark",
+                    "clflags": "--config apply_watermark_apply_watermark.ini",
 		    "compute_units": [
 			{
 				"arguments": [

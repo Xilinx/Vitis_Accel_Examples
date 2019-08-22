@@ -43,7 +43,7 @@
         {
             "accelerators": [
                 {
-                    "clflags": "--xp param:compiler.interfaceWrBurstLen=256 --xp param:compiler.interfaceRdBurstLen=256", 
+                    "clflags": "--config vadd_vadd.ini", 
                     "name": "vadd", 
                     "location": "src/vadd.cl"
                 }

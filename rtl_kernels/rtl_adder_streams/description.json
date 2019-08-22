@@ -61,7 +61,6 @@
                     "name": "output"
                 }
             ], 
-            "ldclflags": "--config connectivity.ini", 
             "name": "adder"
         }
     ], 

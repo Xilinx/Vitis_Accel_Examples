@@ -56,8 +56,7 @@ LDFLAGS += -lrt -lstdc++
 
 # Kernel compiler global settings
 CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps 
-CLFLAGS += --xp param:compiler.xclDataflowFifoDepth=32
-
+CLFLAGS += --config adder_adder.ini
 
 
 
@@ -86,7 +85,7 @@ $(TEMP_DIR)/adder.xo: src/adder.cl
 	$(XOCC) $(CLFLAGS) --temp_dir $(TEMP_DIR) -c -k adder -I'$(<D)' -o'$@' '$<'
 $(BUILD_DIR)/adder.xclbin: $(BINARY_CONTAINER_adder_OBJS)
 	mkdir -p $(BUILD_DIR)
-	$(XOCC) $(CLFLAGS) --temp_dir $(BUILD_DIR) -l $(LDCLFLAGS) --nk adder:1 -o'$@' $(+)
+	$(XOCC) $(CLFLAGS) --temp_dir $(BUILD_DIR) -l $(LDCLFLAGS) -o'$@' $(+)
 
 # Building Host
 $(EXECUTABLE): check-xrt $(HOST_SRCS) $(HOST_HDRS)

@@ -56,11 +56,8 @@ LDFLAGS += -lrt -lstdc++
 
 # Kernel compiler global settings
 CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps 
-CLFLAGS += --xp param:compiler.axiDeadLockFree=yes
+CLFLAGS += --config advanced.ini
 
-
-# Kernel linker flags
-LDCLFLAGS += --config advanced.ini
 
 
 EXECUTABLE = host
@@ -88,7 +85,7 @@ $(TEMP_DIR)/N_stage_Adders.xo: src/N_stage_adders.cpp
 	$(XOCC) $(CLFLAGS) --temp_dir $(TEMP_DIR) -c -k N_stage_Adders -I'$(<D)' -o'$@' '$<'
 $(BUILD_DIR)/N_stage_Adders.xclbin: $(BINARY_CONTAINER_N_stage_Adders_OBJS)
 	mkdir -p $(BUILD_DIR)
-	$(XOCC) $(CLFLAGS) --temp_dir $(BUILD_DIR) -l $(LDCLFLAGS) --nk N_stage_Adders:1 -o'$@' $(+)
+	$(XOCC) $(CLFLAGS) --temp_dir $(BUILD_DIR) -l $(LDCLFLAGS) -o'$@' $(+)
 
 # Building Host
 $(EXECUTABLE): check-xrt $(HOST_SRCS) $(HOST_HDRS)

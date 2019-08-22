@@ -56,7 +56,6 @@
                     "name": "vadd"
                 }
             ], 
-            "ldclflags": "--kernel_frequency \"0:150|1:250\"", 
             "name": "vadd"
         }
     ], 

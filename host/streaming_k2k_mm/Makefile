@@ -58,10 +58,9 @@ LDFLAGS += -lrt -lstdc++
 CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps 
 
 
-# Kernel linker flags
-LDCLFLAGS +=  --config connectivity.ini
 
-
+# Adding config files to linker
+LDCLFLAGS += --config krnl_stream_vadd_vmult.ini 
 EXECUTABLE = vadd_stream
 CMD_ARGS = $(BUILD_DIR)/krnl_stream_vadd_vmult.xclbin
 
@@ -91,7 +90,7 @@ $(TEMP_DIR)/krnl_stream_vmult.xo: src/krnl_stream_vmult.cpp
 	$(XOCC) $(CLFLAGS) --temp_dir $(TEMP_DIR) -c -k krnl_stream_vmult -I'$(<D)' -o'$@' '$<'
 $(BUILD_DIR)/krnl_stream_vadd_vmult.xclbin: $(BINARY_CONTAINER_krnl_stream_vadd_vmult_OBJS)
 	mkdir -p $(BUILD_DIR)
-	$(XOCC) $(CLFLAGS) --temp_dir $(BUILD_DIR) -l $(LDCLFLAGS) --nk krnl_stream_vadd:1 --nk krnl_stream_vmult:1 -o'$@' $(+)
+	$(XOCC) $(CLFLAGS) --temp_dir $(BUILD_DIR) -l $(LDCLFLAGS) -o'$@' $(+)
 
 # Building Host
 $(EXECUTABLE): check-xrt $(HOST_SRCS) $(HOST_HDRS)

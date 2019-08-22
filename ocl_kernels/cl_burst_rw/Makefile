@@ -57,8 +57,7 @@ LDFLAGS += -lrt -lstdc++
 
 # Kernel compiler global settings
 CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps 
-CLFLAGS += --xp param:compiler.interfaceWrBurstLen=256 --xp param:compiler.interfaceRdBurstLen=256
-
+CLFLAGS += --config vadd_vadd.ini
 
 
 
@@ -87,7 +86,7 @@ $(TEMP_DIR)/vadd.xo: src/vadd.cl
 	$(XOCC) $(CLFLAGS) --temp_dir $(TEMP_DIR) -c -k vadd -I'$(<D)' -o'$@' '$<'
 $(BUILD_DIR)/vadd.xclbin: $(BINARY_CONTAINER_vadd_OBJS)
 	mkdir -p $(BUILD_DIR)
-	$(XOCC) $(CLFLAGS) --temp_dir $(BUILD_DIR) -l $(LDCLFLAGS) --nk vadd:1 -o'$@' $(+)
+	$(XOCC) $(CLFLAGS) --temp_dir $(BUILD_DIR) -l $(LDCLFLAGS) -o'$@' $(+)
 
 # Building Host
 $(EXECUTABLE): check-xrt $(HOST_SRCS) $(HOST_HDRS)

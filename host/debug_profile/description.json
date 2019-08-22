@@ -46,7 +46,7 @@
         {
             "accelerators": [
                 {
-                    "clflags": "--profile_kernel data:all:all:all", 
+                    "clflags": "--config vadd_krnl_vadd.ini", 
                     "name": "krnl_vadd", 
                     "location": "src/vadd.cpp"
                 }
