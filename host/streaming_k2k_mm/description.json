@@ -61,7 +61,6 @@
                     "location": "src/krnl_stream_vmult.cpp"
                 }
             ], 
-            "ldclflags": " --config connectivity.ini", 
             "name": "krnl_stream_vadd_vmult"
         }
     ], 

@@ -41,7 +41,7 @@
         {
             "accelerators": [
                 {
-                    "clflags": "--xp param:compiler.xclDataflowFifoDepth=32", 
+                    "clflags": "--config adder_adder.ini", 
                     "name": "adder", 
                     "location": "src/adder.cl"
                 }

@@ -56,13 +56,12 @@ LDFLAGS += -lrt -lstdc++
 
 # Kernel compiler global settings
 CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps 
-CLFLAGS += --max_memory_ports apply_watermark
+CLFLAGS += --config apply_watermark_apply_watermark.ini
 
 
 
 # Adding config files to linker
 LDCLFLAGS += --config apply_watermark.ini 
-
 EXECUTABLE = watermark
 CMD_ARGS = $(BUILD_DIR)/apply_watermark.xclbin ./data/inputImage.bmp ./data/golden.bmp
 
@@ -89,7 +88,7 @@ $(TEMP_DIR)/apply_watermark.xo: src/krnl_watermarking.cl
 	$(XOCC) $(CLFLAGS) --temp_dir $(TEMP_DIR) -c -k apply_watermark -I'$(<D)' -o'$@' '$<'
 $(BUILD_DIR)/apply_watermark.xclbin: $(BINARY_CONTAINER_apply_watermark_OBJS)
 	mkdir -p $(BUILD_DIR)
-	$(XOCC) $(CLFLAGS) --temp_dir $(BUILD_DIR) -l $(LDCLFLAGS) --nk apply_watermark:1 -o'$@' $(+)
+	$(XOCC) $(CLFLAGS) --temp_dir $(BUILD_DIR) -l $(LDCLFLAGS) -o'$@' $(+)
 
 # Building Host
 $(EXECUTABLE): check-xrt $(HOST_SRCS) $(HOST_HDRS)

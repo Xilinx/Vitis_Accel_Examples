@@ -41,12 +41,11 @@
         {
             "accelerators": [
                 {
-                    "location": "src/N_stage_adders.cpp", 
+                    "location": "src/N_stage_adders.cpp",
                     "name": "N_stage_Adders", 
-                    "clflags": "--xp param:compiler.axiDeadLockFree=yes"
+                    "clflags": "--config N_stage_Adders_N_stage_Adders.ini"
                 }
             ], 
-            "ldclflags": "--config advanced.ini", 
             "name": "N_stage_Adders"
         }
     ], 

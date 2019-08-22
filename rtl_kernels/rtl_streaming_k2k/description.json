@@ -79,7 +79,6 @@
                     "name": "myadder2"
                 }
             ], 
-            "ldclflags": "--config connectivity.ini", 
             "name": "myadder"
         }
     ]
