@@ -41,9 +41,9 @@
         {
             "accelerators": [
                 {
-                    "location": "src/N_stage_adders.cpp", 
+                    "location": "src/N_stage_adders.cpp",
                     "name": "N_stage_Adders", 
-                    "clflags": "--config advanced.ini"
+                    "clflags": "--config N_stage_Adders_N_stage_Adders.ini"
                 }
             ], 
             "name": "N_stage_Adders"

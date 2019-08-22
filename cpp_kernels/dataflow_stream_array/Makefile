@@ -56,7 +56,7 @@ LDFLAGS += -lrt -lstdc++
 
 # Kernel compiler global settings
 CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps 
-CLFLAGS += --config advanced.ini
+CLFLAGS += --config N_stage_Adders_N_stage_Adders.ini
 
 
 
