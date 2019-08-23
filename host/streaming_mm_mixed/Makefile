@@ -59,7 +59,6 @@ CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps
 
 
 
-
 EXECUTABLE = vadd_stream
 CMD_ARGS = $(BUILD_DIR)/krnl_stream_vadd.xclbin
 
@@ -85,7 +84,7 @@ $(TEMP_DIR)/krnl_stream_vadd.xo: src/krnl_stream_vadd.cpp
 	$(XOCC) $(CLFLAGS) --temp_dir $(TEMP_DIR) -c -k krnl_stream_vadd -I'$(<D)' -o'$@' '$<'
 $(BUILD_DIR)/krnl_stream_vadd.xclbin: $(BINARY_CONTAINER_krnl_stream_vadd_OBJS)
 	mkdir -p $(BUILD_DIR)
-	$(XOCC) $(CLFLAGS) --temp_dir $(BUILD_DIR) -l $(LDCLFLAGS) --nk krnl_stream_vadd:1 -o'$@' $(+)
+	$(XOCC) $(CLFLAGS) --temp_dir $(BUILD_DIR) -l $(LDCLFLAGS) -o'$@' $(+)
 
 # Building Host
 $(EXECUTABLE): check-xrt $(HOST_SRCS) $(HOST_HDRS)

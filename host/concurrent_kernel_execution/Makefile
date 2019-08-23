@@ -59,7 +59,6 @@ CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps
 
 
 
-
 EXECUTABLE = concurrent_execution
 CMD_ARGS = $(BUILD_DIR)/matrix_ops.xclbin
 
@@ -93,7 +92,7 @@ $(TEMP_DIR)/mmult.xo: src/mmult.cpp
 	$(XOCC) $(CLFLAGS) --temp_dir $(TEMP_DIR) -c -k mmult -I'$(<D)' -o'$@' '$<'
 $(BUILD_DIR)/matrix_ops.xclbin: $(BINARY_CONTAINER_matrix_ops_OBJS)
 	mkdir -p $(BUILD_DIR)
-	$(XOCC) $(CLFLAGS) --temp_dir $(BUILD_DIR) -l $(LDCLFLAGS) --nk madd:1 --nk mscale:1 --nk mmult:1 -o'$@' $(+)
+	$(XOCC) $(CLFLAGS) --temp_dir $(BUILD_DIR) -l $(LDCLFLAGS) -o'$@' $(+)
 
 # Building Host
 $(EXECUTABLE): check-xrt $(HOST_SRCS) $(HOST_HDRS)

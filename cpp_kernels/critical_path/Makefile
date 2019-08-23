@@ -61,7 +61,6 @@ CLFLAGS += -DBAD_DESIGN=0
 
 
 
-
 EXECUTABLE = host
 CMD_ARGS = $(BUILD_DIR)/apply_watermark_GOOD.xclbin ./data/input.bmp ./data/golden.bmp
 
@@ -88,7 +87,7 @@ $(TEMP_DIR)/apply_watermark.xo: src/apply_watermark.cpp
 	$(XOCC) $(CLFLAGS) --temp_dir $(TEMP_DIR) -c -k apply_watermark -I'$(<D)' -o'$@' '$<'
 $(BUILD_DIR)/apply_watermark_GOOD.xclbin: $(BINARY_CONTAINER_apply_watermark_GOOD_OBJS)
 	mkdir -p $(BUILD_DIR)
-	$(XOCC) $(CLFLAGS) --temp_dir $(BUILD_DIR) -l $(LDCLFLAGS) --nk apply_watermark:1 -o'$@' $(+)
+	$(XOCC) $(CLFLAGS) --temp_dir $(BUILD_DIR) -l $(LDCLFLAGS) -o'$@' $(+)
 
 # Building Host
 $(EXECUTABLE): check-xrt $(HOST_SRCS) $(HOST_HDRS)

@@ -59,7 +59,6 @@ CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps
 
 
 
-
 EXECUTABLE = host
 CMD_ARGS = $(BUILD_DIR)/fir.xclbin
 
@@ -89,7 +88,7 @@ $(TEMP_DIR)/fir_shift_register.xo: src/fir_shift_register.cpp
 	$(XOCC) $(CLFLAGS) --temp_dir $(TEMP_DIR) -c -k fir_shift_register -I'$(<D)' -o'$@' '$<'
 $(BUILD_DIR)/fir.xclbin: $(BINARY_CONTAINER_fir_OBJS)
 	mkdir -p $(BUILD_DIR)
-	$(XOCC) $(CLFLAGS) --temp_dir $(BUILD_DIR) -l $(LDCLFLAGS) --nk fir_naive:1 --nk fir_shift_register:1 -o'$@' $(+)
+	$(XOCC) $(CLFLAGS) --temp_dir $(BUILD_DIR) -l $(LDCLFLAGS) -o'$@' $(+)
 
 # Building Host
 $(EXECUTABLE): check-xrt $(HOST_SRCS) $(HOST_HDRS)

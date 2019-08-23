@@ -59,7 +59,6 @@ CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps
 
 
 
-
 EXECUTABLE = host
 CMD_ARGS = $(BUILD_DIR)/adder.xclbin
 
@@ -85,7 +84,7 @@ $(TEMP_DIR)/adder.xo: src/adder.cpp
 	$(XOCC) $(CLFLAGS) --temp_dir $(TEMP_DIR) -c -k adder -I'$(<D)' -o'$@' '$<'
 $(BUILD_DIR)/adder.xclbin: $(BINARY_CONTAINER_adder_OBJS)
 	mkdir -p $(BUILD_DIR)
-	$(XOCC) $(CLFLAGS) --temp_dir $(BUILD_DIR) -l $(LDCLFLAGS) --nk adder:1 -o'$@' $(+)
+	$(XOCC) $(CLFLAGS) --temp_dir $(BUILD_DIR) -l $(LDCLFLAGS) -o'$@' $(+)
 
 # Building Host
 $(EXECUTABLE): check-xrt $(HOST_SRCS) $(HOST_HDRS)

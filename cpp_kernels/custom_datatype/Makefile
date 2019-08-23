@@ -60,7 +60,6 @@ CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps
 
 
 
-
 EXECUTABLE = host
 CMD_ARGS = $(BUILD_DIR)/rgb_to_hsv.xclbin ./data/input.bmp
 
@@ -87,7 +86,7 @@ $(TEMP_DIR)/rgb_to_hsv.xo: src/rgb_to_hsv.cpp
 	$(XOCC) $(CLFLAGS) --temp_dir $(TEMP_DIR) -c -k rgb_to_hsv -I'$(<D)' -o'$@' '$<'
 $(BUILD_DIR)/rgb_to_hsv.xclbin: $(BINARY_CONTAINER_rgb_to_hsv_OBJS)
 	mkdir -p $(BUILD_DIR)
-	$(XOCC) $(CLFLAGS) --temp_dir $(BUILD_DIR) -l $(LDCLFLAGS) --nk rgb_to_hsv:1 -o'$@' $(+)
+	$(XOCC) $(CLFLAGS) --temp_dir $(BUILD_DIR) -l $(LDCLFLAGS) -o'$@' $(+)
 
 # Building Host
 $(EXECUTABLE): check-xrt $(HOST_SRCS) $(HOST_HDRS)

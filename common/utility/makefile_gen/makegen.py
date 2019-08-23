@@ -246,11 +246,6 @@ def building_kernel(target, data):
             target.write("\t$(XOCC) $(CLFLAGS) --temp_dir ")
             target.write("$(BUILD_DIR) ")
             target.write("-l $(LDCLFLAGS)")
-            for acc in con["accelerators"]:
-                if not "num_compute_units" in acc.keys():
-                    target.write(" --nk ")
-                    target.write(acc["name"])
-		    target.write(":1")
             target.write(" -o'$@' $(+)\n")
     target.write("\n")
     return

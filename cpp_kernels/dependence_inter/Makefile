@@ -59,7 +59,6 @@ CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps
 
 
 
-
 EXECUTABLE = host
 CMD_ARGS = $(BUILD_DIR)/vconv.xclbin
 
@@ -85,7 +84,7 @@ $(TEMP_DIR)/vconv.xo: src/vconv.cpp
 	$(XOCC) $(CLFLAGS) --temp_dir $(TEMP_DIR) -c -k vconv -I'$(<D)' -o'$@' '$<'
 $(BUILD_DIR)/vconv.xclbin: $(BINARY_CONTAINER_vconv_OBJS)
 	mkdir -p $(BUILD_DIR)
-	$(XOCC) $(CLFLAGS) --temp_dir $(BUILD_DIR) -l $(LDCLFLAGS) --nk vconv:1 -o'$@' $(+)
+	$(XOCC) $(CLFLAGS) --temp_dir $(BUILD_DIR) -l $(LDCLFLAGS) -o'$@' $(+)
 
 # Building Host
 $(EXECUTABLE): check-xrt $(HOST_SRCS) $(HOST_HDRS)

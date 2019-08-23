@@ -59,7 +59,6 @@ CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps
 
 
 
-
 EXECUTABLE = data_transfer
 CMD_ARGS = $(BUILD_DIR)/dummy_kernel.xclbin
 
@@ -85,7 +84,7 @@ $(TEMP_DIR)/dummy_kernel.xo: src/dummy_kernel.cpp
 	$(XOCC) $(CLFLAGS) --temp_dir $(TEMP_DIR) -c -k dummy_kernel -I'$(<D)' -o'$@' '$<'
 $(BUILD_DIR)/dummy_kernel.xclbin: $(BINARY_CONTAINER_dummy_kernel_OBJS)
 	mkdir -p $(BUILD_DIR)
-	$(XOCC) $(CLFLAGS) --temp_dir $(BUILD_DIR) -l $(LDCLFLAGS) --nk dummy_kernel:1 -o'$@' $(+)
+	$(XOCC) $(CLFLAGS) --temp_dir $(BUILD_DIR) -l $(LDCLFLAGS) -o'$@' $(+)
 
 # Building Host
 $(EXECUTABLE): check-xrt $(HOST_SRCS) $(HOST_HDRS)

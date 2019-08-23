@@ -61,7 +61,6 @@ CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps
 
 
 
-
 EXECUTABLE = vadd_stream
 CMD_ARGS = $(BUILD_DIR)/myadder1.xclbin
 
