@@ -27,8 +27,6 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 **********/
 
-#include <CL/opencl.h>
-
 #include <array>
 #include <cstdio>
 #include <cstdlib>
@@ -36,6 +34,8 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <string>
 #include <utility>
 #include <vector>
+
+#include "xcl2.hpp"
 
 using std::array;
 using std::pair;
@@ -46,14 +46,6 @@ using std::vector;
 
 // Wrap any OpenCL API calls that return error code(cl_int)
 // with the below macro to quickly check for an error
-#define OCL_CHECK(call)                                                        \
-    do {                                                                       \
-        cl_int err = call;                                                     \
-        if (err != CL_SUCCESS) {                                               \
-            printf("Error from " #call ", error code is %d\n", err);           \
-            exit(1);                                                           \
-        }                                                                      \
-    } while (0);
 
 #define ENUM_CASE(ENUM)                                                        \
     case ENUM:                                                                 \
@@ -66,7 +58,7 @@ using std::vector;
 
 #define BITFIELD_PRINT(FIELD)                                                  \
     if (value & FIELD) {                                                       \
-        printf(#FIELD " ");                                                    \
+        err = printf(#FIELD " ");                                              \
     }
 
 #define BITFIELD_END() printf("]\n")
@@ -149,7 +141,8 @@ pair<int, const char *> device_info[] = {
     {CL_DEVICE_PARTITION_PROPERTIES, "partition properties"},
     {CL_DEVICE_PARTITION_AFFINITY_DOMAIN, "partition affinity domain"},
     {CL_DEVICE_PARTITION_TYPE, "partition type"},
-    {CL_DEVICE_REFERENCE_COUNT, "reference count"},
+    {CL_DEVICE_REFERENCE_COUNT,
+     "reference countplatforms[p].getDevices(CL_DEVICE_TYPE_ALL, &devices)"},
     {CL_DEVICE_PREFERRED_INTEROP_USER_SYNC, "preferred interop user sync"},
     {CL_DEVICE_PRINTF_BUFFER_SIZE, "printf buffer size"}};
 
@@ -157,13 +150,10 @@ template <typename T, size_t N> int sizeof_array(T (&)[N]) { return N; }
 
 std::string field(1024, '\0');
 
-void print_platform_info(cl_platform_id platform) {
+void print_platform_info(cl::Platform platform) {
+    cl_int err;
     for (int i = 0; i < sizeof_array(platform_info); i++) {
-        clGetPlatformInfo(platform,
-                          platform_info[i].first,
-                          field.size(),
-                          (void *)field.data(),
-                          nullptr);
+        OCL_CHECK(err, err = platform.getInfo(platform_info[i].first, &field));
         printf("platform %-11s: %s\n", platform_info[i].second, field.c_str());
     }
 }
@@ -172,13 +162,10 @@ template <typename T> T convert(const char *data) {
     return *reinterpret_cast<const T *>(data);
 }
 
-void print_device_info(cl_device_id device) {
+void print_device_info(cl::Device device) {
+    cl_int err;
     for (int i = 0; i < sizeof_array(device_info); i++) {
-        clGetDeviceInfo(device,
-                        device_info[i].first,
-                        field.size(),
-                        (void *)field.data(),
-                        nullptr);
+        OCL_CHECK(err, err = device.getInfo(device_info[i].first, &field));
 
         printf("  device %-32s: ", device_info[i].second);
         switch (device_info[i].first) {
@@ -248,11 +235,9 @@ void print_device_info(cl_device_id device) {
 
         case CL_DEVICE_MAX_WORK_ITEM_SIZES: {
             size_t max_dim = 0;
-            clGetDeviceInfo(device,
-                            CL_DEVICE_MAX_WORK_ITEM_DIMENSIONS,
-                            sizeof(size_t),
-                            &max_dim,
-                            nullptr);
+            OCL_CHECK(err,
+                      err = device.getInfo(CL_DEVICE_MAX_WORK_ITEM_DIMENSIONS,
+                                           &max_dim));
             printf("[  ");
             for (int i = 0; i < (int)max_dim; i++) {
                 printf("\b%zu  ", convert<size_t>(&field[i * sizeof(size_t)]));
@@ -345,12 +330,8 @@ void print_device_info(cl_device_id device) {
             BITFIELD_END();
         } break;
         case CL_DEVICE_PLATFORM: {
-            auto platform = convert<cl_platform_id>(field.data());
-            clGetPlatformInfo(platform,
-                              CL_PLATFORM_NAME,
-                              field.size(),
-                              (void *)field.data(),
-                              nullptr);
+            auto platform = convert<cl::Platform>(field.data());
+            OCL_CHECK(err, err = platform.getInfo(CL_PLATFORM_NAME, &field));
             printf("%s\n", field.c_str());
         } break;
         default:
@@ -364,29 +345,23 @@ void print_device_info(cl_device_id device) {
 // This example prints devices available on this machine and their
 // corresponding capabilities.
 int main(int argc, char **argv) {
-
     // The following call retrieves the total number of platforms available
     cl_uint platform_count;
-    OCL_CHECK(clGetPlatformIDs(0, nullptr, &platform_count));
-    vector<cl_platform_id> platforms(platform_count);
-    OCL_CHECK(clGetPlatformIDs(platform_count, platforms.data(), nullptr));
+    cl_int err;
+    std::vector<cl::Platform> platforms;
+    OCL_CHECK(err, err = cl::Platform::get(&platforms));
+    platform_count = platforms.size();
+
     for (int p = 0; p < (int)platform_count; ++p) {
         print_platform_info(platforms[p]);
         cl_uint device_count = 0;
-        OCL_CHECK(clGetDeviceIDs(
-            platforms[p], CL_DEVICE_TYPE_ALL, 0, nullptr, &device_count));
-        vector<cl_device_id> devices(device_count);
-        OCL_CHECK(clGetDeviceIDs(platforms[p],
-                                 CL_DEVICE_TYPE_ALL,
-                                 device_count,
-                                 devices.data(),
-                                 nullptr));
+        std::vector<cl::Device> devices;
+        OCL_CHECK(err,
+                  err = platforms[p].getDevices(CL_DEVICE_TYPE_ALL, &devices));
+        device_count = devices.size();
+
         for (int d = 0; d < (int)device_count; ++d) {
-            clGetDeviceInfo(devices[d],
-                            CL_DEVICE_NAME,
-                            field.size(),
-                            (void *)field.data(),
-                            nullptr);
+            OCL_CHECK(err, err = devices[d].getInfo(CL_DEVICE_NAME, &field));
             printf("Device %d: %s\n", d, field.c_str());
             print_device_info(devices[d]);
             continue;

@@ -1,11 +1,9 @@
-Device Query (C)
+Device Query (CPP)
 ======================
 
-This example prints the OpenCL properties of the platform and its devices. It also displays the limits and capabilities of the hardware.
+This Example prints the OpenCL properties of the platform and its devices using OpenCL CPP APIs. It also displays the limits and capabilities of the hardware.
 
 ***KEY CONCEPTS:*** OpenCL API, Querying device properties
-
-***KEYWORDS:*** clGetPlatformIDs(), clGetPlatformInfo(), clGetDeviceIDs(), clGetDeviceInfo()
 
 ## SUPPORTED PLATFORMS
 Platform | Board             | Software Version
