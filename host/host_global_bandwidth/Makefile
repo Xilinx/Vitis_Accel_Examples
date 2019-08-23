@@ -61,7 +61,6 @@ CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps
 
 # Adding config files to linker
 LDCLFLAGS += --config krnl_host_global.ini 
-
 EXECUTABLE = host_global
 CMD_ARGS = $(BUILD_DIR)/krnl_host_global.xclbin
 
@@ -87,7 +86,7 @@ $(TEMP_DIR)/bandwidth.xo: src/kernel.cpp
 	$(XOCC) $(CLFLAGS) --temp_dir $(TEMP_DIR) -c -k bandwidth -I'$(<D)' -o'$@' '$<'
 $(BUILD_DIR)/krnl_host_global.xclbin: $(BINARY_CONTAINER_krnl_host_global_OBJS)
 	mkdir -p $(BUILD_DIR)
-	$(XOCC) $(CLFLAGS) --temp_dir $(BUILD_DIR) -l $(LDCLFLAGS) --nk bandwidth:1 -o'$@' $(+)
+	$(XOCC) $(CLFLAGS) --temp_dir $(BUILD_DIR) -l $(LDCLFLAGS) -o'$@' $(+)
 
 # Building Host
 $(EXECUTABLE): check-xrt $(HOST_SRCS) $(HOST_HDRS)

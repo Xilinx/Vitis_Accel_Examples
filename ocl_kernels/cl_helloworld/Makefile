@@ -59,7 +59,6 @@ CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps
 
 
 
-
 EXECUTABLE = helloworld
 CMD_ARGS = $(BUILD_DIR)/vector_addition.xclbin
 
@@ -85,7 +84,7 @@ $(TEMP_DIR)/vector_add.xo: src/vector_addition.cl
 	$(XOCC) $(CLFLAGS) --temp_dir $(TEMP_DIR) -c -k vector_add -I'$(<D)' -o'$@' '$<'
 $(BUILD_DIR)/vector_addition.xclbin: $(BINARY_CONTAINER_vector_addition_OBJS)
 	mkdir -p $(BUILD_DIR)
-	$(XOCC) $(CLFLAGS) --temp_dir $(BUILD_DIR) -l $(LDCLFLAGS) --nk vector_add:1 -o'$@' $(+)
+	$(XOCC) $(CLFLAGS) --temp_dir $(BUILD_DIR) -l $(LDCLFLAGS) -o'$@' $(+)
 
 # Building Host
 $(EXECUTABLE): check-xrt $(HOST_SRCS) $(HOST_HDRS)

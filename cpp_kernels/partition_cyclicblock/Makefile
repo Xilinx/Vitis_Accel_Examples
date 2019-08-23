@@ -59,7 +59,6 @@ CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps
 
 
 
-
 EXECUTABLE = array_partition
 CMD_ARGS = $(BUILD_DIR)/matmul.xclbin
 
@@ -89,7 +88,7 @@ $(TEMP_DIR)/matmul_partition.xo: src/matmul_partition.cpp
 	$(XOCC) $(CLFLAGS) --temp_dir $(TEMP_DIR) -c -k matmul_partition -I'$(<D)' -o'$@' '$<'
 $(BUILD_DIR)/matmul.xclbin: $(BINARY_CONTAINER_matmul_OBJS)
 	mkdir -p $(BUILD_DIR)
-	$(XOCC) $(CLFLAGS) --temp_dir $(BUILD_DIR) -l $(LDCLFLAGS) --nk matmul_naive:1 --nk matmul_partition:1 -o'$@' $(+)
+	$(XOCC) $(CLFLAGS) --temp_dir $(BUILD_DIR) -l $(LDCLFLAGS) -o'$@' $(+)
 
 # Building Host
 $(EXECUTABLE): check-xrt $(HOST_SRCS) $(HOST_HDRS)

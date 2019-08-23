@@ -61,7 +61,6 @@ CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps
 
 
 
-
 EXECUTABLE = host
 CMD_ARGS = $(BUILD_DIR)/sketch_GOOD.xclbin $(BUILD_DIR)/sketch_BAD.xclbin ./data/car_128x128.bmp
 
@@ -93,10 +92,10 @@ $(TEMP_DIR)/sketch_BAD.xo: src/sketch_bad.cpp
 	$(XOCC) $(CLFLAGS) --temp_dir $(TEMP_DIR) -c -k sketch_BAD -I'$(<D)' -o'$@' '$<'
 $(BUILD_DIR)/sketch_GOOD.xclbin: $(BINARY_CONTAINER_sketch_GOOD_OBJS)
 	mkdir -p $(BUILD_DIR)
-	$(XOCC) $(CLFLAGS) --temp_dir $(BUILD_DIR) -l $(LDCLFLAGS) --nk sketch_GOOD:1 -o'$@' $(+)
+	$(XOCC) $(CLFLAGS) --temp_dir $(BUILD_DIR) -l $(LDCLFLAGS) -o'$@' $(+)
 $(BUILD_DIR)/sketch_BAD.xclbin: $(BINARY_CONTAINER_sketch_BAD_OBJS)
 	mkdir -p $(BUILD_DIR)
-	$(XOCC) $(CLFLAGS) --temp_dir $(BUILD_DIR) -l $(LDCLFLAGS) --nk sketch_BAD:1 -o'$@' $(+)
+	$(XOCC) $(CLFLAGS) --temp_dir $(BUILD_DIR) -l $(LDCLFLAGS) -o'$@' $(+)
 
 # Building Host
 $(EXECUTABLE): check-xrt $(HOST_SRCS) $(HOST_HDRS)

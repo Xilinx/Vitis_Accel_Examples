@@ -59,7 +59,6 @@ CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps
 
 
 
-
 EXECUTABLE = host
 CMD_ARGS = $(BUILD_DIR)/multi_krnl.xclbin
 
@@ -93,7 +92,7 @@ $(TEMP_DIR)/krnl_vsub.xo: src/krnl_vsub.cpp
 	$(XOCC) $(CLFLAGS) --temp_dir $(TEMP_DIR) -c -k krnl_vsub -I'$(<D)' -o'$@' '$<'
 $(BUILD_DIR)/multi_krnl.xclbin: $(BINARY_CONTAINER_multi_krnl_OBJS)
 	mkdir -p $(BUILD_DIR)
-	$(XOCC) $(CLFLAGS) --temp_dir $(BUILD_DIR) -l $(LDCLFLAGS) --nk krnl_vadd:1 --nk krnl_vmul:1 --nk krnl_vsub:1 -o'$@' $(+)
+	$(XOCC) $(CLFLAGS) --temp_dir $(BUILD_DIR) -l $(LDCLFLAGS) -o'$@' $(+)
 
 # Building Host
 $(EXECUTABLE): check-xrt $(HOST_SRCS) $(HOST_HDRS)

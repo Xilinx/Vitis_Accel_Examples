@@ -63,7 +63,6 @@ LDCLFLAGS += --config connectivity.ini
 
 # Adding config files to linker
 LDCLFLAGS += --config krnl_vadd.ini 
-
 EXECUTABLE = sub_devices
 CMD_ARGS = $(BUILD_DIR)/krnl_vadd.xclbin
 

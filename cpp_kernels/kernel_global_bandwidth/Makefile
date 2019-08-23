@@ -61,7 +61,6 @@ CLFLAGS +=  --max_memory_ports bandwidth
 
 
 
-
 EXECUTABLE = kernel_global
 CMD_ARGS = $(BUILD_DIR)/krnl_kernel_global.xclbin
 
@@ -87,7 +86,7 @@ $(TEMP_DIR)/bandwidth.xo: src/kernel.cl
 	$(XOCC) $(CLFLAGS) --temp_dir $(TEMP_DIR) -c -k bandwidth -I'$(<D)' -o'$@' '$<'
 $(BUILD_DIR)/krnl_kernel_global.xclbin: $(BINARY_CONTAINER_krnl_kernel_global_OBJS)
 	mkdir -p $(BUILD_DIR)
-	$(XOCC) $(CLFLAGS) --temp_dir $(BUILD_DIR) -l $(LDCLFLAGS) --nk bandwidth:1 -o'$@' $(+)
+	$(XOCC) $(CLFLAGS) --temp_dir $(BUILD_DIR) -l $(LDCLFLAGS) -o'$@' $(+)
 
 # Building Host
 $(EXECUTABLE): check-xrt $(HOST_SRCS) $(HOST_HDRS)

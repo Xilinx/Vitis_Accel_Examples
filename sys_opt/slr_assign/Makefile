@@ -61,7 +61,6 @@ CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps
 
 # Adding config files to linker
 LDCLFLAGS += --config vmult_vadd.ini 
-
 EXECUTABLE = host
 CMD_ARGS = $(BUILD_DIR)/vmult_vadd.xclbin
 
@@ -91,7 +90,7 @@ $(TEMP_DIR)/vadd.xo: src/kernel.cl
 	$(XOCC) $(CLFLAGS) --temp_dir $(TEMP_DIR) -c -k vadd -I'$(<D)' -o'$@' '$<'
 $(BUILD_DIR)/vmult_vadd.xclbin: $(BINARY_CONTAINER_vmult_vadd_OBJS)
 	mkdir -p $(BUILD_DIR)
-	$(XOCC) $(CLFLAGS) --temp_dir $(BUILD_DIR) -l $(LDCLFLAGS) --nk vmult:1 --nk vadd:1 -o'$@' $(+)
+	$(XOCC) $(CLFLAGS) --temp_dir $(BUILD_DIR) -l $(LDCLFLAGS) -o'$@' $(+)
 
 # Building Host
 $(EXECUTABLE): check-xrt $(HOST_SRCS) $(HOST_HDRS)

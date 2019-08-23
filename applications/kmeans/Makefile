@@ -64,7 +64,6 @@ CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps
 
 # Adding config files to linker
 LDCLFLAGS += --config kmeans.ini 
-
 EXECUTABLE = host_kmeans
 CMD_ARGS = -x $(BUILD_DIR)/kmeans.xclbin -i ./data/100 -c ./data/100.gold_c5 -m 5 -n 5 -g 2
 
