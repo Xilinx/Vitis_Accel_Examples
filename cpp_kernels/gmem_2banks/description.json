@@ -63,7 +63,7 @@
 					},
 					{
 						"name" : "output",
-						"memory" : "DDR[0]"
+						"memory" : "DDR[1]"
 					}
 				]
 			}
