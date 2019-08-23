@@ -14,7 +14,7 @@ DEBUG := no
 
 #Generates debug summary report
 ifeq ($(DEBUG), yes)
-CLFLAGS += --dk protocol:all:all:all
+LDCLFLAGS += --dk list_ports
 endif
 
 #Checks for XILINX_VITIS

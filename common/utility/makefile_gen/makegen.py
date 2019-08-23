@@ -465,7 +465,7 @@ def report_gen(target, data):
     target.write("\n")
     target.write("#Generates debug summary report\n")
     target.write("ifeq ($(DEBUG), yes)\n")
-    target.write("CLFLAGS += --dk protocol:all:all:all\n")
+    target.write("LDCLFLAGS += --dk list_ports\n")
     target.write("endif\n")
     target.write("\n")
 
