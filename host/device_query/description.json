@@ -1,5 +1,5 @@
 {
-    "name": "Device Query (C)", 
+    "name": "Device Query (CPP)", 
     "contributors": [
         {
             "url": "http://www.xilinx.com", 
@@ -9,19 +9,18 @@
     "platform_type": "pcie", 
     "host": {
         "compiler": {
-            "sources": []
+            "sources": [
+                "REPO_DIR/common/includes/xcl2"
+            ], 
+            "includepaths": [
+                "REPO_DIR/common/includes/xcl2"
+            ]
         }, 
         "host_exe": "device_query"
     }, 
     "key_concepts": [
         "OpenCL API", 
         "Querying device properties"
-    ], 
-    "keywords": [
-        "clGetPlatformIDs()", 
-        "clGetPlatformInfo()", 
-        "clGetDeviceIDs()", 
-        "clGetDeviceInfo()"
     ], 
     "runtime": [
         "OpenCL"
@@ -30,6 +29,6 @@
         "Linux"
     ], 
     "description": [
-        "This example prints the OpenCL properties of the platform and its devices. It also displays the limits and capabilities of the hardware."
+        "This Example prints the OpenCL properties of the platform and its devices using OpenCL CPP APIs. It also displays the limits and capabilities of the hardware."
     ]
 }
