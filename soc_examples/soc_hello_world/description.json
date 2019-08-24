@@ -59,11 +59,11 @@
         {
             "accelerators": [
                 {
-                    "name": "vadd", 
+                    "name": "krnl_vadd", 
                     "location": "src/krnl_vadd.cl"
                 }
             ], 
-            "name": "vadd"
+            "name": "krnl_vadd"
         }
     ], 
     "description": [

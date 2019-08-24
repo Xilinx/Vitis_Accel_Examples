@@ -3,7 +3,9 @@
         "xilinx_u280-es1_xdma", 
         "xilinx_aws-vu9p-f1-04261818", 
         "xilinx:u280-es1:xdma", 
-        "xilinx:aws-vu9p-f1-04261818:dynamic"
+        "xilinx:aws-vu9p-f1-04261818:dynamic",
+        "xilinx_v350-es1_xdma",
+        "xilinx:v350-es1:xdma"
     ], 
     "os": [
         "Linux"
