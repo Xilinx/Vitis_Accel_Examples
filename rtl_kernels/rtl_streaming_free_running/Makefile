@@ -109,6 +109,12 @@ endif
 ifeq ($(findstring xilinx_aws-vu9p-f1-04261818, $(DEVICE)), xilinx_aws-vu9p-f1-04261818)
 $(error Nothing to be done for make)
 endif
+ifeq ($(findstring xilinx_v350-es1_xdma, $(DEVICE)), xilinx_v350-es1_xdma)
+$(error Nothing to be done for make)
+endif
+ifeq ($(findstring xilinx:v350-es1:xdma, $(DEVICE)), xilinx:v350-es1:xdma)
+$(error Nothing to be done for make)
+endif
 ifeq ($(findstring xilinx:u200:xdma, $(DEVICE)), xilinx:u200:xdma)
 $(error Nothing to be done for make)
 endif
