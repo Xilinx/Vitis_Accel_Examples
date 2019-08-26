@@ -10,6 +10,7 @@ This is simple example of vector addition to describe how to use OpenCL kernels 
 ## SUPPORTED PLATFORMS
 Platform | Board             | Software Version
 ---------|-------------------|-----------------
+xilinx_v350-es1_xdma|Xilinx Versal V350|VITIS 2019.2
 
 
 ##  DESIGN FILES

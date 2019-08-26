@@ -42,6 +42,10 @@ DEVICES = {
        'version': '201830_1',
        'name': 'Xilinx Alveo U250',
        'nae':  'nx6u_xdma_201830_1'
+    },
+    'xilinx_v350-es1_xdma': {
+       'version': '201920_1',
+       'name': 'Xilinx Versal V350',
     }
 }
 

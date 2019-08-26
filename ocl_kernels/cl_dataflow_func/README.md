@@ -11,6 +11,7 @@ This is simple example of vector addition to demonstrate Dataflow functionality 
 Platform | Board             | Software Version
 ---------|-------------------|-----------------
 xilinx_u200_qdma|Xilinx Alveo U200|VITIS 2019.2
+xilinx_v350-es1_xdma|Xilinx Versal V350|VITIS 2019.2
 xilinx_u280_xdma|Xilinx Alveo U280|VITIS 2019.2
 xilinx_u250_qdma|Xilinx Alveo U250|VITIS 2019.2
 xilinx_u200_xdma|Xilinx Alveo U200|VITIS 2019.2
