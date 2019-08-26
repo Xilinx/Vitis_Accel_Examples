@@ -1,6 +1,6 @@
 Array Partition
 ================
-This example demonstrates how `array partition` in HLS kernels can improve the performance of an application. Operations like matrix multiplication require multiple accesses to data in memory for a single iteration.
+This example demonstrates how `array partition` in HLS kernels can improve the performance of an application. Operations like matrix multiplication require multiple accesses to data in memory for a single iteration. Two kernels are executed, one with array partition and one without array partition and the performance is compared.
 
 `#pragma HLS array partition` is used to partition an array into multiple smaller arrays or memories with more number of ports for read and write operations. This results in improved throughput of the design.
 
