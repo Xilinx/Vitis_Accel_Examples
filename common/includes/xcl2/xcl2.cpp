@@ -63,8 +63,8 @@ std::vector<cl::Device> get_devices(const std::string &vendor_name) {
 
 std::vector<cl::Device> get_xil_devices() { return get_devices("Xilinx"); }
 
-
-std::vector<unsigned char> read_binary_file(const std::string &xclbin_file_name) {
+std::vector<unsigned char>
+read_binary_file(const std::string &xclbin_file_name) {
     std::cout << "INFO: Reading " << xclbin_file_name << std::endl;
 
     if (access(xclbin_file_name.c_str(), R_OK) != 0) {
@@ -80,7 +80,7 @@ std::vector<unsigned char> read_binary_file(const std::string &xclbin_file_name)
     bin_file.seekg(0, bin_file.beg);
     std::vector<unsigned char> buf;
     buf.resize(nb);
-    bin_file.read(reinterpret_cast<char*>(buf.data()), nb);
+    bin_file.read(reinterpret_cast<char *>(buf.data()), nb);
     return buf;
 }
 

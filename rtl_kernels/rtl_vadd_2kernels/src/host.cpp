@@ -72,8 +72,8 @@ int main(int argc, char **argv) {
         cl::CommandQueue q(context, device, CL_QUEUE_PROFILING_ENABLE, &err));
     auto device_name = device.getInfo<CL_DEVICE_NAME>();
 
-   auto fileBuf = xcl::read_binary_file(binaryFile);
-   cl::Program::Binaries bins{{fileBuf.data(), fileBuf.size()}};
+    auto fileBuf = xcl::read_binary_file(binaryFile);
+    cl::Program::Binaries bins{{fileBuf.data(), fileBuf.size()}};
     devices.resize(1);
     OCL_CHECK(err, cl::Program program(context, devices, bins, NULL, &err));
     OCL_CHECK(err, cl::Kernel krnl_vadd_0(program, "krnl_vadd_rtl_0", &err));
@@ -160,7 +160,6 @@ int main(int argc, char **argv) {
                   << " krnl0_output = " << source_krnl0_output[i]
                   << " input3 = " << source_input3[i] << std::endl;
     }
-
 
     std::cout << "TEST " << (match ? "FAILED" : "PASSED") << std::endl;
     return (match ? EXIT_FAILURE : EXIT_SUCCESS);

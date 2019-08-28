@@ -84,8 +84,8 @@ void mmult_fpga(
     cl::CommandQueue q(context, device, CL_QUEUE_PROFILING_ENABLE);
     auto device_name = device.getInfo<CL_DEVICE_NAME>();
 
-   auto fileBuf = xcl::read_binary_file(binaryFile);
-   cl::Program::Binaries bins{{fileBuf.data(), fileBuf.size()}};
+    auto fileBuf = xcl::read_binary_file(binaryFile);
+    cl::Program::Binaries bins{{fileBuf.data(), fileBuf.size()}};
     devices.resize(1);
     cl::Program program(context, devices, bins);
 
@@ -135,7 +135,6 @@ void mmult_fpga(
 
     q.enqueueMigrateMemObjects({buffer_output}, CL_MIGRATE_MEM_OBJECT_HOST);
     q.finish();
-
 }
 
 int main(int argc, char **argv) {

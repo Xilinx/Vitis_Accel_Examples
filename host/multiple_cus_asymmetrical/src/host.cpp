@@ -60,16 +60,20 @@ bool verify(int *sw_results, int *hw_results, int size) {
 ////////MAIN FUNCTION//////////
 int main(int argc, char **argv) {
     unsigned int size = c_test_size;
-    unsigned int chunk_size = size/NCU;
+    unsigned int chunk_size = size / NCU;
 
     // I/O Data Vectors
     std::vector<int, aligned_allocator<int>> source_in1(size);
     std::vector<int, aligned_allocator<int>> source_in2(size);
     std::vector<int, aligned_allocator<int>> source_hw_results(size);
     std::vector<int> sw_results(size);
-    
-    reset(source_in1.data(), source_in2.data(), sw_results.data(), source_hw_results.data(), size);
-     
+
+    reset(source_in1.data(),
+          source_in2.data(),
+          sw_results.data(),
+          source_hw_results.data(),
+          size);
+
     if (argc != 2) {
         std::cout << "Usage: " << argv[0] << " <XCLBIN File>" << std::endl;
         return EXIT_FAILURE;
@@ -106,9 +110,9 @@ int main(int argc, char **argv) {
 
     // read_binary_file() is a utility API which will load the binaryFile
     // and will return the pointer to file buffer.
-   auto fileBuf = xcl::read_binary_file(binaryFile);
+    auto fileBuf = xcl::read_binary_file(binaryFile);
 
-   cl::Program::Binaries bins{{fileBuf.data(), fileBuf.size()}};
+    cl::Program::Binaries bins{{fileBuf.data(), fileBuf.size()}};
     devices.resize(1);
 
     // Creating Program

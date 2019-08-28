@@ -57,24 +57,33 @@ int main(int argc, char **argv) {
     devices.resize(1);
     OCL_CHECK(err, cl::Program program(context, devices, bins, NULL, &err));
     OCL_CHECK(err, cl::Kernel krnl_vector_add(program, "krnl_vadd", &err));
-    
+
     // These commands will allocate memory on the Device. The cl::Buffer objects can
-    // be used to reference the memory locations on the device. 
-    OCL_CHECK(err, cl::Buffer buffer_a(context, CL_MEM_READ_ONLY, size_in_bytes, NULL, &err));
-    OCL_CHECK(err, cl::Buffer buffer_b(context, CL_MEM_READ_ONLY, size_in_bytes, NULL, &err));
-    OCL_CHECK(err, cl::Buffer buffer_result(context, CL_MEM_WRITE_ONLY, size_in_bytes, NULL, &err));
-    
+    // be used to reference the memory locations on the device.
+    OCL_CHECK(err,
+              cl::Buffer buffer_a(
+                  context, CL_MEM_READ_ONLY, size_in_bytes, NULL, &err));
+    OCL_CHECK(err,
+              cl::Buffer buffer_b(
+                  context, CL_MEM_READ_ONLY, size_in_bytes, NULL, &err));
+    OCL_CHECK(err,
+              cl::Buffer buffer_result(
+                  context, CL_MEM_WRITE_ONLY, size_in_bytes, NULL, &err));
+
     //set the kernel Arguments
-    int narg=0;
-    OCL_CHECK(err, err = krnl_vector_add.setArg(narg++,buffer_a));
-    OCL_CHECK(err, err = krnl_vector_add.setArg(narg++,buffer_b));
-    OCL_CHECK(err, err = krnl_vector_add.setArg(narg++,buffer_result));
-    OCL_CHECK(err, err = krnl_vector_add.setArg(narg++,DATA_SIZE));
+    int narg = 0;
+    OCL_CHECK(err, err = krnl_vector_add.setArg(narg++, buffer_a));
+    OCL_CHECK(err, err = krnl_vector_add.setArg(narg++, buffer_b));
+    OCL_CHECK(err, err = krnl_vector_add.setArg(narg++, buffer_result));
+    OCL_CHECK(err, err = krnl_vector_add.setArg(narg++, DATA_SIZE));
 
     //We then need to map our OpenCL buffers to get the pointers
-    int *ptr_a = (int *) q.enqueueMapBuffer (buffer_a , CL_TRUE , CL_MAP_READ , 0, size_in_bytes);
-    int *ptr_b = (int *) q.enqueueMapBuffer (buffer_b , CL_TRUE , CL_MAP_READ , 0, size_in_bytes);
-    int *ptr_result = (int *) q.enqueueMapBuffer (buffer_result , CL_TRUE , CL_MAP_WRITE , 0, size_in_bytes);
+    int *ptr_a = (int *)q.enqueueMapBuffer(
+        buffer_a, CL_TRUE, CL_MAP_READ, 0, size_in_bytes);
+    int *ptr_b = (int *)q.enqueueMapBuffer(
+        buffer_b, CL_TRUE, CL_MAP_READ, 0, size_in_bytes);
+    int *ptr_result = (int *)q.enqueueMapBuffer(
+        buffer_result, CL_TRUE, CL_MAP_WRITE, 0, size_in_bytes);
 
     // Create the test data
     for (int i = 0; i < DATA_SIZE; i++) {
@@ -84,7 +93,9 @@ int main(int argc, char **argv) {
     }
 
     // Data will be migrated to kernel space
-    OCL_CHECK(err, err = q.enqueueMigrateMemObjects({buffer_a,buffer_b},0/* 0 means from host*/));
+    OCL_CHECK(err,
+              err = q.enqueueMigrateMemObjects({buffer_a, buffer_b},
+                                               0 /* 0 means from host*/));
 
     //Launch the Kernel
     OCL_CHECK(err, err = q.enqueueTask(krnl_vector_add));
@@ -92,7 +103,9 @@ int main(int argc, char **argv) {
     // The result of the previous kernel execution will need to be retrieved in
     // order to view the results. This call will transfer the data from FPGA to
     // source_results vector
-    OCL_CHECK(err, err = q.enqueueMigrateMemObjects({buffer_result},CL_MIGRATE_MEM_OBJECT_HOST));
+    OCL_CHECK(err,
+              err = q.enqueueMigrateMemObjects({buffer_result},
+                                               CL_MIGRATE_MEM_OBJECT_HOST));
 
     OCL_CHECK(err, err = q.finish());
 
@@ -103,16 +116,15 @@ int main(int argc, char **argv) {
         if (ptr_result[i] != host_result) {
             std::cout << "Error: Result mismatch" << std::endl;
             std::cout << "i = " << i << " CPU result = " << host_result
-                      << " Device result = " << ptr_result[i]
-                      << std::endl;
+                      << " Device result = " << ptr_result[i] << std::endl;
             match = false;
             break;
         }
     }
 
-    OCL_CHECK(err, err = q.enqueueUnmapMemObject(buffer_a , ptr_a));
-    OCL_CHECK(err, err = q.enqueueUnmapMemObject(buffer_b , ptr_b));
-    OCL_CHECK(err, err = q.enqueueUnmapMemObject(buffer_result , ptr_result));
+    OCL_CHECK(err, err = q.enqueueUnmapMemObject(buffer_a, ptr_a));
+    OCL_CHECK(err, err = q.enqueueUnmapMemObject(buffer_b, ptr_b));
+    OCL_CHECK(err, err = q.enqueueUnmapMemObject(buffer_result, ptr_result));
     OCL_CHECK(err, err = q.finish());
 
     std::cout << "TEST " << (match ? "PASSED" : "FAILED") << std::endl;

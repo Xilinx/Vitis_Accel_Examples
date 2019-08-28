@@ -28,8 +28,8 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 **********/
 #include "vconv.h"
 #include "xcl2.hpp"
-#include <vector>
 #include <algorithm>
+#include <vector>
 
 void vconv_sw(int *in, int *out, int height, int width) {
     int linebuf[K - 1][MAX_COLS] = {};
@@ -70,7 +70,7 @@ int main(int argc, char **argv) {
     std::vector<int, aligned_allocator<int>> source_sw_results(test_size_bytes);
 
     // Create the test data and Software Result
-    std::generate(source_input.begin(),source_input.end(),std::rand);
+    std::generate(source_input.begin(), source_input.end(), std::rand);
     for (int i = 0; i < testSize; i++) {
         source_sw_results[i] = 0;
         source_hw_results[i] = 0;
@@ -92,8 +92,8 @@ int main(int argc, char **argv) {
               std::string device_name = device.getInfo<CL_DEVICE_NAME>(&err));
     std::cout << "Found Device=" << device_name.c_str() << std::endl;
 
-   auto fileBuf = xcl::read_binary_file(binaryFile);
-   cl::Program::Binaries bins{{fileBuf.data(), fileBuf.size()}};
+    auto fileBuf = xcl::read_binary_file(binaryFile);
+    cl::Program::Binaries bins{{fileBuf.data(), fileBuf.size()}};
     devices.resize(1);
     OCL_CHECK(err, cl::Program program(context, devices, bins, NULL, &err));
     OCL_CHECK(err, cl::Kernel krnl_vconv(program, "vconv", &err));
@@ -147,7 +147,6 @@ int main(int argc, char **argv) {
             break;
         }
     }
-
 
     std::cout << "TEST " << (match ? "PASSED" : "FAILED") << std::endl;
     return (match ? EXIT_SUCCESS : EXIT_FAILURE);

@@ -89,8 +89,8 @@ int main(int argc, char **argv) {
     std::string device_name = device.getInfo<CL_DEVICE_NAME>();
     printf("Allocating and transferring data to %s\n", device_name.c_str());
 
-   auto fileBuf = xcl::read_binary_file(binaryFile);
-   cl::Program::Binaries bins{{fileBuf.data(), fileBuf.size()}};
+    auto fileBuf = xcl::read_binary_file(binaryFile);
+    cl::Program::Binaries bins{{fileBuf.data(), fileBuf.size()}};
     devices.resize(1);
     OCL_CHECK(err, cl::Program program(context, devices, bins, NULL, &err));
 
@@ -257,7 +257,6 @@ int main(int argc, char **argv) {
     OCL_CHECK(err, err = q.finish());
 
     verify(q, buffer_mem, 15);
-
 
     printf("TEST PASSED\n");
 

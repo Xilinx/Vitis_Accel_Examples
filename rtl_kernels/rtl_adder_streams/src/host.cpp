@@ -74,8 +74,8 @@ int main(int argc, char **argv) {
                                  &err));
     std::string device_name = device.getInfo<CL_DEVICE_NAME>();
 
-   auto fileBuf = xcl::read_binary_file(binaryFile);
-   cl::Program::Binaries bins{{fileBuf.data(), fileBuf.size()}};
+    auto fileBuf = xcl::read_binary_file(binaryFile);
+    cl::Program::Binaries bins{{fileBuf.data(), fileBuf.size()}};
     devices.resize(1);
     OCL_CHECK(err, cl::Program program(context, devices, bins, NULL, &err));
     OCL_CHECK(
@@ -149,7 +149,6 @@ int main(int argc, char **argv) {
             break;
         }
     }
-
 
     std::cout << "TEST " << (match ? "FAILED" : "PASSED") << std::endl;
     return (match ? EXIT_FAILURE : EXIT_SUCCESS);

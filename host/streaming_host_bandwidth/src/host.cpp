@@ -155,9 +155,9 @@ int main(int argc, char **argv) {
 
     // read_binary_file() is a utility API which will load the binaryFile
     // and will return the pointer to file buffer.
-   auto fileBuf = xcl::read_binary_file(binaryFile);
+    auto fileBuf = xcl::read_binary_file(binaryFile);
 
-   cl::Program::Binaries bins{{fileBuf.data(), fileBuf.size()}};
+    cl::Program::Binaries bins{{fileBuf.data(), fileBuf.size()}};
     devices.resize(1);
 
     // Creating Program

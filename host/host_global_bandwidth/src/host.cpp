@@ -185,8 +185,8 @@ int main(int argc, char **argv) {
     std::cout << "Found Device=" << device_name.c_str() << std::endl;
 
     // read_binary() command will find the OpenCL binary file
-   auto fileBuf = xcl::read_binary_file(binaryFile);
-   cl::Program::Binaries bins{{fileBuf.data(), fileBuf.size()}};
+    auto fileBuf = xcl::read_binary_file(binaryFile);
+    cl::Program::Binaries bins{{fileBuf.data(), fileBuf.size()}};
     devices.resize(1);
     OCL_CHECK(err, cl::Program program(context, devices, bins, NULL, &err));
     OCL_CHECK(err, cl::Kernel krnl_bandwidth(program, "bandwidth", &err));

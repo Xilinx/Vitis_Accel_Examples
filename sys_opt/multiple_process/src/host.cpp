@@ -100,8 +100,8 @@ bool run_kernel(std::string &binaryFile, int krnl_id) {
 
     printf("\n[PID: %d] Read XCLBIN file\n", pid);
 
-   auto fileBuf = xcl::read_binary_file(binaryFile);
-   cl::Program::Binaries bins{{fileBuf.data(), fileBuf.size()}};
+    auto fileBuf = xcl::read_binary_file(binaryFile);
+    cl::Program::Binaries bins{{fileBuf.data(), fileBuf.size()}};
 
     devices.resize(1);
 
@@ -172,7 +172,6 @@ bool run_kernel(std::string &binaryFile, int krnl_id) {
             break;
         }
     }
-
 
     return krnl_match;
 }

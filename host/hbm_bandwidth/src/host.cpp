@@ -164,9 +164,9 @@ int main(int argc, char *argv[]) {
 
     // read_binary_file() command will find the OpenCL binary file created using the
     // xocc compiler load into OpenCL Binary and return pointer to file buffer.
-   auto fileBuf = xcl::read_binary_file(binaryFile);
+    auto fileBuf = xcl::read_binary_file(binaryFile);
 
-   cl::Program::Binaries bins{{fileBuf.data(), fileBuf.size()}};
+    cl::Program::Binaries bins{{fileBuf.data(), fileBuf.size()}};
     devices.resize(1);
     OCL_CHECK(err, cl::Program program(context, devices, bins, NULL, &err));
 
@@ -320,7 +320,6 @@ int main(int argc, char *argv[]) {
 
     std::cout << "THROUGHPUT = " << result << " GB/s" << std::endl;
     //OPENCL HOST CODE AREA ENDS
-
 
     std::cout << (match ? "TEST PASSED" : "TEST FAILED") << std::endl;
     return (match ? EXIT_SUCCESS : EXIT_FAILURE);

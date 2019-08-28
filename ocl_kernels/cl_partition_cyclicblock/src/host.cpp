@@ -123,8 +123,8 @@ int main(int argc, char **argv) {
               std::string device_name = device.getInfo<CL_DEVICE_NAME>(&err));
 
     //Create Program
-   auto fileBuf = xcl::read_binary_file(binaryFile);
-   cl::Program::Binaries bins{{fileBuf.data(), fileBuf.size()}};
+    auto fileBuf = xcl::read_binary_file(binaryFile);
+    cl::Program::Binaries bins{{fileBuf.data(), fileBuf.size()}};
     devices.resize(1);
     OCL_CHECK(err, cl::Program program(context, devices, bins, NULL, &err));
 
@@ -206,7 +206,6 @@ int main(int argc, char **argv) {
         matmul_partition_time += nstimeend - nstimestart;
         verify(gold, C);
     }
-
 
     printf("|-------------------------+-------------------------|\n"
            "| Kernel(%3d iterations)  |    Wall-Clock Time (ns) |\n"
