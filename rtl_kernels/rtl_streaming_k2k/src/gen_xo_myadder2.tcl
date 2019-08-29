@@ -81,7 +81,7 @@ while { ! [eof $fid] } {
 close $fid
 
 create_project project_2 project_2 -part $partname
-create_ip -name sdx_kernel_wizard -vendor xilinx.com -library ip -version 1.0 -module_name myadder2
+create_ip -name rtl_kernel_wizard -vendor xilinx.com -library ip -version 1.0 -module_name myadder2
 
 set_property -dict [list CONFIG.Component_Name {myadder2} CONFIG.KERNEL_NAME {myadder2} CONFIG.KERNEL_CTRL {ap_ctrl_hs} CONFIG.NUM_INPUT_ARGS {0} CONFIG.NUM_M_AXI {0} CONFIG.NUM_AXIS {2} CONFIG.AXIS00_NAME {out} CONFIG.AXIS01_NAME {in}] [get_ips myadder2]
 
