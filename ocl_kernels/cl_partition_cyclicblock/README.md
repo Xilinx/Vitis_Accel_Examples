@@ -7,8 +7,8 @@ This example shows how to use array block and cyclic partitioning to improve per
 
 ***KEYWORDS:*** xcl_array_partition, cyclic, block
 
-## SUPPORTED PLATFORMS
-Platform | Board             | Software Version
+## SUPPORTED SHELLS
+Shell | Board             | Software Version
 ---------|-------------------|-----------------
 xilinx_u200_qdma|Xilinx Alveo U200|VITIS 2019.2
 xilinx_v350-es1_xdma|Xilinx Versal V350|VITIS 2019.2

@@ -7,8 +7,8 @@ This is a multi-filter image processing application to showcase effectiveness of
 
 ***KEYWORDS:*** #pragma HLS DATAFLOW, hls::stream, #pragma HLS INLINE, #pragma HLS ARRAY_PARTITION, #pragma HLS PIPELINE
 
-## SUPPORTED PLATFORMS
-Platform | Board             | Software Version
+## SUPPORTED SHELLS
+Shell | Board             | Software Version
 ---------|-------------------|-----------------
 xilinx_u200_qdma|Xilinx Alveo U200|VITIS 2019.2
 xilinx_v350-es1_xdma|Xilinx Versal V350|VITIS 2019.2

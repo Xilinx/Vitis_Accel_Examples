@@ -32,9 +32,9 @@ TARGET := hw
 
 include ./utils.mk
 
-DSA := $(call device2dsa, $(DEVICE))
-TEMP_DIR := ./_x.$(TARGET).$(DSA)
-BUILD_DIR := ./build_dir.$(TARGET).$(DSA)
+XSA := $(call device2dsa, $(DEVICE))
+TEMP_DIR := ./_x.$(TARGET).$(XSA)
+BUILD_DIR := ./build_dir.$(TARGET).$(XSA)
 
 CXX := ${XILINX_VITIS}/gnu/aarch64/lin/aarch64-linux/bin/aarch64-linux-gnu-g++
 XOCC := ${XILINX_VITIS}/bin/v++
@@ -138,7 +138,7 @@ endif
 	perf_analyze profile -i profile_summary.csv -f html
 
 run_nimbix: all
-	$(COMMON_REPO)/common/utility/nimbix/run_nimbix.py $(EXECUTABLE) $(CMD_ARGS) $(DSA)
+	$(COMMON_REPO)/common/utility/nimbix/run_nimbix.py $(EXECUTABLE) $(CMD_ARGS) $(XSA)
 
 aws_build: check-aws_repo $(BINARY_CONTAINERS)
 	$(COMMON_REPO)/common/utility/aws/run_aws.py $(BINARY_CONTAINERS)

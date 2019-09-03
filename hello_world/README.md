@@ -7,8 +7,8 @@ This is simple example of vector addition to describe how to use HLS kernels in 
 
 ***KEYWORDS:*** gmem, bundle, #pragma HLS INTERFACE, m_axi, s_axi4lite
 
-## SUPPORTED PLATFORMS
-Platform | Board             | Software Version
+## SUPPORTED SHELLS
+Shell | Board             | Software Version
 ---------|-------------------|-----------------
 xilinx_u200_qdma|Xilinx Alveo U200|VITIS 2019.2
 xilinx_v350-es1_xdma|Xilinx Versal V350|VITIS 2019.2

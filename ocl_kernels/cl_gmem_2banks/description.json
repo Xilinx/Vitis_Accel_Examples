@@ -19,7 +19,7 @@
         }
     ], 
     "description": [
-        "This example of 2ddr to demonstrate on how to use 2ddr DSA. How to create buffers in each DDR."
+        "This example of 2ddr to demonstrate on how to use 2ddr XSA. How to create buffers in each DDR."
     ], 
     "platform_type": "pcie", 
     "host": {

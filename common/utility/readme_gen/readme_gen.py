@@ -5,7 +5,7 @@ from collections import OrderedDict
 import os
 import subprocess
 
-DSA = 'xilinx_u200_qdma'
+XSA = 'xilinx_u200_qdma'
 VERSION = 'VITIS 2019.2'
 AWS_DEVICES = {
     'xilinx_aws-vu9p-f1-04261818': {
@@ -97,8 +97,8 @@ def overview(target,data):
     return
 
 def requirements(target,data):
-    target.write("## SUPPORTED PLATFORMS\n")
-    target.write("Platform | Board             | Software Version\n")
+    target.write("## SUPPORTED SHELLS\n")
+    target.write("Shell | Board             | Software Version\n")
     target.write("---------|-------------------|-----------------\n")
 
     boards = []

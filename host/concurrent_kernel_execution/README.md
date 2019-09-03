@@ -7,8 +7,8 @@ This example will demonstrate how to use multiple and out of order command queue
 
 ***KEYWORDS:*** CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE, clSetEventCallback()
 
-## SUPPORTED PLATFORMS
-Platform | Board             | Software Version
+## SUPPORTED SHELLS
+Shell | Board             | Software Version
 ---------|-------------------|-----------------
 xilinx_u200_qdma|Xilinx Alveo U200|VITIS 2019.2
 xilinx_v350-es1_xdma|Xilinx Versal V350|VITIS 2019.2

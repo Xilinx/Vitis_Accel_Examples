@@ -5,8 +5,8 @@ This Example prints the OpenCL properties of the platform and its devices using 
 
 ***KEY CONCEPTS:*** OpenCL API, Querying device properties
 
-## SUPPORTED PLATFORMS
-Platform | Board             | Software Version
+## SUPPORTED SHELLS
+Shell | Board             | Software Version
 ---------|-------------------|-----------------
 xilinx_u200_qdma|Xilinx Alveo U200|VITIS 2019.2
 xilinx_v350-es1_xdma|Xilinx Versal V350|VITIS 2019.2

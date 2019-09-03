@@ -5,8 +5,8 @@ This example has two RTL Kernels. Both Kernel_0 and Kernel_1 perform vector addi
 
 ***KEY CONCEPTS:*** Multiple RTL Kernels
 
-## SUPPORTED PLATFORMS
-Platform | Board             | Software Version
+## SUPPORTED SHELLS
+Shell | Board             | Software Version
 ---------|-------------------|-----------------
 xilinx_u200_qdma|Xilinx Alveo U200|VITIS 2019.2
 xilinx_v350-es1_xdma|Xilinx Versal V350|VITIS 2019.2

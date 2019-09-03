@@ -27,9 +27,9 @@ def create_params(target,data):
     target.write("\n")
     target.write("include ./utils.mk\n")
     target.write("\n")
-    target.write("DSA := $(call device2dsa, $(DEVICE))\n")
-    target.write("TEMP_DIR := ./_x.$(TARGET).$(DSA)\n")
-    target.write("BUILD_DIR := ./build_dir.$(TARGET).$(DSA)\n")
+    target.write("XSA := $(call device2xsa, $(DEVICE))\n")
+    target.write("TEMP_DIR := ./_x.$(TARGET).$(XSA)\n")
+    target.write("BUILD_DIR := ./build_dir.$(TARGET).$(XSA)\n")
     target.write("\n")
 
     target.write("CXX := ")
@@ -407,9 +407,9 @@ def run_nimbix(target, data):
     target.write("run_nimbix: all\n")
     if "launch" in data:
         if "cmd_args" in data["launch"][0]:
-    	    target.write("\t$(COMMON_REPO)/common/utility/nimbix/run_nimbix.py $(EXECUTABLE) $(CMD_ARGS) $(DSA)\n\n")
+    	    target.write("\t$(COMMON_REPO)/common/utility/nimbix/run_nimbix.py $(EXECUTABLE) $(CMD_ARGS) $(XSA)\n\n")
     else:
-        target.write("\t$(COMMON_REPO)/common/utility/nimbix/run_nimbix.py $(EXECUTABLE) $(DSA)\n\n")	
+        target.write("\t$(COMMON_REPO)/common/utility/nimbix/run_nimbix.py $(EXECUTABLE) $(XSA)\n\n")	
     
 def aws_build(target):
     target.write("aws_build: check-aws_repo $(BINARY_CONTAINERS)\n")
@@ -421,7 +421,7 @@ def mk_help(target):
     target.write("help::\n")
     target.write("\t$(ECHO) \"Makefile Usage:\"\n")
     target.write("\t$(ECHO) \"  make all TARGET=<sw_emu/hw_emu/hw> DEVICE=<FPGA platform>\"\n");
-    target.write("\t$(ECHO) \"      Command to generate the design for specified Target and Device.\"\n")
+    target.write("\t$(ECHO) \"      Command to generate the design for specified Target and Shell.\"\n")
     target.write("\t$(ECHO) \"\"\n")
     target.write("\t$(ECHO) \"  make clean \"\n");
     target.write("\t$(ECHO) \"      Command to remove the generated non-hardware files.\"\n")
@@ -469,10 +469,10 @@ def report_gen(target, data):
     target.write("endif\n")
     target.write("\n")
 
-def device2dsa_gen(target):
-    target.write("#   device2dsa - create a filesystem friendly name from device name\n")
+def device2xsa_gen(target):
+    target.write("#   device2xsa - create a filesystem friendly name from device name\n")
     target.write("#   $(1) - full name of device\n")
-    target.write("device2dsa = $(strip $(patsubst %.xpfm, % , $(shell basename $(DEVICE))))\n")
+    target.write("device2xsa = $(strip $(patsubst %.xpfm, % , $(shell basename $(DEVICE))))\n")
     target.write("\n")
 
 def util_checks(target):
@@ -533,7 +533,7 @@ def create_mk(target, data):
 def create_utils(target, data): 
     report_gen(target, data) 
     util_checks(target)
-    device2dsa_gen(target)
+    device2xsa_gen(target)
     clean_util(target)
     readme_gen(target)
     return

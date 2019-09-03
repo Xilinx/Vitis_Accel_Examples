@@ -1,14 +1,14 @@
 Global Memory Two Banks (C)
 ======================
 
-This example of 2ddr to demonstrate on how to use 2ddr DSA. How to create buffers in each DDR.
+This example of 2ddr to demonstrate on how to use 2ddr XSA. How to create buffers in each DDR.
 
 ***KEY CONCEPTS:*** Multiple Banks
 
 ***KEYWORDS:*** max_memory_ports, misc:map_connect, HLS Interface m_axi bundle
 
-## SUPPORTED PLATFORMS
-Platform | Board             | Software Version
+## SUPPORTED SHELLS
+Shell | Board             | Software Version
 ---------|-------------------|-----------------
 xilinx_u200_qdma|Xilinx Alveo U200|VITIS 2019.2
 xilinx_u280_xdma|Xilinx Alveo U280|VITIS 2019.2

@@ -3,7 +3,7 @@
 help::
 	$(ECHO) "Makefile Usage:"
 	$(ECHO) "  make all TARGET=<sw_emu/hw_emu/hw> DEVICE=<FPGA platform>"
-	$(ECHO) "      Command to generate the design for specified Target and Device."
+	$(ECHO) "      Command to generate the design for specified Target and Shell."
 	$(ECHO) ""
 	$(ECHO) "  make clean "
 	$(ECHO) "      Command to remove the generated non-hardware files."
@@ -32,9 +32,9 @@ TARGET := hw
 
 include ./utils.mk
 
-DSA := $(call device2dsa, $(DEVICE))
-TEMP_DIR := ./_x.$(TARGET).$(DSA)
-BUILD_DIR := ./build_dir.$(TARGET).$(DSA)
+XSA := $(call device2xsa, $(DEVICE))
+TEMP_DIR := ./_x.$(TARGET).$(XSA)
+BUILD_DIR := ./build_dir.$(TARGET).$(XSA)
 
 CXX := $(XILINX_VITIS)/bin/xcpp
 XOCC := v++
@@ -112,7 +112,7 @@ endif
 	perf_analyze profile -i profile_summary.csv -f html
 
 run_nimbix: all
-	$(COMMON_REPO)/common/utility/nimbix/run_nimbix.py $(EXECUTABLE) $(CMD_ARGS) $(DSA)
+	$(COMMON_REPO)/common/utility/nimbix/run_nimbix.py $(EXECUTABLE) $(CMD_ARGS) $(XSA)
 
 aws_build: check-aws_repo $(BINARY_CONTAINERS)
 	$(COMMON_REPO)/common/utility/aws/run_aws.py $(BINARY_CONTAINERS)

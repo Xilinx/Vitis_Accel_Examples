@@ -31,9 +31,9 @@ ifndef SDACCEL_DIR
 	$(error SDACCEL_DIR not set. Please set it properly and rerun. Run "make help" for more details.)
 endif
 
-#   device2dsa - create a filesystem friendly name from device name
+#   device2xsa - create a filesystem friendly name from device name
 #   $(1) - full name of device
-device2dsa = $(strip $(patsubst %.xpfm, % , $(shell basename $(DEVICE))))
+device2xsa = $(strip $(patsubst %.xpfm, % , $(shell basename $(DEVICE))))
 
 # Cleaning stuff
 RM = rm -f

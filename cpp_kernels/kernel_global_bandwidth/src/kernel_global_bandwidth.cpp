@@ -30,11 +30,11 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 *  GUI Flow :
 *      
 *  By default this example supports 1DDR execution in GUI mode for 
-*  all the DSAs. To make this example to work with multi DDR DSAs
+*  all the XSAs. To make this example to work with multi DDR XSAs
 *  please follow steps mentioned below.
 *
 *  ***************************************************************************************
-*  DSA  (2DDR):
+*  XSA  (2DDR):
 *              
 *  1.<SDx Project> > Properties > C/C++ Build > Settings > SDx XOCC Kernel Compiler 
 *                  > Miscellaneous > Other flags
@@ -46,7 +46,7 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 *     b. --sp bandwidth_1.m_axi_gmem1:DDR[1] 
 *
 * *****************************************************************************************
-*  DSA  (3DDR):
+*  XSA  (3DDR):
 *              
 *  1.<SDx Project> > Properties > C/C++ Build > Settings > SDx XOCC Kernel Compiler 
 *                  > Miscellaneous > Other flags
@@ -60,7 +60,7 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 *  4.Define NDDR_BANKS 3 in kernel "#define NDDR_BANKS 3" at the top of kernel.cl 
 * 
 * *****************************************************************************************
-*  DSA  (4DDR):
+*  XSA  (4DDR):
 *      
 *  Note: The selected platform must support 4DDR.             
 *              

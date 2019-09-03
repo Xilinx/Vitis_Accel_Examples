@@ -3,8 +3,8 @@ host_global
 
 Host to global memory bandwidth test
 
-## SUPPORTED PLATFORMS
-Platform | Board             | Software Version
+## SUPPORTED SHELLS
+Shell | Board             | Software Version
 ---------|-------------------|-----------------
 xilinx_u200_qdma|Xilinx Alveo U200|VITIS 2019.2
 xilinx_u280_xdma|Xilinx Alveo U280|VITIS 2019.2
