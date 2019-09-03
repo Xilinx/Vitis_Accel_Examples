@@ -3,7 +3,8 @@ Systolic Array
 
 This example demonstrates how `Systolic array algorithm` can be used in FPGAs to perform matrix operations efficiently.
 
-Matrix multiplication is performed in the `mmult` kernel. Local matrices A and B are partitioned using attribute `xcl_array_partitio` 
+
+Matrix multiplication is performed in the `mmult` kernel. Local matrices A and B are partitioned using attribute `xcl_array_partition` 
 along rows and columns respectively for computation of each element of the matrix C requires a row of matrix A and a column of matrix B. 
 Matrix C is partitioned completely.
 ```c++
