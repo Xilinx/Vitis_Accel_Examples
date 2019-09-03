@@ -44,11 +44,11 @@ HBM memory must be associated to respective kernel I/O ports using
 
    LDCLFLAGS += --sp krnl_vadd_1.m_axi_gmem0:HBM[0:3] --sp krnl_vadd_1.m_axi_gmem1:HBM[0:3]
 
-SUPPORTED PLATFORMS
--------------------
+SUPPORTED SHELLS
+----------------
 
 ==================== ================= ================
-Platform             Board             Software Version
+SHELL                Board             Software Version
 ==================== ================= ================
 xilinx_u280_xdma     Xilinx Alveo U280 Vitis 2019.2
 xilinx_u280-es1_xdma Xilinx Alveo U280 Vitis 2019.2

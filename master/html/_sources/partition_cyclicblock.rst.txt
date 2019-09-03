@@ -32,11 +32,11 @@ decomposed into individual elements each having own read/write ports.
    #pragma HLS ARRAY_PARTITION variable = A dim = 1 cyclic factor = 16
    #pragma HLS ARRAY_PARTITION variable = B dim = 1 block factor = 16
 
-SUPPORTED PLATFORMS
--------------------
+SUPPORTED SHELLS
+----------------
 
 ==================== ================= ================
-Platform             Board             Software Version
+SHELL                Board             Software Version
 ==================== ================= ================
 xilinx_u200_qdma     Xilinx Alveo U200 Vitis 2019.2
 xilinx_u280_xdma     Xilinx Alveo U280 Vitis 2019.2

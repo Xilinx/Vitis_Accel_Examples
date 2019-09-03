@@ -82,7 +82,7 @@
               <p class="caption"><span class="caption-text">Table of Contents</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="prerequisites.html">Prerequisites</a></li>
-<li class="toctree-l1"><a class="reference internal" href="platforms.html">Supported Platforms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="shells.html">Supported Platforms</a></li>
 <li class="toctree-l1"><a class="reference internal" href="compile_execute.html">Compilation and Execution</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cloud.html">Cloud Execution</a></li>
 <li class="toctree-l1"><a class="reference internal" href="support.html">Support</a></li>
@@ -91,8 +91,8 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="hello_world.html">Hello World</a></li>
 <li class="toctree-l1"><a class="reference internal" href="host.html">Host</a></li>
-<li class="toctree-l1"><a class="reference internal" href="sys_opt.html">System Optimization Kernels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cpp.html">C++ Kernels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sys_opt.html">System Optimization Kernels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="rtl.html">RTL Kernels</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="ocl.html">OpenCL Kernels</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="cl_array_partition.html">Array Partitioning</a></li>
@@ -107,7 +107,7 @@
 <li class="toctree-l2"><a class="reference internal" href="cl_shift_register.html">Shift Register</a></li>
 <li class="toctree-l2"><a class="reference internal" href="cl_systolic_array.html">Systolic Array Implementation</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Wide Memory Read/Write</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#supported-platforms">SUPPORTED PLATFORMS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#supported-shells">SUPPORTED SHELLS</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#design-files">DESIGN FILES</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#command-line-arguments">COMMAND LINE ARGUMENTS</a></li>
 </ul>
@@ -195,8 +195,26 @@ will be 16 x (integer bit size) = 16 x 32 = 512 bit.</p>
 <p><strong>KEY CONCEPTS:</strong> Kernel to DDR, wide memory access, burst read and
 write</p>
 <p><strong>KEYWORDS:</strong> uint16, xcl_pipeline_loop</p>
-<div class="section" id="supported-platforms">
-<h2>SUPPORTED PLATFORMS<a class="headerlink" href="#supported-platforms" title="Permalink to this headline">¶</a></h2>
+<p>This example demonstrates the use of <code class="docutils literal notranslate"><span class="pre">ap_uint&lt;&gt;</span></code> datatype which
+enables <code class="docutils literal notranslate"><span class="pre">xocc</span></code> to figure out the memory datawidth for the kernel to
+global memory transfers.Using this datatype, larger chunks of data can
+be transferred as compared to conventional datatypes such as <code class="docutils literal notranslate"><span class="pre">int</span></code>.</p>
+<p>For efficient use of this bandwidth, <code class="docutils literal notranslate"><span class="pre">ap_uint&lt;16&gt;</span></code> is used. User must
+include <code class="docutils literal notranslate"><span class="pre">ap_int.h</span></code> to use these datatypes. ```c++ #define DATAWIDTH
+512 typedef ap_uint uint512_dt;</p>
+<p>local uint16 v1_local[LOCAL_MEM_SIZE]; local uint16
+result_local[LOCAL_MEM_SIZE];</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>A maximum of 512 bits can be transferred b/w kernel and global memory, attribute `xcl_pipeline_loop` is used to infer the burst read/write.
+```c++
+ v1_rd: __attribute__((xcl_pipeline_loop(1)))
+        __attribute__((xcl_loop_tripcount(c_size, c_size)))
+        for (int j = 0 ; j &lt;  chunk_size; j++){
+            v1_local[j] = in1 [i + j];
+        }
+</pre></div>
+</div>
+<div class="section" id="supported-shells">
+<h2>SUPPORTED SHELLS<a class="headerlink" href="#supported-shells" title="Permalink to this headline">¶</a></h2>
 <table class="docutils align-center">
 <colgroup>
 <col style="width: 38%" />
@@ -204,7 +222,7 @@ write</p>
 <col style="width: 30%" />
 </colgroup>
 <thead>
-<tr class="row-odd"><th class="head"><p>Platform</p></th>
+<tr class="row-odd"><th class="head"><p>SHELL</p></th>
 <th class="head"><p>Board</p></th>
 <th class="head"><p>Software Version</p></th>
 </tr>

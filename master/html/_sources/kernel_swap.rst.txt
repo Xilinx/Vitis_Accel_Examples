@@ -60,11 +60,11 @@ execution.
 
    q.enqueueMigrateMemObjects({d_temp}, 0/* 0 means from host*/);
 
-SUPPORTED PLATFORMS
--------------------
+SUPPORTED SHELLS
+----------------
 
 ==================== ================= ================
-Platform             Board             Software Version
+SHELL                Board             Software Version
 ==================== ================= ================
 xilinx_u200_qdma     Xilinx Alveo U200 Vitis 2019.2
 xilinx_u280_xdma     Xilinx Alveo U280 Vitis 2019.2

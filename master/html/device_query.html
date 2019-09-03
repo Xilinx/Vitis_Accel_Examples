@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Device Query &mdash; Vitis Accel Examples&#39; Documentation 2019.2 documentation</title>
+  <title>Device Query (CPP) &mdash; Vitis Accel Examples&#39; Documentation 2019.2 documentation</title>
   
 
   
@@ -83,7 +83,7 @@
               <p class="caption"><span class="caption-text">Table of Contents</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="prerequisites.html">Prerequisites</a></li>
-<li class="toctree-l1"><a class="reference internal" href="platforms.html">Supported Platforms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="shells.html">Supported Platforms</a></li>
 <li class="toctree-l1"><a class="reference internal" href="compile_execute.html">Compilation and Execution</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cloud.html">Cloud Execution</a></li>
 <li class="toctree-l1"><a class="reference internal" href="support.html">Support</a></li>
@@ -95,14 +95,16 @@
 <li class="toctree-l2"><a class="reference internal" href="concurrent_kernel_execution.html">Concurrent Kernel Execution</a></li>
 <li class="toctree-l2"><a class="reference internal" href="copy_buffer.html">Copy Buffer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="data_transfer.html">Data Transfer</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Device Query</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#supported-platforms">SUPPORTED PLATFORMS</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Device Query (CPP)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#supported-shells">SUPPORTED SHELLS</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#design-files">DESIGN FILES</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#command-line-arguments">COMMAND LINE ARGUMENTS</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="device_query_cpp.html">Device Query (CPP)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="debug_profile.html">Printing Profile Data and Dumping Waveform file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="debug_profile.html">SUPPORTED SHELLS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="debug_profile.html#design-files">DESIGN FILES</a></li>
+<li class="toctree-l2"><a class="reference internal" href="debug_profile.html#command-line-arguments">COMMAND LINE ARGUMENTS</a></li>
 <li class="toctree-l2"><a class="reference internal" href="errors.html">Error Handling</a></li>
 <li class="toctree-l2"><a class="reference internal" href="errors_cpp.html">Error Handling (CPP)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="hbm_bandwidth.html">HBM Bandwidth</a></li>
@@ -123,8 +125,8 @@
 <li class="toctree-l2"><a class="reference internal" href="sub_devices.html">Sub Devices</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="sys_opt.html">System Optimization Kernels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cpp.html">C++ Kernels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sys_opt.html">System Optimization Kernels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="rtl.html">RTL Kernels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ocl.html">OpenCL Kernels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="apps.html">Applications</a></li>
@@ -179,7 +181,7 @@
         
           <li><a href="host.html">Host</a> &raquo;</li>
         
-      <li>Device Query</li>
+      <li>Device Query (CPP)</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -198,13 +200,12 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="device-query">
-<h1>Device Query<a class="headerlink" href="#device-query" title="Permalink to this headline">¶</a></h1>
-<p>This example prints the OpenCL properties of the platform and its
-devices. It also displays the limits and capabilities of the hardware.</p>
+  <div class="section" id="device-query-cpp">
+<h1>Device Query (CPP)<a class="headerlink" href="#device-query-cpp" title="Permalink to this headline">¶</a></h1>
+<p>This Example prints the OpenCL properties of the platform and its
+devices using OpenCL CPP APIs. It also displays the limits and
+capabilities of the hardware.</p>
 <p><strong>KEY CONCEPTS:</strong> OpenCL API, Querying device properties</p>
-<p><strong>KEYWORDS:</strong> clGetPlatformIDs(), clGetPlatformInfo(), clGetDeviceIDs(),
-clGetDeviceInfo()</p>
 <p>The role of this example to get the details of all the OpenCL Devices
 connected to system. Platform IDs and Device IDs can be extracted using
 Open CL APIs which are subsequently needed to configure the context and
@@ -213,8 +214,8 @@ searches the all connected Platforms using clGetPlatformIDs() API. Then
 it traverses to each Platform and finds all the connected devices using
 clGetDeviceIDs(). Then it traverses all the devices and print all device
 properties like device type, vendor id etc.</p>
-<div class="section" id="supported-platforms">
-<h2>SUPPORTED PLATFORMS<a class="headerlink" href="#supported-platforms" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="supported-shells">
+<h2>SUPPORTED SHELLS<a class="headerlink" href="#supported-shells" title="Permalink to this headline">¶</a></h2>
 <table class="docutils align-center">
 <colgroup>
 <col style="width: 38%" />
@@ -222,7 +223,7 @@ properties like device type, vendor id etc.</p>
 <col style="width: 30%" />
 </colgroup>
 <thead>
-<tr class="row-odd"><th class="head"><p>Platform</p></th>
+<tr class="row-odd"><th class="head"><p>SHELL</p></th>
 <th class="head"><p>Board</p></th>
 <th class="head"><p>Software Version</p></th>
 </tr>

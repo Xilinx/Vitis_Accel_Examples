@@ -81,7 +81,7 @@
               <p class="caption"><span class="caption-text">Table of Contents</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="prerequisites.html">Prerequisites</a></li>
-<li class="toctree-l1"><a class="reference internal" href="platforms.html">Supported Platforms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="shells.html">Supported Platforms</a></li>
 <li class="toctree-l1"><a class="reference internal" href="compile_execute.html">Compilation and Execution</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cloud.html">Cloud Execution</a></li>
 <li class="toctree-l1"><a class="reference internal" href="support.html">Support</a></li>
@@ -90,8 +90,8 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="hello_world.html">Hello World</a></li>
 <li class="toctree-l1"><a class="reference internal" href="host.html">Host</a></li>
-<li class="toctree-l1"><a class="reference internal" href="sys_opt.html">System Optimization Kernels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cpp.html">C++ Kernels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sys_opt.html">System Optimization Kernels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="rtl.html">RTL Kernels</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="ocl.html">OpenCL Kernels</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="cl_array_partition.html">Array Partitioning</a></li>
@@ -105,7 +105,7 @@
 <li class="toctree-l2"><a class="reference internal" href="cl_partition_cyclicblock.html">Array Block and Cyclic Partitioning</a></li>
 <li class="toctree-l2"><a class="reference internal" href="cl_shift_register.html">Shift Register</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Systolic Array Implementation</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#supported-platforms">SUPPORTED PLATFORMS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#supported-shells">SUPPORTED SHELLS</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#design-files">DESIGN FILES</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#command-line-arguments">COMMAND LINE ARGUMENTS</a></li>
 </ul>
@@ -189,8 +189,41 @@
 <p>This is a simple example of matrix multiplication (Row x Col) to help
 developers learn systolic array based algorithm design. Note: Systolic
 array based algorithm design is well suited for FPGA.</p>
-<div class="section" id="supported-platforms">
-<h2>SUPPORTED PLATFORMS<a class="headerlink" href="#supported-platforms" title="Permalink to this headline">¶</a></h2>
+<p>This example demonstrates how <code class="docutils literal notranslate"><span class="pre">Systolic</span> <span class="pre">array</span> <span class="pre">algorithm</span></code> can be used
+in FPGAs to perform matrix operations efficiently.</p>
+<p>Matrix multiplication is performed in the <code class="docutils literal notranslate"><span class="pre">mmult</span></code> kernel. Local
+matrices A and B are partitioned using attribute <code class="docutils literal notranslate"><span class="pre">xcl_array_partitio</span></code>
+along rows and columns respectively for computation of each element of
+the matrix C requires a row of matrix A and a column of matrix B. Matrix
+C is partitioned completely.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span> <span class="n">localA</span><span class="p">[</span><span class="n">MAX_SIZE</span><span class="p">][</span><span class="n">MAX_SIZE</span><span class="p">]</span>  <span class="n">__attribute__</span><span class="p">((</span><span class="n">xcl_array_partition</span><span class="p">(</span><span class="n">complete</span><span class="p">,</span> <span class="mi">1</span><span class="p">)));;</span>
+   <span class="kt">int</span> <span class="n">localB</span><span class="p">[</span><span class="n">MAX_SIZE</span><span class="p">][</span><span class="n">MAX_SIZE</span><span class="p">]</span>  <span class="n">__attribute__</span><span class="p">((</span><span class="n">xcl_array_partition</span><span class="p">(</span><span class="n">complete</span><span class="p">,</span> <span class="mi">2</span><span class="p">)));;</span>
+   <span class="kt">int</span> <span class="n">localC</span><span class="p">[</span><span class="n">MAX_SIZE</span><span class="p">][</span><span class="n">MAX_SIZE</span><span class="p">]</span>  <span class="n">__attribute__</span><span class="p">((</span><span class="n">xcl_array_partition</span><span class="p">(</span><span class="n">complete</span><span class="p">,</span> <span class="mi">0</span><span class="p">)));;</span>
+</pre></div>
+</div>
+<p>This allows the multiply and accumulate operations in the below code to
+be performed in parallel thus speeding up the operation as innermost
+loop is unrolled to provide for the pipelining in the outer loops.
+However, the number of these parallel operations is limited by the
+number of DSPs available in the FPGA.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="nl">systolic1</span><span class="p">:</span> <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">k</span> <span class="o">&lt;</span> <span class="n">a_col</span><span class="p">;</span> <span class="n">k</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">__attribute__</span><span class="p">((</span><span class="n">xcl_loop_tripcount</span><span class="p">(</span><span class="n">c_size</span><span class="p">,</span> <span class="n">c_size</span><span class="p">)))</span>
+        <span class="nl">systolic2</span><span class="p">:</span> <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">MAX_SIZE</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">__attribute__</span><span class="p">((</span><span class="n">xcl_loop_tripcount</span><span class="p">(</span><span class="n">c_size</span><span class="p">,</span> <span class="n">c_size</span><span class="p">)))</span>
+            <span class="nl">systolic3</span><span class="p">:</span> <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">MAX_SIZE</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+                <span class="kt">int</span> <span class="n">last</span> <span class="o">=</span> <span class="p">(</span><span class="n">k</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span> <span class="o">?</span> <span class="mi">0</span> <span class="o">:</span> <span class="n">localC</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">];</span>
+                <span class="kt">int</span> <span class="n">a_val</span> <span class="o">=</span> <span class="p">(</span><span class="n">i</span> <span class="o">&lt;</span> <span class="n">a_row</span> <span class="o">&amp;&amp;</span> <span class="n">k</span> <span class="o">&lt;</span> <span class="n">a_col</span><span class="p">)</span><span class="o">?</span> <span class="n">localA</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">k</span><span class="p">]</span> <span class="o">:</span> <span class="mi">0</span><span class="p">;</span>
+                <span class="kt">int</span> <span class="n">b_val</span> <span class="o">=</span> <span class="p">(</span><span class="n">k</span> <span class="o">&lt;</span> <span class="n">b_row</span> <span class="o">&amp;&amp;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">b_col</span><span class="p">)</span><span class="o">?</span> <span class="n">localB</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">:</span> <span class="mi">0</span><span class="p">;</span>
+                <span class="kt">int</span> <span class="n">result</span> <span class="o">=</span> <span class="n">last</span> <span class="o">+</span> <span class="n">a_val</span><span class="o">*</span><span class="n">b_val</span><span class="p">;</span>
+
+                <span class="n">localC</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">result</span><span class="p">;</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+</pre></div>
+</div>
+<div class="section" id="supported-shells">
+<h2>SUPPORTED SHELLS<a class="headerlink" href="#supported-shells" title="Permalink to this headline">¶</a></h2>
 <table class="docutils align-center">
 <colgroup>
 <col style="width: 38%" />
@@ -198,7 +231,7 @@ array based algorithm design is well suited for FPGA.</p>
 <col style="width: 30%" />
 </colgroup>
 <thead>
-<tr class="row-odd"><th class="head"><p>Platform</p></th>
+<tr class="row-odd"><th class="head"><p>SHELL</p></th>
 <th class="head"><p>Board</p></th>
 <th class="head"><p>Software Version</p></th>
 </tr>

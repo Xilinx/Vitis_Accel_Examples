@@ -82,7 +82,7 @@
               <p class="caption"><span class="caption-text">Table of Contents</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="prerequisites.html">Prerequisites</a></li>
-<li class="toctree-l1"><a class="reference internal" href="platforms.html">Supported Platforms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="shells.html">Supported Platforms</a></li>
 <li class="toctree-l1"><a class="reference internal" href="compile_execute.html">Compilation and Execution</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cloud.html">Cloud Execution</a></li>
 <li class="toctree-l1"><a class="reference internal" href="support.html">Support</a></li>
@@ -91,7 +91,6 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="hello_world.html">Hello World</a></li>
 <li class="toctree-l1"><a class="reference internal" href="host.html">Host</a></li>
-<li class="toctree-l1"><a class="reference internal" href="sys_opt.html">System Optimization Kernels</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="cpp.html">C++ Kernels</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="array_partition.html">Array Partition</a></li>
 <li class="toctree-l2"><a class="reference internal" href="burst_rw.html">Burst Read/Write</a></li>
@@ -101,7 +100,7 @@
 <li class="toctree-l2"><a class="reference internal" href="dataflow_stream_array.html">Dataflow Using HLS Stream</a></li>
 <li class="toctree-l2"><a class="reference internal" href="dependence_inter.html">Loop Iteration Dependency</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Global Memory Two Banks</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#supported-platforms">SUPPORTED PLATFORMS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#supported-shells">SUPPORTED SHELLS</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#design-files">DESIGN FILES</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#command-line-arguments">COMMAND LINE ARGUMENTS</a></li>
 </ul>
@@ -118,6 +117,7 @@
 <li class="toctree-l2"><a class="reference internal" href="wide_mem_rw.html">Wide Memory Read/Write</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="sys_opt.html">System Optimization Kernels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="rtl.html">RTL Kernels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ocl.html">OpenCL Kernels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="apps.html">Applications</a></li>
@@ -193,7 +193,7 @@
             
   <div class="section" id="global-memory-two-banks">
 <h1>Global Memory Two Banks<a class="headerlink" href="#global-memory-two-banks" title="Permalink to this headline">¶</a></h1>
-<p>This example of 2ddr to demonstrate on how to use 2ddr DSA. How to
+<p>This example of 2ddr to demonstrate on how to use 2ddr XSA. How to
 create buffers in each DDR.</p>
 <p><strong>KEY CONCEPTS:</strong> Multiple Banks</p>
 <p><strong>KEYWORDS:</strong> max_memory_ports, misc:map_connect, HLS Interface m_axi
@@ -215,12 +215,12 @@ in different bank.</p>
 </pre></div>
 </div>
 <p>Banks need to be specified using <code class="docutils literal notranslate"><span class="pre">--sp</span></code> tags in the kernel linking
-stage along with the <code class="docutils literal notranslate"><span class="pre">m_axi</span></code> interface name and kernel name.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">--</span><span class="n">sp</span> <span class="n">apply_watermark_1</span><span class="o">.</span><span class="n">m_axi_gmem0</span><span class="p">:</span><span class="n">DDR</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">--</span><span class="n">sp</span> <span class="n">apply_watermark_1</span><span class="o">.</span><span class="n">m_axi_gmem1</span><span class="p">:</span><span class="n">DDR</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+stage along with the port name and kernel name.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">--</span><span class="n">sp</span> <span class="n">apply_watermark_1</span><span class="o">.</span><span class="n">input</span><span class="p">:</span><span class="n">DDR</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">--</span><span class="n">sp</span> <span class="n">apply_watermark_1</span><span class="o">.</span><span class="n">output</span><span class="p">:</span><span class="n">DDR</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
 </pre></div>
 </div>
-<div class="section" id="supported-platforms">
-<h2>SUPPORTED PLATFORMS<a class="headerlink" href="#supported-platforms" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="supported-shells">
+<h2>SUPPORTED SHELLS<a class="headerlink" href="#supported-shells" title="Permalink to this headline">¶</a></h2>
 <table class="docutils align-center">
 <colgroup>
 <col style="width: 38%" />
@@ -228,7 +228,7 @@ stage along with the <code class="docutils literal notranslate"><span class="pre
 <col style="width: 30%" />
 </colgroup>
 <thead>
-<tr class="row-odd"><th class="head"><p>Platform</p></th>
+<tr class="row-odd"><th class="head"><p>SHELL</p></th>
 <th class="head"><p>Board</p></th>
 <th class="head"><p>Software Version</p></th>
 </tr>

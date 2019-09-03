@@ -83,7 +83,7 @@
               <p class="caption"><span class="caption-text">Table of Contents</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="prerequisites.html">Prerequisites</a></li>
-<li class="toctree-l1"><a class="reference internal" href="platforms.html">Supported Platforms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="shells.html">Supported Platforms</a></li>
 <li class="toctree-l1"><a class="reference internal" href="compile_execute.html">Compilation and Execution</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cloud.html">Cloud Execution</a></li>
 <li class="toctree-l1"><a class="reference internal" href="support.html">Support</a></li>
@@ -92,10 +92,9 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="hello_world.html">Hello World</a></li>
 <li class="toctree-l1"><a class="reference internal" href="host.html">Host</a></li>
-<li class="toctree-l1"><a class="reference internal" href="sys_opt.html">System Optimization Kernels</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="cpp.html">C++ Kernels</a><ul class="current">
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Array Partition</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#supported-platforms">SUPPORTED PLATFORMS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#supported-shells">SUPPORTED SHELLS</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#design-files">DESIGN FILES</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#command-line-arguments">COMMAND LINE ARGUMENTS</a></li>
 </ul>
@@ -119,6 +118,7 @@
 <li class="toctree-l2"><a class="reference internal" href="wide_mem_rw.html">Wide Memory Read/Write</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="sys_opt.html">System Optimization Kernels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="rtl.html">RTL Kernels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ocl.html">OpenCL Kernels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="apps.html">Applications</a></li>
@@ -199,26 +199,31 @@ demonstrate how to achieve better performance by array partitioning,
 using HLS kernel in Vitis Environment.</p>
 <p><strong>KEY CONCEPTS:</strong> Kernel Optimization, HLS C Kernel, Array Partition</p>
 <p><strong>KEYWORDS:</strong> #pragma HLS ARRAY_PARTITION, complete</p>
-<p>This example demonstrates how <code class="docutils literal notranslate"><span class="pre">array</span> <span class="pre">partition</span></code> in HLS kernels can
-improve the performance of an application. Operations like matrix
-multiplication require multiple accesses to data in memory for a single
-iteration.</p>
+<p>This example demonstrates how <code class="docutils literal notranslate"><span class="pre">array</span> <span class="pre">partition</span></code> in HLS kernel can help
+to improve the performance. In this example matrix multiple is
+functionality is used to showcase the benefit of array partion. Design
+contains two kernels “matmul” a simple matrix multiplication and
+“matmul_partition” a matrix multiplication implimentation using array
+partiton.</p>
 <p><code class="docutils literal notranslate"><span class="pre">#pragma</span> <span class="pre">HLS</span> <span class="pre">array</span> <span class="pre">partition</span></code> is used to partition an array into
-multiple smaller arrays or memories with more number of ports for read
-and write operations. This results in improved throughput of the design.</p>
-<p>Arrays can be partitioned in three ways, <code class="docutils literal notranslate"><span class="pre">cyclic</span></code> where elements are
-put into smaller arrays one by one in the interleaved manner until the
-whole array is partitioned, <code class="docutils literal notranslate"><span class="pre">block</span></code> where elements are put into
-smaller arrays from continuous blocks of original array and <code class="docutils literal notranslate"><span class="pre">complete</span></code>
-where array is decomposed into individual elements each having its own
-read/write ports.</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#pragma HLS ARRAY_PARTITION variable = B dim = 2 complete</span>
+multiple smaller arrays or memories. Arrays can be partitioned in three
+ways, <code class="docutils literal notranslate"><span class="pre">cyclic</span></code> where elements are put into smaller arrays one by one
+in the interleaved manner until the whole array is partitioned,
+<code class="docutils literal notranslate"><span class="pre">block</span></code> where elements are put into smaller arrays from continuous
+blocks of original array and <code class="docutils literal notranslate"><span class="pre">complete</span></code> where array is decomposed into
+individual elements each having its own read/write ports. In this
+example, <code class="docutils literal notranslate"><span class="pre">complete</span></code> partition is used to partition one of the
+dimension of local Matrix array as below</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span> <span class="n">B</span><span class="p">[</span><span class="n">MAX_SIZE</span><span class="p">][</span><span class="n">MAX_SIZE</span><span class="p">];</span>
+<span class="kt">int</span> <span class="n">C</span><span class="p">[</span><span class="n">MAX_SIZE</span><span class="p">][</span><span class="n">MAX_SIZE</span><span class="p">];</span>
+<span class="cp">#pragma HLS ARRAY_PARTITION variable = B dim = 2 complete</span>
 <span class="cp">#pragma HLS ARRAY_PARTITION variable = C dim = 2 complete</span>
-<span class="cp">#pragma HLS ARRAY_PARTITION variable = temp_sum dim = 1 complete</span>
 </pre></div>
 </div>
-<div class="section" id="supported-platforms">
-<h2>SUPPORTED PLATFORMS<a class="headerlink" href="#supported-platforms" title="Permalink to this headline">¶</a></h2>
+<p>This array partition helps design to access 2nd dimension of both Matrix
+B and C concurrently to reduce the overall latency.</p>
+<div class="section" id="supported-shells">
+<h2>SUPPORTED SHELLS<a class="headerlink" href="#supported-shells" title="Permalink to this headline">¶</a></h2>
 <table class="docutils align-center">
 <colgroup>
 <col style="width: 38%" />
@@ -226,7 +231,7 @@ read/write ports.</p>
 <col style="width: 30%" />
 </colgroup>
 <thead>
-<tr class="row-odd"><th class="head"><p>Platform</p></th>
+<tr class="row-odd"><th class="head"><p>SHELL</p></th>
 <th class="head"><p>Board</p></th>
 <th class="head"><p>Software Version</p></th>
 </tr>

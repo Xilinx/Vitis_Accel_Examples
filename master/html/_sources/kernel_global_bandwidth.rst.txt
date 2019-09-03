@@ -27,11 +27,11 @@ stage along with the ``m_axi`` interface name and kernel name.
 
    --sp apply_watermark_1.m_axi_gmem0:DDR[0] --sp apply_watermark_1.m_axi_gmem1:DDR[1]
 
-SUPPORTED PLATFORMS
--------------------
+SUPPORTED SHELLS
+----------------
 
 ==================== ================= ================
-Platform             Board             Software Version
+SHELL                Board             Software Version
 ==================== ================= ================
 xilinx_u200_qdma     Xilinx Alveo U200 Vitis 2019.2
 xilinx_u280_xdma     Xilinx Alveo U280 Vitis 2019.2

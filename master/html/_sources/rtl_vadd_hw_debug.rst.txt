@@ -13,11 +13,11 @@ kernel <https://github.com/Xilinx/SDAccel_Examples/wiki/Sdx_rtl_kernel_debug>`__
 
 **KEY CONCEPTS:** RTL Kernel Debug
 
-SUPPORTED PLATFORMS
--------------------
+SUPPORTED SHELLS
+----------------
 
 ==================== ================= ================
-Platform             Board             Software Version
+SHELL                Board             Software Version
 ==================== ================= ================
 xilinx_u200_qdma     Xilinx Alveo U200 Vitis 2019.2
 xilinx_u280_xdma     Xilinx Alveo U280 Vitis 2019.2

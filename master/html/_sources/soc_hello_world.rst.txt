@@ -9,13 +9,13 @@ PIPELINE which increases the kernel performance.
 
 **KEYWORDS:** gmem, bundle, #pragma HLS INTERFACE, m_axi, s_axi4lite
 
-SUPPORTED PLATFORMS
--------------------
+SUPPORTED SHELLS
+----------------
 
-======== ===== ================
-Platform Board Software Version
-======== ===== ================
-======== ===== ================
+===== ===== ================
+SHELL Board Software Version
+===== ===== ================
+===== ===== ================
 
 DESIGN FILES
 ------------

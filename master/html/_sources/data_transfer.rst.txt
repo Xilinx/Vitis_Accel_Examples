@@ -32,11 +32,11 @@ measurement.
    err = commands.enqueueMigrateMemObjects(mems1, 0/* 0 means from host*/);
    err = commands.enqueueMigrateMemObjects(mems2, CL_MIGRATE_MEM_OBJECT_HOST);
 
-SUPPORTED PLATFORMS
--------------------
+SUPPORTED SHELLS
+----------------
 
 ==================== ================= ================
-Platform             Board             Software Version
+SHELL                Board             Software Version
 ==================== ================= ================
 xilinx_u200_qdma     Xilinx Alveo U200 Vitis 2019.2
 xilinx_u280_xdma     Xilinx Alveo U280 Vitis 2019.2

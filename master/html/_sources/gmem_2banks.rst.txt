@@ -1,7 +1,7 @@
 Global Memory Two Banks 
 ========================
 
-This example of 2ddr to demonstrate on how to use 2ddr DSA. How to
+This example of 2ddr to demonstrate on how to use 2ddr XSA. How to
 create buffers in each DDR.
 
 **KEY CONCEPTS:** Multiple Banks
@@ -30,17 +30,17 @@ in different bank.
    #pragma HLS INTERFACE m_axi port = output offset = slave bundle = gmem1
 
 Banks need to be specified using ``--sp`` tags in the kernel linking
-stage along with the ``m_axi`` interface name and kernel name.
+stage along with the port name and kernel name.
 
 ::
 
-   --sp apply_watermark_1.m_axi_gmem0:DDR[0] --sp apply_watermark_1.m_axi_gmem1:DDR[1]
+   --sp apply_watermark_1.input:DDR[0] --sp apply_watermark_1.output:DDR[1]
 
-SUPPORTED PLATFORMS
--------------------
+SUPPORTED SHELLS
+----------------
 
 ==================== ================= ================
-Platform             Board             Software Version
+SHELL                Board             Software Version
 ==================== ================= ================
 xilinx_u200_qdma     Xilinx Alveo U200 Vitis 2019.2
 xilinx_u280_xdma     Xilinx Alveo U280 Vitis 2019.2

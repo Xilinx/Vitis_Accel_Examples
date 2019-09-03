@@ -19,11 +19,11 @@ Errors codes, explanations and APIs which generate these errors are
 documented at
 `Errors <https://www.khronos.org/registry/OpenCL/sdk/1.0/docs/man/xhtml/errors.html>`__.
 
-SUPPORTED PLATFORMS
--------------------
+SUPPORTED SHELLS
+----------------
 
 ==================== ================= ================
-Platform             Board             Software Version
+SHELL                Board             Software Version
 ==================== ================= ================
 xilinx_u200_qdma     Xilinx Alveo U200 Vitis 2019.2
 xilinx_u280_xdma     Xilinx Alveo U280 Vitis 2019.2

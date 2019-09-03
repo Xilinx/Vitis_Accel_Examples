@@ -32,11 +32,11 @@ number of buffers of small sizes , throughput achieved for transfer is
 less whereas for small number of buffers with larger sizes, throughput
 achieved for transfer is more.
 
-SUPPORTED PLATFORMS
--------------------
+SUPPORTED SHELLS
+----------------
 
 ================ ================= ================
-Platform         Board             Software Version
+SHELL            Board             Software Version
 ================ ================= ================
 xilinx_u200_qdma Xilinx Alveo U200 Vitis 2019.2
 xilinx_u280_xdma Xilinx Alveo U280 Vitis 2019.2

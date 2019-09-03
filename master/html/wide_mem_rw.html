@@ -35,7 +35,7 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="RTL Kernels" href="rtl.html" />
+    <link rel="next" title="System Optimization Kernels" href="sys_opt.html" />
     <link rel="prev" title="Systolic Array Implementation" href="systolic_array.html" /> 
 </head>
 
@@ -83,7 +83,7 @@
               <p class="caption"><span class="caption-text">Table of Contents</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="prerequisites.html">Prerequisites</a></li>
-<li class="toctree-l1"><a class="reference internal" href="platforms.html">Supported Platforms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="shells.html">Supported Platforms</a></li>
 <li class="toctree-l1"><a class="reference internal" href="compile_execute.html">Compilation and Execution</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cloud.html">Cloud Execution</a></li>
 <li class="toctree-l1"><a class="reference internal" href="support.html">Support</a></li>
@@ -92,7 +92,6 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="hello_world.html">Hello World</a></li>
 <li class="toctree-l1"><a class="reference internal" href="host.html">Host</a></li>
-<li class="toctree-l1"><a class="reference internal" href="sys_opt.html">System Optimization Kernels</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="cpp.html">C++ Kernels</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="array_partition.html">Array Partition</a></li>
 <li class="toctree-l2"><a class="reference internal" href="burst_rw.html">Burst Read/Write</a></li>
@@ -112,13 +111,14 @@
 <li class="toctree-l2"><a class="reference internal" href="split_kernel.html">Large application Splits into Multiple Kernels</a></li>
 <li class="toctree-l2"><a class="reference internal" href="systolic_array.html">Systolic Array Implementation</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Wide Memory Read/Write</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#supported-platforms">SUPPORTED PLATFORMS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#supported-shells">SUPPORTED SHELLS</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#design-files">DESIGN FILES</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#command-line-arguments">COMMAND LINE ARGUMENTS</a></li>
 </ul>
 </li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="sys_opt.html">System Optimization Kernels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="rtl.html">RTL Kernels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ocl.html">OpenCL Kernels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="apps.html">Applications</a></li>
@@ -202,8 +202,27 @@ datawidth will be 16 x (integer bit size) = 16 x 32 = 512 bit.</p>
 <p><strong>KEY CONCEPTS:</strong> Kernel to DDR, wide memory access, burst read and
 write</p>
 <p><strong>KEYWORDS:</strong> ap_uint&lt;&gt;, ap_int.h</p>
-<div class="section" id="supported-platforms">
-<h2>SUPPORTED PLATFORMS<a class="headerlink" href="#supported-platforms" title="Permalink to this headline">¶</a></h2>
+<p>This example demonstrates the use of <code class="docutils literal notranslate"><span class="pre">ap_uint&lt;&gt;</span></code> datatype which
+enables <code class="docutils literal notranslate"><span class="pre">xocc</span></code> to figure out the memory datawidth for the kernel to
+global memory transfers.</p>
+<p>For efficient use of this bandwidth, <code class="docutils literal notranslate"><span class="pre">ap_uint&lt;512&gt;</span></code> is used as
+interface between kernels and global memory allows for maximum of 512
+bits to be transferred concurrently. User must include <code class="docutils literal notranslate"><span class="pre">ap_int.h</span></code> to
+use these datatypes. ```c++ #define DATAWIDTH 512 typedef ap_uint
+uint512_dt;</p>
+<p>uint512_dt v1_local[BUFFER_SIZE]; uint512_dt result_local[BUFFER_SIZE];</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Using 512 bits will enable the `burst` read and write for the data by using `#pragma HLS PIPELINE`.
+```c++
+v1_rd:
+       for (int j = 0; j &lt; chunk_size; j++) {
+          #pragma HLS PIPELINE II=1
+          #pragma HLS LOOP_TRIPCOUNT min=c_chunk_sz max=c_chunk_sz
+           v1_local[j] = in1[i + j];
+       }
+</pre></div>
+</div>
+<div class="section" id="supported-shells">
+<h2>SUPPORTED SHELLS<a class="headerlink" href="#supported-shells" title="Permalink to this headline">¶</a></h2>
 <table class="docutils align-center">
 <colgroup>
 <col style="width: 38%" />
@@ -211,7 +230,7 @@ write</p>
 <col style="width: 30%" />
 </colgroup>
 <thead>
-<tr class="row-odd"><th class="head"><p>Platform</p></th>
+<tr class="row-odd"><th class="head"><p>SHELL</p></th>
 <th class="head"><p>Board</p></th>
 <th class="head"><p>Software Version</p></th>
 </tr>
@@ -273,7 +292,7 @@ executed by</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="rtl.html" class="btn btn-neutral float-right" title="RTL Kernels" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="sys_opt.html" class="btn btn-neutral float-right" title="System Optimization Kernels" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="systolic_array.html" class="btn btn-neutral float-left" title="Systolic Array Implementation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

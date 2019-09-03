@@ -81,7 +81,7 @@
               <p class="caption"><span class="caption-text">Table of Contents</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="prerequisites.html">Prerequisites</a></li>
-<li class="toctree-l1"><a class="reference internal" href="platforms.html">Supported Platforms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="shells.html">Supported Platforms</a></li>
 <li class="toctree-l1"><a class="reference internal" href="compile_execute.html">Compilation and Execution</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cloud.html">Cloud Execution</a></li>
 <li class="toctree-l1"><a class="reference internal" href="support.html">Support</a></li>
@@ -90,8 +90,8 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="hello_world.html">Hello World</a></li>
 <li class="toctree-l1"><a class="reference internal" href="host.html">Host</a></li>
-<li class="toctree-l1"><a class="reference internal" href="sys_opt.html">System Optimization Kernels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cpp.html">C++ Kernels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sys_opt.html">System Optimization Kernels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="rtl.html">RTL Kernels</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="ocl.html">OpenCL Kernels</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="cl_array_partition.html">Array Partitioning</a></li>
@@ -100,7 +100,7 @@
 <li class="toctree-l2"><a class="reference internal" href="cl_dataflow_subfunc.html">Dataflow SubFunction OpenCL</a></li>
 <li class="toctree-l2"><a class="reference internal" href="cl_gmem_2banks.html">Global Memory Two Banks</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Hello World</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#supported-platforms">SUPPORTED PLATFORMS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#supported-shells">SUPPORTED SHELLS</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#design-files">DESIGN FILES</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#command-line-arguments">COMMAND LINE ARGUMENTS</a></li>
 </ul>
@@ -189,8 +189,44 @@
 <p>This example is a simple OpenCL application. It will highlight the basic
 flow of an OpenCL application.</p>
 <p><strong>KEY CONCEPTS:</strong> OpenCL API</p>
-<div class="section" id="supported-platforms">
-<h2>SUPPORTED PLATFORMS<a class="headerlink" href="#supported-platforms" title="Permalink to this headline">¶</a></h2>
+<p>This example introduces the basic structure of host and kernel code.
+Kernel <code class="docutils literal notranslate"><span class="pre">vadd</span></code> optimizes a simple vector addition.</p>
+<p>Kernel arguments with <code class="docutils literal notranslate"><span class="pre">global</span></code> keyword specify the inputs read from
+the global memory and outputs written back to it.</p>
+<p>If the number of loop iterations are unknown, tool cannot report the
+loop latency. In these cases, <code class="docutils literal notranslate"><span class="pre">xcl_loop_tripcount</span></code> can be used to
+specify minimum and maximum number of iterations to help the tool to
+analyze how the loop’s latency contributes to the total latency of the
+application.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">__attribute__</span><span class="p">((</span><span class="n">xcl_loop_tripcount</span><span class="p">(</span><span class="n">c_len</span><span class="p">,</span> <span class="n">c_len</span><span class="p">)))</span>
+</pre></div>
+</div>
+<p>Loop iterations are done sequentially on a CPU, i.e. it will take
+multiple clock cycles for a new iteration to begin execution. FPGA can
+pipeline these iterations to increase the throughput of the application
+by beginning a new iteration every cycle. <code class="docutils literal notranslate"><span class="pre">xcl_pipeline_loop</span></code>
+attribute is used to implement pipeline and to mention the <em>Initiation
+interval</em> (No. of clock cycles before a new loop iteration can be
+started).</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">__attribute__</span><span class="p">((</span><span class="n">xcl_pipeline_loop</span><span class="p">(</span><span class="mi">1</span><span class="p">)))</span>
+</pre></div>
+</div>
+<p>Rather than reading individual items for addition, buffers are created
+in kernel’s local memory and multiple items are read in a single burst.
+This is done to achieve low memory access latency and also for efficient
+use of bandwidth provided by the <code class="docutils literal notranslate"><span class="pre">AXI</span></code> interface. Similarly, results
+are stored in a buffer and are written to global memory in a burst. The
+for loops used have the following requirements to implement burst
+read/write: - Pipeline the loop : Loop pipeline must have <code class="docutils literal notranslate"><span class="pre">II</span></code>
+(Initiation interval) = 1 - Aligned memory : Memory addresses for
+read/write should be contiguous.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">__attribute__</span><span class="p">((</span><span class="n">xcl_pipeline_loop</span><span class="p">(</span><span class="mi">1</span><span class="p">)))</span>
+     <span class="nl">readB</span><span class="p">:</span> <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span> <span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">size</span> <span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+             <span class="n">arrayB</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="n">j</span><span class="p">];</span> <span class="p">}</span>
+</pre></div>
+</div>
+<div class="section" id="supported-shells">
+<h2>SUPPORTED SHELLS<a class="headerlink" href="#supported-shells" title="Permalink to this headline">¶</a></h2>
 <table class="docutils align-center">
 <colgroup>
 <col style="width: 38%" />
@@ -198,7 +234,7 @@ flow of an OpenCL application.</p>
 <col style="width: 30%" />
 </colgroup>
 <thead>
-<tr class="row-odd"><th class="head"><p>Platform</p></th>
+<tr class="row-odd"><th class="head"><p>SHELL</p></th>
 <th class="head"><p>Board</p></th>
 <th class="head"><p>Software Version</p></th>
 </tr>

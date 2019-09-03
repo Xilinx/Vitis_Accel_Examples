@@ -83,7 +83,7 @@
               <p class="caption"><span class="caption-text">Table of Contents</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="prerequisites.html">Prerequisites</a></li>
-<li class="toctree-l1"><a class="reference internal" href="platforms.html">Supported Platforms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="shells.html">Supported Platforms</a></li>
 <li class="toctree-l1"><a class="reference internal" href="compile_execute.html">Compilation and Execution</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cloud.html">Cloud Execution</a></li>
 <li class="toctree-l1"><a class="reference internal" href="support.html">Support</a></li>
@@ -92,7 +92,6 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="hello_world.html">Hello World</a></li>
 <li class="toctree-l1"><a class="reference internal" href="host.html">Host</a></li>
-<li class="toctree-l1"><a class="reference internal" href="sys_opt.html">System Optimization Kernels</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="cpp.html">C++ Kernels</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="array_partition.html">Array Partition</a></li>
 <li class="toctree-l2"><a class="reference internal" href="burst_rw.html">Burst Read/Write</a></li>
@@ -101,7 +100,7 @@
 <li class="toctree-l2"><a class="reference internal" href="dataflow_stream.html">Dataflow Using HLS Stream</a></li>
 <li class="toctree-l2"><a class="reference internal" href="dataflow_stream_array.html">Dataflow Using HLS Stream</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Loop Iteration Dependency</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#supported-platforms">SUPPORTED PLATFORMS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#supported-shells">SUPPORTED SHELLS</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#design-files">DESIGN FILES</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#command-line-arguments">COMMAND LINE ARGUMENTS</a></li>
 </ul>
@@ -119,6 +118,7 @@
 <li class="toctree-l2"><a class="reference internal" href="wide_mem_rw.html">Wide Memory Read/Write</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="sys_opt.html">System Optimization Kernels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="rtl.html">RTL Kernels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ocl.html">OpenCL Kernels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="apps.html">Applications</a></li>
@@ -201,8 +201,42 @@ is true/false, which allows the compiler to perform unrolling/pipelining
 to get better performance.</p>
 <p><strong>KEY CONCEPTS:</strong> Inter Dependence</p>
 <p><strong>KEYWORDS:</strong> DEPENDENCE, inter, WAR</p>
-<div class="section" id="supported-platforms">
-<h2>SUPPORTED PLATFORMS<a class="headerlink" href="#supported-platforms" title="Permalink to this headline">¶</a></h2>
+<p>This example demonstrates how extra information about dependency can be
+specified for variables in consecutive loop iterations using
+<code class="docutils literal notranslate"><span class="pre">#pragma</span> <span class="pre">HLS</span> <span class="pre">DEPENDENCE</span></code>. It allows the <code class="docutils literal notranslate"><span class="pre">xocc</span></code> to recognize
+dependencies and optimize the loop executions.</p>
+<p>For example here <code class="docutils literal notranslate"><span class="pre">linebuf</span></code> has <code class="docutils literal notranslate"><span class="pre">false</span> <span class="pre">inter</span> <span class="pre">dependency</span></code> which means
+each iteration of loop is independent for <code class="docutils literal notranslate"><span class="pre">linebuf</span></code> access.</p>
+<p><code class="docutils literal notranslate"><span class="pre">#pragma</span> <span class="pre">HLS</span> <span class="pre">DEPENDENCE</span></code> allows compiler to ignore dependency of
+linebuf and generate a pipeline with lower II count. If user does not
+provide this pragma, by default compiler assumes dependency exists on
+linebuf between iterations. As a result, compiler schedules unoptimized
+design with larger II factor which in turn leads to slow performance.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#pragma HLS ARRAY_PARTITION variable = linebuf dim = 1 complete</span>
+<span class="nl">VConvH</span><span class="p">:</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">col</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">col</span> <span class="o">&lt;</span> <span class="n">height</span><span class="p">;</span> <span class="o">++</span><span class="n">col</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nl">VConvW</span><span class="p">:</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">row</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">row</span> <span class="o">&lt;</span> <span class="n">width</span><span class="p">;</span> <span class="o">++</span><span class="n">row</span><span class="p">)</span> <span class="p">{</span>
+           <span class="cp">#pragma HLS DEPENDENCE variable=linebuf inter false</span>
+           <span class="cp">#pragma HLS PIPELINE</span>
+            <span class="kt">int</span> <span class="n">in_val</span> <span class="o">=</span> <span class="n">inStream</span><span class="p">.</span><span class="n">read</span><span class="p">();</span>
+            <span class="kt">int</span> <span class="n">out_val</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="nl">VConv</span><span class="p">:</span>
+            <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">K</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+                <span class="kt">int</span> <span class="n">vwin_val</span> <span class="o">=</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="p">(</span><span class="n">K</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">?</span> <span class="n">linebuf</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">row</span><span class="p">]</span> <span class="o">:</span> <span class="n">in_val</span><span class="p">;</span>
+                <span class="n">out_val</span> <span class="o">+=</span> <span class="n">vwin_val</span> <span class="o">*</span> <span class="n">vcoeff</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+
+                <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
+                    <span class="n">linebuf</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="n">row</span><span class="p">]</span> <span class="o">=</span> <span class="n">vwin_val</span><span class="p">;</span>
+            <span class="p">}</span>
+            <span class="n">outStream</span> <span class="o">&lt;&lt;</span> <span class="n">out_val</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="section" id="supported-shells">
+<h2>SUPPORTED SHELLS<a class="headerlink" href="#supported-shells" title="Permalink to this headline">¶</a></h2>
 <table class="docutils align-center">
 <colgroup>
 <col style="width: 38%" />
@@ -210,7 +244,7 @@ to get better performance.</p>
 <col style="width: 30%" />
 </colgroup>
 <thead>
-<tr class="row-odd"><th class="head"><p>Platform</p></th>
+<tr class="row-odd"><th class="head"><p>SHELL</p></th>
 <th class="head"><p>Board</p></th>
 <th class="head"><p>Software Version</p></th>
 </tr>

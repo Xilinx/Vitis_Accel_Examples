@@ -67,11 +67,11 @@ device. Until all the child processes are finished, parent process
 **LIMITATION**: In Emulation flow, Debug and Profile will not function
 correctly when multi-process has been enabled.
 
-SUPPORTED PLATFORMS
--------------------
+SUPPORTED SHELLS
+----------------
 
 ==================== ================= ================
-Platform             Board             Software Version
+SHELL                Board             Software Version
 ==================== ================= ================
 xilinx_u200_qdma     Xilinx Alveo U200 Vitis 2019.2
 xilinx_u280_xdma     Xilinx Alveo U280 Vitis 2019.2

@@ -1,13 +1,11 @@
-Device Query 
-=============
+Device Query (CPP)
+==================
 
-This example prints the OpenCL properties of the platform and its
-devices. It also displays the limits and capabilities of the hardware.
+This Example prints the OpenCL properties of the platform and its
+devices using OpenCL CPP APIs. It also displays the limits and
+capabilities of the hardware.
 
 **KEY CONCEPTS:** OpenCL API, Querying device properties
-
-**KEYWORDS:** clGetPlatformIDs(), clGetPlatformInfo(), clGetDeviceIDs(),
-clGetDeviceInfo()
 
 The role of this example to get the details of all the OpenCL Devices
 connected to system. Platform IDs and Device IDs can be extracted using
@@ -18,11 +16,11 @@ it traverses to each Platform and finds all the connected devices using
 clGetDeviceIDs(). Then it traverses all the devices and print all device
 properties like device type, vendor id etc.
 
-SUPPORTED PLATFORMS
--------------------
+SUPPORTED SHELLS
+----------------
 
 ==================== ================= ================
-Platform             Board             Software Version
+SHELL                Board             Software Version
 ==================== ================= ================
 xilinx_u200_qdma     Xilinx Alveo U200 Vitis 2019.2
 xilinx_u280_xdma     Xilinx Alveo U280 Vitis 2019.2

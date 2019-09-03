@@ -103,11 +103,11 @@ are coming through the stream. Stream is polled by calling
 ``get_last()`` after every transfer and breaks when ``get_last()``
 returns 1.
 
-SUPPORTED PLATFORMS
--------------------
+SUPPORTED SHELLS
+----------------
 
 ================ ================= ================
-Platform         Board             Software Version
+SHELL            Board             Software Version
 ================ ================= ================
 xilinx_u200_qdma Xilinx Alveo U200 Vitis 2019.2
 xilinx_u250_qdma Xilinx Alveo U250 Vitis 2019.2
