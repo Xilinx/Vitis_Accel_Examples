@@ -31,14 +31,17 @@
 # EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 # *******************************************************************************/
-if { $::argc != 2 } {
-	puts "ERROR: Application \"$::argv0\" requires 2 arguments!\n"
-	puts "Usage: $::argv0 <xpfm_path> <xo_pathname>\n"
-	exit
+if { $::argc != 5 } {
+    puts "ERROR: Program \"$::argv0\" requires 4 arguments!\n"
+    puts "Usage: $::argv0 <xoname> <krnl_name> <target> <xpfm_path> <device>\n"
+    exit
 }
 
-set xpfm_path    [lindex $::argv 0]
-set xo_pathname  [lindex $::argv 1]
+set xo_pathname  [lindex $::argv 0]
+set krnl_name [lindex $::argv 1]
+set target    [lindex $::argv 2]
+set xpfm_path [lindex $::argv 3]
+set device    [lindex $::argv 4]
 
 set pinfo [file join [pwd] "pinfo.json"]
 if {[file exists ${xpfm_path}]} {
@@ -96,14 +99,14 @@ open_example_project -force -in_process -dir [pwd] [get_ips myadder2]
 source -notrace myadder2_ex/imports/package_kernel.tcl
 # Packaging project
 package_project myadder2_ex/myadder2 xilinx.com user myadder2
-package_xo  -xo_path myadder2_ex/sdx_imports/myadder2.xo -kernel_name myadder2 -ip_directory myadder2_ex/myadder2 -kernel_xml myadder2_ex/imports/kernel.xml -kernel_files myadder2_ex/imports/myadder2_cmodel.cpp
+package_xo  -xo_path myadder2_ex/imports/myadder2.xo -kernel_name myadder2 -ip_directory myadder2_ex/myadder2 -kernel_xml myadder2_ex/imports/kernel.xml -kernel_files myadder2_ex/imports/myadder2_cmodel.cpp
 # Complete: RTL Kernel Packaging of Sources
 # --------------------------------------------
 
 set xo_path [file join [pwd] ${xo_pathname}]
-if {[file exists "myadder2_ex/sdx_imports/myadder2.xo"]} {
-    file copy myadder2_ex/sdx_imports/myadder2.xo ${xo_path}
+if {[file exists "myadder2_ex/imports/myadder2.xo"]} {
+    file copy myadder2_ex/imports/myadder2.xo ${xo_path}
 } else {
-    puts "ERROR: myadder2_ex/sdx_imports/myadder2.xo does not exist!\n"
+    puts "ERROR: myadder2_ex/imports/myadder2.xo does not exist!\n"
     exit 1
 }
