@@ -23,7 +23,7 @@ $(error XILINX_VITIS variable is not set, please set correctly and rerun)
 endif
 
 #Checks for SYSROOT
-ifneq ($(HOST_AARCH), x86)
+ifneq ($(HOST_ARCH), x86)
 ifndef SYSROOT
 $(error SYSROOT variable is not set, please set correctly and rerun)
 endif

@@ -2,9 +2,9 @@
 
 help::
 	$(ECHO) "Makefile Usage:"
-	$(ECHO) "  make all TARGET=<sw_emu/hw_emu/hw> DEVICE=<FPGA platform> HOST_AARCH=<arch32/arch64/x86> SYSROOT=<sysroot_path>"
+	$(ECHO) "  make all TARGET=<sw_emu/hw_emu/hw> DEVICE=<FPGA platform> HOST_ARCH=<aarch32/aarch64/x86> SYSROOT=<sysroot_path>"
 	$(ECHO) "      Command to generate the design for specified Target and Shell."
-	$(ECHO) "      By default, HOST_AARCH=x86. HOST_AARCH and SYSROOT is required for SoC shells"
+	$(ECHO) "      By default, HOST_ARCH=x86. HOST_ARCH and SYSROOT is required for SoC shells"
 	$(ECHO) ""
 	$(ECHO) "  make clean "
 	$(ECHO) "      Command to remove the generated non-hardware files."
@@ -12,13 +12,13 @@ help::
 	$(ECHO) "  make cleanall"
 	$(ECHO) "      Command to remove all the generated files."
 	$(ECHO) ""
-	$(ECHO) "  make check TARGET=<sw_emu/hw_emu/hw> DEVICE=<FPGA platform> HOST_AARCH=<arch32/arch64/x86> SYSROOT=<sysroot_path>"
+	$(ECHO) "  make check TARGET=<sw_emu/hw_emu/hw> DEVICE=<FPGA platform> HOST_ARCH=<aarch32/aarch64/x86> SYSROOT=<sysroot_path>"
 	$(ECHO) "      Command to run application in emulation."
-	$(ECHO) "      By default, HOST_AARCH=x86. HOST_AARCH and SYSROOT is required for SoC shells"
+	$(ECHO) "      By default, HOST_ARCH=x86. HOST_ARCH and SYSROOT is required for SoC shells"
 	$(ECHO) ""
-	$(ECHO) "  make build TARGET=<sw_emu/hw_emu/hw> DEVICE=<FPGA platform> HOST_AARCH=<arch32/arch64/x86> SYSROOT=<sysroot_path>"
+	$(ECHO) "  make build TARGET=<sw_emu/hw_emu/hw> DEVICE=<FPGA platform> HOST_ARCH=<aarch32/aarch64/x86> SYSROOT=<sysroot_path>"
 	$(ECHO) "      Command to build xclbin application."
-	$(ECHO) "      By default, HOST_AARCH=x86. HOST_AARCH and SYSROOT is required for SoC shells"
+	$(ECHO) "      By default, HOST_ARCH=x86. HOST_ARCH and SYSROOT is required for SoC shells"
 	$(ECHO) ""
 	$(ECHO) "  make run_nimbix DEVICE=<FPGA platform>"
 	$(ECHO) "      Command to run application on Nimbix Cloud."
@@ -33,7 +33,7 @@ PWD = $(shell readlink -f .)
 ABS_COMMON_REPO = $(shell readlink -f $(COMMON_REPO))
 
 TARGET := hw
-HOST_AARCH := x86
+HOST_ARCH := x86
 SYSROOT := 
 
 include ./utils.mk
@@ -43,11 +43,11 @@ TEMP_DIR := ./_x.$(TARGET).$(XSA)
 BUILD_DIR := ./build_dir.$(TARGET).$(XSA)
 ABS_BUILD_DIR_LOC := $(PWD)/$(BUILD_DIR)
 
-ifeq ($(HOST_AARCH), x86)
+ifeq ($(HOST_ARCH), x86)
 	CXX := $(XILINX_VITIS)/bin/xcpp
-else ifeq ($(HOST_AARCH), aarch64)
+else ifeq ($(HOST_ARCH), aarch64)
 	CXX := $(XILINX_VITIS)/gnu/aarch64/lin/aarch64-linux/bin/aarch64-linux-gnu-g++
-else ifeq ($(HOST_AARCH), aarch32)
+else ifeq ($(HOST_ARCH), aarch32)
 	CXX := $(XILINX_VITIS)/gnu/aarch32/lin/gcc-arm-linux-gnueabi/bin/arm-linux-gnueabihf-g++
 endif
 
@@ -68,7 +68,7 @@ HOST_SRCS += src/host.cpp
 CXXFLAGS += -fmessage-length=0
 LDFLAGS += -lrt -lstdc++
 
-ifneq ($(HOST_AARCH), x86)
+ifneq ($(HOST_ARCH), x86)
 	LDFLAGS += --sysroot=$(SYSROOT)
 endif
 
@@ -115,7 +115,7 @@ $(EMCONFIG_DIR)/emconfig.json:
 
 check: all
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
-ifeq ($(HOST_AARCH), x86)
+ifeq ($(HOST_ARCH), x86)
 	$(CP) $(EMCONFIG_DIR)/emconfig.json .
 	XCL_EMULATION_MODE=$(TARGET) ./$(EXECUTABLE) $(BUILD_DIR)/vadd.xclbin
 else
@@ -132,7 +132,7 @@ endif
 else
 	./$(EXECUTABLE) $(BUILD_DIR)/vadd.xclbin
 endif
-ifeq ($(HOST_AARCH), x86)
+ifeq ($(HOST_ARCH), x86)
 	perf_analyze profile -i profile_summary.csv -f html
 endif
 
@@ -151,4 +151,3 @@ clean:
 cleanall: clean
 	-$(RMDIR) build_dir*
 	-$(RMDIR) _x.* xclbin.run_summary qemu-memory-_* emulation/ _vimage/ pl* start_simulation.sh *.xclbin
-
