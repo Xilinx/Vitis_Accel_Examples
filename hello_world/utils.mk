@@ -22,6 +22,13 @@ ifndef XILINX_VITIS
 $(error XILINX_VITIS variable is not set, please set correctly and rerun)
 endif
 
+#Checks for SYSROOT
+ifneq ($(HOST_AARCH), x86)
+ifndef SYSROOT
+$(error SYSROOT variable is not set, please set correctly and rerun)
+endif
+endif
+
 #Checks for XILINX_XRT
 check-xrt:
 ifndef XILINX_XRT
