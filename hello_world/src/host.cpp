@@ -64,20 +64,24 @@ int main(int argc, char **argv) {
     // get_xil_devices() is a utility API which will find the xilinx
     // platforms and will return list of devices connected to Xilinx platform
     auto devices = xcl::get_xil_devices();
-    auto device = devices[0];
+    int default_device = 0;
+    if (devices.size()>1) {
+        printf("WARNING: multiple Xilinx cards detected, running this example on device %d\n", default_device);
+        printf("if you want to run on another card, edit line %d in file %s\n", (__LINE__-3), __FILE__);
+    }
+    auto device = devices[default_device];
 
-    OCL_CHECK(err, cl::Context context(device, NULL, NULL, NULL, &err));
+    OCL_CHECK(err, cl::Context context({device}, NULL, NULL, NULL, &err));
     OCL_CHECK(
         err,
-        cl::CommandQueue q(context, device, CL_QUEUE_PROFILING_ENABLE, &err));
+        cl::CommandQueue q(context, {device}, CL_QUEUE_PROFILING_ENABLE, &err));
 
     // read_binary_file() is a utility API which will load the binaryFile
     // and will return the pointer to file buffer.
     auto fileBuf = xcl::read_binary_file(binaryFile);
     cl::Program::Binaries bins{{fileBuf.data(), fileBuf.size()}};
 
-    devices.resize(1);
-    OCL_CHECK(err, cl::Program program(context, devices, bins, NULL, &err));
+    OCL_CHECK(err, cl::Program program(context, {device}, bins, NULL, &err));
     OCL_CHECK(err, cl::Kernel krnl_vector_add(program, "vadd", &err));
 
     // Allocate Buffer in Global Memory
