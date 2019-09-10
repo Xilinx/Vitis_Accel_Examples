@@ -3,7 +3,8 @@
         "xilinx_aws-vu9p-f1-04261818", 
         "xilinx:aws:vu9p:f1:04261818",
         "xilinx_v350-es1_xdma",
-        "xilinx:v350-es1:xdma"
+        "xilinx:v350-es1:xdma",
+        "zc"
     ], 
     "name": "Vector Addition ~ Asymmetrical Multiple Compute Units (C) ", 
     "contributors": [

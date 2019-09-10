@@ -1,6 +1,7 @@
 {
     "ndevice": [
         "xilinx_u200_xdma", 
+        "zc", 
         "xilinx_u250_xdma", 
         "xilinx_u280_xdma", 
         "xilinx_u280-es1_xdma", 

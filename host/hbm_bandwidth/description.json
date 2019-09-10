@@ -5,6 +5,7 @@
     "ndevice": [
         "xilinx_u200_xdma", 
         "xilinx_u200_qdma", 
+        "zc", 
         "xilinx_u250_xdma", 
         "xilinx_u250_qdma", 
         "xilinx_vcu1525_dynamic", 

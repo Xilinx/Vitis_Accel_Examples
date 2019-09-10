@@ -12,7 +12,6 @@ config_file = 0
 def create_params(target,data):    
     target.write("# Points to Utility Directory\n")
     dirName = os.getcwd()
-    #print dirName	
     dirNameList = list(dirName.split("/"))
     dirNameIndex = dirNameList.index("Vitis_Accel_Examples")
     diff = len(dirNameList) - dirNameIndex - 1
@@ -21,9 +20,12 @@ def create_params(target,data):
 	target.write("../")
 	diff -= 1 
     target.write("\n")
+    target.write("PWD = $(shell readlink -f .)\n")
     target.write("ABS_COMMON_REPO = $(shell readlink -f $(COMMON_REPO))\n")
     target.write("\n")
     target.write("TARGET := hw\n")
+    target.write("HOST_ARCH := x86\n")
+    target.write("SYSROOT := \n")
     target.write("\n")
     target.write("include ./utils.mk\n")
     target.write("\n")
@@ -32,9 +34,14 @@ def create_params(target,data):
     target.write("BUILD_DIR := ./build_dir.$(TARGET).$(XSA)\n")
     target.write("\n")
 
-    target.write("CXX := ")
-    target.write("$(XILINX_VITIS)/bin/xcpp\n")
-    target.write("XOCC := ")
+    target.write("ifeq ($(HOST_ARCH), x86)\n")
+    target.write("\tCXX := $(XILINX_VITIS)/bin/xcpp\n")
+    target.write("else ifeq ($(HOST_ARCH), aarch64)\n")
+    target.write("\tCXX := $(XILINX_VITIS)/gnu/aarch64/lin/aarch64-linux/bin/aarch64-linux-gnu-g++\n")
+    target.write("else ifeq ($(HOST_ARCH), aarch32)\n")
+    target.write("\tCXX := $(XILINX_VITIS)/gnu/aarch32/lin/gcc-arm-linux-gnueabi/bin/arm-linux-gnueabihf-g++\n")
+    target.write("endif\n\n")
+    target.write("VPP := ")
     target.write("v++\n")
     target.write("\n")
     add_includes1(target, data)
@@ -47,7 +54,6 @@ def create_params(target,data):
     target.write("LDFLAGS += $(opencl_LDFLAGS)\n")
     target.write("\n")
     return
-
 
 #adding lib.mk
 def add_includes1(target, data):
@@ -118,7 +124,9 @@ def add_host_flags(target, data):
     target.write("LDFLAGS += ")
     target.write("-lrt -lstdc++ ")
     target.write("\n\n")
-
+    target.write("ifneq ($(HOST_ARCH), x86)\n")
+    target.write("\tLDFLAGS += --sysroot=$(SYSROOT)\n")
+    target.write("endif\n\n")
     return
 
 def add_kernel_flags(target, data):
@@ -194,7 +202,9 @@ def add_kernel_flags(target, data):
             cmdargs = cmdargs.replace('PROJECT', '.')
 	    target.write(cmdargs)
 
-    target.write("\n\n")
+    target.write("\nEXEC_CMD_ARGS += $(EXECUTABLE)\n")
+    target.write("EXEC_CMD_ARGS += $(CMD_ARGS)\n")
+    target.write("\n")
 
     target.write("EMCONFIG_DIR = $(TEMP_DIR)")
     target.write("\n\n")
@@ -228,7 +238,7 @@ def building_kernel(target, data):
 		    target.write(acc["location"])
 		    target.write("\n")
                     target.write("\tmkdir -p $(TEMP_DIR)\n")
-                    target.write("\t$(XOCC) $(CLFLAGS) --temp_dir ")
+                    target.write("\t$(VPP) $(CLFLAGS) --temp_dir ")
                     target.write("$(TEMP_DIR) ")
                     target.write("-c -k ")
                     target.write(acc["name"])
@@ -243,7 +253,7 @@ def building_kernel(target, data):
             target.write(con["name"])
             target.write("_OBJS)\n")
             target.write("\tmkdir -p $(BUILD_DIR)\n")
-            target.write("\t$(XOCC) $(CLFLAGS) --temp_dir ")
+            target.write("\t$(VPP) $(CLFLAGS) --temp_dir ")
             target.write("$(BUILD_DIR) ")
             target.write("-l $(LDCLFLAGS)")
             target.write(" -o'$@' $(+)\n")
@@ -261,7 +271,7 @@ def building_kernel_rtl(target, data):
             target.write(con["name"])
             target.write("_OBJS)\n")
             target.write("\tmkdir -p $(BUILD_DIR)\n")
-            target.write("\t$(XOCC) $(CLFLAGS) --temp_dir ")
+            target.write("\t$(VPP) $(CLFLAGS) --temp_dir ")
             target.write("$(BUILD_DIR) ")
             target.write("-l $(LDCLFLAGS)")
             target.write(" -o'$@' $(+)\n\n")
@@ -297,7 +307,7 @@ def mk_clean(target, data):
 
     target.write("cleanall: clean\n")
     target.write("\t-$(RMDIR) build_dir*\n")
-    target.write("\t-$(RMDIR) _x.* xclbin.run_summary\n")
+    target.write("\t-$(RMDIR) _x.* xclbin.run_summary qemu-memory-_* emulation/ _vimage/ pl* start_simulation.sh *.xclbin\n")
     if "output_files" in data:         
         target.write("\t-$(RMDIR) ")
         args = data["output_files"].split(" ")
@@ -361,6 +371,7 @@ def mk_check(target, data):
             target.write("endif\n")
         target.write("\n")
     target.write("ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))\n")
+    target.write("ifeq ($(HOST_ARCH), x86)\n")
     target.write("\t$(CP) $(EMCONFIG_DIR)/emconfig.json .\n") 
     target.write("\tXCL_EMULATION_MODE=$(TARGET) ./$(EXECUTABLE)")
     
@@ -372,7 +383,16 @@ def mk_check(target, data):
                 arg = arg.replace('BUILD', '$(BUILD_DIR)')
 	        arg = arg.replace('PROJECT', '.')
 	        target.write(arg)
-    target.write("\nelse\n")        
+    target.write("\nelse\n")
+    target.write("\t$(CP) $(BINARY_CONTAINERS) .\n")
+    target.write("\treadlink -f $(EXECUTABLE) >> _vimage/emulation/sd_card.manifest\n")
+    target.write("\treadlink -f xrt.ini >> _vimage/emulation/sd_card.manifest\n")
+    target.write("\treadlink -f $(BUILD_DIR) >> _vimage/emulation/sd_card.manifest\n")
+    target.write("\t$(ECHO) ./$(EXEC_CMD_ARGS) >> _vimage/emulation/init.sh\n")
+    target.write("\t$(ECHO) \"reboot\" >> _vimage/emulation/init.sh\n")
+    target.write("\thw_emulator -no-reboot -runtime ocl -no-pl\n")
+    target.write("endif\n")
+    target.write("else\n")
     target.write("\t ./$(EXECUTABLE)")
 	
     if "launch" in data:
@@ -400,7 +420,9 @@ def mk_check(target, data):
         target.write("\n")
 
     if data["name"] != "00 Matrix Multiplication":
-	target.write("\tperf_analyze profile -i profile_summary.csv -f html\n")
+        target.write("ifeq ($(HOST_ARCH), x86)\n")
+        target.write("\tperf_analyze profile -i profile_summary.csv -f html\n")
+        target.write("endif\n")
     target.write("\n")
 
 def run_nimbix(target, data):
@@ -420,8 +442,9 @@ def mk_help(target):
     target.write("\n")
     target.write("help::\n")
     target.write("\t$(ECHO) \"Makefile Usage:\"\n")
-    target.write("\t$(ECHO) \"  make all TARGET=<sw_emu/hw_emu/hw> DEVICE=<FPGA platform>\"\n");
+    target.write("\t$(ECHO) \"  make all TARGET=<sw_emu/hw_emu/hw> DEVICE=<FPGA platform> HOST_ARCH=<aarch32/aarch64/x86> SYSROOT=<sysroot_path>\"\n");
     target.write("\t$(ECHO) \"      Command to generate the design for specified Target and Shell.\"\n")
+    target.write("\t$(ECHO) \"      By default, HOST_ARCH=x86. HOST_ARCH and SYSROOT is required for SoC shells\"\n")
     target.write("\t$(ECHO) \"\"\n")
     target.write("\t$(ECHO) \"  make clean \"\n");
     target.write("\t$(ECHO) \"      Command to remove the generated non-hardware files.\"\n")
@@ -429,18 +452,20 @@ def mk_help(target):
     target.write("\t$(ECHO) \"  make cleanall\"\n")
     target.write("\t$(ECHO) \"      Command to remove all the generated files.\"\n")
     target.write("\t$(ECHO) \"\"\n")
-    target.write("\t$(ECHO) \"  make check TARGET=<sw_emu/hw_emu/hw> DEVICE=<FPGA platform>\"\n");
+    target.write("\t$(ECHO) \"  make check TARGET=<sw_emu/hw_emu/hw> DEVICE=<FPGA platform> HOST_ARCH=<aarch32/aarch64/x86> SYSROOT=<sysroot_path>\"\n");
     target.write("\t$(ECHO) \"      Command to run application in emulation.\"\n")
+    target.write("\t$(ECHO) \"      By default, HOST_ARCH=x86. HOST_ARCH and SYSROOT is required for SoC shells\"\n")
     target.write("\t$(ECHO) \"\"\n")
-    target.write("\t$(ECHO) \"  make build TARGET=<sw_emu/hw_emu/hw> DEVICE=<FPGA platform>\"\n");
+    target.write("\t$(ECHO) \"  make build TARGET=<sw_emu/hw_emu/hw> DEVICE=<FPGA platform> HOST_ARCH=<aarch32/aarch64/x86> SYSROOT=<sysroot_path>\"\n");
     target.write("\t$(ECHO) \"      Command to build xclbin application.\"\n")
+    target.write("\t$(ECHO) \"      By default, HOST_ARCH=x86. HOST_ARCH and SYSROOT is required for SoC shells\"\n")
     target.write("\t$(ECHO) \"\"\n")
-    target.write("\t$(ECHO) \"  make run_nimbix DEVICE=<FPGA platform>\"\n");
-    target.write("\t$(ECHO) \"      Command to run application on Nimbix Cloud.\"\n")
-    target.write("\t$(ECHO) \"\"\n")
-    target.write("\t$(ECHO) \"  make aws_build DEVICE=<FPGA platform>\"\n");
-    target.write("\t$(ECHO) \"      Command to build AWS xclbin application on AWS Cloud.\"\n")
-    target.write("\t$(ECHO) \"\"\n")
+    #target.write("\t$(ECHO) \"  make run_nimbix DEVICE=<FPGA platform>\"\n");
+    #target.write("\t$(ECHO) \"      Command to run application on Nimbix Cloud.\"\n")
+    #target.write("\t$(ECHO) \"\"\n")
+    #target.write("\t$(ECHO) \"  make aws_build DEVICE=<FPGA platform>\"\n");
+    #target.write("\t$(ECHO) \"      Command to build AWS xclbin application on AWS Cloud.\"\n")
+    #target.write("\t$(ECHO) \"\"\n")
     target.write("\n")
 
 def report_gen(target, data):
@@ -489,17 +514,25 @@ def util_checks(target):
     target.write("endif\n")
     target.write("\n")
 
+    target.write("#Checks for SYSROOT\n")
+    target.write("ifneq ($(HOST_ARCH), x86)\n")
+    target.write("ifndef SYSROOT\n")
+    target.write("$(error SYSROOT variable is not set, please set correctly and rerun)\n")
+    target.write("endif\n")
+    target.write("endif\n")
+    target.write("\n")
+
     target.write("check-devices:\n")
     target.write("ifndef DEVICE\n")
     target.write("\t$(error DEVICE not set. Please set the DEVICE properly and rerun. Run \"make help\" for more details.)\n")
     target.write("endif\n")
     target.write("\n")
 
-    target.write("check-aws_repo:\n")
-    target.write("ifndef SDACCEL_DIR\n")
-    target.write("\t$(error SDACCEL_DIR not set. Please set it properly and rerun. Run \"make help\" for more details.)\n")
-    target.write("endif\n")
-    target.write("\n")
+    #target.write("check-aws_repo:\n")
+    #target.write("ifndef SDACCEL_DIR\n")
+    #target.write("\t$(error SDACCEL_DIR not set. Please set it properly and rerun. Run \"make help\" for more details.)\n")
+    #target.write("endif\n")
+    #target.write("\n")
 
 def clean_util(target):
     target.write("# Cleaning stuff\n")
@@ -525,8 +558,8 @@ def create_mk(target, data):
     add_containers(target, data)
     mk_build_all(target, data)
     mk_check(target, data)
-    run_nimbix(target, data)
-    aws_build(target)
+    #run_nimbix(target, data)
+    #aws_build(target)
     mk_clean(target,data)
     return 
 
@@ -570,8 +603,6 @@ desc = open(desc_file, 'r')
 data = json.load(desc)
 desc.close()
 
-
-
 if "match_ini" in data and data["match_ini"] == "false":
     print "Error:: xrt.ini File Manually Edited:: Auto-file Generator Failed"
     err = False
@@ -579,8 +610,6 @@ else:
     print "Generating xrt.ini file for %s" %data["name"]
     target = open("xrt.ini","w+")
     profile_report(target)
-
-
 
 if "containers" in data:
         config_flag = 0
@@ -594,8 +623,6 @@ if "containers" in data:
 if "match_makefile" in data and data["match_makefile"] == "false":
     print "Error:: Makefile Manually Edited:: AutoMakefile Generator Failed"
 else:
-    	
-
     print "Generating Auto-Makefile for %s" %data["name"]
     target = open("Makefile", "w")
     create_mk(target, data)

@@ -20,12 +20,6 @@ help::
 	$(ECHO) "      Command to build xclbin application."
 	$(ECHO) "      By default, HOST_ARCH=x86. HOST_ARCH and SYSROOT is required for SoC shells"
 	$(ECHO) ""
-	$(ECHO) "  make run_nimbix DEVICE=<FPGA platform>"
-	$(ECHO) "      Command to run application on Nimbix Cloud."
-	$(ECHO) ""
-	$(ECHO) "  make aws_build DEVICE=<FPGA platform>"
-	$(ECHO) "      Command to build AWS xclbin application on AWS Cloud."
-	$(ECHO) ""
 
 # Points to Utility Directory
 COMMON_REPO = ../
@@ -41,7 +35,6 @@ include ./utils.mk
 XSA := $(call device2xsa, $(DEVICE))
 TEMP_DIR := ./_x.$(TARGET).$(XSA)
 BUILD_DIR := ./build_dir.$(TARGET).$(XSA)
-ABS_BUILD_DIR_LOC := $(PWD)/$(BUILD_DIR)
 
 ifeq ($(HOST_ARCH), x86)
 	CXX := $(XILINX_VITIS)/bin/xcpp
@@ -66,7 +59,7 @@ HOST_SRCS += src/host.cpp
 
 # Host compiler global settings
 CXXFLAGS += -fmessage-length=0
-LDFLAGS += -lrt -lstdc++
+LDFLAGS += -lrt -lstdc++ 
 
 ifneq ($(HOST_ARCH), x86)
 	LDFLAGS += --sysroot=$(SYSROOT)
@@ -75,11 +68,12 @@ endif
 # Kernel compiler global settings
 CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps 
 
-EXECUTABLE = ./host
-ABS_EXEC_LOC = $(PWD)/$(EXECUTABLE) 
+
+
+EXECUTABLE = host
 CMD_ARGS = $(BUILD_DIR)/vadd.xclbin
-EXEC_CMD_ARGS += $(EXECUTABLE) 
-EXEC_CMD_ARGS += $(CMD_ARGS) 
+EXEC_CMD_ARGS += $(EXECUTABLE)
+EXEC_CMD_ARGS += $(CMD_ARGS)
 
 EMCONFIG_DIR = $(TEMP_DIR)
 
@@ -120,27 +114,19 @@ ifeq ($(HOST_ARCH), x86)
 	XCL_EMULATION_MODE=$(TARGET) ./$(EXECUTABLE) $(BUILD_DIR)/vadd.xclbin
 else
 	$(CP) $(BINARY_CONTAINERS) .
-	$(ECHO) $(ABS_EXEC_LOC) >> _vimage/emulation/sd_card.manifest
-	$(ECHO) $(ABS_BUILD_DIR_LOC) >> _vimage/emulation/sd_card.manifest
-	$(ECHO) $(EXEC_CMD_ARGS) >> _vimage/emulation/init.sh
-ifeq ($(TARGET), sw_emu)
+	readlink -f $(EXECUTABLE) >> _vimage/emulation/sd_card.manifest
+	readlink -f xrt.ini >> _vimage/emulation/sd_card.manifest
+	readlink -f $(BUILD_DIR) >> _vimage/emulation/sd_card.manifest
+	$(ECHO) ./$(EXEC_CMD_ARGS) >> _vimage/emulation/init.sh
+	$(ECHO) "reboot" >> _vimage/emulation/init.sh
 	hw_emulator -no-reboot -runtime ocl -no-pl
-else
-	hw_emulator -no-reboot -runtime ocl
-endif
 endif
 else
-	./$(EXECUTABLE) $(BUILD_DIR)/vadd.xclbin
+	 ./$(EXECUTABLE) $(BUILD_DIR)/vadd.xclbin
 endif
 ifeq ($(HOST_ARCH), x86)
 	perf_analyze profile -i profile_summary.csv -f html
 endif
-
-run_nimbix: all
-	$(COMMON_REPO)/common/utility/nimbix/run_nimbix.py $(EXECUTABLE) $(CMD_ARGS) $(XSA)
-
-aws_build: check-aws_repo $(BINARY_CONTAINERS)
-	$(COMMON_REPO)/common/utility/aws/run_aws.py $(BINARY_CONTAINERS)
 
 # Cleaning stuff
 clean:
@@ -151,3 +137,4 @@ clean:
 cleanall: clean
 	-$(RMDIR) build_dir*
 	-$(RMDIR) _x.* xclbin.run_summary qemu-memory-_* emulation/ _vimage/ pl* start_simulation.sh *.xclbin
+

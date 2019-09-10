@@ -12,7 +12,6 @@
             "name": "generic launch for all flows"
         }
     ], 
-    "platform_type": "pcie", 
     "host": {
         "compiler": {
             "sources": [

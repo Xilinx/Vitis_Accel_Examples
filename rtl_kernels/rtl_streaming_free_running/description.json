@@ -42,6 +42,7 @@
     "output_files": "tmp_kernel_pack* packaged_kernel* _x* *_ex project* pinfo.json", 
     "ndevice": [
         "xilinx_u200_xdma", 
+        "zc", 
         "xilinx_u250_xdma", 
         "xilinx_u280_xdma", 
         "xilinx_u280-es1_xdma", 
