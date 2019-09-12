@@ -6,7 +6,9 @@
             }
         ]
     }, 
-    "name": "Large application Splits into Multiple Kernels (C)", 
+    "description": [
+        "This is a multi-filter image processing application to showcase effectiveness of Dataflow/Streams usage. This examples is intended to help developers to break down the complex kernels into multiple sub-functions using HLS Dataflow/Streams. It presents a way to concurrently execute multiple functions with better area utilization compared to a complex single kernel implementation. The main objective of this example is to showcase a way to build a optimal FPGA design which achieves maximum frequency with optimal resource utilization and achieves better performance compared to single complex kernel implementations."
+    ], 
     "contributors": [
         {
             "url": "http://www.xilinx.com", 
@@ -19,11 +21,9 @@
             "name": "generic launch for all flows"
         }
     ], 
-    "description": [
-        "This is a multi-filter image processing application to showcase effectiveness of Dataflow/Streams usage. This examples is intended to help developers to break down the complex kernels into multiple sub-functions using HLS Dataflow/Streams. It presents a way to concurrently execute multiple functions with better area utilization compared to a complex single kernel implementation. The main objective of this example is to showcase a way to build a optimal FPGA design which achieves maximum frequency with optimal resource utilization and achieves better performance compared to single complex kernel implementations."
-    ], 
-    "platform_type": "pcie", 
+    "output_files": "output.bmp", 
     "host": {
+        "host_exe": "host", 
         "compiler": {
             "sources": [
                 "REPO_DIR/common/includes/xcl2", 
@@ -33,8 +33,7 @@
                 "REPO_DIR/common/includes/xcl2", 
                 "REPO_DIR/common/includes/bitmap"
             ]
-        }, 
-        "host_exe": "host"
+        }
     }, 
     "key_concepts": [
         "Dataflow", 
@@ -73,5 +72,5 @@
             "name": "sketch_BAD"
         }
     ], 
-    "output_files": "output.bmp"
+    "name": "Large application Splits into Multiple Kernels (C)"
 }

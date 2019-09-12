@@ -1,12 +1,14 @@
 {
     "ndevice": [
         "xilinx_aws-vu9p-f1-04261818", 
-        "xilinx:aws-vu9p-f1-04261818:dynamic",
-        "zc",
-        "xilinx_v350-es1_xdma",
+        "xilinx:aws-vu9p-f1-04261818:dynamic", 
+        "zc", 
+        "xilinx_v350-es1_xdma", 
         "xilinx:v350-es1:xdma"
     ], 
-    "name": "Global Memory Two Banks (CL)", 
+    "description": [
+        "This example of 2ddr to demonstrate on how to use 2ddr XSA. How to create buffers in each DDR."
+    ], 
     "contributors": [
         {
             "url": "http://www.xilinx.com", 
@@ -19,11 +21,9 @@
             "name": "generic launch for all flows"
         }
     ], 
-    "description": [
-        "This example of 2ddr to demonstrate on how to use 2ddr XSA. How to create buffers in each DDR."
-    ], 
-    "platform_type": "pcie", 
+    "output_files": "output.bmp", 
     "host": {
+        "host_exe": "host", 
         "compiler": {
             "sources": [
                 "REPO_DIR/common/includes/xcl2", 
@@ -33,8 +33,7 @@
                 "REPO_DIR/common/includes/xcl2", 
                 "REPO_DIR/common/includes/bitmap"
             ]
-        }, 
-        "host_exe": "host"
+        }
     }, 
     "key_concepts": [
         "Multiple Banks"
@@ -54,26 +53,26 @@
             "accelerators": [
                 {
                     "max_memory_ports": "true", 
+                    "compute_units": [
+                        {
+                            "arguments": [
+                                {
+                                    "name": "input", 
+                                    "memory": "DDR[0]"
+                                }, 
+                                {
+                                    "name": "output", 
+                                    "memory": "DDR[1]"
+                                }
+                            ]
+                        }
+                    ], 
                     "name": "apply_watermark", 
-                    "location": "src/apply_watermark.cl",
-		    "compute_units": [
-			{
-				"arguments" : [
-					{
-						"name" : "input",
-						"memory" : "DDR[0]"
-					},
-					{
-						"name" : "output",
-						"memory" : "DDR[1]"
-					}
-				]
-			}
-		    ]		
+                    "location": "src/apply_watermark.cl"
                 }
             ], 
             "name": "apply_watermark"
         }
     ], 
-    "output_files": "output.bmp"
+    "name": "Global Memory Two Banks (CL)"
 }

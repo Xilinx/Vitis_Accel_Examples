@@ -1,5 +1,7 @@
 {
-    "name": "Custom Data Type (C)", 
+    "description": [
+        "This is simple example of RGB to HSV conversion to demonstrate Custom DATA Type usages in C Based Kernel. Xilinx HLS Compiler Supports Custom Data Type to use for operation as well as Memory Interface between Kernel and Global Memory."
+    ], 
     "contributors": [
         {
             "url": "http://www.xilinx.com", 
@@ -12,11 +14,9 @@
             "name": "generic launch for all flows"
         }
     ], 
-    "description": [
-        "This is simple example of RGB to HSV conversion to demonstrate Custom DATA Type usages in C Based Kernel. Xilinx HLS Compiler Supports Custom Data Type to use for operation as well as Memory Interface between Kernel and Global Memory."
-    ], 
-    "platform_type": "pcie", 
+    "output_files": "output.bmp", 
     "host": {
+        "host_exe": "host", 
         "compiler": {
             "sources": [
                 "REPO_DIR/common/includes/xcl2", 
@@ -26,8 +26,7 @@
                 "REPO_DIR/common/includes/xcl2", 
                 "REPO_DIR/common/includes/bitmap"
             ]
-        }, 
-        "host_exe": "host"
+        }
     }, 
     "key_concepts": [
         "Custom Datatype"
@@ -54,5 +53,5 @@
             "name": "rgb_to_hsv"
         }
     ], 
-    "output_files": "output.bmp"
+    "name": "Custom Data Type (C)"
 }

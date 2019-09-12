@@ -1,6 +1,8 @@
 {
     "config_make": "config.mk", 
-    "name": "Adder With Streams (RTL)", 
+    "description": [
+        "This example shows an adder with streams using 3 RTL kernels."
+    ], 
     "contributors": [
         {
             "url": "http://www.xilinx.com", 
@@ -13,12 +15,10 @@
             "name": "generic launch for all flows"
         }
     ], 
+    "output_files": "tmp_kernel_pack* packaged_kernel* _x* *.xo", 
     "gui": false, 
-    "description": [
-        "This example shows an adder with streams using 3 RTL kernels."
-    ], 
-    "platform_type": "pcie", 
     "host": {
+        "host_exe": "host", 
         "compiler": {
             "sources": [
                 "REPO_DIR/common/includes/xcl2", 
@@ -27,8 +27,7 @@
             "includepaths": [
                 "REPO_DIR/common/includes/xcl2"
             ]
-        }, 
-        "host_exe": "host"
+        }
     }, 
     "key_concepts": [
         "RTL Kernel", 
@@ -64,5 +63,5 @@
             "name": "adder"
         }
     ], 
-    "output_files": "tmp_kernel_pack* packaged_kernel* _x* *.xo"
+    "name": "Adder With Streams (RTL)"
 }

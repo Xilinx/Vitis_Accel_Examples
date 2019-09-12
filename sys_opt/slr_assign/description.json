@@ -4,8 +4,8 @@
         "zc", 
         "xilinx_u280-es1_xdma", 
         "xilinx:vcu1525:dynamic", 
-        "xilinx:u280-es1:xdma",
-        "xilinx_v350-es1_xdma",
+        "xilinx:u280-es1:xdma", 
+        "xilinx_v350-es1_xdma", 
         "xilinx:v350-es1:xdma"
     ], 
     "name": "SLR Assign (CL)", 
@@ -21,8 +21,8 @@
             "name": "generic launch for all flows"
         }
     ], 
-    "platform_type": "pcie", 
     "host": {
+        "host_exe": "host", 
         "compiler": {
             "sources": [
                 "REPO_DIR/common/includes/xcl2"
@@ -30,8 +30,7 @@
             "includepaths": [
                 "REPO_DIR/common/includes/xcl2"
             ]
-        }, 
-        "host_exe": "host"
+        }
     }, 
     "key_concepts": [
         "SLR Assignments"
@@ -49,22 +48,22 @@
         {
             "accelerators": [
                 {
+                    "compute_units": [
+                        {
+                            "slr": "SLR0"
+                        }
+                    ], 
                     "name": "vmult", 
-                    "location": "src/kernel.cl",
-		    "compute_units": [ 
-			{
-				"slr" : "SLR0"
-			}
-		     ]	
+                    "location": "src/kernel.cl"
                 }, 
                 {
+                    "compute_units": [
+                        {
+                            "slr": "SLR1"
+                        }
+                    ], 
                     "name": "vadd", 
-                    "location": "src/kernel.cl",
-		    "compute_units": [ 
-			{
-				"slr" : "SLR1"
-			}
-		     ]	
+                    "location": "src/kernel.cl"
                 }
             ], 
             "name": "vmult_vadd"

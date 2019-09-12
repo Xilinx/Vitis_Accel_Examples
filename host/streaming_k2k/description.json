@@ -12,7 +12,9 @@
         "xilinx:u280-es1:xdma", 
         "xilinx:aws-vu9p-f1-04261818:dynamic"
     ], 
-    "name": "Stream Kernel to Kernel Vector Addition and Multiplication", 
+    "description": [
+        "This is a simple kernel to kernel streaming Vector Add and Vector Multiply C Kernel that demonstrates on how to process a stream of data for computation between two kernels."
+    ], 
     "contributors": [
         {
             "url": "http://www.xilinx.com", 
@@ -25,15 +27,13 @@
             "name": "generic launch for all flows"
         }
     ], 
-    "description": [
-        "This is a simple kernel to kernel streaming Vector Add and Vector Multiply C Kernel that demonstrates on how to process a stream of data for computation between two kernels."
-    ], 
-    "keywords": [
-        "cl_stream", 
-        "CL_STREAM_EOT", 
-        "CL_STREAM_NONBLOCKING"
-    ], 
     "host": {
+        "linker": {
+            "options": [
+                "-pthread"
+            ]
+        }, 
+        "host_exe": "vadd_stream", 
         "compiler": {
             "sources": [
                 "REPO_DIR/common/includes/xcl2", 
@@ -42,17 +42,16 @@
             "includepaths": [
                 "REPO_DIR/common/includes/xcl2"
             ]
-        }, 
-        "linker": {
-            "options": [
-                "-pthread"
-            ]
-        }, 
-        "host_exe": "vadd_stream"
+        }
     }, 
     "key_concepts": [
         "Read/Write Stream", 
         "Create/Release Stream"
+    ], 
+    "keywords": [
+        "cl_stream", 
+        "CL_STREAM_EOT", 
+        "CL_STREAM_NONBLOCKING"
     ], 
     "runtime": [
         "OpenCL"
@@ -71,9 +70,9 @@
                     "name": "krnl_stream_vmult", 
                     "location": "src/krnl_stream_vmult.cpp"
                 }
-            ],
+            ], 
             "name": "krnl_stream_vadd_vmult"
         }
     ], 
-    "platform_type": "pcie"
+    "name": "Stream Kernel to Kernel Vector Addition and Multiplication"
 }

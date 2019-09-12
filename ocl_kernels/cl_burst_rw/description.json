@@ -12,8 +12,8 @@
             "name": "generic launch for all flows"
         }
     ], 
-    "platform_type": "pcie", 
     "host": {
+        "host_exe": "host", 
         "compiler": {
             "sources": [
                 "REPO_DIR/common/includes/xcl2", 
@@ -23,8 +23,7 @@
                 "REPO_DIR/common/includes/xcl2", 
                 "REPO_DIR/common/includes/bitmap"
             ]
-        }, 
-        "host_exe": "host"
+        }
     }, 
     "key_concepts": [
         "burst access"
@@ -43,9 +42,9 @@
         {
             "accelerators": [
                 {
+                    "location": "src/vadd.cl", 
                     "clflags": "--config vadd_vadd.ini", 
-                    "name": "vadd", 
-                    "location": "src/vadd.cl"
+                    "name": "vadd"
                 }
             ], 
             "name": "vadd"

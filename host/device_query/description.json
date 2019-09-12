@@ -6,8 +6,8 @@
             "group": "Xilinx"
         }
     ], 
-    "platform_type": "pcie", 
     "host": {
+        "host_exe": "device_query", 
         "compiler": {
             "sources": [
                 "REPO_DIR/common/includes/xcl2"
@@ -15,8 +15,7 @@
             "includepaths": [
                 "REPO_DIR/common/includes/xcl2"
             ]
-        }, 
-        "host_exe": "device_query"
+        }
     }, 
     "key_concepts": [
         "OpenCL API", 

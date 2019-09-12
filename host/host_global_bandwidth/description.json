@@ -3,13 +3,11 @@
         "xilinx_u280-es1_xdma", 
         "xilinx_aws-vu9p-f1-04261818", 
         "xilinx:u280-es1:xdma", 
-        "xilinx:aws-vu9p-f1-04261818:dynamic",
-        "xilinx_v350-es1_xdma",
+        "xilinx:aws-vu9p-f1-04261818:dynamic", 
+        "xilinx_v350-es1_xdma", 
         "xilinx:v350-es1:xdma"
     ], 
-    "os": [
-        "Linux"
-    ], 
+    "name": "host_global", 
     "contributors": [
         {
             "url": "http://www.xilinx.com", 
@@ -22,12 +20,9 @@
             "name": "generic launch for all flows"
         }
     ], 
-    "description": [
-        "Host to global memory bandwidth test"
-    ], 
-    "name": "host_global", 
-    "platform_type": "pcie", 
+    "output_files": "metric1.csv", 
     "host": {
+        "host_exe": "host_global", 
         "compiler": {
             "sources": [
                 "REPO_DIR/common/includes/xcl2"
@@ -35,38 +30,41 @@
             "includepaths": [
                 "REPO_DIR/common/includes/xcl2"
             ]
-        }, 
-        "host_exe": "host_global"
+        }
     }, 
     "match_ini": "false", 
     "runtime": [
         "OpenCL"
     ], 
+    "os": [
+        "Linux"
+    ], 
     "containers": [
         {
             "accelerators": [
                 {
+                    "compute_units": [
+                        {
+                            "arguments": [
+                                {
+                                    "name": "buffer0", 
+                                    "memory": "DDR[0]"
+                                }, 
+                                {
+                                    "name": "buffer1", 
+                                    "memory": "DDR[1]"
+                                }
+                            ]
+                        }
+                    ], 
                     "name": "bandwidth", 
-                    "location": "src/kernel.cpp",
-		    "compute_units": [ 
-			{
-				"arguments": [
-					 {
-						"name" : "buffer0",
-						"memory": "DDR[0]"
-					},
-					{
-						"name" : "buffer1",
-						"memory" : "DDR[1]"
-							
-					}
-				]
-			}
-		]		
-               }
+                    "location": "src/kernel.cpp"
+                }
             ], 
             "name": "krnl_host_global"
         }
     ], 
-    "output_files": "metric1.csv"
+    "description": [
+        "Host to global memory bandwidth test"
+    ]
 }

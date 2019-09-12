@@ -6,15 +6,17 @@
         "xilinx_u280_xdma", 
         "xilinx_u280-es1_xdma", 
         "xilinx_aws-vu9p-f1-04261818", 
-	"xilinx_v350-es1_xdma",
-	"xilinx:v350-es1:xdma",
+        "xilinx_v350-es1_xdma", 
+        "xilinx:v350-es1:xdma", 
         "xilinx:u200:xdma", 
         "xilinx:u250:xdma", 
         "xilinx:u280:xdma", 
         "xilinx:u280-es1:xdma", 
         "xilinx:aws-vu9p-f1-04261818:dynamic"
     ], 
-    "name": "Host Streaming Bandwidth (C)", 
+    "description": [
+        "This is a simple Vector Increment C Kernel design with 1 Stream input and 1 Stream output that demonstrates on how to process an input stream of data for computation in an application and the Host to Device streaming bandwidth test."
+    ], 
     "contributors": [
         {
             "url": "http://www.xilinx.com", 
@@ -27,15 +29,13 @@
             "name": "generic launch for all flows"
         }
     ], 
-    "description": [
-        "This is a simple Vector Increment C Kernel design with 1 Stream input and 1 Stream output that demonstrates on how to process an input stream of data for computation in an application and the Host to Device streaming bandwidth test."
-    ], 
-    "keywords": [
-        "cl_stream", 
-        "CL_STREAM_EOT", 
-        "CL_STREAM_NONBLOCKING"
-    ], 
     "host": {
+        "linker": {
+            "options": [
+                "-pthread"
+            ]
+        }, 
+        "host_exe": "vadd_stream", 
         "compiler": {
             "sources": [
                 "REPO_DIR/common/includes/xcl2", 
@@ -44,17 +44,16 @@
             "includepaths": [
                 "REPO_DIR/common/includes/xcl2"
             ]
-        }, 
-        "linker": {
-            "options": [
-                "-pthread"
-            ]
-        }, 
-        "host_exe": "vadd_stream"
+        }
     }, 
     "key_concepts": [
         "Read/Write Stream", 
         "Create/Release Stream"
+    ], 
+    "keywords": [
+        "cl_stream", 
+        "CL_STREAM_EOT", 
+        "CL_STREAM_NONBLOCKING"
     ], 
     "runtime": [
         "OpenCL"
@@ -73,5 +72,5 @@
             "name": "krnl_stream_adder1"
         }
     ], 
-    "platform_type": "pcie"
+    "name": "Host Streaming Bandwidth (C)"
 }

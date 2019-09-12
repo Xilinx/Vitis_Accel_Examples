@@ -1,5 +1,7 @@
 {
-    "name": "Critical Path (C)", 
+    "description": [
+        "This example shows a normal coding style which could lead to critical path issue and design will give degraded timing.  Example also contains better coding style which can improve design timing."
+    ], 
     "contributors": [
         {
             "url": "http://www.xilinx.com", 
@@ -12,11 +14,9 @@
             "name": "generic launch for all flows"
         }
     ], 
-    "description": [
-        "This example shows a normal coding style which could lead to critical path issue and design will give degraded timing.  Example also contains better coding style which can improve design timing."
-    ], 
-    "platform_type": "pcie", 
+    "output_files": "output.bmp", 
     "host": {
+        "host_exe": "host", 
         "compiler": {
             "sources": [
                 "REPO_DIR/common/includes/xcl2", 
@@ -26,8 +26,7 @@
                 "REPO_DIR/common/includes/xcl2", 
                 "REPO_DIR/common/includes/bitmap"
             ]
-        }, 
-        "host_exe": "host"
+        }
     }, 
     "key_concepts": [
         "Critical Path handling", 
@@ -43,13 +42,13 @@
         {
             "accelerators": [
                 {
+                    "clflags": "-DBAD_DESIGN=0", 
                     "location": "src/apply_watermark.cpp", 
-                    "name": "apply_watermark", 
-                    "clflags": "-DBAD_DESIGN=0"
+                    "name": "apply_watermark"
                 }
             ], 
             "name": "apply_watermark_GOOD"
         }
     ], 
-    "output_files": "output.bmp"
+    "name": "Critical Path (C)"
 }

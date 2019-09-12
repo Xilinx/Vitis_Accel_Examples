@@ -19,8 +19,8 @@
             "name": "generic launch for all flows"
         }
     ], 
-    "platform_type": "pcie", 
     "host": {
+        "host_exe": "host", 
         "compiler": {
             "sources": [
                 "REPO_DIR/common/includes/xcl2"
@@ -28,8 +28,7 @@
             "includepaths": [
                 "REPO_DIR/common/includes/xcl2"
             ]
-        }, 
-        "host_exe": "host"
+        }
     }, 
     "Key Concepts": [
         "Kernel Optimization", 

@@ -19,8 +19,8 @@
             "name": "generic launch for all flows"
         }
     ], 
-    "platform_type": "pcie", 
     "host": {
+        "host_exe": "host", 
         "compiler": {
             "sources": [
                 "REPO_DIR/common/includes/xcl2"
@@ -28,8 +28,7 @@
             "includepaths": [
                 "REPO_DIR/common/includes/xcl2"
             ]
-        }, 
-        "host_exe": "host"
+        }
     }, 
     "key_concepts": [
         "Use of Profile API", 
@@ -46,9 +45,9 @@
         {
             "accelerators": [
                 {
+                    "location": "src/vadd.cpp", 
                     "clflags": "--config vadd_krnl_vadd.ini", 
-                    "name": "krnl_vadd", 
-                    "location": "src/vadd.cpp"
+                    "name": "krnl_vadd"
                 }
             ], 
             "name": "vadd"

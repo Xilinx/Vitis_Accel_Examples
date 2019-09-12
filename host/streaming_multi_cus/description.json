@@ -6,15 +6,17 @@
         "xilinx_u280_xdma", 
         "xilinx_u280-es1_xdma", 
         "xilinx_aws-vu9p-f1-04261818", 
-	"xilinx_v350-es1_xdma",
-	"xilinx:v350-es1:xdma",
+        "xilinx_v350-es1_xdma", 
+        "xilinx:v350-es1:xdma", 
         "xilinx:u200:xdma", 
         "xilinx:u250:xdma", 
         "xilinx:u280:xdma", 
         "xilinx:u280-es1:xdma", 
         "xilinx:aws-vu9p-f1-04261818:dynamic"
     ], 
-    "name": "Stream Vector Addition (Multiple Compute Units)", 
+    "description": [
+        "This is a simple Vector Add C Kernel design with 2 Stream inputs and 1 Stream output that demonstrates on how to process an input stream of data for computation in an application using multiple compute units."
+    ], 
     "contributors": [
         {
             "url": "http://www.xilinx.com", 
@@ -27,15 +29,8 @@
             "name": "generic launch for all flows"
         }
     ], 
-    "description": [
-        "This is a simple Vector Add C Kernel design with 2 Stream inputs and 1 Stream output that demonstrates on how to process an input stream of data for computation in an application using multiple compute units."
-    ], 
-    "keywords": [
-        "cl_stream", 
-        "CL_STREAM_EOT", 
-        "Multiple Compute Units"
-    ], 
     "host": {
+        "host_exe": "vadd_stream", 
         "compiler": {
             "sources": [
                 "REPO_DIR/common/includes/xcl2"
@@ -43,12 +38,16 @@
             "includepaths": [
                 "REPO_DIR/common/includes/xcl2"
             ]
-        }, 
-        "host_exe": "vadd_stream"
+        }
     }, 
     "key_concepts": [
         "Read/Write Stream", 
         "Create/Release Stream"
+    ], 
+    "keywords": [
+        "cl_stream", 
+        "CL_STREAM_EOT", 
+        "Multiple Compute Units"
     ], 
     "runtime": [
         "OpenCL"
@@ -60,13 +59,13 @@
         {
             "accelerators": [
                 {
-                    "num_compute_units": "4:vadd_1.vadd_2.vadd_3.vadd_4", 
+                    "location": "src/krnl_stream_vadd.cpp", 
                     "name": "krnl_stream_vadd", 
-                    "location": "src/krnl_stream_vadd.cpp"
+                    "num_compute_units": "4:vadd_1.vadd_2.vadd_3.vadd_4"
                 }
             ], 
             "name": "krnl_stream_vadd"
         }
     ], 
-    "platform_type": "pcie"
+    "name": "Stream Vector Addition (Multiple Compute Units)"
 }

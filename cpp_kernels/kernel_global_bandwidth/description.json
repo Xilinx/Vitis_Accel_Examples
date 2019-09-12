@@ -9,9 +9,9 @@
     }, 
     "ndevice": [
         "xilinx_aws-vu9p-f1-04261818", 
-        "xilinx:aws-vu9p-f1-04261818:dynamic",
-        "zc",
-        "xilinx_v350-es1_xdma",
+        "xilinx:aws-vu9p-f1-04261818:dynamic", 
+        "zc", 
+        "xilinx_v350-es1_xdma", 
         "xilinx:v350-es1:xdma"
     ], 
     "name": "kernel_global", 
@@ -27,8 +27,8 @@
             "name": "generic launch for all flows"
         }
     ], 
-    "platform_type": "pcie", 
     "host": {
+        "host_exe": "kernel_global", 
         "compiler": {
             "sources": [
                 "REPO_DIR/common/includes/xcl2", 
@@ -37,8 +37,7 @@
             "includepaths": [
                 "REPO_DIR/common/includes/xcl2"
             ]
-        }, 
-        "host_exe": "kernel_global"
+        }
     }, 
     "runtime": [
         "OpenCL"

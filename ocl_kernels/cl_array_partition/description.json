@@ -1,5 +1,7 @@
 {
-    "name": "Array Partitioning (CL)", 
+    "description": [
+        "This example shows how to use array partitioning to improve performance of a kernel"
+    ], 
     "contributors": [
         {
             "url": "http://www.xilinx.com", 
@@ -12,11 +14,9 @@
             "name": "generic launch for all flows"
         }
     ], 
-    "description": [
-        "This example shows how to use array partitioning to improve performance of a kernel"
-    ], 
-    "platform_type": "pcie", 
+    "output_files": "output.png", 
     "host": {
+        "host_exe": "array_partition", 
         "compiler": {
             "sources": [
                 "REPO_DIR/common/includes/xcl2"
@@ -24,8 +24,7 @@
             "includepaths": [
                 "REPO_DIR/common/includes/xcl2"
             ]
-        }, 
-        "host_exe": "array_partition"
+        }
     }, 
     "key_concepts": [
         "Kernel Optimization", 
@@ -56,5 +55,5 @@
             "name": "matmul"
         }
     ], 
-    "output_files": "output.png"
+    "name": "Array Partitioning (CL)"
 }

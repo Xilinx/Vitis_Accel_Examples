@@ -15,12 +15,11 @@
             "name": "generic launch for all flows"
         }
     ], 
-    "platform_type": "pcie", 
     "host": {
+        "host_exe": "errors", 
         "compiler": {
             "sources": []
-        }, 
-        "host_exe": "errors"
+        }
     }, 
     "key_concepts": [
         "OpenCL API", 

@@ -1,9 +1,9 @@
 {
     "ndevice": [
         "xilinx_aws-vu9p-f1-04261818", 
-        "xilinx:aws:vu9p:f1:04261818",
-        "xilinx_v350-es1_xdma",
-        "xilinx:v350-es1:xdma",
+        "xilinx:aws:vu9p:f1:04261818", 
+        "xilinx_v350-es1_xdma", 
+        "xilinx:v350-es1:xdma", 
         "zc"
     ], 
     "name": "Vector Addition ~ Asymmetrical Multiple Compute Units (C) ", 
@@ -19,8 +19,8 @@
             "name": "generic launch for all flows"
         }
     ], 
-    "platform_type": "pcie", 
     "host": {
+        "host_exe": "host", 
         "compiler": {
             "sources": [
                 "REPO_DIR/common/includes/xcl2"
@@ -28,8 +28,7 @@
             "includepaths": [
                 "REPO_DIR/common/includes/xcl2"
             ]
-        }, 
-        "host_exe": "host"
+        }
     }, 
     "key_concepts": [
         "Multiple Compute Units"
@@ -47,84 +46,75 @@
         {
             "accelerators": [
                 {
-                    "num_compute_units": "4:vadd_1.vadd_2.vadd_3.vadd_4", 
+                    "compute_units": [
+                        {
+                            "arguments": [
+                                {
+                                    "name": "in1", 
+                                    "memory": "DDR[0]"
+                                }, 
+                                {
+                                    "name": "in2", 
+                                    "memory": "DDR[0]"
+                                }, 
+                                {
+                                    "name": "out_r", 
+                                    "memory": "DDR[0]"
+                                }
+                            ]
+                        }, 
+                        {
+                            "arguments": [
+                                {
+                                    "name": "in1", 
+                                    "memory": "DDR[1]"
+                                }, 
+                                {
+                                    "name": "in2", 
+                                    "memory": "DDR[1]"
+                                }, 
+                                {
+                                    "name": "out_r", 
+                                    "memory": "DDR[1]"
+                                }
+                            ]
+                        }, 
+                        {
+                            "arguments": [
+                                {
+                                    "name": "in1", 
+                                    "memory": "PLRAM[0]"
+                                }, 
+                                {
+                                    "name": "in2", 
+                                    "memory": "PLRAM[0]"
+                                }, 
+                                {
+                                    "name": "out_r", 
+                                    "memory": "PLRAM[0]"
+                                }
+                            ]
+                        }, 
+                        {
+                            "arguments": [
+                                {
+                                    "name": "in1", 
+                                    "memory": "PLRAM[1]"
+                                }, 
+                                {
+                                    "name": "in2", 
+                                    "memory": "PLRAM[1]"
+                                }, 
+                                {
+                                    "name": "out_r", 
+                                    "memory": "PLRAM[1]"
+                                }
+                            ]
+                        }
+                    ], 
+                    "location": "src/vadd.cpp", 
                     "name": "vadd", 
-                    "location": "src/vadd.cpp",
-		    "compute_units": [ 
-			{
-				"arguments": [
-					 {
-						"name" : "in1",
-						"memory": "DDR[0]"
-					},
-					{
-						"name" : "in2",
-						"memory" : "DDR[0]"
-							
-					},
-					{
-						"name" : "out_r",
-						"memory" : "DDR[0]"
-							
-					}
-				]
-			},
-			{	
-				"arguments": [
-					 {
-						"name" : "in1",
-						"memory": "DDR[1]"
-					},
-					{
-						"name" : "in2",
-						"memory" : "DDR[1]"
-							
-					},
-					{
-						"name" : "out_r",
-						"memory" : "DDR[1]"
-							
-					}
-				]
-			},
-			{
-	
-				"arguments": [
-					 {
-						"name" : "in1",
-						"memory": "PLRAM[0]"
-					},
-					{
-						"name" : "in2",
-						"memory" : "PLRAM[0]"
-							
-					},
-					{
-						"name" : "out_r",
-						"memory" : "PLRAM[0]"
-							
-					}
-				]
-			},
-			{	
-				"arguments": [
-					 {
-						"name" : "in1",
-						"memory": "PLRAM[1]"
-					},
-					{
-						"name" : "in2",
-						"memory" : "PLRAM[1]"
-							
-					},
-					{
-						"name" : "out_r",
-						"memory" : "PLRAM[1]"
-							
-					}
-				]	
-			}
-		]
+                    "num_compute_units": "4:vadd_1.vadd_2.vadd_3.vadd_4"
                 }
             ], 
             "name": "vadd"

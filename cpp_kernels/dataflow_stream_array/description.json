@@ -12,8 +12,8 @@
             "name": "generic launch for all flows"
         }
     ], 
-    "platform_type": "pcie", 
     "host": {
+        "host_exe": "host", 
         "compiler": {
             "sources": [
                 "REPO_DIR/common/includes/xcl2"
@@ -21,8 +21,7 @@
             "includepaths": [
                 "REPO_DIR/common/includes/xcl2"
             ]
-        }, 
-        "host_exe": "host"
+        }
     }, 
     "key_concepts": [
         "Array of Stream"
@@ -41,9 +40,9 @@
         {
             "accelerators": [
                 {
-                    "location": "src/N_stage_adders.cpp",
-                    "name": "N_stage_Adders", 
-                    "clflags": "--config N_stage_Adders_N_stage_Adders.ini"
+                    "clflags": "--config N_stage_Adders_N_stage_Adders.ini", 
+                    "location": "src/N_stage_adders.cpp", 
+                    "name": "N_stage_Adders"
                 }
             ], 
             "name": "N_stage_Adders"

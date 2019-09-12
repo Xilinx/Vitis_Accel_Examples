@@ -1,5 +1,8 @@
 {
     "config_make": "config.mk", 
+    "runtime": [
+        "OpenCL"
+    ], 
     "description": [
         "This is an example that showcases the Hardware Debug of Vector Addition RTL Kernel in Hardware."
     ], 
@@ -9,14 +12,24 @@
             "group": "Xilinx"
         }
     ], 
-    "xcl": true, 
-    "more_info": [
-        " ", 
-        "**For more information on the steps involved in debugging SDAccel RTL Kernel Designs check the links below**", 
-        " ", 
-        "[Debug Core setup in the RTL kernel design and host design modifications to allow setup of debug triggers prior to running the kernel](https://github.com/Xilinx/SDAccel_Examples/wiki/Sdx_rtl_kernel_debug)"
+    "launch": [
+        {
+            "cmd_args": "BUILD/vadd.xclbin", 
+            "name": "generic launch for all flows"
+        }
     ], 
+    "revision": [
+        {
+            "date": "Oct2017", 
+            "version": "1.0", 
+            "description": "SDx 2017.4 Xilinx Release"
+        }
+    ], 
+    "gui": false, 
+    "xcl": true, 
+    "name": "Hardware Debug of Vector Addition With RTL Kernel (RTL)", 
     "host": {
+        "host_exe": "host", 
         "compiler": {
             "sources": [
                 "REPO_DIR/common/includes/xcl2", 
@@ -25,31 +38,18 @@
             "includepaths": [
                 "REPO_DIR/common/includes/xcl2"
             ]
-        }, 
-        "host_exe": "host"
+        }
     }, 
     "key_concepts": [
         "RTL Kernel Debug"
     ], 
+    "output_files": "tmp_kernel_pack* packaged_kernel*", 
+    "os": [
+        "Linux"
+    ], 
     "targets": [
         "hw", 
         "hw_emu"
-    ], 
-    "output_files": "tmp_kernel_pack* packaged_kernel*", 
-    "name": "Hardware Debug of Vector Addition With RTL Kernel (RTL)", 
-    "launch": [
-        {
-            "cmd_args": "BUILD/vadd.xclbin", 
-            "name": "generic launch for all flows"
-        }
-    ], 
-    "gui": false, 
-    "platform_type": "pcie", 
-    "runtime": [
-        "OpenCL"
-    ], 
-    "os": [
-        "Linux"
     ], 
     "containers": [
         {
@@ -62,11 +62,10 @@
             "name": "vadd"
         }
     ], 
-    "revision": [
-        {
-            "date": "Oct2017", 
-            "version": "1.0", 
-            "description": "SDx 2017.4 Xilinx Release"
-        }
+    "more_info": [
+        " ", 
+        "**For more information on the steps involved in debugging SDAccel RTL Kernel Designs check the links below**", 
+        " ", 
+        "[Debug Core setup in the RTL kernel design and host design modifications to allow setup of debug triggers prior to running the kernel](https://github.com/Xilinx/SDAccel_Examples/wiki/Sdx_rtl_kernel_debug)"
     ]
 }

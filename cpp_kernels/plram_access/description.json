@@ -1,9 +1,9 @@
 {
     "ndevice": [
         "xilinx_aws-vu9p-f1-04261818", 
-        "xilinx:aws-vu9p-f1-04261818:dynamic",
-        "zc",
-        "xilinx_v350-es1_xdma",
+        "xilinx:aws-vu9p-f1-04261818:dynamic", 
+        "zc", 
+        "xilinx_v350-es1_xdma", 
         "xilinx:v350-es1:xdma"
     ], 
     "name": "PLRAM access (C)", 
@@ -19,8 +19,8 @@
             "name": "generic launch for all flows"
         }
     ], 
-    "platform_type": "pcie", 
     "host": {
+        "host_exe": "host", 
         "compiler": {
             "sources": [
                 "REPO_DIR/common/includes/xcl2"
@@ -28,8 +28,7 @@
             "includepaths": [
                 "REPO_DIR/common/includes/xcl2"
             ]
-        }, 
-        "host_exe": "host"
+        }
     }, 
     "key_concepts": [
         "Vitis Memory Hierarchy", 
@@ -48,28 +47,26 @@
         {
             "accelerators": [
                 {
+                    "compute_units": [
+                        {
+                            "arguments": [
+                                {
+                                    "name": "a", 
+                                    "memory": "PLRAM[0]"
+                                }, 
+                                {
+                                    "name": "b", 
+                                    "memory": "DDR[0]"
+                                }, 
+                                {
+                                    "name": "c", 
+                                    "memory": "PLRAM[1]"
+                                }
+                            ]
+                        }
+                    ], 
                     "name": "mmult", 
-                    "location": "src/mmult.cpp",
-		    "compute_units": [ 
-			{
-				"arguments": [
-					 {
-						"name" : "a",
-						"memory": "PLRAM[0]"
-					},
-					{
-						"name" : "b",
-						"memory" : "DDR[0]"
-							
-					},
-					{
-						"name" : "c",
-						"memory" : "PLRAM[1]"
-							
-					}
-				]
-			}
-		   	]
+                    "location": "src/mmult.cpp"
                 }
             ], 
             "name": "mmult"

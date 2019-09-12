@@ -13,8 +13,8 @@
             "name": "generic launch for all flows"
         }
     ], 
-    "platform_type": "pcie", 
     "host": {
+        "host_exe": "multiple_devices", 
         "compiler": {
             "sources": [
                 "REPO_DIR/common/includes/xcl2"
@@ -22,8 +22,7 @@
             "includepaths": [
                 "REPO_DIR/common/includes/xcl2"
             ]
-        }, 
-        "host_exe": "multiple_devices"
+        }
     }, 
     "key_concepts": [
         "OpenCL API", 

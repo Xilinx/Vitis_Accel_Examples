@@ -27,8 +27,8 @@
             "name": "generic launch for all flows"
         }
     ], 
-    "platform_type": "pcie", 
     "host": {
+        "host_exe": "host", 
         "compiler": {
             "sources": [
                 "REPO_DIR/common/includes/xcl2"
@@ -36,8 +36,7 @@
             "includepaths": [
                 "REPO_DIR/common/includes/xcl2"
             ]
-        }, 
-        "host_exe": "host"
+        }
     }, 
     "key_concepts": [
         "High Bandwidth Memory", 
@@ -58,28 +57,26 @@
         {
             "accelerators": [
                 {
+                    "compute_units": [
+                        {
+                            "arguments": [
+                                {
+                                    "name": "in1", 
+                                    "memory": "HBM[0:3]"
+                                }, 
+                                {
+                                    "name": "in2", 
+                                    "memory": "HBM[0:3]"
+                                }, 
+                                {
+                                    "name": "out_r", 
+                                    "memory": "HBM[0:3]"
+                                }
+                            ]
+                        }
+                    ], 
                     "name": "krnl_vadd", 
-                    "location": "src/krnl_vadd.cpp",
-	            "compute_units" : [
-			{
-				"arguments" : [
-					{
-						"name" : "in1",
-						"memory" : "HBM[0:3]"
-					},	 
-					{
-						"name" : "in2",
-						"memory" : "HBM[0:3]"
-					},	 
-					{
-						"name" : "out_r",
-						"memory" : "HBM[0:3]"
-					}	 
-
-				 ]
-			}
-		    ]
-				 
+                    "location": "src/krnl_vadd.cpp"
                 }
             ], 
             "name": "krnl_vadd"

@@ -13,13 +13,19 @@
             "name": "generic launch for all flows"
         }
     ], 
-    "output_files": "tmp_kernel_pack* packaged_kernel*", 
+    "revision": [
+        {
+            "date": "May2017", 
+            "version": "1.0", 
+            "description": "Initial Xilinx Release"
+        }
+    ], 
     "gui": false, 
     "description": [
         "This example has two RTL Kernels. Both Kernel_0 and Kernel_1 perform vector addition. The Kernel_1 reads the output from Kernel_0 as one of two inputs."
     ], 
-    "platform_type": "pcie", 
     "host": {
+        "host_exe": "host", 
         "compiler": {
             "sources": [
                 "REPO_DIR/common/includes/xcl2", 
@@ -28,8 +34,7 @@
             "includepaths": [
                 "REPO_DIR/common/includes/xcl2"
             ]
-        }, 
-        "host_exe": "host"
+        }
     }, 
     "key_concepts": [
         "Multiple RTL Kernels"
@@ -59,11 +64,5 @@
             "name": "vadd"
         }
     ], 
-    "revision": [
-        {
-            "date": "May2017", 
-            "version": "1.0", 
-            "description": "Initial Xilinx Release"
-        }
-    ]
+    "output_files": "tmp_kernel_pack* packaged_kernel*"
 }

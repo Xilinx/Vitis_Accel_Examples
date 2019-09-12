@@ -1,5 +1,20 @@
 {
     "config_make": "config.mk", 
+    "ndevice": [
+        "xilinx_u200_xdma", 
+        "zc", 
+        "xilinx_u250_xdma", 
+        "xilinx_u280_xdma", 
+        "xilinx_u280-es1_xdma", 
+        "xilinx_aws-vu9p-f1-04261818", 
+        "xilinx_v350-es1_xdma", 
+        "xilinx:v350-es1:xdma", 
+        "xilinx:u200:xdma", 
+        "xilinx:u250:xdma", 
+        "xilinx:u280:xdma", 
+        "xilinx:u280-es1:xdma", 
+        "xilinx:aws-vu9p-f1-04261818:dynamic"
+    ], 
     "description": [
         "This is a simple Vector Increment RTL Kernel to Kernel design with 1 Stream input and 1 Stream output that demonstrates on how to process an input stream of data for computation in an application."
     ], 
@@ -9,7 +24,21 @@
             "group": "Xilinx"
         }
     ], 
+    "launch": [
+        {
+            "cmd_args": "BUILD/myadder.xclbin", 
+            "name": "generic launch for all flows"
+        }
+    ], 
+    "gui": false, 
+    "name": "Stream Kernel to Kernel Vector Increment (RTL)", 
     "host": {
+        "linker": {
+            "options": [
+                "-pthread"
+            ]
+        }, 
+        "host_exe": "vadd_stream", 
         "compiler": {
             "sources": [
                 "REPO_DIR/common/includes/xcl2", 
@@ -18,13 +47,7 @@
             "includepaths": [
                 "REPO_DIR/common/includes/xcl2"
             ]
-        }, 
-        "linker": {
-            "options": [
-                "-pthread"
-            ]
-        }, 
-        "host_exe": "vadd_stream"
+        }
     }, 
     "key_concepts": [
         "Read/Write Stream", 
@@ -35,40 +58,15 @@
         "cl_stream", 
         "CL_STREAM_EOT"
     ], 
-    "targets": [
-        "hw", 
-        "hw_emu"
-    ], 
-    "output_files": "tmp_kernel_pack* packaged_kernel* _x* *_ex project* pinfo.json *.xo", 
-    "ndevice": [
-        "xilinx_u200_xdma", 
-        "zc", 
-        "xilinx_u250_xdma", 
-        "xilinx_u280_xdma", 
-        "xilinx_u280-es1_xdma", 
-        "xilinx_aws-vu9p-f1-04261818", 
-        "xilinx_v350-es1_xdma",
-	"xilinx:v350-es1:xdma",
-	"xilinx:u200:xdma", 
-        "xilinx:u250:xdma", 
-        "xilinx:u280:xdma", 
-        "xilinx:u280-es1:xdma", 
-        "xilinx:aws-vu9p-f1-04261818:dynamic"
-    ], 
-    "name": "Stream Kernel to Kernel Vector Increment (RTL)", 
-    "launch": [
-        {
-            "cmd_args": "BUILD/myadder.xclbin", 
-            "name": "generic launch for all flows"
-        }
-    ], 
-    "gui": false, 
-    "platform_type": "pcie", 
     "runtime": [
         "OpenCL"
     ], 
     "os": [
         "Linux"
+    ], 
+    "targets": [
+        "hw", 
+        "hw_emu"
     ], 
     "containers": [
         {
@@ -84,5 +82,6 @@
             ], 
             "name": "myadder"
         }
-    ]
+    ], 
+    "output_files": "tmp_kernel_pack* packaged_kernel* _x* *_ex project* pinfo.json *.xo"
 }

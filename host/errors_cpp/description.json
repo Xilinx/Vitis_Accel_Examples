@@ -15,8 +15,8 @@
             "name": "generic launch for all flows"
         }
     ], 
-    "platform_type": "pcie", 
     "host": {
+        "host_exe": "errors", 
         "compiler": {
             "sources": [
                 "REPO_DIR/common/includes/xcl2"
@@ -24,8 +24,7 @@
             "includepaths": [
                 "REPO_DIR/common/includes/xcl2"
             ]
-        }, 
-        "host_exe": "errors"
+        }
     }, 
     "key_concepts": [
         "OpenCL C++ API", 
