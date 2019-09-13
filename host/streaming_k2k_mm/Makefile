@@ -120,6 +120,12 @@ endif
 ifeq ($(findstring xilinx:aws-vu9p-f1-04261818:dynamic, $(DEVICE)), xilinx:aws-vu9p-f1-04261818:dynamic)
 $(error Nothing to be done for make)
 endif
+ifeq ($(findstring zed, $(DEVICE)), zed)
+$(error Nothing to be done for make)
+endif
+ifeq ($(findstring zc, $(DEVICE)), zc)
+$(error Nothing to be done for make)
+endif
 
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 ifeq ($(HOST_ARCH), x86)

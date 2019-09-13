@@ -2,6 +2,7 @@
     "ndevice": [
         "xilinx_vcu1525_dynamic", 
         "zc", 
+	"zed",
         "xilinx_u280-es1_xdma", 
         "xilinx:vcu1525:dynamic", 
         "xilinx:u280-es1:xdma", 

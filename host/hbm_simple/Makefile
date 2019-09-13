@@ -119,6 +119,9 @@ endif
 ifeq ($(findstring zc, $(DEVICE)), zc)
 $(error Nothing to be done for make)
 endif
+ifeq ($(findstring zed, $(DEVICE)), zed)
+$(error Nothing to be done for make)
+endif
 ifeq ($(findstring xilinx_u250_xdma, $(DEVICE)), xilinx_u250_xdma)
 $(error Nothing to be done for make)
 endif
