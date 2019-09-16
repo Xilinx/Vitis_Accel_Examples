@@ -37,7 +37,7 @@ Description:
 #define BUFFER_SIZE 1024
 #define DATA_SIZE 4096
 
-//TRIPCOUNT indentifier
+//TRIPCOUNT identifier
 const unsigned int c_len = DATA_SIZE / BUFFER_SIZE;
 const unsigned int c_size = BUFFER_SIZE;
 
@@ -56,7 +56,7 @@ void vadd(const unsigned int *in1, // Read-Only Vector 1
           unsigned int *out_r,     // Output Result
           int size                 // Size in integer
 ) {
-// SDAccel kernel must have one and only one s_axilite interface which will be used by host application to configure the kernel.
+// Vitis kernel must have one and only one s_axilite interface which will be used by host application to configure the kernel.
 // Here bundle control is defined which is s_axilite interface and associated with all the arguments (in1, in2, out_r and size),
 // control interface must also be associated with "return".
 // All the global memory access arguments must be associated to one m_axi(AXI Master Interface). Here all three arguments(in1, in2, out_r) are
