@@ -12,6 +12,10 @@ help::
 	$(ECHO) "  make cleanall"
 	$(ECHO) "      Command to remove all the generated files."
 	$(ECHO) ""
+	$(ECHO) "  make sd_card TARGET=<sw_emu/hw_emu/hw> DEVICE=<FPGA platform> HOST_ARCH=<aarch32/aarch64/x86> SYSROOT=<sysroot_path>"
+	$(ECHO) "      Command to prepare sd_card files for system run."
+	$(ECHO) "      By default, HOST_ARCH=x86. HOST_ARCH and SYSROOT is required for SoC shells"
+	$(ECHO) ""
 	$(ECHO) "  make check TARGET=<sw_emu/hw_emu/hw> DEVICE=<FPGA platform> HOST_ARCH=<aarch32/aarch64/x86> SYSROOT=<sysroot_path>"
 	$(ECHO) "      Command to run application in emulation."
 	$(ECHO) "      By default, HOST_ARCH=x86. HOST_ARCH and SYSROOT is required for SoC shells"
@@ -35,6 +39,7 @@ include ./utils.mk
 XSA := $(call device2xsa, $(DEVICE))
 TEMP_DIR := ./_x.$(TARGET).$(XSA)
 BUILD_DIR := ./build_dir.$(TARGET).$(XSA)
+B_NAME := $(shell dirname $(DEVICE))
 
 ifeq ($(HOST_ARCH), x86)
 	CXX := $(XILINX_VITIS)/bin/xcpp
@@ -120,7 +125,9 @@ else
 	readlink -f $(BUILD_DIR) >> _vimage/emulation/sd_card.manifest
 	$(ECHO) ./$(EXEC_CMD_ARGS) >> _vimage/emulation/init.sh
 	$(ECHO) "reboot" >> _vimage/emulation/init.sh
-	hw_emulator -no-reboot -runtime ocl -no-pl
+	launch_emulator -no-reboot -runtime ocl -t $(TARGET)
+	head -n -3 _vimage/emulation/sd_card.manifest | tee _vimage/emulation/sd_card.manifest
+	head -n -2 _vimage/emulation/init.sh | tee _vimage/emulation/init.sh
 endif
 else
 	 ./$(EXECUTABLE) $(BUILD_DIR)/N_stage_Adders.xclbin
@@ -129,6 +136,10 @@ ifeq ($(HOST_ARCH), x86)
 	perf_analyze profile -i profile_summary.csv -f html
 endif
 
+sd_card: all
+	mkdir -p sd_card
+	$(CP) $(B_NAME)/sw/$(XSA)/xrt/image/* $(BUILD_DIR)/*.xclbin $(EXECUTABLE) sd_card/
+
 # Cleaning stuff
 clean:
 	-$(RMDIR) $(EXECUTABLE) $(XCLBIN)/{*sw_emu*,*hw_emu*} 
@@ -136,6 +147,6 @@ clean:
 	-$(RMDIR) src/*.ll _xocc_* .Xil emconfig.json dltmp* xmltmp* *.log *.jou *.wcfg *.wdb
 
 cleanall: clean
-	-$(RMDIR) build_dir*
+	-$(RMDIR) build_dir* sd_card
 	-$(RMDIR) _x.* xclbin.run_summary qemu-memory-_* emulation/ _vimage/ pl* start_simulation.sh *.xclbin
 

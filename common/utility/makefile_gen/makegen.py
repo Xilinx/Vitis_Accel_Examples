@@ -32,6 +32,7 @@ def create_params(target,data):
     target.write("XSA := $(call device2xsa, $(DEVICE))\n")
     target.write("TEMP_DIR := ./_x.$(TARGET).$(XSA)\n")
     target.write("BUILD_DIR := ./build_dir.$(TARGET).$(XSA)\n")
+    target.write("B_NAME := $(shell dirname $(DEVICE))\n")
     target.write("\n")
 
     target.write("ifeq ($(HOST_ARCH), x86)\n")
@@ -306,7 +307,7 @@ def mk_clean(target, data):
     target.write("\n")
 
     target.write("cleanall: clean\n")
-    target.write("\t-$(RMDIR) build_dir*\n")
+    target.write("\t-$(RMDIR) build_dir* sd_card\n")
     target.write("\t-$(RMDIR) _x.* xclbin.run_summary qemu-memory-_* emulation/ _vimage/ pl* start_simulation.sh *.xclbin\n")
     if "output_files" in data:         
         target.write("\t-$(RMDIR) ")
@@ -390,7 +391,9 @@ def mk_check(target, data):
     target.write("\treadlink -f $(BUILD_DIR) >> _vimage/emulation/sd_card.manifest\n")
     target.write("\t$(ECHO) ./$(EXEC_CMD_ARGS) >> _vimage/emulation/init.sh\n")
     target.write("\t$(ECHO) \"reboot\" >> _vimage/emulation/init.sh\n")
-    target.write("\thw_emulator -no-reboot -runtime ocl -no-pl\n")
+    target.write("\tlaunch_emulator -no-reboot -runtime ocl -t $(TARGET)\n")
+    target.write("\thead -n -3 _vimage/emulation/sd_card.manifest | tee _vimage/emulation/sd_card.manifest\n")
+    target.write("\thead -n -2 _vimage/emulation/init.sh | tee _vimage/emulation/init.sh\n")
     target.write("endif\n")
     target.write("else\n")
     target.write("\t ./$(EXECUTABLE)")
@@ -425,6 +428,11 @@ def mk_check(target, data):
         target.write("endif\n")
     target.write("\n")
 
+    target.write("sd_card: all\n")
+    target.write("\tmkdir -p sd_card\n")
+    target.write("\t$(CP) $(B_NAME)/sw/$(XSA)/xrt/image/* $(BUILD_DIR)/*.xclbin $(EXECUTABLE) sd_card/\n")
+    target.write("\n")
+
 def run_nimbix(target, data):
     target.write("run_nimbix: all\n")
     if "launch" in data:
@@ -451,6 +459,10 @@ def mk_help(target):
     target.write("\t$(ECHO) \"\"\n")
     target.write("\t$(ECHO) \"  make cleanall\"\n")
     target.write("\t$(ECHO) \"      Command to remove all the generated files.\"\n")
+    target.write("\t$(ECHO) \"\"\n")
+    target.write("\t$(ECHO) \"  make sd_card TARGET=<sw_emu/hw_emu/hw> DEVICE=<FPGA platform> HOST_ARCH=<aarch32/aarch64/x86> SYSROOT=<sysroot_path>\"\n");
+    target.write("\t$(ECHO) \"      Command to prepare sd_card files for system run.\"\n")
+    target.write("\t$(ECHO) \"      By default, HOST_ARCH=x86. HOST_ARCH and SYSROOT is required for SoC shells\"\n")
     target.write("\t$(ECHO) \"\"\n")
     target.write("\t$(ECHO) \"  make check TARGET=<sw_emu/hw_emu/hw> DEVICE=<FPGA platform> HOST_ARCH=<aarch32/aarch64/x86> SYSROOT=<sysroot_path>\"\n");
     target.write("\t$(ECHO) \"      Command to run application in emulation.\"\n")
