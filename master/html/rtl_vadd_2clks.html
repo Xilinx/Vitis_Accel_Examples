@@ -83,7 +83,7 @@
               <p class="caption"><span class="caption-text">Table of Contents</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="prerequisites.html">Prerequisites</a></li>
-<li class="toctree-l1"><a class="reference internal" href="shells.html">Supported Platforms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="shells.html">Supported Shells</a></li>
 <li class="toctree-l1"><a class="reference internal" href="compile_execute.html">Compilation and Execution</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cloud.html">Cloud Execution</a></li>
 <li class="toctree-l1"><a class="reference internal" href="support.html">Support</a></li>
@@ -111,7 +111,6 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="ocl.html">OpenCL Kernels</a></li>
-<li class="toctree-l1"><a class="reference internal" href="apps.html">Applications</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Common Utilities</span></p>
 <ul>
@@ -188,6 +187,18 @@
 Kernel.</p>
 <p><strong>KEY CONCEPTS:</strong> RTL Kernel, Multiple Kernel Clocks</p>
 <p><strong>KEYWORDS:</strong> –kernel_frequency</p>
+<p>This example demonstrates the use of <code class="docutils literal notranslate"><span class="pre">two</span> <span class="pre">kernel</span> <span class="pre">clocks</span></code> for a simple
+case of vector addition.</p>
+<p>An RTL kernel can have up to two external clock interfaces; a primary
+clock, <code class="docutils literal notranslate"><span class="pre">ap_clk</span></code>, and an optional secondary clock, <code class="docutils literal notranslate"><span class="pre">ap_clk_2</span></code>. Both
+clocks can be used for clocking internal logic. However, all external
+RTL kernel interfaces must be clocked on the primary clock. Both primary
+and secondary clocks support independent automatic frequency scaling.</p>
+<p>These clock frequencies are specified at xocc linking stage in the
+following manner.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">kernel_frequency</span><span class="o">=</span><span class="mi">0</span><span class="p">:</span><span class="mi">150</span><span class="o">|</span><span class="mi">1</span><span class="p">:</span><span class="mi">250</span>
+</pre></div>
+</div>
 <div class="section" id="supported-shells">
 <h2>SUPPORTED SHELLS<a class="headerlink" href="#supported-shells" title="Permalink to this headline">¶</a></h2>
 <table class="docutils align-center">

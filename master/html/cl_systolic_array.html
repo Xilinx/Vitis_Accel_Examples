@@ -81,7 +81,7 @@
               <p class="caption"><span class="caption-text">Table of Contents</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="prerequisites.html">Prerequisites</a></li>
-<li class="toctree-l1"><a class="reference internal" href="shells.html">Supported Platforms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="shells.html">Supported Shells</a></li>
 <li class="toctree-l1"><a class="reference internal" href="compile_execute.html">Compilation and Execution</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cloud.html">Cloud Execution</a></li>
 <li class="toctree-l1"><a class="reference internal" href="support.html">Support</a></li>
@@ -113,7 +113,6 @@
 <li class="toctree-l2"><a class="reference internal" href="cl_wide_mem_rw.html">Wide Memory Read/Write</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="apps.html">Applications</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Common Utilities</span></p>
 <ul>
@@ -192,7 +191,7 @@ array based algorithm design is well suited for FPGA.</p>
 <p>This example demonstrates how <code class="docutils literal notranslate"><span class="pre">Systolic</span> <span class="pre">array</span> <span class="pre">algorithm</span></code> can be used
 in FPGAs to perform matrix operations efficiently.</p>
 <p>Matrix multiplication is performed in the <code class="docutils literal notranslate"><span class="pre">mmult</span></code> kernel. Local
-matrices A and B are partitioned using attribute <code class="docutils literal notranslate"><span class="pre">xcl_array_partitio</span></code>
+matrices A and B are partitioned using attribute <code class="docutils literal notranslate"><span class="pre">xcl_array_partition</span></code>
 along rows and columns respectively for computation of each element of
 the matrix C requires a row of matrix A and a column of matrix B. Matrix
 C is partitioned completely.</p>

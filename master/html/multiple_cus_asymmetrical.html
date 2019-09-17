@@ -35,8 +35,8 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Multiple FPGA Devices Execution Concurrently" href="multiple_devices.html" />
-    <link rel="prev" title="Vector Add - Vector Multiplication for XPR Devices" href="kernel_swap.html" /> 
+    <link rel="next" title="Overlap Host and HLS kernels" href="overlap.html" />
+    <link rel="prev" title="host_global_5.0_shell" href="host_global_bandwidth_5.0_shell.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -83,7 +83,7 @@
               <p class="caption"><span class="caption-text">Table of Contents</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="prerequisites.html">Prerequisites</a></li>
-<li class="toctree-l1"><a class="reference internal" href="shells.html">Supported Platforms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="shells.html">Supported Shells</a></li>
 <li class="toctree-l1"><a class="reference internal" href="compile_execute.html">Compilation and Execution</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cloud.html">Cloud Execution</a></li>
 <li class="toctree-l1"><a class="reference internal" href="support.html">Support</a></li>
@@ -106,15 +106,12 @@
 <li class="toctree-l2"><a class="reference internal" href="hbm_simple.html">HBM Simple Vector Addition</a></li>
 <li class="toctree-l2"><a class="reference internal" href="host_global_bandwidth.html">host_global</a></li>
 <li class="toctree-l2"><a class="reference internal" href="host_global_bandwidth_5.0_shell.html">host_global_5.0_shell</a></li>
-<li class="toctree-l2"><a class="reference internal" href="kernel_swap.html">Vector Add - Vector Multiplication for XPR Devices</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Vector Addition ~ Asymmetrical Multiple Compute Units</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#supported-shells">SUPPORTED SHELLS</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#design-files">DESIGN FILES</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#command-line-arguments">COMMAND LINE ARGUMENTS</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="multiple_devices.html">Multiple FPGA Devices Execution Concurrently</a></li>
-<li class="toctree-l2"><a class="reference internal" href="multiple_process.html">Multiple Process</a></li>
 <li class="toctree-l2"><a class="reference internal" href="overlap.html">Overlap Host and HLS kernels</a></li>
 <li class="toctree-l2"><a class="reference internal" href="streaming_host_bandwidth.html">Host Streaming Bandwidth</a></li>
 <li class="toctree-l2"><a class="reference internal" href="streaming_k2k.html">Stream Kernel to Kernel Vector Addition and Multiplication</a></li>
@@ -129,7 +126,6 @@
 <li class="toctree-l1"><a class="reference internal" href="sys_opt.html">System Optimization Kernels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="rtl.html">RTL Kernels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ocl.html">OpenCL Kernels</a></li>
-<li class="toctree-l1"><a class="reference internal" href="apps.html">Applications</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Common Utilities</span></p>
 <ul>
@@ -210,23 +206,41 @@ in host applications</p>
 <p>This example demonstrates how multiple compute units can do parallel
 processing where the compute units are asymmetrical i.e. connected to
 different memory banks.</p>
-<p>For kernels to execute concurrently, command queue is initialized with
-out of order execution mode enabled as shown below.</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">q</span> <span class="o">=</span> <span class="n">cl</span><span class="o">::</span><span class="n">CommandQueue</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">device</span><span class="p">,</span>  <span class="n">CL_QUEUE_PROFILING_ENABLE</span> <span class="o">|</span> <span class="n">CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">err</span><span class="p">);</span>
+<p>Kernel can be connected to different banks using vadd.ini file as below:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">connectivity</span><span class="p">]</span>
+<span class="n">nk</span><span class="o">=</span><span class="n">vadd</span><span class="p">:</span><span class="mi">4</span><span class="p">:</span><span class="n">vadd_1</span><span class="o">.</span><span class="n">vadd_2</span><span class="o">.</span><span class="n">vadd_3</span><span class="o">.</span><span class="n">vadd_4</span>
+<span class="n">sp</span><span class="o">=</span><span class="n">vadd_1</span><span class="o">.</span><span class="n">in1</span><span class="p">:</span><span class="n">DDR</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">sp</span><span class="o">=</span><span class="n">vadd_1</span><span class="o">.</span><span class="n">in2</span><span class="p">:</span><span class="n">DDR</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">sp</span><span class="o">=</span><span class="n">vadd_1</span><span class="o">.</span><span class="n">out_r</span><span class="p">:</span><span class="n">DDR</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">sp</span><span class="o">=</span><span class="n">vadd_2</span><span class="o">.</span><span class="n">in1</span><span class="p">:</span><span class="n">DDR</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">sp</span><span class="o">=</span><span class="n">vadd_2</span><span class="o">.</span><span class="n">in2</span><span class="p">:</span><span class="n">DDR</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">sp</span><span class="o">=</span><span class="n">vadd_2</span><span class="o">.</span><span class="n">out_r</span><span class="p">:</span><span class="n">DDR</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">sp</span><span class="o">=</span><span class="n">vadd_3</span><span class="o">.</span><span class="n">in1</span><span class="p">:</span><span class="n">PLRAM</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">sp</span><span class="o">=</span><span class="n">vadd_3</span><span class="o">.</span><span class="n">in2</span><span class="p">:</span><span class="n">PLRAM</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">sp</span><span class="o">=</span><span class="n">vadd_3</span><span class="o">.</span><span class="n">out_r</span><span class="p">:</span><span class="n">PLRAM</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">sp</span><span class="o">=</span><span class="n">vadd_4</span><span class="o">.</span><span class="n">in1</span><span class="p">:</span><span class="n">PLRAM</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">sp</span><span class="o">=</span><span class="n">vadd_4</span><span class="o">.</span><span class="n">in2</span><span class="p">:</span><span class="n">PLRAM</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">sp</span><span class="o">=</span><span class="n">vadd_4</span><span class="o">.</span><span class="n">out_r</span><span class="p">:</span><span class="n">PLRAM</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
 </pre></div>
 </div>
-<p>Kernel input and output ports can be connected to different memory banks
-for improved bandwidth. <code class="docutils literal notranslate"><span class="pre">--sp</span></code> option is used to specify such
-connections in <code class="docutils literal notranslate"><span class="pre">xocc</span></code> link stage.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">LDCLFLAGS</span> <span class="o">+=</span> <span class="o">--</span><span class="n">sp</span> <span class="n">vadd_1</span><span class="o">.</span><span class="n">in1</span><span class="p">:</span><span class="n">DDR</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">--</span><span class="n">sp</span> <span class="n">vadd_1</span><span class="o">.</span><span class="n">in2</span><span class="p">:</span><span class="n">DDR</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">--</span><span class="n">sp</span> <span class="n">vadd_1</span><span class="o">.</span><span class="n">out_r</span><span class="p">:</span><span class="n">DDR</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-             <span class="o">--</span><span class="n">sp</span> <span class="n">vadd_2</span><span class="o">.</span><span class="n">in1</span><span class="p">:</span><span class="n">DDR</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">--</span><span class="n">sp</span> <span class="n">vadd_2</span><span class="o">.</span><span class="n">in2</span><span class="p">:</span><span class="n">DDR</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">--</span><span class="n">sp</span> <span class="n">vadd_2</span><span class="o">.</span><span class="n">out_r</span><span class="p">:</span><span class="n">DDR</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<p>Some of the vadd compute units are connected Different DDR banks and
+some are connected to PLRAMs. <code class="docutils literal notranslate"><span class="pre">nk</span></code> option can be used to specify how
+many compute unit are needed for <code class="docutils literal notranslate"><span class="pre">vadd</span></code> kernel. It also allows to give
+names of user choice. <code class="docutils literal notranslate"><span class="pre">sp</span></code> option can be used to provide connection of
+compute units to target memory (DDR, PLRAM).</p>
+<p>this <code class="docutils literal notranslate"><span class="pre">vadd.ini</span></code> file should be included in v++ command line as below:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">--</span><span class="n">config</span> <span class="n">vadd</span><span class="o">.</span><span class="n">ini</span>
 </pre></div>
 </div>
-<p>SDAccel allows for different kernels to be associated with different CUs
-by name in xocc linking stage using <code class="docutils literal notranslate"><span class="pre">--nk</span></code> option.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">--</span><span class="n">nk</span> <span class="n">vadd</span><span class="p">:</span><span class="mi">4</span><span class="p">:</span><span class="n">vadd_1</span><span class="o">.</span><span class="n">vadd_2</span><span class="o">.</span><span class="n">vadd_3</span><span class="o">.</span><span class="n">vadd_4</span>
+<p>As each compute unit are connected to diferrent DDR/PLRAM, so host
+program has to create kernel object for specific to Compute unit as
+below:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">cl</span><span class="o">::</span><span class="n">Kernel</span> <span class="n">cu0_krnls</span> <span class="o">=</span> <span class="n">cl</span><span class="o">::</span><span class="n">Kernel</span><span class="p">(</span><span class="n">program</span><span class="p">,</span> <span class="s">&quot;vadd:{vadd_1}&quot;</span><span class="p">);</span>
 </pre></div>
 </div>
+<p>Above created kernel object is very specific to <code class="docutils literal notranslate"><span class="pre">vadd_1</span></code> compute unit.
+Using this Kernel Object, host can directly access to this fix compute
+unit.</p>
 <div class="section" id="supported-shells">
 <h2>SUPPORTED SHELLS<a class="headerlink" href="#supported-shells" title="Permalink to this headline">¶</a></h2>
 <table class="docutils align-center">
@@ -298,10 +312,10 @@ executed by</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="multiple_devices.html" class="btn btn-neutral float-right" title="Multiple FPGA Devices Execution Concurrently" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="overlap.html" class="btn btn-neutral float-right" title="Overlap Host and HLS kernels" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="kernel_swap.html" class="btn btn-neutral float-left" title="Vector Add - Vector Multiplication for XPR Devices" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="host_global_bandwidth_5.0_shell.html" class="btn btn-neutral float-left" title="host_global_5.0_shell" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

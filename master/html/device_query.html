@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Device Query (CPP) &mdash; Vitis Accel Examples&#39; Documentation 2019.2 documentation</title>
+  <title>Device Query &mdash; Vitis Accel Examples&#39; Documentation 2019.2 documentation</title>
   
 
   
@@ -83,7 +83,7 @@
               <p class="caption"><span class="caption-text">Table of Contents</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="prerequisites.html">Prerequisites</a></li>
-<li class="toctree-l1"><a class="reference internal" href="shells.html">Supported Platforms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="shells.html">Supported Shells</a></li>
 <li class="toctree-l1"><a class="reference internal" href="compile_execute.html">Compilation and Execution</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cloud.html">Cloud Execution</a></li>
 <li class="toctree-l1"><a class="reference internal" href="support.html">Support</a></li>
@@ -95,26 +95,21 @@
 <li class="toctree-l2"><a class="reference internal" href="concurrent_kernel_execution.html">Concurrent Kernel Execution</a></li>
 <li class="toctree-l2"><a class="reference internal" href="copy_buffer.html">Copy Buffer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="data_transfer.html">Data Transfer</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Device Query (CPP)</a><ul>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Device Query</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#supported-shells">SUPPORTED SHELLS</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#design-files">DESIGN FILES</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#command-line-arguments">COMMAND LINE ARGUMENTS</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="device_query_cpp.html">Device Query (CPP)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="debug_profile.html">SUPPORTED SHELLS</a></li>
-<li class="toctree-l2"><a class="reference internal" href="debug_profile.html#design-files">DESIGN FILES</a></li>
-<li class="toctree-l2"><a class="reference internal" href="debug_profile.html#command-line-arguments">COMMAND LINE ARGUMENTS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="debug_profile.html">Printing Profile Data and Dumping Waveform file</a></li>
 <li class="toctree-l2"><a class="reference internal" href="errors.html">Error Handling</a></li>
 <li class="toctree-l2"><a class="reference internal" href="errors_cpp.html">Error Handling (CPP)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="hbm_bandwidth.html">HBM Bandwidth</a></li>
 <li class="toctree-l2"><a class="reference internal" href="hbm_simple.html">HBM Simple Vector Addition</a></li>
 <li class="toctree-l2"><a class="reference internal" href="host_global_bandwidth.html">host_global</a></li>
 <li class="toctree-l2"><a class="reference internal" href="host_global_bandwidth_5.0_shell.html">host_global_5.0_shell</a></li>
-<li class="toctree-l2"><a class="reference internal" href="kernel_swap.html">Vector Add - Vector Multiplication for XPR Devices</a></li>
 <li class="toctree-l2"><a class="reference internal" href="multiple_cus_asymmetrical.html">Vector Addition ~ Asymmetrical Multiple Compute Units</a></li>
-<li class="toctree-l2"><a class="reference internal" href="multiple_devices.html">Multiple FPGA Devices Execution Concurrently</a></li>
-<li class="toctree-l2"><a class="reference internal" href="multiple_process.html">Multiple Process</a></li>
 <li class="toctree-l2"><a class="reference internal" href="overlap.html">Overlap Host and HLS kernels</a></li>
 <li class="toctree-l2"><a class="reference internal" href="streaming_host_bandwidth.html">Host Streaming Bandwidth</a></li>
 <li class="toctree-l2"><a class="reference internal" href="streaming_k2k.html">Stream Kernel to Kernel Vector Addition and Multiplication</a></li>
@@ -129,7 +124,6 @@
 <li class="toctree-l1"><a class="reference internal" href="sys_opt.html">System Optimization Kernels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="rtl.html">RTL Kernels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ocl.html">OpenCL Kernels</a></li>
-<li class="toctree-l1"><a class="reference internal" href="apps.html">Applications</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Common Utilities</span></p>
 <ul>
@@ -181,7 +175,7 @@
         
           <li><a href="host.html">Host</a> &raquo;</li>
         
-      <li>Device Query (CPP)</li>
+      <li>Device Query</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -200,20 +194,103 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="device-query-cpp">
-<h1>Device Query (CPP)<a class="headerlink" href="#device-query-cpp" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="device-query">
+<h1>Device Query<a class="headerlink" href="#device-query" title="Permalink to this headline">¶</a></h1>
 <p>This Example prints the OpenCL properties of the platform and its
 devices using OpenCL CPP APIs. It also displays the limits and
 capabilities of the hardware.</p>
 <p><strong>KEY CONCEPTS:</strong> OpenCL API, Querying device properties</p>
-<p>The role of this example to get the details of all the OpenCL Devices
-connected to system. Platform IDs and Device IDs can be extracted using
-Open CL APIs which are subsequently needed to configure the context and
-command queues for communication between host and device. Example first
-searches the all connected Platforms using clGetPlatformIDs() API. Then
-it traverses to each Platform and finds all the connected devices using
-clGetDeviceIDs(). Then it traverses all the devices and print all device
-properties like device type, vendor id etc.</p>
+<p>This example is to get the details of all the OpenCL Devices connected
+to system. Platform IDs and Device IDs can be extracted using Open CL
+APIs which are subsequently needed to configure the context and command
+queues for communication between host and device. Example first searches
+the all connected Platforms using <code class="docutils literal notranslate"><span class="pre">clGetPlatformIDs()</span></code> API. Then it
+traverses to each Platform and finds all the connected devices using
+<code class="docutils literal notranslate"><span class="pre">clGetDeviceIDs()</span></code>. Then it traverses all the devices and print all
+device properties like device type, vendor id etc. It reports the
+details as below:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">platform</span> <span class="n">profile</span>    <span class="p">:</span> <span class="n">EMBEDDED_PROFILE</span>
+<span class="n">platform</span> <span class="n">version</span>    <span class="p">:</span> <span class="n">OpenCL</span> <span class="mf">1.0</span>
+<span class="n">platform</span> <span class="n">name</span>       <span class="p">:</span> <span class="n">Xilinx</span>
+<span class="n">platform</span> <span class="n">vendor</span>     <span class="p">:</span> <span class="n">Xilinx</span>
+<span class="n">platform</span> <span class="n">extensions</span> <span class="p">:</span> <span class="n">cl_khr_icd</span>
+<span class="n">Device</span> <span class="mi">0</span><span class="p">:</span>
+  <span class="n">device</span> <span class="nb">type</span>                            <span class="p">:</span> <span class="n">CL_DEVICE_TYPE_ACCELERATOR</span>
+  <span class="n">device</span> <span class="n">vendor</span> <span class="nb">id</span>                       <span class="p">:</span> <span class="mi">0</span>
+  <span class="n">device</span> <span class="nb">max</span> <span class="n">compute</span> <span class="n">units</span>               <span class="p">:</span> <span class="mi">0</span>
+  <span class="n">device</span> <span class="nb">max</span> <span class="n">work</span> <span class="n">item</span> <span class="n">dimensions</span>        <span class="p">:</span> <span class="mi">3</span>
+  <span class="n">device</span> <span class="nb">max</span> <span class="n">work</span> <span class="n">group</span> <span class="n">size</span>             <span class="p">:</span> <span class="mi">4294967295</span>
+  <span class="n">device</span> <span class="nb">max</span> <span class="n">work</span> <span class="n">item</span> <span class="n">sizes</span>             <span class="p">:</span> <span class="p">[</span>  <span class="mi">4294967295</span>  <span class="mi">4294967295</span>  <span class="mi">4294967295</span>  <span class="p">]</span>
+  <span class="n">device</span> <span class="n">preferred</span> <span class="n">vector</span> <span class="n">width</span> <span class="n">char</span>     <span class="p">:</span> <span class="mi">1</span>
+  <span class="n">device</span> <span class="n">preferred</span> <span class="n">vector</span> <span class="n">width</span> <span class="n">short</span>    <span class="p">:</span> <span class="mi">1</span>
+  <span class="n">device</span> <span class="n">preferred</span> <span class="n">vector</span> <span class="n">width</span> <span class="nb">int</span>      <span class="p">:</span> <span class="mi">1</span>
+  <span class="n">device</span> <span class="n">preferred</span> <span class="n">vector</span> <span class="n">width</span> <span class="n">long</span>     <span class="p">:</span> <span class="mi">1</span>
+  <span class="n">device</span> <span class="n">preferred</span> <span class="n">vector</span> <span class="n">width</span> <span class="nb">float</span>    <span class="p">:</span> <span class="mi">1</span>
+  <span class="n">device</span> <span class="n">preferred</span> <span class="n">vector</span> <span class="n">width</span> <span class="n">double</span>   <span class="p">:</span> <span class="mi">0</span>
+  <span class="n">device</span> <span class="nb">max</span> <span class="n">clock</span> <span class="n">frequency</span>             <span class="p">:</span> <span class="mi">509</span>
+  <span class="n">device</span> <span class="n">address</span> <span class="n">bits</span>                    <span class="p">:</span> <span class="mi">64</span>
+  <span class="n">device</span> <span class="nb">max</span> <span class="n">read</span> <span class="n">image</span> <span class="n">args</span>             <span class="p">:</span> <span class="mi">128</span>
+  <span class="n">device</span> <span class="nb">max</span> <span class="n">write</span> <span class="n">image</span> <span class="n">args</span>            <span class="p">:</span> <span class="mi">8</span>
+  <span class="n">device</span> <span class="nb">max</span> <span class="n">mem</span> <span class="n">alloc</span> <span class="n">size</span>              <span class="p">:</span> <span class="mi">536870912</span>
+  <span class="n">device</span> <span class="n">image2d</span> <span class="nb">max</span> <span class="n">width</span>               <span class="p">:</span> <span class="mi">8192</span>
+  <span class="n">device</span> <span class="n">image2d</span> <span class="nb">max</span> <span class="n">height</span>              <span class="p">:</span> <span class="mi">8192</span>
+  <span class="n">device</span> <span class="n">image3d</span> <span class="nb">max</span> <span class="n">width</span>               <span class="p">:</span> <span class="mi">2048</span>
+  <span class="n">device</span> <span class="n">image3d</span> <span class="nb">max</span> <span class="n">height</span>              <span class="p">:</span> <span class="mi">2048</span>
+  <span class="n">device</span> <span class="n">image3d</span> <span class="nb">max</span> <span class="n">depth</span>               <span class="p">:</span> <span class="mi">2048</span>
+  <span class="n">device</span> <span class="n">image</span> <span class="n">support</span>                   <span class="p">:</span> <span class="n">true</span>
+  <span class="n">device</span> <span class="nb">max</span> <span class="n">parameter</span> <span class="n">size</span>              <span class="p">:</span> <span class="mi">2048</span>
+  <span class="n">device</span> <span class="nb">max</span> <span class="n">samplers</span>                    <span class="p">:</span> <span class="mi">0</span>
+  <span class="n">device</span> <span class="n">mem</span> <span class="n">base</span> <span class="n">addr</span> <span class="n">align</span>             <span class="p">:</span> <span class="mi">32768</span>
+  <span class="n">device</span> <span class="nb">min</span> <span class="n">data</span> <span class="nb">type</span> <span class="n">align</span> <span class="n">size</span>        <span class="p">:</span> <span class="mi">128</span>
+  <span class="n">device</span> <span class="n">single</span> <span class="n">fp</span> <span class="n">config</span>                <span class="p">:</span> <span class="p">[</span> <span class="n">CL_FP_INF_NAN</span> <span class="p">]</span>
+  <span class="n">device</span> <span class="k">global</span> <span class="n">mem</span> <span class="n">cache</span> <span class="nb">type</span>           <span class="p">:</span> <span class="n">CL_NONE</span>
+  <span class="n">device</span> <span class="k">global</span> <span class="n">mem</span> <span class="n">cacheline</span> <span class="n">size</span>       <span class="p">:</span> <span class="mi">64</span>
+  <span class="n">device</span> <span class="k">global</span> <span class="n">mem</span> <span class="n">cache</span> <span class="n">size</span>           <span class="p">:</span> <span class="mi">0</span>
+  <span class="n">device</span> <span class="k">global</span> <span class="n">mem</span> <span class="n">size</span>                 <span class="p">:</span> <span class="mi">0</span>
+  <span class="n">device</span> <span class="nb">max</span> <span class="n">constant</span> <span class="n">buffer</span> <span class="n">size</span>        <span class="p">:</span> <span class="mi">4194304</span>
+  <span class="n">device</span> <span class="nb">max</span> <span class="n">constant</span> <span class="n">args</span>               <span class="p">:</span> <span class="mi">8</span>
+  <span class="n">device</span> <span class="n">local</span> <span class="n">mem</span> <span class="nb">type</span>                  <span class="p">:</span> <span class="n">CL_LOCAL</span>
+  <span class="n">device</span> <span class="n">local</span> <span class="n">mem</span> <span class="n">size</span>                  <span class="p">:</span> <span class="mi">16384</span>
+  <span class="n">device</span> <span class="n">error</span> <span class="n">correction</span> <span class="n">support</span>        <span class="p">:</span> <span class="n">true</span>
+  <span class="n">device</span> <span class="n">profiling</span> <span class="n">timer</span> <span class="n">resolution</span>      <span class="p">:</span> <span class="mi">1</span>
+  <span class="n">device</span> <span class="n">endian</span> <span class="n">little</span>                   <span class="p">:</span> <span class="n">true</span>
+  <span class="n">device</span> <span class="n">available</span>                       <span class="p">:</span> <span class="n">false</span>
+  <span class="n">device</span> <span class="n">compiler</span> <span class="n">available</span>              <span class="p">:</span> <span class="n">false</span>
+  <span class="n">device</span> <span class="n">execution</span> <span class="n">capabilities</span>          <span class="p">:</span> <span class="p">[</span> <span class="n">CL_EXEC_KERNEL</span> <span class="p">]</span>
+  <span class="n">device</span> <span class="n">queue</span> <span class="n">properties</span>                <span class="p">:</span> <span class="p">[</span> <span class="n">CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE</span> <span class="n">CL_QUEUE_PROFILING_ENABLE</span> <span class="p">]</span>
+  <span class="n">device</span> <span class="n">name</span>                            <span class="p">:</span>
+  <span class="n">device</span> <span class="n">vendor</span>                          <span class="p">:</span> <span class="n">Xilinx</span>
+  <span class="n">device</span> <span class="n">version</span>                         <span class="p">:</span> <span class="mf">1.0</span>
+  <span class="n">device</span> <span class="n">profile</span>                         <span class="p">:</span> <span class="n">EMBEDDED_PROFILE</span>
+  <span class="n">device</span> <span class="n">version</span>                         <span class="p">:</span> <span class="n">OpenCL</span> <span class="mf">1.0</span>
+  <span class="n">device</span> <span class="n">extensions</span>                      <span class="p">:</span>
+  <span class="n">device</span> <span class="n">platform</span>                        <span class="p">:</span> <span class="n">Xilinx</span>
+  <span class="n">device</span> <span class="n">double</span> <span class="n">fp</span> <span class="n">config</span>                <span class="p">:</span> <span class="p">[</span> <span class="p">]</span>
+  <span class="n">device</span> <span class="n">preferred</span> <span class="n">vector</span> <span class="n">width</span> <span class="n">half</span>     <span class="p">:</span> <span class="mi">1</span>
+  <span class="n">device</span> <span class="n">host</span> <span class="n">unified</span> <span class="n">memory</span>             <span class="p">:</span> <span class="n">true</span>
+  <span class="n">device</span> <span class="n">native</span> <span class="n">vector</span> <span class="n">width</span> <span class="n">char</span>        <span class="p">:</span> <span class="mi">1</span>
+  <span class="n">device</span> <span class="n">native</span> <span class="n">vector</span> <span class="n">width</span> <span class="n">short</span>       <span class="p">:</span> <span class="mi">1</span>
+  <span class="n">device</span> <span class="n">native</span> <span class="n">vector</span> <span class="n">width</span> <span class="nb">int</span>         <span class="p">:</span> <span class="mi">1</span>
+  <span class="n">device</span> <span class="n">native</span> <span class="n">vector</span> <span class="n">width</span> <span class="n">long</span>        <span class="p">:</span> <span class="mi">1</span>
+  <span class="n">device</span> <span class="n">native</span> <span class="n">vector</span> <span class="n">width</span> <span class="nb">float</span>       <span class="p">:</span> <span class="mi">1</span>
+  <span class="n">device</span> <span class="n">native</span> <span class="n">vector</span> <span class="n">width</span> <span class="n">double</span>      <span class="p">:</span> <span class="mi">1</span>
+  <span class="n">device</span> <span class="n">native</span> <span class="n">vector</span> <span class="n">width</span> <span class="n">half</span>        <span class="p">:</span> <span class="mi">1</span>
+  <span class="n">device</span> <span class="n">opencl</span> <span class="n">c</span> <span class="n">version</span>                <span class="p">:</span> <span class="n">OpenCL</span> <span class="n">C</span> <span class="mf">1.0</span>
+  <span class="n">device</span> <span class="n">linker</span> <span class="n">available</span>                <span class="p">:</span> <span class="n">true</span>
+  <span class="n">device</span> <span class="n">built</span> <span class="ow">in</span> <span class="n">kernels</span>                <span class="p">:</span>
+  <span class="n">device</span> <span class="n">image</span> <span class="nb">max</span> <span class="n">buffer</span> <span class="n">size</span>           <span class="p">:</span> <span class="mi">65536</span>
+  <span class="n">device</span> <span class="n">image</span> <span class="nb">max</span> <span class="n">array</span> <span class="n">size</span>            <span class="p">:</span> <span class="mi">2048</span>
+  <span class="n">device</span> <span class="n">parent</span> <span class="n">device</span>                   <span class="p">:</span> <span class="n">N</span><span class="o">/</span><span class="n">A</span>
+  <span class="n">device</span> <span class="n">partition</span> <span class="nb">max</span> <span class="n">sub</span> <span class="n">devices</span>       <span class="p">:</span> <span class="mi">0</span>
+  <span class="n">device</span> <span class="n">partition</span> <span class="n">properties</span>            <span class="p">:</span> <span class="n">NONE</span>
+  <span class="n">device</span> <span class="n">partition</span> <span class="n">affinity</span> <span class="n">domain</span>       <span class="p">:</span> <span class="p">[</span> <span class="p">]</span>
+  <span class="n">device</span> <span class="n">partition</span> <span class="nb">type</span>                  <span class="p">:</span> <span class="n">N</span><span class="o">/</span><span class="n">A</span>
+  <span class="n">device</span> <span class="n">reference</span> <span class="n">countplatforms</span><span class="p">[</span><span class="n">p</span><span class="p">]</span><span class="o">.</span><span class="n">getDevices</span><span class="p">(</span><span class="n">CL_DEVICE_TYPE_ALL</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">devices</span><span class="p">):</span> <span class="mi">1</span>
+  <span class="n">device</span> <span class="n">preferred</span> <span class="n">interop</span> <span class="n">user</span> <span class="n">sync</span>     <span class="p">:</span> <span class="n">true</span>
+  <span class="n">device</span> <span class="n">printf</span> <span class="n">buffer</span> <span class="n">size</span>              <span class="p">:</span> <span class="mi">0</span>
+<span class="n">TEST</span> <span class="n">PASSED</span>
+</pre></div>
+</div>
 <div class="section" id="supported-shells">
 <h2>SUPPORTED SHELLS<a class="headerlink" href="#supported-shells" title="Permalink to this headline">¶</a></h2>
 <table class="docutils align-center">

@@ -83,7 +83,7 @@
               <p class="caption"><span class="caption-text">Table of Contents</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="prerequisites.html">Prerequisites</a></li>
-<li class="toctree-l1"><a class="reference internal" href="shells.html">Supported Platforms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="shells.html">Supported Shells</a></li>
 <li class="toctree-l1"><a class="reference internal" href="compile_execute.html">Compilation and Execution</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cloud.html">Cloud Execution</a></li>
 <li class="toctree-l1"><a class="reference internal" href="support.html">Support</a></li>
@@ -111,10 +111,7 @@
 <li class="toctree-l2"><a class="reference internal" href="hbm_simple.html">HBM Simple Vector Addition</a></li>
 <li class="toctree-l2"><a class="reference internal" href="host_global_bandwidth.html">host_global</a></li>
 <li class="toctree-l2"><a class="reference internal" href="host_global_bandwidth_5.0_shell.html">host_global_5.0_shell</a></li>
-<li class="toctree-l2"><a class="reference internal" href="kernel_swap.html">Vector Add - Vector Multiplication for XPR Devices</a></li>
 <li class="toctree-l2"><a class="reference internal" href="multiple_cus_asymmetrical.html">Vector Addition ~ Asymmetrical Multiple Compute Units</a></li>
-<li class="toctree-l2"><a class="reference internal" href="multiple_devices.html">Multiple FPGA Devices Execution Concurrently</a></li>
-<li class="toctree-l2"><a class="reference internal" href="multiple_process.html">Multiple Process</a></li>
 <li class="toctree-l2"><a class="reference internal" href="overlap.html">Overlap Host and HLS kernels</a></li>
 <li class="toctree-l2"><a class="reference internal" href="streaming_host_bandwidth.html">Host Streaming Bandwidth</a></li>
 <li class="toctree-l2"><a class="reference internal" href="streaming_k2k.html">Stream Kernel to Kernel Vector Addition and Multiplication</a></li>
@@ -129,7 +126,6 @@
 <li class="toctree-l1"><a class="reference internal" href="sys_opt.html">System Optimization Kernels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="rtl.html">RTL Kernels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ocl.html">OpenCL Kernels</a></li>
-<li class="toctree-l1"><a class="reference internal" href="apps.html">Applications</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Common Utilities</span></p>
 <ul>
@@ -214,8 +210,8 @@ of order execution</p>
 <p>Design contains 3 kernels <code class="docutils literal notranslate"><span class="pre">mscale</span></code>, <code class="docutils literal notranslate"><span class="pre">madd</span></code> and <code class="docutils literal notranslate"><span class="pre">mmult</span></code>. <code class="docutils literal notranslate"><span class="pre">madd</span></code>
 needs to wait for <code class="docutils literal notranslate"><span class="pre">mscale</span></code> to complete but <code class="docutils literal notranslate"><span class="pre">mmult</span></code> can run
 independently (no dependency).</p>
-<p><code class="docutils literal notranslate"><span class="pre">multiple_command_queues</span></code> function creates two command queues, one for
-<code class="docutils literal notranslate"><span class="pre">mscale</span> <span class="pre">and</span> <span class="pre">madd</span></code> and other for <code class="docutils literal notranslate"><span class="pre">mmult</span></code>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">multiple_command_queues</span></code> function creates two sequential command
+queues, one for <code class="docutils literal notranslate"><span class="pre">mscale</span> <span class="pre">and</span> <span class="pre">madd</span></code> and other for <code class="docutils literal notranslate"><span class="pre">mmult</span></code>.</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">cl</span><span class="o">::</span><span class="n">CommandQueue</span> <span class="n">ordered_queue1</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">device</span><span class="p">,</span> <span class="n">CL_QUEUE_PROFILING_ENABLE</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">err</span><span class="p">);</span>
 <span class="n">cl</span><span class="o">::</span><span class="n">CommandQueue</span> <span class="n">ordered_queue2</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">device</span><span class="p">,</span> <span class="n">CL_QUEUE_PROFILING_ENABLE</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">err</span><span class="p">);</span>
 </pre></div>
@@ -224,10 +220,11 @@ independently (no dependency).</p>
 <code class="docutils literal notranslate"><span class="pre">madd</span></code> are enqueued in first command queue one after another. As
 Command queue is <code class="docutils literal notranslate"><span class="pre">in-order</span></code>, <code class="docutils literal notranslate"><span class="pre">madd</span></code> will only start when <code class="docutils literal notranslate"><span class="pre">mscale</span></code>
 will finish. So the order of execution is handled by command queue.</p>
-<p><code class="docutils literal notranslate"><span class="pre">out_of_order_queue</span></code> function creates a single command queue with out
-of order execution enabled which means that enqueues in the command
-queue can go out of order (without waiting for a previous execution to
-finish).</p>
+<p>There is another approach of achieve the same using single out-of-order
+command queue. <code class="docutils literal notranslate"><span class="pre">out_of_order_queue</span></code> function creates a single command
+queue with out of order execution enabled which means that enqueues in
+the command queue can go out of order (without waiting for a previous
+execution to finish).</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">cl</span><span class="o">::</span><span class="n">CommandQueue</span> <span class="n">ooo_queue</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">device</span><span class="p">,</span>
           <span class="n">CL_QUEUE_PROFILING_ENABLE</span> <span class="o">|</span> <span class="n">CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE</span><span class="p">);</span>
 </pre></div>
@@ -235,9 +232,11 @@ finish).</p>
 <p>However, since we need that <code class="docutils literal notranslate"><span class="pre">madd</span></code> kernel only starts executing after
 <code class="docutils literal notranslate"><span class="pre">mscale</span></code> has finished, <code class="docutils literal notranslate"><span class="pre">cl::event</span></code> is used to wait for <code class="docutils literal notranslate"><span class="pre">mscale</span></code> to
 finish execution.</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">err</span> <span class="o">=</span> <span class="n">ooo_queue</span><span class="p">.</span><span class="n">enqueueNDRangeKernel</span><span class="p">(</span><span class="n">kernel_madd</span><span class="p">,</span> <span class="n">offset</span><span class="p">,</span> <span class="n">global</span><span class="p">,</span> <span class="n">local</span><span class="p">,</span>
-                                              <span class="o">&amp;</span><span class="n">kernel_wait_events</span><span class="p">,</span> <span class="c1">// Event from previous call</span>
-                                              <span class="o">&amp;</span><span class="n">ooo_events</span><span class="p">[</span><span class="mi">1</span><span class="p">]));</span>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">cl</span><span class="o">::</span><span class="n">Event</span> <span class="n">event</span><span class="p">;</span>
+<span class="n">err</span> <span class="o">=</span> <span class="n">ooo_queue</span><span class="p">.</span><span class="n">enqueueNDRangeKernel</span><span class="p">(</span><span class="n">kernel_mscale</span><span class="p">,</span> <span class="n">offset</span><span class="p">,</span> <span class="n">global</span><span class="p">,</span> <span class="n">local</span><span class="p">,</span> <span class="k">nullptr</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">event</span><span class="p">));</span>
+<span class="n">err</span> <span class="o">=</span> <span class="n">ooo_queue</span><span class="p">.</span><span class="n">enqueueNDRangeKernel</span><span class="p">(</span><span class="n">kernel_madd</span><span class="p">,</span> <span class="n">offset</span><span class="p">,</span> <span class="n">global</span><span class="p">,</span> <span class="n">local</span><span class="p">,</span>
+                                          <span class="o">&amp;</span><span class="p">{</span><span class="n">event</span><span class="p">},</span> <span class="c1">// Event from previous call</span>
+                                          <span class="k">nullptr</span><span class="p">);</span>
 </pre></div>
 </div>
 <div class="section" id="supported-shells">

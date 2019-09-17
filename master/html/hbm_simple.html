@@ -83,7 +83,7 @@
               <p class="caption"><span class="caption-text">Table of Contents</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="prerequisites.html">Prerequisites</a></li>
-<li class="toctree-l1"><a class="reference internal" href="shells.html">Supported Platforms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="shells.html">Supported Shells</a></li>
 <li class="toctree-l1"><a class="reference internal" href="compile_execute.html">Compilation and Execution</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cloud.html">Cloud Execution</a></li>
 <li class="toctree-l1"><a class="reference internal" href="support.html">Support</a></li>
@@ -111,10 +111,7 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="host_global_bandwidth.html">host_global</a></li>
 <li class="toctree-l2"><a class="reference internal" href="host_global_bandwidth_5.0_shell.html">host_global_5.0_shell</a></li>
-<li class="toctree-l2"><a class="reference internal" href="kernel_swap.html">Vector Add - Vector Multiplication for XPR Devices</a></li>
 <li class="toctree-l2"><a class="reference internal" href="multiple_cus_asymmetrical.html">Vector Addition ~ Asymmetrical Multiple Compute Units</a></li>
-<li class="toctree-l2"><a class="reference internal" href="multiple_devices.html">Multiple FPGA Devices Execution Concurrently</a></li>
-<li class="toctree-l2"><a class="reference internal" href="multiple_process.html">Multiple Process</a></li>
 <li class="toctree-l2"><a class="reference internal" href="overlap.html">Overlap Host and HLS kernels</a></li>
 <li class="toctree-l2"><a class="reference internal" href="streaming_host_bandwidth.html">Host Streaming Bandwidth</a></li>
 <li class="toctree-l2"><a class="reference internal" href="streaming_k2k.html">Stream Kernel to Kernel Vector Addition and Multiplication</a></li>
@@ -129,7 +126,6 @@
 <li class="toctree-l1"><a class="reference internal" href="sys_opt.html">System Optimization Kernels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="rtl.html">RTL Kernels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ocl.html">OpenCL Kernels</a></li>
-<li class="toctree-l1"><a class="reference internal" href="apps.html">Applications</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Common Utilities</span></p>
 <ul>
@@ -206,32 +202,58 @@
 kernels with HBM (High Bandwidth Memory) for achieving high throughput.</p>
 <p><strong>KEY CONCEPTS:</strong> High Bandwidth Memory, Multiple HBM Banks</p>
 <p><strong>KEYWORDS:</strong> HBM, XCL_MEM_TOPOLOGY, cl_mem_ext_ptr_t</p>
-<p>This example demonstrates how HBM (High Bandwidth Memory) can be
-interfaced to reduce the latency of global memory transfers. Two cases
-are executed, one HBM bank used for two inputs and one output; three
-banks used one each for two inputs and one output. Individual bank for
-each buffer will provide more bandwidth for the application.</p>
-<p>HBM is a high performance RAM interface for 3D-stacked DRAM. HBM can
-provide bandwidth upto 307 GB/s with low power consumption (20% as
-compared to GDDR5). There are 32 memory resources referenced as HBM
-[0:31] by XOCC and these are accessed via 16 memory controllers.</p>
+<p>This is Simple example to demonstrate how to use HBM Platform. Two cases
+are executed, Single HBM bank is used for two inputs and one output;
+three separate banks are used for each argument of kernels. Individual
+bank for each buffer will provide more bandwidth for the application.</p>
 <p><code class="docutils literal notranslate"><span class="pre">cl_mem_ext_ptr</span></code> object needs to be used in cases where memory
-assingment is done by user.</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">cl_mem_ext_ptr_t</span> <span class="n">inBufExt1</span><span class="p">,</span> <span class="n">inBufExt2</span><span class="p">,</span> <span class="n">outBufExt</span><span class="p">;</span>
-<span class="n">inBufExt1</span><span class="p">.</span><span class="n">obj</span> <span class="o">=</span> <span class="n">source_in1</span><span class="p">.</span><span class="n">data</span><span class="p">();</span>
-<span class="n">inBufExt1</span><span class="p">.</span><span class="n">param</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-<span class="n">inBufExt1</span><span class="p">.</span><span class="n">flags</span> <span class="o">=</span> <span class="n">bank_assign</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+assignment is done by user.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">cl_mem_ext_ptr_t</span> <span class="n">bufExt</span><span class="p">;</span>
+<span class="n">bufExt</span><span class="p">.</span><span class="n">obj</span> <span class="o">=</span> <span class="n">source_in1</span><span class="p">.</span><span class="n">data</span><span class="p">();</span>
+<span class="n">bufExt</span><span class="p">.</span><span class="n">param</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="n">bufExt</span><span class="p">.</span><span class="n">flags</span> <span class="o">=</span> <span class="n">n</span> <span class="o">|</span> <span class="n">XCL_MEM_TOPOLOGY</span><span class="p">;</span> <span class="c1">// specify n the bank number which needs to be targeted (0:31)</span>
+<span class="n">cl</span><span class="o">::</span><span class="n">Buffer</span> <span class="n">buffer_input1</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">CL_MEM_READ_ONLY</span> <span class="o">|</span> <span class="n">CL_MEM_EXT_PTR_XILINX</span> <span class="o">|</span> <span class="n">CL_MEM_USE_HOST_PTR</span><span class="p">,</span>
+                          <span class="k">sizeof</span><span class="p">(</span><span class="kt">uint32_t</span><span class="p">)</span> <span class="o">*</span> <span class="n">size</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">bufExt</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">err</span><span class="p">));</span>
 </pre></div>
 </div>
-<p><code class="docutils literal notranslate"><span class="pre">CL_MEM_EXT_PTR_XILINX</span></code> must be specified while creating buffers using
-HBM.</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">cl</span><span class="o">::</span><span class="n">Buffer</span> <span class="n">buffer_input1</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">CL_MEM_READ_ONLY</span> <span class="o">|</span> <span class="n">CL_MEM_EXT_PTR_XILINX</span> <span class="o">|</span> <span class="n">CL_MEM_USE_HOST_PTR</span><span class="p">,</span>
-                          <span class="k">sizeof</span><span class="p">(</span><span class="kt">uint32_t</span><span class="p">)</span> <span class="o">*</span> <span class="n">size</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">inBufExt1</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">err</span><span class="p">));</span>
+<p>compute unit interfaces are associated to fixed HBM banks using
+<code class="docutils literal notranslate"><span class="pre">krnl_vadd.ini</span></code> file:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">connectivity</span><span class="p">]</span>
+<span class="n">sp</span><span class="o">=</span><span class="n">krnl_vadd_1</span><span class="o">.</span><span class="n">in1</span><span class="p">:</span><span class="n">HBM</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span>
+<span class="n">sp</span><span class="o">=</span><span class="n">krnl_vadd_1</span><span class="o">.</span><span class="n">in2</span><span class="p">:</span><span class="n">HBM</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span>
+<span class="n">sp</span><span class="o">=</span><span class="n">krnl_vadd_1</span><span class="o">.</span><span class="n">out_r</span><span class="p">:</span><span class="n">HBM</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span>
 </pre></div>
 </div>
-<p>HBM memory must be associated to respective kernel I/O ports using
-<code class="docutils literal notranslate"><span class="pre">--sp</span></code> option in kernel linking stage.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">LDCLFLAGS</span> <span class="o">+=</span> <span class="o">--</span><span class="n">sp</span> <span class="n">krnl_vadd_1</span><span class="o">.</span><span class="n">m_axi_gmem0</span><span class="p">:</span><span class="n">HBM</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span> <span class="o">--</span><span class="n">sp</span> <span class="n">krnl_vadd_1</span><span class="o">.</span><span class="n">m_axi_gmem1</span><span class="p">:</span><span class="n">HBM</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span>
+<p>It specify that kernel interfaces (in1,in2 and out_r) should be
+connected such a way that it should have access to HBM banks 0 to 3.
+System linker will make sure this requirement while building the design.</p>
+<p>For Case1, all three buffers (in1,in2, and out_r) will be created inside
+Single bank and application will run and performance will be reported.
+For Case2, All three buffers will be created into different banks and
+application will run and performance will be reported. For Case2, three
+different banks will give higher DDR bandwidth compare to case1, so
+performance of Case2 will be better compare to case1. Following is the
+real log reported while running on U280 platform:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Platform</span> <span class="n">Name</span><span class="p">:</span> <span class="n">Xilinx</span>
+<span class="n">Found</span> <span class="n">Device</span><span class="o">=</span><span class="n">xilinx_u280_xdma_201920_1</span>
+<span class="n">INFO</span><span class="p">:</span> <span class="n">Reading</span> <span class="o">./</span><span class="n">build_dir</span><span class="o">.</span><span class="n">hw</span><span class="o">.</span><span class="n">xilinx_u280_xdma_201920_1</span><span class="o">/</span><span class="n">krnl_vadd</span><span class="o">.</span><span class="n">xclbin</span>
+<span class="n">Loading</span><span class="p">:</span> <span class="s1">&#39;./build_dir.hw.xilinx_u280_xdma_201920_1/krnl_vadd.xclbin&#39;</span>
+<span class="n">Running</span> <span class="n">CASE</span> <span class="mi">1</span>  <span class="p">:</span> <span class="n">Single</span> <span class="n">HBM</span> <span class="k">for</span> <span class="nb">all</span> <span class="n">three</span> <span class="n">Buffers</span>
+<span class="n">Picking</span> <span class="n">Buffer</span> <span class="n">size</span> <span class="mi">67108864</span> <span class="n">so</span> <span class="n">that</span> <span class="nb">all</span> <span class="n">three</span> <span class="n">buffer</span> <span class="n">should</span> <span class="n">fit</span> <span class="n">into</span> <span class="n">Single</span> <span class="n">HBM</span> <span class="p">(</span><span class="nb">max</span> <span class="mi">256</span><span class="n">MB</span><span class="p">)</span>
+<span class="n">Each</span> <span class="n">buffer</span> <span class="ow">is</span> <span class="n">allocated</span> <span class="k">with</span> <span class="n">same</span> <span class="n">HBM</span> <span class="n">bank</span><span class="o">.</span>
+<span class="nb">input</span> <span class="mi">1</span> <span class="o">-&gt;</span> <span class="n">bank</span> <span class="mi">0</span>
+<span class="nb">input</span> <span class="mi">2</span> <span class="o">-&gt;</span> <span class="n">bank</span> <span class="mi">0</span>
+<span class="n">output</span>  <span class="o">-&gt;</span> <span class="n">bank</span> <span class="mi">0</span>
+<span class="p">[</span><span class="n">CASE</span> <span class="mi">1</span><span class="p">]</span> <span class="n">THROUGHPUT</span> <span class="o">=</span> <span class="mf">9.54234</span> <span class="n">GB</span><span class="o">/</span><span class="n">s</span>
+<span class="n">Running</span> <span class="n">CASE</span> <span class="mi">2</span><span class="p">:</span> <span class="n">Three</span> <span class="n">Separate</span> <span class="n">Banks</span> <span class="k">for</span> <span class="n">Three</span> <span class="n">Buffers</span>
+<span class="n">For</span> <span class="n">This</span> <span class="n">case</span> <span class="n">each</span> <span class="n">buffer</span> <span class="n">will</span> <span class="n">be</span> <span class="n">having</span> <span class="n">different</span> <span class="n">HBM</span><span class="p">,</span> <span class="n">so</span> <span class="n">buffer</span> <span class="n">size</span> <span class="ow">is</span> <span class="n">picked</span> <span class="n">to</span> <span class="n">utilize</span> <span class="n">full</span> <span class="n">HBM</span>
+<span class="n">vector</span> <span class="n">size</span> <span class="ow">is</span> <span class="mi">268435456</span> <span class="k">as</span> <span class="n">maximum</span> <span class="n">possible</span> <span class="n">inside</span> <span class="n">single</span> <span class="n">HBM</span>
+<span class="n">Each</span> <span class="n">buffer</span> <span class="ow">is</span> <span class="n">allocated</span> <span class="k">with</span> <span class="n">different</span> <span class="n">HBM</span> <span class="n">bank</span><span class="o">.</span>
+<span class="nb">input</span> <span class="mi">1</span> <span class="o">-&gt;</span> <span class="n">bank</span> <span class="mi">1</span>
+<span class="nb">input</span> <span class="mi">2</span> <span class="o">-&gt;</span> <span class="n">bank</span> <span class="mi">2</span>
+<span class="n">output</span>  <span class="o">-&gt;</span> <span class="n">bank</span> <span class="mi">3</span>
+<span class="p">[</span><span class="n">CASE</span> <span class="mi">2</span><span class="p">]</span> <span class="n">THROUGHPUT</span> <span class="o">=</span> <span class="mf">38.7406</span> <span class="n">GB</span><span class="o">/</span><span class="n">s</span>
+<span class="n">TEST</span> <span class="n">PASSED</span>
 </pre></div>
 </div>
 <div class="section" id="supported-shells">

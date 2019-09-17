@@ -26,6 +26,5 @@ This page contains examples for users who are new to Xilinx SDx OpenCL Flows. Th
    partition_cyclicblock.rst
    plram_access.rst
    shift_register.rst
-   split_kernel.rst
    systolic_array.rst
    wide_mem_rw.rst

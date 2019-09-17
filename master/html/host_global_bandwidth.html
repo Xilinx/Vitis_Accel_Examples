@@ -83,7 +83,7 @@
               <p class="caption"><span class="caption-text">Table of Contents</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="prerequisites.html">Prerequisites</a></li>
-<li class="toctree-l1"><a class="reference internal" href="shells.html">Supported Platforms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="shells.html">Supported Shells</a></li>
 <li class="toctree-l1"><a class="reference internal" href="compile_execute.html">Compilation and Execution</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cloud.html">Cloud Execution</a></li>
 <li class="toctree-l1"><a class="reference internal" href="support.html">Support</a></li>
@@ -111,10 +111,7 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="host_global_bandwidth_5.0_shell.html">host_global_5.0_shell</a></li>
-<li class="toctree-l2"><a class="reference internal" href="kernel_swap.html">Vector Add - Vector Multiplication for XPR Devices</a></li>
 <li class="toctree-l2"><a class="reference internal" href="multiple_cus_asymmetrical.html">Vector Addition ~ Asymmetrical Multiple Compute Units</a></li>
-<li class="toctree-l2"><a class="reference internal" href="multiple_devices.html">Multiple FPGA Devices Execution Concurrently</a></li>
-<li class="toctree-l2"><a class="reference internal" href="multiple_process.html">Multiple Process</a></li>
 <li class="toctree-l2"><a class="reference internal" href="overlap.html">Overlap Host and HLS kernels</a></li>
 <li class="toctree-l2"><a class="reference internal" href="streaming_host_bandwidth.html">Host Streaming Bandwidth</a></li>
 <li class="toctree-l2"><a class="reference internal" href="streaming_k2k.html">Stream Kernel to Kernel Vector Addition and Multiplication</a></li>
@@ -129,7 +126,6 @@
 <li class="toctree-l1"><a class="reference internal" href="sys_opt.html">System Optimization Kernels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="rtl.html">RTL Kernels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ocl.html">OpenCL Kernels</a></li>
-<li class="toctree-l1"><a class="reference internal" href="apps.html">Applications</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Common Utilities</span></p>
 <ul>
@@ -203,29 +199,18 @@
   <div class="section" id="host-global">
 <h1>host_global<a class="headerlink" href="#host-global" title="Permalink to this headline">¶</a></h1>
 <p>Host to global memory bandwidth test</p>
-<p>This example tests the bandwidth of the interconnect between host and
-global memory for 3 cases : host to global memory transfer, global
-memory to host transfer and bidirectional transfer. Host and device are
-connected via PCIe interconnect and latency of this interconnect can be
-seen as the acceleration tax for the application. Hence, these transfers
-should be efficiently managed.</p>
-<p>Different combinations of buffer sizes and number of buffers are created
-and data to be transferred is filled into buffers using
-<code class="docutils literal notranslate"><span class="pre">clEnqueueFillBuffer</span></code> API in which pattern with which buffers are to
-be filled can be specified.</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">err</span> <span class="o">=</span> <span class="n">command_queue</span><span class="p">.</span><span class="n">enqueueFillBuffer</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">((</span><span class="n">cl</span><span class="o">::</span><span class="n">Buffer</span><span class="o">&amp;</span><span class="p">)</span><span class="n">mems</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">nxtcnt</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
-</pre></div>
-</div>
+<p>This example tests the data transfer bandwidth between host and global
+memory for 3 cases : host to global memory transfer, global memory to
+host transfer and bidirectional transfer. For PCIe platform case, Host
+and device are connected via PCIe interconnect and latency of this
+interconnect can be seen as the acceleration tax for the application.
+Hence, these transfers should be efficiently managed.</p>
 <p>For bandwidth test, <code class="docutils literal notranslate"><span class="pre">clenqueueMigrateMemObjects()</span></code> API is used to
 transfer the data from host to global memory and vice versa.</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">err</span> <span class="o">=</span> <span class="n">commands</span><span class="p">.</span><span class="n">enqueueMigrateMemObjects</span><span class="p">(</span><span class="n">mems1</span><span class="p">,</span> <span class="mi">0</span><span class="cm">/* 0 means from host*/</span><span class="p">);</span>
 <span class="n">err</span> <span class="o">=</span> <span class="n">commands</span><span class="p">.</span><span class="n">enqueueMigrateMemObjects</span><span class="p">(</span><span class="n">mems2</span><span class="p">,</span> <span class="n">CL_MIGRATE_MEM_OBJECT_HOST</span><span class="p">);</span>
 </pre></div>
 </div>
-<p><strong>Note :</strong> From software emulation log it can be seen that for larger
-number of buffers of small sizes , throughput achieved for transfer is
-less whereas for small number of buffers with larger sizes, throughput
-achieved for transfer is more.</p>
 <div class="section" id="supported-shells">
 <h2>SUPPORTED SHELLS<a class="headerlink" href="#supported-shells" title="Permalink to this headline">¶</a></h2>
 <table class="docutils align-center">

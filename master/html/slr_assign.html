@@ -36,7 +36,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="RTL Kernels" href="rtl.html" />
-    <link rel="prev" title="System Optimization Kernels" href="sys_opt.html" /> 
+    <link rel="prev" title="Multiple Process" href="multiple_process.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -83,7 +83,7 @@
               <p class="caption"><span class="caption-text">Table of Contents</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="prerequisites.html">Prerequisites</a></li>
-<li class="toctree-l1"><a class="reference internal" href="shells.html">Supported Platforms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="shells.html">Supported Shells</a></li>
 <li class="toctree-l1"><a class="reference internal" href="compile_execute.html">Compilation and Execution</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cloud.html">Cloud Execution</a></li>
 <li class="toctree-l1"><a class="reference internal" href="support.html">Support</a></li>
@@ -94,6 +94,9 @@
 <li class="toctree-l1"><a class="reference internal" href="host.html">Host</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cpp.html">C++ Kernels</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="sys_opt.html">System Optimization Kernels</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="kernel_swap.html">Vector Add - Vector Multiplication for XPR Devices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="multiple_devices.html">Multiple FPGA Devices Execution Concurrently</a></li>
+<li class="toctree-l2"><a class="reference internal" href="multiple_process.html">Multiple Process</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">SLR Assign</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#supported-shells">SUPPORTED SHELLS</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#design-files">DESIGN FILES</a></li>
@@ -104,7 +107,6 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="rtl.html">RTL Kernels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ocl.html">OpenCL Kernels</a></li>
-<li class="toctree-l1"><a class="reference internal" href="apps.html">Applications</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Common Utilities</span></p>
 <ul>
@@ -184,6 +186,25 @@ are assigning first kernel(Vector Multiplication) to SLR0 and assigning
 the second kernel(Vector Addition) to SLR1</p>
 <p><strong>KEY CONCEPTS:</strong> SLR Assignments</p>
 <p><strong>KEYWORDS:</strong> slr</p>
+<p>This example demonstrates how kernels can be assigned to different
+SLRs(Super Logic Region) during the kernel linking stage.</p>
+<p>Actual kernel resource utilization values can be used to help distribute
+CUs across SLRs to reduce congestion in any one SLR. Xilinx recommends
+connecting to a DDR memory resource in the same SLR as the CU. This
+reduces competition for the limited <code class="docutils literal notranslate"><span class="pre">SLR-crossing</span></code> connection
+resources. In addition, connections between SLRs use super long line
+(SLL) routing resources, which incurs a greater delay than a standard
+intra-SLR routing.</p>
+<p>It might be necessary to cross an SLR region to connect to a DDR
+resource in a different SLR. However, if both the and the directives are
+explicitly defined, the tools <code class="docutils literal notranslate"><span class="pre">--sp</span></code>, <code class="docutils literal notranslate"><span class="pre">--slr</span></code> automatically add
+additional crossing logic to minimize the effect of the SLL delay, and
+facilitates better timing closure.</p>
+<p><code class="docutils literal notranslate"><span class="pre">xocc</span></code> requires <code class="docutils literal notranslate"><span class="pre">--slr</span></code> option during the linking stage for explicit
+slr assignment of kernels.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">--</span><span class="n">slr</span> <span class="n">vmult_1</span><span class="p">:</span><span class="n">SLR0</span> <span class="o">--</span><span class="n">slr</span> <span class="n">vadd_1</span><span class="p">:</span><span class="n">SLR1</span>
+</pre></div>
+</div>
 <div class="section" id="supported-shells">
 <h2>SUPPORTED SHELLS<a class="headerlink" href="#supported-shells" title="Permalink to this headline">¶</a></h2>
 <table class="docutils align-center">
@@ -254,7 +275,7 @@ executed by</p>
         <a href="rtl.html" class="btn btn-neutral float-right" title="RTL Kernels" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="sys_opt.html" class="btn btn-neutral float-left" title="System Optimization Kernels" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="multiple_process.html" class="btn btn-neutral float-left" title="Multiple Process" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

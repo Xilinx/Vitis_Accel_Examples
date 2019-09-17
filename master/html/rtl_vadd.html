@@ -83,7 +83,7 @@
               <p class="caption"><span class="caption-text">Table of Contents</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="prerequisites.html">Prerequisites</a></li>
-<li class="toctree-l1"><a class="reference internal" href="shells.html">Supported Platforms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="shells.html">Supported Shells</a></li>
 <li class="toctree-l1"><a class="reference internal" href="compile_execute.html">Compilation and Execution</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cloud.html">Cloud Execution</a></li>
 <li class="toctree-l1"><a class="reference internal" href="support.html">Support</a></li>
@@ -111,7 +111,6 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="ocl.html">OpenCL Kernels</a></li>
-<li class="toctree-l1"><a class="reference internal" href="apps.html">Applications</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Common Utilities</span></p>
 <ul>
@@ -186,6 +185,18 @@
 <h1>Vector Addition With RTL Kernel<a class="headerlink" href="#vector-addition-with-rtl-kernel" title="Permalink to this headline">¶</a></h1>
 <p>Simple example of vector addition using RTL Kernel</p>
 <p><strong>KEY CONCEPTS:</strong> RTL Kernel</p>
+<p>This example demonstrates simple vector addition with RTL kernel. Two
+vectors are transferred from host to kernel, added and the result is
+written back to host and verified.</p>
+<p>RTL kernels can be integrated to Vitis using <code class="docutils literal notranslate"><span class="pre">RTL</span> <span class="pre">Kernel</span> <span class="pre">Wizard</span></code>.
+These kernels have the same software interface model as OpenCL and C/C++
+kernels. That is, they are seen by the host application as functions
+with a void return value, scalar arguments, and pointer arguments.</p>
+<p>The RTL Kernel Wizard automates some of the steps that need to be taken
+to ensure that the RTL IP is packaged into a kernel that can be
+integrated into a system in Vitis environment. A <code class="docutils literal notranslate"><span class="pre">kernel.xml</span></code> file is
+generated to match the software function prototype and behavior
+specified in the wizard.</p>
 <div class="section" id="supported-shells">
 <h2>SUPPORTED SHELLS<a class="headerlink" href="#supported-shells" title="Permalink to this headline">¶</a></h2>
 <table class="docutils align-center">

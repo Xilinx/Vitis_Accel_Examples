@@ -83,7 +83,7 @@
               <p class="caption"><span class="caption-text">Table of Contents</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="prerequisites.html">Prerequisites</a></li>
-<li class="toctree-l1"><a class="reference internal" href="shells.html">Supported Platforms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="shells.html">Supported Shells</a></li>
 <li class="toctree-l1"><a class="reference internal" href="compile_execute.html">Compilation and Execution</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cloud.html">Cloud Execution</a></li>
 <li class="toctree-l1"><a class="reference internal" href="support.html">Support</a></li>
@@ -111,10 +111,7 @@
 <li class="toctree-l2"><a class="reference internal" href="hbm_simple.html">HBM Simple Vector Addition</a></li>
 <li class="toctree-l2"><a class="reference internal" href="host_global_bandwidth.html">host_global</a></li>
 <li class="toctree-l2"><a class="reference internal" href="host_global_bandwidth_5.0_shell.html">host_global_5.0_shell</a></li>
-<li class="toctree-l2"><a class="reference internal" href="kernel_swap.html">Vector Add - Vector Multiplication for XPR Devices</a></li>
 <li class="toctree-l2"><a class="reference internal" href="multiple_cus_asymmetrical.html">Vector Addition ~ Asymmetrical Multiple Compute Units</a></li>
-<li class="toctree-l2"><a class="reference internal" href="multiple_devices.html">Multiple FPGA Devices Execution Concurrently</a></li>
-<li class="toctree-l2"><a class="reference internal" href="multiple_process.html">Multiple Process</a></li>
 <li class="toctree-l2"><a class="reference internal" href="overlap.html">Overlap Host and HLS kernels</a></li>
 <li class="toctree-l2"><a class="reference internal" href="streaming_host_bandwidth.html">Host Streaming Bandwidth</a></li>
 <li class="toctree-l2"><a class="reference internal" href="streaming_k2k.html">Stream Kernel to Kernel Vector Addition and Multiplication</a></li>
@@ -129,7 +126,6 @@
 <li class="toctree-l1"><a class="reference internal" href="sys_opt.html">System Optimization Kernels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="rtl.html">RTL Kernels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ocl.html">OpenCL Kernels</a></li>
-<li class="toctree-l1"><a class="reference internal" href="apps.html">Applications</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Common Utilities</span></p>
 <ul>
@@ -208,22 +204,84 @@ data to and from the FPGA</p>
 Buffers, Map Buffers, Async Memcpy</p>
 <p><strong>KEYWORDS:</strong> enqueueWriteBuffer(), enqueueReadBuffer(),
 enqueueMapBuffer(), enqueueUnmapMemObject(), enqueueMigrateMemObjects()</p>
-<p>This example tests the data transfer bandwidth between host and global
-memory for 3 different cases:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">1</span><span class="p">)</span> <span class="n">Host</span> <span class="n">to</span> <span class="k">global</span> <span class="n">memory</span> <span class="n">transfer</span>
-
-<span class="mi">2</span><span class="p">)</span> <span class="n">Global</span> <span class="n">memory</span> <span class="n">to</span> <span class="n">host</span> <span class="n">transfer</span>
-
-<span class="mi">3</span><span class="p">)</span> <span class="n">Bidirectional</span> <span class="n">transfer</span><span class="o">.</span>
+<p>This example illustrates how to transfer data back and forth between
+host and device.</p>
+<p>There are several ways to creating openCL buffers. The most recommended
+way is to create the cl::Buffer object using the CL_MEM_COPY_HOST_PTR
+flag as below:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="n">aligned_allocator</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span> <span class="n">host_memory</span><span class="p">(</span><span class="n">elements</span><span class="p">,</span> <span class="mi">42</span><span class="p">);</span>
+<span class="n">cl</span><span class="o">::</span><span class="n">Buffer</span> <span class="n">buffer_in</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">CL_MEM_COPY_HOST_PTR</span><span class="p">,</span> <span class="n">size_in_bytes</span><span class="p">,</span><span class="n">host_memory</span><span class="p">.</span><span class="n">data</span><span class="p">(),</span><span class="k">nullptr</span><span class="p">));</span>
 </pre></div>
 </div>
-<p>Different combinations of buffer sizes and number of buffers are
-created. For data transfer, <code class="docutils literal notranslate"><span class="pre">clenqueueMigrateMemObjects()</span></code> API is used
-to transfer the data between host to global memory as this API does
-immediate data transfer and is the right choice for bandwidth
-measurement.</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">err</span> <span class="o">=</span> <span class="n">commands</span><span class="p">.</span><span class="n">enqueueMigrateMemObjects</span><span class="p">(</span><span class="n">mems1</span><span class="p">,</span> <span class="mi">0</span><span class="cm">/* 0 means from host*/</span><span class="p">);</span>
-<span class="n">err</span> <span class="o">=</span> <span class="n">commands</span><span class="p">.</span><span class="n">enqueueMigrateMemObjects</span><span class="p">(</span><span class="n">mems2</span><span class="p">,</span> <span class="n">CL_MIGRATE_MEM_OBJECT_HOST</span><span class="p">);</span>
+<p>For above case, it expect that Host memory pointer should be aligned to
+Memory for the same aligned_allocator is used. If host pointer is not
+aligned, it will generate the warning and will involve extra memcpy from
+host memory to Buffer Memory.</p>
+<p>After creating buffer using Host Mem Pointer, clEnqueueMigrateMemObjects
+can be used for immediate migration of data without considering the fact
+that data is actually needed or not by kernel operation.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">cl</span><span class="o">::</span><span class="n">Buffer</span> <span class="n">buffer_mem</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">CL_MEM_USE_HOST_PTR</span><span class="p">,</span><span class="n">size_in_bytes</span><span class="p">,</span> <span class="n">host_memory2</span><span class="p">.</span><span class="n">data</span><span class="p">(),</span><span class="o">&amp;</span><span class="n">err</span><span class="p">));</span>
+              <span class="n">q</span><span class="p">.</span><span class="n">enqueueMigrateMemObjects</span><span class="p">({</span><span class="n">buffer_mem</span><span class="p">},</span><span class="mi">0</span> <span class="cm">/* 0 means from host*/</span><span class="p">));</span>
+              <span class="n">q</span><span class="p">.</span><span class="n">enqueueMigrateMemObjects</span><span class="p">({</span><span class="n">buffer_mem</span><span class="p">},</span><span class="n">CL_MIGRATE_MEM_OBJECT_HOST</span><span class="p">));</span>
+</pre></div>
+</div>
+<p>While creating buffer, Buffer type can also be specified as below:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">cl</span><span class="o">::</span><span class="n">Buffer</span> <span class="n">buffer_in</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">CL_MEM_READ_ONLY</span><span class="p">,</span> <span class="n">size_in_bytes</span><span class="p">);</span>
+<span class="n">cl</span><span class="o">::</span><span class="n">Buffer</span> <span class="n">buffer_out</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">CL_MEM_WRITE_ONLY</span><span class="p">,</span> <span class="n">size_in_bytes</span><span class="p">);</span>
+<span class="n">cl</span><span class="o">::</span><span class="n">Buffer</span> <span class="n">buffer_inout</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">CL_MEM_READ_WRITE</span><span class="p">,</span> <span class="n">size_in_bytes</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>The CL_MEM_READ_ONLY flag indicates that the Kernel can only read from
+this location. The host can write only to this buffer. The
+CL_MEM_WRITE_ONLY flag indicates that the Kernel can only Write to this
+location. The host can read only from this buffer. The CL_MEM_READ_WRITE
+flag indicates that the both kernel and host can do read and write
+operation to this location.</p>
+<p>To transfer the data from host Buffer memory to device memory
+enqueueWriteBuffer API can be used as below:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">q</span><span class="p">.</span><span class="n">enqueueWriteBuffer</span><span class="p">(</span>
+  <span class="n">buffer</span><span class="p">,</span>             <span class="c1">// buffer on the FPGA</span>
+  <span class="n">CL_FALSE</span><span class="p">,</span>            <span class="c1">// non-blocking call</span>
+  <span class="mi">0</span><span class="p">,</span>                  <span class="c1">// buffer offset in bytes</span>
+  <span class="n">size_in_bytes</span><span class="p">,</span>      <span class="c1">// Size in bytes</span>
+  <span class="n">host_memory</span><span class="p">.</span><span class="n">data</span><span class="p">(),</span> <span class="c1">// Pointer to the data to copy</span>
+  <span class="p">);</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">enqueueWriteBuffer()</span></code> API call is a request to enqueue write
+operation. This API call does not immediately initiate the data
+transfer. Data transfer happens when a kernel is enqueue which has
+respective buffer as one of the kernel arguments. So for such kernel
+call, runtime first transfer the data from host to device and later
+trigger the kernel call.</p>
+<p>Data can be transferred back to the host using the read buffer operation
+as below:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">q</span><span class="p">.</span><span class="n">enqueueReadBuffer</span><span class="p">(</span>
+    <span class="n">buffer</span><span class="p">,</span>  <span class="c1">// This buffers data will be read</span>
+    <span class="n">CL_TRUE</span><span class="p">,</span> <span class="c1">// blocking call</span>
+    <span class="mi">0</span><span class="p">,</span>       <span class="c1">// offset</span>
+    <span class="n">size_in_bytes</span><span class="p">,</span>
+    <span class="n">host_memory</span><span class="p">.</span><span class="n">data</span><span class="p">(),</span> <span class="c1">// Data will be stored here</span>
+<span class="p">);</span>
+</pre></div>
+</div>
+<p>Mapping and unmapping buffers is another way to transfer memory to and
+from the FPGA. This operation gives you a pointer that can be freely
+modified by your host application</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span> <span class="o">*</span><span class="n">ptr</span> <span class="o">=</span> <span class="n">q</span><span class="p">.</span><span class="n">enqueueMapBuffer</span><span class="p">(</span>
+    <span class="n">buffer</span><span class="p">,</span>       <span class="c1">// buffer</span>
+    <span class="n">CL_TRUE</span><span class="p">,</span>      <span class="c1">// blocking call</span>
+    <span class="n">CL_MAP_WRITE</span><span class="p">,</span> <span class="c1">// Indicates we will be writing</span>
+    <span class="mi">0</span><span class="p">,</span>            <span class="c1">// buffer offset</span>
+    <span class="n">size_in_bytes</span> <span class="c1">// size in bytes</span>
+<span class="p">);</span>
+<span class="kt">int</span> <span class="o">*</span><span class="n">data_ptr</span> <span class="o">=</span> <span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="kt">int</span> <span class="o">*&gt;</span><span class="p">(</span><span class="n">ptr</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>You can now assign values to the pointer <code class="docutils literal notranslate"><span class="pre">data_ptr</span></code> just like a
+regular pointer. The buffer must be unmapped before it can be used in
+other operations</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">q</span><span class="p">.</span><span class="n">enqueueUnmapMemObject</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="n">ptr</span> <span class="cm">/*pointer returned by Map call*/</span><span class="p">);</span>
 </pre></div>
 </div>
 <div class="section" id="supported-shells">

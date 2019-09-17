@@ -83,7 +83,7 @@
               <p class="caption"><span class="caption-text">Table of Contents</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="prerequisites.html">Prerequisites</a></li>
-<li class="toctree-l1"><a class="reference internal" href="shells.html">Supported Platforms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="shells.html">Supported Shells</a></li>
 <li class="toctree-l1"><a class="reference internal" href="compile_execute.html">Compilation and Execution</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cloud.html">Cloud Execution</a></li>
 <li class="toctree-l1"><a class="reference internal" href="support.html">Support</a></li>
@@ -111,10 +111,7 @@
 <li class="toctree-l2"><a class="reference internal" href="hbm_simple.html">HBM Simple Vector Addition</a></li>
 <li class="toctree-l2"><a class="reference internal" href="host_global_bandwidth.html">host_global</a></li>
 <li class="toctree-l2"><a class="reference internal" href="host_global_bandwidth_5.0_shell.html">host_global_5.0_shell</a></li>
-<li class="toctree-l2"><a class="reference internal" href="kernel_swap.html">Vector Add - Vector Multiplication for XPR Devices</a></li>
 <li class="toctree-l2"><a class="reference internal" href="multiple_cus_asymmetrical.html">Vector Addition ~ Asymmetrical Multiple Compute Units</a></li>
-<li class="toctree-l2"><a class="reference internal" href="multiple_devices.html">Multiple FPGA Devices Execution Concurrently</a></li>
-<li class="toctree-l2"><a class="reference internal" href="multiple_process.html">Multiple Process</a></li>
 <li class="toctree-l2"><a class="reference internal" href="overlap.html">Overlap Host and HLS kernels</a></li>
 <li class="toctree-l2"><a class="reference internal" href="streaming_host_bandwidth.html">Host Streaming Bandwidth</a></li>
 <li class="toctree-l2"><a class="reference internal" href="streaming_k2k.html">Stream Kernel to Kernel Vector Addition and Multiplication</a></li>
@@ -129,7 +126,6 @@
 <li class="toctree-l1"><a class="reference internal" href="sys_opt.html">System Optimization Kernels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="rtl.html">RTL Kernels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ocl.html">OpenCL Kernels</a></li>
-<li class="toctree-l1"><a class="reference internal" href="apps.html">Applications</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Common Utilities</span></p>
 <ul>
@@ -206,7 +202,7 @@
 to handle them at runtime.</p>
 <p><strong>KEY CONCEPTS:</strong> OpenCL API, Error handling</p>
 <p><strong>KEYWORDS:</strong> CL_SUCCESS, CL_DEVICE_NOT_FOUND, CL_DEVICE_NOT_AVAILABLE</p>
-<p>This example discusses the different reasons for errors in OpenCL C and
+<p>This example explains the different reasons for errors in OpenCL C and
 how to catch them at runtime.</p>
 <p>Host program uses various APIs like
 <code class="docutils literal notranslate"><span class="pre">clGetPlatformIDs</span></code>,<code class="docutils literal notranslate"><span class="pre">clGetPlatformInfo</span></code> which may generate errors
@@ -214,6 +210,64 @@ on unsuccessful execution.</p>
 <p>Errors codes, explanations and APIs which generate these errors are
 documented at
 <a class="reference external" href="https://www.khronos.org/registry/OpenCL/sdk/1.0/docs/man/xhtml/errors.html">Errors</a>.</p>
+<p>Error handling in OpenCL is performed using the cl_int specifier. OpenCL
+functions either return or accept pointers to cl_int types to indicate
+if an error occurred.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">cl_int</span> <span class="n">err</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>Error while trying to get Platform IDs without valid values</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">err</span> <span class="o">=</span> <span class="n">clGetPlatformIDs</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="k">nullptr</span><span class="p">,</span> <span class="k">nullptr</span><span class="p">));</span>
+</pre></div>
+</div>
+<p>Received Expected Error calling above call from <code class="docutils literal notranslate"><span class="pre">clGetPlatformIDs</span></code>
+This error is usually caused by a failed OpenCL installation or if both
+the platforms and num_platforms parameters are null.</p>
+<p>Error when trying to access device type which does not exist</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">err</span> <span class="o">=</span> <span class="n">clGetDeviceIDs</span><span class="p">(</span><span class="n">platforms</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">CL_DEVICE_TYPE_CPU</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="k">nullptr</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">num_devices</span><span class="p">));</span>
+</pre></div>
+</div>
+<p>This error appears when we try to create a device and no devices are
+found on the platform. In this case we passed <code class="docutils literal notranslate"><span class="pre">CL_DEVICE_TYPE_CPU</span></code> as
+the device type which is not available on the provided platform.</p>
+<p>Error while creating Context</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">cl_context</span> <span class="n">context</span> <span class="o">=</span> <span class="n">clCreateContext</span><span class="p">(</span><span class="n">props</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">device_id</span><span class="p">,</span> <span class="k">nullptr</span><span class="p">,</span> <span class="k">nullptr</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">err</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Most <code class="docutils literal notranslate"><span class="pre">clCreate*</span></code> calls accept error codes as their last parameter
+instead of returning the error value. This error occurred because we
+passed 0 for the num_devices variable.</p>
+<p>Error while creating Program with Binary:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">cl_program</span> <span class="n">program</span> <span class="o">=</span> <span class="n">clCreateProgramWithBinary</span><span class="p">(</span><span class="n">context</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="o">&amp;</span><span class="n">device_id</span><span class="p">,</span><span class="o">&amp;</span><span class="n">binary_size</span><span class="p">,</span><span class="o">&amp;</span><span class="n">incorrect_binary_data</span><span class="p">,</span><span class="nb">NULL</span><span class="p">,</span><span class="o">&amp;</span><span class="n">err</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Errors caused during program creation are usually due to invalid
+binaries. The binary may be targeting a different shell. It may also
+have been corrupted or incorrectly read from disk.</p>
+<p>Error while creating Kernel:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">cl_kernel</span> <span class="n">kernel</span> <span class="o">=</span> <span class="n">clCreateKernel</span><span class="p">(</span><span class="n">program</span><span class="p">,</span> <span class="s">&quot;InvalidKernelName&quot;</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">err</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Errors calling clCreateKernel are usually caused if the name passed into
+the function does not match a kernel in the binary.</p>
+<p>Error while creating Buffers:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">cl_mem</span> <span class="n">buffer_a</span> <span class="o">=</span> <span class="n">clCreateBuffer</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">CL_MEM_READ_ONLY</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="k">nullptr</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">err</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>There can be several reasons for buffer creation to fail. It could be
+because device could not allocate enough memory for this buffer. The
+pointer could be null and either CL_MEM_USE_HOST_PTR or
+CL_MEM_COPY_HOST_PTR are passed into the flags parameter. In this case
+we passed zero(0) as the size of the buffer.</p>
+<p>Error while Writing Data into Buffer:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">err</span> <span class="o">=</span> <span class="n">clEnqueueWriteBuffer</span><span class="p">(</span><span class="n">command_queue</span><span class="p">,</span><span class="n">buffer_a</span><span class="p">,</span><span class="n">CL_FALSE</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">size</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span><span class="n">A</span><span class="p">.</span><span class="n">data</span><span class="p">(),</span><span class="mi">0</span><span class="p">,</span><span class="k">nullptr</span><span class="p">,</span><span class="k">nullptr</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>Errors calling <code class="docutils literal notranslate"><span class="pre">clEnqueueWriteBuffer</span></code> tend to occur due to invalid
+pointers or invalid size of the transfer. Make sure that the host
+pointer is correct and that you are transferring less than the size of
+the buffer. Here we tried to transfer data that was larger than the size
+of the buffer.</p>
 <div class="section" id="supported-shells">
 <h2>SUPPORTED SHELLS<a class="headerlink" href="#supported-shells" title="Permalink to this headline">¶</a></h2>
 <table class="docutils align-center">

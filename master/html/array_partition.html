@@ -83,7 +83,7 @@
               <p class="caption"><span class="caption-text">Table of Contents</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="prerequisites.html">Prerequisites</a></li>
-<li class="toctree-l1"><a class="reference internal" href="shells.html">Supported Platforms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="shells.html">Supported Shells</a></li>
 <li class="toctree-l1"><a class="reference internal" href="compile_execute.html">Compilation and Execution</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cloud.html">Cloud Execution</a></li>
 <li class="toctree-l1"><a class="reference internal" href="support.html">Support</a></li>
@@ -113,7 +113,6 @@
 <li class="toctree-l2"><a class="reference internal" href="partition_cyclicblock.html">Array Block and Cyclic Partitioning</a></li>
 <li class="toctree-l2"><a class="reference internal" href="plram_access.html">PLRAM access</a></li>
 <li class="toctree-l2"><a class="reference internal" href="shift_register.html">Shift Register</a></li>
-<li class="toctree-l2"><a class="reference internal" href="split_kernel.html">Large application Splits into Multiple Kernels</a></li>
 <li class="toctree-l2"><a class="reference internal" href="systolic_array.html">Systolic Array Implementation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="wide_mem_rw.html">Wide Memory Read/Write</a></li>
 </ul>
@@ -121,7 +120,6 @@
 <li class="toctree-l1"><a class="reference internal" href="sys_opt.html">System Optimization Kernels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="rtl.html">RTL Kernels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ocl.html">OpenCL Kernels</a></li>
-<li class="toctree-l1"><a class="reference internal" href="apps.html">Applications</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Common Utilities</span></p>
 <ul>
@@ -201,10 +199,10 @@ using HLS kernel in Vitis Environment.</p>
 <p><strong>KEYWORDS:</strong> #pragma HLS ARRAY_PARTITION, complete</p>
 <p>This example demonstrates how <code class="docutils literal notranslate"><span class="pre">array</span> <span class="pre">partition</span></code> in HLS kernel can help
 to improve the performance. In this example matrix multiple is
-functionality is used to showcase the benefit of array partion. Design
+functionality is used to showcase the benefit of array partition. Design
 contains two kernels “matmul” a simple matrix multiplication and
-“matmul_partition” a matrix multiplication implimentation using array
-partiton.</p>
+“matmul_partition” a matrix multiplication implementation using array
+partition.</p>
 <p><code class="docutils literal notranslate"><span class="pre">#pragma</span> <span class="pre">HLS</span> <span class="pre">array</span> <span class="pre">partition</span></code> is used to partition an array into
 multiple smaller arrays or memories. Arrays can be partitioned in three
 ways, <code class="docutils literal notranslate"><span class="pre">cyclic</span></code> where elements are put into smaller arrays one by one
@@ -222,6 +220,23 @@ dimension of local Matrix array as below</p>
 </div>
 <p>This array partition helps design to access 2nd dimension of both Matrix
 B and C concurrently to reduce the overall latency.</p>
+<p>Example generates the following information as output when ran on Alevo
+U200 Card:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Found</span> <span class="n">Platform</span>
+<span class="n">Platform</span> <span class="n">Name</span><span class="p">:</span> <span class="n">Xilinx</span>
+<span class="n">INFO</span><span class="p">:</span> <span class="n">Reading</span> <span class="o">./</span><span class="n">build_dir</span><span class="o">.</span><span class="n">hw</span><span class="o">.</span><span class="n">xilinx_u200_qdma_201910_1</span><span class="o">/</span><span class="n">matmul</span><span class="o">.</span><span class="n">xclbin</span>
+<span class="n">Loading</span><span class="p">:</span> <span class="s1">&#39;./build_dir.hw.xilinx_u200_qdma_201910_1/matmul.xclbin&#39;</span>
+<span class="o">|-------------------------+-------------------------|</span>
+<span class="o">|</span> <span class="n">Kernel</span>                  <span class="o">|</span>    <span class="n">Wall</span><span class="o">-</span><span class="n">Clock</span> <span class="n">Time</span> <span class="p">(</span><span class="n">ns</span><span class="p">)</span> <span class="o">|</span>
+<span class="o">|-------------------------+-------------------------|</span>
+<span class="o">|</span> <span class="n">matmul</span><span class="p">:</span>                 <span class="o">|</span>                  <span class="mi">396685</span> <span class="o">|</span>
+<span class="o">|</span> <span class="n">matmul</span><span class="p">:</span> <span class="n">partition</span>       <span class="o">|</span>                  <span class="mi">256367</span> <span class="o">|</span>
+<span class="o">|-------------------------+-------------------------|</span>
+<span class="n">Note</span><span class="p">:</span> <span class="n">Wall</span> <span class="n">Clock</span> <span class="n">Time</span> <span class="ow">is</span> <span class="n">meaningful</span> <span class="k">for</span> <span class="n">real</span> <span class="n">hardware</span> <span class="n">execution</span> <span class="n">only</span><span class="p">,</span> <span class="ow">not</span> <span class="k">for</span> <span class="n">emulation</span><span class="o">.</span>
+<span class="n">Please</span> <span class="n">refer</span> <span class="n">to</span> <span class="n">profile</span> <span class="n">summary</span> <span class="k">for</span> <span class="n">kernel</span> <span class="n">execution</span> <span class="n">time</span> <span class="k">for</span> <span class="n">hardware</span> <span class="n">emulation</span><span class="o">.</span>
+<span class="n">TEST</span> <span class="n">PASSED</span>
+</pre></div>
+</div>
 <div class="section" id="supported-shells">
 <h2>SUPPORTED SHELLS<a class="headerlink" href="#supported-shells" title="Permalink to this headline">¶</a></h2>
 <table class="docutils align-center">

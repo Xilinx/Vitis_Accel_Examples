@@ -83,7 +83,7 @@
               <p class="caption"><span class="caption-text">Table of Contents</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="prerequisites.html">Prerequisites</a></li>
-<li class="toctree-l1"><a class="reference internal" href="shells.html">Supported Platforms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="shells.html">Supported Shells</a></li>
 <li class="toctree-l1"><a class="reference internal" href="compile_execute.html">Compilation and Execution</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cloud.html">Cloud Execution</a></li>
 <li class="toctree-l1"><a class="reference internal" href="support.html">Support</a></li>
@@ -111,10 +111,7 @@
 <li class="toctree-l2"><a class="reference internal" href="hbm_simple.html">HBM Simple Vector Addition</a></li>
 <li class="toctree-l2"><a class="reference internal" href="host_global_bandwidth.html">host_global</a></li>
 <li class="toctree-l2"><a class="reference internal" href="host_global_bandwidth_5.0_shell.html">host_global_5.0_shell</a></li>
-<li class="toctree-l2"><a class="reference internal" href="kernel_swap.html">Vector Add - Vector Multiplication for XPR Devices</a></li>
 <li class="toctree-l2"><a class="reference internal" href="multiple_cus_asymmetrical.html">Vector Addition ~ Asymmetrical Multiple Compute Units</a></li>
-<li class="toctree-l2"><a class="reference internal" href="multiple_devices.html">Multiple FPGA Devices Execution Concurrently</a></li>
-<li class="toctree-l2"><a class="reference internal" href="multiple_process.html">Multiple Process</a></li>
 <li class="toctree-l2"><a class="reference internal" href="overlap.html">Overlap Host and HLS kernels</a></li>
 <li class="toctree-l2"><a class="reference internal" href="streaming_host_bandwidth.html">Host Streaming Bandwidth</a></li>
 <li class="toctree-l2"><a class="reference internal" href="streaming_k2k.html">Stream Kernel to Kernel Vector Addition and Multiplication</a></li>
@@ -129,7 +126,6 @@
 <li class="toctree-l1"><a class="reference internal" href="sys_opt.html">System Optimization Kernels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="rtl.html">RTL Kernels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ocl.html">OpenCL Kernels</a></li>
-<li class="toctree-l1"><a class="reference internal" href="apps.html">Applications</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Common Utilities</span></p>
 <ul>
@@ -214,20 +210,19 @@ HBM Banks (16 Input buffers and 16 output buffers). Host application
 runs all 8 compute units together and measures the overall HBM
 bandwidth.</p>
 <p>HBM is a high performance RAM interface for 3D-stacked DRAM. HBM can
-provide bandwidth upto <strong>307 GB/s</strong> with low power consumption (20% as
-compared to GDDR5). These 32 memory resources referenced as HBM [0:31]
-by XOCC and these are accessed via 16 memory controllers.</p>
-<p><code class="docutils literal notranslate"><span class="pre">CL_MEM_EXT_PTR_XILINX</span></code> flag must be specified while creating buffers
-using HBM.</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">buffer_input1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">cl</span><span class="o">::</span><span class="n">Buffer</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">CL_MEM_READ_ONLY</span> <span class="o">|</span> <span class="n">CL_MEM_EXT_PTR_XILINX</span> <span class="o">|</span> <span class="n">CL_MEM_USE_HOST_PTR</span><span class="p">,</span>
-                              <span class="k">sizeof</span><span class="p">(</span><span class="kt">uint32_t</span><span class="p">)</span> <span class="o">*</span> <span class="n">dataSize</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">inBufExt1</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="o">&amp;</span><span class="n">err</span><span class="p">));</span>
-</pre></div>
-</div>
-<p><code class="docutils literal notranslate"><span class="pre">cl_mem_ext_ptr</span></code> object needs to be used in cases where memory
-assignment is done by user explicitly.</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">inBufExt1</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">obj</span> <span class="o">=</span> <span class="n">source_in1</span><span class="p">.</span><span class="n">data</span><span class="p">();</span>
-<span class="n">inBufExt1</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">param</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-<span class="n">inBufExt1</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">flags</span> <span class="o">=</span> <span class="n">bank</span><span class="p">[</span><span class="n">i</span> <span class="o">*</span> <span class="mi">4</span><span class="p">];</span>
+provide very high bandwidth greater than <strong>400 GB/s</strong> with low power
+consumption (20% as compared to GDDR5). These 32 memory resources
+referenced as HBM [0:31] by v++ and these are accessed via 16 memory
+controllers.</p>
+<p>Host can allocate a buffer into specific HBM bank using
+<code class="docutils literal notranslate"><span class="pre">CL_MEM_EXT_PTR_XILINX</span></code> flag of buffer. <code class="docutils literal notranslate"><span class="pre">cl_mem_ext_ptr</span></code> object
+needs to be used in cases where memory assignment is done by user
+explicitly:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">cl_mem_ext_ptr_t</span> <span class="n">bufExt</span><span class="p">;</span>
+<span class="n">bufExt</span><span class="p">.</span><span class="n">obj</span> <span class="o">=</span> <span class="n">host_pointer</span><span class="p">;</span>
+<span class="n">bufExt</span><span class="p">.</span><span class="n">param</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="n">bufExt</span><span class="p">.</span><span class="n">flags</span> <span class="o">=</span> <span class="n">n</span>  <span class="o">|</span> <span class="n">XCL_MEM_TOPOLOGY</span><span class="p">;</span>
+<span class="n">buffer_input</span> <span class="o">=</span> <span class="n">cl</span><span class="o">::</span><span class="n">Buffer</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">CL_MEM_READ_ONLY</span> <span class="o">|</span> <span class="n">CL_MEM_EXT_PTR_XILINX</span> <span class="o">|</span> <span class="n">CL_MEM_USE_HOST_PTR</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">bufExt</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">err</span><span class="p">));</span>
 </pre></div>
 </div>
 <p>HBM memory must be associated to respective kernel I/O ports using
