@@ -9,14 +9,7 @@ If two or more processes execute the same kernel, then these processes will
 acquire the kernel's compute units and will be
 scheduled in a first-come first-serve manner. All processes have the same priority in Xilinx Runtime(XRT) Environment.
 
-__PREREQUISITE__: To enable multi-process support, add the following entry to sdaccel.ini in the same directory as all the executable(s):
-
-```
-[Runtime]
-multiprocess=true
-```
-
-Also, the Host is required to set the environment variable:
+__PREREQUISITE__: Host is required to set the environment variable:
 
 ```
 XCL_MULTIPROCESS_MODE = 1
