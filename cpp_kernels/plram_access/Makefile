@@ -80,7 +80,7 @@ LDCLFLAGS += --config mmult.ini
 EXECUTABLE = host
 CMD_ARGS = $(BUILD_DIR)/mmult.xclbin
 EXEC_CMD_ARGS += $(EXECUTABLE)
-EXEC_CMD_ARGS += $(CMD_ARGS)
+EXEC_CMD_ARGS += mmult.xclbin
 
 EMCONFIG_DIR = $(TEMP_DIR)
 

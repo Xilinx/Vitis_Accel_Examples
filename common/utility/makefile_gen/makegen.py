@@ -204,7 +204,10 @@ def add_kernel_flags(target, data):
 	    target.write(cmdargs)
 
     target.write("\nEXEC_CMD_ARGS += $(EXECUTABLE)\n")
-    target.write("EXEC_CMD_ARGS += $(CMD_ARGS)\n")
+    if "containers" in data:
+        for con in data["containers"]:
+            target.write("EXEC_CMD_ARGS += ")
+            target.write(con["name"] + ".xclbin\n")
     target.write("\n")
 
     target.write("EMCONFIG_DIR = $(TEMP_DIR)")

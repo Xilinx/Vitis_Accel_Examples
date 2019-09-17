@@ -78,7 +78,7 @@ CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps
 EXECUTABLE = data_transfer
 CMD_ARGS = $(BUILD_DIR)/dummy_kernel.xclbin
 EXEC_CMD_ARGS += $(EXECUTABLE)
-EXEC_CMD_ARGS += $(CMD_ARGS)
+EXEC_CMD_ARGS += dummy_kernel.xclbin
 
 EMCONFIG_DIR = $(TEMP_DIR)
 

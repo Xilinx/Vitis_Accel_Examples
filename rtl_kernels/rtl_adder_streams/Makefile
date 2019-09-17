@@ -81,7 +81,7 @@ LDCLFLAGS += --config adder.ini
 EXECUTABLE = host
 CMD_ARGS = $(BUILD_DIR)/adder.xclbin
 EXEC_CMD_ARGS += $(EXECUTABLE)
-EXEC_CMD_ARGS += $(CMD_ARGS)
+EXEC_CMD_ARGS += adder.xclbin
 
 EMCONFIG_DIR = $(TEMP_DIR)
 

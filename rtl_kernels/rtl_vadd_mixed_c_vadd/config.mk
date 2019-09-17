@@ -4,4 +4,4 @@ $(TEMP_DIR)/rtl_vadd.xo: src/kernel.xml scripts/package_kernel.tcl scripts/gen_r
 	$(VIVADO) -mode batch -source scripts/gen_rtl_vadd_xo.tcl -tclargs $(TEMP_DIR)/rtl_vadd.xo vadd $(TARGET) $(DEVICE) $(XSA)
 $(TEMP_DIR)/krnl_vadd.xo: ./src/krnl_vadd.cpp
 	mkdir -p $(TEMP_DIR)
-	$(XOCC) $(CLFLAGS) -c -k krnl_vadd -I'$(<D)' -o'$@' '$<' 
+	$(VPP) $(CLFLAGS) -c -k krnl_vadd -I'$(<D)' -o'$@' '$<' 

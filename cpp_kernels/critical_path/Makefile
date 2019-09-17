@@ -80,7 +80,7 @@ CLFLAGS += -DBAD_DESIGN=0
 EXECUTABLE = host
 CMD_ARGS = $(BUILD_DIR)/apply_watermark_GOOD.xclbin ./data/input.bmp ./data/golden.bmp
 EXEC_CMD_ARGS += $(EXECUTABLE)
-EXEC_CMD_ARGS += $(CMD_ARGS)
+EXEC_CMD_ARGS += apply_watermark_GOOD.xclbin
 
 EMCONFIG_DIR = $(TEMP_DIR)
 

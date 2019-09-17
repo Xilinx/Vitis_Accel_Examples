@@ -80,7 +80,7 @@ LDCLFLAGS += --config krnl_stream_vadd.ini
 EXECUTABLE = vadd_stream
 CMD_ARGS = $(BUILD_DIR)/krnl_stream_vadd.xclbin
 EXEC_CMD_ARGS += $(EXECUTABLE)
-EXEC_CMD_ARGS += $(CMD_ARGS)
+EXEC_CMD_ARGS += krnl_stream_vadd.xclbin
 
 EMCONFIG_DIR = $(TEMP_DIR)
 

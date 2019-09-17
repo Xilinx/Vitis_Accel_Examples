@@ -80,7 +80,7 @@ CLFLAGS +=  --max_memory_ports bandwidth
 EXECUTABLE = kernel_global
 CMD_ARGS = $(BUILD_DIR)/krnl_kernel_global.xclbin
 EXEC_CMD_ARGS += $(EXECUTABLE)
-EXEC_CMD_ARGS += $(CMD_ARGS)
+EXEC_CMD_ARGS += krnl_kernel_global.xclbin
 
 EMCONFIG_DIR = $(TEMP_DIR)
 

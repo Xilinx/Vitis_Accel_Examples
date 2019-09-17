@@ -82,7 +82,7 @@ LDCLFLAGS += --config apply_watermark.ini
 EXECUTABLE = host
 CMD_ARGS = $(BUILD_DIR)/apply_watermark.xclbin ./data/input.bmp ./data/golden.bmp
 EXEC_CMD_ARGS += $(EXECUTABLE)
-EXEC_CMD_ARGS += $(CMD_ARGS)
+EXEC_CMD_ARGS += apply_watermark.xclbin
 
 EMCONFIG_DIR = $(TEMP_DIR)
 

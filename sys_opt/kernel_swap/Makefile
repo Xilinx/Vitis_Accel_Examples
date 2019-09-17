@@ -79,7 +79,8 @@ CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps
 EXECUTABLE = vmulvadd
 CMD_ARGS = $(BUILD_DIR)/krnl_vmul.xclbin $(BUILD_DIR)/krnl_vadd.xclbin
 EXEC_CMD_ARGS += $(EXECUTABLE)
-EXEC_CMD_ARGS += $(CMD_ARGS)
+EXEC_CMD_ARGS += krnl_vmul.xclbin
+EXEC_CMD_ARGS += krnl_vadd.xclbin
 
 EMCONFIG_DIR = $(TEMP_DIR)
 

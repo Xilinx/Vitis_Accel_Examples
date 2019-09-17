@@ -79,7 +79,7 @@ CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps
 EXECUTABLE = host
 CMD_ARGS = $(BUILD_DIR)/rgb_to_hsv.xclbin ./data/input.bmp
 EXEC_CMD_ARGS += $(EXECUTABLE)
-EXEC_CMD_ARGS += $(CMD_ARGS)
+EXEC_CMD_ARGS += rgb_to_hsv.xclbin
 
 EMCONFIG_DIR = $(TEMP_DIR)
 

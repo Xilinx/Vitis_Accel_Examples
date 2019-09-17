@@ -78,7 +78,7 @@ CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps
 EXECUTABLE = overlap
 CMD_ARGS = $(BUILD_DIR)/vector_addition.xclbin
 EXEC_CMD_ARGS += $(EXECUTABLE)
-EXEC_CMD_ARGS += $(CMD_ARGS)
+EXEC_CMD_ARGS += vector_addition.xclbin
 
 EMCONFIG_DIR = $(TEMP_DIR)
 

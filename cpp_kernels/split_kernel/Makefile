@@ -80,7 +80,8 @@ CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps
 EXECUTABLE = host
 CMD_ARGS = $(BUILD_DIR)/sketch_GOOD.xclbin $(BUILD_DIR)/sketch_BAD.xclbin ./data/car_128x128.bmp
 EXEC_CMD_ARGS += $(EXECUTABLE)
-EXEC_CMD_ARGS += $(CMD_ARGS)
+EXEC_CMD_ARGS += sketch_GOOD.xclbin
+EXEC_CMD_ARGS += sketch_BAD.xclbin
 
 EMCONFIG_DIR = $(TEMP_DIR)
 

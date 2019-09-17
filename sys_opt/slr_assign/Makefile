@@ -80,7 +80,7 @@ LDCLFLAGS += --config vmult_vadd.ini
 EXECUTABLE = host
 CMD_ARGS = $(BUILD_DIR)/vmult_vadd.xclbin
 EXEC_CMD_ARGS += $(EXECUTABLE)
-EXEC_CMD_ARGS += $(CMD_ARGS)
+EXEC_CMD_ARGS += vmult_vadd.xclbin
 
 EMCONFIG_DIR = $(TEMP_DIR)
 

@@ -82,7 +82,7 @@ LDCLFLAGS += --config myadder.ini
 EXECUTABLE = vadd_stream
 CMD_ARGS = $(BUILD_DIR)/myadder.xclbin
 EXEC_CMD_ARGS += $(EXECUTABLE)
-EXEC_CMD_ARGS += $(CMD_ARGS)
+EXEC_CMD_ARGS += myadder.xclbin
 
 EMCONFIG_DIR = $(TEMP_DIR)
 

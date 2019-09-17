@@ -78,7 +78,7 @@ CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps
 EXECUTABLE = host
 CMD_ARGS = $(BUILD_DIR)/multi_krnl.xclbin
 EXEC_CMD_ARGS += $(EXECUTABLE)
-EXEC_CMD_ARGS += $(CMD_ARGS)
+EXEC_CMD_ARGS += multi_krnl.xclbin
 
 EMCONFIG_DIR = $(TEMP_DIR)
 
