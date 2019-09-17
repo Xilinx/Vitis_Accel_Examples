@@ -78,7 +78,7 @@ CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps
 EXECUTABLE = array_partition
 CMD_ARGS = $(BUILD_DIR)/matmul.xclbin
 EXEC_CMD_ARGS += $(EXECUTABLE)
-EXEC_CMD_ARGS += matmul.xclbin
+EXEC_CMD_ARGS += $(CMD_ARGS)
 
 EMCONFIG_DIR = $(TEMP_DIR)
 

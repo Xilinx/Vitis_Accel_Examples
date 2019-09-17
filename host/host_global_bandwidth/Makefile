@@ -80,7 +80,7 @@ LDCLFLAGS += --config krnl_host_global.ini
 EXECUTABLE = host_global
 CMD_ARGS = $(BUILD_DIR)/krnl_host_global.xclbin
 EXEC_CMD_ARGS += $(EXECUTABLE)
-EXEC_CMD_ARGS += krnl_host_global.xclbin
+EXEC_CMD_ARGS += $(CMD_ARGS)
 
 EMCONFIG_DIR = $(TEMP_DIR)
 

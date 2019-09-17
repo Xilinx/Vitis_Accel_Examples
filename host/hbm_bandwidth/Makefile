@@ -80,7 +80,7 @@ LDCLFLAGS += --config krnl_vaddmul.ini
 EXECUTABLE = host
 CMD_ARGS = $(BUILD_DIR)/krnl_vaddmul.xclbin
 EXEC_CMD_ARGS += $(EXECUTABLE)
-EXEC_CMD_ARGS += krnl_vaddmul.xclbin
+EXEC_CMD_ARGS += $(CMD_ARGS)
 
 EMCONFIG_DIR = $(TEMP_DIR)
 

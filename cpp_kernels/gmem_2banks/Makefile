@@ -82,7 +82,7 @@ LDCLFLAGS += --config apply_watermark.ini
 EXECUTABLE = host
 CMD_ARGS = $(BUILD_DIR)/apply_watermark.xclbin ./data/input.bmp ./data/golden.bmp
 EXEC_CMD_ARGS += $(EXECUTABLE)
-EXEC_CMD_ARGS += apply_watermark.xclbin
+EXEC_CMD_ARGS += $(CMD_ARGS)
 
 EMCONFIG_DIR = $(TEMP_DIR)
 
@@ -146,6 +146,7 @@ else
 	readlink -f $(EXECUTABLE) >> _vimage/emulation/sd_card.manifest
 	readlink -f xrt.ini >> _vimage/emulation/sd_card.manifest
 	readlink -f $(BUILD_DIR) >> _vimage/emulation/sd_card.manifest
+	readlink -f data >> _vimage/emulation/sd_card.manifest
 	$(ECHO) ./$(EXEC_CMD_ARGS) >> _vimage/emulation/init.sh
 	$(ECHO) "reboot" >> _vimage/emulation/init.sh
 	launch_emulator -no-reboot -runtime ocl -t $(TARGET)

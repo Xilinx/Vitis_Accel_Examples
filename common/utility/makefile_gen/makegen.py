@@ -204,10 +204,7 @@ def add_kernel_flags(target, data):
 	    target.write(cmdargs)
 
     target.write("\nEXEC_CMD_ARGS += $(EXECUTABLE)\n")
-    if "containers" in data:
-        for con in data["containers"]:
-            target.write("EXEC_CMD_ARGS += ")
-            target.write(con["name"] + ".xclbin\n")
+    target.write("EXEC_CMD_ARGS += $(CMD_ARGS)\n")
     target.write("\n")
 
     target.write("EMCONFIG_DIR = $(TEMP_DIR)")
@@ -392,6 +389,10 @@ def mk_check(target, data):
     target.write("\treadlink -f $(EXECUTABLE) >> _vimage/emulation/sd_card.manifest\n")
     target.write("\treadlink -f xrt.ini >> _vimage/emulation/sd_card.manifest\n")
     target.write("\treadlink -f $(BUILD_DIR) >> _vimage/emulation/sd_card.manifest\n")
+    
+    if os.path.exists("data"):
+        target.write("\treadlink -f data >> _vimage/emulation/sd_card.manifest\n")
+
     target.write("\t$(ECHO) ./$(EXEC_CMD_ARGS) >> _vimage/emulation/init.sh\n")
     target.write("\t$(ECHO) \"reboot\" >> _vimage/emulation/init.sh\n")
     target.write("\tlaunch_emulator -no-reboot -runtime ocl -t $(TARGET)\n")

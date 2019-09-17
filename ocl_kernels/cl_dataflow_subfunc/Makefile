@@ -79,7 +79,7 @@ CLFLAGS += --config adder_adder.ini
 EXECUTABLE = host
 CMD_ARGS = $(BUILD_DIR)/adder.xclbin
 EXEC_CMD_ARGS += $(EXECUTABLE)
-EXEC_CMD_ARGS += adder.xclbin
+EXEC_CMD_ARGS += $(CMD_ARGS)
 
 EMCONFIG_DIR = $(TEMP_DIR)
 

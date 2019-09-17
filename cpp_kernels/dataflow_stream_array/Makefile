@@ -79,7 +79,7 @@ CLFLAGS += --config N_stage_Adders_N_stage_Adders.ini
 EXECUTABLE = host
 CMD_ARGS = $(BUILD_DIR)/N_stage_Adders.xclbin
 EXEC_CMD_ARGS += $(EXECUTABLE)
-EXEC_CMD_ARGS += N_stage_Adders.xclbin
+EXEC_CMD_ARGS += $(CMD_ARGS)
 
 EMCONFIG_DIR = $(TEMP_DIR)
 

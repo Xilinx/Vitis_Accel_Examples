@@ -76,6 +76,7 @@ CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps
 
 EXECUTABLE = device_query
 EXEC_CMD_ARGS += $(EXECUTABLE)
+EXEC_CMD_ARGS += $(CMD_ARGS)
 
 EMCONFIG_DIR = $(TEMP_DIR)
 
