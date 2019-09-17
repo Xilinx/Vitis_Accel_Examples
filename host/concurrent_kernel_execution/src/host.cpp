@@ -353,16 +353,13 @@ void out_of_order_queue(cl::Context &context,
     // event object from the previous call to this kernel's event wait list.
     printf("[OOO Queue]: Enqueueing addition kernel (Depends on scale)\n");
 
-    kernel_wait_events.resize(0);
-    kernel_wait_events.push_back(ooo_events[0]);
-
     OCL_CHECK(err,
               err = ooo_queue.enqueueNDRangeKernel(
                   kernel_madd,
                   offset,
                   global,
                   local,
-                  &kernel_wait_events, // Event from previous call
+                  &{ooo_events[0]}, // Event from previous call
                   &ooo_events[1]));
     set_callback(ooo_events[1], "addition");
 
@@ -548,10 +545,10 @@ int main(int argc, char **argv) {
                        buffer_f,
                        size_in_bytes);
 
-    printf("View the timeline trace in SDx for a visual overview of the\n"
+    printf("View the timeline trace in Vitis for a visual overview of the\n"
            "execution of this example. Refer to the \"Timeline Trace\" section "
            "of\n"
-           "the SDx Development Environment Methodology Guide for additional\n"
+           "the Vitis Development Environment Methodology Guide for additional\n"
            "details.\n");
 
     printf("TEST PASSED\n");

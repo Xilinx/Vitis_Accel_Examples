@@ -137,7 +137,7 @@ int main(int argc, char **argv) {
 
     // Error handling in OpenCL is performed using the cl_int specifier. OpenCL
     // functions either return or accept pointers to cl_int types to indicate if
-    // an error occured.
+    // an error occurred.
     cl_int err;
 
     if ((err = clGetPlatformIDs(0, nullptr, nullptr))) {
@@ -232,8 +232,8 @@ int main(int argc, char **argv) {
         printf(
             "Received Expected Error calling clCreateContext: %s\n"
             "\tMost clCreate* calls accept error codes as their last parameter "
-            "instead of returning the error value. This error occured because "
-            "we passed 0 for the num_devices varaible. We intentionally threw "
+            "instead of returning the error value. This error occurred because "
+            "we passed 0 for the num_devices variable. We intentionally threw "
             "this error so we will not be exiting the program.\n\n",
             error_string(err));
     }
@@ -266,8 +266,8 @@ int main(int argc, char **argv) {
         printf(
             "Received Expected Error calling clCreateProgramWithBinary: %s\n"
             "Errors caused during program creation are usually due to invalid "
-            "binaries. The binary may be targeting a different device or dsa. "
-            "It may also have been currupted or incorrectly read from disk. We "
+            "binaries. The binary may be targeting a different shell. "
+            "It may also have been corrupted or incorrectly read from disk. We "
             "intentionally caused this error so we will not be exiting the "
             "program.\n\n",
             error_string(err));
@@ -384,7 +384,7 @@ int main(int argc, char **argv) {
                                     nullptr))) {
         printf(
             "Received Expected Error calling clEnqueueWriteBuffer: %s\n"
-            "Errors calling clEnqueueWriteBuffer tend to occure due to invalid "
+            "Errors calling clEnqueueWriteBuffer tend to occur due to invalid "
             "pointers or invalid size of the transfer. Make sure that the host "
             "pointer is correct and that you are transferring less than the "
             "size of the buffer. Here we tried to transfer data that was "

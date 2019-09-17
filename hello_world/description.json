@@ -52,6 +52,6 @@
         }
     ], 
     "description": [
-        "This is simple example of vector addition to describe how to use HLS kernels in Sdx Environment. This example highlights the concepts like PIPELINE which increases the kernel performance "
+        "This is simple example of vector addition to describe how to use HLS kernels in Vitis Environment."
     ]
 }

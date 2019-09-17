@@ -110,7 +110,7 @@ int main(int argc, char **argv) {
     // examples will make use of this buffer object.
     //
     // NOTE: The CL_MEM_READ_ONLY flag indicates that the FPGA can only read from
-    // this location. The host can read and write to this buffer at any time
+    // this location. The host can write only to this buffer.
     OCL_CHECK(err,
               cl::Buffer buffer(
                   context, CL_MEM_READ_ONLY, size_in_bytes, nullptr, &err));
