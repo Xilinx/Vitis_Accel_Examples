@@ -21,21 +21,6 @@ HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABI
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-  Stream_access Host Code
-  There are many applications where all of the data cannot reside in an FPGA.
-  For example, the data is too big to fit in an FPGA or the data is being
-  streamed from a sensor or the network. In these situations data must be
-  transferred as chunks from the host memory to FPGA before the computation can be
-  performed on FPGA and vice-versa to copy back the result.
-  Because PCIe is an full-duplex interconnect, you can transfer data to and from
-  the FPGA simultaneously. Xilinx FPGAs can also perform computations during
-  these data transfers. Performing all three of these operations at the same
-  time allows you to keep the FPGA busy and take full advantage of all of the
-  hardware on your system.
-  Many OpenCL commands are asynchronous. This means that whenever you call an
-  OpenCL function, the function will return before the operation has completed.
-  Asynchronous nature of OpenCL allows you to simultaneously perform tasks on
-  the host CPU as well as the FPGA.
 *******************************************************************/
 #include <algorithm>
 #include <cstring>
