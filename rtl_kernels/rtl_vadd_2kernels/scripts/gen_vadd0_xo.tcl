@@ -33,7 +33,7 @@
 # *******************************************************************************/
 
 if { $::argc != 5 } {
-    puts "ERROR: Program \"$::argv0\" requires 4 arguments!\n"
+    puts "ERROR: Program \"$::argv0\" requires 5 arguments!\n"
     puts "Usage: $::argv0 <xoname> <krnl_name> <target> <xpfm_path> <device>\n"
     exit
 }

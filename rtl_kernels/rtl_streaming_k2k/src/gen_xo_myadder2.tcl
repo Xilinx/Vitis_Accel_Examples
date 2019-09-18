@@ -32,7 +32,7 @@
 #
 # *******************************************************************************/
 if { $::argc != 5 } {
-    puts "ERROR: Program \"$::argv0\" requires 4 arguments!\n"
+    puts "ERROR: Program \"$::argv0\" requires 5 arguments!\n"
     puts "Usage: $::argv0 <xoname> <krnl_name> <target> <xpfm_path> <device>\n"
     exit
 }
@@ -44,19 +44,14 @@ set xpfm_path [lindex $::argv 3]
 set device    [lindex $::argv 4]
 
 set pinfo [file join [pwd] "pinfo.json"]
-if {[file exists ${xpfm_path}]} {
-    exec $::env(XILINX_VITIS)/bin/platforminfo -j $pinfo -p ${xpfm_path}
-}
+exec $::env(XILINX_VITIS)/bin/platforminfo -j $pinfo -p ${xpfm_path}
+
 
 if {[file exists "myadder2_ex"]} {
     file delete -force "myadder2_ex"
 }
 if {[file exists "project_2"]} {
     file delete -force "project_2"
-}
-
-if {![file exists $pinfo]} {
-    puts "ERROR: $pinfo does not exist!"
 }
 
 set fid [open $pinfo r]

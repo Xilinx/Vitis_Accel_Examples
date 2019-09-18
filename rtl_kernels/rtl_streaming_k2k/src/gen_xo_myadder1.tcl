@@ -44,19 +44,13 @@ set xpfm_path [lindex $::argv 3]
 set device    [lindex $::argv 4]
 
 set pinfo [file join [pwd] "pinfo.json"]
-if {[file exists ${xpfm_path}]} {
-    exec $::env(XILINX_VITIS)/bin/platforminfo -j $pinfo -p ${xpfm_path}
-}
+exec $::env(XILINX_VITIS)/bin/platforminfo -j $pinfo -p ${xpfm_path}
 
 if {[file exists "myadder1_ex"]} {
     file delete -force "myadder1_ex"
 }
 if {[file exists "project_1"]} {
     file delete -force "project_1"
-}
-
-if {![file exists $pinfo]} {
-    puts "ERROR: $pinfo does not exist!"
 }
 
 set fid [open $pinfo r]
