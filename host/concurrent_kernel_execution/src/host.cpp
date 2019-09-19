@@ -353,13 +353,15 @@ void out_of_order_queue(cl::Context &context,
     // event object from the previous call to this kernel's event wait list.
     printf("[OOO Queue]: Enqueueing addition kernel (Depends on scale)\n");
 
+    kernel_wait_events.resize(0);
+    kernel_wait_events.push_back(ooo_events[0]);
     OCL_CHECK(err,
               err = ooo_queue.enqueueNDRangeKernel(
                   kernel_madd,
                   offset,
                   global,
                   local,
-                  &{ooo_events[0]}, // Event from previous call
+                  &kernel_wait_events, // Event from previous call
                   &ooo_events[1]));
     set_callback(ooo_events[1], "addition");
 

@@ -24,8 +24,11 @@ cl::CommandQueue ooo_queue(context, device,
 However, since we need that `madd` kernel only starts executing after `mscale` has finished, `cl::event` is used to wait for `mscale` to finish execution.
 ```c++
 cl::Event event;
+vector<cl::Event> kernel_wait_events
+kernel_wait_events.push_back(event);
 err = ooo_queue.enqueueNDRangeKernel(kernel_mscale, offset, global, local, nullptr, &event));
+
 err = ooo_queue.enqueueNDRangeKernel(kernel_madd, offset, global, local,
-                                          &{event}, // Event from previous call
+                                          &kernel_wait_events, // Event from previous call
                                           nullptr);
 ```                                   
