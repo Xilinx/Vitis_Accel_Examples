@@ -2,7 +2,6 @@
 
 help::
 	$(ECHO) "Makefile Usage:"
-	$(ECHO) "  Note: Please set PLATFORM_REPO_PATH variable for better usage"
 	$(ECHO) "  make all TARGET=<sw_emu/hw_emu/hw> DEVICE=<FPGA platform> HOST_ARCH=<aarch32/aarch64/x86> SYSROOT=<sysroot_path>"
 	$(ECHO) "      Command to generate the design for specified Target and Shell."
 	$(ECHO) "      By default, HOST_ARCH=x86. HOST_ARCH and SYSROOT is required for SoC shells"
@@ -38,10 +37,9 @@ DEVICE = xilinx_u200_xdma
 
 include ./utils.mk
 
-XSA := $(call device2xsa, $(PLATFORM_FILE))
+XSA := $(call device2xsa, $(DEVICE))
 TEMP_DIR := ./_x.$(TARGET).$(XSA)
 BUILD_DIR := ./build_dir.$(TARGET).$(XSA)
-B_NAME := $(shell dirname $(PLATFORM_FILE))
 
 ifeq ($(HOST_ARCH), x86)
 	CXX := $(XILINX_VITIS)/bin/xcpp
@@ -74,7 +72,7 @@ ifneq ($(HOST_ARCH), x86)
 endif
 
 # Kernel compiler global settings
-CLFLAGS += -t $(TARGET) --platform $(PLATFORM_FILE) --save-temps 
+CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps 
 
 
 
@@ -96,7 +94,7 @@ CP = cp -rf
 
 .PHONY: all clean cleanall docs emconfig
 all: check-devices $(EXECUTABLE) $(BINARY_CONTAINERS) emconfig
-	make sd_card TARGET=$(TARGET) DEVICE=$(PLATFORM_FILE) HOST_ARCH=$(HOST_ARCH) SYSROOT=$(SYSROOT)
+	make sd_card
 
 .PHONY: exe
 exe: $(EXECUTABLE)
@@ -115,7 +113,7 @@ $(EXECUTABLE): check-xrt $(HOST_SRCS) $(HOST_HDRS)
 
 emconfig:$(EMCONFIG_DIR)/emconfig.json
 $(EMCONFIG_DIR)/emconfig.json:
-	emconfigutil --platform $(PLATFORM_FILE) --od $(EMCONFIG_DIR)
+	emconfigutil --platform $(DEVICE) --od $(EMCONFIG_DIR)
 
 check: all
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))

@@ -12,9 +12,9 @@ endif
 
 #Setting Platform Path
 ifeq ($(findstring xpfm, $(DEVICE)), xpfm)
-	PLATFORM_FILE = $(DEVICE)
+	B_NAME = $(shell dirname $(DEVICE))
 else
-	PLATFORM_FILE = $(PLATFORM_REPO_PATH)/$(DEVICE)/$(DEVICE).xpfm
+	B_NAME = $(shell dirname $(PLATFORM_REPO_PATH)/$(DEVICE)/$(DEVICE).xpfm)
 endif
 
 #Checks for XILINX_VITIS
@@ -49,7 +49,7 @@ endif
 
 #   device2xsa - create a filesystem friendly name from device name
 #   $(1) - full name of device
-device2xsa = $(strip $(patsubst %.xpfm, % , $(shell basename $(PLATFORM_FILE))))
+device2xsa = $(strip $(patsubst %.xpfm, % , $(shell basename $(DEVICE))))
 
 # Cleaning stuff
 RM = rm -f

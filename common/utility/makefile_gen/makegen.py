@@ -30,10 +30,9 @@ def create_params(target,data):
     target.write("\n")
     target.write("include ./utils.mk\n")
     target.write("\n")
-    target.write("XSA := $(call device2xsa, $(PLATFORM_FILE))\n")
+    target.write("XSA := $(call device2xsa, $(DEVICE))\n")
     target.write("TEMP_DIR := ./_x.$(TARGET).$(XSA)\n")
     target.write("BUILD_DIR := ./build_dir.$(TARGET).$(XSA)\n")
-    target.write("B_NAME := $(shell dirname $(PLATFORM_FILE))\n")
     target.write("\n")
 
     target.write("ifeq ($(HOST_ARCH), x86)\n")
@@ -134,7 +133,7 @@ def add_host_flags(target, data):
 def add_kernel_flags(target, data):
     target.write("# Kernel compiler global settings\n")
     target.write("CLFLAGS += ")
-    target.write("-t $(TARGET) --platform $(PLATFORM_FILE) --save-temps \n")   
+    target.write("-t $(TARGET) --platform $(DEVICE) --save-temps \n")   
 
     if "containers" in data:
         for con in data["containers"]:
@@ -286,7 +285,7 @@ def building_host(target, data):
     target.write("\n")
     target.write("emconfig:$(EMCONFIG_DIR)/emconfig.json\n")
     target.write("$(EMCONFIG_DIR)/emconfig.json:\n")
-    target.write("\temconfigutil --platform $(PLATFORM_FILE) --od $(EMCONFIG_DIR)")
+    target.write("\temconfigutil --platform $(DEVICE) --od $(EMCONFIG_DIR)")
     if "num_devices" in data:
         target.write(" --nd ")
         target.write(data["num_devices"])
@@ -335,7 +334,7 @@ def mk_build_all(target, data):
 
     target.write(".PHONY: all clean cleanall docs emconfig\n")
     target.write("all: check-devices $(EXECUTABLE) $(BINARY_CONTAINERS) emconfig\n")
-    target.write("\tmake sd_card TARGET=$(TARGET) DEVICE=$(PLATFORM_FILE) HOST_ARCH=$(HOST_ARCH) SYSROOT=$(SYSROOT)\n")
+    target.write("\tmake sd_card\n")
     target.write("\n")
     
     target.write(".PHONY: exe\n")
@@ -466,7 +465,6 @@ def mk_help(target):
     target.write("\n")
     target.write("help::\n")
     target.write("\t$(ECHO) \"Makefile Usage:\"\n")
-    target.write("\t$(ECHO) \"  Note: Please set PLATFORM_REPO_PATH variable for better usage\"\n")
     target.write("\t$(ECHO) \"  make all TARGET=<sw_emu/hw_emu/hw> DEVICE=<FPGA platform> HOST_ARCH=<aarch32/aarch64/x86> SYSROOT=<sysroot_path>\"\n");
     target.write("\t$(ECHO) \"      Command to generate the design for specified Target and Shell.\"\n")
     target.write("\t$(ECHO) \"      By default, HOST_ARCH=x86. HOST_ARCH and SYSROOT is required for SoC shells\"\n")
@@ -526,15 +524,15 @@ def report_gen(target, data):
 def device2xsa_gen(target):
     target.write("#   device2xsa - create a filesystem friendly name from device name\n")
     target.write("#   $(1) - full name of device\n")
-    target.write("device2xsa = $(strip $(patsubst %.xpfm, % , $(shell basename $(PLATFORM_FILE))))\n")
+    target.write("device2xsa = $(strip $(patsubst %.xpfm, % , $(shell basename $(DEVICE))))\n")
     target.write("\n")
 
 def util_checks(target):
     target.write("#Setting Platform Path\n")
     target.write("ifeq ($(findstring xpfm, $(DEVICE)), xpfm)\n")
-    target.write("\tPLATFORM_FILE = $(DEVICE)\n")
+    target.write("\tB_NAME = $(shell dirname $(DEVICE))\n")
     target.write("else\n")
-    target.write("\tPLATFORM_FILE = $(PLATFORM_REPO_PATH)/$(DEVICE)/$(DEVICE).xpfm\n")
+    target.write("\tB_NAME = $(shell dirname $(PLATFORM_REPO_PATH)/$(DEVICE)/$(DEVICE).xpfm)\n")
     target.write("endif\n")
     target.write("\n")
 
