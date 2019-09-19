@@ -79,8 +79,7 @@ CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps
 EXECUTABLE = vmulvadd
 CMD_ARGS = $(BUILD_DIR)/krnl_vmul.xclbin $(BUILD_DIR)/krnl_vadd.xclbin
 EXEC_CMD_ARGS += $(EXECUTABLE)
-EXEC_CMD_ARGS += $(CMD_ARGS)
-
+EXEC_CMD_ARGS +=  krnl_vmul.xclbin krnl_vadd.xclbin
 EMCONFIG_DIR = $(TEMP_DIR)
 
 BINARY_CONTAINERS += $(BUILD_DIR)/krnl_vmul.xclbin
@@ -147,7 +146,7 @@ ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 	$(CP) $(BINARY_CONTAINERS) .
 	readlink -f $(EXECUTABLE) >> _vimage/emulation/sd_card.manifest
 	readlink -f xrt.ini >> _vimage/emulation/sd_card.manifest
-	readlink -f $(BUILD_DIR) >> _vimage/emulation/sd_card.manifest
+	readlink -f $(BUILD_DIR)/*.xclbin >> _vimage/emulation/sd_card.manifest
 	$(ECHO) ./$(EXEC_CMD_ARGS) >> _vimage/emulation/init.sh
 	$(ECHO) "reboot" >> _vimage/emulation/init.sh
 	$(ABS_COMMON_REPO)/common/utility/sd_card_generation.tcl

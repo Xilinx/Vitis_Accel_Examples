@@ -204,7 +204,15 @@ def add_kernel_flags(target, data):
 	    target.write(cmdargs)
 
     target.write("\nEXEC_CMD_ARGS += $(EXECUTABLE)\n")
-    target.write("EXEC_CMD_ARGS += $(CMD_ARGS)\n")
+
+    target.write("EXEC_CMD_ARGS += ")
+    cmd_args = data["launch"][0]["cmd_args"].split(" ")
+    for cmdargs in cmd_args[0:]:
+        target.write(" ")
+        cmdargs = cmdargs.replace('BUILD/', '')
+        cmdargs = cmdargs.replace('PROJECT/', '')
+        target.write(cmdargs)
+
     target.write("\n")
 
     target.write("EMCONFIG_DIR = $(TEMP_DIR)")
@@ -431,7 +439,8 @@ def mk_check(target, data):
     target.write("\t$(CP) $(BINARY_CONTAINERS) .\n")
     target.write("\treadlink -f $(EXECUTABLE) >> _vimage/emulation/sd_card.manifest\n")
     target.write("\treadlink -f xrt.ini >> _vimage/emulation/sd_card.manifest\n")
-    target.write("\treadlink -f $(BUILD_DIR) >> _vimage/emulation/sd_card.manifest\n")
+
+    target.write("\treadlink -f $(BUILD_DIR)/*.xclbin >> _vimage/emulation/sd_card.manifest\n")
     
     if os.path.exists("data"):
         target.write("\treadlink -f data >> _vimage/emulation/sd_card.manifest\n")
