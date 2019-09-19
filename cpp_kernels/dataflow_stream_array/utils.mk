@@ -21,7 +21,7 @@ endif
 ifeq ($(findstring xpfm, $(DEVICE)), xpfm)
 	B_NAME = $(shell dirname $(DEVICE))
 else
-	B_NAME = $(shell dirname $(PLATFORM_REPO_PATH)/$(DEVICE)/$(DEVICE).xpfm)
+	B_NAME = $(shell dirname $(PLATFORM_REPO_PATHS)/$(DEVICE)/$(DEVICE).xpfm)
 endif
 
 #Checks for XILINX_VITIS

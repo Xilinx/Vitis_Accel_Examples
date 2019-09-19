@@ -532,7 +532,7 @@ def util_checks(target):
     target.write("ifeq ($(findstring xpfm, $(DEVICE)), xpfm)\n")
     target.write("\tB_NAME = $(shell dirname $(DEVICE))\n")
     target.write("else\n")
-    target.write("\tB_NAME = $(shell dirname $(PLATFORM_REPO_PATH)/$(DEVICE)/$(DEVICE).xpfm)\n")
+    target.write("\tB_NAME = $(shell dirname $(PLATFORM_REPO_PATHS)/$(DEVICE)/$(DEVICE).xpfm)\n")
     target.write("endif\n")
     target.write("\n")
 
