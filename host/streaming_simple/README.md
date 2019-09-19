@@ -1,7 +1,7 @@
-Stream Vector Addition (C)
+Stream Kernel Simple Example
 ======================
 
-This is a simple Vector Add C Kernel design with 2 Stream inputs and 1 Stream output that demonstrates on how to process an input stream of data for computation in an application.
+This is a simple Vector Add C Kernel design with 2 Stream inputs and 1 Stream output that demonstrates on how streaming kernel can be implemented and how host can directly send data to kernel without global memory.
 
 ***KEY CONCEPTS:*** Read/Write Stream, Create/Release Stream
 

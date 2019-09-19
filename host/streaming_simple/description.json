@@ -1,8 +1,12 @@
 {
+    "name": "Stream Kernel Simple Example",
+    "description": [
+        "This is a simple Vector Add C Kernel design with 2 Stream inputs and 1 Stream output that demonstrates on how streaming kernel can be implemented and how host can directly send data to kernel without global memory."
+    ], 
     "ndevice": [
         "xilinx_u200_xdma", 
         "zc", 
-	"zed",
+        "zed",
         "xilinx_u250_xdma", 
         "xilinx_u280_xdma", 
         "xilinx_u280-es1_xdma", 
@@ -14,9 +18,6 @@
         "xilinx:u280:xdma", 
         "xilinx:u280-es1:xdma", 
         "xilinx:aws-vu9p-f1-04261818:dynamic"
-    ], 
-    "description": [
-        "This is a simple Vector Add C Kernel design with 2 Stream inputs and 1 Stream output that demonstrates on how to process an input stream of data for computation in an application."
     ], 
     "contributors": [
         {
@@ -72,6 +73,5 @@
             ], 
             "name": "krnl_stream_vadd"
         }
-    ], 
-    "name": "Stream Vector Addition (C)"
+    ] 
 }

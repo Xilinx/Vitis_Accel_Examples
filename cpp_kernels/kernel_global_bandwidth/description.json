@@ -1,4 +1,8 @@
 {
+    "name": "kernel_global", 
+    "description": [
+        "Bandwidth test of global to local memory."
+    ], 
     "config_make": "config.mk", 
     "testinfo": {
         "level_up": [
@@ -14,7 +18,6 @@
         "xilinx_v350-es1_xdma", 
         "xilinx:v350-es1:xdma"
     ], 
-    "name": "kernel_global", 
     "contributors": [
         {
             "url": "http://www.xilinx.com", 
@@ -56,8 +59,5 @@
             ], 
             "name": "krnl_kernel_global"
         }
-    ], 
-    "description": [
-        "Bandwidth test of global to local memory."
     ]
 }

@@ -15,37 +15,14 @@ err = krnl_vmult.setArg(0, buffer_in3));
 err = krnl_vmult.setArg(2, buffer_output));
 err = krnl_vmult.setArg(3, size));
 ```
-Producer kernel stream output port must be connected to consumer kernel stream input port during the `xocc` linking stage.
+Producer kernel stream output port must be connected to consumer kernel stream input port during the `v++` linking stage.
 
 ```
-xocc -l --sc krnl_stream_vadd_1.out:krnl_stream_vmult_1.in2
+--config krnl_stream_vadd_vmult.ini 
 ```
-
-HLS pragma must be defined for every streaming interface.
-```c++
-#pragma HLS INTERFACE axis port=out
+Content of `krnl_stream_vadd_vmult.ini` file is below:
 ```
-`hls::stream` kernels use a special class `ap_axiu<D,0,0,0>` for intra-kernel streams  which requires the header file `ap_axi_sdata.h`. It has variables `data`,`last` and `keep` to manage the data transfer.
-
-Producer kernel `krnl_stream_vadd` uses `write()` to write to the output stream and consumer kernel `krnl_stream_vmult` uses `read()` to read its input stream.
-
-```c++
-vadd:
-    for (int i = 0; i < size; i++) {
-    #pragma HLS PIPELINE II=1
-        int res = in1[i] + in2[i];
-        pkt v;
-        v.data = res;
-        out.write(v);
-    }
-```  
-
-```c++         
-vmult:
-    for (int i = 0; i < size; i++) {
-    #pragma HLS PIPELINE II=1
-        pkt v2 = in2.read();
-        out[i] = in1[i] * v2.data;
-    }
+[connectivity]
+stream_connect=krnl_stream_vadd_1.out:krnl_stream_vmult_1.in2 
 ```
-    
+Above specify that `out` port of `krnl_stream_vadd_1` kernel is connected to `in2` port of `krnl_stream_vmult_1`
