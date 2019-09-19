@@ -26,13 +26,14 @@ def create_params(target,data):
     target.write("TARGET := hw\n")
     target.write("HOST_ARCH := x86\n")
     target.write("SYSROOT := \n")
+    target.write("DEVICE = xilinx_u200_xdma\n")
     target.write("\n")
     target.write("include ./utils.mk\n")
     target.write("\n")
-    target.write("XSA := $(call device2xsa, $(DEVICE))\n")
+    target.write("XSA := $(call device2xsa, $(PLATFORM_FILE))\n")
     target.write("TEMP_DIR := ./_x.$(TARGET).$(XSA)\n")
     target.write("BUILD_DIR := ./build_dir.$(TARGET).$(XSA)\n")
-    target.write("B_NAME := $(shell dirname $(DEVICE))\n")
+    target.write("B_NAME := $(shell dirname $(PLATFORM_FILE))\n")
     target.write("\n")
 
     target.write("ifeq ($(HOST_ARCH), x86)\n")
@@ -133,7 +134,7 @@ def add_host_flags(target, data):
 def add_kernel_flags(target, data):
     target.write("# Kernel compiler global settings\n")
     target.write("CLFLAGS += ")
-    target.write("-t $(TARGET) --platform $(DEVICE) --save-temps \n")   
+    target.write("-t $(TARGET) --platform $(PLATFORM_FILE) --save-temps \n")   
 
     if "containers" in data:
         for con in data["containers"]:
@@ -285,7 +286,7 @@ def building_host(target, data):
     target.write("\n")
     target.write("emconfig:$(EMCONFIG_DIR)/emconfig.json\n")
     target.write("$(EMCONFIG_DIR)/emconfig.json:\n")
-    target.write("\temconfigutil --platform $(DEVICE) --od $(EMCONFIG_DIR)")
+    target.write("\temconfigutil --platform $(PLATFORM_FILE) --od $(EMCONFIG_DIR)")
     if "num_devices" in data:
         target.write(" --nd ")
         target.write(data["num_devices"])
@@ -334,6 +335,7 @@ def mk_build_all(target, data):
 
     target.write(".PHONY: all clean cleanall docs emconfig\n")
     target.write("all: check-devices $(EXECUTABLE) $(BINARY_CONTAINERS) emconfig\n")
+    target.write("\tmake sd_card TARGET=$(TARGET) DEVICE=$(PLATFORM_FILE) HOST_ARCH=$(HOST_ARCH) SYSROOT=$(SYSROOT)\n")
     target.write("\n")
     
     target.write(".PHONY: exe\n")
@@ -385,22 +387,13 @@ def mk_check(target, data):
 	        arg = arg.replace('PROJECT', '.')
 	        target.write(arg)
     target.write("\nelse\n")
-    target.write("\t$(CP) $(BINARY_CONTAINERS) .\n")
-    target.write("\treadlink -f $(EXECUTABLE) >> _vimage/emulation/sd_card.manifest\n")
-    target.write("\treadlink -f xrt.ini >> _vimage/emulation/sd_card.manifest\n")
-    target.write("\treadlink -f $(BUILD_DIR) >> _vimage/emulation/sd_card.manifest\n")
-    
-    if os.path.exists("data"):
-        target.write("\treadlink -f data >> _vimage/emulation/sd_card.manifest\n")
-
-    target.write("\t$(ECHO) ./$(EXEC_CMD_ARGS) >> _vimage/emulation/init.sh\n")
-    target.write("\t$(ECHO) \"reboot\" >> _vimage/emulation/init.sh\n")
-    target.write("\tlaunch_emulator -no-reboot -runtime ocl -t $(TARGET)\n")
+    target.write("\tlaunch_emulator -no-reboot -runtime ocl -t $(TARGET) -sd-card-image _vimage/emulation -device-family $(DEV_FAM)\n")
     target.write("\thead -n -3 _vimage/emulation/sd_card.manifest | tee _vimage/emulation/sd_card.manifest\n")
     target.write("\thead -n -2 _vimage/emulation/init.sh | tee _vimage/emulation/init.sh\n")
     target.write("endif\n")
     target.write("else\n")
-    target.write("\t ./$(EXECUTABLE)")
+    target.write("ifeq ($(HOST_ARCH), x86)\n")
+    target.write("\t./$(EXECUTABLE)")
 	
     if "launch" in data:
         if "cmd_args" in data["launch"][0]:
@@ -411,6 +404,7 @@ def mk_check(target, data):
 	        arg = arg.replace('PROJECT', '.')
 	        target.write(arg)
     target.write("\nendif\n")
+    target.write("endif\n")
     if "targets" in data:
         target.write("ifneq ($(TARGET),$(findstring $(TARGET),")
         args = data["targets"]
@@ -432,9 +426,27 @@ def mk_check(target, data):
         target.write("endif\n")
     target.write("\n")
 
-    target.write("sd_card: all\n")
+    target.write("sd_card:\n")
+    target.write("ifneq ($(HOST_ARCH), x86)\n")
+    target.write("ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))\n")
+    target.write("\t$(CP) $(BINARY_CONTAINERS) .\n")
+    target.write("\treadlink -f $(EXECUTABLE) >> _vimage/emulation/sd_card.manifest\n")
+    target.write("\treadlink -f xrt.ini >> _vimage/emulation/sd_card.manifest\n")
+    target.write("\treadlink -f $(BUILD_DIR) >> _vimage/emulation/sd_card.manifest\n")
+    
+    if os.path.exists("data"):
+        target.write("\treadlink -f data >> _vimage/emulation/sd_card.manifest\n")
+
+    target.write("\t$(ECHO) ./$(EXEC_CMD_ARGS) >> _vimage/emulation/init.sh\n")
+    target.write("\t$(ECHO) \"reboot\" >> _vimage/emulation/init.sh\n")
+    target.write("\t$(ABS_COMMON_REPO)/common/utility/sd_card_generation.tcl\n")
+    target.write("\tmkfatimg _vimage/emulation/sd_card _vimage/emulation/sd_card.img 500000\n")
+    target.write("else\n")
     target.write("\tmkdir -p sd_card\n")
     target.write("\t$(CP) $(B_NAME)/sw/$(XSA)/xrt/image/* $(BUILD_DIR)/*.xclbin $(EXECUTABLE) sd_card/\n")
+    target.write("\t$(ECHO) ./$(EXEC_CMD_ARGS) >> sd_card/init.sh\n")
+    target.write("endif\n")
+    target.write("endif\n")
     target.write("\n")
 
 def run_nimbix(target, data):
@@ -454,6 +466,7 @@ def mk_help(target):
     target.write("\n")
     target.write("help::\n")
     target.write("\t$(ECHO) \"Makefile Usage:\"\n")
+    target.write("\t$(ECHO) \"  Note: Please set PLATFORM_REPO_PATH variable for better usage\"\n")
     target.write("\t$(ECHO) \"  make all TARGET=<sw_emu/hw_emu/hw> DEVICE=<FPGA platform> HOST_ARCH=<aarch32/aarch64/x86> SYSROOT=<sysroot_path>\"\n");
     target.write("\t$(ECHO) \"      Command to generate the design for specified Target and Shell.\"\n")
     target.write("\t$(ECHO) \"      By default, HOST_ARCH=x86. HOST_ARCH and SYSROOT is required for SoC shells\"\n")
@@ -465,7 +478,7 @@ def mk_help(target):
     target.write("\t$(ECHO) \"      Command to remove all the generated files.\"\n")
     target.write("\t$(ECHO) \"\"\n")
     target.write("\t$(ECHO) \"  make sd_card TARGET=<sw_emu/hw_emu/hw> DEVICE=<FPGA platform> HOST_ARCH=<aarch32/aarch64/x86> SYSROOT=<sysroot_path>\"\n");
-    target.write("\t$(ECHO) \"      Command to prepare sd_card files for system run.\"\n")
+    target.write("\t$(ECHO) \"      Command to prepare sd_card files.\"\n")
     target.write("\t$(ECHO) \"      By default, HOST_ARCH=x86. HOST_ARCH and SYSROOT is required for SoC shells\"\n")
     target.write("\t$(ECHO) \"\"\n")
     target.write("\t$(ECHO) \"  make check TARGET=<sw_emu/hw_emu/hw> DEVICE=<FPGA platform> HOST_ARCH=<aarch32/aarch64/x86> SYSROOT=<sysroot_path>\"\n");
@@ -513,13 +526,29 @@ def report_gen(target, data):
 def device2xsa_gen(target):
     target.write("#   device2xsa - create a filesystem friendly name from device name\n")
     target.write("#   $(1) - full name of device\n")
-    target.write("device2xsa = $(strip $(patsubst %.xpfm, % , $(shell basename $(DEVICE))))\n")
+    target.write("device2xsa = $(strip $(patsubst %.xpfm, % , $(shell basename $(PLATFORM_FILE))))\n")
     target.write("\n")
 
 def util_checks(target):
+    target.write("#Setting Platform Path\n")
+    target.write("ifeq ($(findstring xpfm, $(DEVICE)), xpfm)\n")
+    target.write("\tPLATFORM_FILE = $(DEVICE)\n")
+    target.write("else\n")
+    target.write("\tPLATFORM_FILE = $(PLATFORM_REPO_PATH)/$(DEVICE)/$(DEVICE).xpfm\n")
+    target.write("endif\n")
+    target.write("\n")
+
     target.write("#Checks for XILINX_VITIS\n")
     target.write("ifndef XILINX_VITIS\n")
     target.write("$(error XILINX_VITIS variable is not set, please set correctly and rerun)\n")
+    target.write("endif\n")
+    target.write("\n")
+
+    target.write("#Checks for Device Family\n")
+    target.write("ifeq ($(HOST_ARCH), aarch32)\n")
+    target.write("\tDEV_FAM = 7Series\n")
+    target.write("else ifeq ($(HOST_ARCH), aarch64)\n")
+    target.write("\tDEV_FAM = Ultrascale\n")
     target.write("endif\n")
     target.write("\n")
 

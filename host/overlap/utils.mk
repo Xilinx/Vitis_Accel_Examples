@@ -17,9 +17,23 @@ ifeq ($(DEBUG), yes)
 LDCLFLAGS += --dk list_ports
 endif
 
+#Setting Platform Path
+ifeq ($(findstring xpfm, $(DEVICE)), xpfm)
+	PLATFORM_FILE = $(DEVICE)
+else
+	PLATFORM_FILE = $(PLATFORM_REPO_PATH)/$(DEVICE)/$(DEVICE).xpfm
+endif
+
 #Checks for XILINX_VITIS
 ifndef XILINX_VITIS
 $(error XILINX_VITIS variable is not set, please set correctly and rerun)
+endif
+
+#Checks for Device Family
+ifeq ($(HOST_ARCH), aarch32)
+	DEV_FAM = 7Series
+else ifeq ($(HOST_ARCH), aarch64)
+	DEV_FAM = Ultrascale
 endif
 
 #Checks for XILINX_XRT
@@ -42,7 +56,7 @@ endif
 
 #   device2xsa - create a filesystem friendly name from device name
 #   $(1) - full name of device
-device2xsa = $(strip $(patsubst %.xpfm, % , $(shell basename $(DEVICE))))
+device2xsa = $(strip $(patsubst %.xpfm, % , $(shell basename $(PLATFORM_FILE))))
 
 # Cleaning stuff
 RM = rm -f

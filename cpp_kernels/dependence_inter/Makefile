@@ -2,6 +2,7 @@
 
 help::
 	$(ECHO) "Makefile Usage:"
+	$(ECHO) "  Note: Please set PLATFORM_REPO_PATH variable for better usage"
 	$(ECHO) "  make all TARGET=<sw_emu/hw_emu/hw> DEVICE=<FPGA platform> HOST_ARCH=<aarch32/aarch64/x86> SYSROOT=<sysroot_path>"
 	$(ECHO) "      Command to generate the design for specified Target and Shell."
 	$(ECHO) "      By default, HOST_ARCH=x86. HOST_ARCH and SYSROOT is required for SoC shells"
@@ -13,7 +14,7 @@ help::
 	$(ECHO) "      Command to remove all the generated files."
 	$(ECHO) ""
 	$(ECHO) "  make sd_card TARGET=<sw_emu/hw_emu/hw> DEVICE=<FPGA platform> HOST_ARCH=<aarch32/aarch64/x86> SYSROOT=<sysroot_path>"
-	$(ECHO) "      Command to prepare sd_card files for system run."
+	$(ECHO) "      Command to prepare sd_card files."
 	$(ECHO) "      By default, HOST_ARCH=x86. HOST_ARCH and SYSROOT is required for SoC shells"
 	$(ECHO) ""
 	$(ECHO) "  make check TARGET=<sw_emu/hw_emu/hw> DEVICE=<FPGA platform> HOST_ARCH=<aarch32/aarch64/x86> SYSROOT=<sysroot_path>"
@@ -33,13 +34,14 @@ ABS_COMMON_REPO = $(shell readlink -f $(COMMON_REPO))
 TARGET := hw
 HOST_ARCH := x86
 SYSROOT := 
+DEVICE = xilinx_u200_xdma
 
 include ./utils.mk
 
-XSA := $(call device2xsa, $(DEVICE))
+XSA := $(call device2xsa, $(PLATFORM_FILE))
 TEMP_DIR := ./_x.$(TARGET).$(XSA)
 BUILD_DIR := ./build_dir.$(TARGET).$(XSA)
-B_NAME := $(shell dirname $(DEVICE))
+B_NAME := $(shell dirname $(PLATFORM_FILE))
 
 ifeq ($(HOST_ARCH), x86)
 	CXX := $(XILINX_VITIS)/bin/xcpp
@@ -71,7 +73,7 @@ ifneq ($(HOST_ARCH), x86)
 endif
 
 # Kernel compiler global settings
-CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps 
+CLFLAGS += -t $(TARGET) --platform $(PLATFORM_FILE) --save-temps 
 
 
 
@@ -89,6 +91,7 @@ CP = cp -rf
 
 .PHONY: all clean cleanall docs emconfig
 all: check-devices $(EXECUTABLE) $(BINARY_CONTAINERS) emconfig
+	make sd_card TARGET=$(TARGET) DEVICE=$(PLATFORM_FILE) HOST_ARCH=$(HOST_ARCH) SYSROOT=$(SYSROOT)
 
 .PHONY: exe
 exe: $(EXECUTABLE)
@@ -110,7 +113,7 @@ $(EXECUTABLE): check-xrt $(HOST_SRCS) $(HOST_HDRS)
 
 emconfig:$(EMCONFIG_DIR)/emconfig.json
 $(EMCONFIG_DIR)/emconfig.json:
-	emconfigutil --platform $(DEVICE) --od $(EMCONFIG_DIR)
+	emconfigutil --platform $(PLATFORM_FILE) --od $(EMCONFIG_DIR)
 
 check: all
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
@@ -118,26 +121,36 @@ ifeq ($(HOST_ARCH), x86)
 	$(CP) $(EMCONFIG_DIR)/emconfig.json .
 	XCL_EMULATION_MODE=$(TARGET) ./$(EXECUTABLE) $(BUILD_DIR)/vconv.xclbin
 else
+	launch_emulator -no-reboot -runtime ocl -t $(TARGET) -sd-card-image _vimage/emulation -device-family $(DEV_FAM)
+	head -n -3 _vimage/emulation/sd_card.manifest | tee _vimage/emulation/sd_card.manifest
+	head -n -2 _vimage/emulation/init.sh | tee _vimage/emulation/init.sh
+endif
+else
+ifeq ($(HOST_ARCH), x86)
+	./$(EXECUTABLE) $(BUILD_DIR)/vconv.xclbin
+endif
+endif
+ifeq ($(HOST_ARCH), x86)
+	perf_analyze profile -i profile_summary.csv -f html
+endif
+
+sd_card:
+ifneq ($(HOST_ARCH), x86)
+ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 	$(CP) $(BINARY_CONTAINERS) .
 	readlink -f $(EXECUTABLE) >> _vimage/emulation/sd_card.manifest
 	readlink -f xrt.ini >> _vimage/emulation/sd_card.manifest
 	readlink -f $(BUILD_DIR) >> _vimage/emulation/sd_card.manifest
 	$(ECHO) ./$(EXEC_CMD_ARGS) >> _vimage/emulation/init.sh
 	$(ECHO) "reboot" >> _vimage/emulation/init.sh
-	launch_emulator -no-reboot -runtime ocl -t $(TARGET)
-	head -n -3 _vimage/emulation/sd_card.manifest | tee _vimage/emulation/sd_card.manifest
-	head -n -2 _vimage/emulation/init.sh | tee _vimage/emulation/init.sh
-endif
+	$(ABS_COMMON_REPO)/common/utility/sd_card_generation.tcl
+	mkfatimg _vimage/emulation/sd_card _vimage/emulation/sd_card.img 500000
 else
-	 ./$(EXECUTABLE) $(BUILD_DIR)/vconv.xclbin
-endif
-ifeq ($(HOST_ARCH), x86)
-	perf_analyze profile -i profile_summary.csv -f html
-endif
-
-sd_card: all
 	mkdir -p sd_card
 	$(CP) $(B_NAME)/sw/$(XSA)/xrt/image/* $(BUILD_DIR)/*.xclbin $(EXECUTABLE) sd_card/
+	$(ECHO) ./$(EXEC_CMD_ARGS) >> sd_card/init.sh
+endif
+endif
 
 # Cleaning stuff
 clean:
