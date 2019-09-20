@@ -15,7 +15,7 @@ endif
 ifeq ($(findstring xpfm, $(DEVICE)), xpfm)
 	B_NAME = $(shell dirname $(DEVICE))
 else
-	B_NAME = $(B_TEMP)/$(DEVICE)/$(DEVICE).xpfm)
+	B_NAME = $(B_TEMP)/$(DEVICE)/$(DEVICE).xpfm
 endif
 
 #Checks for XILINX_VITIS
