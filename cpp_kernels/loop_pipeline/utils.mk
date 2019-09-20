@@ -11,6 +11,7 @@ LDCLFLAGS += --profile_kernel data:all:all:all
 endif
 
 DEBUG := no
+B_TEMP = `$(ABS_COMMON_REPO)/common/utility/parse_platform_list.py $(DEVICE)`
 
 #Generates debug summary report
 ifeq ($(DEBUG), yes)
@@ -21,7 +22,7 @@ endif
 ifeq ($(findstring xpfm, $(DEVICE)), xpfm)
 	B_NAME = $(shell dirname $(DEVICE))
 else
-	B_NAME = $(shell dirname $(PLATFORM_REPO_PATHS)/$(DEVICE)/$(DEVICE).xpfm)
+	B_NAME = $(B_TEMP)/$(DEVICE)/$(DEVICE).xpfm)
 endif
 
 #Checks for XILINX_VITIS

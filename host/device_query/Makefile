@@ -33,7 +33,7 @@ ABS_COMMON_REPO = $(shell readlink -f $(COMMON_REPO))
 TARGET := hw
 HOST_ARCH := x86
 SYSROOT := 
-DEVICE = xilinx_u200_xdma
+DEVICE = xilinx_u200_xdma_201920_1
 
 include ./utils.mk
 
@@ -77,3 +77,75 @@ CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps
 EXECUTABLE = device_query
 EXEC_CMD_ARGS += $(EXECUTABLE)
 EXEC_CMD_ARGS += 
+EMCONFIG_DIR = $(TEMP_DIR)
+
+
+CP = cp -rf
+
+.PHONY: all clean cleanall docs emconfig
+all: check-devices $(EXECUTABLE) $(BINARY_CONTAINERS) emconfig
+	make sd_card
+
+.PHONY: exe
+exe: $(EXECUTABLE)
+
+.PHONY: build
+build: $(BINARY_CONTAINERS)
+
+# Building kernel
+
+# Building Host
+$(EXECUTABLE): check-xrt $(HOST_SRCS) $(HOST_HDRS)
+	$(CXX) $(CXXFLAGS) $(HOST_SRCS) $(HOST_HDRS) -o '$@' $(LDFLAGS)
+
+emconfig:$(EMCONFIG_DIR)/emconfig.json
+$(EMCONFIG_DIR)/emconfig.json:
+	emconfigutil --platform $(DEVICE) --od $(EMCONFIG_DIR)
+
+check: all
+ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
+ifeq ($(HOST_ARCH), x86)
+	$(CP) $(EMCONFIG_DIR)/emconfig.json .
+	XCL_EMULATION_MODE=$(TARGET) ./$(EXECUTABLE)
+else
+	launch_emulator -no-reboot -runtime ocl -t $(TARGET) -sd-card-image _vimage/emulation -device-family $(DEV_FAM)
+	head -n -3 _vimage/emulation/sd_card.manifest | tee _vimage/emulation/sd_card.manifest
+	head -n -2 _vimage/emulation/init.sh | tee _vimage/emulation/init.sh
+endif
+else
+ifeq ($(HOST_ARCH), x86)
+	./$(EXECUTABLE)
+endif
+endif
+ifeq ($(HOST_ARCH), x86)
+	perf_analyze profile -i profile_summary.csv -f html
+endif
+
+sd_card: $(EXECUTABLE) $(BINARY_CONTAINERS) emconfig
+ifneq ($(HOST_ARCH), x86)
+ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
+	$(CP) $(BINARY_CONTAINERS) .
+	readlink -f $(EXECUTABLE) >> _vimage/emulation/sd_card.manifest
+	readlink -f xrt.ini >> _vimage/emulation/sd_card.manifest
+	readlink -f $(BUILD_DIR)/*.xclbin >> _vimage/emulation/sd_card.manifest
+	$(ECHO) ./$(EXEC_CMD_ARGS) >> _vimage/emulation/init.sh
+	$(ECHO) "reboot" >> _vimage/emulation/init.sh
+	$(ABS_COMMON_REPO)/common/utility/sd_card_generation.tcl
+	mkfatimg _vimage/emulation/sd_card _vimage/emulation/sd_card.img 500000
+else
+	mkdir -p sd_card
+	$(CP) $(B_NAME)/sw/$(XSA)/xrt/image/* $(BUILD_DIR)/*.xclbin $(EXECUTABLE) sd_card/
+	$(ECHO) ./$(EXEC_CMD_ARGS) >> sd_card/init.sh
+endif
+endif
+
+# Cleaning stuff
+clean:
+	-$(RMDIR) $(EXECUTABLE) $(XCLBIN)/{*sw_emu*,*hw_emu*} 
+	-$(RMDIR) profile_* TempConfig system_estimate.xtxt *.rpt *.csv 
+	-$(RMDIR) src/*.ll _xocc_* .Xil emconfig.json dltmp* xmltmp* *.log *.jou *.wcfg *.wdb
+
+cleanall: clean
+	-$(RMDIR) build_dir* sd_card
+	-$(RMDIR) _x.* xclbin.run_summary qemu-memory-_* emulation/ _vimage/ pl* start_simulation.sh *.xclbin
+

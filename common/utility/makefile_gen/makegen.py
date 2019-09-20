@@ -26,7 +26,7 @@ def create_params(target,data):
     target.write("TARGET := hw\n")
     target.write("HOST_ARCH := x86\n")
     target.write("SYSROOT := \n")
-    target.write("DEVICE = xilinx_u200_xdma\n")
+    target.write("DEVICE = xilinx_u200_xdma_201920_1\n")
     target.write("\n")
     target.write("include ./utils.mk\n")
     target.write("\n")
@@ -206,12 +206,13 @@ def add_kernel_flags(target, data):
     target.write("\nEXEC_CMD_ARGS += $(EXECUTABLE)\n")
 
     target.write("EXEC_CMD_ARGS += ")
-    cmd_args = data["launch"][0]["cmd_args"].split(" ")
-    for cmdargs in cmd_args[0:]:
-        target.write(" ")
-        cmdargs = cmdargs.replace('BUILD/', '')
-        cmdargs = cmdargs.replace('PROJECT/', '')
-        target.write(cmdargs)
+    if "launch" in data:
+        cmd_args = data["launch"][0]["cmd_args"].split(" ")
+        for cmdargs in cmd_args[0:]:
+            target.write(" ")
+            cmdargs = cmdargs.replace('BUILD/', '')
+            cmdargs = cmdargs.replace('PROJECT/', '')
+            target.write(cmdargs)
 
     target.write("\n")
 
@@ -433,7 +434,7 @@ def mk_check(target, data):
         target.write("endif\n")
     target.write("\n")
 
-    target.write("sd_card:\n")
+    target.write("sd_card: $(EXECUTABLE) $(BINARY_CONTAINERS) emconfig\n")
     target.write("ifneq ($(HOST_ARCH), x86)\n")
     target.write("ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))\n")
     target.write("\t$(CP) $(BINARY_CONTAINERS) .\n")
@@ -523,6 +524,7 @@ def report_gen(target, data):
         target.write("\n")
     
     target.write("DEBUG := no\n")
+    target.write("B_TEMP = `$(ABS_COMMON_REPO)/common/utility/parse_platform_list.py $(DEVICE)`\n")
     target.write("\n")
     target.write("#Generates debug summary report\n")
     target.write("ifeq ($(DEBUG), yes)\n")
@@ -541,7 +543,7 @@ def util_checks(target):
     target.write("ifeq ($(findstring xpfm, $(DEVICE)), xpfm)\n")
     target.write("\tB_NAME = $(shell dirname $(DEVICE))\n")
     target.write("else\n")
-    target.write("\tB_NAME = $(shell dirname $(PLATFORM_REPO_PATHS)/$(DEVICE)/$(DEVICE).xpfm)\n")
+    target.write("\tB_NAME = $(B_TEMP)/$(DEVICE)/$(DEVICE).xpfm)\n")
     target.write("endif\n")
     target.write("\n")
 
