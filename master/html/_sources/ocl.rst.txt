@@ -12,23 +12,12 @@ This section contains OpenCL Kernel Examples.
    cl_array_partition.rst
    cl_burst_rw.rst
    cl_dataflow_func.rst
-   cl_dataflow_pipes.rst
    cl_dataflow_subfunc.rst
-   cl_debug_printf.rst
-   cl_full_array_2d.rst
    cl_gmem_2banks.rst
-   cl_gmem_2banks_5.0_shell.rst
    cl_helloworld.rst
-   cl_large_loop.rst
    cl_lmem_2rw.rst
-   cl_loop_fusion.rst
    cl_loop_reorder.rst
    cl_partition_cyclicblock.rst
-   cl_row_array_2d.rst
    cl_shift_register.rst
-   cl_split_kernel.rst
-   cl_sum_scan.rst
    cl_systolic_array.rst
-   cl_too_many_cu.rst
-   cl_vectorization_memorycoalescing.rst
    cl_wide_mem_rw.rst

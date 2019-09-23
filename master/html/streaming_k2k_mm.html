@@ -85,7 +85,6 @@
 <li class="toctree-l1"><a class="reference internal" href="prerequisites.html">Prerequisites</a></li>
 <li class="toctree-l1"><a class="reference internal" href="shells.html">Supported Shells</a></li>
 <li class="toctree-l1"><a class="reference internal" href="compile_execute.html">Compilation and Execution</a></li>
-<li class="toctree-l1"><a class="reference internal" href="cloud.html">Cloud Execution</a></li>
 <li class="toctree-l1"><a class="reference internal" href="support.html">Support</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Category of Examples</span></p>
@@ -97,15 +96,12 @@
 <li class="toctree-l2"><a class="reference internal" href="data_transfer.html">Data Transfer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="device_query.html">Device Query (CPP)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="device_query_cpp.html">Device Query (CPP)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="debug_profile.html">SUPPORTED SHELLS</a></li>
-<li class="toctree-l2"><a class="reference internal" href="debug_profile.html#design-files">DESIGN FILES</a></li>
-<li class="toctree-l2"><a class="reference internal" href="debug_profile.html#command-line-arguments">COMMAND LINE ARGUMENTS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="debug_profile.html">Printing Profile Data and Dumping Waveform file</a></li>
 <li class="toctree-l2"><a class="reference internal" href="errors.html">Error Handling</a></li>
 <li class="toctree-l2"><a class="reference internal" href="errors_cpp.html">Error Handling (CPP)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="hbm_bandwidth.html">HBM Bandwidth</a></li>
 <li class="toctree-l2"><a class="reference internal" href="hbm_simple.html">HBM Simple Vector Addition</a></li>
 <li class="toctree-l2"><a class="reference internal" href="host_global_bandwidth.html">host_global</a></li>
-<li class="toctree-l2"><a class="reference internal" href="host_global_bandwidth_5.0_shell.html">host_global_5.0_shell</a></li>
 <li class="toctree-l2"><a class="reference internal" href="multiple_cus_asymmetrical.html">Vector Addition ~ Asymmetrical Multiple Compute Units</a></li>
 <li class="toctree-l2"><a class="reference internal" href="overlap.html">Overlap Host and HLS kernels</a></li>
 <li class="toctree-l2"><a class="reference internal" href="streaming_host_bandwidth.html">Host Streaming Bandwidth</a></li>
@@ -118,8 +114,7 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="streaming_mm_mixed.html">Stream Vector Addition with OpenCL Buffers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="streaming_multi_cus.html">Stream Vector Addition (Multiple Compute Units)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="streaming_simple.html">Stream Vector Addition</a></li>
-<li class="toctree-l2"><a class="reference internal" href="sub_devices.html">Sub Devices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="streaming_simple.html">Stream Kernel Simple Example</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="cpp.html">C++ Kernels</a></li>
@@ -223,39 +218,17 @@ kernel streaming interfaces. Argument 2 for <code class="docutils literal notran
 </pre></div>
 </div>
 <p>Producer kernel stream output port must be connected to consumer kernel
-stream input port during the <code class="docutils literal notranslate"><span class="pre">xocc</span></code> linking stage.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">xocc</span> <span class="o">-</span><span class="n">l</span> <span class="o">--</span><span class="n">sc</span> <span class="n">krnl_stream_vadd_1</span><span class="o">.</span><span class="n">out</span><span class="p">:</span><span class="n">krnl_stream_vmult_1</span><span class="o">.</span><span class="n">in2</span>
+stream input port during the <code class="docutils literal notranslate"><span class="pre">v++</span></code> linking stage.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">--</span><span class="n">config</span> <span class="n">krnl_stream_vadd_vmult</span><span class="o">.</span><span class="n">ini</span>
 </pre></div>
 </div>
-<p>HLS pragma must be defined for every streaming interface.</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#pragma HLS INTERFACE axis port=out</span>
+<p>Content of <code class="docutils literal notranslate"><span class="pre">krnl_stream_vadd_vmult.ini</span></code> file is below:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">connectivity</span><span class="p">]</span>
+<span class="n">stream_connect</span><span class="o">=</span><span class="n">krnl_stream_vadd_1</span><span class="o">.</span><span class="n">out</span><span class="p">:</span><span class="n">krnl_stream_vmult_1</span><span class="o">.</span><span class="n">in2</span>
 </pre></div>
 </div>
-<p><code class="docutils literal notranslate"><span class="pre">hls::stream</span></code> kernels use a special class <code class="docutils literal notranslate"><span class="pre">ap_axiu&lt;D,0,0,0&gt;</span></code> for
-intra-kernel streams which requires the header file <code class="docutils literal notranslate"><span class="pre">ap_axi_sdata.h</span></code>.
-It has variables <code class="docutils literal notranslate"><span class="pre">data</span></code>,<code class="docutils literal notranslate"><span class="pre">last</span></code> and <code class="docutils literal notranslate"><span class="pre">keep</span></code> to manage the data
-transfer.</p>
-<p>Producer kernel <code class="docutils literal notranslate"><span class="pre">krnl_stream_vadd</span></code> uses <code class="docutils literal notranslate"><span class="pre">write()</span></code> to write to the
-output stream and consumer kernel <code class="docutils literal notranslate"><span class="pre">krnl_stream_vmult</span></code> uses <code class="docutils literal notranslate"><span class="pre">read()</span></code>
-to read its input stream.</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="nl">vadd</span><span class="p">:</span>
-    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">size</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-    <span class="cp">#pragma HLS PIPELINE II=1</span>
-        <span class="kt">int</span> <span class="n">res</span> <span class="o">=</span> <span class="n">in1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">in2</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
-        <span class="n">pkt</span> <span class="n">v</span><span class="p">;</span>
-        <span class="n">v</span><span class="p">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">res</span><span class="p">;</span>
-        <span class="n">out</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="n">v</span><span class="p">);</span>
-    <span class="p">}</span>
-</pre></div>
-</div>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="nl">vmult</span><span class="p">:</span>
-    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">size</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-    <span class="cp">#pragma HLS PIPELINE II=1</span>
-        <span class="n">pkt</span> <span class="n">v2</span> <span class="o">=</span> <span class="n">in2</span><span class="p">.</span><span class="n">read</span><span class="p">();</span>
-        <span class="n">out</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">in1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">v2</span><span class="p">.</span><span class="n">data</span><span class="p">;</span>
-    <span class="p">}</span>
-</pre></div>
-</div>
+<p>Above specify that <code class="docutils literal notranslate"><span class="pre">out</span></code> port of <code class="docutils literal notranslate"><span class="pre">krnl_stream_vadd_1</span></code> kernel is
+connected to <code class="docutils literal notranslate"><span class="pre">in2</span></code> port of <code class="docutils literal notranslate"><span class="pre">krnl_stream_vmult_1</span></code></p>
 <div class="section" id="supported-shells">
 <h2>SUPPORTED SHELLS<a class="headerlink" href="#supported-shells" title="Permalink to this headline">¶</a></h2>
 <table class="docutils align-center">

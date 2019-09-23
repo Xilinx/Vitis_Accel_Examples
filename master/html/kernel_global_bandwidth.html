@@ -85,7 +85,6 @@
 <li class="toctree-l1"><a class="reference internal" href="prerequisites.html">Prerequisites</a></li>
 <li class="toctree-l1"><a class="reference internal" href="shells.html">Supported Shells</a></li>
 <li class="toctree-l1"><a class="reference internal" href="compile_execute.html">Compilation and Execution</a></li>
-<li class="toctree-l1"><a class="reference internal" href="cloud.html">Cloud Execution</a></li>
 <li class="toctree-l1"><a class="reference internal" href="support.html">Support</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Category of Examples</span></p>
@@ -193,12 +192,9 @@
   <div class="section" id="kernel-global">
 <h1>kernel_global<a class="headerlink" href="#kernel-global" title="Permalink to this headline">¶</a></h1>
 <p>Bandwidth test of global to local memory.</p>
-<p>This example tests the bandwidth of kernel interface with global memory
-for 4 cases using 1 DDR bank to 4 DDR banks. If more than 1 input/output
-buffers are connected to one memory bank, these buffers can’t be read
-concurrently to kernel’s local memory. In such cases, buffers can be
-placed in different DDR banks to increase the bandwidth for concurrent
-transfers.</p>
+<p>This example tests global memory access bandwidth of kernel. Kernel
+increase the bandwidth by accessing multiple DDR banks through different
+interfaces.</p>
 <p>User can customize these connections to global memory by explicitly
 specifying the memory banks for different inputs/outputs. Seperate
 bundle names need to be specified for each buffer to be placed in
@@ -210,6 +206,21 @@ different bank.</p>
 <p>Banks need to be specified using the <code class="docutils literal notranslate"><span class="pre">--sp</span></code> tags in the kernel linking
 stage along with the <code class="docutils literal notranslate"><span class="pre">m_axi</span></code> interface name and kernel name.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">--</span><span class="n">sp</span> <span class="n">apply_watermark_1</span><span class="o">.</span><span class="n">m_axi_gmem0</span><span class="p">:</span><span class="n">DDR</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">--</span><span class="n">sp</span> <span class="n">apply_watermark_1</span><span class="o">.</span><span class="n">m_axi_gmem1</span><span class="p">:</span><span class="n">DDR</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Design display following report in while running on board:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">kernel_global</span> <span class="o">./</span><span class="n">build_dir</span><span class="o">.</span><span class="n">hw</span><span class="o">.</span><span class="n">xilinx_u200_xdma_201830_2</span><span class="o">/</span><span class="n">krnl_kernel_global</span><span class="o">.</span><span class="n">xclbin</span>
+<span class="n">Found</span> <span class="n">Platform</span>
+<span class="n">Platform</span> <span class="n">Name</span><span class="p">:</span> <span class="n">Xilinx</span>
+<span class="n">Found</span> <span class="n">Device</span><span class="o">=</span><span class="n">xilinx_u200_xdma_201830_2</span>
+<span class="n">INFO</span><span class="p">:</span> <span class="n">Reading</span> <span class="o">./</span><span class="n">build_dir</span><span class="o">.</span><span class="n">hw</span><span class="o">.</span><span class="n">xilinx_u200_xdma_201830_2</span><span class="o">/</span><span class="n">krnl_kernel_global</span><span class="o">.</span><span class="n">xclbin</span>
+<span class="n">Loading</span><span class="p">:</span> <span class="s1">&#39;./build_dir.hw.xilinx_u200_xdma_201830_2/krnl_kernel_global.xclbin&#39;</span>
+<span class="n">Starting</span> <span class="n">kernel</span> <span class="n">to</span> <span class="n">read</span><span class="o">/</span><span class="n">write</span> <span class="mi">1024</span> <span class="n">MB</span> <span class="nb">bytes</span> <span class="n">from</span><span class="o">/</span><span class="n">to</span> <span class="k">global</span> <span class="n">memory</span><span class="o">...</span>
+<span class="n">Kernel</span> <span class="n">Duration</span><span class="o">...</span><span class="mi">66662680</span> <span class="n">ns</span>
+<span class="n">Kernel</span> <span class="n">completed</span> <span class="n">read</span><span class="o">/</span><span class="n">write</span> <span class="mi">1024</span> <span class="n">MB</span> <span class="nb">bytes</span> <span class="n">from</span><span class="o">/</span><span class="n">to</span> <span class="k">global</span> <span class="n">memory</span><span class="o">.</span>
+<span class="n">Execution</span> <span class="n">time</span> <span class="o">=</span> <span class="mf">0.066663</span> <span class="p">(</span><span class="n">sec</span><span class="p">)</span>
+<span class="n">Concurrent</span> <span class="n">Read</span> <span class="ow">and</span> <span class="n">Write</span> <span class="n">Throughput</span> <span class="o">=</span> <span class="mf">30721.837166</span> <span class="p">(</span><span class="n">MB</span><span class="o">/</span><span class="n">sec</span><span class="p">)</span>
+<span class="n">TEST</span> <span class="n">PASSED</span>
 </pre></div>
 </div>
 <div class="section" id="supported-shells">

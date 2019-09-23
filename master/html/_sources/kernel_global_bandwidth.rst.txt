@@ -3,12 +3,9 @@ kernel_global
 
 Bandwidth test of global to local memory.
 
-This example tests the bandwidth of kernel interface with global memory
-for 4 cases using 1 DDR bank to 4 DDR banks. If more than 1 input/output
-buffers are connected to one memory bank, these buffers can’t be read
-concurrently to kernel’s local memory. In such cases, buffers can be
-placed in different DDR banks to increase the bandwidth for concurrent
-transfers.
+This example tests global memory access bandwidth of kernel. Kernel
+increase the bandwidth by accessing multiple DDR banks through different
+interfaces.
 
 User can customize these connections to global memory by explicitly
 specifying the memory banks for different inputs/outputs. Seperate
@@ -26,6 +23,23 @@ stage along with the ``m_axi`` interface name and kernel name.
 ::
 
    --sp apply_watermark_1.m_axi_gmem0:DDR[0] --sp apply_watermark_1.m_axi_gmem1:DDR[1]
+
+Design display following report in while running on board:
+
+::
+
+   ./kernel_global ./build_dir.hw.xilinx_u200_xdma_201830_2/krnl_kernel_global.xclbin
+   Found Platform
+   Platform Name: Xilinx
+   Found Device=xilinx_u200_xdma_201830_2
+   INFO: Reading ./build_dir.hw.xilinx_u200_xdma_201830_2/krnl_kernel_global.xclbin
+   Loading: './build_dir.hw.xilinx_u200_xdma_201830_2/krnl_kernel_global.xclbin'
+   Starting kernel to read/write 1024 MB bytes from/to global memory... 
+   Kernel Duration...66662680 ns
+   Kernel completed read/write 1024 MB bytes from/to global memory.
+   Execution time = 0.066663 (sec) 
+   Concurrent Read and Write Throughput = 30721.837166 (MB/sec) 
+   TEST PASSED
 
 SUPPORTED SHELLS
 ----------------
