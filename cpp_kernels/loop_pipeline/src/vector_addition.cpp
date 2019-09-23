@@ -35,16 +35,16 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
    processing. This maximizes the utilization of the FPGA fabric and allows the
    processing of multiple elements of data at the same time.
 
-   The xocc compiler automatically performs this optimization on loops so no
+   The V++ compiler automatically performs this optimization on loops so no
    user intervention is required for most cases. The outer most loops will be
    pipelined and inner loops will be unrolled if possible.
 
    There are instances where this technique will not yield the best performance.
    For example, if you access two or more global cl_mem objects from within a
-   pipelined loop. By default xocc will assign one global memory port to each
+   pipelined loop. By default V++ will assign one global memory port to each
    kernel. Because the operations within a pipelined loop are executing in
    parallel different stages of the pipeline will need access to the memory
-   port. In order to accommodate this design, xocc will need to serialize the
+   port. In order to accommodate this design, V++ will need to serialize the
    access to these ports and therefore increase the initiation interval(II)
    and by extension reduce the throughput.
   */
@@ -73,7 +73,7 @@ void vadd_pipelined(int *c, const int *a, const int *b, const int len) {
     int result[N];
     int iterations = len / N;
 
-// Default behavior of xocc will pipeline the outer loop. Since we have
+// Default behavior of V++ will pipeline the outer loop. Since we have
 // multiple inner loops, the pipelining will fail. We can instead pipeline
 // the inner loops using the HLS PIPELINE pragma to guide the compiler.
 vadd_pipeline:

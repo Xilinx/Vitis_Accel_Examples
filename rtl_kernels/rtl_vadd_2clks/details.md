@@ -7,7 +7,7 @@ optional secondary clock, `ap_clk_2`. Both clocks can be used for clocking inter
 However, all external RTL kernel interfaces must be clocked on the primary clock. Both primary
 and secondary clocks support independent automatic frequency scaling.
 
-These clock frequencies are specified at xocc linking stage in the following manner.
+These clock frequencies are specified at V++ linking stage in the following manner.
 
 ```
 kernel_frequency=0:150|1:250 

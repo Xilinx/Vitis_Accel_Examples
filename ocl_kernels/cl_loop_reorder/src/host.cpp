@@ -31,7 +31,7 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 Description: 
 
-    SDx Vector Addition example which showcases the how reordering the loops
+    Vitis Vector Addition example which showcases the how reordering the loops
     helps achieve better pipeline initiation interval(II) and better performance.
 
 *******************************************************************************/

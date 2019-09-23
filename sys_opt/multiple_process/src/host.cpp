@@ -32,12 +32,6 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 Description:
     This is a simple to demonstrate Multi Process Support(MPS) using HLS kernels.
 
-Procedure:
-    To enable multi-process support, add the following entry to sdaccel.ini in 
-    the same directory as all the executable(s):
-    
-    [Runtime]
-    multiprocess=true
 
 Limitation:
     Debug and Profile will not function correctly when multiprocess has been 

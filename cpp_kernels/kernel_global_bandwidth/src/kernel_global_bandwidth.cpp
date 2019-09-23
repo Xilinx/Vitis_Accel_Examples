@@ -36,11 +36,11 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 *  ***************************************************************************************
 *  XSA  (2DDR):
 *              
-*  1.<SDx Project> > Properties > C/C++ Build > Settings > SDx XOCC Kernel Compiler 
+*  1.<Vitis Project> > Properties > C/C++ Build > Settings > Vitis V++ Kernel Compiler 
 *                  > Miscellaneous > Other flags
 *  2.In "Other flags" box enter following
 *     a. --max_memory_ports all 
-*  3.<SDx Project> > Properties > C/C++ Build > Settings > SDx XOCC Kernel Linker
+*  3.<Vitis Project> > Properties > C/C++ Build > Settings > Vitis V++ Kernel Linker
 *                  > Miscellaneous > Other flags
 *     a. --sp bandwidth_1.m_axi_gmem0:DDR[0]
 *     b. --sp bandwidth_1.m_axi_gmem1:DDR[1] 
@@ -48,11 +48,11 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 * *****************************************************************************************
 *  XSA  (3DDR):
 *              
-*  1.<SDx Project> > Properties > C/C++ Build > Settings > SDx XOCC Kernel Compiler 
+*  1.<Vitis Project> > Properties > C/C++ Build > Settings > Vitis V++ Kernel Compiler 
 *                  > Miscellaneous > Other flags
 *  2.In "Other flags" box enter following
 *     a. --max_memory_ports all 
-*  3.<SDx Project> > Properties > C/C++ Build > Settings > SDx XOCC Kernel Linker
+*  3.<Vitis Project> > Properties > C/C++ Build > Settings > Vitis V++ Kernel Linker
 *                  > Miscellaneous > Other flags
 *     a. --sp bandwidth_1.m_axi_gmem0:DDR[0]
 *     b. --sp bandwidth_1.m_axi_gmem1:DDR[1] 
@@ -64,11 +64,11 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 *      
 *  Note: The selected platform must support 4DDR.             
 *              
-*  1.<SDx Project> > Properties > C/C++ Build > Settings > SDx XOCC Kernel Compiler 
+*  1.<Vitis Project> > Properties > C/C++ Build > Settings > Vitis V++ Kernel Compiler 
 *                  > Miscellaneous > Other flags
 *  2.In "Other flags" box enter following
 *     a. --max_memory_ports all 
-*  3.<SDx Project> > Properties > C/C++ Build > Settings > SDx XOCC Kernel Linker
+*  3.<Vitis Project> > Properties > C/C++ Build > Settings > Vitis V++ Kernel Linker
 *                  > Miscellaneous > Other flags
 *     a. --sp bandwidth_1.m_axi_gmem0:DDR[0]
 *     b. --sp bandwidth_1.m_axi_gmem1:DDR[1] 

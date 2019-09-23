@@ -37,11 +37,11 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * as the memory bank that it access.
  * If competition for logic resources leads to situations where a kernel is not automatically
  * placed in the correct SLR or one SLR is overbooked, user needs to move few kernels to different SLR.
- * For such cases, user has to provide SLR assignment specific XOCC option to move kernel to respective
+ * For such cases, user has to provide SLR assignment specific V++ option to move kernel to respective
  * SLR region 
  *
  * In this example we have two kernels (vmult, vadd), in which first(vmult) is assigned to SLR0 and
- * second(vadd) is assigned to SLR1 as below command of xocc link command:
+ * second(vadd) is assigned to SLR1 as below command of V++ link command:
  * --slr vmult_1:SLR0 --slr vadd_1:SLR1
  *******************************************************/
 

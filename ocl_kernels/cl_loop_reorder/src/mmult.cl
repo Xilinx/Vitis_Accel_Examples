@@ -29,7 +29,7 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 /*******************************************************************************
 
-SDx Key Concept :
+Vitis Key Concept :
     
     This is a matrix multiplication based example which showcases the how 
     reordering the loops helps achieve better pipeline initiation interval(II)

@@ -35,7 +35,7 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * 
  * This example is designed to show a simple use case to understand how to use HBM memory. 
  *
- * There are total 32 memory resources referenced as HBM[0:31] by XOCC and each has a 
+ * There are total 32 memory resources referenced as HBM[0:31] by V++ and each has a 
  * capacity of storing 256MB of data.
  *
  * This example showcases two use cases to differentiate how efficiently one can use HBM banks.
@@ -226,7 +226,7 @@ int main(int argc, char *argv[]) {
     std::cout << "Found Device=" << device_name.c_str() << std::endl;
 
     // read_binary_file() command will find the OpenCL binary file created using the
-    // xocc compiler load into OpenCL Binary and return pointer to file buffer.
+    // V++ compiler load into OpenCL Binary and return pointer to file buffer.
     auto fileBuf = xcl::read_binary_file(binaryFile);
 
     cl::Program::Binaries bins{{fileBuf.data(), fileBuf.size()}};

@@ -163,7 +163,7 @@ int main(int argc, char *argv[]) {
     std::cout << "Found Device=" << device_name.c_str() << std::endl;
 
     // read_binary_file() command will find the OpenCL binary file created using the
-    // xocc compiler load into OpenCL Binary and return pointer to file buffer.
+    // V++ compiler load into OpenCL Binary and return pointer to file buffer.
     auto fileBuf = xcl::read_binary_file(binaryFile);
 
     cl::Program::Binaries bins{{fileBuf.data(), fileBuf.size()}};

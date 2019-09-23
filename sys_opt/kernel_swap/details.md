@@ -1,7 +1,7 @@
 Kernel Swap
 ============
 
-This example shows how host can swap the kernels and share the same buffer between two kernels which exist in separate binary containers. All the SDx platforms do not persist the buffer data if device is reprogrammed by different binary. So host has to migrate data from device to host memory before swapping the next binary. After re-programming the binary, host has to migrate the buffer back to device for next kernel operation.
+This example shows how host can swap the kernels and share the same buffer between two kernels which exist in separate binary containers. All the Vitis platforms do not persist the buffer data if device is reprogrammed by different binary. So host has to migrate data from device to host memory before swapping the next binary. After re-programming the binary, host has to migrate the buffer back to device for next kernel operation.
 
 In design, host application first programs the device using binary containing `krnl_vmult` and executes the operation. 
 

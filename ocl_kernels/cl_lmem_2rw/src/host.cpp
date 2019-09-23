@@ -28,7 +28,7 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 **********/
 
 /*******************************************************************************
-Description: SDx Vector Addition to utilize both Ports of BRAM memory 
+Description: Vitis Vector Addition to utilize both Ports of BRAM memory 
 *******************************************************************************/
 #include "xcl2.hpp"
 #include <vector>

@@ -29,7 +29,7 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 /*******************************************************************************
 
-SDx Key Concept :
+Vitis Key Concept :
     
     This is a matrix multiplication example which showcases the "Systolic Array"
     based algorithm design. Systolic array type of implementation is well suited

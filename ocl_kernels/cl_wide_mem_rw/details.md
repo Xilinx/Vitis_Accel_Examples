@@ -1,7 +1,7 @@
 Wide Memory Read/Write (C)
 ============================
 
-This example demonstrates the use of `ap_uint<>` datatype which enables `xocc` to figure out the memory datawidth for the kernel to 
+This example demonstrates the use of `ap_uint<>` datatype which enables `V++` to figure out the memory datawidth for the kernel to 
 global memory transfers.Using this datatype, larger chunks of data can be transferred as compared to conventional datatypes such as `int`.
 
  For efficient use of this bandwidth, `ap_uint<16>` is used. User must include `ap_int.h` to use these datatypes.

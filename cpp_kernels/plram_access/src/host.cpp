@@ -28,12 +28,12 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 **********/
 
 /*****
-This example demonstrates how PLRAM feature of the SDx memory subsystem and how they 
-integrate with the SDx design process.
+This example demonstrates how PLRAM feature of the Vitis memory subsystem and how they 
+integrate with the Vitis design process.
 PLRAMs are small shared memories which are built using the on-chip memory resources 
 of the FPGA fabric. They are intended to provide a small amount of data storage that
 application kernels can share and access rapidly. PLRAMs behave just like the DDR 
-memory resources managed by the SDx memory subsystem.
+memory resources managed by the Vitis memory subsystem.
 *****/
 
 //OpenCL utility layer include

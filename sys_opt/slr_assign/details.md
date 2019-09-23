@@ -8,7 +8,7 @@ Actual kernel resource utilization values can be used to help distribute CUs acr
 It might be necessary to cross an SLR region to connect to a DDR resource in a different SLR. However, if both the and the directives are explicitly defined, the tools
 `--sp`, `--slr` automatically add additional crossing logic to minimize the effect of the SLL delay, and facilitates better timing closure.
 
-`xocc` requires `--slr` option during the linking stage for explicit slr assignment of kernels.
+`V++` requires `--slr` option during the linking stage for explicit slr assignment of kernels.
 ```
 --slr vmult_1:SLR0 --slr vadd_1:SLR1
 ```

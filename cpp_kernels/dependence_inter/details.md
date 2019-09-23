@@ -2,7 +2,7 @@ Loop Iteration Dependency
 ==========================
 
 This example demonstrates how extra information about dependency can be specified for variables in consecutive loop iterations using 
-`#pragma HLS DEPENDENCE`. It allows the `xocc` to recognize dependencies and optimize the loop executions.
+`#pragma HLS DEPENDENCE`. It allows the `V++` to recognize dependencies and optimize the loop executions.
 
 For example here `linebuf` has `false inter dependency` which means each iteration of loop is independent for `linebuf` access.
 
