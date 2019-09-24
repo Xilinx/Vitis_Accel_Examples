@@ -7,18 +7,16 @@ import subprocess
 
 XSA = 'xilinx_u200_qdma'
 VERSION = 'VITIS 2019.2'
-AWS_DEVICES = {
-    'xilinx_aws-vu9p-f1-04261818': {
-       'version': '5.0',
-       'name': 'Xilinx Only 5.0 Shell',
-    }
-}
 
 DEVICES = {	
     'xilinx_u200_qdma': {
        'version': '201910_1',
        'name': 'Xilinx Alveo U200',
        'nae':  'nx5u_xdma_201830_1'
+    },
+    'xilinx_u50_xdma': {
+       'version': '201920_1',
+       'name': 'Xilinx Alveo U50'
     },
     'xilinx_u280_xdma': {
        'version': '201910_1',
@@ -102,28 +100,19 @@ def requirements(target,data):
     target.write("---------|-------------------|-----------------\n")
 
     boards = []
-    if 'shell' in data['name']:
-	boards = [word for word in AWS_DEVICES]
-    else:			
-        if 'device' in data:
-            board = data['device']
-            boards = [word for word in DEVICES if word in board]
-        else:
-            nboard = []
-            if 'ndevice' in data:
-                nboard = data['ndevice']
-            boards = [word for word in DEVICES if word not in nboard]
+    if 'device' in data:
+        board = data['device']
+        boards = [word for word in DEVICES if word in board]
+    else:
+        nboard = []
+        if 'ndevice' in data:
+            nboard = data['ndevice']
+        boards = [word for word in DEVICES if word not in nboard]
 
     for board in boards:
-	if 'shell' in data['name']:
-		target.write("Xilinx")
-	else:
-        	target.write(board)
+      	target.write(board)
         target.write("|")
-	if 'shell' in data['name']:
-	    target.write(AWS_DEVICES[board]['name'])
-	else:	
-            target.write(DEVICES[board]['name'])
+        target.write(DEVICES[board]['name'])
         target.write("|")
         target.write(VERSION)
         target.write("\n")

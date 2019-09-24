@@ -10,13 +10,14 @@ This example show how to take advantage of multiple FPGAs on a system. It will s
 ## SUPPORTED SHELLS
 Shell | Board             | Software Version
 ---------|-------------------|-----------------
+xilinx_u200_xdma|Xilinx Alveo U200|VITIS 2019.2
 xilinx_u200_qdma|Xilinx Alveo U200|VITIS 2019.2
 xilinx_v350-es1_xdma|Xilinx Versal V350|VITIS 2019.2
 xilinx_u280_xdma|Xilinx Alveo U280|VITIS 2019.2
-xilinx_u250_qdma|Xilinx Alveo U250|VITIS 2019.2
-xilinx_u200_xdma|Xilinx Alveo U200|VITIS 2019.2
 xilinx_u250_xdma|Xilinx Alveo U250|VITIS 2019.2
+xilinx_u50_xdma|Xilinx Alveo U50|VITIS 2019.2
 xilinx_u280-es1_xdma|Xilinx Alveo U280|VITIS 2019.2
+xilinx_u250_qdma|Xilinx Alveo U250|VITIS 2019.2
 
 
 ##  DESIGN FILES
