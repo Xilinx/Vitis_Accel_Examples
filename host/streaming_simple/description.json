@@ -19,6 +19,7 @@
         "xilinx:u280-es1:xdma", 
         "xilinx:aws-vu9p-f1-04261818:dynamic"
     ], 
+    "default_device": "xilinx_u200_qdma_201910_1", 
     "contributors": [
         {
             "url": "http://www.xilinx.com", 
