@@ -346,8 +346,7 @@ def mk_build_all(target, data):
     target.write("\n")
 
     target.write(".PHONY: all clean cleanall docs emconfig\n")
-    target.write("all: check-devices $(EXECUTABLE) $(BINARY_CONTAINERS) emconfig\n")
-    target.write("\tmake sd_card\n")
+    target.write("all: check-devices $(EXECUTABLE) $(BINARY_CONTAINERS) emconfig sd_card\n")
     target.write("\n")
     
     target.write(".PHONY: exe\n")
@@ -400,8 +399,6 @@ def mk_check(target, data):
 	        target.write(arg)
     target.write("\nelse\n")
     target.write("\tlaunch_emulator -no-reboot -runtime ocl -t $(TARGET) -sd-card-image _vimage/emulation -device-family $(DEV_FAM)\n")
-    target.write("\thead -n -3 _vimage/emulation/sd_card.manifest | tee _vimage/emulation/sd_card.manifest\n")
-    target.write("\thead -n -2 _vimage/emulation/init.sh | tee _vimage/emulation/init.sh\n")
     target.write("endif\n")
     target.write("else\n")
     target.write("ifeq ($(HOST_ARCH), x86)\n")
@@ -452,8 +449,6 @@ def mk_check(target, data):
 
     target.write("\t$(ECHO) ./$(EXEC_CMD_ARGS) >> _vimage/emulation/init.sh\n")
     target.write("\t$(ECHO) \"reboot\" >> _vimage/emulation/init.sh\n")
-    target.write("\t$(ABS_COMMON_REPO)/common/utility/sd_card_generation.tcl\n")
-    target.write("\tmkfatimg _vimage/emulation/sd_card _vimage/emulation/sd_card.img 500000\n")
     target.write("else\n")
     target.write("\tmkdir -p sd_card\n")
     target.write("\t$(CP) $(B_NAME)/sw/$(XSA)/xrt/image/* $(BUILD_DIR)/*.xclbin $(EXECUTABLE) sd_card/\n")

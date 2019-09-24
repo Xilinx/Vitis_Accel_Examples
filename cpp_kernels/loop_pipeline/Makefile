@@ -88,8 +88,7 @@ BINARY_CONTAINER_vector_addition_OBJS += $(TEMP_DIR)/vadd_pipelined.xo
 CP = cp -rf
 
 .PHONY: all clean cleanall docs emconfig
-all: check-devices $(EXECUTABLE) $(BINARY_CONTAINERS) emconfig
-	make sd_card
+all: check-devices $(EXECUTABLE) $(BINARY_CONTAINERS) emconfig sd_card
 
 .PHONY: exe
 exe: $(EXECUTABLE)
@@ -123,8 +122,6 @@ ifeq ($(HOST_ARCH), x86)
 	XCL_EMULATION_MODE=$(TARGET) ./$(EXECUTABLE) $(BUILD_DIR)/vector_addition.xclbin
 else
 	launch_emulator -no-reboot -runtime ocl -t $(TARGET) -sd-card-image _vimage/emulation -device-family $(DEV_FAM)
-	head -n -3 _vimage/emulation/sd_card.manifest | tee _vimage/emulation/sd_card.manifest
-	head -n -2 _vimage/emulation/init.sh | tee _vimage/emulation/init.sh
 endif
 else
 ifeq ($(HOST_ARCH), x86)
@@ -144,8 +141,6 @@ ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 	readlink -f $(BUILD_DIR)/*.xclbin >> _vimage/emulation/sd_card.manifest
 	$(ECHO) ./$(EXEC_CMD_ARGS) >> _vimage/emulation/init.sh
 	$(ECHO) "reboot" >> _vimage/emulation/init.sh
-	$(ABS_COMMON_REPO)/common/utility/sd_card_generation.tcl
-	mkfatimg _vimage/emulation/sd_card _vimage/emulation/sd_card.img 500000
 else
 	mkdir -p sd_card
 	$(CP) $(B_NAME)/sw/$(XSA)/xrt/image/* $(BUILD_DIR)/*.xclbin $(EXECUTABLE) sd_card/
