@@ -42,14 +42,6 @@ TEMP_DIR := ./_x.$(TARGET).$(XSA)
 BUILD_DIR := ./build_dir.$(TARGET).$(XSA)
 B_DIR := $(shell dirname $(B_NAME))
 
-ifeq ($(HOST_ARCH), x86)
-	CXX := $(XILINX_VITIS)/bin/xcpp
-else ifeq ($(HOST_ARCH), aarch64)
-	CXX := $(XILINX_VITIS)/gnu/aarch64/lin/aarch64-linux/bin/aarch64-linux-gnu-g++
-else ifeq ($(HOST_ARCH), aarch32)
-	CXX := $(XILINX_VITIS)/gnu/aarch32/lin/gcc-arm-linux-gnueabi/bin/arm-linux-gnueabihf-g++
-endif
-
 VPP := v++
 SDCARD := sd_card
 
