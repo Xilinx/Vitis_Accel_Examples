@@ -124,6 +124,12 @@ endif
 ifeq ($(findstring xilinx:aws-vu9p-f1-04261818:dynamic, $(DEVICE)), xilinx:aws-vu9p-f1-04261818:dynamic)
 $(error Nothing to be done for make)
 endif
+ifeq ($(findstring xilinx_u50_xdma, $(DEVICE)), xilinx_u50_xdma)
+$(error Nothing to be done for make)
+endif
+ifeq ($(findstring xilinx:u50:xdma, $(DEVICE)), xilinx:u50:xdma)
+$(error Nothing to be done for make)
+endif
 ifeq ($(findstring zc, $(DEVICE)), zc)
 $(error Nothing to be done for make)
 endif

@@ -4,7 +4,9 @@
         "xilinx_aws-vu9p-f1-04261818", 
         "xilinx:u280-es1:xdma", 
         "xilinx:aws-vu9p-f1-04261818:dynamic", 
-        "xilinx_v350-es1_xdma", 
+      	"xilinx_u50_xdma",
+        "xilinx:u50:xdma",
+ 	"xilinx_v350-es1_xdma", 
         "xilinx:v350-es1:xdma",
 	"zed",
 	"zc"

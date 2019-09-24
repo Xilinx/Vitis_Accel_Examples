@@ -5,7 +5,9 @@
         "zc", 
 	"zed",
         "xilinx_v350-es1_xdma", 
-        "xilinx:v350-es1:xdma"
+       	"xilinx_u50_xdma",
+        "xilinx:u50:xdma",
+ 	"xilinx:v350-es1:xdma"
     ], 
     "description": [
         "This example of 2ddr to demonstrate on how to use 2ddr XSA. How to create buffers in each DDR."

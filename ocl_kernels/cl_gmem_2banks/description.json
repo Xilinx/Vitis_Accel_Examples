@@ -2,7 +2,9 @@
     "ndevice": [
         "xilinx_aws-vu9p-f1-04261818", 
         "xilinx:aws-vu9p-f1-04261818:dynamic", 
-        "zc", 
+        "xilinx_u50_xdma",
+        "xilinx:u50:xdma",
+	"zc", 
 	"zed",
         "xilinx_v350-es1_xdma", 
         "xilinx:v350-es1:xdma"
