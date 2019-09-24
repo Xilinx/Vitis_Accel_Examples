@@ -3,7 +3,7 @@ Hello World
 This example a simple hello world example to explain the Host and Kernel code structure. Here a simple `vadd` kernel is used to explain the same.
 
 
-Vitis kernel must have one and only one s_axilite interface which will be used by host application to configure the kernel. Here `bundle=control` is defined which is s_axilite interface and associated with all the arguments (in1, in2, out_r and size). control interface must also be associated with `return`.
+Vitis kernel can have one s_axilite interface which will be used by host application to configure the kernel. Here `bundle=control` is defined which is s_axilite interface and associated with all the arguments (in1, in2, out_r and size). control interface must also be associated with `return`.
 
 ```c++
 void vadd(const unsigned int *in1, 
@@ -31,7 +31,9 @@ Rather than reading individual items for addition, local buffers are created in 
 
 Similarly, results are stored in a buffer and are written to global memory in a burst.
 The for loops used have the following requirements to implement burst read/write:
+
 - Pipeline the loop : Loop pipeline must have `II` (Initiation interval) = 1
+
 - contiguous memory : Memory addresses for read/write should be contiguous.
 
 ```c++
