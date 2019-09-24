@@ -14,7 +14,8 @@
         "xilinx:u250:qdma", 
         "xilinx:vcu1525:dynamic", 
         "xilinx:aws-vu9p-f1-04261818:dynamic"
-    ], 
+    ],
+    "default_device": "xilinx_u280_xdma_201910_1", 
     "name": "HBM Simple Vector Addition", 
     "contributors": [
         {

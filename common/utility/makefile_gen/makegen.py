@@ -26,7 +26,11 @@ def create_params(target,data):
     target.write("TARGET := hw\n")
     target.write("HOST_ARCH := x86\n")
     target.write("SYSROOT := \n")
-    target.write("DEVICE = xilinx_u200_xdma_201920_1\n")
+    target.write("DEVICE = ")
+    if "default_device" in data:
+        target.write(data["default_device"] + "\n")
+    else:
+        target.write("xilinx_u200_xdma_201920_1\n")
     target.write("\n")
     target.write("include ./utils.mk\n")
     target.write("\n")
