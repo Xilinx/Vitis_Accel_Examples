@@ -104,6 +104,10 @@ $(EMCONFIG_DIR)/emconfig.json:
 	emconfigutil --platform $(DEVICE) --od $(EMCONFIG_DIR)
 
 check: all
+ifeq ($(findstring zcu104_base, $(DEVICE)), zcu104_base)
+$(error Nothing to be done for make)
+endif
+
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 ifeq ($(HOST_ARCH), x86)
 	$(CP) $(EMCONFIG_DIR)/emconfig.json .
