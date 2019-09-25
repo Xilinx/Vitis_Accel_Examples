@@ -314,7 +314,7 @@ def mk_clean(target, data):
 
     target.write("cleanall: clean\n")
     target.write("\t-$(RMDIR) build_dir* sd_card\n")
-    target.write("\t-$(RMDIR) _x.* xclbin.run_summary qemu-memory-_* emulation/ _vimage/ pl* start_simulation.sh *.xclbin\n")
+    target.write("\t-$(RMDIR) _x.* *.xclbin.run_summary qemu-memory-_* emulation/ _vimage/ pl* start_simulation.sh *.xclbin\n")
     if "output_files" in data:         
         target.write("\t-$(RMDIR) ")
         args = data["output_files"].split(" ")

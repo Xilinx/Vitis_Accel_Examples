@@ -148,5 +148,5 @@ clean:
 
 cleanall: clean
 	-$(RMDIR) build_dir* sd_card
-	-$(RMDIR) _x.* xclbin.run_summary qemu-memory-_* emulation/ _vimage/ pl* start_simulation.sh *.xclbin
+	-$(RMDIR) _x.* *.xclbin.run_summary qemu-memory-_* emulation/ _vimage/ pl* start_simulation.sh *.xclbin
 	-$(RMDIR) ./tmp_kernel_pack* ./packaged_kernel* 
