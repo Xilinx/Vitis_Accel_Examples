@@ -28,7 +28,7 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 **********/
 
 /*******************************************************************************
-Description: SDx Vector Addition using Streams
+Description: Vitis Vector Addition using Streams
 *******************************************************************************/
 
 #define DATA_SIZE 4096
