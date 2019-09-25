@@ -50,7 +50,7 @@ CXXFLAGS += $(xcl2_CXXFLAGS)
 LDFLAGS += $(xcl2_LDFLAGS)
 HOST_SRCS += $(xcl2_SRCS)
 CXXFLAGS += -pthread
-CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++14
+CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++11
 LDFLAGS += $(opencl_LDFLAGS)
 
 HOST_SRCS += src/host.cpp 

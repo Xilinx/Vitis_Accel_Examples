@@ -46,7 +46,7 @@ VPP := v++
 #Include Libraries
 include $(ABS_COMMON_REPO)/common/includes/opencl/opencl.mk
 
-CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++14
+CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++11
 LDFLAGS += $(opencl_LDFLAGS)
 
 HOST_SRCS += src/host.cpp
