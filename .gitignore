@@ -1,6 +1,6 @@
 *.jou
-sdaccel_profile_summary.html
-sdaccel_profile_summary.csv
+profile_summary.html
+profile_summary.csv
 _xocc_*/
 .Xil/
 *.ll

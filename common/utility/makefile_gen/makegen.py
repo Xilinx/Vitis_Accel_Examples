@@ -589,12 +589,6 @@ def util_checks(target):
     target.write("endif\n")
     target.write("\n")
 
-    #target.write("check-aws_repo:\n")
-    #target.write("ifndef SDACCEL_DIR\n")
-    #target.write("\t$(error SDACCEL_DIR not set. Please set it properly and rerun. Run \"make help\" for more details.)\n")
-    #target.write("endif\n")
-    #target.write("\n")
-
 def clean_util(target):
     target.write("# Cleaning stuff\n")
     target.write("RM = rm -f\n")
@@ -619,8 +613,6 @@ def create_mk(target, data):
     add_containers(target, data)
     mk_build_all(target, data)
     mk_check(target, data)
-    #run_nimbix(target, data)
-    #aws_build(target)
     mk_clean(target,data)
     return 
 
