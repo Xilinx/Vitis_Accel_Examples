@@ -48,7 +48,7 @@ def create_params(target,data):
 	target.write("include ")
 	target.write(data["config_make"])
 	target.write("\n\n")    
-    target.write("CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++14\n")
+    target.write("CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++11\n")
     target.write("LDFLAGS += $(opencl_LDFLAGS)\n")
     target.write("\n")
     return

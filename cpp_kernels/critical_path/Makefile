@@ -50,7 +50,7 @@ include $(ABS_COMMON_REPO)/common/includes/bitmap/bitmap.mk
 CXXFLAGS += $(xcl2_CXXFLAGS) $(bitmap_CXXFLAGS)
 LDFLAGS += $(xcl2_LDFLAGS) $(bitmap_LDFLAGS)
 HOST_SRCS += $(xcl2_SRCS) $(bitmap_SRCS)
-CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++14
+CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++11
 LDFLAGS += $(opencl_LDFLAGS)
 
 HOST_SRCS += src/host.cpp

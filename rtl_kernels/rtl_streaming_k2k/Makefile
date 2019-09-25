@@ -52,7 +52,7 @@ HOST_SRCS += $(xcl2_SRCS)
 CXXFLAGS += -pthread
 include config.mk
 
-CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++14
+CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++11
 LDFLAGS += $(opencl_LDFLAGS)
 
 HOST_SRCS += src/host.cpp 
