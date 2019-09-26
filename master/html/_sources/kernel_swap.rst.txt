@@ -14,7 +14,7 @@ Multiple Kernel Binaries
 
 This example shows how host can swap the kernels and share the same
 buffer between two kernels which exist in separate binary containers.
-All the SDx platforms do not persist the buffer data if device is
+All the Vitis platforms do not persist the buffer data if device is
 reprogrammed by different binary. So host has to migrate data from
 device to host memory before swapping the next binary. After
 re-programming the binary, host has to migrate the buffer back to device
@@ -70,6 +70,7 @@ xilinx_u200_qdma     Xilinx Alveo U200 Vitis 2019.2
 xilinx_u280_xdma     Xilinx Alveo U280 Vitis 2019.2
 xilinx_u250_qdma     Xilinx Alveo U250 Vitis 2019.2
 xilinx_u200_xdma     Xilinx Alveo U200 Vitis 2019.2
+xilinx_u50_xdma      Xilinx Alveo U50  Vitis 2019.2
 xilinx_u250_xdma     Xilinx Alveo U250 Vitis 2019.2
 xilinx_u280-es1_xdma Xilinx Alveo U280 Vitis 2019.2
 ==================== ================= ================

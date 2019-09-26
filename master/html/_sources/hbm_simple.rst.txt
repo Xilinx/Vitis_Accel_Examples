@@ -77,6 +77,7 @@ SUPPORTED SHELLS
 SHELL                Board             Software Version
 ==================== ================= ================
 xilinx_u280_xdma     Xilinx Alveo U280 Vitis 2019.2
+xilinx_u50_xdma      Xilinx Alveo U50  Vitis 2019.2
 xilinx_u280-es1_xdma Xilinx Alveo U280 Vitis 2019.2
 ==================== ================= ================
 

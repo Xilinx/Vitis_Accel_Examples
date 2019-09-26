@@ -200,7 +200,7 @@ to get better performance.</p>
 <p><strong>KEYWORDS:</strong> DEPENDENCE, inter, WAR</p>
 <p>This example demonstrates how extra information about dependency can be
 specified for variables in consecutive loop iterations using
-<code class="docutils literal notranslate"><span class="pre">#pragma</span> <span class="pre">HLS</span> <span class="pre">DEPENDENCE</span></code>. It allows the <code class="docutils literal notranslate"><span class="pre">xocc</span></code> to recognize
+<code class="docutils literal notranslate"><span class="pre">#pragma</span> <span class="pre">HLS</span> <span class="pre">DEPENDENCE</span></code>. It allows the <code class="docutils literal notranslate"><span class="pre">V++</span></code> to recognize
 dependencies and optimize the loop executions.</p>
 <p>For example here <code class="docutils literal notranslate"><span class="pre">linebuf</span></code> has <code class="docutils literal notranslate"><span class="pre">false</span> <span class="pre">inter</span> <span class="pre">dependency</span></code> which means
 each iteration of loop is independent for <code class="docutils literal notranslate"><span class="pre">linebuf</span></code> access.</p>
@@ -263,11 +263,15 @@ design with larger II factor which in turn leads to slow performance.</p>
 <td><p>Xilinx Alveo U200</p></td>
 <td><p>Vitis 2019.2</p></td>
 </tr>
-<tr class="row-even"><td><p>xilinx_u250_xdma</p></td>
+<tr class="row-even"><td><p>xilinx_u50_xdma</p></td>
+<td><p>Xilinx Alveo U50</p></td>
+<td><p>Vitis 2019.2</p></td>
+</tr>
+<tr class="row-odd"><td><p>xilinx_u250_xdma</p></td>
 <td><p>Xilinx Alveo U250</p></td>
 <td><p>Vitis 2019.2</p></td>
 </tr>
-<tr class="row-odd"><td><p>xilinx_u280-es1_xdma</p></td>
+<tr class="row-even"><td><p>xilinx_u280-es1_xdma</p></td>
 <td><p>Xilinx Alveo U280</p></td>
 <td><p>Vitis 2019.2</p></td>
 </tr>

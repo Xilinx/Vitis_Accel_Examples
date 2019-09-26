@@ -13,7 +13,7 @@ to get better performance.
 
 This example demonstrates how extra information about dependency can be
 specified for variables in consecutive loop iterations using
-``#pragma HLS DEPENDENCE``. It allows the ``xocc`` to recognize
+``#pragma HLS DEPENDENCE``. It allows the ``V++`` to recognize
 dependencies and optimize the loop executions.
 
 For example here ``linebuf`` has ``false inter dependency`` which means
@@ -59,6 +59,7 @@ xilinx_u200_qdma     Xilinx Alveo U200 Vitis 2019.2
 xilinx_u280_xdma     Xilinx Alveo U280 Vitis 2019.2
 xilinx_u250_qdma     Xilinx Alveo U250 Vitis 2019.2
 xilinx_u200_xdma     Xilinx Alveo U200 Vitis 2019.2
+xilinx_u50_xdma      Xilinx Alveo U50  Vitis 2019.2
 xilinx_u250_xdma     Xilinx Alveo U250 Vitis 2019.2
 xilinx_u280-es1_xdma Xilinx Alveo U280 Vitis 2019.2
 ==================== ================= ================

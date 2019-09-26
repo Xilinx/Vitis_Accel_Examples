@@ -199,7 +199,7 @@ resource in a different SLR. However, if both the and the directives are
 explicitly defined, the tools <code class="docutils literal notranslate"><span class="pre">--sp</span></code>, <code class="docutils literal notranslate"><span class="pre">--slr</span></code> automatically add
 additional crossing logic to minimize the effect of the SLL delay, and
 facilitates better timing closure.</p>
-<p><code class="docutils literal notranslate"><span class="pre">xocc</span></code> requires <code class="docutils literal notranslate"><span class="pre">--slr</span></code> option during the linking stage for explicit
+<p><code class="docutils literal notranslate"><span class="pre">V++</span></code> requires <code class="docutils literal notranslate"><span class="pre">--slr</span></code> option during the linking stage for explicit
 slr assignment of kernels.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">--</span><span class="n">slr</span> <span class="n">vmult_1</span><span class="p">:</span><span class="n">SLR0</span> <span class="o">--</span><span class="n">slr</span> <span class="n">vadd_1</span><span class="p">:</span><span class="n">SLR1</span>
 </pre></div>
@@ -235,7 +235,11 @@ slr assignment of kernels.</p>
 <td><p>Xilinx Alveo U200</p></td>
 <td><p>Vitis 2019.2</p></td>
 </tr>
-<tr class="row-even"><td><p>xilinx_u250_xdma</p></td>
+<tr class="row-even"><td><p>xilinx_u50_xdma</p></td>
+<td><p>Xilinx Alveo U50</p></td>
+<td><p>Vitis 2019.2</p></td>
+</tr>
+<tr class="row-odd"><td><p>xilinx_u250_xdma</p></td>
 <td><p>Xilinx Alveo U250</p></td>
 <td><p>Vitis 2019.2</p></td>
 </tr>

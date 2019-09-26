@@ -28,7 +28,7 @@ explicitly defined, the tools ``--sp``, ``--slr`` automatically add
 additional crossing logic to minimize the effect of the SLL delay, and
 facilitates better timing closure.
 
-``xocc`` requires ``--slr`` option during the linking stage for explicit
+``V++`` requires ``--slr`` option during the linking stage for explicit
 slr assignment of kernels.
 
 ::
@@ -45,6 +45,7 @@ xilinx_u200_qdma Xilinx Alveo U200 Vitis 2019.2
 xilinx_u280_xdma Xilinx Alveo U280 Vitis 2019.2
 xilinx_u250_qdma Xilinx Alveo U250 Vitis 2019.2
 xilinx_u200_xdma Xilinx Alveo U200 Vitis 2019.2
+xilinx_u50_xdma  Xilinx Alveo U50  Vitis 2019.2
 xilinx_u250_xdma Xilinx Alveo U250 Vitis 2019.2
 ================ ================= ================
 

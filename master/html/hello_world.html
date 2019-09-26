@@ -177,11 +177,11 @@ kernels in Vitis Environment.</p>
 <p>This example a simple hello world example to explain the Host and Kernel
 code structure. Here a simple <code class="docutils literal notranslate"><span class="pre">vadd</span></code> kernel is used to explain the
 same.</p>
-<p>Vitis kernel must have one and only one s_axilite interface which will
-be used by host application to configure the kernel. Here
-<code class="docutils literal notranslate"><span class="pre">bundle=control</span></code> is defined which is s_axilite interface and
-associated with all the arguments (in1, in2, out_r and size). control
-interface must also be associated with <code class="docutils literal notranslate"><span class="pre">return</span></code>.</p>
+<p>Vitis kernel can have one s_axilite interface which will be used by host
+application to configure the kernel. Here <code class="docutils literal notranslate"><span class="pre">bundle=control</span></code> is defined
+which is s_axilite interface and associated with all the arguments (in1,
+in2, out_r and size). control interface must also be associated with
+<code class="docutils literal notranslate"><span class="pre">return</span></code>.</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span> <span class="n">vadd</span><span class="p">(</span><span class="k">const</span> <span class="kt">unsigned</span> <span class="kt">int</span> <span class="o">*</span><span class="n">in1</span><span class="p">,</span>
           <span class="k">const</span> <span class="kt">unsigned</span> <span class="kt">int</span> <span class="o">*</span><span class="n">in2</span><span class="p">,</span>
           <span class="kt">unsigned</span> <span class="kt">int</span> <span class="o">*</span><span class="n">out_r</span><span class="p">,</span>
@@ -214,9 +214,13 @@ burst. This is done to achieve low memory access latency and also for
 efficient use of bandwidth provided by the m_axi interface.</p>
 <p>Similarly, results are stored in a buffer and are written to global
 memory in a burst. The for loops used have the following requirements to
-implement burst read/write: - Pipeline the loop : Loop pipeline must
-have <code class="docutils literal notranslate"><span class="pre">II</span></code> (Initiation interval) = 1 - contiguous memory : Memory
-addresses for read/write should be contiguous.</p>
+implement burst read/write:</p>
+<ul class="simple">
+<li><p>Pipeline the loop : Loop pipeline must have <code class="docutils literal notranslate"><span class="pre">II</span></code> (Initiation
+interval) = 1</p></li>
+<li><p>contiguous memory : Memory addresses for read/write should be
+contiguous.</p></li>
+</ul>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="nl">read1</span><span class="p">:</span> <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span> <span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">chunk_size</span> <span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">){</span>
     <span class="cp">#pragma HLS PIPELINE II=1</span>
         <span class="n">v1_buffer</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">in1</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="n">j</span><span class="p">];</span>
@@ -258,11 +262,15 @@ addresses for read/write should be contiguous.</p>
 <td><p>Xilinx Alveo U200</p></td>
 <td><p>Vitis 2019.2</p></td>
 </tr>
-<tr class="row-even"><td><p>xilinx_u250_xdma</p></td>
+<tr class="row-even"><td><p>xilinx_u50_xdma</p></td>
+<td><p>Xilinx Alveo U50</p></td>
+<td><p>Vitis 2019.2</p></td>
+</tr>
+<tr class="row-odd"><td><p>xilinx_u250_xdma</p></td>
 <td><p>Xilinx Alveo U250</p></td>
 <td><p>Vitis 2019.2</p></td>
 </tr>
-<tr class="row-odd"><td><p>xilinx_u280-es1_xdma</p></td>
+<tr class="row-even"><td><p>xilinx_u280-es1_xdma</p></td>
 <td><p>Xilinx Alveo U280</p></td>
 <td><p>Vitis 2019.2</p></td>
 </tr>
