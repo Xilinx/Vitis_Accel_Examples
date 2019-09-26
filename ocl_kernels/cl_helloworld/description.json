@@ -45,6 +45,5 @@
     ], 
     "description": [
         "This example is a simple OpenCL application. It will highlight the basic flow of an OpenCL application."
-    ],
-    "match_makefile": "false"
+    ]
 }

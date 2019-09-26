@@ -42,6 +42,7 @@ TEMP_DIR := ./_x.$(TARGET).$(XSA)
 BUILD_DIR := ./build_dir.$(TARGET).$(XSA)
 
 VPP := v++
+SDCARD := sd_card
 
 #Include Libraries
 include $(ABS_COMMON_REPO)/common/includes/opencl/opencl.mk
@@ -76,6 +77,7 @@ CMD_ARGS = $(BUILD_DIR)/apply_watermark.xclbin ./data/input.bmp ./data/golden.bm
 EXEC_CMD_ARGS += $(EXECUTABLE)
 EXEC_CMD_ARGS +=  apply_watermark.xclbin data/input.bmp data/golden.bmp
 EMCONFIG_DIR = $(TEMP_DIR)
+EMU_DIR = $(SDCARD)/data/emulation
 
 BINARY_CONTAINERS += $(BUILD_DIR)/apply_watermark.xclbin
 BINARY_CONTAINER_apply_watermark_OBJS += $(TEMP_DIR)/apply_watermark.xo
@@ -139,7 +141,10 @@ ifeq ($(HOST_ARCH), x86)
 	$(CP) $(EMCONFIG_DIR)/emconfig.json .
 	XCL_EMULATION_MODE=$(TARGET) ./$(EXECUTABLE) $(BUILD_DIR)/apply_watermark.xclbin ./data/input.bmp ./data/golden.bmp
 else
-	launch_emulator -no-reboot -runtime ocl -t $(TARGET) -sd-card-image _vimage/emulation -device-family $(DEV_FAM)
+	mkdir -p $(EMU_DIR)
+	$(CP) $(XILINX_VITIS)/data/emulation/unified $(EMU_DIR)
+	mkfatimg $(SDCARD) $(SDCARD).img 500000
+	launch_emulator -no-reboot -runtime ocl -t $(TARGET) -sd-card-image $(SDCARD).img -device-family $(DEV_FAM)
 endif
 else
 ifeq ($(HOST_ARCH), x86)
@@ -152,18 +157,17 @@ endif
 
 sd_card: $(EXECUTABLE) $(BINARY_CONTAINERS) emconfig
 ifneq ($(HOST_ARCH), x86)
+	mkdir -p $(SDCARD)
+	$(CP) $(B_NAME)/sw/$(XSA)/boot/generic.readme $(B_NAME)/sw/$(XSA)/xrt/image/* $(BUILD_DIR)/*.xclbin xrt.ini $(EXECUTABLE) $(SDCARD)
+	$(CP) data $(SDCARD)
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
-	$(CP) $(BINARY_CONTAINERS) .
-	readlink -f $(EXECUTABLE) >> _vimage/emulation/sd_card.manifest
-	readlink -f xrt.ini >> _vimage/emulation/sd_card.manifest
-	readlink -f $(BUILD_DIR)/*.xclbin >> _vimage/emulation/sd_card.manifest
-	readlink -f data >> _vimage/emulation/sd_card.manifest
-	$(ECHO) ./$(EXEC_CMD_ARGS) >> _vimage/emulation/init.sh
-	$(ECHO) "reboot" >> _vimage/emulation/init.sh
+	$(ECHO) 'cd /mnt/' >> $(SDCARD)/init.sh
+	$(ECHO) 'export XILINX_VITIS=$$PWD' >> $(SDCARD)/init.sh
+	$(ECHO) 'export XCL_EMULATION_MODE=$(TARGET)' >> $(SDCARD)/init.sh
+	$(ECHO) ./$(EXEC_CMD_ARGS) >> $(SDCARD)/init.sh
+	$(ECHO) 'reboot' >> $(SDCARD)/init.sh
 else
-	mkdir -p sd_card
-	$(CP) $(B_NAME)/sw/$(XSA)/xrt/image/* $(BUILD_DIR)/*.xclbin $(EXECUTABLE) sd_card/
-	$(ECHO) ./$(EXEC_CMD_ARGS) >> sd_card/init.sh
+	$(ECHO) ./$(EXEC_CMD_ARGS) >> $(SDCARD)/init.sh
 endif
 endif
 
@@ -174,6 +178,6 @@ clean:
 	-$(RMDIR) src/*.ll _xocc_* .Xil emconfig.json dltmp* xmltmp* *.log *.jou *.wcfg *.wdb
 
 cleanall: clean
-	-$(RMDIR) build_dir* sd_card
+	-$(RMDIR) build_dir* sd_card*
 	-$(RMDIR) _x.* *.xclbin.run_summary qemu-memory-_* emulation/ _vimage/ pl* start_simulation.sh *.xclbin
 	-$(RMDIR) ./output.bmp 

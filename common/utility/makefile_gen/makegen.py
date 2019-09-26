@@ -41,6 +41,8 @@ def create_params(target,data):
 
     target.write("VPP := ")
     target.write("v++\n")
+    target.write("SDCARD := ")
+    target.write("sd_card\n")
     target.write("\n")
     add_includes1(target, data)
     add_includes2(target, data) 
@@ -213,8 +215,9 @@ def add_kernel_flags(target, data):
 
     target.write("\n")
 
-    target.write("EMCONFIG_DIR = $(TEMP_DIR)")
-    target.write("\n\n")
+    target.write("EMCONFIG_DIR = $(TEMP_DIR)\n")
+    target.write("EMU_DIR = $(SDCARD)/data/emulation\n")
+    target.write("\n")
 
     return
 
@@ -313,7 +316,7 @@ def mk_clean(target, data):
     target.write("\n")
 
     target.write("cleanall: clean\n")
-    target.write("\t-$(RMDIR) build_dir* sd_card\n")
+    target.write("\t-$(RMDIR) build_dir* sd_card*\n")
     target.write("\t-$(RMDIR) _x.* *.xclbin.run_summary qemu-memory-_* emulation/ _vimage/ pl* start_simulation.sh *.xclbin\n")
     if "output_files" in data:         
         target.write("\t-$(RMDIR) ")
@@ -391,7 +394,10 @@ def mk_check(target, data):
 	        arg = arg.replace('PROJECT', '.')
 	        target.write(arg)
     target.write("\nelse\n")
-    target.write("\tlaunch_emulator -no-reboot -runtime ocl -t $(TARGET) -sd-card-image _vimage/emulation -device-family $(DEV_FAM)\n")
+    target.write("\tmkdir -p $(EMU_DIR)\n")
+    target.write("\t$(CP) $(XILINX_VITIS)/data/emulation/unified $(EMU_DIR)\n")
+    target.write("\tmkfatimg $(SDCARD) $(SDCARD).img 500000\n")
+    target.write("\tlaunch_emulator -no-reboot -runtime ocl -t $(TARGET) -sd-card-image $(SDCARD).img -device-family $(DEV_FAM)\n")
     target.write("endif\n")
     target.write("else\n")
     target.write("ifeq ($(HOST_ARCH), x86)\n")
@@ -430,22 +436,22 @@ def mk_check(target, data):
 
     target.write("sd_card: $(EXECUTABLE) $(BINARY_CONTAINERS) emconfig\n")
     target.write("ifneq ($(HOST_ARCH), x86)\n")
-    target.write("ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))\n")
-    target.write("\t$(CP) $(BINARY_CONTAINERS) .\n")
-    target.write("\treadlink -f $(EXECUTABLE) >> _vimage/emulation/sd_card.manifest\n")
-    target.write("\treadlink -f xrt.ini >> _vimage/emulation/sd_card.manifest\n")
-
-    target.write("\treadlink -f $(BUILD_DIR)/*.xclbin >> _vimage/emulation/sd_card.manifest\n")
+    target.write("\tmkdir -p $(SDCARD)\n")
+    target.write("\t$(CP) $(B_NAME)/sw/$(XSA)/boot/generic.readme $(B_NAME)/sw/$(XSA)/xrt/image/* $(BUILD_DIR)/*.xclbin xrt.ini $(EXECUTABLE) $(SDCARD)\n")
     
     if os.path.exists("data"):
-        target.write("\treadlink -f data >> _vimage/emulation/sd_card.manifest\n")
+        target.write("\t$(CP) data $(SDCARD)\n")
 
-    target.write("\t$(ECHO) ./$(EXEC_CMD_ARGS) >> _vimage/emulation/init.sh\n")
-    target.write("\t$(ECHO) \"reboot\" >> _vimage/emulation/init.sh\n")
+    target.write("ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))\n")
+    
+    target.write("\t$(ECHO) 'cd /mnt/' >> $(SDCARD)/init.sh\n")
+    target.write("\t$(ECHO) 'export XILINX_VITIS=$$PWD' >> $(SDCARD)/init.sh\n")
+    target.write("\t$(ECHO) 'export XCL_EMULATION_MODE=$(TARGET)' >> $(SDCARD)/init.sh\n")
+    target.write("\t$(ECHO) ./$(EXEC_CMD_ARGS) >> $(SDCARD)/init.sh\n")
+    target.write("\t$(ECHO) 'reboot' >> $(SDCARD)/init.sh\n")
+    
     target.write("else\n")
-    target.write("\tmkdir -p sd_card\n")
-    target.write("\t$(CP) $(B_NAME)/sw/$(XSA)/xrt/image/* $(BUILD_DIR)/*.xclbin $(EXECUTABLE) sd_card/\n")
-    target.write("\t$(ECHO) ./$(EXEC_CMD_ARGS) >> sd_card/init.sh\n")
+    target.write("\t$(ECHO) ./$(EXEC_CMD_ARGS) >> $(SDCARD)/init.sh\n")
     target.write("endif\n")
     target.write("endif\n")
     target.write("\n")
