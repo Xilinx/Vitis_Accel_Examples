@@ -40,7 +40,6 @@ include ./utils.mk
 XSA := $(call device2xsa, $(DEVICE))
 TEMP_DIR := ./_x.$(TARGET).$(XSA)
 BUILD_DIR := ./build_dir.$(TARGET).$(XSA)
-B_DIR := $(shell dirname $(B_NAME))
 
 VPP := v++
 SDCARD := sd_card
@@ -130,7 +129,7 @@ endif
 sd_card: $(EXECUTABLE) $(BINARY_CONTAINERS) emconfig
 ifneq ($(HOST_ARCH), x86)
 	mkdir -p $(SDCARD)
-	$(CP) $(B_DIR)/sw/$(XSA)/boot/generic.readme $(B_DIR)/sw/$(XSA)/xrt/image/* $(BUILD_DIR)/*.xclbin xrt.ini $(EXECUTABLE) $(SDCARD)
+	$(CP) $(B_NAME)/sw/$(XSA)/boot/generic.readme $(B_NAME)/sw/$(XSA)/xrt/image/* $(BUILD_DIR)/*.xclbin xrt.ini $(EXECUTABLE) $(SDCARD)
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 	$(ECHO) 'cd /mnt/' >> $(SDCARD)/init.sh
 	$(ECHO) 'export XILINX_VITIS=$$PWD' >> $(SDCARD)/init.sh

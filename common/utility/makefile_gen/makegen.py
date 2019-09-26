@@ -535,7 +535,7 @@ def util_checks(target):
     target.write("ifeq ($(findstring xpfm, $(DEVICE)), xpfm)\n")
     target.write("\tB_NAME = $(shell dirname $(DEVICE))\n")
     target.write("else\n")
-    target.write("\tB_NAME = $(B_TEMP)/$(DEVICE)/$(DEVICE).xpfm\n")
+    target.write("\tB_NAME = $(B_TEMP)/$(DEVICE)\n")
     target.write("endif\n")
     target.write("\n")
 
