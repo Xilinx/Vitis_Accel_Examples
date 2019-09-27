@@ -202,17 +202,6 @@ def add_kernel_flags(target, data):
             cmdargs = cmdargs.replace('PROJECT', '.')
 	    target.write(cmdargs)
 
-    target.write("\nEXEC_CMD_ARGS += $(EXECUTABLE)\n")
-
-    target.write("EXEC_CMD_ARGS += ")
-    if "launch" in data:
-        cmd_args = data["launch"][0]["cmd_args"].split(" ")
-        for cmdargs in cmd_args[0:]:
-            target.write(" ")
-            cmdargs = cmdargs.replace('BUILD/', '')
-            cmdargs = cmdargs.replace('PROJECT/', '')
-            target.write(cmdargs)
-
     target.write("\n")
 
     target.write("EMCONFIG_DIR = $(TEMP_DIR)\n")
@@ -436,8 +425,9 @@ def mk_check(target, data):
 
     target.write("sd_card: $(EXECUTABLE) $(BINARY_CONTAINERS) emconfig\n")
     target.write("ifneq ($(HOST_ARCH), x86)\n")
-    target.write("\tmkdir -p $(SDCARD)\n")
-    target.write("\t$(CP) $(B_NAME)/sw/$(XSA)/boot/generic.readme $(B_NAME)/sw/$(XSA)/xrt/image/* $(BUILD_DIR)/*.xclbin xrt.ini $(EXECUTABLE) $(SDCARD)\n")
+    target.write("\tmkdir -p $(SDCARD)/$(BUILD_DIR)\n")
+    target.write("\t$(CP) $(B_NAME)/sw/$(XSA)/boot/generic.readme $(B_NAME)/sw/$(XSA)/xrt/image/* xrt.ini $(EXECUTABLE) $(SDCARD)\n")
+    target.write("\t$(CP) $(BUILD_DIR)/*.xclbin $(SDCARD)/$(BUILD_DIR)/\n")
     
     if os.path.exists("data"):
         target.write("\t$(CP) data $(SDCARD)\n")
@@ -447,11 +437,11 @@ def mk_check(target, data):
     target.write("\t$(ECHO) 'cd /mnt/' >> $(SDCARD)/init.sh\n")
     target.write("\t$(ECHO) 'export XILINX_VITIS=$$PWD' >> $(SDCARD)/init.sh\n")
     target.write("\t$(ECHO) 'export XCL_EMULATION_MODE=$(TARGET)' >> $(SDCARD)/init.sh\n")
-    target.write("\t$(ECHO) ./$(EXEC_CMD_ARGS) >> $(SDCARD)/init.sh\n")
+    target.write("\t$(ECHO) './$(EXECUTABLE) $(CMD_ARGS)' >> $(SDCARD)/init.sh\n")
     target.write("\t$(ECHO) 'reboot' >> $(SDCARD)/init.sh\n")
     
     target.write("else\n")
-    target.write("\t$(ECHO) ./$(EXEC_CMD_ARGS) >> $(SDCARD)/init.sh\n")
+    target.write("\t$(ECHO) './$(EXECUTABLE) $(CMD_ARGS)' >> $(SDCARD)/init.sh\n")
     target.write("endif\n")
     target.write("endif\n")
     target.write("\n")

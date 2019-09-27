@@ -70,8 +70,6 @@ CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps
 
 EXECUTABLE = shift_register
 CMD_ARGS = $(BUILD_DIR)/fir.xclbin
-EXEC_CMD_ARGS += $(EXECUTABLE)
-EXEC_CMD_ARGS +=  fir.xclbin
 EMCONFIG_DIR = $(TEMP_DIR)
 EMU_DIR = $(SDCARD)/data/emulation
 
@@ -131,16 +129,17 @@ endif
 
 sd_card: $(EXECUTABLE) $(BINARY_CONTAINERS) emconfig
 ifneq ($(HOST_ARCH), x86)
-	mkdir -p $(SDCARD)
-	$(CP) $(B_NAME)/sw/$(XSA)/boot/generic.readme $(B_NAME)/sw/$(XSA)/xrt/image/* $(BUILD_DIR)/*.xclbin xrt.ini $(EXECUTABLE) $(SDCARD)
+	mkdir -p $(SDCARD)/$(BUILD_DIR)
+	$(CP) $(B_NAME)/sw/$(XSA)/boot/generic.readme $(B_NAME)/sw/$(XSA)/xrt/image/* xrt.ini $(EXECUTABLE) $(SDCARD)
+	$(CP) $(BUILD_DIR)/*.xclbin $(SDCARD)/$(BUILD_DIR)/
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 	$(ECHO) 'cd /mnt/' >> $(SDCARD)/init.sh
 	$(ECHO) 'export XILINX_VITIS=$$PWD' >> $(SDCARD)/init.sh
 	$(ECHO) 'export XCL_EMULATION_MODE=$(TARGET)' >> $(SDCARD)/init.sh
-	$(ECHO) ./$(EXEC_CMD_ARGS) >> $(SDCARD)/init.sh
+	$(ECHO) './$(EXECUTABLE) $(CMD_ARGS)' >> $(SDCARD)/init.sh
 	$(ECHO) 'reboot' >> $(SDCARD)/init.sh
 else
-	$(ECHO) ./$(EXEC_CMD_ARGS) >> $(SDCARD)/init.sh
+	$(ECHO) './$(EXECUTABLE) $(CMD_ARGS)' >> $(SDCARD)/init.sh
 endif
 endif
 
