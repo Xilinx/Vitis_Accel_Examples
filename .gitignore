@@ -1,7 +1,7 @@
 *.jou
 profile_summary.html
 profile_summary.csv
-_xocc_*/
+_v++_*/
 .Xil/
 *.ll
 *.exe
