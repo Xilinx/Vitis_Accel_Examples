@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Mixed Kernels (RTL &amp; C) &mdash; Vitis Accel Examples&#39; Documentation 2019.2 documentation</title>
+  <title>Vector Addition ~ Multiple Compute Units &mdash; Vitis Accel Examples&#39; Documentation 2019.2 documentation</title>
   
 
   
@@ -35,8 +35,8 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="OpenCL Kernels" href="ocl.html" />
-    <link rel="prev" title="Hardware Debug of Vector Addition With RTL Kernel" href="rtl_vadd_hw_debug.html" /> 
+    <link rel="next" title="Vector Addition ~ Asymmetrical Multiple Compute Units" href="multiple_cus_asymmetrical.html" />
+    <link rel="prev" title="host_global" href="host_global_bandwidth.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -90,25 +90,39 @@
 <p class="caption"><span class="caption-text">Category of Examples</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="hello_world.html">Hello World</a></li>
-<li class="toctree-l1"><a class="reference internal" href="host.html">Host</a></li>
-<li class="toctree-l1"><a class="reference internal" href="cpp.html">C++ Kernels</a></li>
-<li class="toctree-l1"><a class="reference internal" href="sys_opt.html">System Optimization Kernels</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="rtl.html">RTL Kernels</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="rtl_adder_streams.html">Adder With Streams</a></li>
-<li class="toctree-l2"><a class="reference internal" href="rtl_streaming_free_running.html">Stream Vector Increment : Free Running</a></li>
-<li class="toctree-l2"><a class="reference internal" href="rtl_streaming_k2k.html">Stream Kernel to Kernel Vector Increment</a></li>
-<li class="toctree-l2"><a class="reference internal" href="rtl_vadd.html">Vector Addition With RTL Kernel</a></li>
-<li class="toctree-l2"><a class="reference internal" href="rtl_vadd_2clks.html">Vector Addition with 2 Kernel Clocks</a></li>
-<li class="toctree-l2"><a class="reference internal" href="rtl_vadd_2kernels.html">Multiple RTL Kernels</a></li>
-<li class="toctree-l2"><a class="reference internal" href="rtl_vadd_hw_debug.html">Hardware Debug of Vector Addition With RTL Kernel</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Mixed Kernels (RTL &amp; C)</a><ul>
+<li class="toctree-l1 current"><a class="reference internal" href="host.html">Host</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="concurrent_kernel_execution.html">Concurrent Kernel Execution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="copy_buffer.html">Copy Buffer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="data_transfer.html">Data Transfer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="device_query.html">Device Query (CPP)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="device_query_cpp.html">Device Query (CPP)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="debug_profile.html">SUPPORTED SHELLS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="debug_profile.html#design-files">DESIGN FILES</a></li>
+<li class="toctree-l2"><a class="reference internal" href="debug_profile.html#command-line-arguments">COMMAND LINE ARGUMENTS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="errors.html">Error Handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="errors_cpp.html">Error Handling (CPP)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hbm_bandwidth.html">HBM Bandwidth</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hbm_simple.html">HBM Simple Vector Addition</a></li>
+<li class="toctree-l2"><a class="reference internal" href="host_global_bandwidth.html">host_global</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Vector Addition ~ Multiple Compute Units</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#supported-shells">SUPPORTED SHELLS</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#design-files">DESIGN FILES</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#command-line-arguments">COMMAND LINE ARGUMENTS</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="multiple_cus_asymmetrical.html">Vector Addition ~ Asymmetrical Multiple Compute Units</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overlap.html">Overlap Host and HLS kernels</a></li>
+<li class="toctree-l2"><a class="reference internal" href="streaming_host_bandwidth.html">Host Streaming Bandwidth</a></li>
+<li class="toctree-l2"><a class="reference internal" href="streaming_k2k.html">Stream Kernel to Kernel Vector Addition and Multiplication</a></li>
+<li class="toctree-l2"><a class="reference internal" href="streaming_k2k_mm.html">Stream Kernel to Kernel Vector Addition and Multiplication</a></li>
+<li class="toctree-l2"><a class="reference internal" href="streaming_mm_mixed.html">Stream Vector Addition with OpenCL Buffers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="streaming_multi_cus.html">Stream Vector Addition (Multiple Compute Units)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="streaming_simple.html">Stream Kernel Simple Example</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="cpp.html">C++ Kernels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sys_opt.html">System Optimization Kernels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rtl.html">RTL Kernels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ocl.html">OpenCL Kernels</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Common Utilities</span></p>
@@ -159,15 +173,15 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-          <li><a href="rtl.html">RTL Kernels</a> &raquo;</li>
+          <li><a href="host.html">Host</a> &raquo;</li>
         
-      <li>Mixed Kernels (RTL &amp; C)</li>
+      <li>Vector Addition ~ Multiple Compute Units</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="_sources/rtl_vadd_mixed_c_vadd.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/mult_compute_units.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -180,25 +194,13 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="mixed-kernels-rtl-c">
-<h1>Mixed Kernels (RTL &amp; C)<a class="headerlink" href="#mixed-kernels-rtl-c" title="Permalink to this headline">¶</a></h1>
-<p>This example has one RTL kernel and one C kernel. Both RTL kernel and C
-kernel perform vector addition. The C kernel reads the output from RTL
-kernel as one of two inputs.</p>
-<p><strong>KEY CONCEPTS:</strong> Mixed Kernels</p>
-<p>This example demonstrates how we can have RTL as well as C kernels in a
-single application. Both RTL kernel, <code class="docutils literal notranslate"><span class="pre">rtl_vadd</span></code> and C kernel,
-<code class="docutils literal notranslate"><span class="pre">cl_vadd</span></code> perform the vector addition. C kernel reads the result of
-addition by the RTL kernel as one of its inputs and adds another vector.</p>
-<p>RTL kernels can be integrated to Vitis using <code class="docutils literal notranslate"><span class="pre">RTL</span> <span class="pre">Kernel</span> <span class="pre">Wizard</span></code>.
-These kernels have the same software interface model as OpenCL and C/C++
-kernels. That is, they are seen by the host application as functions
-with a void return value, scalar arguments, and pointer arguments.</p>
-<p>The RTL Kernel Wizard automates some of the steps that need to be taken
-to ensure that the RTL IP is packaged into a kernel that can be
-integrated into a system in Vitis environment. A <code class="docutils literal notranslate"><span class="pre">kernel.xml</span></code> file is
-generated to match the software function prototype and behavior
-specified in the wizard.</p>
+  <div class="section" id="vector-addition-multiple-compute-units">
+<h1>Vector Addition ~ Multiple Compute Units<a class="headerlink" href="#vector-addition-multiple-compute-units" title="Permalink to this headline">¶</a></h1>
+<p>This is simple Example of Multiple Compute units to showcase how a
+single kernel can be instantiated into Multiple compute units. Host code
+will show how to use multiple compute units and run them concurrently.</p>
+<p><strong>KEY CONCEPTS:</strong> Multiple Compute Units</p>
+<p><strong>KEYWORDS:</strong> -nk</p>
 <div class="section" id="supported-shells">
 <h2>SUPPORTED SHELLS<a class="headerlink" href="#supported-shells" title="Permalink to this headline">¶</a></h2>
 <table class="docutils align-center">
@@ -263,16 +265,8 @@ specified in the wizard.</p>
 files will be compiled to the xclbin directory. The xclbin directory is
 required by the Makefile and its contents will be filled during
 compilation. A listing of all the files in this example is shown below</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">src</span><span class="o">/</span><span class="n">hdl</span><span class="o">/</span><span class="n">krnl_vadd_rtl</span><span class="o">.</span><span class="n">v</span>
-<span class="n">src</span><span class="o">/</span><span class="n">hdl</span><span class="o">/</span><span class="n">krnl_vadd_rtl_adder</span><span class="o">.</span><span class="n">sv</span>
-<span class="n">src</span><span class="o">/</span><span class="n">hdl</span><span class="o">/</span><span class="n">krnl_vadd_rtl_axi_read_master</span><span class="o">.</span><span class="n">sv</span>
-<span class="n">src</span><span class="o">/</span><span class="n">hdl</span><span class="o">/</span><span class="n">krnl_vadd_rtl_axi_write_master</span><span class="o">.</span><span class="n">sv</span>
-<span class="n">src</span><span class="o">/</span><span class="n">hdl</span><span class="o">/</span><span class="n">krnl_vadd_rtl_control_s_axi</span><span class="o">.</span><span class="n">v</span>
-<span class="n">src</span><span class="o">/</span><span class="n">hdl</span><span class="o">/</span><span class="n">krnl_vadd_rtl_counter</span><span class="o">.</span><span class="n">sv</span>
-<span class="n">src</span><span class="o">/</span><span class="n">hdl</span><span class="o">/</span><span class="n">krnl_vadd_rtl_int</span><span class="o">.</span><span class="n">sv</span>
-<span class="n">src</span><span class="o">/</span><span class="n">host</span><span class="o">.</span><span class="n">cpp</span>
-<span class="n">src</span><span class="o">/</span><span class="n">kernel</span><span class="o">.</span><span class="n">xml</span>
-<span class="n">src</span><span class="o">/</span><span class="n">krnl_vadd</span><span class="o">.</span><span class="n">cpp</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">src</span><span class="o">/</span><span class="n">host</span><span class="o">.</span><span class="n">cpp</span>
+<span class="n">src</span><span class="o">/</span><span class="n">vadd</span><span class="o">.</span><span class="n">cpp</span>
 </pre></div>
 </div>
 </div>
@@ -294,10 +288,10 @@ executed by</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="ocl.html" class="btn btn-neutral float-right" title="OpenCL Kernels" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="multiple_cus_asymmetrical.html" class="btn btn-neutral float-right" title="Vector Addition ~ Asymmetrical Multiple Compute Units" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="rtl_vadd_hw_debug.html" class="btn btn-neutral float-left" title="Hardware Debug of Vector Addition With RTL Kernel" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="host_global_bandwidth.html" class="btn btn-neutral float-left" title="host_global" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

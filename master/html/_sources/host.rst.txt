@@ -20,6 +20,7 @@ OpenCL host code for optimized interfacing with Xilinx Devices.
    hbm_bandwidth.rst
    hbm_simple.rst
    host_global_bandwidth.rst
+   mult_compute_units.rst
    multiple_cus_asymmetrical.rst
    overlap.rst
    streaming_host_bandwidth.rst

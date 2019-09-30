@@ -1,14 +1,13 @@
-Printing Profile Data and Dumping Waveform file 
-================================================
+Vector Addition ~ Multiple Compute Units 
+=========================================
 
-This is simple example of vector addition and printing profile data
-(wall clock time taken between start and stop). It also dump a waveform
-file which can be reloaded to vivado to see the waveform. Run command
-‘vivado -source ./scripts/open_waveform.tcl -tclargs -...wdb’ to launch
-waveform viewer. User can also update batch to gui in xrt.ini file to
-see the live waveform while running application.
+This is simple Example of Multiple Compute units to showcase how a
+single kernel can be instantiated into Multiple compute units. Host code
+will show how to use multiple compute units and run them concurrently.
 
-**KEY CONCEPTS:** Use of Profile API, Waveform Dumping and loading
+**KEY CONCEPTS:** Multiple Compute Units
+
+**KEYWORDS:** -nk
 
 SUPPORTED SHELLS
 ----------------
@@ -39,7 +38,6 @@ compilation. A listing of all the files in this example is shown below
 ::
 
    src/host.cpp
-   src/host.h
    src/vadd.cpp
 
 COMMAND LINE ARGUMENTS
