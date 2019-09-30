@@ -10,10 +10,8 @@ This is a simple example of vector addition to describe how to use HLS kernels w
 ## SUPPORTED SHELLS
 Shell | Board             | Software Version
 ---------|-------------------|-----------------
-xilinx_v350-es1_xdma|Xilinx Versal V350|VITIS 2019.2
 xilinx_u280_xdma|Xilinx Alveo U280|VITIS 2019.2
 xilinx_u50_xdma|Xilinx Alveo U50|VITIS 2019.2
-xilinx_u280-es1_xdma|Xilinx Alveo U280|VITIS 2019.2
 
 
 ##  DESIGN FILES

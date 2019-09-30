@@ -11,7 +11,23 @@ XSA = 'xilinx_u200_qdma'
 VERSION = 'Vitis 2019.2'
 
 DEVICES = {
-    'xilinx_u200_qdma': {
+     'zcu102_base': {
+       'version': '201920_1',
+       'name': 'Xilinx UltraScale+ MPSoC ZCU102'
+    },
+     'zcu104_base': {
+       'version': '201920_1',
+       'name': 'Xilinx UltraScale+ MPSoC ZCU104'
+    },
+     'zc706_base': {
+       'version': '201920_1',
+       'name': 'Xilinx Zynq-7000 SoC ZC706'
+    },
+     'zc702_base': {
+       'version': '201920_1',
+       'name': 'Xilinx Zynq-7000 SoC ZC702'
+    },
+     'xilinx_u200_qdma': {
        'version': '201910_1',
        'name': 'Xilinx Alveo U200',
        'nae':  'nx5u_xdma_201830_1'
@@ -19,11 +35,6 @@ DEVICES = {
     'xilinx_u280_xdma': {
        'version': '201910_1',
        'name': 'Xilinx Alveo U280'
-    },
-    'xilinx_u280-es1_xdma': {
-       'version': '201910_1',
-       'name': 'Xilinx Alveo U280',
-       'nae':  'nx7u_xdma_201830_1'
     },
     'xilinx_u50_xdma': {
        'version': '201920_1',
@@ -127,11 +138,16 @@ def requirements(target,data):
         board = data['device']
         boards = [word for word in DEVICES if word in board]
     else:
-        nboard = []
-        if 'ndevice' in data:
-            nboard = data['ndevice']
-        boards = [word for word in DEVICES if word not in nboard]
+	for board in DEVICES:
+		nboard_flag=0
+		if 'ndevice' in data:	
+			for nboard in data['ndevice']:
+				if nboard in board:
+		       	       		nboard_flag=1
+		if nboard_flag == 0:
+			boards.append(board)			
 
+    boards.sort()
     for board in boards:
        	target.write(board)
         target.write("|")
