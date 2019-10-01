@@ -127,9 +127,6 @@ endif
 ifeq ($(findstring xilinx_vcu1525_dynamic, $(DEVICE)), xilinx_vcu1525_dynamic)
 $(error Nothing to be done for make)
 endif
-ifeq ($(findstring xilinx_aws-vu9p-f1-04261818, $(DEVICE)), xilinx_aws-vu9p-f1-04261818)
-$(error Nothing to be done for make)
-endif
 ifeq ($(findstring xilinx:u200:xdma, $(DEVICE)), xilinx:u200:xdma)
 $(error Nothing to be done for make)
 endif
@@ -142,10 +139,13 @@ endif
 ifeq ($(findstring xilinx:u250:qdma, $(DEVICE)), xilinx:u250:qdma)
 $(error Nothing to be done for make)
 endif
-ifeq ($(findstring xilinx:vcu1525:dynamic, $(DEVICE)), xilinx:vcu1525:dynamic)
+ifeq ($(findstring xilinx_samsung_U2x4, $(DEVICE)), xilinx_samsung_U2x4)
 $(error Nothing to be done for make)
 endif
-ifeq ($(findstring xilinx:aws-vu9p-f1-04261818:dynamic, $(DEVICE)), xilinx:aws-vu9p-f1-04261818:dynamic)
+ifeq ($(findstring xilinx:samsung:U2x4, $(DEVICE)), xilinx:samsung:U2x4)
+$(error Nothing to be done for make)
+endif
+ifeq ($(findstring xilinx:vcu1525:dynamic, $(DEVICE)), xilinx:vcu1525:dynamic)
 $(error Nothing to be done for make)
 endif
 

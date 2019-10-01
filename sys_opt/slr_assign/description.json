@@ -7,6 +7,8 @@
         "xilinx:vcu1525:dynamic", 
         "xilinx:u280-es1:xdma", 
         "xilinx_v350-es1_xdma", 
+	"xilinx_samsung_U2x4",
+	"xilinx:samsung:U2x4",
         "xilinx:v350-es1:xdma"
     ], 
     "name": "SLR Assign (CL)", 

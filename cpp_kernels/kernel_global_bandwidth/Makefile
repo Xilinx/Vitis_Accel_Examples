@@ -109,6 +109,12 @@ check: all
 ifeq ($(findstring xilinx_u50_xdma, $(DEVICE)), xilinx_u50_xdma)
 $(error Nothing to be done for make)
 endif
+ifeq ($(findstring xilinx_samsung_U2x4, $(DEVICE)), xilinx_samsung_U2x4)
+$(error Nothing to be done for make)
+endif
+ifeq ($(findstring xilinx:samsung:U2x4, $(DEVICE)), xilinx:samsung:U2x4)
+$(error Nothing to be done for make)
+endif
 ifeq ($(findstring zc, $(DEVICE)), zc)
 $(error Nothing to be done for make)
 endif

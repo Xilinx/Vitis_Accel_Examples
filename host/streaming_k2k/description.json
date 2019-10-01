@@ -8,12 +8,12 @@
         "xilinx_u280-es1_xdma", 
 	"xilinx_u50_xdma",
         "xilinx:u50:xdma",
-        "xilinx_aws-vu9p-f1-04261818", 
         "xilinx:u200:xdma", 
         "xilinx:u250:xdma", 
         "xilinx:u280:xdma", 
-        "xilinx:u280-es1:xdma", 
-        "xilinx:aws-vu9p-f1-04261818:dynamic"
+	"xilinx_samsung_U2x4",
+	"xilinx:samsung:U2x4",
+        "xilinx:u280-es1:xdma" 
     ], 
     "default_device": "xilinx_u200_qdma_201910_1", 
     "description": [

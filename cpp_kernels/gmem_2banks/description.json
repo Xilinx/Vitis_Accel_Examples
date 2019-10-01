@@ -1,12 +1,12 @@
 {
     "ndevice": [
-        "xilinx_aws-vu9p-f1-04261818", 
-        "xilinx:aws-vu9p-f1-04261818:dynamic", 
         "zc", 
 	"zed",
         "xilinx_v350-es1_xdma", 
        	"xilinx_u50_xdma",
-        "xilinx:u50:xdma",
+       	"xilinx_samsung_U2x4",
+	"xilinx:samsung:U2x4",
+ 	"xilinx:u50:xdma",
  	"xilinx:v350-es1:xdma"
     ], 
     "description": [
