@@ -117,7 +117,6 @@ sd_card: $(EXECUTABLE) $(BINARY_CONTAINERS) emconfig
 ifneq ($(HOST_ARCH), x86)
 	mkdir -p $(SDCARD)/$(BUILD_DIR)
 	$(CP) $(B_NAME)/sw/$(XSA)/boot/generic.readme $(B_NAME)/sw/$(XSA)/xrt/image/* xrt.ini $(EXECUTABLE) $(SDCARD)
-	$(CP) $(BUILD_DIR)/*.xclbin $(SDCARD)/$(BUILD_DIR)/
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 	$(ECHO) 'cd /mnt/' >> $(SDCARD)/init.sh
 	$(ECHO) 'export XILINX_VITIS=$$PWD' >> $(SDCARD)/init.sh

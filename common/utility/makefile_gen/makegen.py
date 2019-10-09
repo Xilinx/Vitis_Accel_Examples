@@ -427,7 +427,8 @@ def mk_check(target, data):
     target.write("ifneq ($(HOST_ARCH), x86)\n")
     target.write("\tmkdir -p $(SDCARD)/$(BUILD_DIR)\n")
     target.write("\t$(CP) $(B_NAME)/sw/$(XSA)/boot/generic.readme $(B_NAME)/sw/$(XSA)/xrt/image/* xrt.ini $(EXECUTABLE) $(SDCARD)\n")
-    target.write("\t$(CP) $(BUILD_DIR)/*.xclbin $(SDCARD)/$(BUILD_DIR)/\n")
+    if "containers" in data:
+        target.write("\t$(CP) $(BUILD_DIR)/*.xclbin $(SDCARD)/$(BUILD_DIR)/\n")
     
     if os.path.exists("data"):
         target.write("\t$(CP) data $(SDCARD)\n")
