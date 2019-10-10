@@ -41,6 +41,9 @@
     "os": [
         "Linux"
     ], 
+    "targets": [
+        "hw"
+    ],
     "containers": [
         {
             "accelerators": [
