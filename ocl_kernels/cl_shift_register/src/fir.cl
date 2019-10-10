@@ -78,7 +78,7 @@ __kernel __attribute__ ((reqd_work_group_size(1, 1, 1)))
 void fir_naive(__global int* restrict output_r,
                __global int* restrict signal_r,
                __global int* restrict coeff,
-               long signal_length) {
+               int signal_length) {
 
     int coeff_reg[N_COEFF];
     __attribute__((xcl_loop_tripcount(c_n, c_n)))
@@ -102,7 +102,7 @@ __kernel __attribute__ ((reqd_work_group_size(1, 1, 1)))
 void fir_shift_register(__global int* restrict output_r,
                         __global int* restrict signal_r,
                         __global int* restrict coeff,
-                        long signal_length) {
+                        int signal_length) {
     int coeff_reg[N_COEFF];
 
     // Partitioning of this array is required because the shift register
