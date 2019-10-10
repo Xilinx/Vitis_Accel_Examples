@@ -69,7 +69,7 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define min(x, y) ((x) < (y) ? (x) : (y))
 // A naive implementation of the Finite Impulse Response filter.
 extern "C" {
-void fir_naive(int *output_r, int *signal_r, int *coeff, long signal_length) {
+void fir_naive(int *output_r, int *signal_r, int *coeff, int signal_length) {
 #pragma HLS INTERFACE m_axi port = output_r offset = slave bundle = gmem
 #pragma HLS INTERFACE m_axi port = signal_r offset = slave bundle = gmem
 #pragma HLS INTERFACE m_axi port = coeff offset = slave bundle = gmem

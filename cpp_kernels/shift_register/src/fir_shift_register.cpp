@@ -71,7 +71,7 @@ extern "C" {
 void fir_shift_register(int *output_r,
                         int *signal_r,
                         int *coeff,
-                        long signal_length) {
+                        int signal_length) {
 #pragma HLS INTERFACE m_axi port = output_r offset = slave bundle = gmem
 #pragma HLS INTERFACE m_axi port = signal_r offset = slave bundle = gmem
 #pragma HLS INTERFACE m_axi port = coeff offset = slave bundle = gmem

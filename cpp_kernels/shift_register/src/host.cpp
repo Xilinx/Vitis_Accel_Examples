@@ -170,7 +170,7 @@ int main(int argc, char **argv) {
         fir_sr_time += get_duration_ns(event);
         verify(gold, out);
     }
-    printf("Example Testdata Signal_Length=%lu for %d iteration\n",
+    printf("Example Testdata Signal_Length=%u for %d iteration\n",
            signal_size,
            iterations);
     print_summary("fir_naive",
@@ -232,8 +232,8 @@ void print_summary(
            "| Kernel(%3d iterations)  |    Wall-Clock Time (ns) |\n"
            "|-------------------------+-------------------------|\n",
            iterations);
-    printf("| %-23s | %23lu |\n", k1.c_str(), t1);
-    printf("| %-23s | %23lu |\n", k2.c_str(), t2);
+    printf("| %-23s | %23llu |\n", k1.c_str(), t1);
+    printf("| %-23s | %23llu |\n", k2.c_str(), t2);
     printf("|-------------------------+-------------------------|\n");
     printf("| Speedup: | %23lf |\n", speedup);
     printf("|-------------------------+-------------------------|\n");
