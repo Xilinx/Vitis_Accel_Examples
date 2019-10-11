@@ -1,0 +1,12 @@
+.. _cloud.rst
+
+Cloud Execution
+===============
+
+FPGA acceleration boards have been deployed to the cloud. For information on how to execute the example within a specific cloud, take a look at the following guides.
+
+* `AWS F1 Application Execution on Xilinx Devices`_
+* `Nimbix Application Execution on Xilinx Devices`_
+
+.. _AWS F1 Application Execution on Xilinx Devices: https://github.com/aws/aws-fpga/blob/master/SDAccel/README.md
+.. _Nimbix Application Execution on Xilinx Devices: https://github.com/SDxGitExamples/VitisExamples/blob/master/common/utility/nimbix/README.md

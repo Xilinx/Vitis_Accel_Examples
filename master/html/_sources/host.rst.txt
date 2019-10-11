@@ -1,5 +1,3 @@
-.. _host.rst
-
 Host
 ====
 
@@ -20,12 +18,13 @@ OpenCL host code for optimized interfacing with Xilinx Devices.
    hbm_bandwidth.rst
    hbm_simple.rst
    host_global_bandwidth.rst
-   mult_compute_units.rst
    multiple_cus_asymmetrical.rst
    overlap.rst
    streaming_host_bandwidth.rst
+   streaming_free_running_kernel.rst
    streaming_k2k.rst
    streaming_k2k_mm.rst
    streaming_mm_mixed.rst
    streaming_multi_cus.rst
    streaming_simple.rst
+   sub_devices.rst
