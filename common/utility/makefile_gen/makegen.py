@@ -366,7 +366,7 @@ def mk_check(target, data):
 	    target.write(", $(DEVICE)), ")
 	    target.write(board)
             target.write(")\n")                   
-            target.write("$(error Nothing to be done for make)\n")
+            target.write("$(error This example is not supported for $(DEVICE))\n")
             target.write("endif\n")
         target.write("\n")
     target.write("ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))\n")

@@ -111,16 +111,16 @@ $(EMCONFIG_DIR)/emconfig.json:
 
 check: all
 ifeq ($(findstring xilinx_aws-vu9p-f1-04261818, $(DEVICE)), xilinx_aws-vu9p-f1-04261818)
-$(error Nothing to be done for make)
+$(error This example is not supported for $(DEVICE))
 endif
 ifeq ($(findstring xilinx:aws-vu9p-f1-04261818:dynamic, $(DEVICE)), xilinx:aws-vu9p-f1-04261818:dynamic)
-$(error Nothing to be done for make)
+$(error This example is not supported for $(DEVICE))
 endif
 ifeq ($(findstring zed, $(DEVICE)), zed)
-$(error Nothing to be done for make)
+$(error This example is not supported for $(DEVICE))
 endif
 ifeq ($(findstring zc, $(DEVICE)), zc)
-$(error Nothing to be done for make)
+$(error This example is not supported for $(DEVICE))
 endif
 
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))

@@ -105,7 +105,7 @@ $(EMCONFIG_DIR)/emconfig.json:
 
 check: all
 ifeq ($(findstring zcu104_base, $(DEVICE)), zcu104_base)
-$(error Nothing to be done for make)
+$(error This example is not supported for $(DEVICE))
 endif
 
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))

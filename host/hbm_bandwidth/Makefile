@@ -107,52 +107,52 @@ $(EMCONFIG_DIR)/emconfig.json:
 
 check: all
 ifeq ($(findstring xilinx_u200_xdma, $(DEVICE)), xilinx_u200_xdma)
-$(error Nothing to be done for make)
+$(error This example is not supported for $(DEVICE))
 endif
 ifeq ($(findstring xilinx_u200_qdma, $(DEVICE)), xilinx_u200_qdma)
-$(error Nothing to be done for make)
+$(error This example is not supported for $(DEVICE))
 endif
 ifeq ($(findstring zed, $(DEVICE)), zed)
-$(error Nothing to be done for make)
+$(error This example is not supported for $(DEVICE))
 endif
 ifeq ($(findstring zc, $(DEVICE)), zc)
-$(error Nothing to be done for make)
+$(error This example is not supported for $(DEVICE))
 endif
 ifeq ($(findstring xilinx_u250_xdma, $(DEVICE)), xilinx_u250_xdma)
-$(error Nothing to be done for make)
+$(error This example is not supported for $(DEVICE))
 endif
 ifeq ($(findstring xilinx_u250_qdma, $(DEVICE)), xilinx_u250_qdma)
-$(error Nothing to be done for make)
+$(error This example is not supported for $(DEVICE))
 endif
 ifeq ($(findstring xilinx_vcu1525_dynamic, $(DEVICE)), xilinx_vcu1525_dynamic)
-$(error Nothing to be done for make)
+$(error This example is not supported for $(DEVICE))
 endif
 ifeq ($(findstring xilinx_u50_xdma, $(DEVICE)), xilinx_u50_xdma)
-$(error Nothing to be done for make)
+$(error This example is not supported for $(DEVICE))
 endif
 ifeq ($(findstring xilinx:u50:xdma, $(DEVICE)), xilinx:u50:xdma)
-$(error Nothing to be done for make)
+$(error This example is not supported for $(DEVICE))
 endif
 ifeq ($(findstring xilinx:u200:xdma, $(DEVICE)), xilinx:u200:xdma)
-$(error Nothing to be done for make)
+$(error This example is not supported for $(DEVICE))
 endif
 ifeq ($(findstring xilinx:u200:qdma, $(DEVICE)), xilinx:u200:qdma)
-$(error Nothing to be done for make)
+$(error This example is not supported for $(DEVICE))
 endif
 ifeq ($(findstring xilinx:u250:xdma, $(DEVICE)), xilinx:u250:xdma)
-$(error Nothing to be done for make)
+$(error This example is not supported for $(DEVICE))
 endif
 ifeq ($(findstring xilinx:u250:qdma, $(DEVICE)), xilinx:u250:qdma)
-$(error Nothing to be done for make)
+$(error This example is not supported for $(DEVICE))
 endif
 ifeq ($(findstring xilinx_samsung_U2x4, $(DEVICE)), xilinx_samsung_U2x4)
-$(error Nothing to be done for make)
+$(error This example is not supported for $(DEVICE))
 endif
 ifeq ($(findstring xilinx:samsung:U2x4, $(DEVICE)), xilinx:samsung:U2x4)
-$(error Nothing to be done for make)
+$(error This example is not supported for $(DEVICE))
 endif
 ifeq ($(findstring xilinx:vcu1525:dynamic, $(DEVICE)), xilinx:vcu1525:dynamic)
-$(error Nothing to be done for make)
+$(error This example is not supported for $(DEVICE))
 endif
 
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
