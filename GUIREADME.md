@@ -13,9 +13,9 @@ To use an example in the GUI, it must be downloaded as an example template, then
     vitis
 ```
 
-- Select *Vitis Example Store...* from the *Xilinx* menu. This will open a dialog where you can download example templates.
+- Select *Examples...* from the *Xilinx* menu. This will open a dialog where you can download example templates.
 
-- When the dialog is opened the first time, the example repositories will be downloaded. To download updates to the examples, click *Update*.
+- When the dialog is opened the first time, the example repositories will be downloaded. To download updates to the examples, click *Refresh*.
 
 - After downloading the examples, the examples will show as *Installed*.
 
@@ -25,7 +25,7 @@ To use an example in the GUI, it must be downloaded as an example template, then
 
 
 ### Create the Hello World Application Example Project in the GUI
-- In the Vitis GUI, Create a new project for the example design. This will open the *New Project Wizard*.
+- In the Vitis GUI, select *Create Application Project* to create a new project for the example design. This will open the *New Project Wizard*.
 
 - In the *Templates* page, select an example that has been downloaded.
 
