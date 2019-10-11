@@ -19,6 +19,7 @@ Example        | Description           | Key Concepts / Keywords
 [mult_compute_units/][]|This is simple Example of Multiple Compute units to showcase how a single kernel can be instantiated into Multiple compute units. Host code will show how to use multiple compute units and run them concurrently.|__Key__ __Concepts__<br> - Multiple Compute Units<br>__Keywords__<br> - -nk
 [multiple_cus_asymmetrical/][]|This is simple example of vector addition to demonstrate how to connect each compute unit to different banks and how to use these compute units in host applications|__Key__ __Concepts__<br> - Multiple Compute Units<br>__Keywords__<br> - #pragma HLS PIPELINE
 [overlap/][]|This examples demonstrates techniques that allow user to overlap Host(CPU) and FPGA computation in an application. It will cover asynchronous operations and event object.|__Key__ __Concepts__<br> - OpenCL API<br> - Synchronize Host and FPGA<br> - Asynchronous Processing<br> - Events<br> - Asynchronous memcpy<br>__Keywords__<br> - cl_event<br> - clCreateCommandQueue<br> - CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE<br> - clEnqueueMigrateMemObjects
+[streaming_free_running_kernel/][]|This is simple example which demonstrate how to use and configure a free running kernel.|__Key__ __Concepts__<br> - Free Running Kernel<br>__Keywords__<br> - ap_ctrl_none<br> - stream_connect
 [streaming_host_bandwidth/][]|This is a simple Vector Increment C Kernel design with 1 Stream input and 1 Stream output that demonstrates on how to process an input stream of data for computation in an application and the Host to Device streaming bandwidth test.|__Key__ __Concepts__<br> - Read/Write Stream<br> - Create/Release Stream<br>__Keywords__<br> - cl_stream<br> - CL_STREAM_EOT<br> - CL_STREAM_NONBLOCKING
 [streaming_k2k/][]|This is a simple kernel to kernel streaming Vector Add and Vector Multiply C Kernel that demonstrates on how to process a stream of data for computation between two kernels.|__Key__ __Concepts__<br> - Read/Write Stream<br> - Create/Release Stream<br>__Keywords__<br> - cl_stream<br> - CL_STREAM_EOT<br> - CL_STREAM_NONBLOCKING
 [streaming_k2k_mm/][]|This is a simple kernel to kernel streaming Vector Add and Vector Multiply C Kernel design with 2 memory mapped input to kernel 1, 1 Stream output from kernel 1 to input of kernel 2, 1 memory mapped input to kernel 2, and 1 memory mapped output that demonstrates on how to process a stream of data for computation between two kernels.|__Key__ __Concepts__<br> - Read/Write Stream<br> - Create/Release Stream<br>__Keywords__<br> - cl_stream<br> - CL_STREAM_EOT<br> - CL_STREAM_BLOCKING
@@ -40,6 +41,7 @@ Example        | Description           | Key Concepts / Keywords
 [mult_compute_units/]:mult_compute_units/
 [multiple_cus_asymmetrical/]:multiple_cus_asymmetrical/
 [overlap/]:overlap/
+[streaming_free_running_kernel/]:streaming_free_running_kernel/
 [streaming_host_bandwidth/]:streaming_host_bandwidth/
 [streaming_k2k/]:streaming_k2k/
 [streaming_k2k_mm/]:streaming_k2k_mm/

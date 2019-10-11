@@ -1,0 +1,61 @@
+{
+    "name": "Free Running Kernel (HLS C/C++)", 
+    "contributors": [
+        {
+            "url": "http://www.xilinx.com", 
+            "group": "Xilinx"
+        }
+    ], 
+    "launch": [
+        {
+            "cmd_args": "BUILD/krnl_incr.xclbin", 
+            "name": "generic launch for all flows"
+        }
+    ], 
+    "host": {
+        "host_exe": "host", 
+        "compiler": {
+            "sources": [
+                "REPO_DIR/common/includes/xcl2"
+            ], 
+            "includepaths": [
+                "REPO_DIR/common/includes/xcl2"
+            ]
+        }
+    }, 
+    "key_concepts": [
+        "Free Running Kernel" 
+    ], 
+    "keywords": [
+        "ap_ctrl_none",
+        "stream_connect" 
+    ], 
+    "runtime": [
+        "OpenCL"
+    ], 
+    "os": [
+        "Linux"
+    ], 
+    "containers": [
+        {
+            "accelerators": [
+                {
+                    "name": "mem_read", 
+                    "location": "src/mem_read.cpp"
+                },
+                {
+                    "name": "increment", 
+                    "location": "src/increment.cpp"
+                },
+                {
+                    "name": "mem_write", 
+                    "location": "src/mem_write.cpp"
+                }
+            ], 
+            "name": "krnl_incr"
+        }
+    ], 
+    "description": [
+        "This is simple example which demonstrate how to use and configure a free running kernel."
+    ]
+}
