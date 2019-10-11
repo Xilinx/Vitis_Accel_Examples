@@ -1,5 +1,3 @@
-.. _sys_opt.rst
-
 System Optimization Kernels
 ===========================
 

@@ -1,5 +1,3 @@
-..  _shells.rst
-
 Supported Shells
 ===================
 

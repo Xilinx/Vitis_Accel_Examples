@@ -12,7 +12,6 @@ ready to be compiled and executed on Vitis supported boards and accelerated clou
    prerequisites.rst
    shells.rst
    compile_execute.rst
-   support.rst
 
 .. toctree::
    :maxdepth: 1

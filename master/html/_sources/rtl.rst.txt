@@ -1,5 +1,3 @@
-.. _rtl.rst
-
 RTL Kernels
 ===========
 
