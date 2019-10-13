@@ -1,4 +1,8 @@
 {
+    "ndevice": [
+        "zc", 
+	    "zed"
+     ],
     "name": "Vector Add - Vector Multiplication for XPR Devices", 
     "contributors": [
         {

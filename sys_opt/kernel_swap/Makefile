@@ -113,6 +113,13 @@ $(EMCONFIG_DIR)/emconfig.json:
 	emconfigutil --platform $(DEVICE) --od $(EMCONFIG_DIR)
 
 check: all
+ifeq ($(findstring zc, $(DEVICE)), zc)
+$(error This example is not supported for $(DEVICE))
+endif
+ifeq ($(findstring zed, $(DEVICE)), zed)
+$(error This example is not supported for $(DEVICE))
+endif
+
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 ifeq ($(HOST_ARCH), x86)
 	$(CP) $(EMCONFIG_DIR)/emconfig.json .
