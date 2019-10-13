@@ -71,7 +71,7 @@ int main(int argc, char **argv) {
     }
 
     std::string binaryFile = argv[1];
-    size_t signal_size = xcl::is_emulation() ? SIGNAL_SIZE_IN_EMU : SIGNAL_SIZE;
+    int signal_size = xcl::is_emulation() ? SIGNAL_SIZE_IN_EMU : SIGNAL_SIZE;
     vector<int, aligned_allocator<int>> signal(signal_size);
     vector<int, aligned_allocator<int>> out(signal_size);
     vector<int, aligned_allocator<int>> coeff = {
@@ -231,8 +231,8 @@ void print_summary(
            "| Kernel(%3d iterations)  |    Wall-Clock Time (ns) |\n"
            "|-------------------------+-------------------------|\n",
            iterations);
-    printf("| %-23s | %23llu |\n", k1.c_str(), t1);
-    printf("| %-23s | %23llu |\n", k2.c_str(), t2);
+    printf("| %-23s | %23lu |\n", k1.c_str(), t1);
+    printf("| %-23s | %23lu |\n", k2.c_str(), t2);
     printf("|-------------------------+-------------------------|\n");
     printf("| Speedup: | %23lf |\n", speedup);
     printf("|-------------------------+-------------------------|\n");
