@@ -114,6 +114,22 @@ $(EMCONFIG_DIR)/emconfig.json:
 	emconfigutil --platform $(DEVICE) --od $(EMCONFIG_DIR)
 
 check: all
+ifeq ($(findstring xilinx_u200_xdma_201830, $(DEVICE)), xilinx_u200_xdma_201830)
+$(error This example is not supported for $(DEVICE))
+endif
+ifeq ($(findstring xilinx_u250_xdma_201830, $(DEVICE)), xilinx_u250_xdma_201830)
+$(error This example is not supported for $(DEVICE))
+endif
+ifeq ($(findstring xilinx_u200_xdma_201910, $(DEVICE)), xilinx_u200_xdma_201910)
+$(error This example is not supported for $(DEVICE))
+endif
+ifeq ($(findstring xilinx_u250_xdma_201910, $(DEVICE)), xilinx_u250_xdma_201910)
+$(error This example is not supported for $(DEVICE))
+endif
+ifeq ($(findstring xilinx_u280_xdma_201910, $(DEVICE)), xilinx_u280_xdma_201910)
+$(error This example is not supported for $(DEVICE))
+endif
+
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 ifeq ($(HOST_ARCH), x86)
 	$(CP) $(EMCONFIG_DIR)/emconfig.json .
