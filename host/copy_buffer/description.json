@@ -1,4 +1,10 @@
 {
+    "ndevice": [
+        "xilinx_u200_xdma_201830_1",
+        "xilinx_u200_xdma_201830_2",
+        "xilinx_u250_xdma_201830_1", 
+        "xilinx_u250_xdma_201830_2"
+    ],
     "name": "Copy Buffer (C)", 
     "contributors": [
         {
