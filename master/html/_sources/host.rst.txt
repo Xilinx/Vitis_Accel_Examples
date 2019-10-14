@@ -11,7 +11,6 @@ OpenCL host code for optimized interfacing with Xilinx Devices.
    copy_buffer.rst
    data_transfer.rst
    device_query.rst
-   device_query_cpp.rst
    debug_profile.rst
    errors.rst
    errors_cpp.rst
@@ -19,6 +18,7 @@ OpenCL host code for optimized interfacing with Xilinx Devices.
    hbm_simple.rst
    host_global_bandwidth.rst
    multiple_cus_asymmetrical.rst
+   mult_compute_units.rst
    overlap.rst
    streaming_host_bandwidth.rst
    streaming_free_running_kernel.rst
@@ -27,4 +27,3 @@ OpenCL host code for optimized interfacing with Xilinx Devices.
    streaming_mm_mixed.rst
    streaming_multi_cus.rst
    streaming_simple.rst
-   sub_devices.rst

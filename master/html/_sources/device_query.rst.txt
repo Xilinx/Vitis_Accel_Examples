@@ -1,5 +1,5 @@
-Device Query
-============
+Device Query (CPP)
+==================
 
 This Example prints the OpenCL properties of the platform and its
 devices using OpenCL CPP APIs. It also displays the limits and
