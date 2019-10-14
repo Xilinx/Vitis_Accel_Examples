@@ -133,7 +133,9 @@ def add_kernel_flags(target, data):
     target.write("# Kernel compiler global settings\n")
     target.write("CLFLAGS += ")
     target.write("-t $(TARGET) --platform $(DEVICE) --save-temps \n")   
-
+    target.write("ifneq ($(TARGET), hw)\n")
+    target.write("\tCLFLAGS += -g\n")
+    target.write("endif\n")
     if "containers" in data:
         for con in data["containers"]:
             for acc in con["accelerators"]:
