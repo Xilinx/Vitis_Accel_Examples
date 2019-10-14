@@ -115,6 +115,12 @@ endif
 ifeq ($(findstring xilinx_u50_xdma, $(DEVICE)), xilinx_u50_xdma)
 $(error This example is not supported for $(DEVICE))
 endif
+ifeq ($(findstring xilinx_u280_xdma, $(DEVICE)), xilinx_u280_xdma)
+$(error This example is not supported for $(DEVICE))
+endif
+ifeq ($(findstring xilinx:u280:xdma, $(DEVICE)), xilinx:u280:xdma)
+$(error This example is not supported for $(DEVICE))
+endif
 ifeq ($(findstring xilinx:u50:xdma, $(DEVICE)), xilinx:u50:xdma)
 $(error This example is not supported for $(DEVICE))
 endif
