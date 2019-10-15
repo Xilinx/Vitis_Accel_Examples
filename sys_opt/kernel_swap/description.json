@@ -3,7 +3,7 @@
         "zc", 
 	    "zed"
      ],
-    "name": "Vector Add - Vector Multiplication for XPR Devices", 
+    "name": "Kernel Swap", 
     "contributors": [
         {
             "url": "http://www.xilinx.com", 
