@@ -1,5 +1,5 @@
-Vector Add - Vector Multiplication for XPR Devices
-==================================================
+Kernel Swap
+===========
 
 This example shows how host can swap the kernels and share same buffer
 between two kernels which are exist in separate binary containers.

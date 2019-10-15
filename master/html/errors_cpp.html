@@ -286,6 +286,55 @@ seen in the launch log of the sw-emulation for this example.</p>
 <p>Errors codes, explanations and APIs which generate these errors are
 documented at
 <a class="reference external" href="https://www.khronos.org/registry/OpenCL/sdk/1.0/docs/man/xhtml/errors.html">Errors</a>.</p>
+<p>Error handling in OpenCL is performed using the cl_int specifier. OpenCL
+functions either return or accept pointers to cl_int types to indicate
+if an error occurred.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">cl_int</span> <span class="n">err</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>Error while trying to get Platform IDs without valid values</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">err</span> <span class="o">=</span> <span class="n">cl</span><span class="o">::</span><span class="n">Platform</span><span class="o">::</span><span class="n">get</span><span class="p">(</span><span class="o">&amp;</span><span class="n">platforms</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Received Expected Error calling above call from <code class="docutils literal notranslate"><span class="pre">clGetPlatformIDs</span></code>
+This error is usually caused by a failed OpenCL installation or if both
+the platforms and num_platforms parameters are null.</p>
+<p>Error when trying to access device type which does not exist</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">err</span> <span class="o">=</span> <span class="n">platform</span><span class="p">.</span><span class="n">getDevices</span><span class="p">(</span><span class="n">CL_DEVICE_TYPE_CPU</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">devices</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>This error appears when we try to create a device and no devices are
+found on the platform. In this case we passed <code class="docutils literal notranslate"><span class="pre">CL_DEVICE_TYPE_CPU</span></code> as
+the device type which is not available on the provided platform.</p>
+<p>Error while creating Context</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">cl</span><span class="o">::</span><span class="n">Context</span> <span class="n">context</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">props</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">err</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Most <code class="docutils literal notranslate"><span class="pre">clCreate*</span></code> calls accept error codes as their last parameter
+instead of returning the error value. This error occurred because we
+passed 0 for the num_devices variable.</p>
+<p>Error while creating Program with Binary:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">cl</span><span class="o">::</span><span class="n">Program</span> <span class="n">program</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">devices</span><span class="p">,</span> <span class="n">invalid_bin</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">err</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Errors caused during program creation are usually due to invalid
+binaries. The binary may be targeting a different shell. It may also
+have been corrupted or incorrectly read from disk.</p>
+<p>Error while creating Kernel:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">cl</span><span class="o">::</span><span class="n">Kernel</span> <span class="n">kernel</span><span class="p">(</span><span class="n">program</span><span class="p">,</span> <span class="s">&quot;InvalidKernelName&quot;</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">err</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Errors calling clCreateKernel are usually caused if the name passed into
+the function does not match a kernel in the binary.</p>
+<p>Error while creating Buffers:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">cl</span><span class="o">::</span><span class="n">Buffer</span> <span class="n">buffer_a</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">CL_MEM_READ_ONLY</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="k">nullptr</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">err</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>There can be several reasons for buffer creation to fail. It could be
+because device could not allocate enough memory for this buffer. The
+pointer could be null and either CL_MEM_USE_HOST_PTR or
+CL_MEM_COPY_HOST_PTR are passed into the flags parameter. In this case
+we passed zero(0) as the size of the buffer.</p>
 <div class="section" id="supported-shells">
 <h2>SUPPORTED SHELLS<a class="headerlink" href="#supported-shells" title="Permalink to this headline">¶</a></h2>
 <table class="docutils align-center">
