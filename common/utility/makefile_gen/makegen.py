@@ -388,7 +388,11 @@ def mk_check(target, data):
     target.write("\tmkdir -p $(EMU_DIR)\n")
     target.write("\t$(CP) $(XILINX_VITIS)/data/emulation/unified $(EMU_DIR)\n")
     target.write("\tmkfatimg $(SDCARD) $(SDCARD).img 500000\n")
-    target.write("\tlaunch_emulator -no-reboot -runtime ocl -t $(TARGET) -sd-card-image $(SDCARD).img -device-family $(DEV_FAM)\n")
+    target.write("\tlaunch_emulator -no-reboot -runtime ocl -t $(TARGET) -sd-card-image $(SDCARD).img -device-family $(DEV_FAM)")
+    if "containers" in data:
+        target.write("\n")
+    else:
+        target.write(" -ps-only\n")
     target.write("endif\n")
     target.write("else\n")
     target.write("ifeq ($(HOST_ARCH), x86)\n")

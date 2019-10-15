@@ -105,7 +105,7 @@ else
 	mkdir -p $(EMU_DIR)
 	$(CP) $(XILINX_VITIS)/data/emulation/unified $(EMU_DIR)
 	mkfatimg $(SDCARD) $(SDCARD).img 500000
-	launch_emulator -no-reboot -runtime ocl -t $(TARGET) -sd-card-image $(SDCARD).img -device-family $(DEV_FAM)
+	launch_emulator -no-reboot -runtime ocl -t $(TARGET) -sd-card-image $(SDCARD).img -device-family $(DEV_FAM) -ps-only
 endif
 else
 ifeq ($(HOST_ARCH), x86)
