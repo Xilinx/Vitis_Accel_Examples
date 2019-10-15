@@ -1,4 +1,4 @@
-Vector Add - Vector Multiplication for XPR Devices
+Kernel Swap
 ======================
 
 This example shows how host can swap the kernels and share same buffer between two kernels which are exist in separate binary containers. Dynamic platforms does not persist the buffer data so host has to migrate data from device to host memory before swapping the next kernel. After kernel swap, host has to migrate the buffer back to device.
@@ -16,10 +16,6 @@ xilinx_u250_qdma|Xilinx Alveo U250|VITIS 2019.2
 xilinx_u250_xdma|Xilinx Alveo U250|VITIS 2019.2
 xilinx_u280_xdma|Xilinx Alveo U280|VITIS 2019.2
 xilinx_u50_xdma|Xilinx Alveo U50|VITIS 2019.2
-zc702_base|Xilinx Zynq-7000 SoC ZC702|VITIS 2019.2
-zc706_base|Xilinx Zynq-7000 SoC ZC706|VITIS 2019.2
-zcu102_base|Xilinx UltraScale+ MPSoC ZCU102|VITIS 2019.2
-zcu104_base|Xilinx UltraScale+ MPSoC ZCU104|VITIS 2019.2
 
 
 ##  DESIGN FILES

@@ -1,0 +1,8 @@
+{
+    "overview": [
+        "System Optimization Examples"
+    ],
+    "description": [
+        "System Optimization examples focussed towards hardware optimization using HLS C/C++ kernels for Xilinx devices."
+    ]
+}
