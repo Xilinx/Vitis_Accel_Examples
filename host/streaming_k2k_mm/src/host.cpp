@@ -34,7 +34,7 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // This file is required for OpenCL C++ wrapper APIs
 #include "xcl2.hpp"
 
-auto constexpr c_test_size = 256 * 1024 * 1024; //256 MB data
+auto constexpr c_test_size = 32 * 1024 * 1024; //32 MB data
 
 ////////////////////RESET FUNCTION//////////////////////////////////
 int reset(int *a,

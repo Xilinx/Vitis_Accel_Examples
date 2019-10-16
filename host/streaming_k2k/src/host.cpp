@@ -41,7 +41,7 @@ decltype(&clReadStream) xcl::Stream::readStream = nullptr;
 decltype(&clWriteStream) xcl::Stream::writeStream = nullptr;
 decltype(&clPollStreams) xcl::Stream::pollStreams = nullptr;
 
-auto constexpr c_test_size = 256 * 1024 * 1024; //256 MB data
+auto constexpr c_test_size = 32 * 1024 * 1024; //32 MB data
 
 ////////////////////RESET FUNCTION//////////////////////////////////
 int reset(int *a,
