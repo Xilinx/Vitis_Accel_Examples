@@ -44,7 +44,7 @@ set xpfm_path [lindex $::argv 3]
 set device    [lindex $::argv 4]
 
 set pinfo [file join [pwd] "pinfo.json"]
-exec $::env(XILINX_VITIS)/bin/platforminfo -j $pinfo -p ${xpfm_path}
+exec $::env(XILINX_VITIS)/bin/platforminfo -j $pinfo -p ${xpfm_path} -f
 
 
 if {[file exists "myadder2_ex"]} {
