@@ -1,0 +1,62 @@
+{
+    "ndevice": [
+        "xilinx_u50_xdma", 
+        "xilinx:u50:xdma",
+        "zc" 
+    ], 
+    "name": "Stream Chain Matrix Multiplication (C)", 
+    "contributors": [
+        {
+            "url": "http://www.xilinx.com", 
+            "group": "Xilinx"
+        }
+    ], 
+    "default_device": "xilinx_u200_qdma_201910_1", 
+    "launch": [
+        {
+            "cmd_args": "BUILD/krnl_stream_mmult.xclbin", 
+            "name": "generic launch for all flows"
+        }
+    ], 
+    "host": {
+        "linker": {
+            "options": [
+                "-pthread"
+            ]
+        }, 
+        "host_exe": "vadd_mmult", 
+        "compiler": {
+            "sources": [
+                "REPO_DIR/common/includes/xcl2", 
+                "src/host.cpp"
+            ], 
+            "includepaths": [
+                "REPO_DIR/common/includes/xcl2"
+            ]
+        }
+    }, 
+    "key_concepts": [
+        "ap_ctrl_chain", 
+        "PLRAM"
+    ], 
+    "runtime": [
+        "OpenCL"
+    ], 
+    "os": [
+        "Linux"
+    ], 
+    "containers": [
+        {
+            "accelerators": [
+                {
+                    "name": "krnl_stream_mmult", 
+                    "location": "src/krnl_stream_mmult.cpp"
+                }
+            ], 
+            "name": "krnl_stream_mmult"
+        }
+    ], 
+    "description": [
+        "This is a kernel containing the cascaded Matrix Multiplication using dataflow. ap_ctrl_chain is enabled for this kernel to showcase how multiple enqueue of Kernel calls can be overlapped to give higher performance. ap_ctrl_chain allow kernel to start processing of next kernel operation before completing the current kernel operation."
+    ]
+}

@@ -1,0 +1,42 @@
+{
+    "containers": [
+        {
+            "name": "krnl_stream_mmult", 
+            "meet_system_timing": "true", 
+            "accelerators": [
+                {
+                    "name": "krnl_stream_mmult", 
+                    "check_timing": "true", 
+                    "PipelineType": "none", 
+                    "check_latency": "false", 
+                    "loops": [
+                        {
+                            "name": "mm2s", 
+                            "PipelineII": "1"
+                        },
+                        {
+                            "name": "read_strm_in1", 
+                            "PipelineII": "1"
+                        },
+                        {
+                            "name": "read_mm_in2", 
+                            "PipelineII": "1"
+                        },
+                        {
+                            "name": "mmult_strm_2", 
+                            "PipelineII": "1"
+                        },
+                        {
+                            "name": "write_strm_out", 
+                            "PipelineII": "1"
+                        },
+                        {
+                            "name": "write_output", 
+                            "PipelineII": "1"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
