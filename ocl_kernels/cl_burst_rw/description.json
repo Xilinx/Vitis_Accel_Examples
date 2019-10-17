@@ -43,7 +43,7 @@
             "accelerators": [
                 {
                     "location": "src/vadd.cl", 
-                    "clflags": "--config vadd_vadd.ini", 
+                    "clflags": "--config PROJECT/vadd_vadd.ini", 
                     "name": "vadd"
                 }
             ], 

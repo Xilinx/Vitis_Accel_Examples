@@ -46,7 +46,7 @@
             "accelerators": [
                 {
                     "location": "src/vadd.cpp", 
-                    "clflags": "--config vadd_krnl_vadd.ini", 
+                    "clflags": "--config PROJECT/vadd_krnl_vadd.ini", 
                     "name": "krnl_vadd"
                 }
             ], 

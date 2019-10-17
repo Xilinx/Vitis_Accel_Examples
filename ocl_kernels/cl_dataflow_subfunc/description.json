@@ -41,7 +41,7 @@
             "accelerators": [
                 {
                     "location": "src/adder.cl", 
-                    "clflags": "--config adder_adder.ini", 
+                    "clflags": "--config PROJECT/adder_adder.ini", 
                     "name": "adder"
                 }
             ], 

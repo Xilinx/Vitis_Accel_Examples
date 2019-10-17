@@ -68,7 +68,7 @@ CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps
 ifneq ($(TARGET), hw)
 	CLFLAGS += -g
 endif
-CLFLAGS += --config adder_adder.ini
+CLFLAGS += --config ./adder_adder.ini
 
 
 

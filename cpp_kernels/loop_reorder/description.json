@@ -42,7 +42,7 @@
             "accelerators": [
                 {
                     "location": "src/mmult.cpp", 
-                    "clflags": "--config mmult_mmult.ini", 
+                    "clflags": "--config PROJECT/mmult_mmult.ini", 
                     "name": "mmult"
                 }
             ], 
