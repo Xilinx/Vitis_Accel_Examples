@@ -69,15 +69,15 @@ int main(int argc, char **argv) {
 
     OCL_CHECK(err,
               cl::Buffer buffer_a(context,
-                                  CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY,
+                                  CL_MEM_READ_ONLY,
                                   size_in_bytes,
-                                  source_a.data(),
+                                  nullptr,
                                   &err));
     OCL_CHECK(err,
               cl::Buffer buffer_result(context,
-                                       CL_MEM_USE_HOST_PTR | CL_MEM_WRITE_ONLY,
+                                       CL_MEM_WRITE_ONLY,
                                        size_in_bytes,
-                                       source_results.data(),
+                                       nullptr,
                                        &err));
     OCL_CHECK(err,
               cl::Buffer buffer_b(
@@ -93,7 +93,7 @@ int main(int argc, char **argv) {
     //copy buffer a to device.
     OCL_CHECK(
         err,
-        err = q.enqueueMigrateMemObjects({buffer_a}, 0 /* 0 means from host*/));
+        err = q.enqueueWriteBuffer(buffer_a, CL_TRUE, 0, size_in_bytes, source_a.data(), nullptr, nullptr));
 
     // This enqueueCopyBuffer() command will copy buffer from buffer_a to buffer_b
     OCL_CHECK(err,
@@ -104,8 +104,7 @@ int main(int argc, char **argv) {
     OCL_CHECK(err, err = q.enqueueNDRangeKernel(kernel, 0, 1, 1, NULL, NULL));
 
     OCL_CHECK(err,
-              err = q.enqueueMigrateMemObjects({buffer_result},
-                                               CL_MIGRATE_MEM_OBJECT_HOST));
+             err = q.enqueueReadBuffer(buffer_result, CL_TRUE, 0, size_in_bytes, source_results.data(), nullptr, nullptr));
     OCL_CHECK(err, err = q.finish());
 
     int match = 0;
