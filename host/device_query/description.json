@@ -6,6 +6,9 @@
             "group": "Xilinx"
         }
     ], 
+    "ndevice": [
+        "zc"
+    ],
     "host": {
         "host_exe": "device_query", 
         "compiler": {
