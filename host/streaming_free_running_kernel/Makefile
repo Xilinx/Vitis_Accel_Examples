@@ -70,9 +70,9 @@ ifneq ($(TARGET), hw)
 endif
 
 
+# Kernel linker flags
+LDCLFLAGS += --config ./krnl_incr.ini
 
-# Adding config files to linker
-LDCLFLAGS += --config krnl_incr.ini 
 EXECUTABLE = host
 CMD_ARGS = $(BUILD_DIR)/krnl_incr.xclbin
 EMCONFIG_DIR = $(TEMP_DIR)

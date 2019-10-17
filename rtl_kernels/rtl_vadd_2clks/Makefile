@@ -71,9 +71,9 @@ ifneq ($(TARGET), hw)
 endif
 
 
+# Kernel linker flags
+LDCLFLAGS += --config ./vadd.ini
 
-# Adding config files to linker
-LDCLFLAGS += --config vadd.ini 
 EXECUTABLE = host
 CMD_ARGS = $(BUILD_DIR)/vadd.xclbin
 EMCONFIG_DIR = $(TEMP_DIR)

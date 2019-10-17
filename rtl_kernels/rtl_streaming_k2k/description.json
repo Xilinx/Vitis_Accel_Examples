@@ -82,7 +82,8 @@
                     "name": "myadder2"
                 }
             ], 
-            "name": "myadder"
+            "name": "myadder",
+	    "ldclflags": "--config PROJECT/myadder.ini"
         }
     ], 
     "output_files": "tmp_kernel_pack* packaged_kernel* _x* *_ex project* pinfo.json *.xo"

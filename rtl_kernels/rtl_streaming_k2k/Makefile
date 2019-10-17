@@ -72,9 +72,9 @@ ifneq ($(TARGET), hw)
 endif
 
 
+# Kernel linker flags
+LDCLFLAGS += --config ./myadder.ini
 
-# Adding config files to linker
-LDCLFLAGS += --config myadder.ini 
 EXECUTABLE = vadd_stream
 CMD_ARGS = $(BUILD_DIR)/myadder.xclbin
 EMCONFIG_DIR = $(TEMP_DIR)

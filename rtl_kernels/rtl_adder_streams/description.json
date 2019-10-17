@@ -60,7 +60,8 @@
                     "name": "output"
                 }
             ], 
-            "name": "adder"
+            "name": "adder",
+	    "ldclflags": "--config PROJECT/adder.ini"
         }
     ], 
     "name": "Adder With Streams (RTL)"

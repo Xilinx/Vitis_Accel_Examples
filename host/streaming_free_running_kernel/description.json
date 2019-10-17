@@ -59,7 +59,8 @@
                     "location": "src/mem_write.cpp"
                 }
             ], 
-            "name": "krnl_incr"
+            "name": "krnl_incr",
+	    "ldclflags": "--config PROJECT/krnl_incr.ini"
         }
     ], 
     "description": [

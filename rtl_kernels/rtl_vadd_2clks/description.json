@@ -61,7 +61,8 @@
                     "name": "vadd"
                 }
             ], 
-            "name": "vadd"
+            "name": "vadd",
+	    "ldclflags": "--config PROJECT/vadd.ini"
         }
     ], 
     "output_files": "tmp_kernel_pack* packaged_kernel*"

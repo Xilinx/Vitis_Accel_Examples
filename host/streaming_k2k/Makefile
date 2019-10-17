@@ -70,9 +70,9 @@ ifneq ($(TARGET), hw)
 endif
 
 
+# Kernel linker flags
+LDCLFLAGS += --config ./krnl_stream_vadd_vmult.ini
 
-# Adding config files to linker
-LDCLFLAGS += --config krnl_stream_vadd_vmult.ini 
 EXECUTABLE = vadd_stream
 CMD_ARGS = $(BUILD_DIR)/krnl_stream_vadd_vmult.xclbin
 EMCONFIG_DIR = $(TEMP_DIR)

@@ -179,15 +179,19 @@ def add_kernel_flags(target, data):
 		    target.write(flg)
             target.write("\n")
 
-    #adding config files to linker
-    for dirs,subdirs,files in os.walk("."):
-	if "containers" in data:
-		for con in data["containers"]:
-			if con["name"]+".ini" in files:
-				target.write("\n")
-				target.write("# Adding config files to linker\n")
-				target.write("LDCLFLAGS += ")
-				target.write("--config "+con["name"]+".ini ")
+    #adding config files to linker 
+    if "containers" in data:
+	config_add=0
+        for con in data["containers"]:
+        	if "accelerators" in con:
+                	for acc in con["accelerators"]:
+				if "compute_units" in acc or "num_compute_units" in acc:
+					if not config_add:			
+						target.write("\n")
+						target.write("# Adding config files to linker\n")
+						target.write("LDCLFLAGS += ")
+						target.write("--config "+con["name"]+".ini ")
+						config_add=1
     target.write("\n")
     target.write("EXECUTABLE = ")
     if "host_exe" in data["host"]:
@@ -644,6 +648,7 @@ def create_config(data):
 		        else:	
                             print "Creating "+con["name"]+".ini file for %s" %data["name"]
                             target = open(con["name"]+".ini","w")
+			    config_file = 1
                             target.write("[connectivity]\n")
                     if "compute_units" in acc:
                         for com in acc["compute_units"]:
@@ -670,13 +675,13 @@ else:
     profile_report(target)
 
 if "containers" in data:
-        config_flag = 0
+       	config_flag = 0
 	for con in data["containers"]:
 		for dirs,subdirs,files in os.walk("."):
 			if con["name"]+".ini" in files:
 				config_flag = 1
 	if not config_flag:
-            create_config(data)	
+		create_config(data)	
 
 if "match_makefile" in data and data["match_makefile"] == "false":
     print "Error:: Makefile Manually Edited:: AutoMakefile Generator Failed"

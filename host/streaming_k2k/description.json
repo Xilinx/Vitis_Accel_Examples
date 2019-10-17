@@ -75,7 +75,8 @@
                     "location": "src/krnl_stream_vmult.cpp"
                 }
             ], 
-            "name": "krnl_stream_vadd_vmult"
+            "name": "krnl_stream_vadd_vmult",
+	    "ldclflags": "--config PROJECT/krnl_stream_vadd_vmult.ini"
         }
     ], 
     "name": "Stream Kernel to Kernel Vector Addition and Multiplication"
