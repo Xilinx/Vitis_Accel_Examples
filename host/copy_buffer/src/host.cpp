@@ -95,6 +95,10 @@ int main(int argc, char **argv) {
         err,
         err = q.enqueueWriteBuffer(buffer_a, CL_TRUE, 0, size_in_bytes, source_a.data(), nullptr, nullptr));
 
+    OCL_CHECK(
+        err,
+        err = q.enqueueMigrateMemObjects({buffer_a}, 0 /* 0 means from host*/));
+
     // This enqueueCopyBuffer() command will copy buffer from buffer_a to buffer_b
     OCL_CHECK(err,
               err =
