@@ -46,7 +46,7 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "xcl2.hpp"
 
-#define NUM_KERNEL 8
+#define NUM_KERNEL 6
 
 //HBM Banks requirements
 #define MAX_HBM_BANKCOUNT 32
