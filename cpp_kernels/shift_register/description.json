@@ -54,5 +54,6 @@
     ], 
     "description": [
         "This example demonstrates how to shift values in registers in each clock cycle"
-    ]
+    ],
+    "match_ini": "false"
 }
