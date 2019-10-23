@@ -41,6 +41,9 @@ int main(int argc, char **argv) {
     std::string binaryFile = argv[1];
     size_t vector_size_bytes = sizeof(int) * DATA_SIZE;
     cl_int err;
+    cl::Context context;
+    cl::Kernel krnl_vector_add;
+    cl::CommandQueue q;
     // Allocate Memory in Host Memory
     // When creating a buffer with user pointer (CL_MEM_USE_HOST_PTR), under the hood user ptr
     // is used if it is properly aligned. when not aligned, runtime had no choice but to create
@@ -64,25 +67,37 @@ int main(int argc, char **argv) {
     // get_xil_devices() is a utility API which will find the xilinx
     // platforms and will return list of devices connected to Xilinx platform
     auto devices = xcl::get_xil_devices();
-    int default_device = 0;
-    if (devices.size()>1) {
-        printf("WARNING: multiple Xilinx cards detected, running this example on device %d\n", default_device);
-        printf("if you want to run on another card, edit line %d in file %s\n", (__LINE__-3), __FILE__);
-    }
-    auto device = devices[default_device];
-
-    OCL_CHECK(err, cl::Context context({device}, NULL, NULL, NULL, &err));
-    OCL_CHECK(
-        err,
-        cl::CommandQueue q(context, {device}, CL_QUEUE_PROFILING_ENABLE, &err));
-
     // read_binary_file() is a utility API which will load the binaryFile
     // and will return the pointer to file buffer.
     auto fileBuf = xcl::read_binary_file(binaryFile);
     cl::Program::Binaries bins{{fileBuf.data(), fileBuf.size()}};
+    int valid_device = 0;
+    for (unsigned int i = 0; i < devices.size(); i++) {
+        auto device = devices[i];
+        // Creating Context and Command Queue for selected Device
+        OCL_CHECK(err, context = cl::Context({device}, NULL, NULL, NULL, &err));
+        OCL_CHECK(err,
+                  q = cl::CommandQueue(
+                      context, {device}, CL_QUEUE_PROFILING_ENABLE, &err));
 
-    OCL_CHECK(err, cl::Program program(context, {device}, bins, NULL, &err));
-    OCL_CHECK(err, cl::Kernel krnl_vector_add(program, "vadd", &err));
+        std::cout << "Trying to program device[" << i
+                  << "]: " << device.getInfo<CL_DEVICE_NAME>() << std::endl;
+        OCL_CHECK(err,
+                  cl::Program program(context, {device}, bins, NULL, &err));
+        if (err != CL_SUCCESS) {
+            std::cout << "Failed to program device[" << i
+                      << "] with xclbin file!\n";
+        } else {
+            std::cout << "Device[" << i << "]: program successful!\n";
+            OCL_CHECK(err, krnl_vector_add = cl::Kernel(program, "vadd", &err));
+            valid_device++;
+            break; // we break because we found a valid device
+        }
+    }
+    if (valid_device == 0) {
+        std::cout << "Failed to program any device found, exit!\n";
+        exit(EXIT_FAILURE);
+    }
 
     // Allocate Buffer in Global Memory
     // Buffers are allocated using CL_MEM_USE_HOST_PTR for efficient memory and
