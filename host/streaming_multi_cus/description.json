@@ -1,8 +1,23 @@
 {
+    "name": "Multiple Compute Units of Streaming Kernel",
+    "description": [
+        "This is a simple vadd Kernel design in which multiple compute units of kernel are directly communicating with host using stream interfaces."
+    ], 
     "ndevice": [
-        "zc",
-        "xdma",
-        "samsung"
+        "xilinx_u200_xdma", 
+        "zc", 
+        "zed",
+        "xilinx_u250_xdma", 
+        "xilinx_u280_xdma", 
+        "xilinx_u280-es1_xdma", 
+        "xilinx_aws-vu9p-f1-04261818", 
+        "xilinx_v350-es1_xdma", 
+        "xilinx:v350-es1:xdma", 
+        "xilinx:u200:xdma", 
+        "xilinx:u250:xdma", 
+        "xilinx:u280:xdma", 
+        "xilinx:u280-es1:xdma", 
+        "xilinx:aws-vu9p-f1-04261818:dynamic"
     ], 
     "default_device": "xilinx_u200_qdma_201910_1", 
     "description": [
@@ -57,6 +72,5 @@
             ], 
             "name": "krnl_stream_vadd"
         }
-    ], 
-    "name": "Stream Vector Addition (Multiple Compute Units)"
+    ] 
 }

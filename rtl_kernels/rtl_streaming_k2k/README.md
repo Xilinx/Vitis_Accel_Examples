@@ -12,7 +12,6 @@ Shell | Board             | Software Version
 ---------|-------------------|-----------------
 xilinx_u200_qdma|Xilinx Alveo U200|VITIS 2019.2
 xilinx_u250_qdma|Xilinx Alveo U250|VITIS 2019.2
-xilinx_u50_xdma|Xilinx Alveo U50|VITIS 2019.2
 
 
 ##  DESIGN FILES

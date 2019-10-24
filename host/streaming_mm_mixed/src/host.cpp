@@ -169,14 +169,14 @@ int main(int argc, char **argv) {
     ext.param = krnl_vadd.get();
     ext.obj = NULL;
 
-    //Create write stream for argument 0 and 1 of kernel
+    //Create write stream for argument 1 of kernel
     cl_stream write_stream_a;
     ext.flags = 1;
     OCL_CHECK(ret,
               write_stream_a = xcl::Stream::createStream(
                   device.get(), CL_STREAM_WRITE_ONLY, CL_STREAM, &ext, &ret));
 
-    //Create read stream for argument 2 of kernel
+    //Create read stream for argument 0 of kernel
     cl_stream read_stream;
     ext.flags = 0;
     OCL_CHECK(ret,

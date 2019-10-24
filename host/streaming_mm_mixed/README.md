@@ -1,7 +1,7 @@
-Stream Vector Addition with OpenCL Buffers
+Streaming Kernel with Memory Mapped interface
 ======================
 
-This is a simple streaming Vector Addition C Kernel design with 1 Stream input, 1 memory mapped input to the kernel, and 1 stream output that demonstrates on how to process a stream of data for computation along with OpenCL buffers.
+This is a simple streaming Vector Addition C Kernel design with 1 Stream input, 1 memory mapped input to the kernel, and 1 stream output that demonstrates on how to process a stream of data along with memory mapped interface.
 
 ***KEY CONCEPTS:*** Read/Write Stream, Create/Release Stream
 

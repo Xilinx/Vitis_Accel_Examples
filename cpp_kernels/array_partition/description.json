@@ -1,5 +1,8 @@
 {
     "name": "Array Partition (HLS C/C++ Kernel)", 
+    "description": [
+        "This is a simple example of matrix multiplication (Row x Col) to demonstrate how to achieve better performance by array partitioning, using HLS kernel in Vitis Environment."
+    ],
     "contributors": [
         {
             "url": "http://www.xilinx.com", 
@@ -52,8 +55,5 @@
             ], 
             "name": "matmul"
         }
-    ], 
-    "description": [
-        "This is a simple example of matrix multiplication (Row x Col) to demonstrate how to achieve better performance by array partitioning, using HLS kernel in Vitis Environment."
-    ]
+    ] 
 }

@@ -1,13 +1,14 @@
 {
+    "name": "Streaming Kernel with Memory Mapped interface",
+    "description": [
+        "This is a simple streaming Vector Addition C Kernel design with 1 Stream input, 1 memory mapped input to the kernel, and 1 stream output that demonstrates on how to process a stream of data along with memory mapped interface."
+    ], 
     "ndevice": [
         "zc",
         "xdma",
         "samsung"
     ], 
     "default_device": "xilinx_u200_qdma_201910_1", 
-    "description": [
-        "This is a simple streaming Vector Addition C Kernel design with 1 Stream input, 1 memory mapped input to the kernel, and 1 stream output that demonstrates on how to process a stream of data for computation along with OpenCL buffers."
-    ], 
     "contributors": [
         {
             "url": "http://www.xilinx.com", 
@@ -62,6 +63,5 @@
             ], 
             "name": "krnl_stream_vadd"
         }
-    ], 
-    "name": "Stream Vector Addition with OpenCL Buffers"
+    ] 
 }

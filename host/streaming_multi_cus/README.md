@@ -1,4 +1,4 @@
-Stream Vector Addition (Multiple Compute Units)
+Multiple Compute Units of Streaming Kernel
 ======================
 
 This is a simple Vector Add C Kernel design with 2 Stream inputs and 1 Stream output that demonstrates on how to process an input stream of data for computation in an application using multiple compute units.
@@ -12,6 +12,7 @@ Shell | Board             | Software Version
 ---------|-------------------|-----------------
 xilinx_u200_qdma|Xilinx Alveo U200|VITIS 2019.2
 xilinx_u250_qdma|Xilinx Alveo U250|VITIS 2019.2
+xilinx_u50_xdma|Xilinx Alveo U50|VITIS 2019.2
 
 
 ##  DESIGN FILES

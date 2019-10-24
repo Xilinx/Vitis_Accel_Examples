@@ -7,6 +7,7 @@ This is a HBM bandwidth check design. Design contains 8 compute units of a kerne
 Shell | Board             | Software Version
 ---------|-------------------|-----------------
 xilinx_u280_xdma|Xilinx Alveo U280|VITIS 2019.2
+xilinx_u50_xdma|Xilinx Alveo U50|VITIS 2019.2
 
 
 ##  DESIGN FILES

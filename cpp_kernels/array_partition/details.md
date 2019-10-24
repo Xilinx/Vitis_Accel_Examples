@@ -13,6 +13,20 @@ int C[MAX_SIZE][MAX_SIZE];
 
 This array partition helps design to access 2nd dimension of both Matrix B and C concurrently to reduce the overall latency.
 
+To see the benefit of array partition, user can look into system estimate report and see overall latency. 
+Latency Information of normal matmul kernel (without partition):
+```
+Compute Unit  Kernel Name  Module Name  Start Interval  Best (cycles)  Avg (cycles)  Worst (cycles)  Best (absolute)  Avg (absolute)  Worst (absolute)
+------------  -----------  -----------  --------------  -------------  ------------  --------------  ---------------  --------------  ----------------
+matmul_1      matmul       matmul       2856 ~ 2859     2855           2857          2858            9.516 us         9.522 us        9.526 us
+```
+Latency Information for matrix multiplication for kernel with partition:
+```
+Compute Unit        Kernel Name       Module Name       Start Interval  Best (cycles)  Avg (cycles)  Worst (cycles)  Best (absolute)  Avg (absolute)  Worst (absolute)
+------------------  ----------------  ----------------  --------------  -------------  ------------  --------------  ---------------  --------------  ----------------
+matmul_partition_1  matmul_partition  matmul_partition  1063 ~ 1066     1062           1064          1065            3.540 us         3.546 us        3.550 us
+```
+
 Example generates the following information as output when ran on Alevo U200 Card:
 ```
 Found Platform
