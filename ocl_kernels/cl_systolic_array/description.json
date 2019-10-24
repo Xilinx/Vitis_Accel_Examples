@@ -1,4 +1,7 @@
 {
+    "ndevice": [
+        "zc702_base"
+    ],
     "testinfo": {
         "level_up": [
             {

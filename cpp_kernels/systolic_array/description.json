@@ -1,6 +1,7 @@
 {
     "ndevice": [
-        "zcu104_base" 
+        "zcu104_base",
+        "zc702_base"
     ], 
     "testinfo": {
         "level_up": [
