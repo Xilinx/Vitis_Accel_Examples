@@ -24,11 +24,12 @@
         }
     }, 
     "ndevice": [
-        "xilinx_u200_xdma_201830", 
+        "xilinx_u200_xdma_201830",
         "xilinx_u250_xdma_201830",
-        "xilinx_u200_xdma_201910", 
+        "xilinx_u200_xdma_201910",
         "xilinx_u250_xdma_201910",
-        "xilinx_u280_xdma_201910"
+        "xilinx_u280_xdma_201910",
+        "samsung"
     ],
     "key_concepts": [
         "Free Running Kernel" 

@@ -70,9 +70,9 @@ ifneq ($(TARGET), hw)
 endif
 
 
+# Kernel linker flags
+LDCLFLAGS += --config ./krnl_stream_mmult.ini
 
-# Adding config files to linker
-LDCLFLAGS += --config krnl_stream_mmult.ini 
 EXECUTABLE = vadd_mmult
 CMD_ARGS = $(BUILD_DIR)/krnl_stream_mmult.xclbin
 EMCONFIG_DIR = $(TEMP_DIR)
@@ -113,6 +113,9 @@ ifeq ($(findstring xilinx_u50_xdma, $(DEVICE)), xilinx_u50_xdma)
 $(error This example is not supported for $(DEVICE))
 endif
 ifeq ($(findstring xilinx:u50:xdma, $(DEVICE)), xilinx:u50:xdma)
+$(error This example is not supported for $(DEVICE))
+endif
+ifeq ($(findstring samsung, $(DEVICE)), samsung)
 $(error This example is not supported for $(DEVICE))
 endif
 ifeq ($(findstring zc, $(DEVICE)), zc)

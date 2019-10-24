@@ -1,21 +1,8 @@
 {
     "ndevice": [
-        "xilinx_u200_xdma", 
-        "zc", 
-	"zed",
-        "xilinx_u250_xdma", 
-        "xilinx_u280_xdma", 
-        "xilinx_u280-es1_xdma", 
-        "xilinx_v350-es1_xdma", 
-	"xilinx_u50_xdma",
-        "xilinx:u50:xdma",
-        "xilinx:v350-es1:xdma", 
-        "xilinx:u200:xdma", 
-        "xilinx:u250:xdma", 
-        "xilinx:u280:xdma", 
-	"xilinx_samsung_U2x4",
-	"xilinx:samsung:U2x4",
-        "xilinx:u280-es1:xdma" 
+        "zc",
+        "xdma",
+        "samsung"
     ], 
     "default_device": "xilinx_u200_qdma_201910_1", 
     "description": [

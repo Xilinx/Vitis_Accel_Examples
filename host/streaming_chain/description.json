@@ -1,8 +1,9 @@
 {
     "ndevice": [
-        "xilinx_u50_xdma", 
+        "xilinx_u50_xdma",
         "xilinx:u50:xdma",
-        "zc" 
+        "samsung",
+        "zc"
     ], 
     "name": "Stream Chain Matrix Multiplication (C)", 
     "contributors": [
@@ -53,7 +54,8 @@
                     "location": "src/krnl_stream_mmult.cpp"
                 }
             ], 
-            "name": "krnl_stream_mmult"
+            "name": "krnl_stream_mmult",
+            "ldclflags": "--config PROJECT/krnl_stream_mmult.ini"
         }
     ], 
     "description": [

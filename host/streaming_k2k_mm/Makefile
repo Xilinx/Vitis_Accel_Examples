@@ -119,7 +119,7 @@ endif
 ifeq ($(findstring xilinx:aws-vu9p-f1-04261818:dynamic, $(DEVICE)), xilinx:aws-vu9p-f1-04261818:dynamic)
 $(error This example is not supported for $(DEVICE))
 endif
-ifeq ($(findstring zed, $(DEVICE)), zed)
+ifeq ($(findstring samsung, $(DEVICE)), samsung)
 $(error This example is not supported for $(DEVICE))
 endif
 ifeq ($(findstring zc, $(DEVICE)), zc)
