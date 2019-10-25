@@ -427,7 +427,7 @@ def mk_check(target, data):
         target.write("endif\n")
         target.write("\n")
 
-    if data["name"] != "00 Matrix Multiplication":
+    if ("match_ini" not in data) or (data["match_ini"] == "true"):
         target.write("ifeq ($(HOST_ARCH), x86)\n")
         target.write("\tperf_analyze profile -i profile_summary.csv -f html\n")
         target.write("endif\n")
