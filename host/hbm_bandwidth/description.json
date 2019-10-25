@@ -1,4 +1,7 @@
 {
+    "description": [
+        "This is a HBM bandwidth check design. Design contains 6 compute units of a kernel which has access to all HBM banks (0:31). Host application allocate buffer into all HBM banks and run these 6 compute units concurrently and measure the overall bandwidth between Kernel and HBM Memory."
+    ],
     "testinfo": {
         "profile": "no"
     }, 
@@ -170,57 +173,14 @@
                                     "memory": "HBM[23]"
                                 }
                             ]
-                        }, 
-                        {
-                            "arguments": [
-                                {
-                                    "name": "in1", 
-                                    "memory": "HBM[24]"
-                                }, 
-                                {
-                                    "name": "in2", 
-                                    "memory": "HBM[25]"
-                                }, 
-                                {
-                                    "name": "out_add", 
-                                    "memory": "HBM[26]"
-                                }, 
-                                {
-                                    "name": "out_mul", 
-                                    "memory": "HBM[27]"
-                                }
-                            ]
-                        }, 
-                        {
-                            "arguments": [
-                                {
-                                    "name": "in1", 
-                                    "memory": "HBM[28]"
-                                }, 
-                                {
-                                    "name": "in2", 
-                                    "memory": "HBM[29]"
-                                }, 
-                                {
-                                    "name": "out_add", 
-                                    "memory": "HBM[30]"
-                                }, 
-                                {
-                                    "name": "out_mul", 
-                                    "memory": "HBM[31]"
-                                }
-                            ]
-                        }
+                        } 
                     ], 
-                    "num_compute_units": "8", 
+                    "num_compute_units": "6", 
                     "location": "src/krnl_vaddmul.cpp", 
                     "name": "krnl_vaddmul"
                 }
             ], 
             "name": "krnl_vaddmul"
         }
-    ], 
-    "description": [
-        "This is a HBM bandwidth check design. Design contains 8 compute units of a kernel which has access to all HBM banks (0:31). Host application allocate buffer into all HBM banks and run these 8 compute units concurrently and measure the overall bandwidth between Kernel and HBM Memory."
-    ]
+    ]  
 }

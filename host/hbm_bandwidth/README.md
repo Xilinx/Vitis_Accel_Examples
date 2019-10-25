@@ -1,7 +1,7 @@
 HBM Bandwidth
 ======================
 
-This is a HBM bandwidth check design. Design contains 8 compute units of a kernel which has access to all HBM banks (0:31). Host application allocate buffer into all HBM banks and run these 8 compute units concurrently and measure the overall bandwidth between Kernel and HBM Memory.
+This is a HBM bandwidth check design. Design contains 6 compute units of a kernel which has access to all HBM banks (0:31). Host application allocate buffer into all HBM banks and run these 6 compute units concurrently and measure the overall bandwidth between Kernel and HBM Memory.
 
 ## SUPPORTED SHELLS
 Shell | Board             | Software Version
