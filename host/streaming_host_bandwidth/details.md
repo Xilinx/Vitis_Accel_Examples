@@ -1,4 +1,4 @@
-Streaming Host bandwidth 
+Streaming Host to Kernel Bandwidth 
 =========================
 
 This example tests the bandwidth of blocking and non-blocking stream interface between host and device. 

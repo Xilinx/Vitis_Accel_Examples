@@ -1,4 +1,4 @@
-Streaming Kernel to Kernel(Vector addtion and multiplication)
+Streaming Kernel to Kernel Memory Mapped
 ==============================================================
 
 This example demonstrates how kernels can have memory mapped inputs along with stream interface from one kernel to another.

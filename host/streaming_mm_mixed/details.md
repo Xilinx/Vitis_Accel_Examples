@@ -1,4 +1,4 @@
-Mixed Kernel containing streaming and Memory Mapped interface
+Stream Memory Map Mixed
 ===============================================================
 
 This example demonstrate how to process an input stream of data from host for computation along with memory mapped OpenCL buffer inputs. `krnl_stream_vadd` has 1 stream input, one memory mapped buffer input and 1 stream output.

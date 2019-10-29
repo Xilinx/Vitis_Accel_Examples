@@ -1,5 +1,8 @@
 {
     "name": "Device Query (CPP)", 
+    "description": [
+        "This Example prints the OpenCL properties of the platform and its devices using OpenCL CPP APIs. It also displays the limits and capabilities of the hardware."
+    ],
     "contributors": [
         {
             "url": "http://www.xilinx.com", 
@@ -29,8 +32,5 @@
     ], 
     "os": [
         "Linux"
-    ], 
-    "description": [
-        "This Example prints the OpenCL properties of the platform and its devices using OpenCL CPP APIs. It also displays the limits and capabilities of the hardware."
-    ]
+    ] 
 }

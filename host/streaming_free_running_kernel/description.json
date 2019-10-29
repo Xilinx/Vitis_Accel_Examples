@@ -1,5 +1,8 @@
 {
-    "name": "Free Running Kernel (HLS C/C++)", 
+    "name": "Stream Free Running Kernel (HLS C/C++)", 
+    "description": [
+        "This is simple example which demonstrate how to use and configure a free running kernel."
+    ],
     "contributors": [
         {
             "url": "http://www.xilinx.com", 
@@ -63,8 +66,5 @@
             "name": "krnl_incr",
 	    "ldclflags": "--config PROJECT/krnl_incr.ini"
         }
-    ], 
-    "description": [
-        "This is simple example which demonstrate how to use and configure a free running kernel."
     ]
 }

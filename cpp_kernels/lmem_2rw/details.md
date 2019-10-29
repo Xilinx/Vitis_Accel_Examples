@@ -1,4 +1,4 @@
-Two Parallel Read/Write on Local Memory
+Local Memory Two Parallel Read/Write
 ========================================
 This is a simple example to demonstrate how to utilize both ports of local memory in kernels.
 

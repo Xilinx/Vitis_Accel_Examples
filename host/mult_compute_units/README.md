@@ -1,4 +1,4 @@
-Vector Addition ~ Multiple Compute Units (C) 
+Multiple Compute Units (C) 
 ======================
 
 This is simple Example of Multiple Compute units to showcase how a single kernel can be instantiated into Multiple compute units. Host code will show how to use multiple compute units and run them concurrently.

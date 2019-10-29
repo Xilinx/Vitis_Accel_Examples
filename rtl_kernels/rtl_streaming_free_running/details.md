@@ -1,4 +1,4 @@
-RTL Free-Running Kernel
+Stream Free Running
 =======================
 
 This example demonstrates the use of RTL `free running` kernel. Free running kernel starts as soon as it is out of reset and never stops.

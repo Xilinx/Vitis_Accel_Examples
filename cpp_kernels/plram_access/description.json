@@ -1,4 +1,8 @@
 {
+    "name": "PLRAM Memory Access (C)", 
+    "description": [
+        "This example shows the usage of PLRAM and how to use it with simple matrix multiplication (Row x Col)."
+    ],
     "ndevice": [
         "xilinx_aws-vu9p-f1-04261818", 
         "xilinx:aws-vu9p-f1-04261818:dynamic", 
@@ -11,7 +15,6 @@
 	"xilinx_v350-es1_xdma", 
         "xilinx:v350-es1:xdma"
     ], 
-    "name": "PLRAM access (C)", 
     "contributors": [
         {
             "url": "http://www.xilinx.com", 
@@ -76,8 +79,5 @@
             ], 
             "name": "mmult"
         }
-    ], 
-    "description": [
-        "This example shows the usage of PLRAM and how to use it with simple matrix multiplication (Row x Col)."
     ]
 }

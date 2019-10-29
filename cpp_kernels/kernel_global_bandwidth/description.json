@@ -1,5 +1,5 @@
 {
-    "name": "kernel_global", 
+    "name": "Kernel Global Bandwidth", 
     "description": [
         "Bandwidth test of global to local memory."
     ], 

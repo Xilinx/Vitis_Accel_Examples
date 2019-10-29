@@ -1,15 +1,18 @@
 {
+    "name": "Multiple Compute Units (Asymmetrical) (C) ", 
+    "description": [
+        "This is simple example of vector addition to demonstrate how to connect each compute unit to different banks and how to use these compute units in host applications"
+    ],
     "ndevice": [
-       	"xilinx_u50_xdma",
-        "xilinx_v350-es1_xdma", 
+        "xilinx_u50_xdma",
+        "xilinx_v350-es1_xdma",
         "xilinx:u50:xdma",
-	"xilinx_samsung_U2x4",
-	"xilinx:samsung:U2x4",
-        "xilinx:v350-es1:xdma", 
+        "xilinx_samsung_U2x4",
+        "xilinx:samsung:U2x4",
+        "xilinx:v350-es1:xdma",
         "zc",
-	"zed"
+        "zed"
     ], 
-    "name": "Vector Addition ~ Asymmetrical Multiple Compute Units (C) ", 
     "contributors": [
         {
             "url": "http://www.xilinx.com", 
@@ -122,8 +125,5 @@
             ], 
             "name": "vadd"
         }
-    ], 
-    "description": [
-        "This is simple example of vector addition to demonstrate how to connect each compute unit to different banks and how to use these compute units in host applications"
-    ]
+    ] 
 }

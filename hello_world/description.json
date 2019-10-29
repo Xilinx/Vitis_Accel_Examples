@@ -1,5 +1,8 @@
 {
     "name": "Hello World (HLS C/C++ Kernel)", 
+    "description": [
+        "This is simple example of vector addition to describe how to use HLS kernels in Vitis Environment."
+    ],
     "contributors": [
         {
             "url": "http://www.xilinx.com", 
@@ -50,8 +53,5 @@
             ], 
             "name": "vadd"
         }
-    ], 
-    "description": [
-        "This is simple example of vector addition to describe how to use HLS kernels in Vitis Environment."
-    ]
+    ] 
 }

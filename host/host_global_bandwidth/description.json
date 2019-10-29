@@ -1,4 +1,8 @@
 {
+    "name": "Host Global Bandwidth", 
+    "description": [
+        "Host to global memory bandwidth test"
+    ],
     "ndevice": [
         "xilinx_u280-es1_xdma", 
         "xilinx:u280-es1:xdma", 
@@ -13,7 +17,6 @@
 	"zed",
 	"zc"
     ], 
-    "name": "host_global", 
     "contributors": [
         {
             "url": "http://www.xilinx.com", 
@@ -69,8 +72,5 @@
             ], 
             "name": "krnl_host_global"
         }
-    ], 
-    "description": [
-        "Host to global memory bandwidth test"
     ]
 }

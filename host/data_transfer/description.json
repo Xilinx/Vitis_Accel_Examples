@@ -1,5 +1,8 @@
 {
     "name": "Data Transfer (C)", 
+    "description": [
+        "This example illustrates several ways to use the OpenCL API to transfer data to and from the FPGA"
+    ],
     "contributors": [
         {
             "url": "http://www.xilinx.com", 
@@ -54,8 +57,5 @@
             ], 
             "name": "dummy_kernel"
         }
-    ], 
-    "description": [
-        "This example illustrates several ways to use the OpenCL API to transfer data to and from the FPGA"
-    ]
+    ] 
 }

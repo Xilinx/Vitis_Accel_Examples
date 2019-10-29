@@ -1,4 +1,4 @@
-PLRAM access (C)
+PLRAM Memory Access (C)
 ======================
 
 This example shows the usage of PLRAM and how to use it with simple matrix multiplication (Row x Col).

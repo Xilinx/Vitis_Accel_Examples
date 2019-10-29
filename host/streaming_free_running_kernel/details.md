@@ -1,4 +1,4 @@
-Free Running Kernel(HLS C/C++)
+Stream Free Running Kernel(HLS C/C++)
 ==============================
 Free-running kernels have no control signal ports, and cannot be started or stopped. The no-control signal feature of the free-running kernel results in the following characteristics:
 

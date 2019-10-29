@@ -1,4 +1,4 @@
-HBM Simple Vector Addition
+HBM Simple
 ===========================
 This is Simple example to demonstrate how to use HBM Platform. Two cases are executed, Single HBM bank is used for two inputs and one output; three separate banks are used for each argument of kernels.
 Individual bank for each buffer will provide more bandwidth for the application.

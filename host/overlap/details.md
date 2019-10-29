@@ -1,4 +1,4 @@
-Overlap Host and HLS kernels (C)
+Overlap Host and Kernel (C)
 =================================
 
 This example illustrates how host read and write tasks can be synchronized with kernel computational tasks to achieve low latency in cases where data is too large to fit on FPGA or it is being streamed from a sensor or a network.

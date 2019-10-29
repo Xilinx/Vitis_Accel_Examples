@@ -1,5 +1,8 @@
 {
-    "name": "Vector Addition ~ Multiple Compute Units (C) ", 
+    "name": "Multiple Compute Units (C) ", 
+    "description": [
+        "This is simple Example of Multiple Compute units to showcase how a single kernel can be instantiated into Multiple compute units. Host code will show how to use multiple compute units and run them concurrently."
+    ],
     "contributors": [
         {
             "url": "http://www.xilinx.com", 
@@ -47,8 +50,5 @@
             ], 
             "name": "vadd"
         }
-    ], 
-    "description": [
-        "This is simple Example of Multiple Compute units to showcase how a single kernel can be instantiated into Multiple compute units. Host code will show how to use multiple compute units and run them concurrently."
     ]
 }

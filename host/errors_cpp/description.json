@@ -1,8 +1,11 @@
 {
+    "name": "Error Handling (CPP)", 
+    "description": [
+        "This example discuss the different reasons for errors in OpenCL C++ and how to handle them at runtime."
+    ],
     "testinfo": {
         "negative": "true"
     }, 
-    "name": "Error Handling (CPP)", 
     "contributors": [
         {
             "url": "http://www.xilinx.com", 
@@ -54,8 +57,5 @@
             ], 
             "name": "vector_addition"
         }
-    ], 
-    "description": [
-        "This example discuss the different reasons for errors in OpenCL C++ and how to handle them at runtime."
-    ]
+    ] 
 }

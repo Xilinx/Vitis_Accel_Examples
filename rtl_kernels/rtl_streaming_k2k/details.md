@@ -1,4 +1,4 @@
-RTL Kernel to Kernel Stream Vector Increment
+Stream Kernel to Kernel
 =============================================
 
 This example demonstrates the use of RTL kernels for addition with stream interfaces. Two kernels, `my_adder1` and `myadder2` are 

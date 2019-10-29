@@ -1,4 +1,4 @@
-Free Running Kernel (HLS C/C++)
+Stream Free Running Kernel (HLS C/C++)
 ======================
 
 This is simple example which demonstrate how to use and configure a free running kernel.

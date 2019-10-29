@@ -1,4 +1,5 @@
 {
+    "name": "HBM Bandwidth", 
     "description": [
         "This is a HBM bandwidth check design. Design contains 6 compute units of a kernel which has access to all HBM banks (0:31). Host application allocate buffer into all HBM banks and run these 6 compute units concurrently and measure the overall bandwidth between Kernel and HBM Memory."
     ],
@@ -22,7 +23,6 @@
         "xilinx:vcu1525:dynamic" 
     ], 
     "default_device": "xilinx_u280_xdma_201910_1", 
-    "name": "HBM Bandwidth", 
     "contributors": [
         {
             "url": "http://www.xilinx.com", 

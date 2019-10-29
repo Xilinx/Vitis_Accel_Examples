@@ -1,4 +1,4 @@
-Vector Addition with 2 Kernel Clocks
+Vadd 2 Kernel Clocks
 =====================================
 This example demonstrates the use of `two kernel clocks` for a simple case of vector addition.
 

@@ -1,4 +1,4 @@
-HBM Simple Vector Addition
+HBM Simple
 ======================
 
 This is a simple example of vector addition to describe how to use HLS kernels with HBM (High Bandwidth Memory) for achieving high throughput.

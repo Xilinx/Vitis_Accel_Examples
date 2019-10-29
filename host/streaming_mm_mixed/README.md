@@ -1,4 +1,4 @@
-Streaming Kernel with Memory Mapped interface
+Stream Memory Map Mixed
 ======================
 
 This is a simple streaming Vector Addition C Kernel design with 1 Stream input, 1 memory mapped input to the kernel, and 1 stream output that demonstrates on how to process a stream of data along with memory mapped interface.

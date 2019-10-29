@@ -1,11 +1,14 @@
 {
+    "name": "Stream Kernel to Kernel Memory Mapped", 
+    "description": [
+        "This is a simple kernel to kernel streaming Vector Add and Vector Multiply C Kernel design with 2 memory mapped input to kernel 1, 1 Stream output from kernel 1 to input of kernel 2, 1 memory mapped input to kernel 2, and 1 memory mapped output that demonstrates on how to process a stream of data for computation between two kernels."
+    ],
     "ndevice": [
         "xilinx_aws-vu9p-f1-04261818",
         "xilinx:aws-vu9p-f1-04261818:dynamic",
         "samsung",
         "zc"
     ], 
-    "name": "Stream Kernel to Kernel Vector Addition and Multiplication", 
     "contributors": [
         {
             "url": "http://www.xilinx.com", 
@@ -65,8 +68,5 @@
             "name": "krnl_stream_vadd_vmult",
 	    "ldclflags": "--config PROJECT/krnl_stream_vadd_vmult.ini" 
         }
-    ], 
-    "description": [
-        "This is a simple kernel to kernel streaming Vector Add and Vector Multiply C Kernel design with 2 memory mapped input to kernel 1, 1 Stream output from kernel 1 to input of kernel 2, 1 memory mapped input to kernel 2, and 1 memory mapped output that demonstrates on how to process a stream of data for computation between two kernels."
     ]
 }

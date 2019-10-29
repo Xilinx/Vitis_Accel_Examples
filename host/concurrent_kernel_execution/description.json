@@ -1,5 +1,8 @@
 {
     "name": "Concurrent Kernel Execution (C)", 
+    "description": [
+        "This example will demonstrate how to use multiple and out of order command queues to simultaneously execute multiple kernels on an FPGA."
+    ],
     "contributors": [
         {
             "url": "http://www.xilinx.com", 
@@ -56,8 +59,5 @@
             ], 
             "name": "matrix_ops"
         }
-    ], 
-    "description": [
-        "This example will demonstrate how to use multiple and out of order command queues to simultaneously execute multiple kernels on an FPGA."
-    ]
+    ] 
 }

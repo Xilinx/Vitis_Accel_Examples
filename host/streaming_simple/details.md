@@ -1,4 +1,4 @@
-Streaming Kernel Simple Example
+Stream Simple
 ===============================
 
 This is Simple Streaming Kernel Example and demonstrate how host application can directly transfer data via streaming interface without moving data to Global memory. Host Application demonstrate both approaches (blocking and non-blocking) stream interface between host and device. Stream interface does not require address management as access to data is done in sequential manner. Stream interfaces are useful for applications where either the data is too big to reside on an FPGA or data is being streamed from a sensor network.

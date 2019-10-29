@@ -1,4 +1,4 @@
-Two Parallel Read/Write on Local Memory (C)
+Local Memory Two Parallel Read/Write (C)
 ======================
 
 This is simple example of vector addition to demonstrate how to utilized both ports of Local Memory memory.

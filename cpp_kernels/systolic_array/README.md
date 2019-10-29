@@ -1,4 +1,4 @@
-Systolic Array Implementation (C)
+Systolic Array (C)
 ======================
 
 This is a simple example of matrix multiplication (Row x Col) to help developers learn systolic array based algorithm design. Note : Systolic array based algorithm design is well suited for FPGA.

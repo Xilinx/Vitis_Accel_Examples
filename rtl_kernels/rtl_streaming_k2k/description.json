@@ -1,4 +1,8 @@
 {
+    "name": "Stream Kernel to Kernel", 
+    "description": [
+        "This is a simple Vector Increment RTL Kernel to Kernel design with 1 Stream input and 1 Stream output that demonstrates on how to process an input stream of data for computation in an application."
+    ], 
     "config_make": "config.mk", 
     "ndevice": [
         "zc",
@@ -6,9 +10,6 @@
         "samsung"
     ], 
     "default_device": "xilinx_u200_qdma_201910_1", 
-    "description": [
-        "This is a simple Vector Increment RTL Kernel to Kernel design with 1 Stream input and 1 Stream output that demonstrates on how to process an input stream of data for computation in an application."
-    ], 
     "contributors": [
         {
             "url": "http://www.xilinx.com", 
@@ -22,7 +23,6 @@
         }
     ], 
     "gui": false, 
-    "name": "Stream Kernel to Kernel Vector Increment (RTL)", 
     "host": {
         "linker": {
             "options": [

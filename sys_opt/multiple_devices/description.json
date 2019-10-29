@@ -1,6 +1,9 @@
 {
+    "name": "Multiple Devices (C)", 
+    "description": [
+        "This example show how to take advantage of multiple FPGAs on a system. It will show how to initialized an OpenCL context, allocate memory on the two devices and execute a kernel on each FPGA."
+    ],
     "num_devices": "2", 
-    "name": "Multiple FPGA Devices Execution Concurrently (C)", 
     "contributors": [
         {
             "url": "http://www.xilinx.com", 
@@ -49,8 +52,5 @@
             ], 
             "name": "vector_addition"
         }
-    ], 
-    "description": [
-        "This example show how to take advantage of multiple FPGAs on a system. It will show how to initialized an OpenCL context, allocate memory on the two devices and execute a kernel on each FPGA."
     ]
 }

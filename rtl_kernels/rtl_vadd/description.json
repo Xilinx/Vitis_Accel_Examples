@@ -1,6 +1,9 @@
 {
     "config_make": "config.mk", 
-    "name": "Vector Addition With RTL Kernel (RTL)", 
+    "description": [
+        "Simple example of vector addition using RTL Kernel"
+    ], 
+    "name": "Vadd Simple (RTL)", 
     "contributors": [
         {
             "url": "http://www.xilinx.com", 
@@ -21,9 +24,6 @@
         }
     ], 
     "gui": false, 
-    "description": [
-        "Simple example of vector addition using RTL Kernel"
-    ], 
     "host": {
         "host_exe": "host", 
         "compiler": {

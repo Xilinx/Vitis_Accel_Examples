@@ -1,4 +1,4 @@
-Host Global Bandwidth Test
+Data Transfer
 ===========================
 
 This example illustrates how to transfer data back and forth between host and device.

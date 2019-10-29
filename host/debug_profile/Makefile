@@ -123,8 +123,8 @@ ifeq ($(HOST_ARCH), x86)
 	./$(EXECUTABLE) $(BUILD_DIR)/vadd.xclbin
 endif
 endif
-ifeq ($(HOST_ARCH), x86)
-	perf_analyze profile -i profile_summary.csv -f html
+ifeq ($(HOST_ARCH), x86)	
+	perf_analyze profile -i profile_summary.csv -f html	
 endif
 
 sd_card: $(EXECUTABLE) $(BINARY_CONTAINERS) emconfig

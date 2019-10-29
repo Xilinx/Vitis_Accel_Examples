@@ -1,4 +1,4 @@
-Vector Addition ~ Asymmetrical Multiple Compute Units (C)
+Multiple Compute Units (Asymmetrical) (C)
 =========================================================
 
 This example demonstrates how multiple compute units can do parallel processing where the compute units are asymmetrical i.e. connected to different memory banks.

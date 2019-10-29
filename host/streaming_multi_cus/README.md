@@ -1,4 +1,4 @@
-Multiple Compute Units of Streaming Kernel
+Stream Multiple Compute Units
 ======================
 
 This is a simple Vector Add C Kernel design with 2 Stream inputs and 1 Stream output that demonstrates on how to process an input stream of data for computation in an application using multiple compute units.

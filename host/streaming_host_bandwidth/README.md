@@ -1,4 +1,4 @@
-Host Streaming Bandwidth (C)
+Streaming Host to Kernel Bandwidth (C)
 ======================
 
 This is a simple Vector Increment C Kernel design with 1 Stream input and 1 Stream output that demonstrates on how to process an input stream of data for computation in an application and the Host to Device streaming bandwidth test.

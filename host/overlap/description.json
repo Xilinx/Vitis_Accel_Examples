@@ -1,5 +1,8 @@
 {
-    "name": "Overlap Host and HLS kernels (C)", 
+    "name": "Overlap Host and Kernel (C)", 
+    "description": [
+        "This examples demonstrates techniques that allow user to overlap Host(CPU) and FPGA computation in an application. It will cover asynchronous operations and event object."
+    ],
     "contributors": [
         {
             "url": "http://www.xilinx.com", 
@@ -52,8 +55,5 @@
             ], 
             "name": "vector_addition"
         }
-    ], 
-    "description": [
-        "This examples demonstrates techniques that allow user to overlap Host(CPU) and FPGA computation in an application. It will cover asynchronous operations and event object."
     ]
 }

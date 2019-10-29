@@ -1,11 +1,14 @@
 {
+    "name": "Copy Buffer (C)", 
+    "description": [
+        "This Copy Buffer example demonstrate how one buffer can be copied from another buffer."
+    ],
     "ndevice": [
         "xilinx_u200_xdma_201830_1",
         "xilinx_u200_xdma_201830_2",
         "xilinx_u250_xdma_201830_1", 
         "xilinx_u250_xdma_201830_2"
     ],
-    "name": "Copy Buffer (C)", 
     "contributors": [
         {
             "url": "http://www.xilinx.com", 
@@ -51,8 +54,5 @@
             ], 
             "name": "vector_addition"
         }
-    ], 
-    "description": [
-        "This Copy Buffer example demonstrate how one buffer can be copied from another buffer."
-    ]
+    ] 
 }

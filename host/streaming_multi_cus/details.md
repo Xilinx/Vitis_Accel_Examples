@@ -1,4 +1,4 @@
-Multiple Compute Units of Streaming Kernel
+Stream Multiple Compute Units
 ==========================================
 This is a simple vadd Kernel design in which multiple compute units of kernel are directly communicating with host using stream interfaces.
 

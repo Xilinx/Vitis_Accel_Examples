@@ -1,4 +1,4 @@
-Host Global Bandwidth Test
+Host Global Bandwidth
 ===========================
 
 This example tests the data transfer bandwidth between host and global memory for 3 cases : host to global memory transfer, global memory to host transfer and bidirectional transfer.

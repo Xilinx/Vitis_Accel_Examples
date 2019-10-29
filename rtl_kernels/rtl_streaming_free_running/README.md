@@ -1,4 +1,4 @@
-Stream Vector Increment (RTL): Free Running
+Stream Free Running
 ======================
 
 This is a simple Vector Increment RTL Kernel design with 1 Stream input and 1 Stream output that demonstrates on how to process an input stream of data for computation in an application.

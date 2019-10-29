@@ -1,4 +1,8 @@
 {
+    "name": "Systolic Array (C)", 
+    "description": [
+        "This is a simple example of matrix multiplication (Row x Col) to help developers learn systolic array based algorithm design. Note : Systolic array based algorithm design is well suited for FPGA."
+    ],
     "ndevice": [
         "zcu104_base",
         "zc702_base"
@@ -10,7 +14,6 @@
             }
         ]
     }, 
-    "name": "Systolic Array Implementation (C)", 
     "contributors": [
         {
             "url": "http://www.xilinx.com", 
@@ -57,8 +60,5 @@
             ], 
             "name": "mmult"
         }
-    ], 
-    "description": [
-        "This is a simple example of matrix multiplication (Row x Col) to help developers learn systolic array based algorithm design. Note : Systolic array based algorithm design is well suited for FPGA."
     ]
 }

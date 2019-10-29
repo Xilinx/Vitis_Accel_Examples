@@ -1,10 +1,11 @@
 {
+    "name": "Hardware Debug (RTL)", 
+    "description": [
+        "This is an example that showcases the Hardware Debug of Vector Addition RTL Kernel in Hardware."
+    ], 
     "config_make": "config.mk", 
     "runtime": [
         "OpenCL"
-    ], 
-    "description": [
-        "This is an example that showcases the Hardware Debug of Vector Addition RTL Kernel in Hardware."
     ], 
     "contributors": [
         {
@@ -20,7 +21,6 @@
     ], 
     "gui": false, 
     "xcl": true, 
-    "name": "Hardware Debug of Vector Addition With RTL Kernel (RTL)", 
     "host": {
         "host_exe": "host", 
         "compiler": {

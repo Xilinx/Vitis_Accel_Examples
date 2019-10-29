@@ -1,4 +1,4 @@
-host_global
+Host Global Bandwidth
 ======================
 
 Host to global memory bandwidth test

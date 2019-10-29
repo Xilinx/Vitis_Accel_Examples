@@ -1,13 +1,14 @@
 {
+    "name": "Stream Kernel to Kernel",
+    "description": [
+        "This is a simple kernel to kernel streaming Vector Add and Vector Multiply C Kernel that demonstrates on how to process a stream of data for computation between two kernels."
+    ], 
     "ndevice": [
         "zc",
         "xdma",
         "samsung"
     ], 
     "default_device": "xilinx_u200_qdma_201910_1", 
-    "description": [
-        "This is a simple kernel to kernel streaming Vector Add and Vector Multiply C Kernel that demonstrates on how to process a stream of data for computation between two kernels."
-    ], 
     "contributors": [
         {
             "url": "http://www.xilinx.com", 
@@ -67,6 +68,5 @@
             "name": "krnl_stream_vadd_vmult",
 	    "ldclflags": "--config PROJECT/krnl_stream_vadd_vmult.ini"
         }
-    ], 
-    "name": "Stream Kernel to Kernel Vector Addition and Multiplication"
+    ] 
 }

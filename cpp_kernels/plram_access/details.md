@@ -1,4 +1,4 @@
-PLRAM Access
+PLRAM Memory Access
 =============
 This example demonstrates how `PLRAM` feature of the Vitis memory subsystem and how they integrate with the Vitis design process.
 

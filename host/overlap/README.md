@@ -1,4 +1,4 @@
-Overlap Host and HLS kernels (C)
+Overlap Host and Kernel (C)
 ======================
 
 This examples demonstrates techniques that allow user to overlap Host(CPU) and FPGA computation in an application. It will cover asynchronous operations and event object.

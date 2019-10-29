@@ -1,4 +1,4 @@
-Multiple FPGA Devices Execution Concurrently (C)
+Multiple Devices (C)
 ======================
 
 This example show how to take advantage of multiple FPGAs on a system. It will show how to initialized an OpenCL context, allocate memory on the two devices and execute a kernel on each FPGA.

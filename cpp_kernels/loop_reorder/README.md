@@ -1,4 +1,4 @@
-Loop Reorder for better Performance(C)
+Loop Reordering (C)
 ======================
 
 This is a simple example of matrix multiplication (Row x Col) to demonstrate how to achieve better pipeline II factor by loop reordering.

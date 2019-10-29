@@ -1,4 +1,4 @@
-Loop Iteration Dependency
+Loop Dependency Inter
 ==========================
 
 This example demonstrates how extra information about dependency can be specified for variables in consecutive loop iterations using 

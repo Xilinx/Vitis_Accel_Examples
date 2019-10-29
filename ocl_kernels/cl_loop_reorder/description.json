@@ -1,5 +1,8 @@
 {
-    "name": "Loop Reorder for better Performance(CL)", 
+    "name": "Loop Reordering (CL)", 
+    "description": [
+        "This is a simple example of matrix multiplication (Row x Col) to demonstrate how to achieve better pipeline II factor by loop reordering."
+    ],
     "contributors": [
         {
             "url": "http://www.xilinx.com", 
@@ -47,8 +50,5 @@
             ], 
             "name": "mmult"
         }
-    ], 
-    "description": [
-        "This is a simple example of matrix multiplication (Row x Col) to demonstrate how to achieve better pipeline II factor by loop reordering."
-    ]
+    ] 
 }

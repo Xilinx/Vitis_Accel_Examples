@@ -1,13 +1,14 @@
 {
+    "name": "Streaming Host to Kernel Bandwidth (C)",
+    "description": [
+        "This is a simple Vector Increment C Kernel design with 1 Stream input and 1 Stream output that demonstrates on how to process an input stream of data for computation in an application and the Host to Device streaming bandwidth test."
+    ], 
     "ndevice": [
         "zc",
         "xdma",
         "samsung"
     ], 
     "default_device": "xilinx_u200_qdma_201910_1", 
-    "description": [
-        "This is a simple Vector Increment C Kernel design with 1 Stream input and 1 Stream output that demonstrates on how to process an input stream of data for computation in an application and the Host to Device streaming bandwidth test."
-    ], 
     "contributors": [
         {
             "url": "http://www.xilinx.com", 
@@ -62,6 +63,5 @@
             ], 
             "name": "krnl_stream_adder1"
         }
-    ], 
-    "name": "Host Streaming Bandwidth (C)"
+    ]
 }

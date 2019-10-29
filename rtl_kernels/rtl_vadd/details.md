@@ -1,4 +1,4 @@
-Vector Addition with RTL Kernels
+Vadd Simple
 =================================
 
 This example demonstrates simple vector addition with RTL kernel. Two vectors are transferred from host to kernel, added and the result is

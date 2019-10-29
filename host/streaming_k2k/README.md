@@ -1,4 +1,4 @@
-Stream Kernel to Kernel Vector Addition and Multiplication
+Stream Kernel to Kernel
 ======================
 
 This is a simple kernel to kernel streaming Vector Add and Vector Multiply C Kernel that demonstrates on how to process a stream of data for computation between two kernels.

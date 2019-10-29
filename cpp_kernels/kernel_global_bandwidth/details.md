@@ -1,4 +1,4 @@
-Kernel Global Bandwidth Test
+Kernel Global Bandwidth
 ============================
 
 This example tests global memory access bandwidth of kernel. Kernel increase the bandwidth by accessing multiple DDR banks through different interfaces. 

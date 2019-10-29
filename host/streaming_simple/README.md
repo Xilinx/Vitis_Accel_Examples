@@ -1,4 +1,4 @@
-Stream Kernel Simple Example
+Stream Simple
 ======================
 
 This is a simple Vector Add C Kernel design with 2 Stream inputs and 1 Stream output that demonstrates on how streaming kernel can be implemented and how host can directly send data to kernel without global memory.

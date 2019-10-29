@@ -1,8 +1,9 @@
 {
-    "config_make": "config.mk", 
+    "name": "Vadd 2 Kernel Clocks (RTL)", 
     "description": [
         "This example shows vector addition with 2 kernel clocks using RTL Kernel."
     ], 
+    "config_make": "config.mk", 
     "contributors": [
         {
             "url": "http://www.xilinx.com", 
@@ -23,7 +24,6 @@
         }
     ], 
     "gui": false, 
-    "name": "Vector Addition with 2 Kernel Clocks (RTL)", 
     "host": {
         "host_exe": "host", 
         "compiler": {

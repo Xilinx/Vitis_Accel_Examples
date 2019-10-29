@@ -1,4 +1,4 @@
-Streaming Kernel to Kernel (Vector addition and multiplication)
+Streaming Kernel to Kernel
 =============================================================
 This example demonstrates how two kernels `kernel_stream_vadd` and `kernel_stream_vmult` can communicate through a stream interface.
 Rather than loading the results from producer kernel `kernel_stream_vadd` to global memory and then to consumer kernel `kernel_stream_vmult` we can use stream to transfer this data directly. It reduces the latency of the application and also reduces the memory utilization.

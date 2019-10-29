@@ -1,4 +1,4 @@
-kernel_global
+Kernel Global Bandwidth
 ======================
 
 Bandwidth test of global to local memory.
