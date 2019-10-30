@@ -113,7 +113,10 @@ int main(int argc, char *argv[]) {
 
     std::string binaryFile = argv[1];
     cl_int err;
-
+    cl::CommandQueue q;
+    std::string krnl_name = "krnl_vaddmul";
+    std::vector<cl::Kernel> krnls(NUM_KERNEL);
+    cl::Context context;
     std::vector<int, aligned_allocator<int>> source_in1(dataSize);
     std::vector<int, aligned_allocator<int>> source_in2(dataSize);
     std::vector<int, aligned_allocator<int>> source_sw_add_results(dataSize);
@@ -148,46 +151,58 @@ int main(int argc, char *argv[]) {
     // OPENCL HOST CODE AREA START
     // The get_xil_devices will return vector of Xilinx Devices
     auto devices = xcl::get_xil_devices();
-    auto device = devices[0];
-
-    // Creating Context and Command Queue (Out of order) for selected Device
-    OCL_CHECK(err, cl::Context context(device, NULL, NULL, NULL, &err));
-    OCL_CHECK(err,
-              cl::CommandQueue q(context,
-                                 device,
-                                 CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE |
-                                     CL_QUEUE_PROFILING_ENABLE,
-                                 &err));
-
-    std::string device_name = device.getInfo<CL_DEVICE_NAME>();
-    std::cout << "Found Device=" << device_name.c_str() << std::endl;
 
     // read_binary_file() command will find the OpenCL binary file created using the
     // V++ compiler load into OpenCL Binary and return pointer to file buffer.
     auto fileBuf = xcl::read_binary_file(binaryFile);
 
     cl::Program::Binaries bins{{fileBuf.data(), fileBuf.size()}};
-    devices.resize(1);
-    OCL_CHECK(err, cl::Program program(context, devices, bins, NULL, &err));
-
-    // Creating Kernel object using Compute unit names
-    std::string krnl_name = "krnl_vaddmul";
-    std::vector<cl::Kernel> krnls(NUM_KERNEL);
-
-    for (int i = 0; i < NUM_KERNEL; i++) {
-        std::string cu_id = std::to_string(i + 1);
-        std::string krnl_name_full =
-            krnl_name + ":{" + "krnl_vaddmul_" + cu_id + "}";
-
-        printf("Creating a kernel [%s] for CU(%d)\n",
-               krnl_name_full.c_str(),
-               i + 1);
-
-        //Here Kernel object is created by specifying kernel name along with compute unit.
-        //For such case, this kernel object can only access the specific Compute unit
-
+    int valid_device = 0;
+    for (unsigned int i = 0; i < devices.size(); i++) {
+        auto device = devices[i];
+        // Creating Context and Command Queue for selected Device
+        OCL_CHECK(err, context = cl::Context({device}, NULL, NULL, NULL, &err));
         OCL_CHECK(err,
-                  krnls[i] = cl::Kernel(program, krnl_name_full.c_str(), &err));
+                  q = cl::CommandQueue(context,
+                                       {device},
+                                       CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE |
+                                           CL_QUEUE_PROFILING_ENABLE,
+                                       &err));
+
+        std::cout << "Trying to program device[" << i
+                  << "]: " << device.getInfo<CL_DEVICE_NAME>() << std::endl;
+        OCL_CHECK(err,
+                  cl::Program program(context, {device}, bins, NULL, &err));
+        if (err != CL_SUCCESS) {
+            std::cout << "Failed to program device[" << i
+                      << "] with xclbin file!\n";
+        } else {
+            std::cout << "Device[" << i << "]: program successful!\n";
+            // Creating Kernel object using Compute unit names
+
+            for (int i = 0; i < NUM_KERNEL; i++) {
+                std::string cu_id = std::to_string(i + 1);
+                std::string krnl_name_full =
+                    krnl_name + ":{" + "krnl_vaddmul_" + cu_id + "}";
+
+                printf("Creating a kernel [%s] for CU(%d)\n",
+                       krnl_name_full.c_str(),
+                       i + 1);
+
+                //Here Kernel object is created by specifying kernel name along with compute unit.
+                //For such case, this kernel object can only access the specific Compute unit
+
+                OCL_CHECK(err,
+                          krnls[i] = cl::Kernel(
+                              program, krnl_name_full.c_str(), &err));
+            }
+            valid_device++;
+            break; // we break because we found a valid device
+        }
+    }
+    if (valid_device == 0) {
+        std::cout << "Failed to program any device found, exit!\n";
+        exit(EXIT_FAILURE);
     }
 
     std::vector<cl_mem_ext_ptr_t> inBufExt1(NUM_KERNEL);

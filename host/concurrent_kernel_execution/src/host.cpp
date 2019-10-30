@@ -449,6 +449,9 @@ int main(int argc, char **argv) {
     std::string binaryFile = argv[1];
 
     cl_int err;
+    cl::Device device;
+    cl::Context context;
+    cl::Kernel kernel_madd, kernel_mscale, kernel_mmult;
     const size_t array_size = MAT_DIM0 * MAT_DIM1;
     const size_t size_in_bytes = array_size * sizeof(int);
 
@@ -462,22 +465,36 @@ int main(int argc, char **argv) {
     // The get_xil_devices will return vector of Xilinx Devices
     // platforms and will return list of devices connected to Xilinx platform
     auto devices = xcl::get_xil_devices();
-    auto device = devices[0];
-
-    OCL_CHECK(err, cl::Context context(device, NULL, NULL, NULL, &err));
-    OCL_CHECK(err,
-              std::string device_name = device.getInfo<CL_DEVICE_NAME>(&err));
 
     // read_binary_file() is a utility API which will load the binaryFile
     // and will return pointer to file buffer.
     auto fileBuf = xcl::read_binary_file(binaryFile);
     cl::Program::Binaries bins{{fileBuf.data(), fileBuf.size()}};
-    devices.resize(1);
-    OCL_CHECK(err, cl::Program program(context, devices, bins, NULL, &err));
-
-    OCL_CHECK(err, cl::Kernel kernel_madd(program, "madd", &err));
-    OCL_CHECK(err, cl::Kernel kernel_mscale(program, "mscale", &err));
-    OCL_CHECK(err, cl::Kernel kernel_mmult(program, "mmult", &err));
+    int valid_device = 0;
+    for (unsigned int i = 0; i < devices.size(); i++) {
+        device = devices[i];
+        // Creating Context and Command Queue for selected Device
+        OCL_CHECK(err, context = cl::Context({device}, NULL, NULL, NULL, &err));
+        std::cout << "Trying to program device[" << i
+                  << "]: " << device.getInfo<CL_DEVICE_NAME>() << std::endl;
+        OCL_CHECK(err,
+                  cl::Program program(context, {device}, bins, NULL, &err));
+        if (err != CL_SUCCESS) {
+            std::cout << "Failed to program device[" << i
+                      << "] with xclbin file!\n";
+        } else {
+            std::cout << "Device[" << i << "]: program successful!\n";
+            OCL_CHECK(err, kernel_madd = cl::Kernel(program, "madd", &err));
+            OCL_CHECK(err, kernel_mscale = cl::Kernel(program, "mscale", &err));
+            OCL_CHECK(err, kernel_mmult = cl::Kernel(program, "mmult", &err));
+            valid_device++;
+            break; // we break because we found a valid device
+        }
+    }
+    if (valid_device == 0) {
+        std::cout << "Failed to program any device found, exit!\n";
+        exit(EXIT_FAILURE);
+    }
 
     // Allocate Buffer in Global Memory
     // Buffers are allocated using CL_MEM_USE_HOST_PTR for efficient memory and
@@ -547,11 +564,12 @@ int main(int argc, char **argv) {
                        buffer_f,
                        size_in_bytes);
 
-    printf("View the timeline trace in Vitis for a visual overview of the\n"
-           "execution of this example. Refer to the \"Timeline Trace\" section "
-           "of\n"
-           "the Vitis Development Environment Methodology Guide for additional\n"
-           "details.\n");
+    printf(
+        "View the timeline trace in Vitis for a visual overview of the\n"
+        "execution of this example. Refer to the \"Timeline Trace\" section "
+        "of\n"
+        "the Vitis Development Environment Methodology Guide for additional\n"
+        "details.\n");
 
     printf("TEST PASSED\n");
     return EXIT_SUCCESS;

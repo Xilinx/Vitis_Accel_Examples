@@ -47,43 +47,54 @@ int main(int argc, char **argv) {
 
     std::string binaryFile = argv[1];
     cl_int err;
+    cl::Context context;
+    cl::Kernel kernel;
+    cl::CommandQueue q;
     size_t size_in_bytes = DATA_SIZE * sizeof(int);
 
     vector<int, aligned_allocator<int>> source_a(DATA_SIZE, 13);
     vector<int, aligned_allocator<int>> source_results(DATA_SIZE);
 
     auto devices = xcl::get_xil_devices();
-    auto device = devices[0];
-
-    OCL_CHECK(err, cl::Context context(device, NULL, NULL, NULL, &err));
-    OCL_CHECK(
-        err,
-        cl::CommandQueue q(context, device, CL_QUEUE_PROFILING_ENABLE, &err));
-    auto device_name = device.getInfo<CL_DEVICE_NAME>();
-    std::cout << "Found Device=" << device_name.c_str() << std::endl;
-
     auto fileBuf = xcl::read_binary_file(binaryFile);
     cl::Program::Binaries bins{{fileBuf.data(), fileBuf.size()}};
-    devices.resize(1);
-    OCL_CHECK(err, cl::Program program(context, devices, bins, NULL, &err));
+    int valid_device = 0;
+    for (unsigned int i = 0; i < devices.size(); i++) {
+        auto device = devices[i];
+        // Creating Context and Command Queue for selected Device
+        OCL_CHECK(err, context = cl::Context({device}, NULL, NULL, NULL, &err));
+        OCL_CHECK(err,
+                  q = cl::CommandQueue(
+                      context, {device}, CL_QUEUE_PROFILING_ENABLE, &err));
+
+        std::cout << "Trying to program device[" << i
+                  << "]: " << device.getInfo<CL_DEVICE_NAME>() << std::endl;
+        OCL_CHECK(err,
+                  cl::Program program(context, {device}, bins, NULL, &err));
+        if (err != CL_SUCCESS) {
+            std::cout << "Failed to program device[" << i
+                      << "] with xclbin file!\n";
+        } else {
+            std::cout << "Device[" << i << "]: program successful!\n";
+            OCL_CHECK(err, kernel = cl::Kernel(program, "vector_add", &err));
+            valid_device++;
+            break; // we break because we found a valid device
+        }
+    }
+    if (valid_device == 0) {
+        std::cout << "Failed to program any device found, exit!\n";
+        exit(EXIT_FAILURE);
+    }
 
     OCL_CHECK(err,
-              cl::Buffer buffer_a(context,
-                                  CL_MEM_READ_ONLY,
-                                  size_in_bytes,
-                                  nullptr,
-                                  &err));
+              cl::Buffer buffer_a(
+                  context, CL_MEM_READ_ONLY, size_in_bytes, nullptr, &err));
     OCL_CHECK(err,
-              cl::Buffer buffer_result(context,
-                                       CL_MEM_WRITE_ONLY,
-                                       size_in_bytes,
-                                       nullptr,
-                                       &err));
+              cl::Buffer buffer_result(
+                  context, CL_MEM_WRITE_ONLY, size_in_bytes, nullptr, &err));
     OCL_CHECK(err,
               cl::Buffer buffer_b(
                   context, CL_MEM_READ_ONLY, size_in_bytes, NULL, &err));
-
-    OCL_CHECK(err, cl::Kernel kernel(program, "vector_add", &err));
 
     OCL_CHECK(err, err = kernel.setArg(0, buffer_result));
     OCL_CHECK(err, err = kernel.setArg(1, buffer_a));
@@ -91,9 +102,14 @@ int main(int argc, char **argv) {
     OCL_CHECK(err, err = kernel.setArg(3, DATA_SIZE));
 
     //copy buffer a to device.
-    OCL_CHECK(
-        err,
-        err = q.enqueueWriteBuffer(buffer_a, CL_TRUE, 0, size_in_bytes, source_a.data(), nullptr, nullptr));
+    OCL_CHECK(err,
+              err = q.enqueueWriteBuffer(buffer_a,
+                                         CL_TRUE,
+                                         0,
+                                         size_in_bytes,
+                                         source_a.data(),
+                                         nullptr,
+                                         nullptr));
 
     OCL_CHECK(
         err,
@@ -108,7 +124,13 @@ int main(int argc, char **argv) {
     OCL_CHECK(err, err = q.enqueueNDRangeKernel(kernel, 0, 1, 1, NULL, NULL));
 
     OCL_CHECK(err,
-             err = q.enqueueReadBuffer(buffer_result, CL_TRUE, 0, size_in_bytes, source_results.data(), nullptr, nullptr));
+              err = q.enqueueReadBuffer(buffer_result,
+                                        CL_TRUE,
+                                        0,
+                                        size_in_bytes,
+                                        source_results.data(),
+                                        nullptr,
+                                        nullptr));
     OCL_CHECK(err, err = q.finish());
 
     int match = 0;

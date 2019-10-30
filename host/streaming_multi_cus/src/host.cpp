@@ -98,55 +98,68 @@ int main(int argc, char **argv) {
 
     // OpenCL Host Code Begins
     cl_int err;
-
+    std::string cu_id;
+    std::string krnl_name = "krnl_stream_vadd";
+    std::vector<cl::Kernel> krnls(NCU);
     int no_of_elem = size / NCU;
-
+    cl::CommandQueue q;
+    cl::Context context;
+    cl::Device device;
     // get_xil_devices() is a utility API which will find the xilinx
     // platforms and will return list of devices connected to Xilinx platform
     auto devices = xcl::get_xil_devices();
-
-    // Selecting the first available Xilinx device
-    auto device = devices[0];
-
-    auto platform_id = device.getInfo<CL_DEVICE_PLATFORM>(&err);
-
-    //Initialization of streaming class is needed before using it.
-    xcl::Stream::init(platform_id);
-
-    // Creating Context
-    OCL_CHECK(err, cl::Context context(device, NULL, NULL, NULL, &err));
-
-    // Creating Command Queue
-    OCL_CHECK(err,
-              cl::CommandQueue q(context,
-                                 device,
-                                 CL_QUEUE_PROFILING_ENABLE |
-                                     CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE,
-                                 &err));
-    OCL_CHECK(err,
-              std::string device_name = device.getInfo<CL_DEVICE_NAME>(&err));
 
     // read_binary_file() is a utility API which will load the binaryFile
     // and will return the pointer to file buffer.
     auto fileBuf = xcl::read_binary_file(binaryFile);
     cl::Program::Binaries bins{{fileBuf.data(), fileBuf.size()}};
-    devices.resize(1);
+    int valid_device = 0;
+    for (unsigned int i = 0; i < devices.size(); i++) {
+        device = devices[i];
+        // Creating Context and Command Queue for selected Device
+        OCL_CHECK(err, context = cl::Context({device}, NULL, NULL, NULL, &err));
+        OCL_CHECK(
+            err,
+            q = cl::CommandQueue(context,
+                                 {device},
+                                 CL_QUEUE_PROFILING_ENABLE |
+                                     CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE,
+                                 &err));
 
-    // Creating Program
-    OCL_CHECK(err, cl::Program program(context, devices, bins, NULL, &err));
-
-    // Creating Kernel
-    std::string cu_id;
-    std::string krnl_name = "krnl_stream_vadd";
-    std::vector<cl::Kernel> krnls(NCU);
-    for (int i = 0; i < NCU; i++) {
-        cu_id = std::to_string(i + 1);
-        auto krnl_name_full = krnl_name + ":{" + "vadd_" + cu_id + "}";
-        printf(
-            "Creating a kernel [%s] for CU(%d)\n", krnl_name_full.c_str(), i);
+        std::cout << "Trying to program device[" << i
+                  << "]: " << device.getInfo<CL_DEVICE_NAME>() << std::endl;
         OCL_CHECK(err,
-                  krnls[i] = cl::Kernel(program, krnl_name_full.c_str(), &err));
+                  cl::Program program(context, {device}, bins, NULL, &err));
+        if (err != CL_SUCCESS) {
+            std::cout << "Failed to program device[" << i
+                      << "] with xclbin file!\n";
+        } else {
+            std::cout << "Device[" << i << "]: program successful!\n";
+            // Creating Kernel
+            for (int i = 0; i < NCU; i++) {
+                cu_id = std::to_string(i + 1);
+                auto krnl_name_full = krnl_name + ":{" + "vadd_" + cu_id + "}";
+                printf("Creating a kernel [%s] for CU(%d)\n",
+                       krnl_name_full.c_str(),
+                       i);
+                OCL_CHECK(err,
+                          krnls[i] = cl::Kernel(
+                              program, krnl_name_full.c_str(), &err));
+            }
+
+            valid_device++;
+            break; // we break because we found a valid device
+        }
     }
+    if (valid_device == 0) {
+        std::cout << "Failed to program any device found, exit!\n";
+        exit(EXIT_FAILURE);
+    }
+
+    auto platform_id = device.getInfo<CL_DEVICE_PLATFORM>(&err);
+
+    //Initialization of streaming class is needed before using it.
+    xcl::Stream::init(platform_id);
 
     // Streams
     std::vector<cl_stream> write_stream_a(NCU);

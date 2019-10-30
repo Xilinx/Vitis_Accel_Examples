@@ -94,7 +94,6 @@ int main(int argc, char **argv) {
     cl::Device device;
     cl::Context context;
     cl::CommandQueue q;
-    cl::Program program;
     cl::Kernel krnl_vadd;
 
     auto binaryFile = argv[1];
@@ -103,34 +102,44 @@ int main(int argc, char **argv) {
     // platforms and will return list of devices connected to Xilinx platform
     auto devices = xcl::get_xil_devices();
 
-    // Selecting the first available Xilinx device
-    device = devices[0];
+    // read_binary_file() is a utility API which will load the binaryFile
+    // and will return the pointer to file buffer.
+    auto fileBuf = xcl::read_binary_file(binaryFile);
+    cl::Program::Binaries bins{{fileBuf.data(), fileBuf.size()}};
+    int valid_device = 0;
+    for (unsigned int i = 0; i < devices.size(); i++) {
+        device = devices[i];
+        // Creating Context and Command Queue for selected Device
+        OCL_CHECK(err, context = cl::Context({device}, NULL, NULL, NULL, &err));
+        OCL_CHECK(err,
+                  q = cl::CommandQueue(
+                      context, {device}, CL_QUEUE_PROFILING_ENABLE, &err));
+
+        std::cout << "Trying to program device[" << i
+                  << "]: " << device.getInfo<CL_DEVICE_NAME>() << std::endl;
+        OCL_CHECK(err,
+                  cl::Program program(context, {device}, bins, NULL, &err));
+        if (err != CL_SUCCESS) {
+            std::cout << "Failed to program device[" << i
+                      << "] with xclbin file!\n";
+        } else {
+            std::cout << "Device[" << i << "]: program successful!\n";
+            // Creating Kernel
+            OCL_CHECK(
+                err, krnl_vadd = cl::Kernel(program, "krnl_stream_vadd", &err));
+            valid_device++;
+            break; // we break because we found a valid device
+        }
+    }
+    if (valid_device == 0) {
+        std::cout << "Failed to program any device found, exit!\n";
+        exit(EXIT_FAILURE);
+    }
+
     cl_platform_id platform_id = device.getInfo<CL_DEVICE_PLATFORM>(&err);
 
     //Initialization of streaming class is needed before using it.
     xcl::Stream::init(platform_id);
-
-    // Creating Context
-    OCL_CHECK(err, context = cl::Context(device, NULL, NULL, NULL, &err));
-
-    // Creating Command Queue
-    OCL_CHECK(
-        err,
-        q = cl::CommandQueue(context, device, CL_QUEUE_PROFILING_ENABLE, &err));
-
-    // read_binary_file() is a utility API which will load the binaryFile
-    // and will return the pointer to file buffer.
-    auto fileBuf = xcl::read_binary_file(binaryFile);
-
-    cl::Program::Binaries bins{{fileBuf.data(), fileBuf.size()}};
-    devices.resize(1);
-
-    // Creating Program
-    OCL_CHECK(err, program = cl::Program(context, devices, bins, NULL, &err));
-
-    // Creating Kernel
-    OCL_CHECK(err, krnl_vadd = cl::Kernel(program, "krnl_stream_vadd", &err));
-
     std::cout << "Vector Addition of elements 0x" << std::hex << size
               << std::endl;
 

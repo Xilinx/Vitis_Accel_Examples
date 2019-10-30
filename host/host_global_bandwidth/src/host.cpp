@@ -167,29 +167,47 @@ int main(int argc, char **argv) {
                          {536870912, 2}};
 
     cl_int err;
+    cl::Context context;
+    cl::CommandQueue command_queue;
+    cl::Kernel krnl_bandwidth;
     // The get_xil_devices will return vector of Xilinx Devices
     auto devices = xcl::get_xil_devices();
-    auto device = devices[0];
-
-    //Creating Context and Command Queue for selected Device
-    OCL_CHECK(err, cl::Context context(device, NULL, NULL, NULL, &err));
-    OCL_CHECK(
-        err,
-        cl::CommandQueue command_queue(
-            context,
-            device,
-            CL_QUEUE_PROFILING_ENABLE | CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE,
-            &err));
-    OCL_CHECK(err,
-              std::string device_name = device.getInfo<CL_DEVICE_NAME>(&err));
-    std::cout << "Found Device=" << device_name.c_str() << std::endl;
 
     // read_binary() command will find the OpenCL binary file
     auto fileBuf = xcl::read_binary_file(binaryFile);
     cl::Program::Binaries bins{{fileBuf.data(), fileBuf.size()}};
-    devices.resize(1);
-    OCL_CHECK(err, cl::Program program(context, devices, bins, NULL, &err));
-    OCL_CHECK(err, cl::Kernel krnl_bandwidth(program, "bandwidth", &err));
+    int valid_device = 0;
+    for (unsigned int i = 0; i < devices.size(); i++) {
+        auto device = devices[i];
+        // Creating Context and Command Queue for selected Device
+        OCL_CHECK(err, context = cl::Context({device}, NULL, NULL, NULL, &err));
+        OCL_CHECK(err,
+                  command_queue = cl::CommandQueue(
+                      context,
+                      {device},
+                      CL_QUEUE_PROFILING_ENABLE |
+                          CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE,
+                      &err));
+
+        std::cout << "Trying to program device[" << i
+                  << "]: " << device.getInfo<CL_DEVICE_NAME>() << std::endl;
+        OCL_CHECK(err,
+                  cl::Program program(context, {device}, bins, NULL, &err));
+        if (err != CL_SUCCESS) {
+            std::cout << "Failed to program device[" << i
+                      << "] with xclbin file!\n";
+        } else {
+            std::cout << "Device[" << i << "]: program successful!\n";
+            OCL_CHECK(err,
+                      krnl_bandwidth = cl::Kernel(program, "bandwidth", &err));
+            valid_device++;
+            break; // we break because we found a valid device
+        }
+    }
+    if (valid_device == 0) {
+        std::cout << "Failed to program any device found, exit!\n";
+        exit(EXIT_FAILURE);
+    }
 
     const int dim1 = sizeof(buff_tab) / (2 * 4);
 

@@ -87,6 +87,9 @@ int main(int argc, char **argv) {
     cl::Context context;
     cl::CommandQueue q;
     cl::Program program;
+    std::string cu_id;
+    std::string krnl_name = "vadd";
+    std::vector<cl::Kernel> krnls(NCU);
 
     auto binaryFile = argv[1];
 
@@ -94,43 +97,53 @@ int main(int argc, char **argv) {
     // platforms and will return list of devices connected to Xilinx platform
     auto devices = xcl::get_xil_devices();
 
-    // Selecting the first available Xilinx device
-    device = devices[0];
-
-    // Creating Context
-    OCL_CHECK(err, context = cl::Context(device, NULL, NULL, NULL, &err));
-
-    // Creating Command Queue
-    OCL_CHECK(err,
-              q = cl::CommandQueue(context,
-                                   device,
-                                   CL_QUEUE_PROFILING_ENABLE |
-                                       CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE,
-                                   &err));
-
     // read_binary_file() is a utility API which will load the binaryFile
     // and will return the pointer to file buffer.
     auto fileBuf = xcl::read_binary_file(binaryFile);
-
     cl::Program::Binaries bins{{fileBuf.data(), fileBuf.size()}};
-    devices.resize(1);
+    int valid_device = 0;
+    for (unsigned int i = 0; i < devices.size(); i++) {
+        auto device = devices[i];
+        // Creating Context and Command Queue for selected Device
+        OCL_CHECK(err, context = cl::Context({device}, NULL, NULL, NULL, &err));
+        OCL_CHECK(
+            err,
+            q = cl::CommandQueue(context,
+                                 {device},
+                                 CL_QUEUE_PROFILING_ENABLE |
+                                     CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE,
+                                 &err));
 
-    // Creating Program
-    OCL_CHECK(err, program = cl::Program(context, devices, bins, NULL, &err));
-
-    // Creating Kernel object using Compute unit names
-    std::string cu_id;
-    std::string krnl_name = "vadd";
-    std::vector<cl::Kernel> krnls(NCU);
-    for (int i = 0; i < NCU; i++) {
-        cu_id = std::to_string(i + 1);
-        std::string krnl_name_full = krnl_name + ":{" + "vadd_" + cu_id + "}";
-        printf(
-            "Creating a kernel [%s] for CU(%d)\n", krnl_name_full.c_str(), i);
-        //Here Kernel object is created by specifying kernel name along with compute unit.
-        //For such case, this kernel object can only access the specific Compute unit
+        std::cout << "Trying to program device[" << i
+                  << "]: " << device.getInfo<CL_DEVICE_NAME>() << std::endl;
         OCL_CHECK(err,
-                  krnls[i] = cl::Kernel(program, krnl_name_full.c_str(), &err));
+                  cl::Program program(context, {device}, bins, NULL, &err));
+        if (err != CL_SUCCESS) {
+            std::cout << "Failed to program device[" << i
+                      << "] with xclbin file!\n";
+        } else {
+            std::cout << "Device[" << i << "]: program successful!\n";
+            // Creating Kernel object using Compute unit names
+            for (int i = 0; i < NCU; i++) {
+                cu_id = std::to_string(i + 1);
+                std::string krnl_name_full =
+                    krnl_name + ":{" + "vadd_" + cu_id + "}";
+                printf("Creating a kernel [%s] for CU(%d)\n",
+                       krnl_name_full.c_str(),
+                       i);
+                //Here Kernel object is created by specifying kernel name along with compute unit.
+                //For such case, this kernel object can only access the specific Compute unit
+                OCL_CHECK(err,
+                          krnls[i] = cl::Kernel(
+                              program, krnl_name_full.c_str(), &err));
+            }
+            valid_device++;
+            break; // we break because we found a valid device
+        }
+    }
+    if (valid_device == 0) {
+        std::cout << "Failed to program any device found, exit!\n";
+        exit(EXIT_FAILURE);
     }
 
     // Creating Buffers
