@@ -17,7 +17,7 @@
     <link rel="icon" type="image/vnd.microsoft.icon" href="https://www.xilinx.com/etc.clientlibs/site/clientlibs/xilinx/all/resources/favicon.ico">
     <link rel="shortcut icon" type="image/vnd.microsoft.icon" href="https://www.xilinx.com/etc.clientlibs/site/clientlibs/xilinx/all/resources/favicon.ico">
   
-  <title>kernel_global &mdash; VITIS ACCEL EXAMPLES  documentation</title>
+  <title>Kernel Global Bandwidth &mdash; VITIS ACCEL EXAMPLES  documentation</title>
   
 <!-- Header information provided by Emily-->
     <meta name="apple-itunes-app" content="app-id=1063287962">
@@ -61,7 +61,7 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Two Parallel Read/Write on Local Memory" href="lmem_2rw.html" />
+    <link rel="next" title="Local Memory Two Parallel Read/Write" href="lmem_2rw.html" />
     <link rel="prev" title="Global Memory Two Banks" href="gmem_2banks.html" /> 
 </head>
 
@@ -171,21 +171,21 @@
 <li class="toctree-l2"><a class="reference internal" href="custom_datatype.html">Custom Data Type</a></li>
 <li class="toctree-l2"><a class="reference internal" href="dataflow_stream.html">Dataflow Using HLS Stream</a></li>
 <li class="toctree-l2"><a class="reference internal" href="dataflow_stream_array.html">Dataflow Using Array of HLS Stream</a></li>
-<li class="toctree-l2"><a class="reference internal" href="dependence_inter.html">Loop Iteration Dependency</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dependence_inter.html">Loop Dependency Inter</a></li>
 <li class="toctree-l2"><a class="reference internal" href="gmem_2banks.html">Global Memory Two Banks</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">kernel_global</a><ul>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Kernel Global Bandwidth</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#supported-shells">SUPPORTED SHELLS</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#design-files">DESIGN FILES</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#command-line-arguments">COMMAND LINE ARGUMENTS</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="lmem_2rw.html">Two Parallel Read/Write on Local Memory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lmem_2rw.html">Local Memory Two Parallel Read/Write</a></li>
 <li class="toctree-l2"><a class="reference internal" href="loop_pipeline.html">Loop Pipelining</a></li>
-<li class="toctree-l2"><a class="reference internal" href="loop_reorder.html">Loop Reorder for better Performance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="loop_reorder.html">Loop Reordering</a></li>
 <li class="toctree-l2"><a class="reference internal" href="partition_cyclicblock.html">Array Block and Cyclic Partitioning</a></li>
-<li class="toctree-l2"><a class="reference internal" href="plram_access.html">PLRAM access</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plram_access.html">PLRAM Memory Access</a></li>
 <li class="toctree-l2"><a class="reference internal" href="shift_register.html">Shift Register</a></li>
-<li class="toctree-l2"><a class="reference internal" href="systolic_array.html">Systolic Array Implementation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="systolic_array.html">Systolic Array</a></li>
 <li class="toctree-l2"><a class="reference internal" href="wide_mem_rw.html">Wide Memory Read/Write</a></li>
 </ul>
 </li>
@@ -249,7 +249,7 @@
         
           <li><a href="cpp.html">C++ Kernels</a> &raquo;</li>
         
-      <li>kernel_global</li>
+      <li>Kernel Global Bandwidth</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -268,8 +268,8 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="kernel-global">
-<h1>kernel_global<a class="headerlink" href="#kernel-global" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="kernel-global-bandwidth">
+<h1>Kernel Global Bandwidth<a class="headerlink" href="#kernel-global-bandwidth" title="Permalink to this headline">¶</a></h1>
 <p>Bandwidth test of global to local memory.</p>
 <p>This example tests global memory access bandwidth of kernel. Kernel
 increase the bandwidth by accessing multiple DDR banks through different
@@ -369,7 +369,7 @@ executed by</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="lmem_2rw.html" class="btn btn-neutral float-right" title="Two Parallel Read/Write on Local Memory" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="lmem_2rw.html" class="btn btn-neutral float-right" title="Local Memory Two Parallel Read/Write" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="gmem_2banks.html" class="btn btn-neutral float-left" title="Global Memory Two Banks" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

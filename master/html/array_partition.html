@@ -176,16 +176,16 @@
 <li class="toctree-l2"><a class="reference internal" href="custom_datatype.html">Custom Data Type</a></li>
 <li class="toctree-l2"><a class="reference internal" href="dataflow_stream.html">Dataflow Using HLS Stream</a></li>
 <li class="toctree-l2"><a class="reference internal" href="dataflow_stream_array.html">Dataflow Using Array of HLS Stream</a></li>
-<li class="toctree-l2"><a class="reference internal" href="dependence_inter.html">Loop Iteration Dependency</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dependence_inter.html">Loop Dependency Inter</a></li>
 <li class="toctree-l2"><a class="reference internal" href="gmem_2banks.html">Global Memory Two Banks</a></li>
-<li class="toctree-l2"><a class="reference internal" href="kernel_global_bandwidth.html">kernel_global</a></li>
-<li class="toctree-l2"><a class="reference internal" href="lmem_2rw.html">Two Parallel Read/Write on Local Memory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="kernel_global_bandwidth.html">Kernel Global Bandwidth</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lmem_2rw.html">Local Memory Two Parallel Read/Write</a></li>
 <li class="toctree-l2"><a class="reference internal" href="loop_pipeline.html">Loop Pipelining</a></li>
-<li class="toctree-l2"><a class="reference internal" href="loop_reorder.html">Loop Reorder for better Performance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="loop_reorder.html">Loop Reordering</a></li>
 <li class="toctree-l2"><a class="reference internal" href="partition_cyclicblock.html">Array Block and Cyclic Partitioning</a></li>
-<li class="toctree-l2"><a class="reference internal" href="plram_access.html">PLRAM access</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plram_access.html">PLRAM Memory Access</a></li>
 <li class="toctree-l2"><a class="reference internal" href="shift_register.html">Shift Register</a></li>
-<li class="toctree-l2"><a class="reference internal" href="systolic_array.html">Systolic Array Implementation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="systolic_array.html">Systolic Array</a></li>
 <li class="toctree-l2"><a class="reference internal" href="wide_mem_rw.html">Wide Memory Read/Write</a></li>
 </ul>
 </li>
@@ -298,6 +298,20 @@ dimension of local Matrix array as below</p>
 </div>
 <p>This array partition helps design to access 2nd dimension of both Matrix
 B and C concurrently to reduce the overall latency.</p>
+<p>To see the benefit of array partition, user can look into system
+estimate report and see overall latency. Latency Information of normal
+matmul kernel (without partition):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Compute</span> <span class="n">Unit</span>  <span class="n">Kernel</span> <span class="n">Name</span>  <span class="n">Module</span> <span class="n">Name</span>  <span class="n">Start</span> <span class="n">Interval</span>  <span class="n">Best</span> <span class="p">(</span><span class="n">cycles</span><span class="p">)</span>  <span class="n">Avg</span> <span class="p">(</span><span class="n">cycles</span><span class="p">)</span>  <span class="n">Worst</span> <span class="p">(</span><span class="n">cycles</span><span class="p">)</span>  <span class="n">Best</span> <span class="p">(</span><span class="n">absolute</span><span class="p">)</span>  <span class="n">Avg</span> <span class="p">(</span><span class="n">absolute</span><span class="p">)</span>  <span class="n">Worst</span> <span class="p">(</span><span class="n">absolute</span><span class="p">)</span>
+<span class="o">------------</span>  <span class="o">-----------</span>  <span class="o">-----------</span>  <span class="o">--------------</span>  <span class="o">-------------</span>  <span class="o">------------</span>  <span class="o">--------------</span>  <span class="o">---------------</span>  <span class="o">--------------</span>  <span class="o">----------------</span>
+<span class="n">matmul_1</span>      <span class="n">matmul</span>       <span class="n">matmul</span>       <span class="mi">2856</span> <span class="o">~</span> <span class="mi">2859</span>     <span class="mi">2855</span>           <span class="mi">2857</span>          <span class="mi">2858</span>            <span class="mf">9.516</span> <span class="n">us</span>         <span class="mf">9.522</span> <span class="n">us</span>        <span class="mf">9.526</span> <span class="n">us</span>
+</pre></div>
+</div>
+<p>Latency Information for matrix multiplication for kernel with partition:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Compute</span> <span class="n">Unit</span>        <span class="n">Kernel</span> <span class="n">Name</span>       <span class="n">Module</span> <span class="n">Name</span>       <span class="n">Start</span> <span class="n">Interval</span>  <span class="n">Best</span> <span class="p">(</span><span class="n">cycles</span><span class="p">)</span>  <span class="n">Avg</span> <span class="p">(</span><span class="n">cycles</span><span class="p">)</span>  <span class="n">Worst</span> <span class="p">(</span><span class="n">cycles</span><span class="p">)</span>  <span class="n">Best</span> <span class="p">(</span><span class="n">absolute</span><span class="p">)</span>  <span class="n">Avg</span> <span class="p">(</span><span class="n">absolute</span><span class="p">)</span>  <span class="n">Worst</span> <span class="p">(</span><span class="n">absolute</span><span class="p">)</span>
+<span class="o">------------------</span>  <span class="o">----------------</span>  <span class="o">----------------</span>  <span class="o">--------------</span>  <span class="o">-------------</span>  <span class="o">------------</span>  <span class="o">--------------</span>  <span class="o">---------------</span>  <span class="o">--------------</span>  <span class="o">----------------</span>
+<span class="n">matmul_partition_1</span>  <span class="n">matmul_partition</span>  <span class="n">matmul_partition</span>  <span class="mi">1063</span> <span class="o">~</span> <span class="mi">1066</span>     <span class="mi">1062</span>           <span class="mi">1064</span>          <span class="mi">1065</span>            <span class="mf">3.540</span> <span class="n">us</span>         <span class="mf">3.546</span> <span class="n">us</span>        <span class="mf">3.550</span> <span class="n">us</span>
+</pre></div>
+</div>
 <p>Example generates the following information as output when ran on Alevo
 U200 Card:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Found</span> <span class="n">Platform</span>

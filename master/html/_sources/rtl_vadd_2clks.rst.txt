@@ -1,5 +1,5 @@
-Vector Addition with 2 Kernel Clocks 
-=====================================
+Vadd 2 Kernel Clocks 
+=====================
 
 This example shows vector addition with 2 kernel clocks using RTL
 Kernel.

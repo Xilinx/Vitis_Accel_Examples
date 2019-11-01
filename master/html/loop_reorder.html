@@ -17,7 +17,7 @@
     <link rel="icon" type="image/vnd.microsoft.icon" href="https://www.xilinx.com/etc.clientlibs/site/clientlibs/xilinx/all/resources/favicon.ico">
     <link rel="shortcut icon" type="image/vnd.microsoft.icon" href="https://www.xilinx.com/etc.clientlibs/site/clientlibs/xilinx/all/resources/favicon.ico">
   
-  <title>Loop Reorder for better Performance &mdash; VITIS ACCEL EXAMPLES  documentation</title>
+  <title>Loop Reordering &mdash; VITIS ACCEL EXAMPLES  documentation</title>
   
 <!-- Header information provided by Emily-->
     <meta name="apple-itunes-app" content="app-id=1063287962">
@@ -171,21 +171,21 @@
 <li class="toctree-l2"><a class="reference internal" href="custom_datatype.html">Custom Data Type</a></li>
 <li class="toctree-l2"><a class="reference internal" href="dataflow_stream.html">Dataflow Using HLS Stream</a></li>
 <li class="toctree-l2"><a class="reference internal" href="dataflow_stream_array.html">Dataflow Using Array of HLS Stream</a></li>
-<li class="toctree-l2"><a class="reference internal" href="dependence_inter.html">Loop Iteration Dependency</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dependence_inter.html">Loop Dependency Inter</a></li>
 <li class="toctree-l2"><a class="reference internal" href="gmem_2banks.html">Global Memory Two Banks</a></li>
-<li class="toctree-l2"><a class="reference internal" href="kernel_global_bandwidth.html">kernel_global</a></li>
-<li class="toctree-l2"><a class="reference internal" href="lmem_2rw.html">Two Parallel Read/Write on Local Memory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="kernel_global_bandwidth.html">Kernel Global Bandwidth</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lmem_2rw.html">Local Memory Two Parallel Read/Write</a></li>
 <li class="toctree-l2"><a class="reference internal" href="loop_pipeline.html">Loop Pipelining</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Loop Reorder for better Performance</a><ul>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Loop Reordering</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#supported-shells">SUPPORTED SHELLS</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#design-files">DESIGN FILES</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#command-line-arguments">COMMAND LINE ARGUMENTS</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="partition_cyclicblock.html">Array Block and Cyclic Partitioning</a></li>
-<li class="toctree-l2"><a class="reference internal" href="plram_access.html">PLRAM access</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plram_access.html">PLRAM Memory Access</a></li>
 <li class="toctree-l2"><a class="reference internal" href="shift_register.html">Shift Register</a></li>
-<li class="toctree-l2"><a class="reference internal" href="systolic_array.html">Systolic Array Implementation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="systolic_array.html">Systolic Array</a></li>
 <li class="toctree-l2"><a class="reference internal" href="wide_mem_rw.html">Wide Memory Read/Write</a></li>
 </ul>
 </li>
@@ -249,7 +249,7 @@
         
           <li><a href="cpp.html">C++ Kernels</a> &raquo;</li>
         
-      <li>Loop Reorder for better Performance</li>
+      <li>Loop Reordering</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -268,8 +268,8 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="loop-reorder-for-better-performance">
-<h1>Loop Reorder for better Performance<a class="headerlink" href="#loop-reorder-for-better-performance" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="loop-reordering">
+<h1>Loop Reordering<a class="headerlink" href="#loop-reordering" title="Permalink to this headline">¶</a></h1>
 <p>This is a simple example of matrix multiplication (Row x Col) to
 demonstrate how to achieve better pipeline II factor by loop reordering.</p>
 <p><strong>KEY CONCEPTS:</strong> Kernel Optimization, Loop reorder to improve II</p>

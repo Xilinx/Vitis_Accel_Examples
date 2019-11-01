@@ -17,7 +17,7 @@
     <link rel="icon" type="image/vnd.microsoft.icon" href="https://www.xilinx.com/etc.clientlibs/site/clientlibs/xilinx/all/resources/favicon.ico">
     <link rel="shortcut icon" type="image/vnd.microsoft.icon" href="https://www.xilinx.com/etc.clientlibs/site/clientlibs/xilinx/all/resources/favicon.ico">
   
-  <title>Stream Kernel Simple Example &mdash; VITIS ACCEL EXAMPLES  documentation</title>
+  <title>Stream Simple &mdash; VITIS ACCEL EXAMPLES  documentation</title>
   
 <!-- Header information provided by Emily-->
     <meta name="apple-itunes-app" content="app-id=1063287962">
@@ -62,7 +62,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="C++ Kernels" href="cpp.html" />
-    <link rel="prev" title="Stream Vector Addition (Multiple Compute Units)" href="streaming_multi_cus.html" /> 
+    <link rel="prev" title="Stream Multiple Compute Units" href="streaming_multi_cus.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -168,23 +168,23 @@
 <li class="toctree-l2"><a class="reference internal" href="copy_buffer.html">Copy Buffer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="data_transfer.html">Data Transfer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="device_query.html">Device Query (CPP)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="debug_profile.html">Printing Profile Data and Dumping Waveform file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="debug_profile.html">Debug Profile</a></li>
 <li class="toctree-l2"><a class="reference internal" href="errors.html">Error Handling</a></li>
 <li class="toctree-l2"><a class="reference internal" href="errors_cpp.html">Error Handling (CPP)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="hbm_bandwidth.html">HBM Bandwidth</a></li>
-<li class="toctree-l2"><a class="reference internal" href="hbm_simple.html">HBM Simple Vector Addition</a></li>
-<li class="toctree-l2"><a class="reference internal" href="host_global_bandwidth.html">host_global</a></li>
-<li class="toctree-l2"><a class="reference internal" href="multiple_cus_asymmetrical.html">Vector Addition ~ Asymmetrical Multiple Compute Units</a></li>
-<li class="toctree-l2"><a class="reference internal" href="mult_compute_units.html">Vector Addition ~ Multiple Compute Units</a></li>
-<li class="toctree-l2"><a class="reference internal" href="overlap.html">Overlap Host and HLS kernels</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hbm_simple.html">HBM Simple</a></li>
+<li class="toctree-l2"><a class="reference internal" href="host_global_bandwidth.html">Host Global Bandwidth</a></li>
+<li class="toctree-l2"><a class="reference internal" href="multiple_cus_asymmetrical.html">Multiple Compute Units (Asymmetrical)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mult_compute_units.html">Multiple Compute Units</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overlap.html">Overlap Host and Kernel</a></li>
 <li class="toctree-l2"><a class="reference internal" href="streaming_chain.html">Stream Chain Matrix Multiplication</a></li>
-<li class="toctree-l2"><a class="reference internal" href="streaming_host_bandwidth.html">Host Streaming Bandwidth</a></li>
-<li class="toctree-l2"><a class="reference internal" href="streaming_free_running_kernel.html">Free Running Kernel (HLS C/C++)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="streaming_k2k.html">Stream Kernel to Kernel Vector Addition and Multiplication</a></li>
-<li class="toctree-l2"><a class="reference internal" href="streaming_k2k_mm.html">Stream Kernel to Kernel Vector Addition and Multiplication</a></li>
-<li class="toctree-l2"><a class="reference internal" href="streaming_mm_mixed.html">Stream Vector Addition with OpenCL Buffers</a></li>
-<li class="toctree-l2"><a class="reference internal" href="streaming_multi_cus.html">Stream Vector Addition (Multiple Compute Units)</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Stream Kernel Simple Example</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="streaming_host_bandwidth.html">Streaming Host to Kernel Bandwidth</a></li>
+<li class="toctree-l2"><a class="reference internal" href="streaming_free_running_kernel.html">Stream Free Running Kernel (HLS C/C++)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="streaming_k2k.html">Stream Kernel to Kernel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="streaming_k2k_mm.html">Stream Kernel to Kernel Memory Mapped</a></li>
+<li class="toctree-l2"><a class="reference internal" href="streaming_mm_mixed.html">Stream Memory Map Mixed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="streaming_multi_cus.html">Stream Multiple Compute Units</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Stream Simple</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#supported-shells">SUPPORTED SHELLS</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#design-files">DESIGN FILES</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#command-line-arguments">COMMAND LINE ARGUMENTS</a></li>
@@ -253,7 +253,7 @@
         
           <li><a href="host.html">Host</a> &raquo;</li>
         
-      <li>Stream Kernel Simple Example</li>
+      <li>Stream Simple</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -272,8 +272,8 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="stream-kernel-simple-example">
-<h1>Stream Kernel Simple Example<a class="headerlink" href="#stream-kernel-simple-example" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="stream-simple">
+<h1>Stream Simple<a class="headerlink" href="#stream-simple" title="Permalink to this headline">¶</a></h1>
 <p>This is a simple Vector Add C Kernel design with 2 Stream inputs and 1
 Stream output that demonstrates on how streaming kernel can be
 implemented and how host can directly send data to kernel without global
@@ -478,7 +478,7 @@ executed by</p>
         <a href="cpp.html" class="btn btn-neutral float-right" title="C++ Kernels" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="streaming_multi_cus.html" class="btn btn-neutral float-left" title="Stream Vector Addition (Multiple Compute Units)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="streaming_multi_cus.html" class="btn btn-neutral float-left" title="Stream Multiple Compute Units" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

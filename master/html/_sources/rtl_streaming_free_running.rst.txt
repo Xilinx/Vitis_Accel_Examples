@@ -1,5 +1,5 @@
-Stream Vector Increment : Free Running
-======================================
+Stream Free Running
+===================
 
 This is a simple Vector Increment RTL Kernel design with 1 Stream input
 and 1 Stream output that demonstrates on how to process an input stream
@@ -36,7 +36,6 @@ SHELL            Board             Software Version
 ================ ================= ================
 xilinx_u200_qdma Xilinx Alveo U200 Vitis 2019.2
 xilinx_u250_qdma Xilinx Alveo U250 Vitis 2019.2
-xilinx_u50_xdma  Xilinx Alveo U50  Vitis 2019.2
 ================ ================= ================
 
 DESIGN FILES

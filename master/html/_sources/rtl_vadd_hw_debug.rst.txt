@@ -1,5 +1,5 @@
-Hardware Debug of Vector Addition With RTL Kernel 
-==================================================
+Hardware Debug 
+===============
 
 This is an example that showcases the Hardware Debug of Vector Addition
 RTL Kernel in Hardware.

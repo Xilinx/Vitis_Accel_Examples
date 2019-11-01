@@ -1,5 +1,5 @@
-Stream Kernel to Kernel Vector Addition and Multiplication
-==========================================================
+Stream Kernel to Kernel Memory Mapped
+=====================================
 
 This is a simple kernel to kernel streaming Vector Add and Vector
 Multiply C Kernel design with 2 memory mapped input to kernel 1, 1

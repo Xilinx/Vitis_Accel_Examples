@@ -1,17 +1,17 @@
 HBM Bandwidth
 =============
 
-This is a HBM bandwidth check design. Design contains 8 compute units of
+This is a HBM bandwidth check design. Design contains 6 compute units of
 a kernel which has access to all HBM banks (0:31). Host application
-allocate buffer into all HBM banks and run these 8 compute units
+allocate buffer into all HBM banks and run these 6 compute units
 concurrently and measure the overall bandwidth between Kernel and HBM
 Memory.
 
 This is host application to test HBM interface bandwidth. Design
-contains 8 compute units of Kernel. Each compute unit has full access to
+contains 6 compute units of Kernel. Each compute unit has full access to
 all HBM memory (0 to 31). Host application allocate buffers into all 32
 HBM Banks (16 Input buffers and 16 output buffers). Host application
-runs all 8 compute units together and measures the overall HBM
+runs all 6 compute units together and measures the overall HBM
 bandwidth.
 
 HBM is a high performance RAM interface for 3D-stacked DRAM. HBM can
@@ -34,12 +34,73 @@ explicitly:
    buffer_input = cl::Buffer(context, CL_MEM_READ_ONLY | CL_MEM_EXT_PTR_XILINX | CL_MEM_USE_HOST_PTR, size, &bufExt, &err));
 
 HBM memory must be associated to respective kernel I/O ports using
-``--sp`` option in kernel linking stage.
+``sp`` option. We need to add mapping between HBM memory and I/O ports
+in krnl_vaddmul.ini file
 
 ::
 
-   LDCLFLAGS += --sp krnl_vaddmul_1.m_axi_gmem0:HBM[0] --sp krnl_vaddmul_1.m_axi_gmem1:HBM[1] 
-                --sp krnl_vaddmul_1.m_axi_gmem2:HBM[2] --sp krnl_vaddmul_1.m_axi_gmem3:HBM[3]
+   sp=krnl_vaddmul_1.in1:HBM[0]
+   sp=krnl_vaddmul_1.in2:HBM[1] 
+   sp=krnl_vaddmul_1.out_add:HBM[2]
+   sp=krnl_vaddmul_1.out_mul:HBM[3]
+
+To see the benifit of HBM, user can look into the runtime logs and see
+the overall throughput.
+
+::
+
+   Loading: './build_dir.hw.xilinx_u50_xdma_201920_1/krnl_vaddmul.xclbin'
+   Creating a kernel [krnl_vaddmul:{krnl_vaddmul_1}] for CU(1)
+   Creating a kernel [krnl_vaddmul:{krnl_vaddmul_2}] for CU(2)
+   Creating a kernel [krnl_vaddmul:{krnl_vaddmul_3}] for CU(3)
+   Creating a kernel [krnl_vaddmul:{krnl_vaddmul_4}] for CU(4)
+   Creating a kernel [krnl_vaddmul:{krnl_vaddmul_5}] for CU(5)
+   Creating a kernel [krnl_vaddmul:{krnl_vaddmul_6}] for CU(6)
+   THROUGHPUT = 316.3 GB/s
+   TEST PASSED
+
+By default we are going with 6 compute units of kernel as we have power
+consumption limitation while targeting U50 platform. We have the design
+support for 8 compute units of Kernel. To run the HBM Bandwidth with 8
+compute units targeting U280 platform, user need to update
+krnl_vaddmul.ini and host.cpp files. Add the following lines in
+krnl_vaddmul.ini file
+
+::
+
+   sp=krnl_vaddmul_7.in1:HBM[24]
+   sp=krnl_vaddmul_7.in2:HBM[25] 
+   sp=krnl_vaddmul_7.out_add:HBM[26]
+   sp=krnl_vaddmul_7.out_mul:HBM[27]
+   sp=krnl_vaddmul_8.in1:HBM[28]
+   sp=krnl_vaddmul_8.in2:HBM[29] 
+   sp=krnl_vaddmul_8.out_add:HBM[30]
+   sp=krnl_vaddmul_8.out_mul:HBM[31]
+   nk=krnl_vaddmul:8
+
+In host.cpp file user need to change the #define NUM_KERNEL from 6 to 8
+
+::
+
+   #define NUM_KERNEL 8
+
+User can see higher benifit of HBM when ran on U280 platform with 8
+compute units of kernel. Below is the runtime log which shows overall
+throughput greater than 400GBps
+
+::
+
+   Loading: './build_dir.hw.xilinx_u280_xdma_201920_1/krnl_vaddmul.xclbin'
+   Creating a kernel [krnl_vaddmul:{krnl_vaddmul_1}] for CU(1)
+   Creating a kernel [krnl_vaddmul:{krnl_vaddmul_2}] for CU(2)
+   Creating a kernel [krnl_vaddmul:{krnl_vaddmul_3}] for CU(3)
+   Creating a kernel [krnl_vaddmul:{krnl_vaddmul_4}] for CU(4)
+   Creating a kernel [krnl_vaddmul:{krnl_vaddmul_5}] for CU(5)
+   Creating a kernel [krnl_vaddmul:{krnl_vaddmul_6}] for CU(6)
+   Creating a kernel [krnl_vaddmul:{krnl_vaddmul_7}] for CU(7)
+   Creating a kernel [krnl_vaddmul:{krnl_vaddmul_8}] for CU(8)
+   THROUGHPUT = 421.3 GB/s
+   TEST PASSED
 
 SUPPORTED SHELLS
 ----------------
@@ -48,6 +109,7 @@ SUPPORTED SHELLS
 SHELL            Board             Software Version
 ================ ================= ================
 xilinx_u280_xdma Xilinx Alveo U280 Vitis 2019.2
+xilinx_u50_xdma  Xilinx Alveo U50  Vitis 2019.2
 ================ ================= ================
 
 DESIGN FILES
