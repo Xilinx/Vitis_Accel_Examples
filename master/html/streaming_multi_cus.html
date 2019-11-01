@@ -17,7 +17,7 @@
     <link rel="icon" type="image/vnd.microsoft.icon" href="https://www.xilinx.com/etc.clientlibs/site/clientlibs/xilinx/all/resources/favicon.ico">
     <link rel="shortcut icon" type="image/vnd.microsoft.icon" href="https://www.xilinx.com/etc.clientlibs/site/clientlibs/xilinx/all/resources/favicon.ico">
   
-  <title>Stream Vector Addition (Multiple Compute Units) &mdash; VITIS ACCEL EXAMPLES  documentation</title>
+  <title>Stream Multiple Compute Units &mdash; VITIS ACCEL EXAMPLES  documentation</title>
   
 <!-- Header information provided by Emily-->
     <meta name="apple-itunes-app" content="app-id=1063287962">
@@ -61,8 +61,8 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Stream Kernel Simple Example" href="streaming_simple.html" />
-    <link rel="prev" title="Stream Vector Addition with OpenCL Buffers" href="streaming_mm_mixed.html" /> 
+    <link rel="next" title="Stream Simple" href="streaming_simple.html" />
+    <link rel="prev" title="Stream Memory Map Mixed" href="streaming_mm_mixed.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -168,28 +168,28 @@
 <li class="toctree-l2"><a class="reference internal" href="copy_buffer.html">Copy Buffer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="data_transfer.html">Data Transfer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="device_query.html">Device Query (CPP)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="debug_profile.html">Printing Profile Data and Dumping Waveform file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="debug_profile.html">Debug Profile</a></li>
 <li class="toctree-l2"><a class="reference internal" href="errors.html">Error Handling</a></li>
 <li class="toctree-l2"><a class="reference internal" href="errors_cpp.html">Error Handling (CPP)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="hbm_bandwidth.html">HBM Bandwidth</a></li>
-<li class="toctree-l2"><a class="reference internal" href="hbm_simple.html">HBM Simple Vector Addition</a></li>
-<li class="toctree-l2"><a class="reference internal" href="host_global_bandwidth.html">host_global</a></li>
-<li class="toctree-l2"><a class="reference internal" href="multiple_cus_asymmetrical.html">Vector Addition ~ Asymmetrical Multiple Compute Units</a></li>
-<li class="toctree-l2"><a class="reference internal" href="mult_compute_units.html">Vector Addition ~ Multiple Compute Units</a></li>
-<li class="toctree-l2"><a class="reference internal" href="overlap.html">Overlap Host and HLS kernels</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hbm_simple.html">HBM Simple</a></li>
+<li class="toctree-l2"><a class="reference internal" href="host_global_bandwidth.html">Host Global Bandwidth</a></li>
+<li class="toctree-l2"><a class="reference internal" href="multiple_cus_asymmetrical.html">Multiple Compute Units (Asymmetrical)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mult_compute_units.html">Multiple Compute Units</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overlap.html">Overlap Host and Kernel</a></li>
 <li class="toctree-l2"><a class="reference internal" href="streaming_chain.html">Stream Chain Matrix Multiplication</a></li>
-<li class="toctree-l2"><a class="reference internal" href="streaming_host_bandwidth.html">Host Streaming Bandwidth</a></li>
-<li class="toctree-l2"><a class="reference internal" href="streaming_free_running_kernel.html">Free Running Kernel (HLS C/C++)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="streaming_k2k.html">Stream Kernel to Kernel Vector Addition and Multiplication</a></li>
-<li class="toctree-l2"><a class="reference internal" href="streaming_k2k_mm.html">Stream Kernel to Kernel Vector Addition and Multiplication</a></li>
-<li class="toctree-l2"><a class="reference internal" href="streaming_mm_mixed.html">Stream Vector Addition with OpenCL Buffers</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Stream Vector Addition (Multiple Compute Units)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="streaming_host_bandwidth.html">Streaming Host to Kernel Bandwidth</a></li>
+<li class="toctree-l2"><a class="reference internal" href="streaming_free_running_kernel.html">Stream Free Running Kernel (HLS C/C++)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="streaming_k2k.html">Stream Kernel to Kernel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="streaming_k2k_mm.html">Stream Kernel to Kernel Memory Mapped</a></li>
+<li class="toctree-l2"><a class="reference internal" href="streaming_mm_mixed.html">Stream Memory Map Mixed</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Stream Multiple Compute Units</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#supported-shells">SUPPORTED SHELLS</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#design-files">DESIGN FILES</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#command-line-arguments">COMMAND LINE ARGUMENTS</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="streaming_simple.html">Stream Kernel Simple Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="streaming_simple.html">Stream Simple</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="cpp.html">C++ Kernels</a></li>
@@ -253,7 +253,7 @@
         
           <li><a href="host.html">Host</a> &raquo;</li>
         
-      <li>Stream Vector Addition (Multiple Compute Units)</li>
+      <li>Stream Multiple Compute Units</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -272,105 +272,53 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="stream-vector-addition-multiple-compute-units">
-<h1>Stream Vector Addition (Multiple Compute Units)<a class="headerlink" href="#stream-vector-addition-multiple-compute-units" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="stream-multiple-compute-units">
+<h1>Stream Multiple Compute Units<a class="headerlink" href="#stream-multiple-compute-units" title="Permalink to this headline">¶</a></h1>
 <p>This is a simple Vector Add C Kernel design with 2 Stream inputs and 1
 Stream output that demonstrates on how to process an input stream of
 data for computation in an application using multiple compute units.</p>
 <p><strong>KEY CONCEPTS:</strong> Read/Write Stream, Create/Release Stream</p>
 <p><strong>KEYWORDS:</strong> cl_stream, CL_STREAM_EOT, Multiple Compute Units</p>
-<p>This example demonstrates how a kernel with stream interfaces can be
-instantiated into multiple compute units. Kernel performs a vector
-addition to the input streams and writes the results to the output
-stream.</p>
-<p>The APIs used for streaming operations are custom stream APIs that binds
-to Xilinx Streaming APIs.</p>
-<p>Streaming class needs to be initialized before use.</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">xcl</span><span class="o">::</span><span class="n">Stream</span><span class="o">::</span><span class="n">init</span><span class="p">(</span><span class="n">platform_id</span><span class="p">);</span>
+<p>This is a simple vadd Kernel design in which multiple compute units of
+kernel are directly communicating with host using stream interfaces.</p>
+<p>For this examples, four compute units of a kernel is created.
+<code class="docutils literal notranslate"><span class="pre">krnl_stream_vadd.ini</span></code> file specifies number of compute units along
+with name of each compute unit as below:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">connectivity</span><span class="p">]</span>
+<span class="n">nk</span><span class="o">=</span><span class="n">krnl_stream_vadd</span><span class="p">:</span><span class="mi">4</span><span class="p">:</span><span class="n">vadd_1</span><span class="o">.</span><span class="n">vadd_2</span><span class="o">.</span><span class="n">vadd_3</span><span class="o">.</span><span class="n">vadd_4</span>
 </pre></div>
 </div>
-<p>For stream, Device connection to the kernel is specified by using
-<code class="docutils literal notranslate"><span class="pre">cl_mem_ext_ptr_t</span></code>extention pointer.</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">cl_mem_ext_ptr_t</span> <span class="n">ext</span><span class="p">;</span>
-<span class="n">ext</span><span class="p">.</span><span class="n">param</span> <span class="o">=</span> <span class="n">krnls</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">get</span><span class="p">();</span>
-<span class="n">ext</span><span class="p">.</span><span class="n">obj</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+<p>This file is included to v++ command line using following statement:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">--</span><span class="n">config</span> <span class="n">krnl_stream_vadd</span><span class="o">.</span><span class="n">ini</span>
 </pre></div>
 </div>
-<p><code class="docutils literal notranslate"><span class="pre">xcl::stream::createStream</span></code> API is used to create a stream and read
-and write properties are determined by the flags
-<code class="docutils literal notranslate"><span class="pre">CL_STREAM_WRITE_ONLY</span></code> and <code class="docutils literal notranslate"><span class="pre">CL_STREAM_READ_ONLY</span></code> .<code class="docutils literal notranslate"><span class="pre">.flags</span></code> is
-used to specify the kernel argument to which stream is connected.</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">cl_stream</span> <span class="n">read_stream</span><span class="p">;</span>
-<span class="n">ext</span><span class="p">.</span><span class="n">flags</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-<span class="n">read_stream</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">xcl</span><span class="o">::</span><span class="n">Stream</span><span class="o">::</span><span class="n">createStream</span><span class="p">(</span><span class="n">device</span><span class="p">.</span><span class="n">get</span><span class="p">(),</span> <span class="n">CL_STREAM_READ_ONLY</span><span class="p">,</span> <span class="n">CL_STREAM</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">ext</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">ret</span><span class="p">);</span>
+<p>Host is written configurable for number of compute units using top level
+const variable <code class="docutils literal notranslate"><span class="pre">NCU</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">auto</span> <span class="n">constexpr</span> <span class="n">NCU</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span>
 </pre></div>
 </div>
-<p>Transfer initiation for reading and writing to streams requires
-declaration of following attribute. Successful stream transfer depends
-upon determining the end of transfer signal, indicated by
-<code class="docutils literal notranslate"><span class="pre">CL_STREAM_EOT</span></code> flag. For non-blocking stream, other operations can be
-carried out while data is being written into or being read from the
-stream. Non-blocking stream requires <code class="docutils literal notranslate"><span class="pre">CL_STREAM_NONBLOCKING</span></code> flag to
-be specified in the transfer initiation request.</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">cl_stream_xfer_req</span> <span class="n">rd_req</span><span class="p">{</span><span class="mi">0</span><span class="p">};</span>
-<span class="n">cl_stream_xfer_req</span> <span class="n">wr_req</span><span class="p">{</span><span class="mi">0</span><span class="p">};</span>
-<span class="n">rd_req</span><span class="p">.</span><span class="n">flags</span> <span class="o">=</span> <span class="n">CL_STREAM_EOT</span> <span class="o">|</span> <span class="n">CL_STREAM_NONBLOCKING</span><span class="p">;</span>
-<span class="n">wr_req</span><span class="p">.</span><span class="n">flags</span> <span class="o">=</span> <span class="n">CL_STREAM_EOT</span> <span class="o">|</span> <span class="n">CL_STREAM_NONBLOCKING</span><span class="p">;</span>
+<p>User just needs to change NCU to some other value to make the host code
+ready for other numbers. But user still needs to manually update the
+<code class="docutils literal notranslate"><span class="pre">krnl_stream_vadd.ini</span></code> file for other configuration.</p>
+<p>For multiple compute units case, host codes needs to create kernel
+object using specific compute unit name as below:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">cu_id</span><span class="p">;</span>
+<span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">krnl_name</span> <span class="o">=</span> <span class="s">&quot;krnl_stream_vadd&quot;</span><span class="p">;</span>
+<span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">cl</span><span class="o">::</span><span class="n">Kernel</span><span class="o">&gt;</span> <span class="n">krnls</span><span class="p">(</span><span class="n">NCU</span><span class="p">);</span>
+<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">NCU</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">cu_id</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">to_string</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+    <span class="k">auto</span> <span class="n">krnl_name_full</span> <span class="o">=</span> <span class="n">krnl_name</span> <span class="o">+</span> <span class="s">&quot;:{&quot;</span> <span class="o">+</span> <span class="s">&quot;vadd_&quot;</span> <span class="o">+</span> <span class="n">cu_id</span> <span class="o">+</span> <span class="s">&quot;}&quot;</span><span class="p">;</span> <span class="c1">//kernel name with compute unit name</span>
+    <span class="n">krnls</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">cl</span><span class="o">::</span><span class="n">Kernel</span><span class="p">(</span><span class="n">program</span><span class="p">,</span> <span class="n">krnl_name_full</span><span class="p">.</span><span class="n">c_str</span><span class="p">());</span>
+<span class="p">}</span>
 </pre></div>
 </div>
-<p><code class="docutils literal notranslate"><span class="pre">xcl::clReadstream</span></code> and <code class="docutils literal notranslate"><span class="pre">xcl::clWritestream</span></code> APIs are used to read
-from and write to streams respectively. Dataset is divided and written
-into streams for all CUs.</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">xcl</span><span class="o">::</span><span class="n">Stream</span><span class="o">::</span><span class="n">writeStream</span><span class="p">(</span><span class="n">write_stream_b</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="p">(</span><span class="n">h_b</span><span class="p">.</span><span class="n">data</span><span class="p">()</span> <span class="o">+</span> <span class="n">i</span> <span class="o">*</span> <span class="n">no_of_elem</span><span class="p">),</span> <span class="n">vector_size_bytes</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">wr_req</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">ret</span><span class="p">));</span>
-</pre></div>
-</div>
-<p>Since non-blocking streams are asynchronous and return immediately,
-<code class="docutils literal notranslate"><span class="pre">xcl::stream::pollStream</span></code> is a blocking API used to monitor the status
-of completion of the transfer through streams, it returns the execution
-to the host code after streams are completed.</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span> <span class="n">num_compl</span> <span class="o">=</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">NCU</span><span class="p">;</span>
-<span class="n">cl_streams_poll_req_completions</span> <span class="o">*</span><span class="n">poll_req</span><span class="p">;</span>
-<span class="n">poll_req</span> <span class="o">=</span> <span class="p">(</span><span class="n">cl_streams_poll_req_completions</span> <span class="o">*</span><span class="p">)</span><span class="n">malloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="n">cl_streams_poll_req_completions</span><span class="p">)</span> <span class="o">*</span> <span class="n">num_compl</span><span class="p">);</span>
-<span class="n">memset</span><span class="p">(</span><span class="n">poll_req</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">cl_streams_poll_req_completions</span><span class="p">)</span> <span class="o">*</span> <span class="n">num_compl</span><span class="p">);</span>
-<span class="n">xcl</span><span class="o">::</span><span class="n">Stream</span><span class="o">::</span><span class="n">pollStreams</span><span class="p">(</span><span class="n">device</span><span class="p">.</span><span class="n">get</span><span class="p">(),</span> <span class="n">poll_req</span><span class="p">,</span> <span class="n">num_compl</span><span class="p">,</span> <span class="n">num_compl</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">num_compl</span><span class="p">,</span> <span class="mi">50000</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">ret</span><span class="p">);</span>
-</pre></div>
-</div>
-<p><code class="docutils literal notranslate"><span class="pre">xcl::clreleaseStream</span></code> is used to free streaming resources and the
-memory associated with them.</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">NCU</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">xcl</span><span class="o">::</span><span class="n">Stream</span><span class="o">::</span><span class="n">releaseStream</span><span class="p">(</span><span class="n">read_stream</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
-    <span class="n">xcl</span><span class="o">::</span><span class="n">Stream</span><span class="o">::</span><span class="n">releaseStream</span><span class="p">(</span><span class="n">write_stream_a</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
-    <span class="n">xcl</span><span class="o">::</span><span class="n">Stream</span><span class="o">::</span><span class="n">releaseStream</span><span class="p">(</span><span class="n">write_stream_b</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
-  <span class="p">}</span>
-</pre></div>
-</div>
-<p>HLS pragma must be defined for every streaming interface.</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#pragma HLS INTERFACE axis port=a</span>
-<span class="cp">#pragma HLS INTERFACE axis port=b</span>
-<span class="cp">#pragma HLS INTERFACE axis port=output</span>
-</pre></div>
-</div>
-<p><code class="docutils literal notranslate"><span class="pre">hls::stream</span></code> kernels use a special class <code class="docutils literal notranslate"><span class="pre">qdma_axis&lt;D,0,0,0&gt;</span></code> for
-host to kernel streams which requires the header file
-<code class="docutils literal notranslate"><span class="pre">ap_axi_sdata.h</span></code>. It has variables <code class="docutils literal notranslate"><span class="pre">data</span></code>,<code class="docutils literal notranslate"><span class="pre">last</span></code> and <code class="docutils literal notranslate"><span class="pre">keep</span></code> to
-manage the data transfer.</p>
-<p><code class="docutils literal notranslate"><span class="pre">data</span></code>: Internally qdma_axis datatype has <code class="docutils literal notranslate"><span class="pre">ap_uint&lt;D&gt;</span></code> which can be
-accessed by <code class="docutils literal notranslate"><span class="pre">get_data()</span></code> and <code class="docutils literal notranslate"><span class="pre">set_data()</span></code> methods.</p>
-<p><code class="docutils literal notranslate"><span class="pre">keep</span></code>: For all data before last, <code class="docutils literal notranslate"><span class="pre">keep</span></code> variable must be set to
-<code class="docutils literal notranslate"><span class="pre">-1</span></code> to denote all bytes of data are valid. For the last data, the
-kernel has the flexibility to send fewer bytes. For example, for the
-four bytes data transfer, the kernel can truncate the last data by
-sending 1 byte or 2 bytes or 3 bytes by using set_keep() function.</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">t_out</span><span class="p">.</span><span class="n">set_data</span><span class="p">(</span><span class="n">tmpOut</span><span class="p">);</span>
-<span class="n">t_out</span><span class="p">.</span><span class="n">set_last</span><span class="p">(</span><span class="n">t1</span><span class="p">.</span><span class="n">get_last</span><span class="p">());</span>
-<span class="n">t_out</span><span class="p">.</span><span class="n">set_keep</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">);</span>
-</pre></div>
-</div>
-<p><code class="docutils literal notranslate"><span class="pre">last</span></code>: Final data transferred must be identified by the last
-variable. get_last() and set_last() methods are used to access/set the
-last variable. Kernel doesn’t know how many data items are coming
-through the stream. Stream is polled by calling get_last() after every
-transfer and breaks when get_last() returns 1.</p>
+<p>Here compute unit should match to name provided in
+<code class="docutils literal notranslate"><span class="pre">krnl_stream_vadd.ini</span></code> file.</p>
+<p>Once we have unique kernel object for each compute unit, host code can
+easily creates stream object for respective kernel object and transfer
+data accordingly. For More details about streaming kernel usage, please
+refer streaming_simple example.</p>
 <div class="section" id="supported-shells">
 <h2>SUPPORTED SHELLS<a class="headerlink" href="#supported-shells" title="Permalink to this headline">¶</a></h2>
 <table class="docutils align-center">
@@ -426,10 +374,10 @@ executed by</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="streaming_simple.html" class="btn btn-neutral float-right" title="Stream Kernel Simple Example" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="streaming_simple.html" class="btn btn-neutral float-right" title="Stream Simple" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="streaming_mm_mixed.html" class="btn btn-neutral float-left" title="Stream Vector Addition with OpenCL Buffers" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="streaming_mm_mixed.html" class="btn btn-neutral float-left" title="Stream Memory Map Mixed" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

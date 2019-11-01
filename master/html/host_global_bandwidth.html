@@ -17,7 +17,7 @@
     <link rel="icon" type="image/vnd.microsoft.icon" href="https://www.xilinx.com/etc.clientlibs/site/clientlibs/xilinx/all/resources/favicon.ico">
     <link rel="shortcut icon" type="image/vnd.microsoft.icon" href="https://www.xilinx.com/etc.clientlibs/site/clientlibs/xilinx/all/resources/favicon.ico">
   
-  <title>host_global &mdash; VITIS ACCEL EXAMPLES  documentation</title>
+  <title>Host Global Bandwidth &mdash; VITIS ACCEL EXAMPLES  documentation</title>
   
 <!-- Header information provided by Emily-->
     <meta name="apple-itunes-app" content="app-id=1063287962">
@@ -61,8 +61,8 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Vector Addition ~ Asymmetrical Multiple Compute Units" href="multiple_cus_asymmetrical.html" />
-    <link rel="prev" title="HBM Simple Vector Addition" href="hbm_simple.html" /> 
+    <link rel="next" title="Multiple Compute Units (Asymmetrical)" href="multiple_cus_asymmetrical.html" />
+    <link rel="prev" title="HBM Simple" href="hbm_simple.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -168,28 +168,28 @@
 <li class="toctree-l2"><a class="reference internal" href="copy_buffer.html">Copy Buffer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="data_transfer.html">Data Transfer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="device_query.html">Device Query (CPP)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="debug_profile.html">Printing Profile Data and Dumping Waveform file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="debug_profile.html">Debug Profile</a></li>
 <li class="toctree-l2"><a class="reference internal" href="errors.html">Error Handling</a></li>
 <li class="toctree-l2"><a class="reference internal" href="errors_cpp.html">Error Handling (CPP)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="hbm_bandwidth.html">HBM Bandwidth</a></li>
-<li class="toctree-l2"><a class="reference internal" href="hbm_simple.html">HBM Simple Vector Addition</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">host_global</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="hbm_simple.html">HBM Simple</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Host Global Bandwidth</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#supported-shells">SUPPORTED SHELLS</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#design-files">DESIGN FILES</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#command-line-arguments">COMMAND LINE ARGUMENTS</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="multiple_cus_asymmetrical.html">Vector Addition ~ Asymmetrical Multiple Compute Units</a></li>
-<li class="toctree-l2"><a class="reference internal" href="mult_compute_units.html">Vector Addition ~ Multiple Compute Units</a></li>
-<li class="toctree-l2"><a class="reference internal" href="overlap.html">Overlap Host and HLS kernels</a></li>
+<li class="toctree-l2"><a class="reference internal" href="multiple_cus_asymmetrical.html">Multiple Compute Units (Asymmetrical)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mult_compute_units.html">Multiple Compute Units</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overlap.html">Overlap Host and Kernel</a></li>
 <li class="toctree-l2"><a class="reference internal" href="streaming_chain.html">Stream Chain Matrix Multiplication</a></li>
-<li class="toctree-l2"><a class="reference internal" href="streaming_host_bandwidth.html">Host Streaming Bandwidth</a></li>
-<li class="toctree-l2"><a class="reference internal" href="streaming_free_running_kernel.html">Free Running Kernel (HLS C/C++)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="streaming_k2k.html">Stream Kernel to Kernel Vector Addition and Multiplication</a></li>
-<li class="toctree-l2"><a class="reference internal" href="streaming_k2k_mm.html">Stream Kernel to Kernel Vector Addition and Multiplication</a></li>
-<li class="toctree-l2"><a class="reference internal" href="streaming_mm_mixed.html">Stream Vector Addition with OpenCL Buffers</a></li>
-<li class="toctree-l2"><a class="reference internal" href="streaming_multi_cus.html">Stream Vector Addition (Multiple Compute Units)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="streaming_simple.html">Stream Kernel Simple Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="streaming_host_bandwidth.html">Streaming Host to Kernel Bandwidth</a></li>
+<li class="toctree-l2"><a class="reference internal" href="streaming_free_running_kernel.html">Stream Free Running Kernel (HLS C/C++)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="streaming_k2k.html">Stream Kernel to Kernel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="streaming_k2k_mm.html">Stream Kernel to Kernel Memory Mapped</a></li>
+<li class="toctree-l2"><a class="reference internal" href="streaming_mm_mixed.html">Stream Memory Map Mixed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="streaming_multi_cus.html">Stream Multiple Compute Units</a></li>
+<li class="toctree-l2"><a class="reference internal" href="streaming_simple.html">Stream Simple</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="cpp.html">C++ Kernels</a></li>
@@ -253,7 +253,7 @@
         
           <li><a href="host.html">Host</a> &raquo;</li>
         
-      <li>host_global</li>
+      <li>Host Global Bandwidth</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -272,8 +272,8 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="host-global">
-<h1>host_global<a class="headerlink" href="#host-global" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="host-global-bandwidth">
+<h1>Host Global Bandwidth<a class="headerlink" href="#host-global-bandwidth" title="Permalink to this headline">¶</a></h1>
 <p>Host to global memory bandwidth test</p>
 <p>This example tests the data transfer bandwidth between host and global
 memory for 3 cases : host to global memory transfer, global memory to
@@ -318,10 +318,6 @@ transfer the data from host to global memory and vice versa.</p>
 <td><p>Xilinx Alveo U250</p></td>
 <td><p>Vitis 2019.2</p></td>
 </tr>
-<tr class="row-even"><td><p>xilinx_u280_xdma</p></td>
-<td><p>Xilinx Alveo U280</p></td>
-<td><p>Vitis 2019.2</p></td>
-</tr>
 </tbody>
 </table>
 </div>
@@ -354,10 +350,10 @@ executed by</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="multiple_cus_asymmetrical.html" class="btn btn-neutral float-right" title="Vector Addition ~ Asymmetrical Multiple Compute Units" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="multiple_cus_asymmetrical.html" class="btn btn-neutral float-right" title="Multiple Compute Units (Asymmetrical)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="hbm_simple.html" class="btn btn-neutral float-left" title="HBM Simple Vector Addition" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="hbm_simple.html" class="btn btn-neutral float-left" title="HBM Simple" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

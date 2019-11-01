@@ -1,5 +1,5 @@
-Stream Kernel to Kernel Vector Increment 
-=========================================
+Stream Kernel to Kernel
+=======================
 
 This is a simple Vector Increment RTL Kernel to Kernel design with 1
 Stream input and 1 Stream output that demonstrates on how to process an
@@ -39,7 +39,6 @@ SHELL            Board             Software Version
 ================ ================= ================
 xilinx_u200_qdma Xilinx Alveo U200 Vitis 2019.2
 xilinx_u250_qdma Xilinx Alveo U250 Vitis 2019.2
-xilinx_u50_xdma  Xilinx Alveo U50  Vitis 2019.2
 ================ ================= ================
 
 DESIGN FILES

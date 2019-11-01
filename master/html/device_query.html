@@ -61,7 +61,7 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Printing Profile Data and Dumping Waveform file" href="debug_profile.html" />
+    <link rel="next" title="Debug Profile" href="debug_profile.html" />
     <link rel="prev" title="Data Transfer" href="data_transfer.html" /> 
 </head>
 
@@ -173,23 +173,23 @@
 <li class="toctree-l3"><a class="reference internal" href="#command-line-arguments">COMMAND LINE ARGUMENTS</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="debug_profile.html">Printing Profile Data and Dumping Waveform file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="debug_profile.html">Debug Profile</a></li>
 <li class="toctree-l2"><a class="reference internal" href="errors.html">Error Handling</a></li>
 <li class="toctree-l2"><a class="reference internal" href="errors_cpp.html">Error Handling (CPP)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="hbm_bandwidth.html">HBM Bandwidth</a></li>
-<li class="toctree-l2"><a class="reference internal" href="hbm_simple.html">HBM Simple Vector Addition</a></li>
-<li class="toctree-l2"><a class="reference internal" href="host_global_bandwidth.html">host_global</a></li>
-<li class="toctree-l2"><a class="reference internal" href="multiple_cus_asymmetrical.html">Vector Addition ~ Asymmetrical Multiple Compute Units</a></li>
-<li class="toctree-l2"><a class="reference internal" href="mult_compute_units.html">Vector Addition ~ Multiple Compute Units</a></li>
-<li class="toctree-l2"><a class="reference internal" href="overlap.html">Overlap Host and HLS kernels</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hbm_simple.html">HBM Simple</a></li>
+<li class="toctree-l2"><a class="reference internal" href="host_global_bandwidth.html">Host Global Bandwidth</a></li>
+<li class="toctree-l2"><a class="reference internal" href="multiple_cus_asymmetrical.html">Multiple Compute Units (Asymmetrical)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mult_compute_units.html">Multiple Compute Units</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overlap.html">Overlap Host and Kernel</a></li>
 <li class="toctree-l2"><a class="reference internal" href="streaming_chain.html">Stream Chain Matrix Multiplication</a></li>
-<li class="toctree-l2"><a class="reference internal" href="streaming_host_bandwidth.html">Host Streaming Bandwidth</a></li>
-<li class="toctree-l2"><a class="reference internal" href="streaming_free_running_kernel.html">Free Running Kernel (HLS C/C++)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="streaming_k2k.html">Stream Kernel to Kernel Vector Addition and Multiplication</a></li>
-<li class="toctree-l2"><a class="reference internal" href="streaming_k2k_mm.html">Stream Kernel to Kernel Vector Addition and Multiplication</a></li>
-<li class="toctree-l2"><a class="reference internal" href="streaming_mm_mixed.html">Stream Vector Addition with OpenCL Buffers</a></li>
-<li class="toctree-l2"><a class="reference internal" href="streaming_multi_cus.html">Stream Vector Addition (Multiple Compute Units)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="streaming_simple.html">Stream Kernel Simple Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="streaming_host_bandwidth.html">Streaming Host to Kernel Bandwidth</a></li>
+<li class="toctree-l2"><a class="reference internal" href="streaming_free_running_kernel.html">Stream Free Running Kernel (HLS C/C++)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="streaming_k2k.html">Stream Kernel to Kernel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="streaming_k2k_mm.html">Stream Kernel to Kernel Memory Mapped</a></li>
+<li class="toctree-l2"><a class="reference internal" href="streaming_mm_mixed.html">Stream Memory Map Mixed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="streaming_multi_cus.html">Stream Multiple Compute Units</a></li>
+<li class="toctree-l2"><a class="reference internal" href="streaming_simple.html">Stream Simple</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="cpp.html">C++ Kernels</a></li>
@@ -373,9 +373,9 @@ details as below:</p>
 <h2>SUPPORTED SHELLS<a class="headerlink" href="#supported-shells" title="Permalink to this headline">¶</a></h2>
 <table class="docutils align-center">
 <colgroup>
-<col style="width: 25%" />
-<col style="width: 49%" />
-<col style="width: 25%" />
+<col style="width: 33%" />
+<col style="width: 35%" />
+<col style="width: 33%" />
 </colgroup>
 <thead>
 <tr class="row-odd"><th class="head"><p>SHELL</p></th>
@@ -406,22 +406,6 @@ details as below:</p>
 </tr>
 <tr class="row-odd"><td><p>xilinx_u50_xdma</p></td>
 <td><p>Xilinx Alveo U50</p></td>
-<td><p>Vitis 2019.2</p></td>
-</tr>
-<tr class="row-even"><td><p>zc702_base</p></td>
-<td><p>Xilinx Zynq-7000 SoC ZC702</p></td>
-<td><p>Vitis 2019.2</p></td>
-</tr>
-<tr class="row-odd"><td><p>zc706_base</p></td>
-<td><p>Xilinx Zynq-7000 SoC ZC706</p></td>
-<td><p>Vitis 2019.2</p></td>
-</tr>
-<tr class="row-even"><td><p>zcu102_base</p></td>
-<td><p>Xilinx UltraScale+ MPSoC ZCU102</p></td>
-<td><p>Vitis 2019.2</p></td>
-</tr>
-<tr class="row-odd"><td><p>zcu104_base</p></td>
-<td><p>Xilinx UltraScale+ MPSoC ZCU104</p></td>
 <td><p>Vitis 2019.2</p></td>
 </tr>
 </tbody>
@@ -455,7 +439,7 @@ executed by</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="debug_profile.html" class="btn btn-neutral float-right" title="Printing Profile Data and Dumping Waveform file" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="debug_profile.html" class="btn btn-neutral float-right" title="Debug Profile" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="data_transfer.html" class="btn btn-neutral float-left" title="Data Transfer" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

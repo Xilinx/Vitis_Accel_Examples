@@ -1,5 +1,5 @@
-Overlap Host and HLS kernels 
-=============================
+Overlap Host and Kernel 
+========================
 
 This examples demonstrates techniques that allow user to overlap
 Host(CPU) and FPGA computation in an application. It will cover

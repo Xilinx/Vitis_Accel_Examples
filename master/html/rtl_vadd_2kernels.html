@@ -17,7 +17,7 @@
     <link rel="icon" type="image/vnd.microsoft.icon" href="https://www.xilinx.com/etc.clientlibs/site/clientlibs/xilinx/all/resources/favicon.ico">
     <link rel="shortcut icon" type="image/vnd.microsoft.icon" href="https://www.xilinx.com/etc.clientlibs/site/clientlibs/xilinx/all/resources/favicon.ico">
   
-  <title>Multiple RTL Kernels &mdash; VITIS ACCEL EXAMPLES  documentation</title>
+  <title>Vadd 2 Kernels &mdash; VITIS ACCEL EXAMPLES  documentation</title>
   
 <!-- Header information provided by Emily-->
     <meta name="apple-itunes-app" content="app-id=1063287962">
@@ -61,8 +61,8 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Hardware Debug of Vector Addition With RTL Kernel" href="rtl_vadd_hw_debug.html" />
-    <link rel="prev" title="Vector Addition with 2 Kernel Clocks" href="rtl_vadd_2clks.html" /> 
+    <link rel="next" title="Hardware Debug" href="rtl_vadd_hw_debug.html" />
+    <link rel="prev" title="Vadd 2 Kernel Clocks" href="rtl_vadd_2clks.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -168,17 +168,17 @@
 <li class="toctree-l1"><a class="reference internal" href="sys_opt.html">System Optimization Kernels</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="rtl.html">RTL Kernels</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="rtl_adder_streams.html">Adder With Streams</a></li>
-<li class="toctree-l2"><a class="reference internal" href="rtl_streaming_free_running.html">Stream Vector Increment : Free Running</a></li>
-<li class="toctree-l2"><a class="reference internal" href="rtl_streaming_k2k.html">Stream Kernel to Kernel Vector Increment</a></li>
-<li class="toctree-l2"><a class="reference internal" href="rtl_vadd.html">Vector Addition With RTL Kernel</a></li>
-<li class="toctree-l2"><a class="reference internal" href="rtl_vadd_2clks.html">Vector Addition with 2 Kernel Clocks</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Multiple RTL Kernels</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="rtl_streaming_free_running.html">Stream Free Running</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rtl_streaming_k2k.html">Stream Kernel to Kernel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rtl_vadd.html">Vadd Simple</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rtl_vadd_2clks.html">Vadd 2 Kernel Clocks</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Vadd 2 Kernels</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#supported-shells">SUPPORTED SHELLS</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#design-files">DESIGN FILES</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#command-line-arguments">COMMAND LINE ARGUMENTS</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="rtl_vadd_hw_debug.html">Hardware Debug of Vector Addition With RTL Kernel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rtl_vadd_hw_debug.html">Hardware Debug</a></li>
 <li class="toctree-l2"><a class="reference internal" href="rtl_vadd_mixed_c_vadd.html">Mixed Kernels (RTL &amp; C)</a></li>
 </ul>
 </li>
@@ -240,7 +240,7 @@
         
           <li><a href="rtl.html">RTL Kernels</a> &raquo;</li>
         
-      <li>Multiple RTL Kernels</li>
+      <li>Vadd 2 Kernels</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -259,8 +259,8 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="multiple-rtl-kernels">
-<h1>Multiple RTL Kernels<a class="headerlink" href="#multiple-rtl-kernels" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="vadd-2-kernels">
+<h1>Vadd 2 Kernels<a class="headerlink" href="#vadd-2-kernels" title="Permalink to this headline">¶</a></h1>
 <p>This example has two RTL Kernels. Both Kernel_0 and Kernel_1 perform
 vector addition. The Kernel_1 reads the output from Kernel_0 as one of
 two inputs.</p>
@@ -380,10 +380,10 @@ executed by</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="rtl_vadd_hw_debug.html" class="btn btn-neutral float-right" title="Hardware Debug of Vector Addition With RTL Kernel" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="rtl_vadd_hw_debug.html" class="btn btn-neutral float-right" title="Hardware Debug" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="rtl_vadd_2clks.html" class="btn btn-neutral float-left" title="Vector Addition with 2 Kernel Clocks" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="rtl_vadd_2clks.html" class="btn btn-neutral float-left" title="Vadd 2 Kernel Clocks" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

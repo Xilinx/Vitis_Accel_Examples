@@ -1,107 +1,68 @@
-Stream Vector Addition with OpenCL Buffers
-==========================================
+Stream Memory Map Mixed
+=======================
 
 This is a simple streaming Vector Addition C Kernel design with 1 Stream
 input, 1 memory mapped input to the kernel, and 1 stream output that
-demonstrates on how to process a stream of data for computation along
-with OpenCL buffers.
+demonstrates on how to process a stream of data along with memory mapped
+interface.
 
 **KEY CONCEPTS:** Read/Write Stream, Create/Release Stream
 
 **KEYWORDS:** cl_stream, CL_STREAM_EOT, CL_STREAM_BLOCKING
 
-This example demontrates how to process an input stream of data from
+This example demonstrate how to process an input stream of data from
 host for computation along with memory mapped OpenCL buffer inputs.
 ``krnl_stream_vadd`` has 1 stream input, one memory mapped buffer input
 and 1 stream output.
 
-The APIs used for streaming operations are custom stream APIs that binds
-to Xilinx Streaming APIs.
-
-Streaming class needs to be initialized before use.
+Following is the kernel definition along with Interface pragma:
 
 .. code:: cpp
 
-   xcl::Stream::init(platform_id);
+   typedef qdma_axis<DWIDTH, 0, 0, 0> pkt;
+   void krnl_stream_vadd(hls::stream<pkt> &out, // Write-Only output Stream
+                         hls::stream<pkt> &in1, // Input Stream 1
+                         int *in2,              // Memory mapped Input Vector 2
+                         int size               // Size in integer
+   ) {
+   #pragma HLS INTERFACE axis port = out
+   #pragma HLS INTERFACE axis port = in1
+   #pragma HLS INTERFACE m_axi port = in2 offset = slave bundle = gmem
+   #pragma HLS INTERFACE s_axilite port = in2 bundle = control
+   #pragma HLS INTERFACE s_axilite port = size bundle = control
+   #pragma HLS INTERFACE s_axilite port = return bundle = control
+   ...
+   }
 
-For stream, Device connection to the kernel is specified by using
-``cl_mem_ext_ptr_t``\ extention pointer.
+Here kernel has two input argument in1 and in2. in1 is axis (AXI
+Streaming) type and in2 is m_axi (memory Master AXI) Interface type.
+
+Inside host code, user has to set argument only for non-streaming
+interface as shown below:
 
 .. code:: cpp
 
+   cl::Kernel krnl_vadd = cl::Kernel(program, "krnl_stream_vadd", &err));
+   krnl_vadd.setArg(2, buffer_in2);
+   krnl_vadd.setArg(3, size);
+
+For ``axis`` streaming interface type argument, host needs to creates
+streaming objects as below:
+
+.. code:: cpp
+
+   cl_int ret;
    cl_mem_ext_ptr_t ext;
-   ext.param = krnl_vadd.get();
+   ext.param = krnl_vadd.get(); //specifying the kernel object on which stream connection will be established
    ext.obj = NULL;
 
-``xcl::stream::createStream`` API is used to create a stream and read
-and write properties are determined by the flags
-``CL_STREAM_WRITE_ONLY`` and ``CL_STREAM_READ_ONLY`` .\ ``.flags`` is
-used to specify the kernel argument to which stream is connected.
+   ext.flags = 0; //Create read stream for argument 0 of kernel
+   cl_stream read_stream xcl::Stream::createStream(device.get(), CL_STREAM_READ_ONLY, CL_STREAM, &ext, &ret));
+   ext.flags = 1; //Create write stream for argument 1 
+   cl_stream write_stream_a = xcl::Stream::createStream(device.get(), CL_STREAM_WRITE_ONLY, CL_STREAM, &ext, &ret));
 
-.. code:: cpp
-
-       cl_stream read_stream;
-       ext.flags = 1;
-       read_stream = xcl::Stream::createStream(device.get(), CL_STREAM_READ_ONLY, CL_STREAM, &ext, &ret);
-
-Transfer initiation for reading and writing to streams requires
-declaration of following atribute. Successful stream transfer depends
-upon determining the end of transfer signal, indicated by
-``CL_STREAM_EOT`` flag.
-
-.. code:: cpp
-
-       cl_stream_xfer_req b_wr_req{0};
-       b_wr_req.flags = CL_STREAM_EOT;
-
-``xcl::clReadstream`` and ``xcl::clWritestream`` APIs are used to read
-from and write to streams respectively.
-
-.. code:: cpp
-
-     xcl::Stream::writeStream(write_stream_a, h_a.data(), vector_size_bytes, &b_wr_req, &ret);
-
-``xcl::clreleaseStream`` is used to free streaming resources and the
-memory associated with them.
-
-.. code:: cpp
-
-       xcl::Stream::releaseStream(read_stream);
-       xcl::Stream::releaseStream(write_stream_a);
-
-HLS pragma must be defined for every streaming interface.
-
-.. code:: cpp
-
-   #pragma HLS INTERFACE axis port=out
-   #pragma HLS INTERFACE axis port=in1
-
-``hls::stream`` kernels use a special class ``qdma_axis<D,0,0,0>`` for
-host to kernel streams which requires the header file
-``ap_axi_sdata.h``. It has variables ``data``,\ ``last`` and ``keep`` to
-manage the data transfer.
-
-``data``: Internally qdma_axis datatype has ``ap_uint<D>`` which can be
-accessed by ``get_data()`` and ``set_data()`` methods.
-
-``keep``: For all data before last, ``keep`` variable must be set to
-``-1`` to denote all bytes of data are valid. For the last data, the
-kernel has the flexibility to send fewer bytes. For example, for the
-four bytes data transfer, the kernel can truncate the last data by
-sending 1 byte or 2 bytes or 3 bytes by using set_keep() function.
-
-.. code:: cpp
-
-     out_buf.set_data(res);
-     out_buf.set_keep(-1);
-     out_buf.set_last(in_buf.get_last());
-
-``last``: Final data transferred must be identified by the last
-variable. ``get_last()`` and ``set_last()`` methods are used to
-access/set the last variable. Kernel doesn’t know how many data items
-are coming through the stream. Stream is polled by calling
-``get_last()`` after every transfer and breaks when ``get_last()``
-returns 1.
+Please refer ``streaming_simple`` example to more about Streaming kernel
+usage.
 
 SUPPORTED SHELLS
 ----------------

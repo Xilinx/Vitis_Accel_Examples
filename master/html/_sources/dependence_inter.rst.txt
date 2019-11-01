@@ -1,5 +1,5 @@
-Loop Iteration Dependency 
-==========================
+Loop Dependency Inter 
+======================
 
 This Example demonstrates the HLS pragma ‘DEPENDENCE’.Using ‘DEPENDENCE’
 pragma, user can provide additional dependency details to the compiler

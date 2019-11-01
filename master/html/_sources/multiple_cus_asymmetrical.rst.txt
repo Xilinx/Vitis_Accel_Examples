@@ -1,5 +1,5 @@
-Vector Addition ~ Asymmetrical Multiple Compute Units 
-======================================================
+Multiple Compute Units (Asymmetrical) 
+======================================
 
 This is simple example of vector addition to demonstrate how to connect
 each compute unit to different banks and how to use these compute units

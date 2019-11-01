@@ -1,5 +1,5 @@
-Systolic Array Implementation 
-==============================
+Systolic Array 
+===============
 
 This is a simple example of matrix multiplication (Row x Col) to help
 developers learn systolic array based algorithm design. Note : Systolic
@@ -63,7 +63,6 @@ xilinx_u250_qdma Xilinx Alveo U250               Vitis 2019.2
 xilinx_u250_xdma Xilinx Alveo U250               Vitis 2019.2
 xilinx_u280_xdma Xilinx Alveo U280               Vitis 2019.2
 xilinx_u50_xdma  Xilinx Alveo U50                Vitis 2019.2
-zc702_base       Xilinx Zynq-7000 SoC ZC702      Vitis 2019.2
 zc706_base       Xilinx Zynq-7000 SoC ZC706      Vitis 2019.2
 zcu102_base      Xilinx UltraScale+ MPSoC ZCU102 Vitis 2019.2
 ================ =============================== ================
