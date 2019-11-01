@@ -92,7 +92,10 @@ int main(int argc, char **argv) {
     static const int columns = 16;
     static const int rows = 16;
     cl_int err;
-
+    cl::CommandQueue q;
+    cl::Context context;
+    cl::Kernel matmul_kernel, matmul_partition_kernel;
+    cl::Program program;
     vector<int, aligned_allocator<int>> A(columns * rows);
     vector<int, aligned_allocator<int>> B(columns * rows);
     vector<int, aligned_allocator<int>> gold(columns * rows, 0);
@@ -109,20 +112,37 @@ int main(int argc, char **argv) {
     printf("Gold:\n");
     print(gold.data(), columns, rows);
     auto devices = xcl::get_xil_devices();
-    auto device = devices[0];
 
-    OCL_CHECK(err, cl::Context context(device, NULL, NULL, NULL, &err));
-    OCL_CHECK(
-        err,
-        cl::CommandQueue q(context, device, CL_QUEUE_PROFILING_ENABLE, &err));
-    OCL_CHECK(err,
-              std::string device_name = device.getInfo<CL_DEVICE_NAME>(&err));
-
-    //Create Program
+    // read_binary_file() is a utility API which will load the binaryFile
+    // and will return the pointer to file buffer.
     auto fileBuf = xcl::read_binary_file(binaryFile);
     cl::Program::Binaries bins{{fileBuf.data(), fileBuf.size()}};
-    devices.resize(1);
-    OCL_CHECK(err, cl::Program program(context, devices, bins, NULL, &err));
+    int valid_device = 0;
+    for (unsigned int i = 0; i < devices.size(); i++) {
+        auto device = devices[i];
+        // Creating Context and Command Queue for selected Device
+        OCL_CHECK(err, context = cl::Context({device}, NULL, NULL, NULL, &err));
+        OCL_CHECK(err,
+                  q = cl::CommandQueue(
+                      context, {device}, CL_QUEUE_PROFILING_ENABLE, &err));
+
+        std::cout << "Trying to program device[" << i
+                  << "]: " << device.getInfo<CL_DEVICE_NAME>() << std::endl;
+        OCL_CHECK(err,
+                  program = cl::Program(context, {device}, bins, NULL, &err));
+        if (err != CL_SUCCESS) {
+            std::cout << "Failed to program device[" << i
+                      << "] with xclbin file!\n";
+        } else {
+            std::cout << "Device[" << i << "]: program successful!\n";
+            valid_device++;
+            break; // we break because we found a valid device
+        }
+    }
+    if (valid_device == 0) {
+        std::cout << "Failed to program any device found, exit!\n";
+        exit(EXIT_FAILURE);
+    }
 
     // compute the size of array in bytes
     size_t array_size_bytes = columns * rows * sizeof(int);
@@ -149,7 +169,7 @@ int main(int argc, char **argv) {
            "| Kernel                  |    Wall-Clock Time (ns) |\n"
            "|-------------------------+-------------------------|\n");
 
-    OCL_CHECK(err, cl::Kernel matmul_kernel(program, "matmul", &err));
+    OCL_CHECK(err, matmul_kernel = cl::Kernel(program, "matmul", &err));
     OCL_CHECK(err, err = matmul_kernel.setArg(0, buffer_a));
     OCL_CHECK(err, err = matmul_kernel.setArg(1, buffer_b));
     OCL_CHECK(err, err = matmul_kernel.setArg(2, buffer_c));
@@ -179,9 +199,9 @@ int main(int argc, char **argv) {
     verify(gold, C);
     printf("| %-23s | %23lu |\n", "matmul: ", matmul_time);
 
-    OCL_CHECK(
-        err,
-        cl::Kernel matmul_partition_kernel(program, "matmul_partition", &err));
+    OCL_CHECK(err,
+              matmul_partition_kernel =
+                  cl::Kernel(program, "matmul_partition", &err));
 
     OCL_CHECK(err, err = matmul_partition_kernel.setArg(0, buffer_a));
     OCL_CHECK(err, err = matmul_partition_kernel.setArg(1, buffer_b));
