@@ -18,24 +18,30 @@ for dirpath, dirnames, filenames in os.walk("../../."):
 	for filename in [f for f in filenames if (f.endswith("description.json") and f not in "../../common/.")]:
 	
 		f = open(os.path.join(dirpath, filename), "r+")
-		condition = 0
 		listing = []
 		flag = 0 
+		name_flag = 0
 
 		for txt in f:
 
 			x = re.search(".*device\".*", txt)
 
-			if (x and flag == 0):
-				flag = 1
-				string = string + "\n" + dirpath +  "\n" + txt
-				continue
+			if (x):
+				if(name_flag is 0):
+ 					name_flag = 1
+					string = string + "\n" + dirpath + "\n"
+
+				if(',' not in txt):	
+					flag = 1
+				
+				string = string + txt
+				continue	
 
 			if (flag):
 				string = string + txt
 				
 				if(']' in txt):
-					break
+					flag = 0
 		f.close()
 
 g = open ("Data.txt", "w")
