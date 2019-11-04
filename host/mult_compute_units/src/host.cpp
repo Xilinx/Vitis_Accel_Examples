@@ -35,7 +35,7 @@ multiple compute units and run them concurrently.
 //OpenCL utility layer include
 #include "xcl2.hpp"
 
-auto constexpr data_size = 4 * 4096;
+auto constexpr data_hw = 1024 * 1024 * 4;
 auto constexpr num_cu = 4;
 
 //////////////MAIN FUNCTION//////////////
@@ -45,7 +45,11 @@ int main(int argc, char **argv) {
         return EXIT_FAILURE;
     }
     std::string binaryFile = argv[1];
+    int data_size = data_hw;
     cl_int err;
+    if (xcl::is_emulation()) {
+        data_size = 4096 * 4;
+    }
     cl::CommandQueue q;
     cl::Context context;
     std::vector<cl::Kernel> krnls(num_cu);
@@ -66,7 +70,6 @@ int main(int argc, char **argv) {
     // get_xil_devices() is a utility API which will find the xilinx
     // platforms and will return list of devices connected to Xilinx platform
     auto devices = xcl::get_xil_devices();
-    auto device = devices[0];
 
     //read_binary_file() is a utility API which will load the binaryFile
     //and will return the pointer to file buffer.

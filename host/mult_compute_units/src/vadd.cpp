@@ -21,13 +21,9 @@ HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABI
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 **********/
-// Work load of each CU
-#define BUFFER_SIZE 1024
-#define DATA_SIZE 4096
-
 //TRIPCOUNT indentifier
-const unsigned int c_len = DATA_SIZE / BUFFER_SIZE;
-const unsigned int c_size = BUFFER_SIZE;
+const unsigned int c_min = 4096;
+const unsigned int c_max = 4 * 1024 * 1024;
 
 /*
     Vector Addition Kernel Implementation 
@@ -61,55 +57,11 @@ void vadd(const unsigned int *in1, // Read-Only Vector 1
 #pragma HLS INTERFACE s_axilite port = size bundle = control
 #pragma HLS INTERFACE s_axilite port = return bundle = control
 
-    unsigned int v1_buffer[BUFFER_SIZE];   // Local memory to store vector1
-    unsigned int v2_buffer[BUFFER_SIZE];   // Local memory to store vector2
-    unsigned int vout_buffer[BUFFER_SIZE]; // Local Memory to store result
-
-    //Each iteration of this loop performs BUFFER_SIZE vector addition
-    for (int i = 0; i < size; i += BUFFER_SIZE) {
-       #pragma HLS LOOP_TRIPCOUNT min=c_len max=c_len
-        int chunk_size = BUFFER_SIZE;
-        //boundary checks
-        if ((i + BUFFER_SIZE) > size)
-            chunk_size = size - i;
-
-        // Transferring data in bursts hides the memory access latency as well as improves bandwidth utilization and efficiency of the memory controller.
-        // It is recommended to infer burst transfers from successive requests of data from consecutive address locations.
-        // A local memory vl_local is used for buffering the data from a single burst. The entire input vector is read in multiple bursts.
-        // The choice of LOCAL_MEM_SIZE depends on the specific applications and available on-chip memory on target FPGA.
-        // burst read of v1 and v2 vector from global memory
-
-    read1:
-        for (int j = 0; j < chunk_size; j++) {
-           #pragma HLS LOOP_TRIPCOUNT min=c_size max=c_size
-           #pragma HLS PIPELINE II=1
-            v1_buffer[j] = in1[i + j];
-        }
-
-    read2:
-        for (int j = 0; j < chunk_size; j++) {
-           #pragma HLS LOOP_TRIPCOUNT min=c_size max=c_size
-           #pragma HLS PIPELINE II=1
-            v2_buffer[j] = in2[i + j];
-        }
-
-        // PIPELINE pragma reduces the initiation interval for loop by allowing the
-        // concurrent execution of operations
-    vadd:
-        for (int j = 0; j < chunk_size; j++) {
-           #pragma HLS LOOP_TRIPCOUNT min=c_size max=c_size
-           #pragma HLS PIPELINE II=1
-            //perform vector addition
-            vout_buffer[j] = v1_buffer[j] + v2_buffer[j];
-        }
-
-    //burst write the result
-    write:
-        for (int j = 0; j < chunk_size; j++) {
-           #pragma HLS LOOP_TRIPCOUNT min=c_size max=c_size
-           #pragma HLS PIPELINE II=1
-            out_r[i + j] = vout_buffer[j];
-        }
+    //Unoptimized vector addition kernel to increase the kernel execution time
+    //Large execution time required to showcase parallel execution of multiple compute units in this example.
+    for (int i = 0; i < size; i++) {
+       #pragma HLS LOOP_TRIPCOUNT min=c_min max=c_max
+        out_r[i] = in1[i] + in2[i];
     }
 }
 }
