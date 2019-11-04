@@ -9,11 +9,11 @@
                     "check_timing": "true", 
                     "PipelineType": "none", 
                     "check_latency": "true", 
-                    "check_warning": "false", 
+                    "check_warning": "true", 
                     "loops": [
                         {
                             "name": "v1_rd", 
-                            "PipelineII": "1"
+                            "PipelineII": "2"
                         }, 
                         {
                             "name": "v2_rd_add", 
