@@ -33,7 +33,7 @@ ABS_COMMON_REPO = $(shell readlink -f $(COMMON_REPO))
 TARGET := hw
 HOST_ARCH := x86
 SYSROOT := 
-DEVICE = xilinx_u280_xdma_201910_1
+DEVICE = xilinx_u50_xdma_201920_1
 
 include ./utils.mk
 

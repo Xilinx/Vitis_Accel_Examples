@@ -1,7 +1,7 @@
 {
     "name": "HBM Bandwidth", 
     "description": [
-        "This is a HBM bandwidth check design. Design contains 6 compute units of a kernel which has access to all HBM banks (0:31). Host application allocate buffer into all HBM banks and run these 6 compute units concurrently and measure the overall bandwidth between Kernel and HBM Memory."
+        "This is a HBM bandwidth check design. Design contains 3 compute units of a kernel which has access to all HBM banks (0:31). Host application allocate buffer into all HBM banks and run these 3 compute units concurrently and measure the overall bandwidth between Kernel and HBM Memory."
     ],
     "testinfo": {
         "profile": "no"
@@ -22,7 +22,7 @@
         "xilinx:samsung:U2x4",
         "xilinx:vcu1525:dynamic" 
     ], 
-    "default_device": "xilinx_u280_xdma_201910_1", 
+    "default_device": "xilinx_u50_xdma_201920_1", 
     "contributors": [
         {
             "url": "http://www.xilinx.com", 
@@ -113,69 +113,9 @@
                                     "memory": "HBM[11]"
                                 }
                             ]
-                        }, 
-                        {
-                            "arguments": [
-                                {
-                                    "name": "in1", 
-                                    "memory": "HBM[12]"
-                                }, 
-                                {
-                                    "name": "in2", 
-                                    "memory": "HBM[13]"
-                                }, 
-                                {
-                                    "name": "out_add", 
-                                    "memory": "HBM[14]"
-                                }, 
-                                {
-                                    "name": "out_mul", 
-                                    "memory": "HBM[15]"
-                                }
-                            ]
-                        }, 
-                        {
-                            "arguments": [
-                                {
-                                    "name": "in1", 
-                                    "memory": "HBM[16]"
-                                }, 
-                                {
-                                    "name": "in2", 
-                                    "memory": "HBM[17]"
-                                }, 
-                                {
-                                    "name": "out_add", 
-                                    "memory": "HBM[18]"
-                                }, 
-                                {
-                                    "name": "out_mul", 
-                                    "memory": "HBM[19]"
-                                }
-                            ]
-                        }, 
-                        {
-                            "arguments": [
-                                {
-                                    "name": "in1", 
-                                    "memory": "HBM[20]"
-                                }, 
-                                {
-                                    "name": "in2", 
-                                    "memory": "HBM[21]"
-                                }, 
-                                {
-                                    "name": "out_add", 
-                                    "memory": "HBM[22]"
-                                }, 
-                                {
-                                    "name": "out_mul", 
-                                    "memory": "HBM[23]"
-                                }
-                            ]
                         } 
                     ], 
-                    "num_compute_units": "6", 
+                    "num_compute_units": "3", 
                     "location": "src/krnl_vaddmul.cpp", 
                     "name": "krnl_vaddmul"
                 }
