@@ -433,6 +433,7 @@ def mk_check(target, data):
         target.write("endif\n")
     target.write("\n")
 
+
     target.write("sd_card: $(EXECUTABLE) $(BINARY_CONTAINERS) emconfig\n")
     target.write("ifneq ($(HOST_ARCH), x86)\n")
     target.write("\tmkdir -p $(SDCARD)/$(BUILD_DIR)\n")
@@ -568,6 +569,14 @@ def util_checks(target):
     target.write("\t$(error XILINX_XRT variable is not set, please set correctly and rerun)\n")
     target.write("endif\n")
     target.write("\n")
+
+    target.write("#Checks for Correct architecture\n")
+    target.write("ifneq ($(HOST_ARCH), $(filter $(HOST_ARCH),aarch64 aarch32 x86))\n")
+    target.write("$(error HOST_ARCH variable not set, please set correctly and rerun)\n") 
+    target.write("endif\n")
+    target.write("\n")
+    
+
 
     target.write("#Checks for SYSROOT\n")
     target.write("ifneq ($(HOST_ARCH), x86)\n")

@@ -43,6 +43,11 @@ ifndef XILINX_XRT
 	$(error XILINX_XRT variable is not set, please set correctly and rerun)
 endif
 
+#Checks for Correct architecture
+ifneq ($(HOST_ARCH), $(filter $(HOST_ARCH),aarch64 aarch32 x86))
+$(error HOST_ARCH variable not set, please set correctly and rerun)
+endif
+
 #Checks for SYSROOT
 ifneq ($(HOST_ARCH), x86)
 ifndef SYSROOT
