@@ -49,6 +49,9 @@ int main(int argc, char **argv) {
     // compute the size of array in bytes
     size_t size_in_bytes = DATA_SIZE * sizeof(int);
     cl_int err;
+    cl::CommandQueue q;
+    cl::Kernel krnl_vector_add;
+    cl::Context context;
 
     // Creates a vector of DATA_SIZE elements with an initial value of 10 and 32
     vector<int, aligned_allocator<int>> source_a(DATA_SIZE, 10);
@@ -57,25 +60,42 @@ int main(int argc, char **argv) {
 
     // The get_xil_devices will return vector of Xilinx Devices
     auto devices = xcl::get_xil_devices();
-    auto device = devices[0];
 
-    //Creating Context and Command Queue for selected Device
-    OCL_CHECK(err, cl::Context context(device, NULL, NULL, NULL, &err));
-    OCL_CHECK(
-        err,
-        cl::CommandQueue q(context, device, CL_QUEUE_PROFILING_ENABLE, &err));
-    OCL_CHECK(err,
-              std::string device_name = device.getInfo<CL_DEVICE_NAME>(&err));
-    std::cout << "Found Device=" << device_name.c_str() << std::endl;
-
-    // read_binary() command will find the OpenCL binary file created using the
-    // V++ compiler load into OpenCL Binary and return a pointer to file buffer
-    // and it can contain many functions which can be executed on the
-    // device.
+    // read_binary_file() is a utility API which will load the binaryFile
+    // and will return the pointer to file buffer.
     auto fileBuf = xcl::read_binary_file(binaryFile);
     cl::Program::Binaries bins{{fileBuf.data(), fileBuf.size()}};
-    devices.resize(1);
-    OCL_CHECK(err, cl::Program program(context, devices, bins, NULL, &err));
+    int valid_device = 0;
+    for (unsigned int i = 0; i < devices.size(); i++) {
+        auto device = devices[i];
+        // Creating Context and Command Queue for selected Device
+        OCL_CHECK(err, context = cl::Context({device}, NULL, NULL, NULL, &err));
+        OCL_CHECK(err,
+                  q = cl::CommandQueue(
+                      context, {device}, CL_QUEUE_PROFILING_ENABLE, &err));
+
+        std::cout << "Trying to program device[" << i
+                  << "]: " << device.getInfo<CL_DEVICE_NAME>() << std::endl;
+        OCL_CHECK(err,
+                  cl::Program program(context, {device}, bins, NULL, &err));
+        if (err != CL_SUCCESS) {
+            std::cout << "Failed to program device[" << i
+                      << "] with xclbin file!\n";
+        } else {
+            std::cout << "Device[" << i << "]: program successful!\n";
+            // This call will extract a kernel out of the program we loaded in the
+            // previous line. A kernel is an OpenCL function that is executed on the
+            // FPGA. This function is defined in the src/vetor_addition.cl file.
+            OCL_CHECK(
+                err, krnl_vector_add = cl::Kernel(program, "vector_add", &err));
+            valid_device++;
+            break; // we break because we found a valid device
+        }
+    }
+    if (valid_device == 0) {
+        std::cout << "Failed to program any device found, exit!\n";
+        exit(EXIT_FAILURE);
+    }
 
     // These commands will allocate memory on the FPGA. The cl::Buffer objects can
     // be used to reference the memory locations on the device. The cl::Buffer
@@ -99,11 +119,6 @@ int main(int argc, char **argv) {
                                        size_in_bytes,
                                        source_results.data(),
                                        &err));
-
-    // This call will extract a kernel out of the program we loaded in the
-    // previous line. A kernel is an OpenCL function that is executed on the
-    // FPGA. This function is defined in the src/vetor_addition.cl file.
-    OCL_CHECK(err, cl::Kernel krnl_vector_add(program, "vector_add", &err));
 
     //set the kernel Arguments
     int narg = 0;
