@@ -31,7 +31,7 @@
         "Multiple Compute Units"
     ], 
     "keywords": [
-        "-nk"
+        "nk"
     ], 
     "runtime": [
         "OpenCL"

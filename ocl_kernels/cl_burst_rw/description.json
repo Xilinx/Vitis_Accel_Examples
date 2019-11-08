@@ -29,8 +29,8 @@
         "burst access"
     ], 
     "keywords": [
-        "param:compiler.interfaceWrBurstLen", 
-        "param:compiler.interfaceRdBurstLen"
+	"compiler.interfaceRdBurstLen",
+	"compiler.interfaceWrBurstLen"
     ], 
     "runtime": [
         "OpenCL"

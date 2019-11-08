@@ -5,7 +5,7 @@ This example shows vector addition with 2 kernel clocks using RTL Kernel.
 
 ***KEY CONCEPTS:*** RTL Kernel, Multiple Kernel Clocks
 
-***KEYWORDS:*** --kernel_frequency
+***KEYWORDS:*** kernel_frequency
 
 ## SUPPORTED SHELLS
 Shell | Board             | Software Version

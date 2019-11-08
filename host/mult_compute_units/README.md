@@ -5,7 +5,7 @@ This is simple Example of Multiple Compute units to showcase how a single kernel
 
 ***KEY CONCEPTS:*** Multiple Compute Units
 
-***KEYWORDS:*** -nk
+***KEYWORDS:*** nk
 
 ## SUPPORTED SHELLS
 Shell | Board             | Software Version

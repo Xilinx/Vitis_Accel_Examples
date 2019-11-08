@@ -42,7 +42,7 @@
     "keywords": [
         "cl_stream", 
         "CL_STREAM_EOT", 
-        "Multiple Compute Units"
+        "nk"
     ], 
     "runtime": [
         "OpenCL"

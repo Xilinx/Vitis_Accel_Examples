@@ -43,9 +43,7 @@
         "Create/Release Stream"
     ], 
     "keywords": [
-        "cl_stream", 
-        "CL_STREAM_EOT", 
-        "CL_STREAM_BLOCKING"
+	"stream_connect"
     ], 
     "runtime": [
         "OpenCL"

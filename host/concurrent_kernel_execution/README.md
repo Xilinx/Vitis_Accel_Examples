@@ -5,7 +5,7 @@ This example will demonstrate how to use multiple and out of order command queue
 
 ***KEY CONCEPTS:*** Concurrent execution, Out of Order Command Queues, Multiple Command Queues
 
-***KEYWORDS:*** CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE, clSetEventCallback()
+***KEYWORDS:*** CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE, setCallback
 
 ## SUPPORTED SHELLS
 Shell | Board             | Software Version

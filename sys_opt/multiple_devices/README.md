@@ -5,7 +5,7 @@ This example show how to take advantage of multiple FPGAs on a system. It will s
 
 ***KEY CONCEPTS:*** OpenCL API, Multi-FPGA Execution, Event Handling
 
-***KEYWORDS:*** cl_device_id, clGetDeviceIDs()
+***KEYWORDS:*** xcl::get_xil_devices
 
 ## SUPPORTED SHELLS
 Shell | Board             | Software Version

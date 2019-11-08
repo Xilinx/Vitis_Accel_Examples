@@ -5,7 +5,7 @@ This examples demonstrates techniques that allow user to overlap Host(CPU) and F
 
 ***KEY CONCEPTS:*** OpenCL API, Synchronize Host and FPGA, Asynchronous Processing, Events, Asynchronous memcpy
 
-***KEYWORDS:*** cl_event, clCreateCommandQueue, CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE, clEnqueueMigrateMemObjects
+***KEYWORDS:*** cl_event, cl::CommandQueue, CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE, enqueueMigrateMemObjects
 
 ## SUPPORTED SHELLS
 Shell | Board             | Software Version

@@ -42,9 +42,9 @@
         "Multiple Banks"
     ], 
     "keywords": [
-        "max_memory_ports", 
-        "misc:map_connect", 
-        "HLS Interface m_axi bundle"
+        "max_memory_ports",
+        "sp",
+        "connectivity"
     ], 
     "runtime": [
         "OpenCL"

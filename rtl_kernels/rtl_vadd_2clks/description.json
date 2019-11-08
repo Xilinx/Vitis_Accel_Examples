@@ -41,7 +41,7 @@
         "Multiple Kernel Clocks"
     ], 
     "keywords": [
-        "--kernel_frequency"
+	"kernel_frequency"
     ], 
     "runtime": [
         "OpenCL"

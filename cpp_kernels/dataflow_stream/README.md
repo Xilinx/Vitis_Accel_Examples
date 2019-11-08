@@ -5,7 +5,7 @@ This is simple example of vector addition to demonstrate Dataflow functionality 
 
 ***KEY CONCEPTS:*** Task Level Parallelism
 
-***KEYWORDS:*** dataflow, hls::stream<>
+***KEYWORDS:*** dataflow, hls::stream
 
 ## SUPPORTED SHELLS
 Shell | Board             | Software Version

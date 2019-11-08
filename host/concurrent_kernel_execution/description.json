@@ -33,7 +33,7 @@
     ], 
     "keywords": [
         "CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE", 
-        "clSetEventCallback()"
+        "setCallback"
     ], 
     "runtime": [
         "OpenCL"

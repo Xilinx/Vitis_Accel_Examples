@@ -44,8 +44,8 @@
         "Multiple Banks"
     ], 
     "keywords": [
-        "max_memory_ports", 
-        "misc:map_connect"
+        "sp", 
+        "connectivity"
     ], 
     "runtime": [
         "OpenCL"

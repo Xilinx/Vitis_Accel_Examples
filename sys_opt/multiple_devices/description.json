@@ -33,8 +33,7 @@
         "Event Handling"
     ], 
     "keywords": [
-        "cl_device_id", 
-        "clGetDeviceIDs()"
+	"xcl::get_xil_devices"
     ], 
     "runtime": [
         "OpenCL"

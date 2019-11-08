@@ -32,7 +32,7 @@
         "Multiple Kernel Binaries"
     ], 
     "keywords": [
-        "clEnqueueMigrateMemObjects()", 
+        "enqueueMigrateMemObjects", 
         "CL_MIGRATE_MEM_OBJECT_HOST"
     ], 
     "runtime": [

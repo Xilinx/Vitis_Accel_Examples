@@ -36,7 +36,11 @@
         "Copy Buffer"
     ], 
     "keywords": [
-        "cl::CommandQueue::enqueueCopyBuffer()"
+        "cl::CommandQueue",
+        "enqueueCopyBuffer",
+        "enqueueWriteBuffer", 
+        "enqueueReadBuffer",  
+        "enqueueMigrateMemObjects"
     ], 
     "runtime": [
         "OpenCL"

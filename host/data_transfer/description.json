@@ -35,11 +35,11 @@
         "Async Memcpy"
     ], 
     "keywords": [
-        "enqueueWriteBuffer()", 
-        "enqueueReadBuffer()", 
-        "enqueueMapBuffer()", 
-        "enqueueUnmapMemObject()", 
-        "enqueueMigrateMemObjects()"
+        "enqueueWriteBuffer", 
+        "enqueueReadBuffer", 
+        "enqueueMapBuffer", 
+        "enqueueUnmapMemObject", 
+        "enqueueMigrateMemObjects"
     ], 
     "runtime": [
         "OpenCL"

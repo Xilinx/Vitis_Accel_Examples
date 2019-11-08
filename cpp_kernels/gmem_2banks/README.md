@@ -5,7 +5,7 @@ This example of 2ddr to demonstrate on how to use 2ddr XSA. How to create buffer
 
 ***KEY CONCEPTS:*** Multiple Banks
 
-***KEYWORDS:*** max_memory_ports, misc:map_connect, HLS Interface m_axi bundle
+***KEYWORDS:*** max_memory_ports, sp, connectivity
 
 ## SUPPORTED SHELLS
 Shell | Board             | Software Version

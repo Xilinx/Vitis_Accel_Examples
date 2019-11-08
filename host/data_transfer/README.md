@@ -5,7 +5,7 @@ This example illustrates several ways to use the OpenCL API to transfer data to 
 
 ***KEY CONCEPTS:*** OpenCL API, Data Transfer, Write Buffers, Read Buffers, Map Buffers, Async Memcpy
 
-***KEYWORDS:*** enqueueWriteBuffer(), enqueueReadBuffer(), enqueueMapBuffer(), enqueueUnmapMemObject(), enqueueMigrateMemObjects()
+***KEYWORDS:*** enqueueWriteBuffer, enqueueReadBuffer, enqueueMapBuffer, enqueueUnmapMemObject, enqueueMigrateMemObjects
 
 ## SUPPORTED SHELLS
 Shell | Board             | Software Version

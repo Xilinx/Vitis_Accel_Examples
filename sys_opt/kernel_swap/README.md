@@ -5,7 +5,7 @@ This example shows how host can swap the kernels and share same buffer between t
 
 ***KEY CONCEPTS:*** Handling Buffer sharing across multiple binaries, Multiple Kernel Binaries
 
-***KEYWORDS:*** clEnqueueMigrateMemObjects(), CL_MIGRATE_MEM_OBJECT_HOST
+***KEYWORDS:*** enqueueMigrateMemObjects, CL_MIGRATE_MEM_OBJECT_HOST
 
 ## SUPPORTED SHELLS
 Shell | Board             | Software Version

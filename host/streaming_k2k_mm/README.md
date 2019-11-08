@@ -5,7 +5,7 @@ This is a simple kernel to kernel streaming Vector Add and Vector Multiply C Ker
 
 ***KEY CONCEPTS:*** Read/Write Stream, Create/Release Stream
 
-***KEYWORDS:*** cl_stream, CL_STREAM_EOT, CL_STREAM_BLOCKING
+***KEYWORDS:*** stream_connect
 
 ## SUPPORTED SHELLS
 Shell | Board             | Software Version

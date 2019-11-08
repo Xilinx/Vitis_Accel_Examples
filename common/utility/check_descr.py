@@ -33,9 +33,8 @@ for dirpath, dirnames, filenames in os.walk("../.././"):
 				else:
 					c_list = txt.split("\"")
 					check_flag = 0
-					alt_dirpath = dirpath + "/src"
-					for c_dirpath, c_dirnames, c_filenames in os.walk(os.path.join(alt_dirpath)):
-						for check_filename in [c_f for c_f in c_filenames]:
+					for c_dirpath, c_dirnames, c_filenames in os.walk(os.path.join(dirpath)):
+						for check_filename in [c_f for c_f in c_filenames if (not (c_f.endswith(".md") or c_f.endswith("description.json")))]:
 							c_f = open(os.path.join(c_dirpath, check_filename), "r+")
 						
 							for check_txt in c_f:
@@ -45,13 +44,12 @@ for dirpath, dirnames, filenames in os.walk("../.././"):
 						
 							c_f.close()
 
-						if (check_flag is 0):
+					if (check_flag is 0):
 							string_check = string_check + txt
 							t = 1
 
 		if (t):
-			print(os.path.join(dirpath, filename))
+			print(os.path.join(dirpath))
 			print(string_check)
 		
 		f.close()
-	

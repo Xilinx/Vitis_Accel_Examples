@@ -30,7 +30,7 @@
     ], 
     "keywords": [
         "xcl_array_partition", 
-        "getprofilingInfo()"
+        "getProfilingInfo"
     ], 
     "runtime": [
         "OpenCL"

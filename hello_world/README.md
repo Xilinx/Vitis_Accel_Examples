@@ -5,7 +5,7 @@ This is simple example of vector addition to describe how to use HLS kernels in 
 
 ***KEY CONCEPTS:*** HLS C Kernel, OpenCL Host APIs
 
-***KEYWORDS:*** gmem, bundle, #pragma HLS INTERFACE, m_axi, s_axi4lite
+***KEYWORDS:*** gmem, bundle, #pragma HLS INTERFACE, m_axi, s_axilite
 
 ## SUPPORTED SHELLS
 Shell | Board             | Software Version

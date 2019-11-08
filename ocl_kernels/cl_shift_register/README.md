@@ -5,7 +5,7 @@ This example demonstrates how to shift values in registers in each clock cycle
 
 ***KEY CONCEPTS:*** Kernel Optimization, Shift Register, FIR
 
-***KEYWORDS:*** xcl_array_partition, getprofilingInfo()
+***KEYWORDS:*** xcl_array_partition, getProfilingInfo
 
 ## SUPPORTED SHELLS
 Shell | Board             | Software Version

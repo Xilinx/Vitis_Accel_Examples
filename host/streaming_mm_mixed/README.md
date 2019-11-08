@@ -5,7 +5,7 @@ This is a simple streaming Vector Addition C Kernel design with 1 Stream input, 
 
 ***KEY CONCEPTS:*** Read/Write Stream, Create/Release Stream
 
-***KEYWORDS:*** cl_stream, CL_STREAM_EOT, CL_STREAM_BLOCKING
+***KEYWORDS:*** cl_stream, CL_STREAM_EOT
 
 ## SUPPORTED SHELLS
 Shell | Board             | Software Version

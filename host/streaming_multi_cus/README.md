@@ -5,7 +5,7 @@ This is a simple Vector Add C Kernel design with 2 Stream inputs and 1 Stream ou
 
 ***KEY CONCEPTS:*** Read/Write Stream, Create/Release Stream
 
-***KEYWORDS:*** cl_stream, CL_STREAM_EOT, Multiple Compute Units
+***KEYWORDS:*** cl_stream, CL_STREAM_EOT, nk
 
 ## SUPPORTED SHELLS
 Shell | Board             | Software Version

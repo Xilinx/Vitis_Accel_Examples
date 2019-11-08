@@ -28,7 +28,7 @@
     ], 
     "keywords": [
         "dataflow", 
-        "hls::stream<>"
+        "hls::stream"
     ], 
     "runtime": [
         "OpenCL"

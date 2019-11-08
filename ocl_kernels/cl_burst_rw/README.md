@@ -5,7 +5,7 @@ This is simple example of using AXI4-master interface for burst read and write
 
 ***KEY CONCEPTS:*** burst access
 
-***KEYWORDS:*** param:compiler.interfaceWrBurstLen, param:compiler.interfaceRdBurstLen
+***KEYWORDS:*** compiler.interfaceRdBurstLen, compiler.interfaceWrBurstLen
 
 ## SUPPORTED SHELLS
 Shell | Board             | Software Version

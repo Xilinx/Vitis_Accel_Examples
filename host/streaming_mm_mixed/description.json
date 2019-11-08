@@ -44,8 +44,7 @@
     ], 
     "keywords": [
         "cl_stream", 
-        "CL_STREAM_EOT", 
-        "CL_STREAM_BLOCKING"
+        "CL_STREAM_EOT"
     ], 
     "runtime": [
         "OpenCL"

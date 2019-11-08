@@ -5,7 +5,7 @@ This is simple example of Multiple Stages Vector Addition to demonstrate Array o
 
 ***KEY CONCEPTS:*** Array of Stream
 
-***KEYWORDS:*** dataflow, hls::stream<>
+***KEYWORDS:*** dataflow, hls::stream
 
 ## SUPPORTED SHELLS
 Shell | Board             | Software Version
