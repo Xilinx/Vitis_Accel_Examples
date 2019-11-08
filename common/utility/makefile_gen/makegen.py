@@ -426,8 +426,14 @@ def mk_check(target, data):
         target.write(" TARGET. Please use the target for running the application)\n")
         target.write("endif\n")
         target.write("\n")
-
-    if ("match_ini" not in data) or (data["match_ini"] == "true"):
+    
+    xrt_flag=0
+    for dirs,subdirs,files in os.walk("."):
+    	if "xrt.ini" in files:
+		xrt = open("xrt.ini", "r")
+		if("profile=true") in xrt.read():
+			xrt_flag=1
+    if xrt_flag == 1:
         target.write("ifeq ($(HOST_ARCH), x86)\n")
         target.write("\tperf_analyze profile -i profile_summary.csv -f html\n")
         target.write("endif\n")
