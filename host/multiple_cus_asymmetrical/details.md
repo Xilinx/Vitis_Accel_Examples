@@ -22,18 +22,18 @@ sp=vadd_4.in2:PLRAM[1]
 sp=vadd_4.out_r:PLRAM[1]
 ```
 
-Some of the vadd compute units are connected Different DDR banks and some are connected to PLRAMs.
+Some of the vadd compute units are connected to DDR banks and some are connected to PLRAMs.
 `nk` option can be used to specify how many compute unit are needed for `vadd` kernel. It also allows to give names of user choice. 
 `sp` option can be used to provide connection of compute units to target memory (DDR, PLRAM).
 
-this `vadd.ini` file should be included in v++ command line as below:
+`vadd.ini` file should be included in v++ command line as below:
 ```
 --config vadd.ini 
 ```
 
-As each compute unit are connected to diferrent DDR/PLRAM, so host program has to create kernel object for specific to Compute unit as below:
+As each compute unit are connected to diferrent DDR/PLRAM, so host program has to create kernel object specific to compute unit as below:
 ```c++
 cl::Kernel cu0_krnls = cl::Kernel(program, "vadd:{vadd_1}");
 
 ```
-Above created kernel object is very specific to `vadd_1` compute unit. Using this Kernel Object, host can directly access to this fix compute unit. 
+The kernel object which is created above is very specific to `vadd_1` compute unit. Using this Kernel Object, host can directly access to this fix compute unit. 

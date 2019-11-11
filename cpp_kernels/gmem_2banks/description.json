@@ -10,7 +10,7 @@
  	"xilinx:v350-es1:xdma"
     ], 
     "description": [
-        "This example of 2ddr to demonstrate on how to use 2ddr XSA. How to create buffers in each DDR."
+        "This example of 2ddr is to demonstrate how to use multiple ddr and create buffers in each DDR."
     ], 
     "contributors": [
         {

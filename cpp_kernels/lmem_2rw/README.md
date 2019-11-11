@@ -1,7 +1,7 @@
 Local Memory Two Parallel Read/Write (C)
 ======================
 
-This is simple example of vector addition to demonstrate how to utilized both ports of Local Memory memory.
+This is simple example of vector addition to demonstrate how to utilize both ports of Local Memory.
 
 ***KEY CONCEPTS:*** Kernel Optimization, 2port BRAM Utilization, two read/write Local Memory
 

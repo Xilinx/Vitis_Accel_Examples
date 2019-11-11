@@ -1,7 +1,7 @@
 Global Memory Two Banks (C)
 ======================
 
-This example of 2ddr to demonstrate on how to use 2ddr XSA. How to create buffers in each DDR.
+This example of 2ddr is to demonstrate how to use multiple ddr and create buffers in each DDR.
 
 ***KEY CONCEPTS:*** Multiple Banks
 

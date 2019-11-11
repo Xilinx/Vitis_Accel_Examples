@@ -3,7 +3,7 @@ Dataflow using HLS Stream
 
 This example explains how `#pragma HLS dataflow` can be used to implement task level parallelism using `HLS Stream` datatype.
 
-If the data stored in the array is consumed or produced in a sequential manner, a more efficient
+Usually data stored in the array is consumed or produced in a sequential manner, a more efficient
 communication mechanism is to use streaming data as specified by the `STREAM` pragma, where
 FIFOs are used instead of RAMs. Depth of `FIFO` can be specified by `depth` option in the pragma.
 

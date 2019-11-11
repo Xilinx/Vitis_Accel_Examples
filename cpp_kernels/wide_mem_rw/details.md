@@ -5,6 +5,7 @@ This example demonstrates the use of `ap_uint<>` datatype which enables `V++` to
 
  For efficient use of this bandwidth, `ap_uint<512>` is used as interface between kernels and global memory allows for maximum 
  of 512 bits to be transferred concurrently. User must include `ap_int.h` to use these datatypes.
+
  ```c++
 #define DATAWIDTH 512
 typedef ap_uint<DATAWIDTH> uint512_dt;
@@ -12,7 +13,9 @@ typedef ap_uint<DATAWIDTH> uint512_dt;
 uint512_dt v1_local[BUFFER_SIZE];
 uint512_dt result_local[BUFFER_SIZE];
 ```
-Using 512 bits will enable the `burst` read and write for the data by using `#pragma HLS PIPELINE`.
+
+Using 512 bits user can enable the `burst` read and write for the data by using `#pragma HLS PIPELINE`.
+
 ```c++
 v1_rd:
        for (int j = 0; j < chunk_size; j++) {

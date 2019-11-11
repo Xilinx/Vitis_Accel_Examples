@@ -78,7 +78,7 @@ double calc_throput(cl::Event &wait_event, size_t vector_size_bytes) {
               err = wait_event.getProfilingInfo<unsigned long>(
                   CL_PROFILING_COMMAND_END, &stop));
     unsigned long duration = stop - start;
-    double throput = (double)vector_size_bytes / (double)duration * 1E3 * 2;
+    double throput = (double)vector_size_bytes / (double)duration * 1E0 * 2;
     return throput;
 }
 ////////MAIN FUNCTION//////////
@@ -228,7 +228,7 @@ int main(int argc, char **argv) {
     q.finish();
 
     double throput = calc_throput(b_wait_event, vector_size_bytes);
-    std::cout << "[ Case: 1 ] -> Throughput = " << throput << " MB/s\n";
+    std::cout << "[ Case: 1 ] -> Throughput = " << throput << " GB/s\n";
 
     // Compare the results
     bool b_match = verify(sw_results.data(), hw_results.data(), size);
@@ -284,7 +284,7 @@ int main(int argc, char **argv) {
     q.finish();
 
     throput = calc_throput(nb_wait_event, vector_size_bytes);
-    std::cout << "[ Case: 2 ] -> Throughput = " << throput << " MB/s\n";
+    std::cout << "[ Case: 2 ] -> Throughput = " << throput << " GB/s\n";
 
     // Compare the device results with software results
     bool nb_match = verify(sw_results.data(), hw_results.data(), size);

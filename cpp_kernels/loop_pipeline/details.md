@@ -13,3 +13,20 @@ read_a:
             result[x] = a[i * N + x];
         }
 ```
+Following is the log reported while running the design on U200 platform:
+```
+Platform Name: Xilinx
+INFO: Reading ./build_dir.hw.xilinx_u200_xdma_201830_2/vector_addition.xclbin
+Loading: './build_dir.hw.xilinx_u200_xdma_201830_2/vector_addition.xclbin'
+Trying to program device[0]: xilinx_u200_xdma_201830_2
+Device[0]: program successful!
+|-------------------------+-------------------------|
+| Kernel | Wall-Clock Time (ns) |
+|-------------------------+-------------------------|
+| vadd: simple | 389441 |
+| vadd: pipelined | 173306 |
+|-------------------------+-------------------------|
+Note: Wall Clock Time is meaningful for real hardware execution only, not for emulation.
+Please refer to profile summary for kernel execution time for hardware emulation.
+TEST PASSED.
+```

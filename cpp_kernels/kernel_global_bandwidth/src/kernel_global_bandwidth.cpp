@@ -391,13 +391,13 @@ int main(int argc, char **argv) {
     double dsduration = dnsduration / ((double)1000000000);
 
     double bpersec = (dbytes / dsduration);
-    double mbpersec = bpersec / ((double)1024 * 1024) * ddr_banks;
+    double gbpersec = bpersec / ((double)1024 * 1024 * 1024) * ddr_banks;
 
     printf(
         "Kernel completed read/write %.0lf MB bytes from/to global memory.\n",
         dmbytes);
     printf("Execution time = %f (sec) \n", dsduration);
-    printf("Concurrent Read and Write Throughput = %f (MB/sec) \n", mbpersec);
+    printf("Concurrent Read and Write Throughput = %f (GB/sec) \n", gbpersec);
 
     printf("TEST PASSED\n");
     return EXIT_SUCCESS;

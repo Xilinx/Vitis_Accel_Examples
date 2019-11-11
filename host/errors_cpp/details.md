@@ -16,8 +16,7 @@ Error while trying to get Platform IDs without valid values
 err = cl::Platform::get(&platforms);
 ```
 
-Received Expected Error calling above call from `clGetPlatformIDs` This error is usually caused by a failed OpenCL installation or if both the platforms and num_platforms parameters are null. 
-
+No platforms were found. This could be caused because the OpenCL icd was not installed in /etc/OpenCL/vendors directory.
 
 Error when trying to access device type which does not exist
 ```c++
