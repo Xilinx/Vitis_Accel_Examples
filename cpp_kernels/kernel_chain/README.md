@@ -1,4 +1,4 @@
-Stream Chain Matrix Multiplication (C)
+Kernel Chain Matrix Multiplication (C)
 ======================
 
 This is a kernel containing the cascaded Matrix Multiplication using dataflow. ap_ctrl_chain is enabled for this kernel to showcase how multiple enqueue of Kernel calls can be overlapped to give higher performance. ap_ctrl_chain allow kernel to start processing of next kernel operation before completing the current kernel operation.
@@ -20,12 +20,13 @@ Application code is located in the src directory. Accelerator binary files will 
 
 ```
 src/host.cpp
-src/krnl_stream_mmult.cpp
+src/krnl_chain_mmult.cpp
+src/krnl_simple_mmult.cpp
 ```
 
 ##  COMMAND LINE ARGUMENTS
 Once the environment has been configured, the application can be executed by
 ```
-./vadd_mmult <krnl_stream_mmult XCLBIN>
+./vadd_mmult <krnl_mmult XCLBIN>
 ```
 

@@ -70,16 +70,15 @@ ifneq ($(TARGET), hw)
 endif
 
 
-# Kernel linker flags
-LDCLFLAGS += --config ./krnl_stream_mmult.ini
 
 EXECUTABLE = vadd_mmult
-CMD_ARGS = $(BUILD_DIR)/krnl_stream_mmult.xclbin
+CMD_ARGS = $(BUILD_DIR)/krnl_mmult.xclbin
 EMCONFIG_DIR = $(TEMP_DIR)
 EMU_DIR = $(SDCARD)/data/emulation
 
-BINARY_CONTAINERS += $(BUILD_DIR)/krnl_stream_mmult.xclbin
-BINARY_CONTAINER_krnl_stream_mmult_OBJS += $(TEMP_DIR)/krnl_stream_mmult.xo
+BINARY_CONTAINERS += $(BUILD_DIR)/krnl_mmult.xclbin
+BINARY_CONTAINER_krnl_mmult_OBJS += $(TEMP_DIR)/krnl_chain_mmult.xo
+BINARY_CONTAINER_krnl_mmult_OBJS += $(TEMP_DIR)/krnl_simple_mmult.xo
 
 CP = cp -rf
 
@@ -93,10 +92,13 @@ exe: $(EXECUTABLE)
 build: $(BINARY_CONTAINERS)
 
 # Building kernel
-$(TEMP_DIR)/krnl_stream_mmult.xo: src/krnl_stream_mmult.cpp
+$(TEMP_DIR)/krnl_chain_mmult.xo: src/krnl_chain_mmult.cpp
 	mkdir -p $(TEMP_DIR)
-	$(VPP) $(CLFLAGS) --temp_dir $(TEMP_DIR) -c -k krnl_stream_mmult -I'$(<D)' -o'$@' '$<'
-$(BUILD_DIR)/krnl_stream_mmult.xclbin: $(BINARY_CONTAINER_krnl_stream_mmult_OBJS)
+	$(VPP) $(CLFLAGS) --temp_dir $(TEMP_DIR) -c -k krnl_chain_mmult -I'$(<D)' -o'$@' '$<'
+$(TEMP_DIR)/krnl_simple_mmult.xo: src/krnl_simple_mmult.cpp
+	mkdir -p $(TEMP_DIR)
+	$(VPP) $(CLFLAGS) --temp_dir $(TEMP_DIR) -c -k krnl_simple_mmult -I'$(<D)' -o'$@' '$<'
+$(BUILD_DIR)/krnl_mmult.xclbin: $(BINARY_CONTAINER_krnl_mmult_OBJS)
 	mkdir -p $(BUILD_DIR)
 	$(VPP) $(CLFLAGS) --temp_dir $(BUILD_DIR) -l $(LDCLFLAGS) -o'$@' $(+)
 
@@ -125,7 +127,7 @@ endif
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 ifeq ($(HOST_ARCH), x86)
 	$(CP) $(EMCONFIG_DIR)/emconfig.json .
-	XCL_EMULATION_MODE=$(TARGET) ./$(EXECUTABLE) $(BUILD_DIR)/krnl_stream_mmult.xclbin
+	XCL_EMULATION_MODE=$(TARGET) ./$(EXECUTABLE) $(BUILD_DIR)/krnl_mmult.xclbin
 else
 	mkdir -p $(EMU_DIR)
 	$(CP) $(XILINX_VITIS)/data/emulation/unified $(EMU_DIR)
@@ -134,7 +136,7 @@ else
 endif
 else
 ifeq ($(HOST_ARCH), x86)
-	./$(EXECUTABLE) $(BUILD_DIR)/krnl_stream_mmult.xclbin
+	./$(EXECUTABLE) $(BUILD_DIR)/krnl_mmult.xclbin
 endif
 endif
 ifeq ($(HOST_ARCH), x86)

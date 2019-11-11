@@ -24,126 +24,9 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "ap_axi_sdata.h"
 #include "ap_int.h"
 #include "hls_stream.h"
-
-#define DWIDTH 32
-#define MAT_DIM 8
-typedef qdma_axis<DWIDTH, 0, 0, 0> pkt;
-
-void mm2s(int *a,
-          hls::stream<pkt> &strm_a,
-          hls::stream<int> &strm_ctrl_trans1,
-          hls::stream<int> &strm_ctrl_trans2) {
-
-    int dim = strm_ctrl_trans1.read();
-    int size = dim * dim;
-
-mm2s:
-    for (int i = 0; i < size; i++) {
-       #pragma HLS PIPELINE II=1
-        pkt p1;
-        p1.set_data(a[i]);
-
-        if (i == size - 1) {
-            p1.set_last(1);
-        } else {
-            p1.set_last(0);
-        }
-
-        p1.set_keep(-1);
-
-        strm_a.write(p1);
-    }
-    strm_ctrl_trans2.write(dim);
-}
-
-void mmult(hls::stream<pkt> &strm_a,
-           int *b,
-           hls::stream<int> &strm_ctrl_trans2,
-           hls::stream<pkt> &strm_out,
-           hls::stream<int> &strm_ctrl_trans3) {
-
-    int dim = strm_ctrl_trans2.read();
-    int size = dim * dim;
-
-    int buf_a[MAT_DIM][MAT_DIM];
-    int buf_b[MAT_DIM][MAT_DIM];
-    int buf_out[MAT_DIM][MAT_DIM];
-    int temp_sum[MAT_DIM];
-    int i, j, itr;
-
-read_strm_in1:
-    for (itr = 0, i = 0, j = 0; itr < size; itr++, j++) {
-       #pragma HLS PIPELINE II=1
-        if (j == dim) {
-            j = 0;
-            i++;
-        }
-        pkt temp = strm_a.read();
-        buf_a[i][j] = temp.get_data();
-    }
-
-read_mm_in2:
-    for (itr = 0, i = 0, j = 0; itr < size; itr++, j++) {
-       #pragma HLS PIPELINE II=1
-        if (j == dim) {
-            j = 0;
-            i++;
-        }
-        buf_b[i][j] = b[i * dim + j];
-    }
-
-mmult_strm_1:
-    for (int row = 0; row < dim; row++) {
-    mmult_strm_2:
-        for (int col = 0; col < dim; col++) {
-           #pragma HLS PIPELINE II=1
-            int result = 0;
-        mmult_strm_3:
-            for (int l = 0; l < dim; l++) {
-                result += buf_a[row][l] * buf_b[l][col];
-            }
-            buf_out[row][col] = result;
-        }
-    }
-
-write_strm_out:
-    for (itr = 0, i = 0, j = 0; itr < size; itr++, j++) {
-       #pragma HLS PIPELINE II=1
-        if (j == dim) {
-            j = 0;
-            i++;
-        }
-        pkt temp;
-        temp.set_data(buf_out[i][j]);
-        temp.set_keep(-1);
-
-        if (itr == size - 1)
-            temp.set_last(1);
-        else
-            temp.set_last(0);
-
-        strm_out.write(temp);
-    }
-    strm_ctrl_trans3.write(dim);
-}
-
-void s2mm(hls::stream<pkt> &strm_in,
-          int *output,
-          hls::stream<int> &strm_ctrl_trans5) {
-
-    int dim = strm_ctrl_trans5.read();
-    int size = dim * dim;
-
-write_output:
-    for (int i = 0; i < size; i++) {
-       #pragma HLS PIPELINE II=1
-        pkt temp = strm_in.read();
-        output[i] = temp.get_data();
-    }
-}
-
+#include "krnl_mmult.hpp"
 extern "C" {
-void krnl_stream_mmult(int *a, int *b, int *c, int *d, int *output, int dim) {
+void krnl_simple_mmult(int *a, int *b, int *c, int *d, int *output, int dim) {
 
    #pragma HLS INTERFACE m_axi port = a offset = slave bundle = gmem0
    #pragma HLS INTERFACE m_axi port = b offset = slave bundle = gmem1
@@ -157,7 +40,6 @@ void krnl_stream_mmult(int *a, int *b, int *c, int *d, int *output, int dim) {
    #pragma HLS INTERFACE s_axilite port = output bundle = control
    #pragma HLS INTERFACE s_axilite port = dim bundle = control
    #pragma HLS INTERFACE s_axilite port = return bundle = control
-   #pragma HLS INTERFACE ap_ctrl_chain port = return bundle = control
 
    #pragma HLS STABLE variable=a
    #pragma HLS STABLE variable=b
