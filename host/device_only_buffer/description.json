@@ -1,0 +1,58 @@
+{
+    "name": "Device Only Buffer (C)", 
+    "description": [
+        "This example will demonstrate how to create buffers in global memory which are not mapped to host."
+    ],
+    "keywords": [
+        "CL_MEM_HOST_NO_ACCESS"
+    ], 
+    "key_concepts": [
+        "Device only buffer" 
+               
+    ], 
+    "platform_type": "pcie", 
+    "os": [
+        "Linux"
+    ], 
+    "runtime": [
+        "OpenCL"
+    ], 
+    "host": {
+        "compiler": {
+            "sources": [
+                "REPO_DIR/common/includes/xcl2"
+            ], 
+            "includepaths": [
+                "REPO_DIR/common/includes/xcl2"
+            ]
+        }, 
+        "host_exe": "device_only_buf"
+    }, 
+    "containers": [
+        {
+            "accelerators": [
+                {
+                    "name": "madd", 
+                    "location": "src/madd.cpp"
+                }, 
+                {
+                    "name": "mmult", 
+                    "location": "src/mmult.cpp"
+                }
+            ], 
+            "name": "device_only_buf"
+        }
+    ], 
+    "launch": [
+        {
+            "cmd_args": "BUILD/device_only_buf.xclbin", 
+            "name": "generic launch for all flows"
+        }
+    ], 
+    "contributors": [
+        {
+            "url": "http://www.xilinx.com", 
+            "group": "Xilinx"
+        }
+    ] 
+}
