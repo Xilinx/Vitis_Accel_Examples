@@ -5,6 +5,7 @@ import glob
 import os
 import re
 import subprocess
+import ConfigParser
 
 #ini flags
 config_file = 0
@@ -427,16 +428,26 @@ def mk_check(target, data):
         target.write("endif\n")
         target.write("\n")
     
-    xrt_flag=0
+
+    ini_check = 0
     for dirs,subdirs,files in os.walk("."):
-    	if "xrt.ini" in files:
-		xrt = open("xrt.ini", "r")
-		if("profile=true") in xrt.read():
-			xrt_flag=1
-    if xrt_flag == 1:
-        target.write("ifeq ($(HOST_ARCH), x86)\n")
-        target.write("\tperf_analyze profile -i profile_summary.csv -f html\n")
-        target.write("endif\n")
+        if "xrt.ini" in files:
+		ini_check = 1
+    if ini_check == 1:
+	Config = ConfigParser.ConfigParser()
+	Config.read("xrt.ini")
+	sections = Config.sections()
+	if 'Debug' in sections:
+		dict_debug = {}
+		options = Config.options('Debug')
+		if 'profile' in options:
+			dict_debug['profile'] = Config.get('Debug', 'profile')
+			if dict_debug['profile'] == 'true':	
+        			target.write("ifeq ($(HOST_ARCH), x86)\n")
+        			target.write("\tperf_analyze profile -i profile_summary.csv -f html\n")
+        			target.write("endif\n")
+    else:
+	print "xrt.ini config file not found"		
     target.write("\n")
 
 
