@@ -11,7 +11,7 @@ import ConfigParser
 config_file = 0
 
 def create_params(target,data):    
-    target.write("# Points to Utility Directory\n")
+    target.write("# Points to top directory of Git repository\n")
     dirName = os.getcwd()
     dirNameList = list(dirName.split("/"))
     dirNameIndex = dirNameList.index("Vitis_Accel_Examples")

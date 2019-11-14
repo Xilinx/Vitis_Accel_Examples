@@ -25,7 +25,7 @@ help::
 	$(ECHO) "      By default, HOST_ARCH=x86. HOST_ARCH and SYSROOT is required for SoC shells"
 	$(ECHO) ""
 
-# Points to Utility Directory
+# Points to top directory of Git repository
 COMMON_REPO = ../
 PWD = $(shell readlink -f .)
 ABS_COMMON_REPO = $(shell readlink -f $(COMMON_REPO))
