@@ -35,7 +35,7 @@ Error while creating Program with Binary:
 ```c++
 cl::Program program(context, devices, invalid_bin, NULL, &err);
 ```
-Errors caused during program creation are usually due to invalid binaries. The binary may be targeting a different shell. It may also have been corrupted or incorrectly read from disk.
+Errors caused during program creation are usually due to invalid binaries. The binary may be targeting a different platform. It may also have been corrupted or incorrectly read from disk.
 
 Error while creating Kernel:
 ```c++

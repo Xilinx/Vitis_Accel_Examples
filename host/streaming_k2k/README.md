@@ -7,8 +7,8 @@ This is a simple kernel to kernel streaming Vector Add and Vector Multiply C Ker
 
 ***KEYWORDS:*** cl_stream, CL_STREAM_EOT, CL_STREAM_NONBLOCKING
 
-## SUPPORTED SHELLS
-Shell | Board             | Software Version
+## SUPPORTED PLATFORMS
+Platform | Board             | Software Version
 ---------|-------------------|-----------------
 xilinx_u200_qdma|Xilinx Alveo U200|VITIS 2019.2
 xilinx_u250_qdma|Xilinx Alveo U250|VITIS 2019.2

@@ -7,8 +7,8 @@ This example shows how to use array partitioning to improve performance of a ker
 
 ***KEYWORDS:*** xcl_array_partition, complete
 
-## SUPPORTED SHELLS
-Shell | Board             | Software Version
+## SUPPORTED PLATFORMS
+Platform | Board             | Software Version
 ---------|-------------------|-----------------
 xilinx_u200_qdma|Xilinx Alveo U200|VITIS 2019.2
 xilinx_u200_xdma|Xilinx Alveo U200|VITIS 2019.2

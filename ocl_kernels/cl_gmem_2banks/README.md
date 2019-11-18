@@ -7,8 +7,8 @@ This example of 2ddr to demonstrate on how to use 2ddr XSA. How to create buffer
 
 ***KEYWORDS:*** sp, connectivity
 
-## SUPPORTED SHELLS
-Shell | Board             | Software Version
+## SUPPORTED PLATFORMS
+Platform | Board             | Software Version
 ---------|-------------------|-----------------
 xilinx_u200_qdma|Xilinx Alveo U200|VITIS 2019.2
 xilinx_u200_xdma|Xilinx Alveo U200|VITIS 2019.2

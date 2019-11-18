@@ -5,8 +5,8 @@ This is simple example of vector addition and printing profile data (wall clock 
 
 ***KEY CONCEPTS:*** Use of Profile API, Waveform Dumping and loading
 
-## SUPPORTED SHELLS
-Shell | Board             | Software Version
+## SUPPORTED PLATFORMS
+Platform | Board             | Software Version
 ---------|-------------------|-----------------
 xilinx_u200_qdma|Xilinx Alveo U200|VITIS 2019.2
 xilinx_u200_xdma|Xilinx Alveo U200|VITIS 2019.2

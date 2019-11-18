@@ -7,8 +7,8 @@ This is simple example of RGB to HSV conversion to demonstrate Custom DATA Type 
 
 ***KEYWORDS:*** struct, #pragma HLS data_pack, #pragma HLS LOOP_TRIPCOUNT
 
-## SUPPORTED SHELLS
-Shell | Board             | Software Version
+## SUPPORTED PLATFORMS
+Platform | Board             | Software Version
 ---------|-------------------|-----------------
 xilinx_u200_qdma|Xilinx Alveo U200|VITIS 2019.2
 xilinx_u200_xdma|Xilinx Alveo U200|VITIS 2019.2

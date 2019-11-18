@@ -7,8 +7,8 @@ This example show how to take advantage of multiple FPGAs on a system. It will s
 
 ***KEYWORDS:*** xcl::get_xil_devices
 
-## SUPPORTED SHELLS
-Shell | Board             | Software Version
+## SUPPORTED PLATFORMS
+Platform | Board             | Software Version
 ---------|-------------------|-----------------
 xilinx_u200_qdma|Xilinx Alveo U200|VITIS 2019.2
 xilinx_u200_xdma|Xilinx Alveo U200|VITIS 2019.2

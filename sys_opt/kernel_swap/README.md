@@ -7,8 +7,8 @@ This example shows how host can swap the kernels and share same buffer between t
 
 ***KEYWORDS:*** enqueueMigrateMemObjects, CL_MIGRATE_MEM_OBJECT_HOST
 
-## SUPPORTED SHELLS
-Shell | Board             | Software Version
+## SUPPORTED PLATFORMS
+Platform | Board             | Software Version
 ---------|-------------------|-----------------
 xilinx_u200_qdma|Xilinx Alveo U200|VITIS 2019.2
 xilinx_u200_xdma|Xilinx Alveo U200|VITIS 2019.2

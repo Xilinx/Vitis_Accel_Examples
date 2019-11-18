@@ -7,8 +7,8 @@ This is simple example of vector addition to demonstrate how to utilize both por
 
 ***KEYWORDS:*** #pragma HLS UNROLL FACTOR=2
 
-## SUPPORTED SHELLS
-Shell | Board             | Software Version
+## SUPPORTED PLATFORMS
+Platform | Board             | Software Version
 ---------|-------------------|-----------------
 xilinx_u200_qdma|Xilinx Alveo U200|VITIS 2019.2
 xilinx_u200_xdma|Xilinx Alveo U200|VITIS 2019.2

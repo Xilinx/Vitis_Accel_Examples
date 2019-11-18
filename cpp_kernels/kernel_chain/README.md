@@ -5,8 +5,8 @@ This is a kernel containing the cascaded Matrix Multiplication using dataflow. a
 
 ***KEY CONCEPTS:*** ap_ctrl_chain, PLRAM
 
-## SUPPORTED SHELLS
-Shell | Board             | Software Version
+## SUPPORTED PLATFORMS
+Platform | Board             | Software Version
 ---------|-------------------|-----------------
 xilinx_u200_qdma|Xilinx Alveo U200|VITIS 2019.2
 xilinx_u200_xdma|Xilinx Alveo U200|VITIS 2019.2
@@ -21,6 +21,7 @@ Application code is located in the src directory. Accelerator binary files will 
 ```
 src/host.cpp
 src/krnl_chain_mmult.cpp
+src/krnl_mmult.hpp
 src/krnl_simple_mmult.cpp
 ```
 

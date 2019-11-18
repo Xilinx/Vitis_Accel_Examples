@@ -7,8 +7,8 @@ This example demonstrates how loop pipelining can be used to improve the perform
 
 ***KEYWORDS:*** pragma HLS PIPELINE
 
-## SUPPORTED SHELLS
-Shell | Board             | Software Version
+## SUPPORTED PLATFORMS
+Platform | Board             | Software Version
 ---------|-------------------|-----------------
 xilinx_u200_qdma|Xilinx Alveo U200|VITIS 2019.2
 xilinx_u200_xdma|Xilinx Alveo U200|VITIS 2019.2

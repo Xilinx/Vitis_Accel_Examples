@@ -7,8 +7,8 @@ This is a simple Vector Increment RTL Kernel design with 1 Stream input and 1 St
 
 ***KEYWORDS:*** cl_stream, CL_STREAM_EOT
 
-## SUPPORTED SHELLS
-Shell | Board             | Software Version
+## SUPPORTED PLATFORMS
+Platform | Board             | Software Version
 ---------|-------------------|-----------------
 xilinx_u200_qdma|Xilinx Alveo U200|VITIS 2019.2
 xilinx_u250_qdma|Xilinx Alveo U250|VITIS 2019.2

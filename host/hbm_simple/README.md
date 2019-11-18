@@ -7,8 +7,8 @@ This is a simple example of vector addition to describe how to use HLS kernels w
 
 ***KEYWORDS:*** HBM, XCL_MEM_TOPOLOGY, cl_mem_ext_ptr_t
 
-## SUPPORTED SHELLS
-Shell | Board             | Software Version
+## SUPPORTED PLATFORMS
+Platform | Board             | Software Version
 ---------|-------------------|-----------------
 xilinx_u280_xdma|Xilinx Alveo U280|VITIS 2019.2
 xilinx_u50_xdma|Xilinx Alveo U50|VITIS 2019.2

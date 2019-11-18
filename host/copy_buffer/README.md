@@ -7,8 +7,8 @@ This Copy Buffer example demonstrate how one buffer can be copied from another b
 
 ***KEYWORDS:*** cl::CommandQueue, enqueueCopyBuffer, enqueueWriteBuffer, enqueueReadBuffer, enqueueMigrateMemObjects
 
-## SUPPORTED SHELLS
-Shell | Board             | Software Version
+## SUPPORTED PLATFORMS
+Platform | Board             | Software Version
 ---------|-------------------|-----------------
 xilinx_u200_qdma|Xilinx Alveo U200|VITIS 2019.2
 xilinx_u200_xdma|Xilinx Alveo U200|VITIS 2019.2

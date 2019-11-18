@@ -5,8 +5,8 @@ This example shows an adder with streams using 3 RTL kernels.
 
 ***KEY CONCEPTS:*** RTL Kernel, Multiple RTL Kernels
 
-## SUPPORTED SHELLS
-Shell | Board             | Software Version
+## SUPPORTED PLATFORMS
+Platform | Board             | Software Version
 ---------|-------------------|-----------------
 xilinx_u200_qdma|Xilinx Alveo U200|VITIS 2019.2
 xilinx_u200_xdma|Xilinx Alveo U200|VITIS 2019.2

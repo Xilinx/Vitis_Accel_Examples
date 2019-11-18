@@ -7,8 +7,8 @@ This example will demonstrate how to run multiple processes to utilize multiple 
 
 ***KEYWORDS:*** PID, fork, XCL_MULTIPROCESS_MODE, multiprocess
 
-## SUPPORTED SHELLS
-Shell | Board             | Software Version
+## SUPPORTED PLATFORMS
+Platform | Board             | Software Version
 ---------|-------------------|-----------------
 xilinx_u200_qdma|Xilinx Alveo U200|VITIS 2019.2
 xilinx_u200_xdma|Xilinx Alveo U200|VITIS 2019.2

@@ -7,8 +7,8 @@ This example will demonstrate how to create buffers in global memory which are n
 
 ***KEYWORDS:*** CL_MEM_HOST_NO_ACCESS
 
-## SUPPORTED SHELLS
-Shell | Board             | Software Version
+## SUPPORTED PLATFORMS
+Platform | Board             | Software Version
 ---------|-------------------|-----------------
 xilinx_u200_qdma|Xilinx Alveo U200|VITIS 2019.2
 xilinx_u200_xdma|Xilinx Alveo U200|VITIS 2019.2

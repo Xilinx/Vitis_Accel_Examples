@@ -102,8 +102,8 @@ def overview(target,data):
     return
 
 def requirements(target,data):
-    target.write("## SUPPORTED SHELLS\n")
-    target.write("Shell | Board             | Software Version\n")
+    target.write("## SUPPORTED PLATFORMS\n")
+    target.write("Platform | Board             | Software Version\n")
     target.write("---------|-------------------|-----------------\n")
 
     boards = []
