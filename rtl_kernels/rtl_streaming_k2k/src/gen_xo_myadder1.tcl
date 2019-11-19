@@ -44,7 +44,7 @@ set xpfm_path [lindex $::argv 3]
 set device    [lindex $::argv 4]
 
 set pinfo [file join [pwd] "pinfo.json"]
-exec $::env(XILINX_VITIS)/bin/platforminfo -j $pinfo -p ${xpfm_path}
+exec $::env(XILINX_VITIS)/bin/platforminfo -j $pinfo -p ${xpfm_path} -f
 
 if {[file exists "myadder1_ex"]} {
     file delete -force "myadder1_ex"
@@ -62,15 +62,21 @@ while { ! [eof $fid] } {
 	regsub -all {\"} $right {} right
 	if { $left eq $fpgapart } {
 	    if { [string match {*:*} $right] } {
-                set fields [split $right ":"]
+            set fields [split $right ":"]
+            set llen [llength $fields]
 	        set f0 [lindex $fields 0]
 	        set f1 [lindex $fields 1]
 	        set f2 [lindex $fields 2]
 	        set f3 [lindex $fields 3]
 	        set f4 [lindex $fields 4]
-	        set partname "${f1}-${f2}${f3}-${f4}"
- 	        puts "partname = $partname\n"
-	        break
+            if { $llen eq 6 } {
+                 set f5 [lindex $fields 5]
+            set partname "${f1}-${f2}${f3}-${f4}-${f5}"
+               } else {
+                set partname "${f1}-${f2}${f3}-${f4}"
+               }
+            puts "partname = $partname\n"
+            break
 	    }
         }
     }
