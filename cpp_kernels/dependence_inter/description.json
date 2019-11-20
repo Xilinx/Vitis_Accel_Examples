@@ -3,17 +3,19 @@
     "description": [
         "This Example demonstrates the HLS pragma 'DEPENDENCE'.Using 'DEPENDENCE' pragma, user can provide additional dependency details to the compiler by specifying if the dependency in consecutive loop iterations on buffer is true/false, which allows the compiler to perform unrolling/pipelining to get better performance."
     ],
-    "contributors": [
-        {
-            "url": "http://www.xilinx.com", 
-            "group": "Xilinx"
-        }
+    "keywords": [
+        "DEPENDENCE", 
+        "inter", 
+        "WAR"
     ], 
-    "launch": [
-        {
-            "cmd_args": "BUILD/vconv.xclbin", 
-            "name": "generic launch for all flows"
-        }
+    "key_concepts": [
+        "Inter Dependence"
+    ], 
+    "os": [
+        "Linux"
+    ], 
+    "runtime": [
+        "OpenCL"
     ], 
     "host": {
         "host_exe": "host", 
@@ -26,20 +28,6 @@
             ]
         }
     }, 
-    "key_concepts": [
-        "Inter Dependence"
-    ], 
-    "keywords": [
-        "DEPENDENCE", 
-        "inter", 
-        "WAR"
-    ], 
-    "runtime": [
-        "OpenCL"
-    ], 
-    "os": [
-        "Linux"
-    ], 
     "containers": [
         {
             "accelerators": [
@@ -50,5 +38,17 @@
             ], 
             "name": "vconv"
         }
-    ]
+    ],
+    "launch": [
+        {
+            "cmd_args": "BUILD/vconv.xclbin", 
+            "name": "generic launch for all flows"
+        }
+    ], 
+    "contributors": [
+        {
+            "url": "http://www.xilinx.com", 
+            "group": "Xilinx"
+        }
+    ] 
 }

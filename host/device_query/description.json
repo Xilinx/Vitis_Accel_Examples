@@ -3,15 +3,19 @@
     "description": [
         "This Example prints the OpenCL properties of the platform and its devices using OpenCL CPP APIs. It also displays the limits and capabilities of the hardware."
     ],
-    "contributors": [
-        {
-            "url": "http://www.xilinx.com", 
-            "group": "Xilinx"
-        }
+    "key_concepts": [
+        "OpenCL API", 
+        "Querying device properties"
     ], 
     "ndevice": [
         "zc"
     ],
+    "os": [
+        "Linux"
+    ],
+    "runtime": [
+        "OpenCL"
+    ], 
     "host": {
         "host_exe": "device_query", 
         "compiler": {
@@ -23,14 +27,10 @@
             ]
         }
     }, 
-    "key_concepts": [
-        "OpenCL API", 
-        "Querying device properties"
-    ], 
-    "runtime": [
-        "OpenCL"
-    ], 
-    "os": [
-        "Linux"
+    "contributors": [
+        {
+            "url": "http://www.xilinx.com", 
+            "group": "Xilinx"
+        }
     ] 
 }

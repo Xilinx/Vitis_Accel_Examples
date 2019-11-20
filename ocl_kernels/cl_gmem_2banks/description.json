@@ -1,32 +1,26 @@
 {
-    "ndevice": [
-        "xilinx_aws-vu9p-f1-04261818", 
-        "xilinx:aws-vu9p-f1-04261818:dynamic", 
-        "xilinx_u50_xdma",
-        "xilinx:u50:xdma",
-	"zc", 
-	"xilinx_samsung_U2x4",
-	"xilinx:samsung:U2x4",
-	"zed",
-        "xilinx_v350-es1_xdma", 
-        "xilinx:v350-es1:xdma"
-    ], 
+    "name": "Global Memory Two Banks (CL)",
     "description": [
         "This example of 2ddr to demonstrate on how to use 2ddr XSA. How to create buffers in each DDR."
     ], 
-    "contributors": [
-        {
-            "url": "http://www.xilinx.com", 
-            "group": "Xilinx"
-        }
+    "keywords": [
+        "sp", 
+        "connectivity"
     ], 
-    "launch": [
-        {
-            "cmd_args": "BUILD/apply_watermark.xclbin PROJECT/data/input.bmp PROJECT/data/golden.bmp", 
-            "name": "generic launch for all flows"
-        }
+    "key_concepts": [
+        "Multiple Banks"
     ], 
-    "output_files": "output.bmp", 
+    "ndevice": [
+        "xilinx_u50_xdma",
+	"zc", 
+	"xilinx_samsung_U2x4"
+    ], 
+    "os": [
+        "Linux"
+    ], 
+    "runtime": [
+        "OpenCL"
+    ], 
     "host": {
         "host_exe": "host", 
         "compiler": {
@@ -40,19 +34,6 @@
             ]
         }
     }, 
-    "key_concepts": [
-        "Multiple Banks"
-    ], 
-    "keywords": [
-        "sp", 
-        "connectivity"
-    ], 
-    "runtime": [
-        "OpenCL"
-    ], 
-    "os": [
-        "Linux"
-    ], 
     "containers": [
         {
             "accelerators": [
@@ -79,5 +60,17 @@
             "name": "apply_watermark"
         }
     ], 
-    "name": "Global Memory Two Banks (CL)"
+    "launch": [
+        {
+            "cmd_args": "BUILD/apply_watermark.xclbin PROJECT/data/input.bmp PROJECT/data/golden.bmp", 
+            "name": "generic launch for all flows"
+        }
+    ], 
+    "output_files": "output.bmp", 
+    "contributors": [
+        {
+            "url": "http://www.xilinx.com", 
+            "group": "Xilinx"
+        }
+    ] 
 }

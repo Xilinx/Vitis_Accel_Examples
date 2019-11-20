@@ -3,23 +3,25 @@
     "description": [
         "This Copy Buffer example demonstrate how one buffer can be copied from another buffer."
     ],
-    "ndevice": [
-        "xilinx_u200_xdma_201830_1",
-        "xilinx_u200_xdma_201830_2",
-        "xilinx_u250_xdma_201830_1", 
-        "xilinx_u250_xdma_201830_2"
-    ],
-    "contributors": [
-        {
-            "url": "http://www.xilinx.com", 
-            "group": "Xilinx"
-        }
+    "keywords": [
+        "cl::CommandQueue",
+        "enqueueCopyBuffer",
+        "enqueueWriteBuffer", 
+        "enqueueReadBuffer",  
+        "enqueueMigrateMemObjects"
     ], 
-    "launch": [
-        {
-            "cmd_args": "BUILD/vector_addition.xclbin", 
-            "name": "generic launch for all flows"
-        }
+    "key_concepts": [
+        "Copy Buffer"
+    ], 
+    "ndevice": [
+        "xilinx_u200_xdma_201830",
+        "xilinx_u250_xdma_201830"
+    ],
+    "os": [
+        "Linux"
+    ], 
+    "runtime": [
+        "OpenCL"
     ], 
     "host": {
         "host_exe": "host", 
@@ -32,22 +34,6 @@
             ]
         }
     }, 
-    "key_concepts": [
-        "Copy Buffer"
-    ], 
-    "keywords": [
-        "cl::CommandQueue",
-        "enqueueCopyBuffer",
-        "enqueueWriteBuffer", 
-        "enqueueReadBuffer",  
-        "enqueueMigrateMemObjects"
-    ], 
-    "runtime": [
-        "OpenCL"
-    ], 
-    "os": [
-        "Linux"
-    ], 
     "containers": [
         {
             "accelerators": [
@@ -57,6 +43,18 @@
                 }
             ], 
             "name": "vector_addition"
+        }
+    ],
+    "launch": [
+        {
+            "cmd_args": "BUILD/vector_addition.xclbin", 
+            "name": "generic launch for all flows"
+        }
+    ], 
+    "contributors": [
+        {
+            "url": "http://www.xilinx.com", 
+            "group": "Xilinx"
         }
     ] 
 }

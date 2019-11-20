@@ -1,26 +1,16 @@
 {
+    "name": "Systolic Array Implementation (CL)", 
+    "description": [
+        "This is a simple example of matrix multiplication (Row x Col) to help developers learn systolic array based algorithm design. Note: Systolic array based algorithm design is well suited for FPGA."
+    ],
     "ndevice": [
         "zc702_base"
     ],
-    "testinfo": {
-        "level_up": [
-            {
-                "hw": "1"
-            }
-        ]
-    }, 
-    "name": "Systolic Array Implementation (CL)", 
-    "contributors": [
-        {
-            "url": "http://www.xilinx.com", 
-            "group": "Xilinx"
-        }
+    "os": [
+        "Linux"
     ], 
-    "launch": [
-        {
-            "cmd_args": "BUILD/mmult.xclbin", 
-            "name": "generic launch for all flows"
-        }
+    "runtime": [
+        "OpenCL"
     ], 
     "host": {
         "host_exe": "host", 
@@ -33,20 +23,6 @@
             ]
         }
     }, 
-    "Key Concepts": [
-        "Kernel Optimization", 
-        "Systolic Array"
-    ], 
-    "Keywords": [
-        "__attribute__((xcl_pipeline_loop))", 
-        "__attribute__((xcl_array_partition(<type>,<dimension>)))"
-    ], 
-    "runtime": [
-        "OpenCL"
-    ], 
-    "os": [
-        "Linux"
-    ], 
     "containers": [
         {
             "accelerators": [
@@ -58,7 +34,23 @@
             "name": "mmult"
         }
     ], 
-    "description": [
-        "This is a simple example of matrix multiplication (Row x Col) to help developers learn systolic array based algorithm design. Note: Systolic array based algorithm design is well suited for FPGA."
-    ]
+    "launch": [
+        {
+            "cmd_args": "BUILD/mmult.xclbin", 
+            "name": "generic launch for all flows"
+        }
+    ], 
+    "contributors": [
+        {
+            "url": "http://www.xilinx.com", 
+            "group": "Xilinx"
+        }
+    ], 
+    "testinfo": {
+        "level_up": [
+            {
+                "hw": "1"
+            }
+        ]
+    } 
 }

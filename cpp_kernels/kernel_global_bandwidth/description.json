@@ -3,34 +3,16 @@
     "description": [
         "Bandwidth test of global to local memory."
     ], 
-    "config_make": "config.mk", 
-    "testinfo": {
-        "level_up": [
-            {
-                "hw": "1"
-            }
-        ]
-    }, 
     "ndevice": [
 	"xilinx_u50_xdma",
     	"xilinx_samsung_U2x4",
-	"xilinx:samsung:U2x4",
- 	"zc", 
-	"xilinx:u50:xdma",
-        "xilinx_v350-es1_xdma", 
-        "xilinx:v350-es1:xdma"
+ 	"zc" 
     ], 
-    "contributors": [
-        {
-            "url": "http://www.xilinx.com", 
-            "group": "Xilinx"
-        }
+    "os": [
+        "Linux"
     ], 
-    "launch": [
-        {
-            "cmd_args": "BUILD/krnl_kernel_global.xclbin", 
-            "name": "generic launch for all flows"
-        }
+    "runtime": [
+        "OpenCL"
     ], 
     "host": {
         "host_exe": "kernel_global", 
@@ -44,12 +26,6 @@
             ]
         }
     }, 
-    "runtime": [
-        "OpenCL"
-    ], 
-    "os": [
-        "Linux"
-    ], 
     "containers": [
         {
             "accelerators": [
@@ -61,5 +37,25 @@
             ], 
             "name": "krnl_kernel_global"
         }
-    ]
+    ],
+    "launch": [
+        {
+            "cmd_args": "BUILD/krnl_kernel_global.xclbin", 
+            "name": "generic launch for all flows"
+        }
+    ], 
+    "config_make": "config.mk", 
+    "contributors": [
+        {
+            "url": "http://www.xilinx.com", 
+            "group": "Xilinx"
+        }
+    ], 
+    "testinfo": {
+        "level_up": [
+            {
+                "hw": "1"
+            }
+        ]
+    } 
 }

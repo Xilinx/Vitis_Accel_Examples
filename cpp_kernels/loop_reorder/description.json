@@ -3,17 +3,19 @@
     "description": [
         "This is a simple example of matrix multiplication (Row x Col) to demonstrate how to achieve better pipeline II factor by loop reordering."
     ],
-    "contributors": [
-        {
-            "url": "http://www.xilinx.com", 
-            "group": "Xilinx"
-        }
+    "keywords": [
+        "#pragma HLS PIPELINE", 
+        "#pragma HLS ARRAY_PARTITION"
     ], 
-    "launch": [
-        {
-            "cmd_args": "BUILD/mmult.xclbin", 
-            "name": "generic launch for all flows"
-        }
+    "key_concepts": [
+        "Kernel Optimization", 
+        "Loop reorder to improve II"
+    ], 
+    "os": [
+        "Linux"
+    ], 
+    "runtime": [
+        "OpenCL"
     ], 
     "host": {
         "host_exe": "host", 
@@ -26,20 +28,6 @@
             ]
         }
     }, 
-    "key_concepts": [
-        "Kernel Optimization", 
-        "Loop reorder to improve II"
-    ], 
-    "keywords": [
-        "#pragma HLS PIPELINE", 
-        "#pragma HLS ARRAY_PARTITION"
-    ], 
-    "runtime": [
-        "OpenCL"
-    ], 
-    "os": [
-        "Linux"
-    ], 
     "containers": [
         {
             "accelerators": [
@@ -51,5 +39,17 @@
             ], 
             "name": "mmult"
         }
-    ]
+    ],
+    "launch": [
+        {
+            "cmd_args": "BUILD/mmult.xclbin", 
+            "name": "generic launch for all flows"
+        }
+    ], 
+    "contributors": [
+        {
+            "url": "http://www.xilinx.com", 
+            "group": "Xilinx"
+        }
+    ] 
 }

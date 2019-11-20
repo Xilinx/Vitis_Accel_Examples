@@ -1,21 +1,22 @@
 {
-    "config_make": "config.mk", 
+    "name": "Adder With Streams (RTL)",
     "description": [
         "This example shows an adder with streams using 3 RTL kernels."
     ], 
-    "contributors": [
-        {
-            "url": "http://www.xilinx.com", 
-            "group": "Xilinx"
-        }
+    "key_concepts": [
+        "RTL Kernel", 
+        "Multiple RTL Kernels"
     ], 
-    "launch": [
-        {
-            "cmd_args": "BUILD/adder.xclbin", 
-            "name": "generic launch for all flows"
-        }
+    "targets": [
+        "hw", 
+        "hw_emu"
     ], 
-    "output_files": "tmp_kernel_pack* packaged_kernel* _x* *.xo", 
+    "os": [
+        "Linux"
+    ], 
+    "runtime": [
+        "OpenCL"
+    ], 
     "gui": false, 
     "host": {
         "host_exe": "host", 
@@ -29,21 +30,6 @@
             ]
         }
     }, 
-    "key_concepts": [
-        "RTL Kernel", 
-        "Multiple RTL Kernels"
-    ], 
-    "match_ini": "false", 
-    "runtime": [
-        "OpenCL"
-    ], 
-    "os": [
-        "Linux"
-    ], 
-    "targets": [
-        "hw", 
-        "hw_emu"
-    ], 
     "containers": [
         {
             "accelerators": [
@@ -64,5 +50,19 @@
 	    "ldclflags": "--config PROJECT/adder.ini"
         }
     ], 
-    "name": "Adder With Streams (RTL)"
+    "launch": [
+        {
+            "cmd_args": "BUILD/adder.xclbin", 
+            "name": "generic launch for all flows"
+        }
+    ], 
+    "match_ini": "false", 
+    "config_make": "config.mk", 
+    "output_files": "tmp_kernel_pack* packaged_kernel* _x* *.xo", 
+    "contributors": [
+        {
+            "url": "http://www.xilinx.com", 
+            "group": "Xilinx"
+        }
+    ] 
 }

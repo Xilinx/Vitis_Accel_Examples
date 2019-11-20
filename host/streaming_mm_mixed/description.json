@@ -3,23 +3,25 @@
     "description": [
         "This is a simple streaming Vector Addition C Kernel design with 1 Stream input, 1 memory mapped input to the kernel, and 1 stream output that demonstrates on how to process a stream of data along with memory mapped interface."
     ], 
+    "keywords": [
+        "cl_stream", 
+        "CL_STREAM_EOT"
+    ], 
+    "key_concepts": [
+        "Read/Write Stream", 
+        "Create/Release Stream"
+    ], 
+    "default_device": "xilinx_u200_qdma_201910_1", 
     "ndevice": [
         "zc",
         "xdma",
         "samsung"
     ], 
-    "default_device": "xilinx_u200_qdma_201910_1", 
-    "contributors": [
-        {
-            "url": "http://www.xilinx.com", 
-            "group": "Xilinx"
-        }
+    "os": [
+        "Linux"
     ], 
-    "launch": [
-        {
-            "cmd_args": "BUILD/krnl_stream_vadd.xclbin", 
-            "name": "generic launch for all flows"
-        }
+    "runtime": [
+        "OpenCL"
     ], 
     "host": {
         "linker": {
@@ -38,20 +40,6 @@
             ]
         }
     }, 
-    "key_concepts": [
-        "Read/Write Stream", 
-        "Create/Release Stream"
-    ], 
-    "keywords": [
-        "cl_stream", 
-        "CL_STREAM_EOT"
-    ], 
-    "runtime": [
-        "OpenCL"
-    ], 
-    "os": [
-        "Linux"
-    ], 
     "containers": [
         {
             "accelerators": [
@@ -61,6 +49,18 @@
                 }
             ], 
             "name": "krnl_stream_vadd"
+        }
+    ],
+    "launch": [
+        {
+            "cmd_args": "BUILD/krnl_stream_vadd.xclbin", 
+            "name": "generic launch for all flows"
+        }
+    ], 
+    "contributors": [
+        {
+            "url": "http://www.xilinx.com", 
+            "group": "Xilinx"
         }
     ] 
 }

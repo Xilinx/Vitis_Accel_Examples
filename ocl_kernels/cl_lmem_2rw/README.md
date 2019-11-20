@@ -5,7 +5,7 @@ This is simple example of vector addition to demonstrate how to utilized both po
 
 ***KEY CONCEPTS:*** Kernel Optimization, 2port BRAM Utilization, two read/write Local Memory
 
-***KEYWORDS:*** opencl_unroll_hint(2)
+***KEYWORDS:*** opencl_unroll_hint
 
 ## SUPPORTED PLATFORMS
 Platform | Board             | Software Version

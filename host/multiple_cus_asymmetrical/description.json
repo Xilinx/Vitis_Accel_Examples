@@ -3,27 +3,22 @@
     "description": [
         "This is simple example of vector addition to demonstrate how to connect each compute unit to different banks and how to use these compute units in host applications"
     ],
+    "keywords": [
+        "#pragma HLS PIPELINE"
+    ], 
+    "key_concepts": [
+        "Multiple Compute Units"
+    ], 
     "ndevice": [
         "xilinx_u50_xdma",
-        "xilinx_v350-es1_xdma",
-        "xilinx:u50:xdma",
         "xilinx_samsung_U2x4",
-        "xilinx:samsung:U2x4",
-        "xilinx:v350-es1:xdma",
-        "zc",
-        "zed"
+        "zc"
     ], 
-    "contributors": [
-        {
-            "url": "http://www.xilinx.com", 
-            "group": "Xilinx"
-        }
+    "os": [
+        "Linux"
     ], 
-    "launch": [
-        {
-            "cmd_args": "BUILD/vadd.xclbin", 
-            "name": "generic launch for all flows"
-        }
+    "runtime": [
+        "OpenCL"
     ], 
     "host": {
         "host_exe": "host", 
@@ -36,18 +31,6 @@
             ]
         }
     }, 
-    "key_concepts": [
-        "Multiple Compute Units"
-    ], 
-    "keywords": [
-        "#pragma HLS PIPELINE"
-    ], 
-    "runtime": [
-        "OpenCL"
-    ], 
-    "os": [
-        "Linux"
-    ], 
     "containers": [
         {
             "accelerators": [
@@ -124,6 +107,18 @@
                 }
             ], 
             "name": "vadd"
+        }
+    ],
+    "launch": [
+        {
+            "cmd_args": "BUILD/vadd.xclbin", 
+            "name": "generic launch for all flows"
+        }
+    ], 
+    "contributors": [
+        {
+            "url": "http://www.xilinx.com", 
+            "group": "Xilinx"
         }
     ] 
 }

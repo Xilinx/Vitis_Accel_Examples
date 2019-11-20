@@ -1,27 +1,27 @@
 {
-    "testinfo": {
-        "level_up": [
-            {
-                "hw": "1"
-            }
-        ]
-    }, 
+    "name": "Array Block and Cyclic Partitioning (C)",
     "description": [
         "This example shows how to use array block and cyclic partitioning to improve performance of a kernel"
     ], 
-    "contributors": [
-        {
-            "url": "http://www.xilinx.com", 
-            "group": "Xilinx"
-        }
+    "keywords": [
+        "#pragma HLS ARRAY_PARTITION", 
+        "cyclic", 
+        "block", 
+        "factor", 
+        "dim"
     ], 
-    "launch": [
-        {
-            "cmd_args": "BUILD/matmul.xclbin", 
-            "name": "generic launch for all flows"
-        }
+    "key_concepts": [
+        "Kernel Optimization", 
+        "Array Partitioning", 
+        "Block Partition", 
+        "Cyclic Partition"
     ], 
-    "output_files": "output.png", 
+    "os": [
+        "Linux"
+    ], 
+    "runtime": [
+        "OpenCL"
+    ], 
     "host": {
         "host_exe": "array_partition", 
         "compiler": {
@@ -33,25 +33,6 @@
             ]
         }
     }, 
-    "key_concepts": [
-        "Kernel Optimization", 
-        "Array Partitioning", 
-        "Block Partition", 
-        "Cyclic Partition"
-    ], 
-    "keywords": [
-        "#pragma HLS ARRAY_PARTITION", 
-        "cyclic", 
-        "block", 
-        "factor", 
-        "dim"
-    ], 
-    "runtime": [
-        "OpenCL"
-    ], 
-    "os": [
-        "Linux"
-    ], 
     "containers": [
         {
             "accelerators": [
@@ -67,5 +48,24 @@
             "name": "matmul"
         }
     ], 
-    "name": "Array Block and Cyclic Partitioning (C)"
+    "launch": [
+        {
+            "cmd_args": "BUILD/matmul.xclbin", 
+            "name": "generic launch for all flows"
+        }
+    ], 
+    "output_files": "output.png", 
+    "contributors": [
+        {
+            "url": "http://www.xilinx.com", 
+            "group": "Xilinx"
+        }
+    ], 
+    "testinfo": {
+        "level_up": [
+            {
+                "hw": "1"
+            }
+        ]
+    } 
 }

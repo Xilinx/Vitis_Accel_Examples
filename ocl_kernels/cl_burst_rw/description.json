@@ -1,16 +1,20 @@
 {
     "name": "Burst Read/Write (CL)", 
-    "contributors": [
-        {
-            "url": "http://www.xilinx.com", 
-            "group": "Xilinx"
-        }
+    "description": [
+        "This is simple example of using AXI4-master interface for burst read and write"
+    ],
+    "keywords": [
+	"compiler.interfaceRdBurstLen",
+	"compiler.interfaceWrBurstLen"
     ], 
-    "launch": [
-        {
-            "cmd_args": "BUILD/vadd.xclbin", 
-            "name": "generic launch for all flows"
-        }
+    "key_concepts": [
+        "burst access"
+    ], 
+    "os": [
+        "Linux"
+    ], 
+    "runtime": [
+        "OpenCL"
     ], 
     "host": {
         "host_exe": "host", 
@@ -25,19 +29,6 @@
             ]
         }
     }, 
-    "key_concepts": [
-        "burst access"
-    ], 
-    "keywords": [
-	"compiler.interfaceRdBurstLen",
-	"compiler.interfaceWrBurstLen"
-    ], 
-    "runtime": [
-        "OpenCL"
-    ], 
-    "os": [
-        "Linux"
-    ], 
     "containers": [
         {
             "accelerators": [
@@ -50,7 +41,16 @@
             "name": "vadd"
         }
     ], 
-    "description": [
-        "This is simple example of using AXI4-master interface for burst read and write"
-    ]
+    "launch": [
+        {
+            "cmd_args": "BUILD/vadd.xclbin", 
+            "name": "generic launch for all flows"
+        }
+    ], 
+    "contributors": [
+        {
+            "url": "http://www.xilinx.com", 
+            "group": "Xilinx"
+        }
+    ] 
 }

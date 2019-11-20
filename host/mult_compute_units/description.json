@@ -3,19 +3,19 @@
     "description": [
         "This is simple Example of Multiple Compute units to showcase how a single kernel can be instantiated into Multiple compute units. Host code will show how to use multiple compute units and run them concurrently."
     ],
-    "contributors": [
-        {
-            "url": "http://www.xilinx.com", 
-            "group": "Xilinx"
-        }
+    "keywords": [
+        "nk"
     ], 
-    "launch": [
-        {
-            "cmd_args": "BUILD/vadd.xclbin", 
-            "name": "generic launch for all flows"
-        }
+    "key_concepts": [
+        "Multiple Compute Units"
     ], 
     "platform_type": "pcie", 
+    "os": [
+        "Linux"
+    ], 
+    "runtime": [
+        "OpenCL"
+    ], 
     "host": {
         "compiler": {
             "sources": [
@@ -27,18 +27,6 @@
         }, 
         "host_exe": "host"
     }, 
-    "key_concepts": [
-        "Multiple Compute Units"
-    ], 
-    "keywords": [
-        "nk"
-    ], 
-    "runtime": [
-        "OpenCL"
-    ], 
-    "os": [
-        "Linux"
-    ], 
     "containers": [
         {
             "accelerators": [
@@ -50,5 +38,17 @@
             ], 
             "name": "vadd"
         }
-    ]
+    ],
+    "launch": [
+        {
+            "cmd_args": "BUILD/vadd.xclbin", 
+            "name": "generic launch for all flows"
+        }
+    ], 
+    "contributors": [
+        {
+            "url": "http://www.xilinx.com", 
+            "group": "Xilinx"
+        }
+    ] 
 }

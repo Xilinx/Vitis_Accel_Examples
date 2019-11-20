@@ -1,31 +1,29 @@
 {
+    "name": "Array Block and Cyclic Partitioning (CL)",
+    "description": [
+        "This example shows how to use array block and cyclic partitioning to improve performance of a kernel"
+    ], 
+    "keywords": [
+        "xcl_array_partition", 
+        "cyclic", 
+        "block"
+    ], 
+    "key_concepts": [
+        "Kernel Optimization", 
+        "Array Partitioning", 
+        "Block Partition", 
+        "Cyclic Partition"
+    ], 
     "ndevice": [
         "zc702_base",
         "zc706_base"
     ],
-    "testinfo": {
-        "level_up": [
-            {
-                "hw": "1"
-            }
-        ]
-    }, 
-    "description": [
-        "This example shows how to use array block and cyclic partitioning to improve performance of a kernel"
+    "os": [
+        "Linux"
     ], 
-    "contributors": [
-        {
-            "url": "http://www.xilinx.com", 
-            "group": "Xilinx"
-        }
+    "runtime": [
+        "OpenCL"
     ], 
-    "launch": [
-        {
-            "cmd_args": "BUILD/matmul.xclbin", 
-            "name": "generic launch for all flows"
-        }
-    ], 
-    "output_files": "output.png", 
     "host": {
         "host_exe": "array_partition", 
         "compiler": {
@@ -37,23 +35,6 @@
             ]
         }
     }, 
-    "key_concepts": [
-        "Kernel Optimization", 
-        "Array Partitioning", 
-        "Block Partition", 
-        "Cyclic Partition"
-    ], 
-    "keywords": [
-        "xcl_array_partition", 
-        "cyclic", 
-        "block"
-    ], 
-    "runtime": [
-        "OpenCL"
-    ], 
-    "os": [
-        "Linux"
-    ], 
     "containers": [
         {
             "accelerators": [
@@ -69,5 +50,24 @@
             "name": "matmul"
         }
     ], 
-    "name": "Array Block and Cyclic Partitioning (CL)"
+    "launch": [
+        {
+            "cmd_args": "BUILD/matmul.xclbin", 
+            "name": "generic launch for all flows"
+        }
+    ], 
+    "output_files": "output.png", 
+    "contributors": [
+        {
+            "url": "http://www.xilinx.com", 
+            "group": "Xilinx"
+        }
+    ], 
+    "testinfo": {
+        "level_up": [
+            {
+                "hw": "1"
+            }
+        ]
+    } 
 }

@@ -1,16 +1,20 @@
 {
     "name": "Loop Pipelining (C)", 
-    "contributors": [
-        {
-            "url": "http://www.xilinx.com", 
-            "group": "Xilinx"
-        }
+    "description": [
+        "This example demonstrates how loop pipelining can be used to improve the performance of a kernel."
+    ],
+    "keywords": [
+        "pragma HLS PIPELINE"
     ], 
-    "launch": [
-        {
-            "cmd_args": "BUILD/vector_addition.xclbin", 
-            "name": "generic launch for all flows"
-        }
+    "key_concepts": [
+        "Kernel Optimization", 
+        "Loop Pipelining"
+    ], 
+    "os": [
+        "Linux"
+    ], 
+    "runtime": [
+        "OpenCL"
     ], 
     "host": {
         "host_exe": "loop_pipeline", 
@@ -23,19 +27,6 @@
             ]
         }
     }, 
-    "key_concepts": [
-        "Kernel Optimization", 
-        "Loop Pipelining"
-    ], 
-    "keywords": [
-        "pragma HLS PIPELINE"
-    ], 
-    "runtime": [
-        "OpenCL"
-    ], 
-    "os": [
-        "Linux"
-    ], 
     "containers": [
         {
             "accelerators": [
@@ -51,7 +42,16 @@
             "name": "vector_addition"
         }
     ], 
-    "description": [
-        "This example demonstrates how loop pipelining can be used to improve the performance of a kernel."
-    ]
+    "launch": [
+        {
+            "cmd_args": "BUILD/vector_addition.xclbin", 
+            "name": "generic launch for all flows"
+        }
+    ], 
+    "contributors": [
+        {
+            "url": "http://www.xilinx.com", 
+            "group": "Xilinx"
+        }
+    ] 
 }

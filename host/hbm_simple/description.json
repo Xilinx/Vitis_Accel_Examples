@@ -3,34 +3,29 @@
     "description": [
         "This is a simple example of vector addition to describe how to use HLS kernels with HBM (High Bandwidth Memory) for achieving high throughput."
     ],
+    "keywords": [
+        "HBM", 
+        "XCL_MEM_TOPOLOGY", 
+        "cl_mem_ext_ptr_t"
+    ], 
+    "key_concepts": [
+        "High Bandwidth Memory", 
+        "Multiple HBM Banks"
+    ], 
+    "default_device": "xilinx_u280_xdma_201920_1", 
     "ndevice": [        
         "xilinx_u200_xdma",
         "xilinx_u200_qdma",
         "zc",
-        "zed",
         "xilinx_u250_xdma",
         "xilinx_u250_qdma",
-        "xilinx_vcu1525_dynamic",
-        "xilinx:u200:xdma",
-        "xilinx:u200:qdma",
-        "xilinx:u250:xdma",
-        "xilinx:u250:qdma",
-        "xilinx_samsung_U2x4",
-        "xilinx:samsung:U2x4",
-        "xilinx:vcu1525:dynamic" 
+        "xilinx_samsung_U2x4"
     ],
-    "default_device": "xilinx_u280_xdma_201910_1", 
-    "contributors": [
-        {
-            "url": "http://www.xilinx.com", 
-            "group": "Xilinx"
-        }
+    "os": [
+        "Linux"
     ], 
-    "launch": [
-        {
-            "cmd_args": "BUILD/krnl_vadd.xclbin", 
-            "name": "generic launch for all flows"
-        }
+    "runtime": [
+        "OpenCL"
     ], 
     "host": {
         "host_exe": "host", 
@@ -43,21 +38,6 @@
             ]
         }
     }, 
-    "key_concepts": [
-        "High Bandwidth Memory", 
-        "Multiple HBM Banks"
-    ], 
-    "keywords": [
-        "HBM", 
-        "XCL_MEM_TOPOLOGY", 
-        "cl_mem_ext_ptr_t"
-    ], 
-    "runtime": [
-        "OpenCL"
-    ], 
-    "os": [
-        "Linux"
-    ], 
     "containers": [
         {
             "accelerators": [
@@ -85,6 +65,18 @@
                 }
             ], 
             "name": "krnl_vadd"
+        }
+    ],
+    "launch": [
+        {
+            "cmd_args": "BUILD/krnl_vadd.xclbin", 
+            "name": "generic launch for all flows"
+        }
+    ], 
+    "contributors": [
+        {
+            "url": "http://www.xilinx.com", 
+            "group": "Xilinx"
         }
     ] 
 }

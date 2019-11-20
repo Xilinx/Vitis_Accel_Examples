@@ -1,7 +1,7 @@
 Stream Multiple Compute Units
 ======================
 
-This is a simple Vector Add C Kernel design with 2 Stream inputs and 1 Stream output that demonstrates on how to process an input stream of data for computation in an application using multiple compute units.
+This is a simple vadd Kernel design in which multiple compute units of kernel are directly communicating with host using stream interfaces.
 
 ***KEY CONCEPTS:*** Read/Write Stream, Create/Release Stream
 

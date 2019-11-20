@@ -1,20 +1,18 @@
 {
+    "name": "Critical Path (C)",
     "description": [
         "This example shows a normal coding style which could lead to critical path issue and design will give degraded timing.  Example also contains better coding style which can improve design timing."
     ], 
-    "contributors": [
-        {
-            "url": "http://www.xilinx.com", 
-            "group": "Xilinx"
-        }
+    "key_concepts": [
+        "Critical Path handling", 
+        "Improve Timing"
     ], 
-    "launch": [
-        {
-            "cmd_args": "BUILD/apply_watermark_GOOD.xclbin PROJECT/data/input.bmp PROJECT/data/golden.bmp", 
-            "name": "generic launch for all flows"
-        }
+    "os": [
+        "Linux"
     ], 
-    "output_files": "output.bmp", 
+    "runtime": [
+        "OpenCL"
+    ], 
     "host": {
         "host_exe": "host", 
         "compiler": {
@@ -28,16 +26,6 @@
             ]
         }
     }, 
-    "key_concepts": [
-        "Critical Path handling", 
-        "Improve Timing"
-    ], 
-    "runtime": [
-        "OpenCL"
-    ], 
-    "os": [
-        "Linux"
-    ], 
     "containers": [
         {
             "accelerators": [
@@ -50,5 +38,17 @@
             "name": "apply_watermark_GOOD"
         }
     ], 
-    "name": "Critical Path (C)"
+    "launch": [
+        {
+            "cmd_args": "BUILD/apply_watermark_GOOD.xclbin PROJECT/data/input.bmp PROJECT/data/golden.bmp", 
+            "name": "generic launch for all flows"
+        }
+    ], 
+    "output_files": "output.bmp", 
+    "contributors": [
+        {
+            "url": "http://www.xilinx.com", 
+            "group": "Xilinx"
+        }
+    ] 
 }

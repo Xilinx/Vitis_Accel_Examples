@@ -3,17 +3,22 @@
     "description": [
         "This is simple example of vector addition to describe how to use HLS kernels in Vitis Environment."
     ],
-    "contributors": [
-        {
-            "url": "http://www.xilinx.com", 
-            "group": "Xilinx"
-        }
+    "keywords": [
+        "gmem", 
+        "bundle", 
+        "#pragma HLS INTERFACE", 
+        "m_axi", 
+        "s_axilite"
     ], 
-    "launch": [
-        {
-            "cmd_args": "BUILD/vadd.xclbin", 
-            "name": "generic launch for all flows"
-        }
+    "key_concepts": [
+        "HLS C Kernel", 
+        "OpenCL Host APIs"
+    ], 
+    "os": [
+        "Linux"
+    ], 
+    "runtime": [
+        "OpenCL"
     ], 
     "host": {
         "host_exe": "host", 
@@ -26,23 +31,6 @@
             ]
         }
     }, 
-    "key_concepts": [
-        "HLS C Kernel", 
-        "OpenCL Host APIs"
-    ], 
-    "keywords": [
-        "gmem", 
-        "bundle", 
-        "#pragma HLS INTERFACE", 
-        "m_axi", 
-        "s_axilite"
-    ], 
-    "runtime": [
-        "OpenCL"
-    ], 
-    "os": [
-        "Linux"
-    ], 
     "containers": [
         {
             "accelerators": [
@@ -52,6 +40,18 @@
                 }
             ], 
             "name": "vadd"
+        }
+    ],
+    "launch": [
+        {
+            "cmd_args": "BUILD/vadd.xclbin", 
+            "name": "generic launch for all flows"
+        }
+    ], 
+    "contributors": [
+        {
+            "url": "http://www.xilinx.com", 
+            "group": "Xilinx"
         }
     ] 
 }

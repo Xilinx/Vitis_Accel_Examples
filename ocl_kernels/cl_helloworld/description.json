@@ -1,16 +1,16 @@
 {
     "name": "Hello World (CL)", 
-    "contributors": [
-        {
-            "url": "http://www.xilinx.com", 
-            "group": "Xilinx"
-        }
+    "description": [
+        "This example is a simple OpenCL application. It will highlight the basic flow of an OpenCL application."
+    ],
+    "key_concepts": [
+        "OpenCL API"
     ], 
-    "launch": [
-        {
-            "cmd_args": "BUILD/vector_addition.xclbin", 
-            "name": "generic launch for all flows"
-        }
+    "os": [
+        "Linux"
+    ], 
+    "runtime": [
+        "OpenCL"
     ], 
     "host": {
         "host_exe": "helloworld", 
@@ -23,15 +23,6 @@
             ]
         }
     }, 
-    "key_concepts": [
-        "OpenCL API"
-    ], 
-    "runtime": [
-        "OpenCL"
-    ], 
-    "os": [
-        "Linux"
-    ], 
     "containers": [
         {
             "accelerators": [
@@ -43,7 +34,16 @@
             "name": "vector_addition"
         }
     ], 
-    "description": [
-        "This example is a simple OpenCL application. It will highlight the basic flow of an OpenCL application."
-    ]
+    "launch": [
+        {
+            "cmd_args": "BUILD/vector_addition.xclbin", 
+            "name": "generic launch for all flows"
+        }
+    ], 
+    "contributors": [
+        {
+            "url": "http://www.xilinx.com", 
+            "group": "Xilinx"
+        }
+    ] 
 }

@@ -5,7 +5,7 @@ This is a simple example of matrix multiplication (Row x Col) to demonstrate how
 
 ***KEY CONCEPTS:*** Kernel Optimization, Loop reorder to improve II
 
-***KEYWORDS:*** xcl_pipeline_loop, xcl_array_partition(complete, 2)
+***KEYWORDS:*** xcl_pipeline_loop, xcl_array_partition
 
 ## SUPPORTED PLATFORMS
 Platform | Board             | Software Version

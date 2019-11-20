@@ -1,27 +1,20 @@
 {
-    "config_make": "config.mk", 
+    "name": "Vadd Simple (RTL)", 
     "description": [
         "Simple example of vector addition using RTL Kernel"
     ], 
-    "name": "Vadd Simple (RTL)", 
-    "contributors": [
-        {
-            "url": "http://www.xilinx.com", 
-            "group": "Xilinx"
-        }
+    "key_concepts": [
+        "RTL Kernel"
     ], 
-    "launch": [
-        {
-            "cmd_args": "BUILD/vadd.xclbin", 
-            "name": "generic launch for all flows"
-        }
+    "targets": [
+        "hw", 
+        "hw_emu"
     ], 
-    "revision": [
-        {
-            "date": "JAN2017", 
-            "version": "1.0", 
-            "description": "Initial Xilinx Release"
-        }
+    "os": [
+        "Linux"
+    ], 
+    "runtime": [
+        "OpenCL"
     ], 
     "gui": false, 
     "host": {
@@ -36,19 +29,6 @@
             ]
         }
     }, 
-    "key_concepts": [
-        "RTL Kernel"
-    ], 
-    "runtime": [
-        "OpenCL"
-    ], 
-    "os": [
-        "Linux"
-    ], 
-    "targets": [
-        "hw", 
-        "hw_emu"
-    ], 
     "containers": [
         {
             "accelerators": [
@@ -60,5 +40,25 @@
             "name": "vadd"
         }
     ], 
-    "output_files": "tmp_kernel_pack* packaged_kernel*"
+    "launch": [
+        {
+            "cmd_args": "BUILD/vadd.xclbin", 
+            "name": "generic launch for all flows"
+        }
+    ], 
+    "config_make": "config.mk", 
+    "output_files": "tmp_kernel_pack* packaged_kernel*",
+    "contributors": [
+        {
+            "url": "http://www.xilinx.com", 
+            "group": "Xilinx"
+        }
+    ], 
+    "revision": [
+        {
+            "date": "JAN2017", 
+            "version": "1.0", 
+            "description": "Initial Xilinx Release"
+        }
+    ] 
 }

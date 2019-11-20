@@ -3,23 +3,26 @@
     "description": [
         "This is a simple Vector Add C Kernel design with 2 Stream inputs and 1 Stream output that demonstrates on how streaming kernel can be implemented and how host can directly send data to kernel without global memory."
     ], 
+    "keywords": [
+        "cl_stream", 
+        "CL_STREAM_EOT", 
+        "CL_STREAM_NONBLOCKING"
+    ], 
+    "key_concepts": [
+        "Read/Write Stream", 
+        "Create/Release Stream"
+    ], 
+    "default_device": "xilinx_u200_qdma_201910_1", 
     "ndevice": [
         "zc",
         "xdma",
         "samsung"
     ], 
-    "default_device": "xilinx_u200_qdma_201910_1", 
-    "contributors": [
-        {
-            "url": "http://www.xilinx.com", 
-            "group": "Xilinx"
-        }
+    "os": [
+        "Linux"
     ], 
-    "launch": [
-        {
-            "cmd_args": "BUILD/krnl_stream_vadd.xclbin", 
-            "name": "generic launch for all flows"
-        }
+    "runtime": [
+        "OpenCL"
     ], 
     "host": {
         "linker": {
@@ -38,21 +41,6 @@
             ]
         }
     }, 
-    "key_concepts": [
-        "Read/Write Stream", 
-        "Create/Release Stream"
-    ], 
-    "keywords": [
-        "cl_stream", 
-        "CL_STREAM_EOT", 
-        "CL_STREAM_NONBLOCKING"
-    ], 
-    "runtime": [
-        "OpenCL"
-    ], 
-    "os": [
-        "Linux"
-    ], 
     "containers": [
         {
             "accelerators": [
@@ -62,6 +50,18 @@
                 }
             ], 
             "name": "krnl_stream_vadd"
+        }
+    ],
+    "launch": [
+        {
+            "cmd_args": "BUILD/krnl_stream_vadd.xclbin", 
+            "name": "generic launch for all flows"
+        }
+    ], 
+    "contributors": [
+        {
+            "url": "http://www.xilinx.com", 
+            "group": "Xilinx"
         }
     ] 
 }

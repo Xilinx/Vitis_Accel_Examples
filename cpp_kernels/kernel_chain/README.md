@@ -1,4 +1,4 @@
-Kernel Chain Matrix Multiplication (C)
+Stream Chain Matrix Multiplication (C)
 ======================
 
 This is a kernel containing the cascaded Matrix Multiplication using dataflow. ap_ctrl_chain is enabled for this kernel to showcase how multiple enqueue of Kernel calls can be overlapped to give higher performance. ap_ctrl_chain allow kernel to start processing of next kernel operation before completing the current kernel operation.

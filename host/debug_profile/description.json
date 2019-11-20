@@ -3,24 +3,15 @@
     "description": [
         "This is simple example of vector addition and printing profile data (wall clock time taken between start and stop). It also dump a waveform file which can be reloaded to vivado to see the waveform. Run command 'vivado -source ./scripts/open_waveform.tcl -tclargs <device_name>-<kernel_name>.<target>.<device_name>.wdb' to launch waveform viewer. User can also update batch to gui in xrt.ini file to see the live waveform while running application."
     ],
-    "testinfo": {
-        "level_up": [
-            {
-                "hw_emu": "1"
-            }
-        ]
-    }, 
-    "contributors": [
-        {
-            "url": "http://www.xilinx.com", 
-            "group": "Xilinx"
-        }
+    "key_concepts": [
+        "Use of Profile API", 
+        "Waveform Dumping and loading"
     ], 
-    "launch": [
-        {
-            "cmd_args": "BUILD/vadd.xclbin", 
-            "name": "generic launch for all flows"
-        }
+    "os": [
+        "Linux"
+    ], 
+    "runtime": [
+        "OpenCL"
     ], 
     "host": {
         "host_exe": "host", 
@@ -33,17 +24,6 @@
             ]
         }
     }, 
-    "key_concepts": [
-        "Use of Profile API", 
-        "Waveform Dumping and loading"
-    ], 
-    "match_ini": "false", 
-    "runtime": [
-        "OpenCL"
-    ], 
-    "os": [
-        "Linux"
-    ], 
     "containers": [
         {
             "accelerators": [
@@ -55,5 +35,25 @@
             ], 
             "name": "vadd"
         }
-    ] 
+    ],
+    "launch": [
+        {
+            "cmd_args": "BUILD/vadd.xclbin", 
+            "name": "generic launch for all flows"
+        }
+    ], 
+    "match_ini": "false", 
+    "contributors": [
+        {
+            "url": "http://www.xilinx.com", 
+            "group": "Xilinx"
+        }
+    ], 
+    "testinfo": {
+        "level_up": [
+            {
+                "hw_emu": "1"
+            }
+        ]
+    } 
 }

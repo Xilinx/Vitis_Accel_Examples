@@ -1,20 +1,22 @@
 {
+    "name": "Array Partitioning (CL)",
     "description": [
         "This example shows how to use array partitioning to improve performance of a kernel"
     ], 
-    "contributors": [
-        {
-            "url": "http://www.xilinx.com", 
-            "group": "Xilinx"
-        }
+    "keywords": [
+        "xcl_array_partition", 
+        "complete"
     ], 
-    "launch": [
-        {
-            "cmd_args": "BUILD/matmul.xclbin", 
-            "name": "generic launch for all flows"
-        }
+    "key_concepts": [
+        "Kernel Optimization", 
+        "Array Partitioning"
     ], 
-    "output_files": "output.png", 
+    "os": [
+        "Linux"
+    ], 
+    "runtime": [
+        "OpenCL"
+    ], 
     "host": {
         "host_exe": "array_partition", 
         "compiler": {
@@ -26,20 +28,6 @@
             ]
         }
     }, 
-    "key_concepts": [
-        "Kernel Optimization", 
-        "Array Partitioning"
-    ], 
-    "keywords": [
-        "xcl_array_partition", 
-        "complete"
-    ], 
-    "runtime": [
-        "OpenCL"
-    ], 
-    "os": [
-        "Linux"
-    ], 
     "containers": [
         {
             "accelerators": [
@@ -55,5 +43,17 @@
             "name": "matmul"
         }
     ], 
-    "name": "Array Partitioning (CL)"
+    "launch": [
+        {
+            "cmd_args": "BUILD/matmul.xclbin", 
+            "name": "generic launch for all flows"
+        }
+    ], 
+    "output_files": "output.png", 
+    "contributors": [
+        {
+            "url": "http://www.xilinx.com", 
+            "group": "Xilinx"
+        }
+    ] 
 }

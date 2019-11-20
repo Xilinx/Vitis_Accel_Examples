@@ -3,29 +3,23 @@
     "description": [
         "This example shows the usage of PLRAM and how to use it with simple matrix multiplication (Row x Col)."
     ],
+    "keywords": [
+        "PLRAM"
+    ], 
+    "key_concepts": [
+        "Vitis Memory Hierarchy", 
+        "PLRAMs"
+    ], 
     "ndevice": [
-        "xilinx_aws-vu9p-f1-04261818", 
-        "xilinx:aws-vu9p-f1-04261818:dynamic", 
         "zc", 
-	"zed",
         "xilinx_u50_xdma",
- 	"xilinx_samsung_U2x4",
-	"xilinx:samsung:U2x4",
-        "xilinx:u50:xdma",
-	"xilinx_v350-es1_xdma", 
-        "xilinx:v350-es1:xdma"
+ 	"xilinx_samsung_U2x4"
     ], 
-    "contributors": [
-        {
-            "url": "http://www.xilinx.com", 
-            "group": "Xilinx"
-        }
+    "os": [
+        "Linux"
     ], 
-    "launch": [
-        {
-            "cmd_args": "BUILD/mmult.xclbin", 
-            "name": "generic launch for all flows"
-        }
+    "runtime": [
+        "OpenCL"
     ], 
     "host": {
         "host_exe": "host", 
@@ -38,19 +32,6 @@
             ]
         }
     }, 
-    "key_concepts": [
-        "Vitis Memory Hierarchy", 
-        "PLRAMs"
-    ], 
-    "keywords": [
-        "PLRAM"
-    ], 
-    "runtime": [
-        "OpenCL"
-    ], 
-    "os": [
-        "Linux"
-    ], 
     "containers": [
         {
             "accelerators": [
@@ -79,5 +60,17 @@
             ], 
             "name": "mmult"
         }
-    ]
+    ],
+    "launch": [
+        {
+            "cmd_args": "BUILD/mmult.xclbin", 
+            "name": "generic launch for all flows"
+        }
+    ], 
+    "contributors": [
+        {
+            "url": "http://www.xilinx.com", 
+            "group": "Xilinx"
+        }
+    ] 
 }

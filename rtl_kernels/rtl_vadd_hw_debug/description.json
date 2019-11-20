@@ -3,21 +3,18 @@
     "description": [
         "This is an example that showcases the Hardware Debug of Vector Addition RTL Kernel in Hardware."
     ], 
-    "config_make": "config.mk", 
+    "key_concepts": [
+        "RTL Kernel Debug"
+    ], 
+    "targets": [
+        "hw", 
+        "hw_emu"
+    ], 
+    "os": [
+        "Linux"
+    ], 
     "runtime": [
         "OpenCL"
-    ], 
-    "contributors": [
-        {
-            "url": "http://www.xilinx.com", 
-            "group": "Xilinx"
-        }
-    ], 
-    "launch": [
-        {
-            "cmd_args": "BUILD/vadd.xclbin", 
-            "name": "generic launch for all flows"
-        }
     ], 
     "gui": false, 
     "xcl": true, 
@@ -33,17 +30,6 @@
             ]
         }
     }, 
-    "key_concepts": [
-        "RTL Kernel Debug"
-    ], 
-    "output_files": "tmp_kernel_pack* packaged_kernel*", 
-    "os": [
-        "Linux"
-    ], 
-    "targets": [
-        "hw", 
-        "hw_emu"
-    ], 
     "containers": [
         {
             "accelerators": [
@@ -55,6 +41,20 @@
             "name": "vadd"
         }
     ], 
+    "launch": [
+        {
+            "cmd_args": "BUILD/vadd.xclbin", 
+            "name": "generic launch for all flows"
+        }
+    ], 
+    "config_make": "config.mk", 
+    "output_files": "tmp_kernel_pack* packaged_kernel*", 
+    "contributors": [
+        {
+            "url": "http://www.xilinx.com", 
+            "group": "Xilinx"
+        }
+    ],
     "more_info": [
         " ", 
         "**For more information on the steps involved in debugging Vitis RTL Kernel Designs check the links below**", 

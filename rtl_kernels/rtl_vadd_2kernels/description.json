@@ -3,25 +3,18 @@
     "description": [
         "This example has two RTL Kernels. Both Kernel_0 and Kernel_1 perform vector addition. The Kernel_1 reads the output from Kernel_0 as one of two inputs."
     ], 
-    "config_make": "config.mk", 
-    "contributors": [
-        {
-            "url": "http://www.xilinx.com", 
-            "group": "Xilinx"
-        }
+    "key_concepts": [
+        "Multiple RTL Kernels"
     ], 
-    "launch": [
-        {
-            "cmd_args": "BUILD/vadd.xclbin", 
-            "name": "generic launch for all flows"
-        }
+    "targets": [
+        "hw", 
+        "hw_emu"
     ], 
-    "revision": [
-        {
-            "date": "May2017", 
-            "version": "1.0", 
-            "description": "Initial Xilinx Release"
-        }
+    "os": [
+        "Linux"
+    ], 
+    "runtime": [
+        "OpenCL"
     ], 
     "gui": false, 
     "host": {
@@ -36,19 +29,6 @@
             ]
         }
     }, 
-    "key_concepts": [
-        "Multiple RTL Kernels"
-    ], 
-    "runtime": [
-        "OpenCL"
-    ], 
-    "os": [
-        "Linux"
-    ], 
-    "targets": [
-        "hw", 
-        "hw_emu"
-    ], 
     "containers": [
         {
             "accelerators": [
@@ -64,5 +44,25 @@
             "name": "vadd"
         }
     ], 
-    "output_files": "tmp_kernel_pack* packaged_kernel*"
+    "launch": [
+        {
+            "cmd_args": "BUILD/vadd.xclbin", 
+            "name": "generic launch for all flows"
+        }
+    ], 
+    "config_make": "config.mk", 
+    "output_files": "tmp_kernel_pack* packaged_kernel*",
+    "contributors": [
+        {
+            "url": "http://www.xilinx.com", 
+            "group": "Xilinx"
+        }
+    ], 
+    "revision": [
+        {
+            "date": "May2017", 
+            "version": "1.0", 
+            "description": "Initial Xilinx Release"
+        }
+    ] 
 }

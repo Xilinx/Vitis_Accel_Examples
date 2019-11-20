@@ -3,20 +3,20 @@
     "description": [
         "This example discuss the different reasons for errors in OpenCL and how to handle them at runtime."
     ],
-    "testinfo": {
-        "negative": "true"
-    }, 
-    "contributors": [
-        {
-            "url": "http://www.xilinx.com", 
-            "group": "Xilinx"
-        }
+    "keywords": [
+        "CL_SUCCESS", 
+        "CL_DEVICE_NOT_FOUND", 
+        "CL_DEVICE_NOT_AVAILABLE"
     ], 
-    "launch": [
-        {
-            "cmd_args": "BUILD/vector_addition.xclbin", 
-            "name": "generic launch for all flows"
-        }
+    "key_concepts": [
+        "OpenCL API", 
+        "Error handling"
+    ], 
+    "os": [
+        "Linux"
+    ], 
+    "runtime": [
+        "OpenCL"
     ], 
     "host": {
         "host_exe": "errors", 
@@ -24,21 +24,6 @@
             "sources": []
         }
     }, 
-    "key_concepts": [
-        "OpenCL API", 
-        "Error handling"
-    ], 
-    "keywords": [
-        "CL_SUCCESS", 
-        "CL_DEVICE_NOT_FOUND", 
-        "CL_DEVICE_NOT_AVAILABLE"
-    ], 
-    "runtime": [
-        "OpenCL"
-    ], 
-    "os": [
-        "Linux"
-    ], 
     "containers": [
         {
             "accelerators": [
@@ -49,5 +34,20 @@
             ], 
             "name": "vector_addition"
         }
-    ] 
+    ],
+    "launch": [
+        {
+            "cmd_args": "BUILD/vector_addition.xclbin", 
+            "name": "generic launch for all flows"
+        }
+    ], 
+    "contributors": [
+        {
+            "url": "http://www.xilinx.com", 
+            "group": "Xilinx"
+        }
+    ], 
+    "testinfo": {
+        "negative": "true"
+    } 
 }

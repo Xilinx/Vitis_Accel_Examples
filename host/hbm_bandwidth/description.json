@@ -3,37 +3,17 @@
     "description": [
         "This is a HBM bandwidth check design. Design contains 3 compute units of a kernel which has access to all HBM banks (0:31). Host application allocate buffer into all HBM banks and run these 3 compute units concurrently and measure the overall bandwidth between Kernel and HBM Memory."
     ],
-    "testinfo": {
-        "profile": "no"
-    }, 
+    "default_device": "xilinx_u50_xdma_201920_1", 
     "ndevice": [
         "xilinx_u200_xdma", 
         "xilinx_u200_qdma", 
-        "zed",
         "zc", 
         "xilinx_u250_xdma", 
         "xilinx_u250_qdma", 
-        "xilinx_vcu1525_dynamic", 
-        "xilinx:u200:xdma", 
-        "xilinx:u200:qdma", 
-        "xilinx:u250:xdma", 
-        "xilinx:u250:qdma", 
-        "xilinx_samsung_U2x4",
-        "xilinx:samsung:U2x4",
-        "xilinx:vcu1525:dynamic" 
+        "xilinx_samsung_U2x4"
     ], 
-    "default_device": "xilinx_u50_xdma_201920_1", 
-    "contributors": [
-        {
-            "url": "http://www.xilinx.com", 
-            "group": "Xilinx"
-        }
-    ], 
-    "launch": [
-        {
-            "cmd_args": "BUILD/krnl_vaddmul.xclbin", 
-            "name": "generic launch for all flows"
-        }
+    "runtime": [
+        "OpenCL"
     ], 
     "host": {
         "host_exe": "host", 
@@ -46,9 +26,6 @@
             ]
         }
     }, 
-    "runtime": [
-        "OpenCL"
-    ], 
     "containers": [
         {
             "accelerators": [
@@ -122,5 +99,20 @@
             ], 
             "name": "krnl_vaddmul"
         }
-    ]  
+    ],
+    "launch": [
+        {
+            "cmd_args": "BUILD/krnl_vaddmul.xclbin", 
+            "name": "generic launch for all flows"
+        }
+    ], 
+    "contributors": [
+        {
+            "url": "http://www.xilinx.com", 
+            "group": "Xilinx"
+        }
+    ], 
+    "testinfo": {
+        "profile": "no"
+    } 
 }

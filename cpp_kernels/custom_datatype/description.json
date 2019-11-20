@@ -1,20 +1,22 @@
 {
+    "name": "Custom Data Type (C)",
     "description": [
         "This is simple example of RGB to HSV conversion to demonstrate Custom DATA Type usages in C Based Kernel. Xilinx HLS Compiler Supports Custom Data Type to use for operation as well as Memory Interface between Kernel and Global Memory."
     ], 
-    "contributors": [
-        {
-            "url": "http://www.xilinx.com", 
-            "group": "Xilinx"
-        }
+    "keywords": [
+        "struct", 
+        "#pragma HLS data_pack", 
+        "#pragma HLS LOOP_TRIPCOUNT"
     ], 
-    "launch": [
-        {
-            "cmd_args": "BUILD/rgb_to_hsv.xclbin PROJECT/data/input.bmp", 
-            "name": "generic launch for all flows"
-        }
+    "key_concepts": [
+        "Custom Datatype"
     ], 
-    "output_files": "output.bmp", 
+    "os": [
+        "Linux"
+    ], 
+    "runtime": [
+        "OpenCL"
+    ], 
     "host": {
         "host_exe": "host", 
         "compiler": {
@@ -28,20 +30,6 @@
             ]
         }
     }, 
-    "key_concepts": [
-        "Custom Datatype"
-    ], 
-    "keywords": [
-        "struct", 
-        "#pragma HLS data_pack", 
-        "#pragma HLS LOOP_TRIPCOUNT"
-    ], 
-    "runtime": [
-        "OpenCL"
-    ], 
-    "os": [
-        "Linux"
-    ], 
     "containers": [
         {
             "accelerators": [
@@ -53,5 +41,17 @@
             "name": "rgb_to_hsv"
         }
     ], 
-    "name": "Custom Data Type (C)"
+    "launch": [
+        {
+            "cmd_args": "BUILD/rgb_to_hsv.xclbin PROJECT/data/input.bmp", 
+            "name": "generic launch for all flows"
+        }
+    ], 
+    "output_files": "output.bmp", 
+    "contributors": [
+        {
+            "url": "http://www.xilinx.com", 
+            "group": "Xilinx"
+        }
+    ] 
 }

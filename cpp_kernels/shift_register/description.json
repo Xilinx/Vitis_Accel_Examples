@@ -1,16 +1,21 @@
 {
     "name": "Shift Register (C)", 
-    "contributors": [
-        {
-            "url": "http://www.xilinx.com", 
-            "group": "Xilinx"
-        }
+    "description": [
+        "This example demonstrates how to shift values in registers in each clock cycle"
+    ],
+    "keywords": [
+        "#pragma HLS ARRAY_PARTITION"
     ], 
-    "launch": [
-        {
-            "cmd_args": "BUILD/fir.xclbin", 
-            "name": "generic launch for all flows"
-        }
+    "key_concepts": [
+        "Kernel Optimization", 
+        "Shift Register", 
+        "FIR"
+    ], 
+    "os": [
+        "Linux"
+    ], 
+    "runtime": [
+        "OpenCL"
     ], 
     "host": {
         "host_exe": "host", 
@@ -23,20 +28,6 @@
             ]
         }
     }, 
-    "key_concepts": [
-        "Kernel Optimization", 
-        "Shift Register", 
-        "FIR"
-    ], 
-    "keywords": [
-        "#pragma HLS ARRAY_PARTITION"
-    ], 
-    "runtime": [
-        "OpenCL"
-    ], 
-    "os": [
-        "Linux"
-    ], 
     "containers": [
         {
             "accelerators": [
@@ -52,8 +43,17 @@
             "name": "fir"
         }
     ], 
-    "description": [
-        "This example demonstrates how to shift values in registers in each clock cycle"
-    ],
-    "match_ini": "false"
+    "launch": [
+        {
+            "cmd_args": "BUILD/fir.xclbin", 
+            "name": "generic launch for all flows"
+        }
+    ], 
+    "match_ini": "false",
+    "contributors": [
+        {
+            "url": "http://www.xilinx.com", 
+            "group": "Xilinx"
+        }
+    ] 
 }

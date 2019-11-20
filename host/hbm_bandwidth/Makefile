@@ -115,9 +115,6 @@ endif
 ifeq ($(findstring xilinx_u200_qdma, $(DEVICE)), xilinx_u200_qdma)
 $(error This example is not supported for $(DEVICE))
 endif
-ifeq ($(findstring zed, $(DEVICE)), zed)
-$(error This example is not supported for $(DEVICE))
-endif
 ifeq ($(findstring zc, $(DEVICE)), zc)
 $(error This example is not supported for $(DEVICE))
 endif
@@ -127,28 +124,7 @@ endif
 ifeq ($(findstring xilinx_u250_qdma, $(DEVICE)), xilinx_u250_qdma)
 $(error This example is not supported for $(DEVICE))
 endif
-ifeq ($(findstring xilinx_vcu1525_dynamic, $(DEVICE)), xilinx_vcu1525_dynamic)
-$(error This example is not supported for $(DEVICE))
-endif
-ifeq ($(findstring xilinx:u200:xdma, $(DEVICE)), xilinx:u200:xdma)
-$(error This example is not supported for $(DEVICE))
-endif
-ifeq ($(findstring xilinx:u200:qdma, $(DEVICE)), xilinx:u200:qdma)
-$(error This example is not supported for $(DEVICE))
-endif
-ifeq ($(findstring xilinx:u250:xdma, $(DEVICE)), xilinx:u250:xdma)
-$(error This example is not supported for $(DEVICE))
-endif
-ifeq ($(findstring xilinx:u250:qdma, $(DEVICE)), xilinx:u250:qdma)
-$(error This example is not supported for $(DEVICE))
-endif
 ifeq ($(findstring xilinx_samsung_U2x4, $(DEVICE)), xilinx_samsung_U2x4)
-$(error This example is not supported for $(DEVICE))
-endif
-ifeq ($(findstring xilinx:samsung:U2x4, $(DEVICE)), xilinx:samsung:U2x4)
-$(error This example is not supported for $(DEVICE))
-endif
-ifeq ($(findstring xilinx:vcu1525:dynamic, $(DEVICE)), xilinx:vcu1525:dynamic)
 $(error This example is not supported for $(DEVICE))
 endif
 

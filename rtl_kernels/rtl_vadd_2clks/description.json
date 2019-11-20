@@ -3,25 +3,22 @@
     "description": [
         "This example shows vector addition with 2 kernel clocks using RTL Kernel."
     ], 
-    "config_make": "config.mk", 
-    "contributors": [
-        {
-            "url": "http://www.xilinx.com", 
-            "group": "Xilinx"
-        }
+    "keywords": [
+	"kernel_frequency"
     ], 
-    "launch": [
-        {
-            "cmd_args": "BUILD/vadd.xclbin", 
-            "name": "generic launch for all flows"
-        }
+    "key_concepts": [
+        "RTL Kernel", 
+        "Multiple Kernel Clocks"
     ], 
-    "revision": [
-        {
-            "date": "JAN2017", 
-            "version": "1.0", 
-            "description": "Initial Xilinx Release"
-        }
+    "targets": [
+        "hw", 
+        "hw_emu"
+    ], 
+    "os": [
+        "Linux"
+    ], 
+    "runtime": [
+        "OpenCL"
     ], 
     "gui": false, 
     "host": {
@@ -36,23 +33,6 @@
             ]
         }
     }, 
-    "key_concepts": [
-        "RTL Kernel", 
-        "Multiple Kernel Clocks"
-    ], 
-    "keywords": [
-	"kernel_frequency"
-    ], 
-    "runtime": [
-        "OpenCL"
-    ], 
-    "os": [
-        "Linux"
-    ], 
-    "targets": [
-        "hw", 
-        "hw_emu"
-    ], 
     "containers": [
         {
             "accelerators": [
@@ -65,5 +45,25 @@
 	    "ldclflags": "--config PROJECT/vadd.ini"
         }
     ], 
-    "output_files": "tmp_kernel_pack* packaged_kernel*"
+    "launch": [
+        {
+            "cmd_args": "BUILD/vadd.xclbin", 
+            "name": "generic launch for all flows"
+        }
+    ], 
+    "config_make": "config.mk", 
+    "output_files": "tmp_kernel_pack* packaged_kernel*",
+    "contributors": [
+        {
+            "url": "http://www.xilinx.com", 
+            "group": "Xilinx"
+        }
+    ], 
+    "revision": [
+        {
+            "date": "JAN2017", 
+            "version": "1.0", 
+            "description": "Initial Xilinx Release"
+        }
+    ] 
 }

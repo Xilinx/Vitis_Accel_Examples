@@ -3,17 +3,26 @@
     "description": [
         "This is simple example which demonstrate how to use and configure a free running kernel."
     ],
-    "contributors": [
-        {
-            "url": "http://www.xilinx.com", 
-            "group": "Xilinx"
-        }
+    "keywords": [
+        "ap_ctrl_none",
+        "stream_connect" 
     ], 
-    "launch": [
-        {
-            "cmd_args": "BUILD/krnl_incr.xclbin", 
-            "name": "generic launch for all flows"
-        }
+    "key_concepts": [
+        "Free Running Kernel" 
+    ], 
+    "ndevice": [
+        "xilinx_u200_xdma_201830",
+        "xilinx_u250_xdma_201830",
+        "xilinx_u200_xdma_201910",
+        "xilinx_u250_xdma_201910",
+        "xilinx_u280_xdma_201910",
+        "samsung"
+    ],
+    "os": [
+        "Linux"
+    ], 
+    "runtime": [
+        "OpenCL"
     ], 
     "host": {
         "host_exe": "host", 
@@ -26,27 +35,6 @@
             ]
         }
     }, 
-    "ndevice": [
-        "xilinx_u200_xdma_201830",
-        "xilinx_u250_xdma_201830",
-        "xilinx_u200_xdma_201910",
-        "xilinx_u250_xdma_201910",
-        "xilinx_u280_xdma_201910",
-        "samsung"
-    ],
-    "key_concepts": [
-        "Free Running Kernel" 
-    ], 
-    "keywords": [
-        "ap_ctrl_none",
-        "stream_connect" 
-    ], 
-    "runtime": [
-        "OpenCL"
-    ], 
-    "os": [
-        "Linux"
-    ], 
     "containers": [
         {
             "accelerators": [
@@ -66,5 +54,17 @@
             "name": "krnl_incr",
 	    "ldclflags": "--config PROJECT/krnl_incr.ini"
         }
-    ]
+    ],
+    "launch": [
+        {
+            "cmd_args": "BUILD/krnl_incr.xclbin", 
+            "name": "generic launch for all flows"
+        }
+    ], 
+    "contributors": [
+        {
+            "url": "http://www.xilinx.com", 
+            "group": "Xilinx"
+        }
+    ] 
 }

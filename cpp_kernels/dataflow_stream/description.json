@@ -1,16 +1,20 @@
 {
     "name": "Dataflow Using HLS Stream", 
-    "contributors": [
-        {
-            "url": "http://www.xilinx.com", 
-            "group": "Xilinx"
-        }
+    "description": [
+        "This is simple example of vector addition to demonstrate Dataflow functionality of HLS. HLS Dataflow allows user to schedule multiple task together to achieve higher throughput."
+    ],
+    "keywords": [
+        "dataflow", 
+        "hls::stream"
     ], 
-    "launch": [
-        {
-            "cmd_args": "BUILD/adder.xclbin", 
-            "name": "generic launch for all flows"
-        }
+    "key_concepts": [
+        "Task Level Parallelism"
+    ], 
+    "os": [
+        "Linux"
+    ], 
+    "runtime": [
+        "OpenCL"
     ], 
     "host": {
         "host_exe": "host", 
@@ -23,19 +27,6 @@
             ]
         }
     }, 
-    "key_concepts": [
-        "Task Level Parallelism"
-    ], 
-    "keywords": [
-        "dataflow", 
-        "hls::stream"
-    ], 
-    "runtime": [
-        "OpenCL"
-    ], 
-    "os": [
-        "Linux"
-    ], 
     "containers": [
         {
             "accelerators": [
@@ -47,7 +38,16 @@
             "name": "adder"
         }
     ], 
-    "description": [
-        "This is simple example of vector addition to demonstrate Dataflow functionality of HLS. HLS Dataflow allows user to schedule multiple task together to achieve higher throughput."
-    ]
+    "launch": [
+        {
+            "cmd_args": "BUILD/adder.xclbin", 
+            "name": "generic launch for all flows"
+        }
+    ], 
+    "contributors": [
+        {
+            "url": "http://www.xilinx.com", 
+            "group": "Xilinx"
+        }
+    ] 
 }

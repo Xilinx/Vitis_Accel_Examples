@@ -3,24 +3,30 @@
     "description": [
         "This is a simple Vector Increment RTL Kernel design with 1 Stream input and 1 Stream output that demonstrates on how to process an input stream of data for computation in an application."
     ], 
-    "config_make": "config.mk", 
+    "keywords": [
+        "cl_stream", 
+        "CL_STREAM_EOT"
+    ], 
+    "key_concepts": [
+        "Read/Write Stream", 
+        "Create/Release Stream", 
+        "RTL Kernel"
+    ], 
+    "default_device": "xilinx_u200_qdma_201910_1", 
     "ndevice": [
         "zc",
         "xdma",
         "samsung"
     ], 
-    "default_device": "xilinx_u200_qdma_201910_1", 
-    "contributors": [
-        {
-            "url": "http://www.xilinx.com", 
-            "group": "Xilinx"
-        }
+    "targets": [
+        "hw", 
+        "hw_emu"
     ], 
-    "launch": [
-        {
-            "cmd_args": "BUILD/myadder1.xclbin", 
-            "name": "generic launch for all flows"
-        }
+    "os": [
+        "Linux"
+    ], 
+    "runtime": [
+        "OpenCL"
     ], 
     "gui": false, 
     "host": {
@@ -40,25 +46,6 @@
             ]
         }
     }, 
-    "key_concepts": [
-        "Read/Write Stream", 
-        "Create/Release Stream", 
-        "RTL Kernel"
-    ], 
-    "keywords": [
-        "cl_stream", 
-        "CL_STREAM_EOT"
-    ], 
-    "runtime": [
-        "OpenCL"
-    ], 
-    "os": [
-        "Linux"
-    ], 
-    "targets": [
-        "hw", 
-        "hw_emu"
-    ], 
     "containers": [
         {
             "accelerators": [
@@ -70,5 +57,18 @@
             "name": "myadder1"
         }
     ], 
-    "output_files": "tmp_kernel_pack* packaged_kernel* _x* *_ex project* pinfo.json"
+    "launch": [
+        {
+            "cmd_args": "BUILD/myadder1.xclbin", 
+            "name": "generic launch for all flows"
+        }
+    ], 
+    "config_make": "config.mk", 
+    "output_files": "tmp_kernel_pack* packaged_kernel* _x* *_ex project* pinfo.json",
+    "contributors": [
+        {
+            "url": "http://www.xilinx.com", 
+            "group": "Xilinx"
+        }
+    ] 
 }

@@ -3,17 +3,20 @@
     "description": [
         "This example will demonstrate how to use multiple and out of order command queues to simultaneously execute multiple kernels on an FPGA."
     ],
-    "contributors": [
-        {
-            "url": "http://www.xilinx.com", 
-            "group": "Xilinx"
-        }
+    "keywords": [
+        "CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE", 
+        "setCallback"
     ], 
-    "launch": [
-        {
-            "cmd_args": "BUILD/matrix_ops.xclbin", 
-            "name": "generic launch for all flows"
-        }
+    "key_concepts": [
+        "Concurrent execution", 
+        "Out of Order Command Queues", 
+        "Multiple Command Queues"
+    ], 
+    "os": [
+        "Linux"
+    ], 
+    "runtime": [
+        "OpenCL"
     ], 
     "host": {
         "compiler": {
@@ -26,21 +29,6 @@
         }, 
         "host_exe": "concurrent_execution"
     }, 
-    "key_concepts": [
-        "Concurrent execution", 
-        "Out of Order Command Queues", 
-        "Multiple Command Queues"
-    ], 
-    "keywords": [
-        "CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE", 
-        "setCallback"
-    ], 
-    "runtime": [
-        "OpenCL"
-    ], 
-    "os": [
-        "Linux"
-    ], 
     "containers": [
         {
             "accelerators": [
@@ -58,6 +46,18 @@
                 }
             ], 
             "name": "matrix_ops"
+        }
+    ],
+    "launch": [
+        {
+            "cmd_args": "BUILD/matrix_ops.xclbin", 
+            "name": "generic launch for all flows"
+        }
+    ], 
+    "contributors": [
+        {
+            "url": "http://www.xilinx.com", 
+            "group": "Xilinx"
         }
     ] 
 }

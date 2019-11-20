@@ -3,20 +3,23 @@
     "description": [
         "This example discuss the different reasons for errors in OpenCL C++ and how to handle them at runtime."
     ],
-    "testinfo": {
-        "negative": "true"
-    }, 
-    "contributors": [
-        {
-            "url": "http://www.xilinx.com", 
-            "group": "Xilinx"
-        }
+    "keywords": [
+        "CL_SUCCESS", 
+        "CL_DEVICE_NOT_FOUND", 
+        "CL_DEVICE_NOT_AVAILABLE", 
+        "CL_INVALID_VALUE", 
+        "CL_INVALID_KERNEL_NAME", 
+        "CL_INVALID_BUFFER_SIZE"
     ], 
-    "launch": [
-        {
-            "cmd_args": "BUILD/vector_addition.xclbin", 
-            "name": "generic launch for all flows"
-        }
+    "key_concepts": [
+        "OpenCL C++ API", 
+        "Error handling"
+    ], 
+    "os": [
+        "Linux"
+    ], 
+    "runtime": [
+        "OpenCL"
     ], 
     "host": {
         "host_exe": "errors", 
@@ -29,24 +32,6 @@
             ]
         }
     }, 
-    "key_concepts": [
-        "OpenCL C++ API", 
-        "Error handling"
-    ], 
-    "keywords": [
-        "CL_SUCCESS", 
-        "CL_DEVICE_NOT_FOUND", 
-        "CL_DEVICE_NOT_AVAILABLE", 
-        "CL_INVALID_VALUE", 
-        "CL_INVALID_KERNEL_NAME", 
-        "CL_INVALID_BUFFER_SIZE"
-    ], 
-    "runtime": [
-        "OpenCL"
-    ], 
-    "os": [
-        "Linux"
-    ], 
     "containers": [
         {
             "accelerators": [
@@ -57,5 +42,20 @@
             ], 
             "name": "vector_addition"
         }
-    ] 
+    ],
+    "launch": [
+        {
+            "cmd_args": "BUILD/vector_addition.xclbin", 
+            "name": "generic launch for all flows"
+        }
+    ], 
+    "contributors": [
+        {
+            "url": "http://www.xilinx.com", 
+            "group": "Xilinx"
+        }
+    ], 
+    "testinfo": {
+        "negative": "true"
+    } 
 }

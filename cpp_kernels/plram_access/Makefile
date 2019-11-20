@@ -109,34 +109,13 @@ $(EMCONFIG_DIR)/emconfig.json:
 	emconfigutil --platform $(DEVICE) --od $(EMCONFIG_DIR)
 
 check: all
-ifeq ($(findstring xilinx_aws-vu9p-f1-04261818, $(DEVICE)), xilinx_aws-vu9p-f1-04261818)
-$(error This example is not supported for $(DEVICE))
-endif
-ifeq ($(findstring xilinx:aws-vu9p-f1-04261818:dynamic, $(DEVICE)), xilinx:aws-vu9p-f1-04261818:dynamic)
-$(error This example is not supported for $(DEVICE))
-endif
 ifeq ($(findstring zc, $(DEVICE)), zc)
-$(error This example is not supported for $(DEVICE))
-endif
-ifeq ($(findstring zed, $(DEVICE)), zed)
 $(error This example is not supported for $(DEVICE))
 endif
 ifeq ($(findstring xilinx_u50_xdma, $(DEVICE)), xilinx_u50_xdma)
 $(error This example is not supported for $(DEVICE))
 endif
 ifeq ($(findstring xilinx_samsung_U2x4, $(DEVICE)), xilinx_samsung_U2x4)
-$(error This example is not supported for $(DEVICE))
-endif
-ifeq ($(findstring xilinx:samsung:U2x4, $(DEVICE)), xilinx:samsung:U2x4)
-$(error This example is not supported for $(DEVICE))
-endif
-ifeq ($(findstring xilinx:u50:xdma, $(DEVICE)), xilinx:u50:xdma)
-$(error This example is not supported for $(DEVICE))
-endif
-ifeq ($(findstring xilinx_v350-es1_xdma, $(DEVICE)), xilinx_v350-es1_xdma)
-$(error This example is not supported for $(DEVICE))
-endif
-ifeq ($(findstring xilinx:v350-es1:xdma, $(DEVICE)), xilinx:v350-es1:xdma)
 $(error This example is not supported for $(DEVICE))
 endif
 
