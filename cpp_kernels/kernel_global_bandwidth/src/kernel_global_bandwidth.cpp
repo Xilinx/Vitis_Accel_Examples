@@ -36,51 +36,23 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 *  ***************************************************************************************
 *  XSA  (2DDR):
 *              
-*  1.<Vitis Project> > Properties > C/C++ Build > Settings > Vitis V++ Kernel Compiler 
+*  1. Add a .ini file in the <Project>/src folder with the following entries:
+*  	    [Connecttivity]
+*  	    sp=bandwidth_1.m_axi_gmem0:DDR[0]
+*     	    sp=bandwidth_1.m_axi_gmem1:DDR[1]         
+*     
+*     For more number of DDR connections add more sp tags as shown above in the ini file. 
+*     Note : Replace DDR[0] with HP0, DDR[1] with HP1 for embedded platforms(zc)	    
+*  2.<Vitis Project> > Properties > C/C++ Build > Settings > Vitis V++ Kernel Linker
 *                  > Miscellaneous > Other flags
-*  2.In "Other flags" box enter following
-*     a. --max_memory_ports all 
-*  3.<Vitis Project> > Properties > C/C++ Build > Settings > Vitis V++ Kernel Linker
-*                  > Miscellaneous > Other flags
-*     a. --sp bandwidth_1.m_axi_gmem0:DDR[0]
-*     b. --sp bandwidth_1.m_axi_gmem1:DDR[1] 
-*
-* *****************************************************************************************
-*  XSA  (3DDR):
-*              
-*  1.<Vitis Project> > Properties > C/C++ Build > Settings > Vitis V++ Kernel Compiler 
-*                  > Miscellaneous > Other flags
-*  2.In "Other flags" box enter following
-*     a. --max_memory_ports all 
-*  3.<Vitis Project> > Properties > C/C++ Build > Settings > Vitis V++ Kernel Linker
-*                  > Miscellaneous > Other flags
-*     a. --sp bandwidth_1.m_axi_gmem0:DDR[0]
-*     b. --sp bandwidth_1.m_axi_gmem1:DDR[1] 
-*     c. --sp bandwidth_1.m_axi_gmem2:DDR[2]
-*  4.Define NDDR_BANKS 3 in kernel "#define NDDR_BANKS 3" at the top of kernel.cl 
-* 
-* *****************************************************************************************
-*  XSA  (4DDR):
-*      
-*  Note: The selected platform must support 4DDR.             
-*              
-*  1.<Vitis Project> > Properties > C/C++ Build > Settings > Vitis V++ Kernel Compiler 
-*                  > Miscellaneous > Other flags
-*  2.In "Other flags" box enter following
-*     a. --max_memory_ports all 
-*  3.<Vitis Project> > Properties > C/C++ Build > Settings > Vitis V++ Kernel Linker
-*                  > Miscellaneous > Other flags
-*     a. --sp bandwidth_1.m_axi_gmem0:DDR[0]
-*     b. --sp bandwidth_1.m_axi_gmem1:DDR[1] 
-*     c. --sp bandwidth_1.m_axi_gmem2:DDR[2]
-*     d. --sp bandwidth_1.m_axi_gmem3:DDR[3] 
-*  4.Define NDDR_BANKS 4 in kernel "#define NDDR_BANKS 4" at the top of kernel.cl 
-* 
+*     --config ../src/<config_file>.ini
+*  3. Default number of banks for CLI flow is 2 banks, for GUI flow is 1 bank. 
+*     For 3 or 4 DDR connections, "#define NDDR_BANKS <3 or 4>" at the top of kernel.cl 
 * *****************************************************************************************
 *
 *  CLI Flow:
 *
-*  In CLI flow makefile detects the DDR of a device on the basis of ddr_banks variable
+*  In CLI flow makefile detects the DDR of a device on the basis of ddr_banks variable in config.mk file
 *  and based on that automatically it adds all the flags that are necessary. This example can be
 *  used similar to other examples in CLI flow, extra setup is not needed.
 *

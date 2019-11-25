@@ -31,41 +31,58 @@ Execution time = 0.066663 (sec)
 Concurrent Read and Write Throughput = 30.72 (GB/sec) 
 TEST PASSED
 ```
-GUI Flow :
-    
-By default this example supports 1DDR execution in GUI mode for all the XSAs. To make this example to work with multi DDR XSAs, 
-please follow steps mentioned below.
+  GUI Flow :
+      
+  By default this example supports 1DDR execution in GUI mode for 
+  all the XSAs. To make this example to work with multi DDR XSAs
+  please follow steps mentioned below.
+  XSA  (2DDR):
+              
+  1. Add a .ini file in the <Project>/src folder with the following entries:
+  	    [Connecttivity]
+  	    sp=bandwidth_1.m_axi_gmem0:DDR[0]
+     	    sp=bandwidth_1.m_axi_gmem1:DDR[1]         
+  2.<Vitis Project> > Properties > C/C++ Build > Settings > Vitis V++ Kernel Compiler 
+                  > Miscellaneous > Other flags
+  3.In "Other flags" box enter following
+     a. --max_memory_ports all 
+  4.<Vitis Project> > Properties > C/C++ Build > Settings > Vitis V++ Kernel Linker
+                  > Miscellaneous > Other flags
+     --config ../src/<config_file.ini>
 
-XSA  (2DDR):
-            
-1.Vitis Project > Properties > C/C++ Build > Settings > Vitis V++ Kernel Compiler > Miscellaneous > Other flags\
-2.In "Other flags" box enter following\
-   a. --max_memory_ports all\
-3.Vitis Project > Properties > C/C++ Build > Settings > Vitis V++ Kernel Linker > Miscellaneous > Other flags\
-   a. --sp bandwidth_1.m_axi_gmem0:DDR[0]\
-   b. --sp bandwidth_1.m_axi_gmem1:DDR[1]
+  XSA  (3DDR):
+             
+  1. Add a .ini file in the <Project>/src folder with the following entries:
+  	    [Connecttivity]
+  	    sp=bandwidth_1.m_axi_gmem0:DDR[0]
+     	    sp=bandwidth_1.m_axi_gmem1:DDR[1]         
+     	    sp=bandwidth_1.m_axi_gmem2:DDR[2]         
+  2.<Vitis Project> > Properties > C/C++ Build > Settings > Vitis V++ Kernel Compiler 
+                  > Miscellaneous > Other flags
+  3.In "Other flags" box enter following
+     a. --max_memory_ports all 
+  4.<Vitis Project> > Properties > C/C++ Build > Settings > Vitis V++ Kernel Linker
+                  > Miscellaneous > Other flags
+     --config ../src/<config_file.ini>
+  5.Define NDDR_BANKS 3 in kernel "#define NDDR_BANKS 3" at the top of kernel.cl 
+ 
+  XSA  (4DDR):
+      
+  Note: The selected platform must support 4DDR.             
+              
+  1. Add a .ini file in the <Project>/src folder with the following entries:
+  	    [Connecttivity]
+  	    sp=bandwidth_1.m_axi_gmem0:DDR[0]
+     	    sp=bandwidth_1.m_axi_gmem1:DDR[1]         
+     	    sp=bandwidth_1.m_axi_gmem2:DDR[2]         
+     	    sp=bandwidth_1.m_axi_gmem2:DDR[3]         
+  2.<Vitis Project> > Properties > C/C++ Build > Settings > Vitis V++ Kernel Compiler 
+                  > Miscellaneous > Other flags
+  3.In "Other flags" box enter following
+     a. --max_memory_ports all 
+  4.<Vitis Project> > Properties > C/C++ Build > Settings > Vitis V++ Kernel Linker
+                  > Miscellaneous > Other flags
+     --config ../src/<config_file.ini>
+  5.Define NDDR_BANKS 4 in kernel "#define NDDR_BANKS 4" at the top of kernel.cl 
+ 
 
-XSA  (3DDR):
-            
-1.Vitis Project > Properties > C/C++ Build > Settings > Vitis V++ Kernel Compiler > Miscellaneous > Other flags\
-2.In "Other flags" box enter following\
-   a. --max_memory_ports all\
-3.Vitis Project > Properties > C/C++ Build > Settings > Vitis V++ Kernel Linker > Miscellaneous > Other flags\
-   a. --sp bandwidth_1.m_axi_gmem0:DDR[0]\
-   b. --sp bandwidth_1.m_axi_gmem1:DDR[1]\
-   c. --sp bandwidth_1.m_axi_gmem2:DDR[2]\
-4.Define NDDR_BANKS 3 in kernel "#define NDDR_BANKS 3" at the top of kernel.cl
-
-XSA  (4DDR):
-    
-Note: The selected platform must support 4DDR.             
-            
-1.Vitis Project > Properties > C/C++ Build > Settings > Vitis V++ Kernel Compiler > Miscellaneous > Other flags\
-2.In "Other flags" box enter following\
-   a. --max_memory_ports all\
-3.Vitis Project > Properties > C/C++ Build > Settings > Vitis V++ Kernel Linker > Miscellaneous > Other flags\
-   a. --sp bandwidth_1.m_axi_gmem0:DDR[0]\
-   b. --sp bandwidth_1.m_axi_gmem1:DDR[1]\
-   c. --sp bandwidth_1.m_axi_gmem2:DDR[2]\
-   d. --sp bandwidth_1.m_axi_gmem3:DDR[3]\
-4.Define NDDR_BANKS 4 in kernel "#define NDDR_BANKS 4" at the top of kernel.cl
