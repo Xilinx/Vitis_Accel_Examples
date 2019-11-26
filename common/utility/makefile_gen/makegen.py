@@ -5,7 +5,7 @@ import glob
 import os
 import re
 import subprocess
-import ConfigParser
+import configparser
 
 #ini flags
 config_file = 0
@@ -18,8 +18,8 @@ def create_params(target,data):
     diff = len(dirNameList) - dirNameIndex - 1
     target.write("COMMON_REPO = ")
     while diff > 0:
-	target.write("../")
-	diff -= 1 
+        target.write("../")
+        diff -= 1 
     target.write("\n")
     target.write("PWD = $(shell readlink -f .)\n")
     target.write("ABS_COMMON_REPO = $(shell readlink -f $(COMMON_REPO))\n")
@@ -48,9 +48,9 @@ def create_params(target,data):
     add_includes1(target, data)
     add_includes2(target, data) 
     if "config_make" in data:
-	target.write("include ")
-	target.write(data["config_make"])
-	target.write("\n\n")    
+        target.write("include ")
+        target.write(data["config_make"])
+        target.write("\n\n")    
     target.write("CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++11\n")
     target.write("LDFLAGS += $(opencl_LDFLAGS)\n")
     target.write("\n")
@@ -61,66 +61,66 @@ def add_includes1(target, data):
     target.write("#Include Libraries\n")
     target.write("include $(ABS_COMMON_REPO)/common/includes/opencl/opencl.mk\n")
     if "host" in data:
-	if "compiler" in data["host"]:	
-    		if "includepaths" in data["host"]["compiler"]:
-        		for path in data["host"]["compiler"]["includepaths"]:
-            			target.write("include "+ path.replace("REPO_DIR","$(ABS_COMMON_REPO)"))
-            			#target.write(lib)
-            			target.write("/")
-            			target.write(path.split("/")[-1])
-            			target.write(".mk")
-            			target.write("\n")
+        if "compiler" in data["host"]:	
+                if "includepaths" in data["host"]["compiler"]:
+                        for path in data["host"]["compiler"]["includepaths"]:
+                                target.write("include "+ path.replace("REPO_DIR","$(ABS_COMMON_REPO)"))
+                                #target.write(lib)
+                                target.write("/")
+                                target.write(path.split("/")[-1])
+                                target.write(".mk")
+                                target.write("\n")
     return
 
 def add_includes2(target, data):
     if "host" in data:
-	if "compiler" in data["host"]:		
-    		if "includepaths" in data["host"]["compiler"]:
-        		target.write("CXXFLAGS +=")
-        		for path in data["host"]["compiler"]["includepaths"]:
-            			target.write(" $(")
-            			target.write(path.split("/")[-1])
-            			target.write("_CXXFLAGS)")
-        		target.write("\n")
-        		target.write("LDFLAGS +=")
-        		for path in data["host"]["compiler"]["includepaths"]:
-            			target.write(" $(")
-            			target.write(path.split("/")[-1])
-            			target.write("_LDFLAGS)")
-        		target.write("\n")
-        		target.write("HOST_SRCS +=")
-        		for path in data["host"]["compiler"]["includepaths"]:
-            			target.write(" $(")
-            			target.write(path.split("/")[-1])
-            			target.write("_SRCS)")
+        if "compiler" in data["host"]:		
+                if "includepaths" in data["host"]["compiler"]:
+                        target.write("CXXFLAGS +=")
+                        for path in data["host"]["compiler"]["includepaths"]:
+                                target.write(" $(")
+                                target.write(path.split("/")[-1])
+                                target.write("_CXXFLAGS)")
+                        target.write("\n")
+                        target.write("LDFLAGS +=")
+                        for path in data["host"]["compiler"]["includepaths"]:
+                                target.write(" $(")
+                                target.write(path.split("/")[-1])
+                                target.write("_LDFLAGS)")
+                        target.write("\n")
+                        target.write("HOST_SRCS +=")
+                        for path in data["host"]["compiler"]["includepaths"]:
+                                target.write(" $(")
+                                target.write(path.split("/")[-1])
+                                target.write("_SRCS)")
     
-     	if "linker" in data["host"]:
-        	if "options" in data["host"]["linker"]:
-            		target.write("\nCXXFLAGS +=")
-            		for option in data["host"]["linker"]["options"]:
-  	        		target.write(" ")
-	        		target.write(option)
-   	target.write("\n")                
-   	return
+        if "linker" in data["host"]:
+                if "options" in data["host"]["linker"]:
+                        target.write("\nCXXFLAGS +=")
+                        for option in data["host"]["linker"]["options"]:
+                                target.write(" ")
+                                target.write(option)
+        target.write("\n")                
+        return
 
 def add_host_flags(target, data):
     target.write("HOST_SRCS += ")
     source_flag = 0
     if "sources" in data["host"]["compiler"]:
-	for src in data["host"]["compiler"]["sources"]:
-		if "src" in src.split("/"):
-    			target.write(src+ " ")
-			source_flag+=1
+        for src in data["host"]["compiler"]["sources"]:
+                if "src" in src.split("/"):
+                        target.write(src+ " ")
+                        source_flag+=1
     if not source_flag:
-	target.write("src/host.cpp\n")
+        target.write("src/host.cpp\n")
     target.write("\n")
     target.write("# Host compiler global settings\n")  	
     target.write("CXXFLAGS += ")
     target.write("-fmessage-length=0")
         
     if "compiler" in data["host"]:
-	if "options" in data["host"]["compiler"]:
-	    target.write(data["host"]["compiler"]["options"])
+        if "options" in data["host"]["compiler"]:
+            target.write(data["host"]["compiler"]["options"])
     target.write("\n")	
     target.write("LDFLAGS += ")
     target.write("-lrt -lstdc++ ")
@@ -141,21 +141,21 @@ def add_kernel_flags(target, data):
         for con in data["containers"]:
             for acc in con["accelerators"]:
                 if "max_memory_ports" in acc:
-		    target.write("CLFLAGS += ")
+                    target.write("CLFLAGS += ")
                     target.write(" --max_memory_ports ")
                     target.write(acc["name"])
-        	    target.write("\n")
+                    target.write("\n")
 
     if "containers" in data:
         for con in data["containers"]:
             for acc in con["accelerators"]:
                 if "clflags" in acc:
-		    target.write("CLFLAGS +=")
-		    flags = acc["clflags"].split(" ")
-		    for flg in flags[0:]:
-			target.write(" ")
-			flg = flg.replace('PROJECT', '.')
-			target.write(flg)
+                    target.write("CLFLAGS +=")
+                    flags = acc["clflags"].split(" ")
+                    for flg in flags[0:]:
+                        target.write(" ")
+                        flg = flg.replace('PROJECT', '.')
+                        target.write(flg)
                     target.write("\n")
     
     if "compiler" in data["host"]:
@@ -170,29 +170,29 @@ def add_kernel_flags(target, data):
     if "containers" in data:
         for con in data["containers"]:
             if  "ldclflags" in con:
-		target.write("\n")
+                target.write("\n")
                 target.write("# Kernel linker flags\n")
                 target.write("LDCLFLAGS +=")
-		ldclflags = con["ldclflags"].split(" ")
-		for flg in ldclflags[0:]:
-		    target.write(" ")
-		    flg = flg.replace('PROJECT', '.')
-		    target.write(flg)
+                ldclflags = con["ldclflags"].split(" ")
+                for flg in ldclflags[0:]:
+                    target.write(" ")
+                    flg = flg.replace('PROJECT', '.')
+                    target.write(flg)
             target.write("\n")
 
     #adding config files to linker 
     if "containers" in data:
-	config_add=0
+        config_add=0
         for con in data["containers"]:
-        	if "accelerators" in con:
-                	for acc in con["accelerators"]:
-				if "compute_units" in acc or "num_compute_units" in acc:
-					if not config_add:			
-						target.write("\n")
-						target.write("# Adding config files to linker\n")
-						target.write("LDCLFLAGS += ")
-						target.write("--config "+con["name"]+".ini ")
-						config_add=1
+                if "accelerators" in con:
+                        for acc in con["accelerators"]:
+                                if "compute_units" in acc or "num_compute_units" in acc:
+                                        if not config_add:			
+                                                target.write("\n")
+                                                target.write("# Adding config files to linker\n")
+                                                target.write("LDCLFLAGS += ")
+                                                target.write("--config "+con["name"]+".ini ")
+                                                config_add=1
     target.write("\n")
     target.write("EXECUTABLE = ")
     if "host_exe" in data["host"]:
@@ -200,14 +200,14 @@ def add_kernel_flags(target, data):
     else: 
         target.write("host")
     if "launch" in data:
-    	target.write("\n")
+        target.write("\n")
         target.write("CMD_ARGS =")
-	cmd_args = data["launch"][0]["cmd_args"].split(" ")
-	for cmdargs in cmd_args[0:]:
-	    target.write(" ")
+        cmd_args = data["launch"][0]["cmd_args"].split(" ")
+        for cmdargs in cmd_args[0:]:
+            target.write(" ")
             cmdargs = cmdargs.replace('BUILD', '$(BUILD_DIR)')
             cmdargs = cmdargs.replace('PROJECT', '.')
-	    target.write(cmdargs)
+            target.write(cmdargs)
 
     target.write("\n")
 
@@ -219,30 +219,30 @@ def add_kernel_flags(target, data):
 
 def add_containers(target, data):
     if "containers" in data:
-	for con in data["containers"]:
-	    target.write("BINARY_CONTAINERS += $(BUILD_DIR)/")
+        for con in data["containers"]:
+            target.write("BINARY_CONTAINERS += $(BUILD_DIR)/")
             target.write(con["name"])
             target.write(".xclbin\n")
-	    if "accelerators" in con:
-		for acc in con["accelerators"]:
-		    target.write("BINARY_CONTAINER_")
+            if "accelerators" in con:
+                for acc in con["accelerators"]:
+                    target.write("BINARY_CONTAINER_")
                     target.write(con["name"])
                     target.write("_OBJS += $(TEMP_DIR)/") 
-		    target.write(acc["name"])
+                    target.write(acc["name"])
                     target.write(".xo\n")       	
     target.write("\n")
 
 def building_kernel(target, data):
     target.write("# Building kernel\n")
     if "containers" in data:
-	for con in data["containers"]:
-	    if "accelerators" in con:
-		for acc in con["accelerators"]:
-		    target.write("$(TEMP_DIR)/")
-            	    target.write(acc["name"])
-            	    target.write(".xo: ")
-		    target.write(acc["location"])
-		    target.write("\n")
+        for con in data["containers"]:
+            if "accelerators" in con:
+                for acc in con["accelerators"]:
+                    target.write("$(TEMP_DIR)/")
+                    target.write(acc["name"])
+                    target.write(".xo: ")
+                    target.write(acc["location"])
+                    target.write("\n")
                     target.write("\tmkdir -p $(TEMP_DIR)\n")
                     target.write("\t$(VPP) $(CLFLAGS) --temp_dir ")
                     target.write("$(TEMP_DIR) ")
@@ -351,14 +351,14 @@ def mk_build_all(target, data):
     
     counter = 0
     if "containers" in data:
-	for con in data["containers"]:
-	    if "accelerators" in con:
-		for acc in con["accelerators"]:
-		    if "kernel_type" in acc:
-		    	if acc["kernel_type"] == "RTL":
-			    counter = 1
+        for con in data["containers"]:
+            if "accelerators" in con:
+                for acc in con["accelerators"]:
+                    if "kernel_type" in acc:
+                    	if acc["kernel_type"] == "RTL":
+     	                    counter = 1
     if counter == 1:
-	building_kernel_rtl(target, data)
+        building_kernel_rtl(target, data)
     else:
     	building_kernel(target, data)
     building_host(target, data)
@@ -369,9 +369,9 @@ def mk_check(target, data):
     if "ndevice" in data:
         for board in data["ndevice"]:
             target.write("ifeq ($(findstring ")
-	    target.write(board)
-	    target.write(", $(DEVICE)), ")
-	    target.write(board)
+            target.write(board)
+            target.write(", $(DEVICE)), ")
+            target.write(board)
             target.write(")\n")                   
             target.write("$(error This example is not supported for $(DEVICE))\n")
             target.write("endif\n")
@@ -387,8 +387,8 @@ def mk_check(target, data):
             for arg in args[0:]:
                 target.write(" ")
                 arg = arg.replace('BUILD', '$(BUILD_DIR)')
-	        arg = arg.replace('PROJECT', '.')
-	        target.write(arg)
+                arg = arg.replace('PROJECT', '.')
+                target.write(arg)
     target.write("\nelse\n")
     target.write("\tmkdir -p $(EMU_DIR)\n")
     target.write("\t$(CP) $(XILINX_VITIS)/data/emulation/unified $(EMU_DIR)\n")
@@ -408,9 +408,9 @@ def mk_check(target, data):
             args = data["launch"][0]["cmd_args"].split(" ")    
             for arg in args[0:]:
                 target.write(" ")
-	        arg = arg.replace('BUILD', '$(BUILD_DIR)')
-	        arg = arg.replace('PROJECT', '.')
-	        target.write(arg)
+                arg = arg.replace('BUILD', '$(BUILD_DIR)')
+                arg = arg.replace('PROJECT', '.')
+                target.write(arg)
     target.write("\nendif\n")
     target.write("endif\n")
     if "targets" in data:
@@ -432,22 +432,22 @@ def mk_check(target, data):
     ini_check = 0
     for dirs,subdirs,files in os.walk("."):
         if "xrt.ini" in files:
-		ini_check = 1
+                ini_check = 1
     if ini_check == 1:
-	Config = ConfigParser.ConfigParser()
-	Config.read("xrt.ini")
-	sections = Config.sections()
-	if 'Debug' in sections:
-		dict_debug = {}
-		options = Config.options('Debug')
-		if 'profile' in options:
-			dict_debug['profile'] = Config.get('Debug', 'profile')
-			if dict_debug['profile'] == 'true':	
-        			target.write("ifeq ($(HOST_ARCH), x86)\n")
-        			target.write("\tperf_analyze profile -i profile_summary.csv -f html\n")
-        			target.write("endif\n")
+        Config = configparser.ConfigParser()
+        Config.read("xrt.ini")
+        sections = Config.sections()
+        if 'Debug' in sections:
+                dict_debug = {}
+                options = Config.options('Debug')
+                if 'profile' in options:
+                        dict_debug['profile'] = Config.get('Debug', 'profile')
+                        if dict_debug['profile'] == 'true':	
+                                target.write("ifeq ($(HOST_ARCH), x86)\n")
+                                target.write("\tperf_analyze profile -i profile_summary.csv -f html\n")
+                                target.write("endif\n")
     else:
-	print "xrt.ini config file not found"		
+        print("xrt.ini config file not found")		
     target.write("\n")
 
 
@@ -667,14 +667,14 @@ def create_config(data):
                     if "compute_units" in acc or "num_compute_units" in acc:
                         config_file = 0	
                         for dirs,subdirs,files in os.walk("."):
-	                    if con["name"]+".ini" in files:
-	                        config_file = 1
-			if config_file == 1:	
-		            target = open(con["name"]+".ini","a")
-		        else:	
-                            print "Creating "+con["name"]+".ini file for %s" %data["name"]
+                            if con["name"]+".ini" in files:
+                                config_file = 1
+                        if config_file == 1:	
+                            target = open(con["name"]+".ini","a")
+                        else:	
+                            print("Creating "+con["name"]+".ini file for %s" %data["name"])
                             target = open(con["name"]+".ini","w")
-			    config_file = 1
+                            config_file = 1
                             target.write("[connectivity]\n")
                     if "compute_units" in acc:
                         for com in acc["compute_units"]:
@@ -684,7 +684,7 @@ def create_config(data):
                             if "slr" in com:
                                 target.write("slr="+acc["name"]+"_"+str(acc["compute_units"].index(com)+1)+":"+com["slr"]+"\n")
                     if "num_compute_units" in acc:
-				target.write("nk="+acc["name"]+":"+acc["num_compute_units"]+"\n")
+                                target.write("nk="+acc["name"]+":"+acc["num_compute_units"]+"\n")
     return
 
 script, desc_file = argv
@@ -693,29 +693,29 @@ data = json.load(desc)
 desc.close()
 
 if "match_ini" in data and data["match_ini"] == "false":
-    print "Error:: xrt.ini File Manually Edited:: Auto-file Generator Failed"
+    print("Error:: xrt.ini File Manually Edited:: Auto-file Generator Failed")
     err = False
 else:
-    print "Generating xrt.ini file for %s" %data["name"]
+    print("Generating xrt.ini file for %s" %data["name"])
     target = open("xrt.ini","w+")
     profile_report(target)
 
 if "containers" in data:
        	config_flag = 0
-	for con in data["containers"]:
-		for dirs,subdirs,files in os.walk("."):
-			if con["name"]+".ini" in files:
-				config_flag = 1
-	if not config_flag:
-		create_config(data)	
+        for con in data["containers"]:
+                for dirs,subdirs,files in os.walk("."):
+                        if con["name"]+".ini" in files:
+                                config_flag = 1
+        if not config_flag:
+                create_config(data)	
 
 if "match_makefile" in data and data["match_makefile"] == "false":
-    print "Error:: Makefile Manually Edited:: AutoMakefile Generator Failed"
+    print("Error:: Makefile Manually Edited:: AutoMakefile Generator Failed")
 else:
-    print "Generating Auto-Makefile for %s" %data["name"]
+    print("Generating Auto-Makefile for %s" %data["name"])
     target = open("Makefile", "w")
     create_mk(target, data)
-    print "Generating utils.mk file for %s" %data["name"]
+    print("Generating utils.mk file for %s" %data["name"])
     target = open("utils.mk", "w+")
     create_utils(target, data)
 

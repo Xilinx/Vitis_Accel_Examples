@@ -65,20 +65,20 @@ def overview(target,data):
         target.write("\n\n")
     if 'perf_fields' in data:
         target.write("### PERFORMANCE\n")
-	ctr = len(data["perf_fields"])
-	for idx in range(0, ctr - 1):
+        ctr = len(data["perf_fields"])
+        for idx in range(0, ctr - 1):
             target.write(data["perf_fields"][idx])
             target.write("|")
-	target.write(data["perf_fields"][ctr - 1])
+        target.write(data["perf_fields"][ctr - 1])
         target.write("\n")
-	for idx in range(0, ctr - 1):
+        for idx in range(0, ctr - 1):
             target.write("-----|")
-	target.write("-----\n")
-	count = len(data["performance"])	
+        target.write("-----\n")
+        count = len(data["performance"])	
         for result in range(0, count):
-	    for i in range(0, ctr - 1):
-		target.write(data["performance"][result][i])
-		target.write("|")
+            for i in range(0, ctr - 1):
+                target.write(data["performance"][result][i])
+                target.write("|")
             target.write(data["performance"][result][ctr - 1])	
             target.write("\n")
     if 'key_concepts' in data:
@@ -111,18 +111,18 @@ def requirements(target,data):
         board = data['device']
         boards = [word for word in DEVICES if word in board]
     else:
-	for board in DEVICES:
-		nboard_flag=0
-		if 'ndevice' in data:	
-			for nboard in data['ndevice']:
-				if nboard in board:
-		       	       		nboard_flag=1
-		if nboard_flag == 0:
-			boards.append(board)			
+        for board in DEVICES:
+                nboard_flag=0
+                if 'ndevice' in data:	
+                        for nboard in data['ndevice']:
+                                if nboard in board:
+                       	       	        nboard_flag=1
+                if nboard_flag == 0:
+                        boards.append(board)			
 
     boards.sort() 	
     for board in boards:
-      	target.write(board)
+        target.write(board)
         target.write("|")
         target.write(DEVICES[board]['name'])
         target.write("|")
@@ -141,6 +141,7 @@ def hierarchy(target):
     tree_cmd = ["git ls-files | grep -e data -e src"]
     proc = subprocess.Popen(tree_cmd,stdout=subprocess.PIPE, shell=True)
     output = proc.communicate()[0]
+    output = str(output).split("\'")[1]
     target.write(output)
     target.write("```\n")
     target.write("\n")
@@ -173,7 +174,7 @@ def commandargs(target,data):
 script, desc_file = argv
 
 # load the description file
-print "VITIS README File Genarator"
+print ("VITIS README File Genarator")
 desc = open(desc_file,'r')
 
 # load the json data from the file
@@ -183,9 +184,9 @@ desc.close()
 assert("OpenCL" in data['runtime'])
 
 if "match_readme" in data and data["match_readme"] == "false":
-    print "ERROR:: README Manually Edited:: README Generator Failed\n"
+    print ("ERROR:: README Manually Edited:: README Generator Failed\n")
 else:
-    print "Generating the README for %s" % data["name"]
+    print ("Generating the README for %s" % data["name"])
     target = open("README.md","w")
     overview(target,data)
     requirements(target,data)

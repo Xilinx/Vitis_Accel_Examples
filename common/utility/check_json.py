@@ -29,7 +29,7 @@ with open("description.json") as json_file:
         match_makefile = data.get("match_makefile")
         match_makefile = match_makefile.lower()
         if match_makefile not in [ "true", "1", "yes" ]:
-            print "WARNING: allowing mismatches between description.json and Makefile"
+            print("WARNING: allowing mismatches between description.json and Makefile")
             fail = "WARNING"
             failExitCode = okExitCode
             match_makefile = False
@@ -48,7 +48,7 @@ with open("description.json") as json_file:
                         if src.startswith("./"):
                             src = src[2:]
                         jsonKernels[name] = src
-                        print "found accelerator %s, src = %s" % (name,jsonKernels[name])
+                        print("found accelerator %s, src = %s" % (name,jsonKernels[name]))
     if data.get("accelerators"):
         accelerators = data.get("accelerators")
         if accelerators:
@@ -61,7 +61,7 @@ with open("description.json") as json_file:
                 if src.startswith("./"):
                     src = src[2:]
                 jsonKernels[name] = src
-                print "found accelerator %s, src = %s" % (name,jsonKernels[name])
+                print("found accelerator %s, src = %s" % (name,jsonKernels[name]))
 
 # read data from the makefile
 
@@ -90,7 +90,7 @@ if "XCLBINS" in assignments.keys():
 xclbins = []
 if x:
     xclbins = re.split(r"\W+", x)
-print "xclbins: %s" % xclbins
+print("xclbins: %s" % xclbins)
 for xclbin in xclbins:
     name = xclbin
     src = ""
@@ -103,7 +103,7 @@ for xclbin in xclbins:
     if src.startswith("./"):
         src = src[2:]
     makeKernels[name] = src
-    print "xclbin=%s src=%s" % (name, src)
+    print("xclbin=%s src=%s" % (name, src))
 
 # opencl support already baked into gui projects
 # no need to include in "libs"
@@ -114,14 +114,14 @@ if "opencl" in makeLibs:
 jsonOnlyLibs = list(set(jsonLibs) - set(makeLibs))
 makeOnlyLibs = list(set(makeLibs) - set(jsonLibs))
 
-print "json libs: %s" % jsonLibs
-print "make libs: %s" % makeLibs
+print("json libs: %s" % jsonLibs)
+print("make libs: %s" % makeLibs)
 
 if len(jsonOnlyLibs) > 0:
-    print "%s: libs in json, missing from Makefile: %s" % (fail, jsonOnlyLibs)
+    print("%s: libs in json, missing from Makefile: %s" % (fail, jsonOnlyLibs))
     exitCode = 1
 if len(makeOnlyLibs) > 0:
-    print "%s: libs in Makefile, missing from json: %s" % (fail, makeOnlyLibs)
+    print("%s: libs in Makefile, missing from json: %s" % (fail, makeOnlyLibs))
     exitCode = 1
 
 # ensure kernels and xclbins match the makefile
@@ -130,14 +130,14 @@ makeOnlyKernels = list(set(makeKernels.keys()) - set(jsonKernels.keys()))
 
 commonKernels = list(set(makeKernels.keys()).intersection(set(jsonKernels.keys())))
 
-print "json kernels: %s" % jsonKernels
-print "make kernels: %s" % makeKernels
+print("json kernels: %s" % jsonKernels)
+print("make kernels: %s" % makeKernels)
 
 if len(jsonOnlyKernels) > 0:
-    print "%s: kernels in json, missing from Makefile: %s" % (fail, jsonOnlyKernels)
+    print("%s: kernels in json, missing from Makefile: %s" % (fail, jsonOnlyKernels))
     exitCode = 1
 if len(makeOnlyKernels) > 0:
-    print "%s: kernels in Makefile, missing from json: %s" % (fail, makeOnlyKernels)
+    print("%s: kernels in Makefile, missing from json: %s" % (fail, makeOnlyKernels))
     exitCode = 1
 
 # confirm source paths match for each kernel
@@ -145,16 +145,16 @@ for kernel in commonKernels:
     jsonSrc = jsonKernels[kernel]
     makeSrc = makeKernels[kernel]
     if jsonSrc != makeSrc:
-        print "%s: source paths differ: json=%s Makefile=%s" % (fail, jsonSrc, makeSrc)
+        print("%s: source paths differ: json=%s Makefile=%s" % (fail, jsonSrc, makeSrc))
         exitCode = 1
 
 
 if exitCode == okExitCode:
-    print "PASS: description.json and Makefile libs and kernels match"
+    print("PASS: description.json and Makefile libs and kernels match")
 else:
-    print "%s: description.json and Makefile do not match." % fail
+    print("%s: description.json and Makefile do not match." % fail)
     if match_makefile:
-        print "If unavoidable, add \"match_makefile\" : \"false\" to description.json"
+        print("If unavoidable, add \"match_makefile\" : \"false\" to description.json")
     exitCode = failExitCode
 
 sys.exit(exitCode)

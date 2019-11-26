@@ -28,8 +28,8 @@ for dirpath, dirnames, filenames in os.walk("../../."):
 
 			if (x):
 				if(name_flag is 0):
- 					name_flag = 1
-					string = string + "\n" + dirpath + "\n"
+                                        name_flag = 1
+                                        string = string + "\n" + dirpath + "\n"
 
 				if(',' not in txt):	
 					flag = 1

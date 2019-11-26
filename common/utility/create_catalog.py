@@ -16,7 +16,7 @@ import sys
 import subprocess
 
 if len(sys.argv) > 2:
-    print "Usage: %s [<catalog>.json]" % sys.argv[0]
+    print("Usage: %s [<catalog>.json]" % sys.argv[0])
     sys.exit(os.EX_USAGE)
 
 echo_progress = (len(sys.argv) == 2)
@@ -59,13 +59,14 @@ def addexample(path):
                     author = contributor["group"]
                     example["author"] = author
     if echo_progress:
-        print "adding %s" % path
+        print("adding %s" % path)
     return example
 
 def get_git_root_directory():
     # git rev-parse --show-toplevel
     p = subprocess.Popen(["git", "rev-parse", "--show-toplevel"], stdout=subprocess.PIPE)
     dir = p.communicate()[0].strip()
+    dir = str(dir).split("\'")[1]
     returncode = p.returncode
     if returncode == 0:
         return dir
@@ -76,6 +77,7 @@ def get_git_root_directory():
 def get_commit_id(filename):
     # git log -n 1 --pretty=format:%H $filename
     id = subprocess.Popen(["git", "log", "-n", "1", "--pretty=format:%H", filename], stdout=subprocess.PIPE).communicate()[0]
+    id = str(id).split("\'")[1]
     return id
 
 def get_git_branch():
@@ -83,6 +85,7 @@ def get_git_branch():
     # only works on python 2.7+:
     #branch = subprocess.check_output(["git", "rev-parse", "--abbrev-ref", "HEAD"])
     branch = branch.strip()
+    branch = str(branch).split("\'")[1]
     return branch
 
 def searchdir(dir):
@@ -145,5 +148,5 @@ if len(sys.argv) == 2:
     index_file = open(index_filename, "w")
 else:
     index_file = sys.stdout
-    
+   
 json.dump(index, index_file, indent = 4)

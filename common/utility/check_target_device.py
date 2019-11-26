@@ -9,10 +9,10 @@ with open(descriptionfile) as json_file:
 
 targetNotSupported = 'targets' in data and target not in data['targets']
 if targetNotSupported:
-    print "%s target not supported for this example" % target
+    print("%s target not supported for this example" % target)
 
 deviceNotSupported = 'nboard' in data and any(nboard in device for nboard in data['nboard'])
 if deviceNotSupported:
-    print "%s device not supported for this example" % device
+    print("%s device not supported for this example" % device)
 
 sys.exit(not(targetNotSupported or deviceNotSupported))
