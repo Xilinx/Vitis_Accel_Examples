@@ -1,0 +1,62 @@
+{
+    "name": "P2P Simple Example", 
+    "description": [
+        "This is simple example of vector increment to describe P2P between FPGA and NVMe SSD."
+    ],
+    "keywords": [
+        "XCL_MEM_EXT_P2P_BUFFER",
+        "pread",
+        "pwrite", 
+        "O_DIRECT",
+        "O_RDWR"
+    ],
+    "key_concepts": [
+        "P2P", 
+        "NVMe SSD"
+    ],
+    "platform_type": "pcie",
+    "os": [
+        "Linux"
+    ],
+    "ndevice": [
+        "zc"
+    ],
+     "runtime": [
+        "OpenCL"
+    ], 
+        "match_ini": "false",
+    "launch": [
+        {
+            "cmd_args": "BUILD/adder.xclbin PROJECT/sample.txt", 
+            "name": "generic launch for all flows"
+        }
+    ], 
+    "host": {
+        "host_exe": "host", 
+        "compiler": {
+            "sources": [
+                "REPO_DIR/common/includes/xcl2"
+            ], 
+            "includepaths": [
+                "REPO_DIR/common/includes/xcl2"
+            ]
+        }
+    },  
+    "containers": [
+        {
+            "accelerators": [
+                {
+                    "name": "adder", 
+                    "location": "src/adder.cpp"
+                }
+            ], 
+            "name": "adder"
+        }
+    ],
+    "contributors": [
+        {
+            "url": "http://www.xilinx.com", 
+            "group": "Xilinx"
+        }
+    ] 
+}
