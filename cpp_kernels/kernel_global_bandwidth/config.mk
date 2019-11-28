@@ -4,7 +4,7 @@
 ddr_banks := 2
 
 # Kernel linker config files
-ifeq ($(findstring zc, $(DEVICE)), samsung_U2x4)
+ifeq ($(findstring samsung_U2x4, $(DEVICE)), samsung_U2x4)
 ddr_banks := 1
 endif
 
