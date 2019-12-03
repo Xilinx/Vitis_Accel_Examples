@@ -112,7 +112,6 @@ void p2p_host_to_ssd(int &nvmeFd, cl_context context, cl_command_queue q,
               << std::endl;
 
   std::cout << "Clean up the buffers\n" << std::endl;
-  clEnqueueUnmapMemObject(q, p2pBo, p2pPtr, 0, NULL, NULL);
   clReleaseKernel(krnl_adder);
   clReleaseMemObject(input_a);
   clReleaseMemObject(p2pBo);
@@ -170,7 +169,6 @@ void p2p_ssd_to_host(
                       NULL);
 
   std::cout << "Clean up the buffers\n" << std::endl;
-  clEnqueueUnmapMemObject(q, buffer_input, p2pPtr1, 0, NULL, NULL);
   clReleaseKernel(krnl_adder1);
   clReleaseMemObject(buffer_input);
   clReleaseMemObject(buffer_output);
