@@ -130,25 +130,28 @@ int main(int argc, char **argv) {
         device = devices[i];
         // Creating Context and Command Queue for selected Device
         OCL_CHECK(err, context = cl::Context({device}, NULL, NULL, NULL, &err));
-        OCL_CHECK(err,
-                  q = cl::CommandQueue(
-                      context, {device}, 
-                                   CL_QUEUE_PROFILING_ENABLE |
-                                       CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE,
- &err));
+        OCL_CHECK(
+            err,
+            q = cl::CommandQueue(context,
+                                 {device},
+                                 CL_QUEUE_PROFILING_ENABLE |
+                                     CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE,
+                                 &err));
 
         std::cout << "Trying to program device[" << i
                   << "]: " << device.getInfo<CL_DEVICE_NAME>() << std::endl;
-        OCL_CHECK(err,
-                  cl::Program program(context, {device}, bins, NULL, &err));
+        cl::Program program(context, {device}, bins, NULL, &err);
         if (err != CL_SUCCESS) {
             std::cout << "Failed to program device[" << i
                       << "] with xclbin file!\n";
         } else {
             std::cout << "Device[" << i << "]: program successful!\n";
-    // Creating Kernel
-    OCL_CHECK(err, krnl_vadd = cl::Kernel(program, "krnl_stream_vadd", &err));
-    OCL_CHECK(err, krnl_vmult = cl::Kernel(program, "krnl_stream_vmult", &err));
+            // Creating Kernel
+            OCL_CHECK(
+                err, krnl_vadd = cl::Kernel(program, "krnl_stream_vadd", &err));
+            OCL_CHECK(err,
+                      krnl_vmult =
+                          cl::Kernel(program, "krnl_stream_vmult", &err));
             valid_device++;
             break; // we break because we found a valid device
         }
