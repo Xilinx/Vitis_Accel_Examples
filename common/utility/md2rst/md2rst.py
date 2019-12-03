@@ -170,7 +170,13 @@ def hierarchy(target):
     proc = subprocess.Popen(tree_cmd,stdout=subprocess.PIPE, shell=True)
     output = proc.communicate()[0]
     output = str(output).split("\'")[1]
-    target.write(output)
+    output = output.split("\\n")
+    flag = 0
+    for lines in output:
+        if flag is 1:
+            target.write("\n")
+        target.write(lines)
+        flag = 1
     target.write("```\n")
     target.write("\n")
     return
