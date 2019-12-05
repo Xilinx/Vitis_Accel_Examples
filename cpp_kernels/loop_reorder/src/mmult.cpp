@@ -134,7 +134,7 @@ readB:
 
 // lreorder1: for (int i = 0; i < size; i++) {
 //     lreorder2: for (int j = 0; j < size; j++) {
-//     #pragma HLS PIPELINE
+//   #pragma HLS PIPELINE
 //         lreorder3: for (int k = 0; k < MAX_SIZE; k++) {
 //             int result = (k == 0) ? 0 : temp_sum[j];
 //             result += A[i][k] * B[k][j];

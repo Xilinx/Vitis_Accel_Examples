@@ -138,8 +138,7 @@ int main(int argc, char **argv) {
 
         std::cout << "Trying to program device[" << i
                   << "]: " << device.getInfo<CL_DEVICE_NAME>() << std::endl;
-        OCL_CHECK(err,
-                  cl::Program program(context, {device}, bins, NULL, &err));
+        cl::Program program(context, {device}, bins, NULL, &err);
         if (err != CL_SUCCESS) {
             std::cout << "Failed to program device[" << i
                       << "] with xclbin file!\n";
@@ -164,7 +163,8 @@ int main(int argc, char **argv) {
     // Buffers are allocated using CL_MEM_USE_HOST_PTR for efficient memory and
     // Device-to-host communication
     cl::Buffer buffer_in1[NUM_TIMES], buffer_in2[NUM_TIMES],
-        buffer_in3[NUM_TIMES], buffer_in4[NUM_TIMES], buffer_output[NUM_TIMES], buffer_output1[NUM_TIMES];
+        buffer_in3[NUM_TIMES], buffer_in4[NUM_TIMES], buffer_output[NUM_TIMES],
+        buffer_output1[NUM_TIMES];
     for (int i = 0; i < NUM_TIMES; i++) {
         OCL_CHECK(err,
                   buffer_in1[i] =
@@ -311,12 +311,18 @@ int main(int argc, char **argv) {
         }
     }
 
-    auto elapsed_chain = std::chrono::duration<double>(end_chain - start_chain).count();
+    auto elapsed_chain =
+        std::chrono::duration<double>(end_chain - start_chain).count();
     auto elapsed_hs = std::chrono::duration<double>(end_hs - start_hs).count();
-    if(elapsed_chain < elapsed_hs) {
-      print_summary("krnl_chain_mmult","krnl_simple_mmult",elapsed_chain,elapsed_hs,NUM_TIMES);
+    if (elapsed_chain < elapsed_hs) {
+        print_summary("krnl_chain_mmult",
+                      "krnl_simple_mmult",
+                      elapsed_chain,
+                      elapsed_hs,
+                      NUM_TIMES);
     }
-    bool test_status = xcl::is_emulation ? match : (match && (elapsed_chain < elapsed_hs));
+    bool test_status =
+        xcl::is_emulation ? match : (match && (elapsed_chain < elapsed_hs));
     std::cout << "TEST " << (test_status ? "PASSED" : "FAILED") << std::endl;
     return (test_status ? EXIT_SUCCESS : EXIT_FAILURE);
 }
