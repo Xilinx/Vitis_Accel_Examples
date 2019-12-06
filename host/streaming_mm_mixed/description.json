@@ -15,6 +15,7 @@
     "ndevice": [
         "zc",
         "xdma",
+	"xilinx_u250_qep",
         "samsung"
     ], 
     "os": [

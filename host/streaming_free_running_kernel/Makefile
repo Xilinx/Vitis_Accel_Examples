@@ -117,19 +117,10 @@ $(EMCONFIG_DIR)/emconfig.json:
 	emconfigutil --platform $(DEVICE) --od $(EMCONFIG_DIR)
 
 check: all
-ifeq ($(findstring xilinx_u200_xdma_201830, $(DEVICE)), xilinx_u200_xdma_201830)
+ifeq ($(findstring xdma, $(DEVICE)), xdma)
 $(error This example is not supported for $(DEVICE))
 endif
-ifeq ($(findstring xilinx_u250_xdma_201830, $(DEVICE)), xilinx_u250_xdma_201830)
-$(error This example is not supported for $(DEVICE))
-endif
-ifeq ($(findstring xilinx_u200_xdma_201910, $(DEVICE)), xilinx_u200_xdma_201910)
-$(error This example is not supported for $(DEVICE))
-endif
-ifeq ($(findstring xilinx_u250_xdma_201910, $(DEVICE)), xilinx_u250_xdma_201910)
-$(error This example is not supported for $(DEVICE))
-endif
-ifeq ($(findstring xilinx_u280_xdma_201910, $(DEVICE)), xilinx_u280_xdma_201910)
+ifeq ($(findstring xilinx_u250_qep, $(DEVICE)), xilinx_u250_qep)
 $(error This example is not supported for $(DEVICE))
 endif
 ifeq ($(findstring samsung, $(DEVICE)), samsung)

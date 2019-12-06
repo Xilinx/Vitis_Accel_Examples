@@ -124,6 +124,9 @@ endif
 ifeq ($(findstring xilinx_u250_qdma, $(DEVICE)), xilinx_u250_qdma)
 $(error This example is not supported for $(DEVICE))
 endif
+ifeq ($(findstring xilinx_u250_qep, $(DEVICE)), xilinx_u250_qep)
+$(error This example is not supported for $(DEVICE))
+endif
 ifeq ($(findstring samsung, $(DEVICE)), samsung)
 $(error This example is not supported for $(DEVICE))
 endif

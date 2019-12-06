@@ -11,11 +11,8 @@
         "Free Running Kernel" 
     ], 
     "ndevice": [
-        "xilinx_u200_xdma_201830",
-        "xilinx_u250_xdma_201830",
-        "xilinx_u200_xdma_201910",
-        "xilinx_u250_xdma_201910",
-        "xilinx_u280_xdma_201910",
+        "xdma",
+	"xilinx_u250_qep",
         "samsung"
     ],
     "os": [
