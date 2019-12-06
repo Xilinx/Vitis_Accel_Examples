@@ -19,7 +19,7 @@
         "zc",
         "xilinx_u250_xdma",
         "xilinx_u250_qdma",
-        "xilinx_samsung_U2x4"
+        "samsung"
     ],
     "os": [
         "Linux"

@@ -4,8 +4,7 @@
 	"zed",
         "xilinx_v350-es1_xdma", 
        	"xilinx_u50_xdma",
-       	"xilinx_samsung_U2x4",
-	"xilinx:samsung:U2x4",
+       	"samsung",
  	"xilinx:u50:xdma",
  	"xilinx:v350-es1:xdma"
     ], 

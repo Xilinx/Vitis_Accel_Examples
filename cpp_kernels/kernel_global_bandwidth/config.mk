@@ -4,14 +4,18 @@
 ddr_banks := 2
 
 # Kernel linker config files
-ifeq ($(findstring samsung_U2x4, $(DEVICE)), samsung_U2x4)
+ifeq ($(findstring samsung, $(DEVICE)), samsung)
 ddr_banks := 1
 endif
 
 ifeq ($(findstring zc, $(DEVICE)), zc)
 LDCLFLAGS+= --config $(ddr_banks)bank_zc.ini
 else
+ifeq ($(findstring samsung, $(DEVICE)), samsung)
+LDCLFLAGS+= --config samsung.ini
+else
 LDCLFLAGS+= --config $(ddr_banks)bank.ini
+endif
 endif
 
 CLFLAGS += -DNDDR_BANKS=$(ddr_banks)

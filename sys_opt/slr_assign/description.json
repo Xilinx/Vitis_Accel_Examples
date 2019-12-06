@@ -11,7 +11,7 @@
     ], 
     "ndevice": [
         "zc", 
-	"xilinx_samsung_U2x4"
+	"samsung"
     ], 
     "os": [
         "Linux"

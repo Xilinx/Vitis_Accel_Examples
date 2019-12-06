@@ -5,7 +5,7 @@
     ],
     "ndevice": [
       	"xilinx_u50_xdma",
-	"xilinx_samsung_U2x4",
+	"samsung",
 	"zc"
     ], 
     "os": [
