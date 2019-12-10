@@ -18,7 +18,11 @@
         "Linux"
     ],
     "ndevice": [
-        "zc"
+        "zc",
+	"u200",
+	"u250",
+	"u50",
+	"u280"
     ],
      "runtime": [
         "OpenCL"
@@ -34,7 +38,10 @@
         "host_exe": "host", 
         "compiler": {
             "sources": [
-                "REPO_DIR/common/includes/xcl2"
+                "REPO_DIR/common/includes/xcl2",
+		"src/host.cpp",
+		"src/xcl.c",
+		"src/xcl.h"
             ], 
             "includepaths": [
                 "REPO_DIR/common/includes/xcl2"

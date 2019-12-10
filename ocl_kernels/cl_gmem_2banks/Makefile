@@ -118,7 +118,7 @@ endif
 ifeq ($(findstring zc, $(DEVICE)), zc)
 $(error This example is not supported for $(DEVICE))
 endif
-ifeq ($(findstring xilinx_samsung_U2x4, $(DEVICE)), xilinx_samsung_U2x4)
+ifeq ($(findstring samsung, $(DEVICE)), samsung)
 $(error This example is not supported for $(DEVICE))
 endif
 

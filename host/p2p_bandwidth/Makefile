@@ -53,8 +53,7 @@ HOST_SRCS += $(xcl2_SRCS)
 CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++11
 LDFLAGS += $(opencl_LDFLAGS)
 
-HOST_SRCS += src/host.cpp src/xcl.c src/xcl.h
-
+HOST_SRCS += src/host.cpp src/xcl.c src/xcl.h 
 # Host compiler global settings
 CXXFLAGS += -fmessage-length=0
 LDFLAGS += -lrt -lstdc++ 
@@ -114,6 +113,18 @@ check: all
 ifeq ($(findstring zc, $(DEVICE)), zc)
 $(error This example is not supported for $(DEVICE))
 endif
+ifeq ($(findstring u200, $(DEVICE)), u200)
+$(error This example is not supported for $(DEVICE))
+endif
+ifeq ($(findstring u250, $(DEVICE)), u250)
+$(error This example is not supported for $(DEVICE))
+endif
+ifeq ($(findstring u50, $(DEVICE)), u50)
+$(error This example is not supported for $(DEVICE))
+endif
+ifeq ($(findstring u280, $(DEVICE)), u280)
+$(error This example is not supported for $(DEVICE))
+endif
 
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 ifeq ($(HOST_ARCH), x86)
@@ -129,6 +140,9 @@ else
 ifeq ($(HOST_ARCH), x86)
 	./$(EXECUTABLE) $(BUILD_DIR)/copy_kernel.xclbin -w ./sample.txt
 endif
+endif
+ifeq ($(HOST_ARCH), x86)
+	perf_analyze profile -i profile_summary.csv -f html
 endif
 
 sd_card: $(EXECUTABLE) $(BINARY_CONTAINERS) emconfig

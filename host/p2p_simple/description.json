@@ -19,7 +19,11 @@
         "Linux"
     ],
     "ndevice": [
-        "zc"
+        "zc",
+	"u200",
+	"u250",
+	"u280",
+	"u50"
     ],
      "runtime": [
         "OpenCL"

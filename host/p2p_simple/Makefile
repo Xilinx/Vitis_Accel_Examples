@@ -33,7 +33,7 @@ ABS_COMMON_REPO = $(shell readlink -f $(COMMON_REPO))
 TARGET := hw
 HOST_ARCH := x86
 SYSROOT := 
-DEVICE = xilinx_samsung_U2x4_201920_1
+DEVICE = xilinx_u200_xdma_201920_1
 
 include ./utils.mk
 
@@ -108,6 +108,18 @@ $(EMCONFIG_DIR)/emconfig.json:
 
 check: all
 ifeq ($(findstring zc, $(DEVICE)), zc)
+$(error This example is not supported for $(DEVICE))
+endif
+ifeq ($(findstring u200, $(DEVICE)), u200)
+$(error This example is not supported for $(DEVICE))
+endif
+ifeq ($(findstring u250, $(DEVICE)), u250)
+$(error This example is not supported for $(DEVICE))
+endif
+ifeq ($(findstring u280, $(DEVICE)), u280)
+$(error This example is not supported for $(DEVICE))
+endif
+ifeq ($(findstring u50, $(DEVICE)), u50)
 $(error This example is not supported for $(DEVICE))
 endif
 
