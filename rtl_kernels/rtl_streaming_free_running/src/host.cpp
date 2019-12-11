@@ -121,8 +121,7 @@ int main(int argc, char **argv) {
 
         std::cout << "Trying to program device[" << i
                   << "]: " << device.getInfo<CL_DEVICE_NAME>() << std::endl;
-        OCL_CHECK(err,
-                  program = cl::Program(context, devices, bins, NULL, &err));
+                  program = cl::Program(context, devices, bins, NULL, &err);
         if (err != CL_SUCCESS) {
             std::cout << "Failed to program device[" << i
                       << "] with xclbin file!\n";
