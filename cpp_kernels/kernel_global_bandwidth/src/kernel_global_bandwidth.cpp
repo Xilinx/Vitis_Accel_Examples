@@ -116,7 +116,7 @@ int main(int argc, char **argv) {
         exit(EXIT_FAILURE);
     }
 
-    size_t globalbuffersize = 1024 * 1024 * 1024; /* 1GB */
+    size_t globalbuffersize = 1024 * 1024 * 256; /* 256 MB */
 
     /* Reducing the data size for emulation mode */
     char *xcl_mode = getenv("XCL_EMULATION_MODE");
