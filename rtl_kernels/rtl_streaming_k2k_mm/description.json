@@ -1,0 +1,81 @@
+{
+    "name": "RTL Stream Kernel to Kernel and Memory Mapped", 
+    "description": [
+        "This example uses two simple increment RTL kernels connected to each other via stream interface and connected to host via memory mapped C++ data mover kernels"
+    ], 
+    "config_make": "config.mk", 
+    "default_device": "xilinx_u200_qdma_201910_1", 
+    "contributors": [
+        {
+            "url": "http://www.xilinx.com", 
+            "group": "Xilinx"
+        }
+    ], 
+    "launch": [
+        {
+            "cmd_args": "BUILD/myadder.xclbin", 
+            "name": "generic launch for all flows"
+        }
+    ], 
+    "gui": false, 
+    "host": {
+        "linker": {
+            "options": [
+                "-pthread"
+            ]
+        }, 
+        "host_exe": "vadd_stream", 
+        "compiler": {
+            "sources": [
+                "REPO_DIR/common/includes/xcl2", 
+                "src/host.cpp"
+            ], 
+            "includepaths": [
+                "REPO_DIR/common/includes/xcl2"
+            ]
+        }
+    }, 
+    "key_concepts": [
+        "Read/Write Stream", 
+        "RTL Kernel"
+    ], 
+    "keywords": [
+        "ap_axiu",
+	"hls::stream" 
+    ], 
+    "runtime": [
+        "OpenCL"
+    ], 
+    "os": [
+        "Linux"
+    ], 
+    "targets": [
+        "hw", 
+        "hw_emu"
+    ], 
+    "containers": [
+        {
+            "accelerators": [
+                {
+                    "kernel_type": "RTL", 
+                    "name": "myadder1"
+                }, 
+                {
+                    "kernel_type": "RTL", 
+                    "name": "myadder2"
+		},
+                {
+                    "name": "krnl_mm2s", 
+                    "location": "src/krnl_mm2s"
+                }, 
+                {
+                    "name": "krnl_s2mm", 
+                    "location": "src/krnl_s2mm"
+                } 
+            ], 
+            "name": "myadder",
+	    "ldclflags": "--config PROJECT/myadder.ini"
+        }
+    ], 
+    "output_files": "tmp_kernel_pack* packaged_kernel* _x* *_ex project* pinfo.json *.xo"
+}
