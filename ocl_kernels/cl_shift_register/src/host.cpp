@@ -155,7 +155,7 @@ int main(int argc, char **argv) {
                                                0 /* 0 means from host*/));
 
     cl::Event event;
-    int iterations = xcl::is_emulation() ? 2 : 1000;
+    int iterations = xcl::is_emulation() ? 2 : 100;
     uint64_t fir_naive_time = 0;
     //Running naive kernel iterations times
     for (int i = 0; i < iterations; i++) {
