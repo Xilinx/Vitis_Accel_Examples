@@ -5,6 +5,7 @@
     ],
     "ndevice": [
       	"xilinx_u50_xdma",
+	"xilinx_u280_xdma",
 	"samsung",
 	"zc"
     ], 
