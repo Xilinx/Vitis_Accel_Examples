@@ -3,12 +3,17 @@ HBM Bandwidth
 
 This is a HBM bandwidth check design. Design contains 3 compute units of a kernel which has access to all HBM banks (0:31). Host application allocate buffer into all HBM banks and run these 3 compute units concurrently and measure the overall bandwidth between Kernel and HBM Memory.
 
-## SUPPORTED PLATFORMS
-Platform | Board             | Software Version
----------|-------------------|-----------------
-xilinx_u280_xdma|Xilinx Alveo U280|VITIS 2019.2
-xilinx_u50_xdma|Xilinx Alveo U50|VITIS 2019.2
-
+## EXCLUDED PLATFORMS
+Platforms containing following strings in their names are not supported for this example :
+```
+xilinx_u200_xdma
+xilinx_u200_qdma
+zc
+xilinx_u250_xdma
+xilinx_u250_qdma
+xilinx_u250_qep
+samsung
+```
 
 ##  DESIGN FILES
 Application code is located in the src directory. Accelerator binary files will be compiled to the xclbin directory. The xclbin directory is required by the Makefile and its contents will be filled during compilation. A listing of all the files in this example is shown below

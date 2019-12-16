@@ -2,11 +2,8 @@
     "ndevice": [
         "zc", 
 	"zed",
-        "xilinx_v350-es1_xdma", 
        	"xilinx_u50_xdma",
-       	"samsung",
- 	"xilinx:u50:xdma",
- 	"xilinx:v350-es1:xdma"
+       	"samsung"
     ], 
     "description": [
         "This example of 2ddr is to demonstrate how to use multiple ddr and create buffers in each DDR."

@@ -7,20 +7,13 @@ This is simple example which demonstrate how to use and configure a free running
 
 ***KEYWORDS:*** ap_ctrl_none, stream_connect
 
-## SUPPORTED PLATFORMS
-Platform | Board             | Software Version
----------|-------------------|-----------------
-xilinx_u200_qdma|Xilinx Alveo U200|VITIS 2019.2
-xilinx_u200_xdma|Xilinx Alveo U200|VITIS 2019.2
-xilinx_u250_qdma|Xilinx Alveo U250|VITIS 2019.2
-xilinx_u250_xdma|Xilinx Alveo U250|VITIS 2019.2
-xilinx_u280_xdma|Xilinx Alveo U280|VITIS 2019.2
-xilinx_u50_xdma|Xilinx Alveo U50|VITIS 2019.2
-zc702_base|Xilinx Zynq-7000 SoC ZC702|VITIS 2019.2
-zc706_base|Xilinx Zynq-7000 SoC ZC706|VITIS 2019.2
-zcu102_base|Xilinx UltraScale+ MPSoC ZCU102|VITIS 2019.2
-zcu104_base|Xilinx UltraScale+ MPSoC ZCU104|VITIS 2019.2
-
+## EXCLUDED PLATFORMS
+Platforms containing following strings in their names are not supported for this example :
+```
+xdma
+xilinx_u250_qep
+samsung
+```
 
 ##  DESIGN FILES
 Application code is located in the src directory. Accelerator binary files will be compiled to the xclbin directory. The xclbin directory is required by the Makefile and its contents will be filled during compilation. A listing of all the files in this example is shown below

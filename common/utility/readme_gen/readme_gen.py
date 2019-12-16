@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env /tools/cpkg/.packages/x86_64/RHEL7.2/python/3.7.1/bin/python3.7 
 from sys import argv
 import json
 from collections import OrderedDict
@@ -7,52 +7,6 @@ import subprocess
 
 XSA = 'xilinx_u200_qdma'
 VERSION = 'VITIS 2019.2'
-
-DEVICES = {	
-     'zcu102_base': {
-       'version': '201920_1',
-       'name': 'Xilinx UltraScale+ MPSoC ZCU102'
-    },
-     'zcu104_base': {
-       'version': '201920_1',
-       'name': 'Xilinx UltraScale+ MPSoC ZCU104'
-    },
-     'zc706_base': {
-       'version': '201920_1',
-       'name': 'Xilinx Zynq-7000 SoC ZC706'
-    },
-     'zc702_base': {
-       'version': '201920_1',
-       'name': 'Xilinx Zynq-7000 SoC ZC702'
-    },
-    'xilinx_u200_qdma': {
-       'version': '201910_1',
-       'name': 'Xilinx Alveo U200',
-       'nae':  'nx5u_xdma_201830_1'
-    },
-    'xilinx_u50_xdma': {
-       'version': '201920_1',
-       'name': 'Xilinx Alveo U50'
-    },
-    'xilinx_u280_xdma': {
-       'version': '201910_1',
-       'name': 'Xilinx Alveo U280'
-    },
-    'xilinx_u200_xdma': {
-       'version': '201830_1',
-       'name': 'Xilinx Alveo U200',
-       'nae':  'nx5u_xdma_201830_1'
-    },
-    'xilinx_u250_qdma': {
-       'version': '201910_1',
-       'name': 'Xilinx Alveo U250'
-    },
-    'xilinx_u250_xdma': {
-       'version': '201830_1',
-       'name': 'Xilinx Alveo U250',
-       'nae':  'nx6u_xdma_201830_1'
-    }
-}
 
 def overview(target,data):
     target.write(data["name"])
@@ -102,33 +56,24 @@ def overview(target,data):
     return
 
 def requirements(target,data):
-    target.write("## SUPPORTED PLATFORMS\n")
-    target.write("Platform | Board             | Software Version\n")
-    target.write("---------|-------------------|-----------------\n")
-
-    boards = []
-    if 'device' in data:
-        board = data['device']
-        boards = [word for word in DEVICES if word in board]
-    else:
-        for board in DEVICES:
-                nboard_flag=0
-                if 'ndevice' in data:	
-                        for nboard in data['ndevice']:
-                                if nboard in board:
-                       	       	        nboard_flag=1
-                if nboard_flag == 0:
-                        boards.append(board)			
-
-    boards.sort() 	
-    for board in boards:
-        target.write(board)
-        target.write("|")
-        target.write(DEVICES[board]['name'])
-        target.write("|")
-        target.write(VERSION)
+    if 'ndevice' in data:
+        target.write("## EXCLUDED PLATFORMS\n")
+        target.write("Platforms containing following strings in their names are not supported for this example :")
         target.write("\n")
-    target.write("\n\n")
+        target.write("```\n")
+        for board in data['ndevice']:
+            target.write(board)
+            target.write("\n")
+        target.write("```")
+        target.write("\n\n")
+    if 'device' in data:
+        target.write('## SUPPORTED PLATFORMS\n')
+        target.write('Platforms containing following strings in their names are supported for this example :\n\n')
+        for board in data['device']:
+            target.write(board)
+            target.write("\n")
+        target.write("```")
+        target.write('\n\n')
     return
 
 def hierarchy(target):
