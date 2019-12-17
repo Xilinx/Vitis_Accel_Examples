@@ -33,7 +33,7 @@ ABS_COMMON_REPO = $(shell readlink -f $(COMMON_REPO))
 TARGET := hw
 HOST_ARCH := x86
 SYSROOT := 
-DEVICE = xilinx_u200_xdma_201920_1
+DEVICE = xilinx_samsung_u2x4_201920_2
 
 include ./utils.mk
 
@@ -53,7 +53,7 @@ HOST_SRCS += $(xcl2_SRCS)
 CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++11
 LDFLAGS += $(opencl_LDFLAGS)
 
-HOST_SRCS += src/host.cpp src/xcl.c src/xcl.h 
+HOST_SRCS += src/host.cpp 
 # Host compiler global settings
 CXXFLAGS += -fmessage-length=0
 LDFLAGS += -lrt -lstdc++ 
@@ -76,8 +76,7 @@ EMCONFIG_DIR = $(TEMP_DIR)
 EMU_DIR = $(SDCARD)/data/emulation
 
 BINARY_CONTAINERS += $(BUILD_DIR)/copy_kernel.xclbin
-BINARY_CONTAINER_copy_kernel_OBJS += $(TEMP_DIR)/copy0.xo
-BINARY_CONTAINER_copy_kernel_OBJS += $(TEMP_DIR)/copy1.xo
+BINARY_CONTAINER_copy_kernel_OBJS += $(TEMP_DIR)/copy.xo
 
 CP = cp -rf
 
@@ -91,12 +90,9 @@ exe: $(EXECUTABLE)
 build: $(BINARY_CONTAINERS)
 
 # Building kernel
-$(TEMP_DIR)/copy0.xo: src/copy0_kernel.cpp
+$(TEMP_DIR)/copy.xo: src/copy_kernel.cpp
 	mkdir -p $(TEMP_DIR)
-	$(VPP) $(CLFLAGS) --temp_dir $(TEMP_DIR) -c -k copy0 -I'$(<D)' -o'$@' '$<'
-$(TEMP_DIR)/copy1.xo: src/copy1_kernel.cpp
-	mkdir -p $(TEMP_DIR)
-	$(VPP) $(CLFLAGS) --temp_dir $(TEMP_DIR) -c -k copy1 -I'$(<D)' -o'$@' '$<'
+	$(VPP) $(CLFLAGS) --temp_dir $(TEMP_DIR) -c -k copy -I'$(<D)' -o'$@' '$<'
 $(BUILD_DIR)/copy_kernel.xclbin: $(BINARY_CONTAINER_copy_kernel_OBJS)
 	mkdir -p $(BUILD_DIR)
 	$(VPP) $(CLFLAGS) --temp_dir $(BUILD_DIR) -l $(LDCLFLAGS) -o'$@' $(+)

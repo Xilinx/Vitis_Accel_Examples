@@ -41,7 +41,7 @@ Description:
 
 typedef ap_uint<512> uintV_t;
 
-void read1(uintV_t *in, uintV_t buffer_in[SIZE]){
+void read(uintV_t *in, uintV_t buffer_in[SIZE]){
 read:
     for (int i = 0; i < SIZE; i++) {
         #pragma HLS PIPELINE II=1
@@ -49,7 +49,7 @@ read:
 	}
 }
 
-void cpy1(uintV_t buffer_in[SIZE], uintV_t buffer_out[SIZE]){
+void cpy(uintV_t buffer_in[SIZE], uintV_t buffer_out[SIZE]){
 cpy:
     for (int i = 0; i < SIZE; i++) {
         #pragma HLS PIPELINE II=1
@@ -57,7 +57,7 @@ cpy:
 	}    
 }
 
-void write1(uintV_t buffer_out[SIZE], uintV_t *out){
+void write(uintV_t buffer_out[SIZE], uintV_t *out){
 write:
     for (int i = 0; i < SIZE; i++) {
         #pragma HLS PIPELINE II=1
@@ -66,7 +66,7 @@ write:
 }
 
 extern "C" {
-void copy1(uintV_t *in,
+void copy(uintV_t *in,
           uintV_t *out, 
           const int t_size
 ) {
@@ -85,9 +85,9 @@ void copy1(uintV_t *in,
 
 #pragma HLS dataflow
     for (int i = 0; i < n_loop; i++, offset += SIZE) {
-		read1(in + offset, buffer_in);
-		cpy1(buffer_in, buffer_out);
-		write1(buffer_out, out + offset);
+		read(in + offset, buffer_in);
+		cpy(buffer_in, buffer_out);
+		write(buffer_out, out + offset);
 	}
   }
     

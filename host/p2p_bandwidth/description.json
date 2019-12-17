@@ -39,9 +39,7 @@
         "compiler": {
             "sources": [
                 "REPO_DIR/common/includes/xcl2",
-		"src/host.cpp",
-		"src/xcl.c",
-		"src/xcl.h"
+		"src/host.cpp"
             ], 
             "includepaths": [
                 "REPO_DIR/common/includes/xcl2"
@@ -52,12 +50,8 @@
         {
             "accelerators": [
                 {
-                    "name": "copy0", 
-                    "location": "src/copy0_kernel.cpp"
-                },
-                {
-                    "name": "copy1", 
-                    "location": "src/copy1_kernel.cpp"
+                    "name": "copy", 
+                    "location": "src/copy_kernel.cpp"
                 }
             ], 
             "name": "copy_kernel"

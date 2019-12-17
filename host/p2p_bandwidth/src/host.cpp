@@ -31,7 +31,6 @@
 #include <libaio.h>
 #endif
 
-#include "xcl.h"
 #include "xcl2.hpp"
 
 // Comment out below macro for testing P2P IO bandwidth b/w FPGA and SSD only.
@@ -39,52 +38,41 @@
 
 using namespace std;
 
-#define OCL_CHECK(call)							\
-	do {								\
-		cl_int err = call;					\
-		if (err != CL_SUCCESS) {				\
-			cout << "ERR: Error calling " #call		\
-				", error code is: " << err << endl;	\
-			exit(EXIT_FAILURE);				\
-		}							\
-	} while (0);
-
 // Amount of data for each kernel loop
 const size_t kernel_unit = 64 * 1024;
 // Total amount of data to be processed.
 const size_t total_size = 1024 * 1024 * 1024;
-//size_t total_size = 128 * 1024 * 1024;
 // Total number of chunks/pipelines of data.
 const int num_chunks = 8;
-//int num_chunks = 32;
 // Number of bytes per kernel process.
 const size_t chunk_size = total_size / num_chunks;
 
 int nvmeFd = -1;
-xcl_world world = { 0 };
-//cl_command_queue command_queue;
-//cl_context context;
+cl_command_queue command_queue;
+cl_context context;
 chrono::high_resolution_clock::time_point p2pReadStart;
 chrono::high_resolution_clock::time_point p2pReadEnd;
 cl_ulong  p2pReadTime  = 0;
+
 
 class Chunk {
 public:
 	~Chunk()
 	{
+        cl_int err;
 		if (p2pEvt)
-			OCL_CHECK(clReleaseEvent(p2pEvt));
+			OCL_CHECK(err, err = clReleaseEvent(p2pEvt));
 		if (kernelEvt)
-			OCL_CHECK(clReleaseEvent(kernelEvt));
+			OCL_CHECK(err, err = clReleaseEvent(kernelEvt));
 		if (xdmaEvt)
-			OCL_CHECK(clReleaseEvent(xdmaEvt));
+			OCL_CHECK(err, err = clReleaseEvent(xdmaEvt));
 		if (memsetEvt)
-			OCL_CHECK(clReleaseEvent(memsetEvt));
-		OCL_CHECK(clEnqueueUnmapMemObject(world.command_queue, p2pBo,
+			OCL_CHECK(err, err = clReleaseEvent(memsetEvt));
+		OCL_CHECK(err, err = clEnqueueUnmapMemObject(command_queue, p2pBo,
 			p2pPtr, 0, NULL, NULL));
-		clFinish(world.command_queue);
-		OCL_CHECK(clReleaseMemObject(p2pBo));
-		OCL_CHECK(clReleaseMemObject(hostBo));
+		clFinish(command_queue);
+		OCL_CHECK(err, err = clReleaseMemObject(p2pBo));
+		OCL_CHECK(err, err = clReleaseMemObject(hostBo));
 		free(hostPtr);
 	}
 
@@ -95,27 +83,20 @@ public:
 		// Adjust buffer allocation flags based on idx.
 		cl_mem_ext_ptr_t p2pBoExt = {XCL_MEM_EXT_P2P_BUFFER, NULL, 0};
 		cl_mem_ext_ptr_t hostBoExt = {0};
-		if ((idx % 2) == 0) {
-			p2pBoExt.flags |= XCL_MEM_DDR_BANK0;
-			hostBoExt.flags |= XCL_MEM_DDR_BANK0;
-		} else {
-			p2pBoExt.flags |= XCL_MEM_DDR_BANK0;
-			hostBoExt.flags |= XCL_MEM_DDR_BANK0;
-		}
 		hostPtr = (char *) aligned_alloc(4096, chunk_size);
 		hostBoExt.obj = hostPtr;
 
 		// Allocate BOs.
-		p2pBo = clCreateBuffer(world.context,
+		p2pBo = clCreateBuffer(context,
 			CL_MEM_READ_ONLY | CL_MEM_EXT_PTR_XILINX,
 			chunk_size, &p2pBoExt, NULL);
-		hostBo = clCreateBuffer(world.context,
+		hostBo = clCreateBuffer(context,
 			CL_MEM_WRITE_ONLY | CL_MEM_USE_HOST_PTR |
 			CL_MEM_EXT_PTR_XILINX,
 			chunk_size, &hostBoExt, NULL);
 
 		// Map P2P device buffers to host access pointers
-		p2pPtr = (char *) clEnqueueMapBuffer(world.command_queue,
+		p2pPtr = (char *) clEnqueueMapBuffer(command_queue,
 			p2pBo, CL_TRUE, CL_MAP_WRITE | CL_MAP_READ, 0,
 			chunk_size, 0, NULL, NULL, NULL);
 
@@ -128,8 +109,8 @@ public:
 		}
 		memset((void *)hostPtr, 'n', chunk_size);
 
-		p2pEvt = clCreateUserEvent(world.context, NULL);
-		memsetEvt = clCreateUserEvent(world.context, NULL);
+		p2pEvt = clCreateUserEvent(context, NULL);
+		memsetEvt = clCreateUserEvent(context, NULL);
 		kernelEvt = xdmaEvt = NULL;
 		kernel = NULL;
 	}
@@ -163,22 +144,24 @@ public:
 
 	cl_ulong kernelTime()
 	{
-		cl_ulong s, e;
+		cl_int err;
+        cl_ulong s, e;
 
-		OCL_CHECK(clGetEventProfilingInfo(kernelEvt,
+		OCL_CHECK(err, err = clGetEventProfilingInfo(kernelEvt,
 			CL_PROFILING_COMMAND_START, sizeof (s), &s, NULL));
-		OCL_CHECK(clGetEventProfilingInfo(kernelEvt,
+		OCL_CHECK(err, err = clGetEventProfilingInfo(kernelEvt,
 			CL_PROFILING_COMMAND_END, sizeof (e), &e, NULL));
 		return (e - s) / 1000;
 	}
 
 	cl_ulong xdmaTime()
 	{
-		cl_ulong s, e;
+		cl_int err;
+        cl_ulong s, e;
 
-		OCL_CHECK(clGetEventProfilingInfo(xdmaEvt,
+		OCL_CHECK(err, err = clGetEventProfilingInfo(xdmaEvt,
 			CL_PROFILING_COMMAND_START, sizeof (s), &s, NULL));
-		OCL_CHECK(clGetEventProfilingInfo(xdmaEvt,
+		OCL_CHECK(err, err = clGetEventProfilingInfo(xdmaEvt,
 			CL_PROFILING_COMMAND_END, sizeof (e), &e, NULL));
 		return (e - s) / 1000;
 	}
@@ -218,12 +201,12 @@ void report(string label, cl_ulong totalTime, cl_ulong curTime)
 
 void setup_write_dependency(Chunk *c)
 {
-	size_t global = 1, local = 1;
+    cl_int err;
 	int size = chunk_size / sizeof (int);
 
 	// The XDMA h2c cannot start until memset has done to populate
 	// desired content in host mem.
-	OCL_CHECK(clEnqueueMigrateMemObjects(world.command_queue, 1,
+	OCL_CHECK(err, err = clEnqueueMigrateMemObjects(command_queue, 1,
 		&c->hostBo, 0, 1, &c->memsetEvt, &c->xdmaEvt));
 	int narg = 0;
     clSetKernelArg(c->kernel, narg++, sizeof(cl_mem), &c->hostBo);
@@ -231,14 +214,13 @@ void setup_write_dependency(Chunk *c)
     clSetKernelArg(c->kernel, narg++, sizeof(int), &size);
 
 	// Kernel cannot start until the XDMA h2c has finished.
-	OCL_CHECK(clEnqueueNDRangeKernel(world.command_queue, c->kernel,
-		1, NULL, &global, &local, 1, &c->xdmaEvt, &c->kernelEvt));
+    clEnqueueTask(command_queue, c->kernel,1, &c->xdmaEvt, &c->kernelEvt);
 }
 
 void setup_read_dependency(Chunk *c)
 {
-	size_t global = 1, local = 1;
-	int size = chunk_size / sizeof (int);
+	cl_int err;
+    int size = chunk_size / sizeof (int);
 
 	int narg = 0;
 	clSetKernelArg(c->kernel, narg++, sizeof(cl_mem), &c->p2pBo);
@@ -246,11 +228,10 @@ void setup_read_dependency(Chunk *c)
     clSetKernelArg(c->kernel, narg++, sizeof(int), &size);
 
 	// Kernel cannot start until the P2P read operation is done.
-	OCL_CHECK(clEnqueueNDRangeKernel(world.command_queue, c->kernel,
-		1, NULL, &global, &local, 1, &c->p2pEvt, &c->kernelEvt));
+    clEnqueueTask(command_queue, c->kernel, 1, &c->p2pEvt, &c->kernelEvt);
 
 	// XDMA c2h cannot start until the kernel is done.
-	OCL_CHECK(clEnqueueMigrateMemObjects(world.command_queue, 1, &c->hostBo,
+	OCL_CHECK(err, err = clEnqueueMigrateMemObjects(command_queue, 1, &c->hostBo,
 		CL_MIGRATE_MEM_OBJECT_HOST, 1, &c->kernelEvt, &c->xdmaEvt));
 }
 
@@ -427,73 +408,49 @@ int main(int argc, char **argv) {
 	}
 	cout << "INFO: Successfully opened NVME SSD " << filename << endl;
 	
-    //cl_int error;
-    int err;
-    cl_device_id device;
-    cl_context context;
-    cl_program program;
-    cl_platform_id platform;
-    cl_uint num_platforms;
-    err = clGetPlatformIDs(0, NULL, &num_platforms);
-    cl_platform_id *platform_ids =
-        (cl_platform_id *)malloc(sizeof(cl_platform_id) * num_platforms);
-    err = clGetPlatformIDs(num_platforms, platform_ids, NULL);
-    size_t i;
-    device = 0;
+    cl_int err = CL_SUCCESS;
+    int error;
+    cl_platform_id platform = nullptr;
+    error = clGetPlatformIDs(1,&platform,nullptr);
 
-    for (i = 0; i < num_platforms; i++) {
-      size_t platform_name_size;
-      err = clGetPlatformInfo(platform_ids[i], CL_PLATFORM_NAME, 0, NULL,
-                              &platform_name_size);
-      if (err != CL_SUCCESS) {
-        printf("Error: Could not determine platform name!\n");
-        exit(EXIT_FAILURE);
-      }
+    cl_uint num_devices = 0;
+    error = clGetDeviceIDs(platform,CL_DEVICE_TYPE_ACCELERATOR,0,nullptr,&num_devices);
+    if (error != CL_SUCCESS){
+        printf("Error: no devices\n");
+		exit(EXIT_FAILURE);
+	}
+    std::vector<cl_device_id> devices(num_devices);
+    error = clGetDeviceIDs(platform,CL_DEVICE_TYPE_ACCELERATOR,num_devices,devices.data(),nullptr);
+    if (error != CL_SUCCESS){
+        printf("Error: could not determine device name\n");
+		exit(EXIT_FAILURE);
+	}
+    cl_device_id device = devices.front();
 
-      char *platform_name = (char *)malloc(sizeof(char) * platform_name_size);
-      if (platform_name == NULL) {
-        printf("Error: out of memory!\n");
-        exit(EXIT_FAILURE);
-      }
-
-      err = clGetPlatformInfo(platform_ids[i], CL_PLATFORM_NAME,
-                              platform_name_size, platform_name, NULL);
-      if (err != CL_SUCCESS) {
-        printf("Error: could not determine platform name!\n");
-        exit(EXIT_FAILURE);
-      }
-
-      if (!strcmp(platform_name, "Xilinx")) {
-        free(platform_name);
-        platform = platform_ids[i];
-        break;
-      }
-
-      free(platform_name);
-    }
-
-    err = clGetDeviceIDs(platform, CL_DEVICE_TYPE_ALL, 1, &device, NULL);
-
-    context = clCreateContext(0, 1, &device, NULL, NULL, &err);
+    context = clCreateContext(0,1,&device,nullptr,nullptr,&err);
     if (err != CL_SUCCESS)
       std::cout << "clCreateContext call: Failed to create a compute context"
-                << err << std::endl;        
+                << err << std::endl;
+
+    command_queue = clCreateCommandQueue(context,device,CL_QUEUE_PROFILING_ENABLE|CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE,&err);
+    if (err != CL_SUCCESS)
+      std::cout << "clCreateCommandQueue call: Failed to create command queue"
+                << err << std::endl;
+
+    // Read xclbin and create program
     std::vector<unsigned char> binary = readBinary(binaryFile);
     size_t binary_size = binary.size();
     const unsigned char *binary_data = binary.data();
-    program = clCreateProgramWithBinary(context, 1, &device, &binary_size,
+    cl_program program = clCreateProgramWithBinary(context, 1, &device, &binary_size,
                                     &binary_data, NULL, &err);
-    //command_queue = clCreateCommandQueue(context, device, CL_QUEUE_PROFILING_ENABLE, &error);
+
 #ifdef ASYNC_READ 
         io_context_t ctx;
         memset(&ctx, 0, sizeof(ctx));
         io_queue_init(128, &ctx);
 #endif
 	// Setting up OpenCL runtime environment.
-	world = xcl_world_single();
-	//program = xcl_import_binary(world, "copy_kernel");
-	cl_kernel kernel0 = clCreateKernel(program, "copy0", &err);
-	cl_kernel kernel1 = clCreateKernel(program, "copy1", &err);
+	cl_kernel kernel = clCreateKernel(program, "copy", &err);
 
 	// Create all data chunks and set up all OpenCL operation dependencies.
 	cout << "INFO: Preparing " << total_size / 1024 << "KB test data "
@@ -502,9 +459,7 @@ int main(int argc, char **argv) {
 		Chunk *c = new Chunk(idx);
 
 		chunks[idx] = c;
-		c->kernel = (c->id % 2) ? kernel1 : kernel0; 
-		int k = (c->id % 2) ? 1 : 0;
-        cout << "ker - " << k << endl;
+        c->kernel = kernel;
 #ifdef	FULLCYCLE 
 		if (isWrite) {
 			setup_write_dependency(c);
@@ -565,12 +520,9 @@ int main(int argc, char **argv) {
 	for (int idx = 0; idx < num_chunks; idx++)
 		delete chunks[idx];
 
-	OCL_CHECK(clReleaseKernel(kernel0));
-	OCL_CHECK(clReleaseKernel(kernel1));
-	//OCL_CHECK(clReleaseCommandQueue(command_queue));
-	OCL_CHECK(clReleaseContext(context));
-	OCL_CHECK(clReleaseProgram(program));
-	xcl_release_world(world);
+	clReleaseKernel(kernel);
+    clReleaseContext(context);
+	clReleaseProgram(program);
 
 	(void) close(nvmeFd);
 
