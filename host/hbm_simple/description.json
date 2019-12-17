@@ -20,6 +20,7 @@
         "xilinx_u250_xdma",
         "xilinx_u250_qdma",
 	"xilinx_u250_qep",
+	"aws",
         "samsung"
     ],
     "os": [

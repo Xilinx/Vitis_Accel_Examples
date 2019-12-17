@@ -17,6 +17,7 @@
         "zc",
         "xdma",
 	"xilinx_u250_qep",
+	"aws",
         "samsung"
     ], 
     "targets": [
