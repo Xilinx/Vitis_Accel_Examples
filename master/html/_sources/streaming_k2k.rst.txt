@@ -38,15 +38,19 @@ is provided to v++ command as below:
 
     --config krnl_stream_vadd_vmult.ini
 
-SUPPORTED SHELLS
-----------------
+EXCLUDED PLATFORMS
+------------------
 
-================ ================= ================
-SHELL            Board             Software Version
-================ ================= ================
-xilinx_u200_qdma Xilinx Alveo U200 Vitis 2019.2
-xilinx_u250_qdma Xilinx Alveo U250 Vitis 2019.2
-================ ================= ================
+Platforms containing following strings in their names are not supported
+for this example :
+
+::
+
+   zc
+   xdma
+   xilinx_u250_qep
+   aws
+   samsung
 
 DESIGN FILES
 ------------

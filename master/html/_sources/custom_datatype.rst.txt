@@ -10,23 +10,55 @@ Kernel and Global Memory.
 
 **KEYWORDS:** struct, #pragma HLS data_pack, #pragma HLS LOOP_TRIPCOUNT
 
-SUPPORTED SHELLS
-----------------
+Kernel ports can have custom datatypes.It is recommended that custom
+datatype is a power of 2 and minimum 32 bits to allow ``burst transfer``
+thus using the AXI master bandwidth efficiently. Extra ``padding`` can
+be added in case not a multiple of 32 bits as shown below.
 
-================ =============================== ================
-SHELL            Board                           Software Version
-================ =============================== ================
-xilinx_u200_qdma Xilinx Alveo U200               Vitis 2019.2
-xilinx_u200_xdma Xilinx Alveo U200               Vitis 2019.2
-xilinx_u250_qdma Xilinx Alveo U250               Vitis 2019.2
-xilinx_u250_xdma Xilinx Alveo U250               Vitis 2019.2
-xilinx_u280_xdma Xilinx Alveo U280               Vitis 2019.2
-xilinx_u50_xdma  Xilinx Alveo U50                Vitis 2019.2
-zc702_base       Xilinx Zynq-7000 SoC ZC702      Vitis 2019.2
-zc706_base       Xilinx Zynq-7000 SoC ZC706      Vitis 2019.2
-zcu102_base      Xilinx UltraScale+ MPSoC ZCU102 Vitis 2019.2
-zcu104_base      Xilinx UltraScale+ MPSoC ZCU104 Vitis 2019.2
-================ =============================== ================
+.. code:: cpp
+
+   typedef struct RGBcolor_struct
+   {
+     unsigned char r;
+     unsigned char g;
+     unsigned char b;
+     unsigned char pad;
+   } RGBcolor;
+
+   typedef struct HSVcolor_struct
+   {
+     unsigned char h;
+     unsigned char s;
+     unsigned char v;
+     unsigned char pad;
+   }HSVcolor;
+
+Kernel in this example uses the above structures as datatypes for its
+input and output ports.
+
+::
+
+   void rgb_to_hsv(RGBcolor *in,  // Access global memory as RGBcolor struct-wise
+                   HSVcolor *out, // Access Global Memory as HSVcolor struct-wise
+                   int size) 
+
+The ``DATA_PACK`` pragma is used for packing all the elements of a
+struct into a single wide vector to reduce the memory required for the
+variable, while allowing all members of the struct to be read and
+written to simultaneously. The bit alignment of the resulting new
+wideword can be inferred from the declaration order of the struct
+fields. The first field takes the LSB of the vector, and the final
+element of the struct is aligned with the MSB of the vector.
+
+::
+
+   #pragma HLS data_pack variable = in
+   #pragma HLS data_pack variable = out
+
+Custom datatypes can be used to reduce the number of
+``kernel arguments`` thus reducing the number of interfaces between
+kernels and memory. It can also help to reduce execution time to set
+kernel arguments if number of kernel arguments is large.
 
 DESIGN FILES
 ------------

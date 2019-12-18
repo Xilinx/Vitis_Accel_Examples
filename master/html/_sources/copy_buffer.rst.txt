@@ -6,7 +6,8 @@ another buffer.
 
 **KEY CONCEPTS:** Copy Buffer
 
-**KEYWORDS:** cl::CommandQueue::enqueueCopyBuffer()
+**KEYWORDS:** cl::CommandQueue, enqueueCopyBuffer, enqueueWriteBuffer,
+enqueueReadBuffer, enqueueMigrateMemObjects
 
 This example illustrates the use of ``clEnqueueCopyBuffer`` API which is
 used to copy the contents of a buffer into another buffer in the global
@@ -22,23 +23,16 @@ Note: Only CDMA enabled platforms will copy the buffer directly using
 ``clEnqueueCopyBuffer`` API. Please check platform Info to make sure if
 platform is CDMA enabled or not.
 
-SUPPORTED SHELLS
-----------------
+EXCLUDED PLATFORMS
+------------------
 
-================ =============================== ================
-SHELL            Board                           Software Version
-================ =============================== ================
-xilinx_u200_qdma Xilinx Alveo U200               Vitis 2019.2
-xilinx_u200_xdma Xilinx Alveo U200               Vitis 2019.2
-xilinx_u250_qdma Xilinx Alveo U250               Vitis 2019.2
-xilinx_u250_xdma Xilinx Alveo U250               Vitis 2019.2
-xilinx_u280_xdma Xilinx Alveo U280               Vitis 2019.2
-xilinx_u50_xdma  Xilinx Alveo U50                Vitis 2019.2
-zc702_base       Xilinx Zynq-7000 SoC ZC702      Vitis 2019.2
-zc706_base       Xilinx Zynq-7000 SoC ZC706      Vitis 2019.2
-zcu102_base      Xilinx UltraScale+ MPSoC ZCU102 Vitis 2019.2
-zcu104_base      Xilinx UltraScale+ MPSoC ZCU104 Vitis 2019.2
-================ =============================== ================
+Platforms containing following strings in their names are not supported
+for this example :
+
+::
+
+   xilinx_u200_xdma_201830
+   xilinx_u250_xdma_201830
 
 DESIGN FILES
 ------------

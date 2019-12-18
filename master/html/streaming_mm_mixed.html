@@ -177,13 +177,15 @@
 <li class="toctree-l2"><a class="reference internal" href="multiple_cus_asymmetrical.html">Multiple Compute Units (Asymmetrical)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="mult_compute_units.html">Multiple Compute Units</a></li>
 <li class="toctree-l2"><a class="reference internal" href="overlap.html">Overlap Host and Kernel</a></li>
-<li class="toctree-l2"><a class="reference internal" href="streaming_chain.html">Stream Chain Matrix Multiplication</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p2p_simple.html">P2P Simple Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p2p_bandwidth.html">P2P byte copy Example</a></li>
 <li class="toctree-l2"><a class="reference internal" href="streaming_host_bandwidth.html">Streaming Host to Kernel Bandwidth</a></li>
 <li class="toctree-l2"><a class="reference internal" href="streaming_free_running_kernel.html">Stream Free Running Kernel (HLS C/C++)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="device_only_buffer.html">Device Only Buffer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="streaming_k2k.html">Stream Kernel to Kernel</a></li>
 <li class="toctree-l2"><a class="reference internal" href="streaming_k2k_mm.html">Stream Kernel to Kernel Memory Mapped</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Stream Memory Map Mixed</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#supported-shells">SUPPORTED SHELLS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#excluded-platforms">EXCLUDED PLATFORMS</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#design-files">DESIGN FILES</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#command-line-arguments">COMMAND LINE ARGUMENTS</a></li>
 </ul>
@@ -279,7 +281,7 @@ input, 1 memory mapped input to the kernel, and 1 stream output that
 demonstrates on how to process a stream of data along with memory mapped
 interface.</p>
 <p><strong>KEY CONCEPTS:</strong> Read/Write Stream, Create/Release Stream</p>
-<p><strong>KEYWORDS:</strong> cl_stream, CL_STREAM_EOT, CL_STREAM_BLOCKING</p>
+<p><strong>KEYWORDS:</strong> cl_stream, CL_STREAM_EOT</p>
 <p>This example demonstrate how to process an input stream of data from
 host for computation along with memory mapped OpenCL buffer inputs.
 <code class="docutils literal notranslate"><span class="pre">krnl_stream_vadd</span></code> has 1 stream input, one memory mapped buffer input
@@ -325,31 +327,17 @@ streaming objects as below:</p>
 </div>
 <p>Please refer <code class="docutils literal notranslate"><span class="pre">streaming_simple</span></code> example to more about Streaming kernel
 usage.</p>
-<div class="section" id="supported-shells">
-<h2>SUPPORTED SHELLS<a class="headerlink" href="#supported-shells" title="Permalink to this headline">¶</a></h2>
-<table class="docutils align-center">
-<colgroup>
-<col style="width: 33%" />
-<col style="width: 35%" />
-<col style="width: 33%" />
-</colgroup>
-<thead>
-<tr class="row-odd"><th class="head"><p>SHELL</p></th>
-<th class="head"><p>Board</p></th>
-<th class="head"><p>Software Version</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p>xilinx_u200_qdma</p></td>
-<td><p>Xilinx Alveo U200</p></td>
-<td><p>Vitis 2019.2</p></td>
-</tr>
-<tr class="row-odd"><td><p>xilinx_u250_qdma</p></td>
-<td><p>Xilinx Alveo U250</p></td>
-<td><p>Vitis 2019.2</p></td>
-</tr>
-</tbody>
-</table>
+<div class="section" id="excluded-platforms">
+<h2>EXCLUDED PLATFORMS<a class="headerlink" href="#excluded-platforms" title="Permalink to this headline">¶</a></h2>
+<p>Platforms containing following strings in their names are not supported
+for this example :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">zc</span>
+<span class="n">xdma</span>
+<span class="n">xilinx_u250_qep</span>
+<span class="n">aws</span>
+<span class="n">samsung</span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="design-files">
 <h2>DESIGN FILES<a class="headerlink" href="#design-files" title="Permalink to this headline">¶</a></h2>

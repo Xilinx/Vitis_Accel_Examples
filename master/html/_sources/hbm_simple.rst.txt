@@ -70,15 +70,22 @@ real log reported while running on U280 platform:
    [CASE 2] THROUGHPUT = 38.7406 GB/s 
    TEST PASSED
 
-SUPPORTED SHELLS
-----------------
+EXCLUDED PLATFORMS
+------------------
 
-================ ================= ================
-SHELL            Board             Software Version
-================ ================= ================
-xilinx_u280_xdma Xilinx Alveo U280 Vitis 2019.2
-xilinx_u50_xdma  Xilinx Alveo U50  Vitis 2019.2
-================ ================= ================
+Platforms containing following strings in their names are not supported
+for this example :
+
+::
+
+   xilinx_u200_xdma
+   xilinx_u200_qdma
+   zc
+   xilinx_u250_xdma
+   xilinx_u250_qdma
+   xilinx_u250_qep
+   aws
+   samsung
 
 DESIGN FILES
 ------------

@@ -7,8 +7,7 @@ command queues to simultaneously execute multiple kernels on an FPGA.
 **KEY CONCEPTS:** Concurrent execution, Out of Order Command Queues,
 Multiple Command Queues
 
-**KEYWORDS:** CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE,
-clSetEventCallback()
+**KEYWORDS:** CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE, setCallback
 
 This example illustrates two ways to implement concurrent kernel
 execution. 1. Multiple command enqueues 2. Single command queue with out
@@ -56,24 +55,6 @@ finish execution.
    err = ooo_queue.enqueueNDRangeKernel(kernel_madd, offset, global, local,
                                              &kernel_wait_events, // Event from previous call
                                              nullptr);
-
-SUPPORTED SHELLS
-----------------
-
-================ =============================== ================
-SHELL            Board                           Software Version
-================ =============================== ================
-xilinx_u200_qdma Xilinx Alveo U200               Vitis 2019.2
-xilinx_u200_xdma Xilinx Alveo U200               Vitis 2019.2
-xilinx_u250_qdma Xilinx Alveo U250               Vitis 2019.2
-xilinx_u250_xdma Xilinx Alveo U250               Vitis 2019.2
-xilinx_u280_xdma Xilinx Alveo U280               Vitis 2019.2
-xilinx_u50_xdma  Xilinx Alveo U50                Vitis 2019.2
-zc702_base       Xilinx Zynq-7000 SoC ZC702      Vitis 2019.2
-zc706_base       Xilinx Zynq-7000 SoC ZC706      Vitis 2019.2
-zcu102_base      Xilinx UltraScale+ MPSoC ZCU102 Vitis 2019.2
-zcu104_base      Xilinx UltraScale+ MPSoC ZCU104 Vitis 2019.2
-================ =============================== ================
 
 DESIGN FILES
 ------------

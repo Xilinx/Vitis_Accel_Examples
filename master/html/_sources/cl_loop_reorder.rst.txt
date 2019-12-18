@@ -6,7 +6,7 @@ demonstrate how to achieve better pipeline II factor by loop reordering.
 
 **KEY CONCEPTS:** Kernel Optimization, Loop reorder to improve II
 
-**KEYWORDS:** xcl_pipeline_loop, xcl_array_partition(complete, 2)
+**KEYWORDS:** xcl_pipeline_loop, xcl_array_partition
 
 This example demonstrates how changing the order of loop can improve the
 performance of the kernel. In this case, loop reordering helps us
@@ -35,24 +35,6 @@ sum(output) of a single output element.
                }
            }
        }
-
-SUPPORTED SHELLS
-----------------
-
-================ =============================== ================
-SHELL            Board                           Software Version
-================ =============================== ================
-xilinx_u200_qdma Xilinx Alveo U200               Vitis 2019.2
-xilinx_u200_xdma Xilinx Alveo U200               Vitis 2019.2
-xilinx_u250_qdma Xilinx Alveo U250               Vitis 2019.2
-xilinx_u250_xdma Xilinx Alveo U250               Vitis 2019.2
-xilinx_u280_xdma Xilinx Alveo U280               Vitis 2019.2
-xilinx_u50_xdma  Xilinx Alveo U50                Vitis 2019.2
-zc702_base       Xilinx Zynq-7000 SoC ZC702      Vitis 2019.2
-zc706_base       Xilinx Zynq-7000 SoC ZC706      Vitis 2019.2
-zcu102_base      Xilinx UltraScale+ MPSoC ZCU102 Vitis 2019.2
-zcu104_base      Xilinx UltraScale+ MPSoC ZCU104 Vitis 2019.2
-================ =============================== ================
 
 DESIGN FILES
 ------------

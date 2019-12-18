@@ -175,16 +175,18 @@
 <li class="toctree-l2"><a class="reference internal" href="hbm_simple.html">HBM Simple</a></li>
 <li class="toctree-l2"><a class="reference internal" href="host_global_bandwidth.html">Host Global Bandwidth</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Multiple Compute Units (Asymmetrical)</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#supported-shells">SUPPORTED SHELLS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#excluded-platforms">EXCLUDED PLATFORMS</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#design-files">DESIGN FILES</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#command-line-arguments">COMMAND LINE ARGUMENTS</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="mult_compute_units.html">Multiple Compute Units</a></li>
 <li class="toctree-l2"><a class="reference internal" href="overlap.html">Overlap Host and Kernel</a></li>
-<li class="toctree-l2"><a class="reference internal" href="streaming_chain.html">Stream Chain Matrix Multiplication</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p2p_simple.html">P2P Simple Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p2p_bandwidth.html">P2P byte copy Example</a></li>
 <li class="toctree-l2"><a class="reference internal" href="streaming_host_bandwidth.html">Streaming Host to Kernel Bandwidth</a></li>
 <li class="toctree-l2"><a class="reference internal" href="streaming_free_running_kernel.html">Stream Free Running Kernel (HLS C/C++)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="device_only_buffer.html">Device Only Buffer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="streaming_k2k.html">Stream Kernel to Kernel</a></li>
 <li class="toctree-l2"><a class="reference internal" href="streaming_k2k_mm.html">Stream Kernel to Kernel Memory Mapped</a></li>
 <li class="toctree-l2"><a class="reference internal" href="streaming_mm_mixed.html">Stream Memory Map Mixed</a></li>
@@ -299,61 +301,32 @@ different memory banks.</p>
 <span class="n">sp</span><span class="o">=</span><span class="n">vadd_4</span><span class="o">.</span><span class="n">out_r</span><span class="p">:</span><span class="n">PLRAM</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
 </pre></div>
 </div>
-<p>Some of the vadd compute units are connected Different DDR banks and
-some are connected to PLRAMs. <code class="docutils literal notranslate"><span class="pre">nk</span></code> option can be used to specify how
-many compute unit are needed for <code class="docutils literal notranslate"><span class="pre">vadd</span></code> kernel. It also allows to give
+<p>Some of the vadd compute units are connected to DDR banks and some are
+connected to PLRAMs. <code class="docutils literal notranslate"><span class="pre">nk</span></code> option can be used to specify how many
+compute unit are needed for <code class="docutils literal notranslate"><span class="pre">vadd</span></code> kernel. It also allows to give
 names of user choice. <code class="docutils literal notranslate"><span class="pre">sp</span></code> option can be used to provide connection of
 compute units to target memory (DDR, PLRAM).</p>
-<p>this <code class="docutils literal notranslate"><span class="pre">vadd.ini</span></code> file should be included in v++ command line as below:</p>
+<p><code class="docutils literal notranslate"><span class="pre">vadd.ini</span></code> file should be included in v++ command line as below:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">--</span><span class="n">config</span> <span class="n">vadd</span><span class="o">.</span><span class="n">ini</span>
 </pre></div>
 </div>
 <p>As each compute unit are connected to diferrent DDR/PLRAM, so host
-program has to create kernel object for specific to Compute unit as
-below:</p>
+program has to create kernel object specific to compute unit as below:</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">cl</span><span class="o">::</span><span class="n">Kernel</span> <span class="n">cu0_krnls</span> <span class="o">=</span> <span class="n">cl</span><span class="o">::</span><span class="n">Kernel</span><span class="p">(</span><span class="n">program</span><span class="p">,</span> <span class="s">&quot;vadd:{vadd_1}&quot;</span><span class="p">);</span>
 </pre></div>
 </div>
-<p>Above created kernel object is very specific to <code class="docutils literal notranslate"><span class="pre">vadd_1</span></code> compute unit.
-Using this Kernel Object, host can directly access to this fix compute
-unit.</p>
-<div class="section" id="supported-shells">
-<h2>SUPPORTED SHELLS<a class="headerlink" href="#supported-shells" title="Permalink to this headline">¶</a></h2>
-<table class="docutils align-center">
-<colgroup>
-<col style="width: 33%" />
-<col style="width: 35%" />
-<col style="width: 33%" />
-</colgroup>
-<thead>
-<tr class="row-odd"><th class="head"><p>SHELL</p></th>
-<th class="head"><p>Board</p></th>
-<th class="head"><p>Software Version</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p>xilinx_u200_qdma</p></td>
-<td><p>Xilinx Alveo U200</p></td>
-<td><p>Vitis 2019.2</p></td>
-</tr>
-<tr class="row-odd"><td><p>xilinx_u200_xdma</p></td>
-<td><p>Xilinx Alveo U200</p></td>
-<td><p>Vitis 2019.2</p></td>
-</tr>
-<tr class="row-even"><td><p>xilinx_u250_qdma</p></td>
-<td><p>Xilinx Alveo U250</p></td>
-<td><p>Vitis 2019.2</p></td>
-</tr>
-<tr class="row-odd"><td><p>xilinx_u250_xdma</p></td>
-<td><p>Xilinx Alveo U250</p></td>
-<td><p>Vitis 2019.2</p></td>
-</tr>
-<tr class="row-even"><td><p>xilinx_u280_xdma</p></td>
-<td><p>Xilinx Alveo U280</p></td>
-<td><p>Vitis 2019.2</p></td>
-</tr>
-</tbody>
-</table>
+<p>The kernel object which is created above is very specific to <code class="docutils literal notranslate"><span class="pre">vadd_1</span></code>
+compute unit. Using this Kernel Object, host can directly access to this
+fix compute unit.</p>
+<div class="section" id="excluded-platforms">
+<h2>EXCLUDED PLATFORMS<a class="headerlink" href="#excluded-platforms" title="Permalink to this headline">¶</a></h2>
+<p>Platforms containing following strings in their names are not supported
+for this example :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">xilinx_u50_xdma</span>
+<span class="n">samsung</span>
+<span class="n">zc</span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="design-files">
 <h2>DESIGN FILES<a class="headerlink" href="#design-files" title="Permalink to this headline">¶</a></h2>

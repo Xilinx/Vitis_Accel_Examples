@@ -28,15 +28,19 @@ integrated into a system in Vitis environment. A ``kernel.xml`` file is
 generated to match the software function prototype and behavior
 specified in the wizard.
 
-SUPPORTED SHELLS
-----------------
+EXCLUDED PLATFORMS
+------------------
 
-================ ================= ================
-SHELL            Board             Software Version
-================ ================= ================
-xilinx_u200_qdma Xilinx Alveo U200 Vitis 2019.2
-xilinx_u250_qdma Xilinx Alveo U250 Vitis 2019.2
-================ ================= ================
+Platforms containing following strings in their names are not supported
+for this example :
+
+::
+
+   zc
+   xdma
+   xilinx_u250_qep
+   aws
+   samsung
 
 DESIGN FILES
 ------------

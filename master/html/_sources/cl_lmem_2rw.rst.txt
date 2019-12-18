@@ -7,7 +7,7 @@ both ports of Local Memory.
 **KEY CONCEPTS:** Kernel Optimization, 2port BRAM Utilization, two
 read/write Local Memory
 
-**KEYWORDS:** opencl_unroll_hint(2)
+**KEYWORDS:** opencl_unroll_hint
 
 This is a simple example to demonstrate how to utilize both ports of
 local memory in kernels.
@@ -30,24 +30,6 @@ Here loop is unrolled by a factor of 2 thus two iterations of the loop
 are executed concurrently. In this case, two ports of BRAM will be
 utilized rather than 1 reducing the total loop latency by half
 approximately.
-
-SUPPORTED SHELLS
-----------------
-
-================ =============================== ================
-SHELL            Board                           Software Version
-================ =============================== ================
-xilinx_u200_qdma Xilinx Alveo U200               Vitis 2019.2
-xilinx_u200_xdma Xilinx Alveo U200               Vitis 2019.2
-xilinx_u250_qdma Xilinx Alveo U250               Vitis 2019.2
-xilinx_u250_xdma Xilinx Alveo U250               Vitis 2019.2
-xilinx_u280_xdma Xilinx Alveo U280               Vitis 2019.2
-xilinx_u50_xdma  Xilinx Alveo U50                Vitis 2019.2
-zc702_base       Xilinx Zynq-7000 SoC ZC702      Vitis 2019.2
-zc706_base       Xilinx Zynq-7000 SoC ZC706      Vitis 2019.2
-zcu102_base      Xilinx UltraScale+ MPSoC ZCU102 Vitis 2019.2
-zcu104_base      Xilinx UltraScale+ MPSoC ZCU104 Vitis 2019.2
-================ =============================== ================
 
 DESIGN FILES
 ------------

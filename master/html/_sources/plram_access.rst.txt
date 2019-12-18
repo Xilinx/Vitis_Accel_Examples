@@ -24,18 +24,17 @@ linking stage.
 
    --sp mmult_1.a:PLRAM[0] --sp mmult_1.b:DDR[0] --sp mmult_1.c:PLRAM[1]
 
-SUPPORTED SHELLS
-----------------
+EXCLUDED PLATFORMS
+------------------
 
-================ ================= ================
-SHELL            Board             Software Version
-================ ================= ================
-xilinx_u200_qdma Xilinx Alveo U200 Vitis 2019.2
-xilinx_u200_xdma Xilinx Alveo U200 Vitis 2019.2
-xilinx_u250_qdma Xilinx Alveo U250 Vitis 2019.2
-xilinx_u250_xdma Xilinx Alveo U250 Vitis 2019.2
-xilinx_u280_xdma Xilinx Alveo U280 Vitis 2019.2
-================ ================= ================
+Platforms containing following strings in their names are not supported
+for this example :
+
+::
+
+   zc
+   xilinx_u50_xdma
+   samsung
 
 DESIGN FILES
 ------------

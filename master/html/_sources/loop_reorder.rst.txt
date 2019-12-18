@@ -12,8 +12,22 @@ This example demonstrates how changing the order of loop can improve the
 performance of the kernel. In this case, loop reordering helps us
 achieve better ``Initiation Interval``\ (II).
 
-If matrix multiplication is performed with the commented code,
-Initiation Interval achieved is 64.
+If matrix multiplication is performed with the commented code as shown
+below, Initiation Interval achieved is 64.
+
+.. code:: cpp
+
+   // lreorder1: for (int i = 0; i < size; i++) {
+   //     lreorder2: for (int j = 0; j < size; j++) {
+   //     #pragma HLS PIPELINE
+   //         lreorder3: for (int k = 0; k < MAX_SIZE; k++) {
+   //             int result = (k == 0) ? 0 : temp_sum[j];
+   //             result += A[i][k] * B[k][j];
+   //             temp_sum[j] = result;
+   //             if (k== size -1) C[i][j] = result;
+   //         }
+   //     }
+   // }
 
 With the reordered loop as shown below, II achieved is 1. Reordering
 avoids the adder tree for the sum(output) of a single output element.
@@ -37,24 +51,6 @@ avoids the adder tree for the sum(output) of a single output element.
                }
            }
        }
-
-SUPPORTED SHELLS
-----------------
-
-================ =============================== ================
-SHELL            Board                           Software Version
-================ =============================== ================
-xilinx_u200_qdma Xilinx Alveo U200               Vitis 2019.2
-xilinx_u200_xdma Xilinx Alveo U200               Vitis 2019.2
-xilinx_u250_qdma Xilinx Alveo U250               Vitis 2019.2
-xilinx_u250_xdma Xilinx Alveo U250               Vitis 2019.2
-xilinx_u280_xdma Xilinx Alveo U280               Vitis 2019.2
-xilinx_u50_xdma  Xilinx Alveo U50                Vitis 2019.2
-zc702_base       Xilinx Zynq-7000 SoC ZC702      Vitis 2019.2
-zc706_base       Xilinx Zynq-7000 SoC ZC706      Vitis 2019.2
-zcu102_base      Xilinx UltraScale+ MPSoC ZCU102 Vitis 2019.2
-zcu104_base      Xilinx UltraScale+ MPSoC ZCU104 Vitis 2019.2
-================ =============================== ================
 
 DESIGN FILES
 ------------

@@ -9,7 +9,7 @@ process a stream of data for computation between two kernels.
 
 **KEY CONCEPTS:** Read/Write Stream, Create/Release Stream
 
-**KEYWORDS:** cl_stream, CL_STREAM_EOT, CL_STREAM_BLOCKING
+**KEYWORDS:** stream_connect
 
 This example demonstrates how kernels can have memory mapped inputs
 along with stream interface from one kernel to another.
@@ -49,19 +49,16 @@ Content of ``krnl_stream_vadd_vmult.ini`` file is below:
 Above specify that ``out`` port of ``krnl_stream_vadd_1`` kernel is
 connected to ``in2`` port of ``krnl_stream_vmult_1``
 
-SUPPORTED SHELLS
-----------------
+EXCLUDED PLATFORMS
+------------------
 
-================ ================= ================
-SHELL            Board             Software Version
-================ ================= ================
-xilinx_u200_qdma Xilinx Alveo U200 Vitis 2019.2
-xilinx_u200_xdma Xilinx Alveo U200 Vitis 2019.2
-xilinx_u250_qdma Xilinx Alveo U250 Vitis 2019.2
-xilinx_u250_xdma Xilinx Alveo U250 Vitis 2019.2
-xilinx_u280_xdma Xilinx Alveo U280 Vitis 2019.2
-xilinx_u50_xdma  Xilinx Alveo U50  Vitis 2019.2
-================ ================= ================
+Platforms containing following strings in their names are not supported
+for this example :
+
+::
+
+   samsung
+   zc
 
 DESIGN FILES
 ------------

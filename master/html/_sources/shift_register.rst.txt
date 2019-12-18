@@ -72,23 +72,25 @@ automatically applies ``loop unrolling`` to the ``shift_loop``.
           output_r[j] = acc;
       }
 
-SUPPORTED SHELLS
-----------------
+Following is the log reported while running the design on U200 platform:
 
-================ =============================== ================
-SHELL            Board                           Software Version
-================ =============================== ================
-xilinx_u200_qdma Xilinx Alveo U200               Vitis 2019.2
-xilinx_u200_xdma Xilinx Alveo U200               Vitis 2019.2
-xilinx_u250_qdma Xilinx Alveo U250               Vitis 2019.2
-xilinx_u250_xdma Xilinx Alveo U250               Vitis 2019.2
-xilinx_u280_xdma Xilinx Alveo U280               Vitis 2019.2
-xilinx_u50_xdma  Xilinx Alveo U50                Vitis 2019.2
-zc702_base       Xilinx Zynq-7000 SoC ZC702      Vitis 2019.2
-zc706_base       Xilinx Zynq-7000 SoC ZC706      Vitis 2019.2
-zcu102_base      Xilinx UltraScale+ MPSoC ZCU102 Vitis 2019.2
-zcu104_base      Xilinx UltraScale+ MPSoC ZCU104 Vitis 2019.2
-================ =============================== ================
+::
+
+   Platform Name: Xilinx
+   INFO: Reading ./build_dir.hw.xilinx_u200_xdma_201830_2/fir.xclbin
+   Loading: './build_dir.hw.xilinx_u200_xdma_201830_2/fir.xclbin'
+   Example Testdata Signal_Length=1048576 for 100 iteration
+   |-------------------------+-------------------------|
+   | Kernel(100 iterations) | Wall-Clock Time (ns) |
+   |-------------------------+-------------------------|
+   | fir_naive | 85649415155 |
+   | fir_shift_register | 12083476500 |
+   |-------------------------+-------------------------|
+   | Speedup: | 7.088143 |
+   |-------------------------+-------------------------|
+   Note: Wall Clock Time is meaningful for real hardware execution only, not for emulation.
+   Please refer to profile summary for kernel execution time for hardware emulation.
+   TEST PASSED
 
 DESIGN FILES
 ------------

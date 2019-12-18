@@ -33,9 +33,8 @@ Error while trying to get Platform IDs without valid values
 
    err = cl::Platform::get(&platforms);
 
-Received Expected Error calling above call from ``clGetPlatformIDs``
-This error is usually caused by a failed OpenCL installation or if both
-the platforms and num_platforms parameters are null.
+No platforms were found. This could be caused because the OpenCL icd was
+not installed in /etc/OpenCL/vendors directory.
 
 Error when trying to access device type which does not exist
 
@@ -64,7 +63,7 @@ Error while creating Program with Binary:
    cl::Program program(context, devices, invalid_bin, NULL, &err);
 
 Errors caused during program creation are usually due to invalid
-binaries. The binary may be targeting a different shell. It may also
+binaries. The binary may be targeting a different platform. It may also
 have been corrupted or incorrectly read from disk.
 
 Error while creating Kernel:
@@ -87,24 +86,6 @@ because device could not allocate enough memory for this buffer. The
 pointer could be null and either CL_MEM_USE_HOST_PTR or
 CL_MEM_COPY_HOST_PTR are passed into the flags parameter. In this case
 we passed zero(0) as the size of the buffer.
-
-SUPPORTED SHELLS
-----------------
-
-================ =============================== ================
-SHELL            Board                           Software Version
-================ =============================== ================
-xilinx_u200_qdma Xilinx Alveo U200               Vitis 2019.2
-xilinx_u200_xdma Xilinx Alveo U200               Vitis 2019.2
-xilinx_u250_qdma Xilinx Alveo U250               Vitis 2019.2
-xilinx_u250_xdma Xilinx Alveo U250               Vitis 2019.2
-xilinx_u280_xdma Xilinx Alveo U280               Vitis 2019.2
-xilinx_u50_xdma  Xilinx Alveo U50                Vitis 2019.2
-zc702_base       Xilinx Zynq-7000 SoC ZC702      Vitis 2019.2
-zc706_base       Xilinx Zynq-7000 SoC ZC706      Vitis 2019.2
-zcu102_base      Xilinx UltraScale+ MPSoC ZCU102 Vitis 2019.2
-zcu104_base      Xilinx UltraScale+ MPSoC ZCU104 Vitis 2019.2
-================ =============================== ================
 
 DESIGN FILES
 ------------

@@ -64,7 +64,7 @@ Error while creating Program with Binary:
    cl_program program = clCreateProgramWithBinary(context,1,&device_id,&binary_size,&incorrect_binary_data,NULL,&err);
 
 Errors caused during program creation are usually due to invalid
-binaries. The binary may be targeting a different shell. It may also
+binaries. The binary may be targeting a different platform. It may also
 have been corrupted or incorrectly read from disk.
 
 Error while creating Kernel:
@@ -99,24 +99,6 @@ pointers or invalid size of the transfer. Make sure that the host
 pointer is correct and that you are transferring less than the size of
 the buffer. Here we tried to transfer data that was larger than the size
 of the buffer.
-
-SUPPORTED SHELLS
-----------------
-
-================ =============================== ================
-SHELL            Board                           Software Version
-================ =============================== ================
-xilinx_u200_qdma Xilinx Alveo U200               Vitis 2019.2
-xilinx_u200_xdma Xilinx Alveo U200               Vitis 2019.2
-xilinx_u250_qdma Xilinx Alveo U250               Vitis 2019.2
-xilinx_u250_xdma Xilinx Alveo U250               Vitis 2019.2
-xilinx_u280_xdma Xilinx Alveo U280               Vitis 2019.2
-xilinx_u50_xdma  Xilinx Alveo U50                Vitis 2019.2
-zc702_base       Xilinx Zynq-7000 SoC ZC702      Vitis 2019.2
-zc706_base       Xilinx Zynq-7000 SoC ZC706      Vitis 2019.2
-zcu102_base      Xilinx UltraScale+ MPSoC ZCU102 Vitis 2019.2
-zcu104_base      Xilinx UltraScale+ MPSoC ZCU104 Vitis 2019.2
-================ =============================== ================
 
 DESIGN FILES
 ------------

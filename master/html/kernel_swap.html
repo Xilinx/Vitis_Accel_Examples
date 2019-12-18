@@ -167,7 +167,7 @@
 <li class="toctree-l1"><a class="reference internal" href="cpp.html">C++ Kernels</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="sys_opt.html">System Optimization Kernels</a><ul class="current">
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Kernel Swap</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#supported-shells">SUPPORTED SHELLS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#excluded-platforms">EXCLUDED PLATFORMS</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#design-files">DESIGN FILES</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#command-line-arguments">COMMAND LINE ARGUMENTS</a></li>
 </ul>
@@ -264,7 +264,7 @@ migrate data from device to host memory before swapping the next kernel.
 After kernel swap, host has to migrate the buffer back to device.</p>
 <p><strong>KEY CONCEPTS:</strong> Handling Buffer sharing across multiple binaries,
 Multiple Kernel Binaries</p>
-<p><strong>KEYWORDS:</strong> clEnqueueMigrateMemObjects(), CL_MIGRATE_MEM_OBJECT_HOST</p>
+<p><strong>KEYWORDS:</strong> enqueueMigrateMemObjects, CL_MIGRATE_MEM_OBJECT_HOST</p>
 <p>This example shows how host can swap the kernels and share the same
 buffer between two kernels which exist in separate binary containers.
 All the Vitis platforms do not persist the buffer data if device is
@@ -300,47 +300,13 @@ execution.</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">q</span><span class="p">.</span><span class="n">enqueueMigrateMemObjects</span><span class="p">({</span><span class="n">d_temp</span><span class="p">},</span> <span class="mi">0</span><span class="cm">/* 0 means from host*/</span><span class="p">);</span>
 </pre></div>
 </div>
-<div class="section" id="supported-shells">
-<h2>SUPPORTED SHELLS<a class="headerlink" href="#supported-shells" title="Permalink to this headline">¶</a></h2>
-<table class="docutils align-center">
-<colgroup>
-<col style="width: 33%" />
-<col style="width: 35%" />
-<col style="width: 33%" />
-</colgroup>
-<thead>
-<tr class="row-odd"><th class="head"><p>SHELL</p></th>
-<th class="head"><p>Board</p></th>
-<th class="head"><p>Software Version</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p>xilinx_u200_qdma</p></td>
-<td><p>Xilinx Alveo U200</p></td>
-<td><p>Vitis 2019.2</p></td>
-</tr>
-<tr class="row-odd"><td><p>xilinx_u200_xdma</p></td>
-<td><p>Xilinx Alveo U200</p></td>
-<td><p>Vitis 2019.2</p></td>
-</tr>
-<tr class="row-even"><td><p>xilinx_u250_qdma</p></td>
-<td><p>Xilinx Alveo U250</p></td>
-<td><p>Vitis 2019.2</p></td>
-</tr>
-<tr class="row-odd"><td><p>xilinx_u250_xdma</p></td>
-<td><p>Xilinx Alveo U250</p></td>
-<td><p>Vitis 2019.2</p></td>
-</tr>
-<tr class="row-even"><td><p>xilinx_u280_xdma</p></td>
-<td><p>Xilinx Alveo U280</p></td>
-<td><p>Vitis 2019.2</p></td>
-</tr>
-<tr class="row-odd"><td><p>xilinx_u50_xdma</p></td>
-<td><p>Xilinx Alveo U50</p></td>
-<td><p>Vitis 2019.2</p></td>
-</tr>
-</tbody>
-</table>
+<div class="section" id="excluded-platforms">
+<h2>EXCLUDED PLATFORMS<a class="headerlink" href="#excluded-platforms" title="Permalink to this headline">¶</a></h2>
+<p>Platforms containing following strings in their names are not supported
+for this example :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">zc</span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="design-files">
 <h2>DESIGN FILES<a class="headerlink" href="#design-files" title="Permalink to this headline">¶</a></h2>

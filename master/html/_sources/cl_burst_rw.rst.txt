@@ -6,8 +6,7 @@ write
 
 **KEY CONCEPTS:** burst access
 
-**KEYWORDS:** param:compiler.interfaceWrBurstLen,
-param:compiler.interfaceRdBurstLen
+**KEYWORDS:** compiler.interfaceRdBurstLen, compiler.interfaceWrBurstLen
 
 The usual reason for having a burst mode capability, or using burst
 mode, is to increase data throughput. This example demonstrates how
@@ -31,24 +30,6 @@ read/write:
    1 specfied by the pipeline pragma inside the loop.
 -  Aligned memory : Memory addresses for read/write should be
    contiguous.
-
-SUPPORTED SHELLS
-----------------
-
-================ =============================== ================
-SHELL            Board                           Software Version
-================ =============================== ================
-xilinx_u200_qdma Xilinx Alveo U200               Vitis 2019.2
-xilinx_u200_xdma Xilinx Alveo U200               Vitis 2019.2
-xilinx_u250_qdma Xilinx Alveo U250               Vitis 2019.2
-xilinx_u250_xdma Xilinx Alveo U250               Vitis 2019.2
-xilinx_u280_xdma Xilinx Alveo U280               Vitis 2019.2
-xilinx_u50_xdma  Xilinx Alveo U50                Vitis 2019.2
-zc702_base       Xilinx Zynq-7000 SoC ZC702      Vitis 2019.2
-zc706_base       Xilinx Zynq-7000 SoC ZC706      Vitis 2019.2
-zcu102_base      Xilinx UltraScale+ MPSoC ZCU102 Vitis 2019.2
-zcu104_base      Xilinx UltraScale+ MPSoC ZCU104 Vitis 2019.2
-================ =============================== ================
 
 DESIGN FILES
 ------------

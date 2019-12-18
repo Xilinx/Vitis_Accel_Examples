@@ -62,7 +62,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Local Memory Two Parallel Read/Write" href="lmem_2rw.html" />
-    <link rel="prev" title="Global Memory Two Banks" href="gmem_2banks.html" /> 
+    <link rel="prev" title="Stream Chain Matrix Multiplication" href="kernel_chain.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -173,8 +173,9 @@
 <li class="toctree-l2"><a class="reference internal" href="dataflow_stream_array.html">Dataflow Using Array of HLS Stream</a></li>
 <li class="toctree-l2"><a class="reference internal" href="dependence_inter.html">Loop Dependency Inter</a></li>
 <li class="toctree-l2"><a class="reference internal" href="gmem_2banks.html">Global Memory Two Banks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="kernel_chain.html">Stream Chain Matrix Multiplication</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Kernel Global Bandwidth</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#supported-shells">SUPPORTED SHELLS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#excluded-platforms">EXCLUDED PLATFORMS</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#design-files">DESIGN FILES</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#command-line-arguments">COMMAND LINE ARGUMENTS</a></li>
 </ul>
@@ -287,7 +288,8 @@ stage along with the <code class="docutils literal notranslate"><span class="pre
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">--</span><span class="n">sp</span> <span class="n">apply_watermark_1</span><span class="o">.</span><span class="n">m_axi_gmem0</span><span class="p">:</span><span class="n">DDR</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">--</span><span class="n">sp</span> <span class="n">apply_watermark_1</span><span class="o">.</span><span class="n">m_axi_gmem1</span><span class="p">:</span><span class="n">DDR</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
 </pre></div>
 </div>
-<p>Design display following report in while running on board:</p>
+<p>Following is the log reported while running the design on U200 platform
+:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">kernel_global</span> <span class="o">./</span><span class="n">build_dir</span><span class="o">.</span><span class="n">hw</span><span class="o">.</span><span class="n">xilinx_u200_xdma_201830_2</span><span class="o">/</span><span class="n">krnl_kernel_global</span><span class="o">.</span><span class="n">xclbin</span>
 <span class="n">Found</span> <span class="n">Platform</span>
 <span class="n">Platform</span> <span class="n">Name</span><span class="p">:</span> <span class="n">Xilinx</span>
@@ -298,47 +300,69 @@ stage along with the <code class="docutils literal notranslate"><span class="pre
 <span class="n">Kernel</span> <span class="n">Duration</span><span class="o">...</span><span class="mi">66662680</span> <span class="n">ns</span>
 <span class="n">Kernel</span> <span class="n">completed</span> <span class="n">read</span><span class="o">/</span><span class="n">write</span> <span class="mi">1024</span> <span class="n">MB</span> <span class="nb">bytes</span> <span class="n">from</span><span class="o">/</span><span class="n">to</span> <span class="k">global</span> <span class="n">memory</span><span class="o">.</span>
 <span class="n">Execution</span> <span class="n">time</span> <span class="o">=</span> <span class="mf">0.066663</span> <span class="p">(</span><span class="n">sec</span><span class="p">)</span>
-<span class="n">Concurrent</span> <span class="n">Read</span> <span class="ow">and</span> <span class="n">Write</span> <span class="n">Throughput</span> <span class="o">=</span> <span class="mf">30721.837166</span> <span class="p">(</span><span class="n">MB</span><span class="o">/</span><span class="n">sec</span><span class="p">)</span>
+<span class="n">Concurrent</span> <span class="n">Read</span> <span class="ow">and</span> <span class="n">Write</span> <span class="n">Throughput</span> <span class="o">=</span> <span class="mf">30.72</span> <span class="p">(</span><span class="n">GB</span><span class="o">/</span><span class="n">sec</span><span class="p">)</span>
 <span class="n">TEST</span> <span class="n">PASSED</span>
 </pre></div>
 </div>
-<div class="section" id="supported-shells">
-<h2>SUPPORTED SHELLS<a class="headerlink" href="#supported-shells" title="Permalink to this headline">¶</a></h2>
-<table class="docutils align-center">
-<colgroup>
-<col style="width: 33%" />
-<col style="width: 35%" />
-<col style="width: 33%" />
-</colgroup>
-<thead>
-<tr class="row-odd"><th class="head"><p>SHELL</p></th>
-<th class="head"><p>Board</p></th>
-<th class="head"><p>Software Version</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p>xilinx_u200_qdma</p></td>
-<td><p>Xilinx Alveo U200</p></td>
-<td><p>Vitis 2019.2</p></td>
-</tr>
-<tr class="row-odd"><td><p>xilinx_u200_xdma</p></td>
-<td><p>Xilinx Alveo U200</p></td>
-<td><p>Vitis 2019.2</p></td>
-</tr>
-<tr class="row-even"><td><p>xilinx_u250_qdma</p></td>
-<td><p>Xilinx Alveo U250</p></td>
-<td><p>Vitis 2019.2</p></td>
-</tr>
-<tr class="row-odd"><td><p>xilinx_u250_xdma</p></td>
-<td><p>Xilinx Alveo U250</p></td>
-<td><p>Vitis 2019.2</p></td>
-</tr>
-<tr class="row-even"><td><p>xilinx_u280_xdma</p></td>
-<td><p>Xilinx Alveo U280</p></td>
-<td><p>Vitis 2019.2</p></td>
-</tr>
-</tbody>
-</table>
+<p>GUI Flow :</p>
+<p>By default this example supports 1DDR execution in GUI mode for all the
+XSAs. To make this example to work with multi DDR XSAs please follow
+steps mentioned below. XSA (2DDR):</p>
+<ol class="arabic simple">
+<li><p>Add a .ini file in the /src folder with the following entries:
+[Connecttivity] sp=bandwidth_1.m_axi_gmem0:DDR[0]
+sp=bandwidth_1.m_axi_gmem1:DDR[1]
+2. &gt; Properties &gt; C/C++ Build &gt; Settings &gt; Vitis V++ Kernel Compiler
+&gt; Miscellaneous &gt; Other flags 3.In “Other flags” box enter following</p>
+<ol class="loweralpha simple">
+<li><p>–max_memory_ports all 4. &gt; Properties &gt; C/C++ Build &gt; Settings &gt;
+Vitis V++ Kernel Linker &gt; Miscellaneous &gt; Other flags –config
+../src/&lt;config_file.ini&gt;</p></li>
+</ol>
+</li>
+</ol>
+<p>XSA (3DDR):</p>
+<ol class="arabic simple">
+<li><p>Add a .ini file in the /src folder with the following entries:
+[Connecttivity] sp=bandwidth_1.m_axi_gmem0:DDR[0]
+sp=bandwidth_1.m_axi_gmem1:DDR[1]
+sp=bandwidth_1.m_axi_gmem2:DDR[2]
+2. &gt; Properties &gt; C/C++ Build &gt; Settings &gt; Vitis V++ Kernel Compiler
+&gt; Miscellaneous &gt; Other flags 3.In “Other flags” box enter following</p>
+<ol class="loweralpha simple">
+<li><p>–max_memory_ports all 4. &gt; Properties &gt; C/C++ Build &gt; Settings &gt;
+Vitis V++ Kernel Linker &gt; Miscellaneous &gt; Other flags –config
+../src/&lt;config_file.ini&gt; 5.Define NDDR_BANKS 3 in kernel “#define
+NDDR_BANKS 3” at the top of kernel.cl</p></li>
+</ol>
+</li>
+</ol>
+<p>XSA (4DDR):</p>
+<p>Note: The selected platform must support 4DDR.</p>
+<ol class="arabic simple">
+<li><p>Add a .ini file in the /src folder with the following entries:
+[Connecttivity] sp=bandwidth_1.m_axi_gmem0:DDR[0]
+sp=bandwidth_1.m_axi_gmem1:DDR[1]
+sp=bandwidth_1.m_axi_gmem2:DDR[2]
+sp=bandwidth_1.m_axi_gmem2:DDR[3]
+2. &gt; Properties &gt; C/C++ Build &gt; Settings &gt; Vitis V++ Kernel Compiler
+&gt; Miscellaneous &gt; Other flags 3.In “Other flags” box enter following</p>
+<ol class="loweralpha simple">
+<li><p>–max_memory_ports all 4. &gt; Properties &gt; C/C++ Build &gt; Settings &gt;
+Vitis V++ Kernel Linker &gt; Miscellaneous &gt; Other flags –config
+../src/&lt;config_file.ini&gt; 5.Define NDDR_BANKS 4 in kernel “#define
+NDDR_BANKS 4” at the top of kernel.cl</p></li>
+</ol>
+</li>
+</ol>
+<div class="section" id="excluded-platforms">
+<h2>EXCLUDED PLATFORMS<a class="headerlink" href="#excluded-platforms" title="Permalink to this headline">¶</a></h2>
+<p>Platforms containing following strings in their names are not supported
+for this example :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">xilinx_u50_xdma</span>
+<span class="n">zc</span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="design-files">
 <h2>DESIGN FILES<a class="headerlink" href="#design-files" title="Permalink to this headline">¶</a></h2>
@@ -372,7 +396,7 @@ executed by</p>
         <a href="lmem_2rw.html" class="btn btn-neutral float-right" title="Local Memory Two Parallel Read/Write" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="gmem_2banks.html" class="btn btn-neutral float-left" title="Global Memory Two Banks" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="kernel_chain.html" class="btn btn-neutral float-left" title="Stream Chain Matrix Multiplication" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

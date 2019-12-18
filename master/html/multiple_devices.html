@@ -168,7 +168,6 @@
 <li class="toctree-l1 current"><a class="reference internal" href="sys_opt.html">System Optimization Kernels</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="kernel_swap.html">Kernel Swap</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Multiple Devices</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#supported-shells">SUPPORTED SHELLS</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#design-files">DESIGN FILES</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#command-line-arguments">COMMAND LINE ARGUMENTS</a></li>
 </ul>
@@ -261,7 +260,7 @@
 It will show how to initialized an OpenCL context, allocate memory on
 the two devices and execute a kernel on each FPGA.</p>
 <p><strong>KEY CONCEPTS:</strong> OpenCL API, Multi-FPGA Execution, Event Handling</p>
-<p><strong>KEYWORDS:</strong> cl_device_id, clGetDeviceIDs()</p>
+<p><strong>KEYWORDS:</strong> xcl::get_xil_devices</p>
 <p>This example demonstrates how multiple FPGA devices can be configured on
 a system.</p>
 <p>OpenCL context and queues are initialized for each FPGA.</p>
@@ -285,64 +284,6 @@ a kernel each is created for FPGAs on the system.</p>
 used to synchronize the kernel operations across devices.</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">err</span> <span class="o">=</span> <span class="n">queues</span><span class="p">[</span><span class="n">d</span><span class="p">].</span><span class="n">enqueueTask</span><span class="p">(</span><span class="n">kernels</span><span class="p">[</span><span class="n">d</span><span class="p">],</span> <span class="nb">NULL</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">events</span><span class="p">[</span><span class="n">d</span><span class="p">]);</span>
 </pre></div>
-</div>
-<div class="section" id="supported-shells">
-<h2>SUPPORTED SHELLS<a class="headerlink" href="#supported-shells" title="Permalink to this headline">¶</a></h2>
-<table class="docutils align-center">
-<colgroup>
-<col style="width: 25%" />
-<col style="width: 49%" />
-<col style="width: 25%" />
-</colgroup>
-<thead>
-<tr class="row-odd"><th class="head"><p>SHELL</p></th>
-<th class="head"><p>Board</p></th>
-<th class="head"><p>Software Version</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p>xilinx_u200_qdma</p></td>
-<td><p>Xilinx Alveo U200</p></td>
-<td><p>Vitis 2019.2</p></td>
-</tr>
-<tr class="row-odd"><td><p>xilinx_u200_xdma</p></td>
-<td><p>Xilinx Alveo U200</p></td>
-<td><p>Vitis 2019.2</p></td>
-</tr>
-<tr class="row-even"><td><p>xilinx_u250_qdma</p></td>
-<td><p>Xilinx Alveo U250</p></td>
-<td><p>Vitis 2019.2</p></td>
-</tr>
-<tr class="row-odd"><td><p>xilinx_u250_xdma</p></td>
-<td><p>Xilinx Alveo U250</p></td>
-<td><p>Vitis 2019.2</p></td>
-</tr>
-<tr class="row-even"><td><p>xilinx_u280_xdma</p></td>
-<td><p>Xilinx Alveo U280</p></td>
-<td><p>Vitis 2019.2</p></td>
-</tr>
-<tr class="row-odd"><td><p>xilinx_u50_xdma</p></td>
-<td><p>Xilinx Alveo U50</p></td>
-<td><p>Vitis 2019.2</p></td>
-</tr>
-<tr class="row-even"><td><p>zc702_base</p></td>
-<td><p>Xilinx Zynq-7000 SoC ZC702</p></td>
-<td><p>Vitis 2019.2</p></td>
-</tr>
-<tr class="row-odd"><td><p>zc706_base</p></td>
-<td><p>Xilinx Zynq-7000 SoC ZC706</p></td>
-<td><p>Vitis 2019.2</p></td>
-</tr>
-<tr class="row-even"><td><p>zcu102_base</p></td>
-<td><p>Xilinx UltraScale+ MPSoC ZCU102</p></td>
-<td><p>Vitis 2019.2</p></td>
-</tr>
-<tr class="row-odd"><td><p>zcu104_base</p></td>
-<td><p>Xilinx UltraScale+ MPSoC ZCU104</p></td>
-<td><p>Vitis 2019.2</p></td>
-</tr>
-</tbody>
-</table>
 </div>
 <div class="section" id="design-files">
 <h2>DESIGN FILES<a class="headerlink" href="#design-files" title="Permalink to this headline">¶</a></h2>

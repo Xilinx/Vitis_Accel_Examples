@@ -11,7 +11,7 @@ This example is to get the details of all the OpenCL Devices connected
 to system. Platform IDs and Device IDs can be extracted using Open CL
 APIs which are subsequently needed to configure the context and command
 queues for communication between host and device. Example first searches
-the all connected Platforms using ``clGetPlatformIDs()`` API. Then it
+all the connected Platforms using ``clGetPlatformIDs()`` API. Then it
 traverses to each Platform and finds all the connected devices using
 ``clGetDeviceIDs()``. Then it traverses all the devices and print all
 device properties like device type, vendor id etc. It reports the
@@ -100,19 +100,15 @@ details as below:
      device printf buffer size              : 0
    TEST PASSED
 
-SUPPORTED SHELLS
-----------------
+EXCLUDED PLATFORMS
+------------------
 
-================ ================= ================
-SHELL            Board             Software Version
-================ ================= ================
-xilinx_u200_qdma Xilinx Alveo U200 Vitis 2019.2
-xilinx_u200_xdma Xilinx Alveo U200 Vitis 2019.2
-xilinx_u250_qdma Xilinx Alveo U250 Vitis 2019.2
-xilinx_u250_xdma Xilinx Alveo U250 Vitis 2019.2
-xilinx_u280_xdma Xilinx Alveo U280 Vitis 2019.2
-xilinx_u50_xdma  Xilinx Alveo U50  Vitis 2019.2
-================ ================= ================
+Platforms containing following strings in their names are not supported
+for this example :
+
+::
+
+   zc
 
 DESIGN FILES
 ------------

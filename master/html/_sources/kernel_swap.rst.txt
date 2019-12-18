@@ -10,7 +10,7 @@ After kernel swap, host has to migrate the buffer back to device.
 **KEY CONCEPTS:** Handling Buffer sharing across multiple binaries,
 Multiple Kernel Binaries
 
-**KEYWORDS:** clEnqueueMigrateMemObjects(), CL_MIGRATE_MEM_OBJECT_HOST
+**KEYWORDS:** enqueueMigrateMemObjects, CL_MIGRATE_MEM_OBJECT_HOST
 
 This example shows how host can swap the kernels and share the same
 buffer between two kernels which exist in separate binary containers.
@@ -60,19 +60,15 @@ execution.
 
    q.enqueueMigrateMemObjects({d_temp}, 0/* 0 means from host*/);
 
-SUPPORTED SHELLS
-----------------
+EXCLUDED PLATFORMS
+------------------
 
-================ ================= ================
-SHELL            Board             Software Version
-================ ================= ================
-xilinx_u200_qdma Xilinx Alveo U200 Vitis 2019.2
-xilinx_u200_xdma Xilinx Alveo U200 Vitis 2019.2
-xilinx_u250_qdma Xilinx Alveo U250 Vitis 2019.2
-xilinx_u250_xdma Xilinx Alveo U250 Vitis 2019.2
-xilinx_u280_xdma Xilinx Alveo U280 Vitis 2019.2
-xilinx_u50_xdma  Xilinx Alveo U50  Vitis 2019.2
-================ ================= ================
+Platforms containing following strings in their names are not supported
+for this example :
+
+::
+
+   zc
 
 DESIGN FILES
 ------------

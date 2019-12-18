@@ -8,7 +8,7 @@ interface.
 
 **KEY CONCEPTS:** Read/Write Stream, Create/Release Stream
 
-**KEYWORDS:** cl_stream, CL_STREAM_EOT, CL_STREAM_BLOCKING
+**KEYWORDS:** cl_stream, CL_STREAM_EOT
 
 This example demonstrate how to process an input stream of data from
 host for computation along with memory mapped OpenCL buffer inputs.
@@ -64,15 +64,19 @@ streaming objects as below:
 Please refer ``streaming_simple`` example to more about Streaming kernel
 usage.
 
-SUPPORTED SHELLS
-----------------
+EXCLUDED PLATFORMS
+------------------
 
-================ ================= ================
-SHELL            Board             Software Version
-================ ================= ================
-xilinx_u200_qdma Xilinx Alveo U200 Vitis 2019.2
-xilinx_u250_qdma Xilinx Alveo U250 Vitis 2019.2
-================ ================= ================
+Platforms containing following strings in their names are not supported
+for this example :
+
+::
+
+   zc
+   xdma
+   xilinx_u250_qep
+   aws
+   samsung
 
 DESIGN FILES
 ------------

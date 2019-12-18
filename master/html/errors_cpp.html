@@ -171,7 +171,6 @@
 <li class="toctree-l2"><a class="reference internal" href="debug_profile.html">Debug Profile</a></li>
 <li class="toctree-l2"><a class="reference internal" href="errors.html">Error Handling</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Error Handling (CPP)</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#supported-shells">SUPPORTED SHELLS</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#design-files">DESIGN FILES</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#command-line-arguments">COMMAND LINE ARGUMENTS</a></li>
 </ul>
@@ -182,9 +181,11 @@
 <li class="toctree-l2"><a class="reference internal" href="multiple_cus_asymmetrical.html">Multiple Compute Units (Asymmetrical)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="mult_compute_units.html">Multiple Compute Units</a></li>
 <li class="toctree-l2"><a class="reference internal" href="overlap.html">Overlap Host and Kernel</a></li>
-<li class="toctree-l2"><a class="reference internal" href="streaming_chain.html">Stream Chain Matrix Multiplication</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p2p_simple.html">P2P Simple Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p2p_bandwidth.html">P2P byte copy Example</a></li>
 <li class="toctree-l2"><a class="reference internal" href="streaming_host_bandwidth.html">Streaming Host to Kernel Bandwidth</a></li>
 <li class="toctree-l2"><a class="reference internal" href="streaming_free_running_kernel.html">Stream Free Running Kernel (HLS C/C++)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="device_only_buffer.html">Device Only Buffer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="streaming_k2k.html">Stream Kernel to Kernel</a></li>
 <li class="toctree-l2"><a class="reference internal" href="streaming_k2k_mm.html">Stream Kernel to Kernel Memory Mapped</a></li>
 <li class="toctree-l2"><a class="reference internal" href="streaming_mm_mixed.html">Stream Memory Map Mixed</a></li>
@@ -297,9 +298,8 @@ if an error occurred.</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">err</span> <span class="o">=</span> <span class="n">cl</span><span class="o">::</span><span class="n">Platform</span><span class="o">::</span><span class="n">get</span><span class="p">(</span><span class="o">&amp;</span><span class="n">platforms</span><span class="p">);</span>
 </pre></div>
 </div>
-<p>Received Expected Error calling above call from <code class="docutils literal notranslate"><span class="pre">clGetPlatformIDs</span></code>
-This error is usually caused by a failed OpenCL installation or if both
-the platforms and num_platforms parameters are null.</p>
+<p>No platforms were found. This could be caused because the OpenCL icd was
+not installed in /etc/OpenCL/vendors directory.</p>
 <p>Error when trying to access device type which does not exist</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">err</span> <span class="o">=</span> <span class="n">platform</span><span class="p">.</span><span class="n">getDevices</span><span class="p">(</span><span class="n">CL_DEVICE_TYPE_CPU</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">devices</span><span class="p">);</span>
 </pre></div>
@@ -319,7 +319,7 @@ passed 0 for the num_devices variable.</p>
 </pre></div>
 </div>
 <p>Errors caused during program creation are usually due to invalid
-binaries. The binary may be targeting a different shell. It may also
+binaries. The binary may be targeting a different platform. It may also
 have been corrupted or incorrectly read from disk.</p>
 <p>Error while creating Kernel:</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">cl</span><span class="o">::</span><span class="n">Kernel</span> <span class="n">kernel</span><span class="p">(</span><span class="n">program</span><span class="p">,</span> <span class="s">&quot;InvalidKernelName&quot;</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">err</span><span class="p">);</span>
@@ -336,64 +336,6 @@ because device could not allocate enough memory for this buffer. The
 pointer could be null and either CL_MEM_USE_HOST_PTR or
 CL_MEM_COPY_HOST_PTR are passed into the flags parameter. In this case
 we passed zero(0) as the size of the buffer.</p>
-<div class="section" id="supported-shells">
-<h2>SUPPORTED SHELLS<a class="headerlink" href="#supported-shells" title="Permalink to this headline">¶</a></h2>
-<table class="docutils align-center">
-<colgroup>
-<col style="width: 25%" />
-<col style="width: 49%" />
-<col style="width: 25%" />
-</colgroup>
-<thead>
-<tr class="row-odd"><th class="head"><p>SHELL</p></th>
-<th class="head"><p>Board</p></th>
-<th class="head"><p>Software Version</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p>xilinx_u200_qdma</p></td>
-<td><p>Xilinx Alveo U200</p></td>
-<td><p>Vitis 2019.2</p></td>
-</tr>
-<tr class="row-odd"><td><p>xilinx_u200_xdma</p></td>
-<td><p>Xilinx Alveo U200</p></td>
-<td><p>Vitis 2019.2</p></td>
-</tr>
-<tr class="row-even"><td><p>xilinx_u250_qdma</p></td>
-<td><p>Xilinx Alveo U250</p></td>
-<td><p>Vitis 2019.2</p></td>
-</tr>
-<tr class="row-odd"><td><p>xilinx_u250_xdma</p></td>
-<td><p>Xilinx Alveo U250</p></td>
-<td><p>Vitis 2019.2</p></td>
-</tr>
-<tr class="row-even"><td><p>xilinx_u280_xdma</p></td>
-<td><p>Xilinx Alveo U280</p></td>
-<td><p>Vitis 2019.2</p></td>
-</tr>
-<tr class="row-odd"><td><p>xilinx_u50_xdma</p></td>
-<td><p>Xilinx Alveo U50</p></td>
-<td><p>Vitis 2019.2</p></td>
-</tr>
-<tr class="row-even"><td><p>zc702_base</p></td>
-<td><p>Xilinx Zynq-7000 SoC ZC702</p></td>
-<td><p>Vitis 2019.2</p></td>
-</tr>
-<tr class="row-odd"><td><p>zc706_base</p></td>
-<td><p>Xilinx Zynq-7000 SoC ZC706</p></td>
-<td><p>Vitis 2019.2</p></td>
-</tr>
-<tr class="row-even"><td><p>zcu102_base</p></td>
-<td><p>Xilinx UltraScale+ MPSoC ZCU102</p></td>
-<td><p>Vitis 2019.2</p></td>
-</tr>
-<tr class="row-odd"><td><p>zcu104_base</p></td>
-<td><p>Xilinx UltraScale+ MPSoC ZCU104</p></td>
-<td><p>Vitis 2019.2</p></td>
-</tr>
-</tbody>
-</table>
-</div>
 <div class="section" id="design-files">
 <h2>DESIGN FILES<a class="headerlink" href="#design-files" title="Permalink to this headline">¶</a></h2>
 <p>Application code is located in the src directory. Accelerator binary

@@ -170,7 +170,6 @@
 <li class="toctree-l2"><a class="reference internal" href="critical_path.html">Critical Path</a></li>
 <li class="toctree-l2"><a class="reference internal" href="custom_datatype.html">Custom Data Type</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Dataflow Using HLS Stream</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#supported-shells">SUPPORTED SHELLS</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#design-files">DESIGN FILES</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#command-line-arguments">COMMAND LINE ARGUMENTS</a></li>
 </ul>
@@ -178,6 +177,7 @@
 <li class="toctree-l2"><a class="reference internal" href="dataflow_stream_array.html">Dataflow Using Array of HLS Stream</a></li>
 <li class="toctree-l2"><a class="reference internal" href="dependence_inter.html">Loop Dependency Inter</a></li>
 <li class="toctree-l2"><a class="reference internal" href="gmem_2banks.html">Global Memory Two Banks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="kernel_chain.html">Stream Chain Matrix Multiplication</a></li>
 <li class="toctree-l2"><a class="reference internal" href="kernel_global_bandwidth.html">Kernel Global Bandwidth</a></li>
 <li class="toctree-l2"><a class="reference internal" href="lmem_2rw.html">Local Memory Two Parallel Read/Write</a></li>
 <li class="toctree-l2"><a class="reference internal" href="loop_pipeline.html">Loop Pipelining</a></li>
@@ -274,10 +274,10 @@
 functionality of HLS. HLS Dataflow allows user to schedule multiple task
 together to achieve higher throughput.</p>
 <p><strong>KEY CONCEPTS:</strong> Task Level Parallelism</p>
-<p><strong>KEYWORDS:</strong> dataflow, hls::stream&lt;&gt;</p>
+<p><strong>KEYWORDS:</strong> dataflow, hls::stream</p>
 <p>This example explains how <code class="docutils literal notranslate"><span class="pre">#pragma</span> <span class="pre">HLS</span> <span class="pre">dataflow</span></code> can be used to
 implement task level parallelism using <code class="docutils literal notranslate"><span class="pre">HLS</span> <span class="pre">Stream</span></code> datatype.</p>
-<p>If the data stored in the array is consumed or produced in a sequential
+<p>Usually data stored in the array is consumed or produced in a sequential
 manner, a more efficient communication mechanism is to use streaming
 data as specified by the <code class="docutils literal notranslate"><span class="pre">STREAM</span></code> pragma, where FIFOs are used instead
 of RAMs. Depth of <code class="docutils literal notranslate"><span class="pre">FIFO</span></code> can be specified by <code class="docutils literal notranslate"><span class="pre">depth</span></code> option in the
@@ -293,64 +293,6 @@ and write) which are then performed concurrently using <code class="docutils lit
     <span class="n">compute_add</span><span class="p">(</span><span class="n">inStream</span><span class="p">,</span> <span class="n">outStream</span><span class="p">,</span> <span class="n">inc</span><span class="p">,</span> <span class="n">size</span><span class="p">);</span>
     <span class="n">write_result</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="n">outStream</span><span class="p">,</span> <span class="n">size</span><span class="p">);</span>
 </pre></div>
-</div>
-<div class="section" id="supported-shells">
-<h2>SUPPORTED SHELLS<a class="headerlink" href="#supported-shells" title="Permalink to this headline">¶</a></h2>
-<table class="docutils align-center">
-<colgroup>
-<col style="width: 25%" />
-<col style="width: 49%" />
-<col style="width: 25%" />
-</colgroup>
-<thead>
-<tr class="row-odd"><th class="head"><p>SHELL</p></th>
-<th class="head"><p>Board</p></th>
-<th class="head"><p>Software Version</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p>xilinx_u200_qdma</p></td>
-<td><p>Xilinx Alveo U200</p></td>
-<td><p>Vitis 2019.2</p></td>
-</tr>
-<tr class="row-odd"><td><p>xilinx_u200_xdma</p></td>
-<td><p>Xilinx Alveo U200</p></td>
-<td><p>Vitis 2019.2</p></td>
-</tr>
-<tr class="row-even"><td><p>xilinx_u250_qdma</p></td>
-<td><p>Xilinx Alveo U250</p></td>
-<td><p>Vitis 2019.2</p></td>
-</tr>
-<tr class="row-odd"><td><p>xilinx_u250_xdma</p></td>
-<td><p>Xilinx Alveo U250</p></td>
-<td><p>Vitis 2019.2</p></td>
-</tr>
-<tr class="row-even"><td><p>xilinx_u280_xdma</p></td>
-<td><p>Xilinx Alveo U280</p></td>
-<td><p>Vitis 2019.2</p></td>
-</tr>
-<tr class="row-odd"><td><p>xilinx_u50_xdma</p></td>
-<td><p>Xilinx Alveo U50</p></td>
-<td><p>Vitis 2019.2</p></td>
-</tr>
-<tr class="row-even"><td><p>zc702_base</p></td>
-<td><p>Xilinx Zynq-7000 SoC ZC702</p></td>
-<td><p>Vitis 2019.2</p></td>
-</tr>
-<tr class="row-odd"><td><p>zc706_base</p></td>
-<td><p>Xilinx Zynq-7000 SoC ZC706</p></td>
-<td><p>Vitis 2019.2</p></td>
-</tr>
-<tr class="row-even"><td><p>zcu102_base</p></td>
-<td><p>Xilinx UltraScale+ MPSoC ZCU102</p></td>
-<td><p>Vitis 2019.2</p></td>
-</tr>
-<tr class="row-odd"><td><p>zcu104_base</p></td>
-<td><p>Xilinx UltraScale+ MPSoC ZCU104</p></td>
-<td><p>Vitis 2019.2</p></td>
-</tr>
-</tbody>
-</table>
 </div>
 <div class="section" id="design-files">
 <h2>DESIGN FILES<a class="headerlink" href="#design-files" title="Permalink to this headline">¶</a></h2>

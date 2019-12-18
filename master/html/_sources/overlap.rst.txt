@@ -8,8 +8,8 @@ asynchronous operations and event object.
 **KEY CONCEPTS:** OpenCL API, Synchronize Host and FPGA, Asynchronous
 Processing, Events, Asynchronous memcpy
 
-**KEYWORDS:** cl_event, clCreateCommandQueue,
-CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE, clEnqueueMigrateMemObjects
+**KEYWORDS:** cl_event, cl::CommandQueue,
+CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE, enqueueMigrateMemObjects
 
 This example illustrates how host read and write tasks can be
 synchronized with kernel computational tasks to achieve low latency in
@@ -60,24 +60,6 @@ important in the context of out of order command queues as they are the
 only way specify dependency. Normal in-order command queues do not need
 this because dependency is enforced in the order the operation was
 enqueued.
-
-SUPPORTED SHELLS
-----------------
-
-================ =============================== ================
-SHELL            Board                           Software Version
-================ =============================== ================
-xilinx_u200_qdma Xilinx Alveo U200               Vitis 2019.2
-xilinx_u200_xdma Xilinx Alveo U200               Vitis 2019.2
-xilinx_u250_qdma Xilinx Alveo U250               Vitis 2019.2
-xilinx_u250_xdma Xilinx Alveo U250               Vitis 2019.2
-xilinx_u280_xdma Xilinx Alveo U280               Vitis 2019.2
-xilinx_u50_xdma  Xilinx Alveo U50                Vitis 2019.2
-zc702_base       Xilinx Zynq-7000 SoC ZC702      Vitis 2019.2
-zc706_base       Xilinx Zynq-7000 SoC ZC706      Vitis 2019.2
-zcu102_base      Xilinx UltraScale+ MPSoC ZCU102 Vitis 2019.2
-zcu104_base      Xilinx UltraScale+ MPSoC ZCU104 Vitis 2019.2
-================ =============================== ================
 
 DESIGN FILES
 ------------

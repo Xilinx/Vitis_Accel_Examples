@@ -20,9 +20,11 @@ OpenCL host code for optimized interfacing with Xilinx Devices.
    multiple_cus_asymmetrical.rst
    mult_compute_units.rst
    overlap.rst
-   streaming_chain.rst
+   p2p_simple.rst
+   p2p_bandwidth.rst
    streaming_host_bandwidth.rst
    streaming_free_running_kernel.rst
+   device_only_buffer.rst
    streaming_k2k.rst
    streaming_k2k_mm.rst
    streaming_mm_mixed.rst

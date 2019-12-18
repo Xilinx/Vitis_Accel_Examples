@@ -10,7 +10,7 @@ using HLS kernel in Vitis Environment.
 **KEYWORDS:** #pragma HLS ARRAY_PARTITION, complete
 
 This example demonstrates how ``array partition`` in HLS kernel can help
-to improve the performance. In this example matrix multiple is
+to improve the performance. In this example matrix multiplication
 functionality is used to showcase the benefit of array partition. Design
 contains two kernels “matmul” a simple matrix multiplication and
 “matmul_partition” a matrix multiplication implementation using array
@@ -18,13 +18,9 @@ partition.
 
 ``#pragma HLS array partition`` is used to partition an array into
 multiple smaller arrays or memories. Arrays can be partitioned in three
-ways, ``cyclic`` where elements are put into smaller arrays one by one
-in the interleaved manner until the whole array is partitioned,
-``block`` where elements are put into smaller arrays from continuous
-blocks of original array and ``complete`` where array is decomposed into
-individual elements each having its own read/write ports. In this
-example, ``complete`` partition is used to partition one of the
-dimension of local Matrix array as below
+ways, ``cyclic``, ``block`` and ``complete``. In this example,
+``complete`` partition is used to partition one of the dimension of
+local Matrix array as below
 
 .. code:: cpp
 
@@ -72,24 +68,6 @@ U200 Card:
    Note: Wall Clock Time is meaningful for real hardware execution only, not for emulation.
    Please refer to profile summary for kernel execution time for hardware emulation.
    TEST PASSED
-
-SUPPORTED SHELLS
-----------------
-
-================ =============================== ================
-SHELL            Board                           Software Version
-================ =============================== ================
-xilinx_u200_qdma Xilinx Alveo U200               Vitis 2019.2
-xilinx_u200_xdma Xilinx Alveo U200               Vitis 2019.2
-xilinx_u250_qdma Xilinx Alveo U250               Vitis 2019.2
-xilinx_u250_xdma Xilinx Alveo U250               Vitis 2019.2
-xilinx_u280_xdma Xilinx Alveo U280               Vitis 2019.2
-xilinx_u50_xdma  Xilinx Alveo U50                Vitis 2019.2
-zc702_base       Xilinx Zynq-7000 SoC ZC702      Vitis 2019.2
-zc706_base       Xilinx Zynq-7000 SoC ZC706      Vitis 2019.2
-zcu102_base      Xilinx UltraScale+ MPSoC ZCU102 Vitis 2019.2
-zcu104_base      Xilinx UltraScale+ MPSoC ZCU104 Vitis 2019.2
-================ =============================== ================
 
 DESIGN FILES
 ------------

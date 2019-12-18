@@ -19,39 +19,27 @@ global memory transfers.
 For efficient use of this bandwidth, ``ap_uint<512>`` is used as
 interface between kernels and global memory allows for maximum of 512
 bits to be transferred concurrently. User must include ``ap_int.h`` to
-use these datatypes. \```c++ #define DATAWIDTH 512 typedef ap_uint
-uint512_dt;
+use these datatypes.
 
-uint512_dt v1_local[BUFFER_SIZE]; uint512_dt result_local[BUFFER_SIZE];
+.. code:: cpp
 
-::
+   #define DATAWIDTH 512
+   typedef ap_uint<DATAWIDTH> uint512_dt;
 
-   Using 512 bits will enable the `burst` read and write for the data by using `#pragma HLS PIPELINE`.
-   ```c++
+   uint512_dt v1_local[BUFFER_SIZE];
+   uint512_dt result_local[BUFFER_SIZE];
+
+Using 512 bits user can enable the ``burst`` read and write for the data
+by using ``#pragma HLS PIPELINE``.
+
+.. code:: cpp
+
    v1_rd:
           for (int j = 0; j < chunk_size; j++) {
              #pragma HLS PIPELINE II=1
              #pragma HLS LOOP_TRIPCOUNT min=c_chunk_sz max=c_chunk_sz
               v1_local[j] = in1[i + j];
           }
-
-SUPPORTED SHELLS
-----------------
-
-================ =============================== ================
-SHELL            Board                           Software Version
-================ =============================== ================
-xilinx_u200_qdma Xilinx Alveo U200               Vitis 2019.2
-xilinx_u200_xdma Xilinx Alveo U200               Vitis 2019.2
-xilinx_u250_qdma Xilinx Alveo U250               Vitis 2019.2
-xilinx_u250_xdma Xilinx Alveo U250               Vitis 2019.2
-xilinx_u280_xdma Xilinx Alveo U280               Vitis 2019.2
-xilinx_u50_xdma  Xilinx Alveo U50                Vitis 2019.2
-zc702_base       Xilinx Zynq-7000 SoC ZC702      Vitis 2019.2
-zc706_base       Xilinx Zynq-7000 SoC ZC706      Vitis 2019.2
-zcu102_base      Xilinx UltraScale+ MPSoC ZCU102 Vitis 2019.2
-zcu104_base      Xilinx UltraScale+ MPSoC ZCU104 Vitis 2019.2
-================ =============================== ================
 
 DESIGN FILES
 ------------
