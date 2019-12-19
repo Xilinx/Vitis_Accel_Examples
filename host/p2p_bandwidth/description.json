@@ -30,7 +30,7 @@
         "match_ini": "false",
     "launch": [
         {
-            "cmd_args": "BUILD/copy_kernel.xclbin -w PROJECT/sample.txt", 
+            "cmd_args": "BUILD/copy_kernel.xclbin -r PROJECT/sample.txt", 
             "name": "generic launch for all flows"
         }
     ], 
@@ -44,6 +44,9 @@
             "includepaths": [
                 "REPO_DIR/common/includes/xcl2"
             ]
+        },
+        "linker" : {
+            "options" : "-laio"
         }
     },  
     "containers": [

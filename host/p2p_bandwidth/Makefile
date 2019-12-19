@@ -50,6 +50,7 @@ include $(ABS_COMMON_REPO)/common/includes/xcl2/xcl2.mk
 CXXFLAGS += $(xcl2_CXXFLAGS)
 LDFLAGS += $(xcl2_LDFLAGS)
 HOST_SRCS += $(xcl2_SRCS)
+CXXFLAGS += -laio
 CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++11
 LDFLAGS += $(opencl_LDFLAGS)
 
@@ -71,7 +72,7 @@ endif
 
 
 EXECUTABLE = host
-CMD_ARGS = $(BUILD_DIR)/copy_kernel.xclbin -w ./sample.txt
+CMD_ARGS = $(BUILD_DIR)/copy_kernel.xclbin -r ./sample.txt
 EMCONFIG_DIR = $(TEMP_DIR)
 EMU_DIR = $(SDCARD)/data/emulation
 
@@ -125,7 +126,7 @@ endif
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 ifeq ($(HOST_ARCH), x86)
 	$(CP) $(EMCONFIG_DIR)/emconfig.json .
-	XCL_EMULATION_MODE=$(TARGET) ./$(EXECUTABLE) $(BUILD_DIR)/copy_kernel.xclbin -w ./sample.txt
+	XCL_EMULATION_MODE=$(TARGET) ./$(EXECUTABLE) $(BUILD_DIR)/copy_kernel.xclbin -r ./sample.txt
 else
 	mkdir -p $(EMU_DIR)
 	$(CP) $(XILINX_VITIS)/data/emulation/unified $(EMU_DIR)
@@ -134,7 +135,7 @@ else
 endif
 else
 ifeq ($(HOST_ARCH), x86)
-	./$(EXECUTABLE) $(BUILD_DIR)/copy_kernel.xclbin -w ./sample.txt
+	./$(EXECUTABLE) $(BUILD_DIR)/copy_kernel.xclbin -r ./sample.txt
 endif
 endif
 ifeq ($(HOST_ARCH), x86)
@@ -167,4 +168,3 @@ clean:
 cleanall: clean
 	-$(RMDIR) build_dir* sd_card*
 	-$(RMDIR) _x.* *xclbin.run_summary qemu-memory-_* emulation/ _vimage/ pl* start_simulation.sh *.xclbin
-

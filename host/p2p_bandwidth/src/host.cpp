@@ -15,10 +15,6 @@
 // One cycle of data process includes: p2p data transfer (p), kernel copy (c)
 // and XDMA (x). Conceptually, x, c and p happens consecutively. The pipeline
 // is designed so that c(n) and x(n) will happen in parallel with p(n+1).
-//
-// Two data-copy kernels are created. Each uses one DDR bank. Processing of
-// adjacent chunk of data will be using different kernel. So that c(n), x(n)
-// is done on one bank while p(n+1) is on the other.
 
 #include <chrono>
 #include <iostream>
@@ -26,10 +22,7 @@
 #include <string.h>
 #include <fcntl.h>
 #include <unistd.h>
-
-#ifdef ASYNC_READ
 #include <libaio.h>
-#endif
 
 #include "xcl2.hpp"
 
@@ -53,7 +46,6 @@ cl_context context;
 chrono::high_resolution_clock::time_point p2pReadStart;
 chrono::high_resolution_clock::time_point p2pReadEnd;
 cl_ulong  p2pReadTime  = 0;
-
 
 class Chunk {
 public:
@@ -274,7 +266,6 @@ void exec_write_test()
 		clWaitForEvents(1, &chunks[idx]->p2pEvt);
 }
 
-#ifdef ASYNC_READ
 void exec_async_read_test(Chunk **chunks)
 {
 	io_context_t myctx;
@@ -325,7 +316,6 @@ void exec_async_read_test(Chunk **chunks)
 		clWaitForEvents(1, &chunks[idx]->p2pEvt);
 #endif
 }
-#endif
 
 void exec_read_test()
 {
@@ -444,17 +434,22 @@ int main(int argc, char **argv) {
     cl_program program = clCreateProgramWithBinary(context, 1, &device, &binary_size,
                                     &binary_data, NULL, &err);
 
-#ifdef ASYNC_READ 
-        io_context_t ctx;
-        memset(&ctx, 0, sizeof(ctx));
-        io_queue_init(128, &ctx);
-#endif
+    io_context_t ctx;
+    memset(&ctx, 0, sizeof(ctx));
+    io_queue_init(128, &ctx);
 	// Setting up OpenCL runtime environment.
 	cl_kernel kernel = clCreateKernel(program, "copy", &err);
 
 	// Create all data chunks and set up all OpenCL operation dependencies.
 	cout << "INFO: Preparing " << total_size / 1024 << "KB test data "
 		<< "in " << num_chunks << " pipelines" << endl;
+    // Running Synchronous P2P
+    std::cout
+        << "############################################################\n";
+    std::cout
+        << "                     Synchronous P2P                         \n";
+    std::cout
+        << "############################################################\n";
 	for (int idx = 0; idx < num_chunks; idx++) {
 		Chunk *c = new Chunk(idx);
 
@@ -476,11 +471,7 @@ int main(int argc, char **argv) {
 	if (isWrite) {
 		exec_write_test();
 	} else {
-#ifndef ASYNC_READ
 		exec_read_test();
-#else
-		exec_async_read_test(chunks);
-#endif
 	}
 	// End of computation.
 	cl_ulong totalTime = (chrono::duration_cast<chrono::microseconds>
@@ -491,11 +482,8 @@ int main(int argc, char **argv) {
 	cl_ulong p2pTime = 0;
 	for (int idx = 0; idx < num_chunks; idx++)
 		p2pTime += chunks[idx]->p2pTime();
-#ifndef ASYNC_READ
+
 	report("p2p", totalTime, p2pTime);
-#else
-	report("p2p", totalTime, p2pReadTime);
-#endif
 
 #ifdef	FULLCYCLE 
 	cl_ulong kernelTime = 0;
@@ -519,6 +507,59 @@ int main(int argc, char **argv) {
 	// Clean up.
 	for (int idx = 0; idx < num_chunks; idx++)
 		delete chunks[idx];
+
+if(!isWrite){
+    // Running Asynchronous P2P
+    std::cout
+        << "############################################################\n";
+    std::cout
+        << "                     Asynchronous P2P                         \n";
+    std::cout
+        << "############################################################\n";
+	for (int idx = 0; idx < num_chunks; idx++) {
+		Chunk *c = new Chunk(idx);
+
+		chunks[idx] = c;
+        c->kernel = kernel;
+#ifdef	FULLCYCLE 
+			setup_read_dependency(c);
+#endif
+	}
+
+	// Start of computation.
+	cout << "INFO: Kick off test" << endl;
+	start =	chrono::high_resolution_clock::now();
+	exec_async_read_test(chunks);
+	// End of computation.
+	totalTime = (chrono::duration_cast<chrono::microseconds>
+		(chrono::high_resolution_clock::now() - start)).count();
+
+	// Report data
+	report("overall", totalTime, totalTime);
+	report("p2p", totalTime, p2pReadTime);
+
+#ifdef	FULLCYCLE 
+	kernelTime = 0;
+	xdmaTime = 0;
+	for (int idx = 0; idx < num_chunks; idx++) {
+		kernelTime += chunks[idx]->kernelTime();
+		xdmaTime += chunks[idx]->xdmaTime();
+	}
+	report("kernel", totalTime, kernelTime);
+	report("XDMA", totalTime, xdmaTime);
+
+	cout << "INFO: Evaluating test result" << endl;
+	matched = true;
+	for (int idx = 0; idx < num_chunks; idx++) {
+		if (!chunks[idx]->verify())
+			matched = false;
+	}
+	cout << "INFO: Test " << (matched ? "passed" : "failed") << endl;
+#endif
+	// Clean up.
+	for (int idx = 0; idx < num_chunks; idx++)
+		delete chunks[idx];
+}
 
 	clReleaseKernel(kernel);
     clReleaseContext(context);
