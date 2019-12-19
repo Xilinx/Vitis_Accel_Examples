@@ -11,6 +11,10 @@
     "key_concepts": [
         "Inter Dependence"
     ], 
+    "ndevice": [
+	"zc702",
+	"zc706"
+    ],
     "os": [
         "Linux"
     ], 

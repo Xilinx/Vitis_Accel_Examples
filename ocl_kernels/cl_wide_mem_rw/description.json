@@ -12,6 +12,10 @@
         "wide memory access", 
         "burst read and write"
     ], 
+    "ndevice": [
+	"zc702",
+	"zc706"
+    ],
     "os": [
         "Linux"
     ], 
