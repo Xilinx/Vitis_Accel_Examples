@@ -1,0 +1,58 @@
+{
+    "name": "Advanced Configuration", 
+    "description": [
+        "This is simple example to describe how user can provide various advanced options in Vitis flow."
+    ],
+    "keywords": [
+	"config",
+	"set_clock_uncertainity",
+	"kernel_frequency",
+	"hls_pre_tcl"
+    ], 
+    "key_concepts": [
+        "Using custom Tcl", 
+        "Setting Kernel Clock Frequency",
+	"Clock Uncertainity"
+    ], 
+    "os": [
+        "Linux"
+    ], 
+    "runtime": [
+        "OpenCL"
+    ], 
+    "host": {
+        "host_exe": "host", 
+        "compiler": {
+            "sources": [
+                "REPO_DIR/common/includes/xcl2"
+            ], 
+            "includepaths": [
+                "REPO_DIR/common/includes/xcl2"
+            ]
+        }
+    }, 
+    "containers": [
+        {
+            "accelerators": [
+                {
+                    "name": "vadd", 
+		    "clflags": "--config vadd_vadd.ini",
+                    "location": "src/vadd.cpp"
+                }
+            ], 
+            "name": "vadd"
+        }
+    ],
+    "launch": [
+        {
+            "cmd_args": "BUILD/vadd.xclbin", 
+            "name": "generic launch for all flows"
+        }
+    ], 
+    "contributors": [
+        {
+            "url": "http://www.xilinx.com", 
+            "group": "Xilinx"
+        }
+    ] 
+}
