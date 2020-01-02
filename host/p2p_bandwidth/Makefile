@@ -72,7 +72,7 @@ endif
 
 
 EXECUTABLE = host
-CMD_ARGS = $(BUILD_DIR)/copy_kernel.xclbin -r ./sample.txt
+CMD_ARGS = $(BUILD_DIR)/copy_kernel.xclbin -r /dev/nvme0n1
 EMCONFIG_DIR = $(TEMP_DIR)
 EMU_DIR = $(SDCARD)/data/emulation
 
@@ -126,7 +126,7 @@ endif
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 ifeq ($(HOST_ARCH), x86)
 	$(CP) $(EMCONFIG_DIR)/emconfig.json .
-	XCL_EMULATION_MODE=$(TARGET) ./$(EXECUTABLE) $(BUILD_DIR)/copy_kernel.xclbin -r ./sample.txt
+	XCL_EMULATION_MODE=$(TARGET) ./$(EXECUTABLE) $(BUILD_DIR)/copy_kernel.xclbin -r /dev/nvme0n1
 else
 	mkdir -p $(EMU_DIR)
 	$(CP) $(XILINX_VITIS)/data/emulation/unified $(EMU_DIR)
@@ -135,7 +135,7 @@ else
 endif
 else
 ifeq ($(HOST_ARCH), x86)
-	./$(EXECUTABLE) $(BUILD_DIR)/copy_kernel.xclbin -r ./sample.txt
+	./$(EXECUTABLE) $(BUILD_DIR)/copy_kernel.xclbin -r /dev/nvme0n1
 endif
 endif
 ifeq ($(HOST_ARCH), x86)
@@ -168,3 +168,4 @@ clean:
 cleanall: clean
 	-$(RMDIR) build_dir* sd_card*
 	-$(RMDIR) _x.* *xclbin.run_summary qemu-memory-_* emulation/ _vimage/ pl* start_simulation.sh *.xclbin
+

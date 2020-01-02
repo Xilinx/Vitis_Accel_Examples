@@ -1,5 +1,5 @@
 {
-    "name": "P2P byte copy Example", 
+    "name": "P2P bandwidth Example", 
     "description": [
         "This is simple example to test Synchronous and Asyncronous data transfer between SSD and FPGA."
     ],
@@ -30,7 +30,7 @@
         "match_ini": "false",
     "launch": [
         {
-            "cmd_args": "BUILD/copy_kernel.xclbin -r PROJECT/sample.txt", 
+            "cmd_args": "BUILD/copy_kernel.xclbin -r /dev/nvme0n1", 
             "name": "generic launch for all flows"
         }
     ], 
