@@ -57,6 +57,7 @@
             "name": "adder"
         }
     ],
+    "match_makefile": "false",
     "contributors": [
         {
             "url": "http://www.xilinx.com", 
