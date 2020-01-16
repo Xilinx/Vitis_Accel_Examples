@@ -12,7 +12,8 @@
     ],
     "key_concepts": [
         "P2P", 
-        "NVMe SSD"
+        "NVMe SSD",
+        "SmartSSD"
     ],
     "platform_type": "pcie",
     "os": [
