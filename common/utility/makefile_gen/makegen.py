@@ -96,10 +96,8 @@ def add_includes2(target, data):
     
         if "linker" in data["host"]:
                 if "options" in data["host"]["linker"]:
-                        target.write("\nCXXFLAGS +=")
-                        for option in data["host"]["linker"]["options"]:
-                                target.write(" ")
-                                target.write(option)
+                        target.write("\nCXXFLAGS += ")
+                        target.write(data["host"]["linker"]["options"])
         target.write("\n")                
         return
 
