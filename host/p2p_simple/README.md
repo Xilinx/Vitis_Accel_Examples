@@ -28,6 +28,6 @@ src/host.cpp
 ##  COMMAND LINE ARGUMENTS
 Once the environment has been configured, the application can be executed by
 ```
-./host <adder XCLBIN> ./sample.txt
+./host <adder XCLBIN> /dev/nvme0n1
 ```
 
