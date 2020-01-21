@@ -3,7 +3,7 @@ P2P Simple Example
 
 This is simple example of vector increment to describe P2P between FPGA and NVMe SSD.
 
-***KEY CONCEPTS:*** P2P, NVMe SSD
+***KEY CONCEPTS:*** P2P, NVMe SSD, SmartSSD
 
 ***KEYWORDS:*** XCL_MEM_EXT_P2P_BUFFER, pread, pwrite, O_DIRECT, O_RDWR
 
@@ -28,6 +28,6 @@ src/host.cpp
 ##  COMMAND LINE ARGUMENTS
 Once the environment has been configured, the application can be executed by
 ```
-./host <adder XCLBIN> ./sample.txt
+./host <adder XCLBIN> /dev/nvme0n1
 ```
 

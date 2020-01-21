@@ -12,7 +12,8 @@
     ],
     "key_concepts": [
         "P2P", 
-        "NVMe SSD"
+        "NVMe SSD",
+        "SmartSSD"
     ],
     "platform_type": "pcie",
     "os": [
@@ -31,7 +32,7 @@
         "match_ini": "false",
     "launch": [
         {
-            "cmd_args": "BUILD/adder.xclbin PROJECT/sample.txt", 
+            "cmd_args": "BUILD/adder.xclbin /dev/nvme0n1", 
             "name": "generic launch for all flows"
         }
     ], 

@@ -3,7 +3,7 @@ P2P bandwidth Example
 
 This is simple example to test Synchronous and Asyncronous data transfer between SSD and FPGA.
 
-***KEY CONCEPTS:*** P2P, SSD, XDMA
+***KEY CONCEPTS:*** P2P, SmartSSD, XDMA
 
 ***KEYWORDS:*** XCL_MEM_EXT_P2P_BUFFER, pread, pwrite
 
