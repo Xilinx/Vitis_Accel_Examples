@@ -4,7 +4,6 @@
         "This example uses two simple increment RTL kernels connected to each other via stream interface and connected to host via memory mapped C++ data mover kernels"
     ], 
     "config_make": "config.mk", 
-    "default_device": "xilinx_u200_qdma_201910_1", 
     "contributors": [
         {
             "url": "http://www.xilinx.com", 
