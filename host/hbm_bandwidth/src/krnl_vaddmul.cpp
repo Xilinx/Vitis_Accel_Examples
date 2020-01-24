@@ -50,14 +50,14 @@ void krnl_vaddmul(
 #pragma HLS INTERFACE m_axi port = out_add offset = slave bundle = gmem2
 #pragma HLS INTERFACE m_axi port = out_mul offset = slave bundle = gmem3
 
-#pragma HLS INTERFACE s_axilite port = in1 bundle = control
-#pragma HLS INTERFACE s_axilite port = in2 bundle = control
-#pragma HLS INTERFACE s_axilite port = out_add bundle = control
-#pragma HLS INTERFACE s_axilite port = out_mul bundle = control
+#pragma HLS INTERFACE s_axilite port = in1 
+#pragma HLS INTERFACE s_axilite port = in2 
+#pragma HLS INTERFACE s_axilite port = out_add 
+#pragma HLS INTERFACE s_axilite port = out_mul 
 
-#pragma HLS INTERFACE s_axilite port = size bundle = control
-#pragma HLS INTERFACE s_axilite port = num_times bundle = control
-#pragma HLS INTERFACE s_axilite port = return bundle = control
+#pragma HLS INTERFACE s_axilite port = size 
+#pragma HLS INTERFACE s_axilite port = num_times 
+#pragma HLS INTERFACE s_axilite port = return 
 
 #pragma HLS DATA_PACK variable = in1
 #pragma HLS DATA_PACK variable = in2

@@ -34,10 +34,10 @@ extern "C" {
     void mem_write(hls::stream<ap_axiu<32, 0, 0, 0> >& stream, int* mem, int size)
     {
 #pragma HLS interface m_axi port=mem offset=slave bundle=gmem0
-#pragma HLS interface s_axilite port=mem bundle=control
-#pragma HLS interface s_axilite port=size bundle=control
+#pragma HLS interface s_axilite port=mem 
+#pragma HLS interface s_axilite port=size 
 #pragma HLS interface axis port=stream
-#pragma HLS interface s_axilite port=return bundle=control
+#pragma HLS interface s_axilite port=return 
      
         for (int i = 0; i < size; i++) {
             ap_axiu<32, 0, 0, 0> v = stream.read();

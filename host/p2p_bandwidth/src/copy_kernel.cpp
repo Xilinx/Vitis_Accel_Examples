@@ -72,10 +72,10 @@ void copy(uintV_t *in,
 ) {
     #pragma HLS INTERFACE m_axi port = in offset = slave bundle = gmem
     #pragma HLS INTERFACE m_axi port = out offset = slave bundle = gmem
-    #pragma HLS INTERFACE s_axilite port = in bundle = control
-    #pragma HLS INTERFACE s_axilite port = out bundle = control
-    #pragma HLS INTERFACE s_axilite port = t_size bundle = control
-    #pragma HLS INTERFACE s_axilite port = return bundle = control
+    #pragma HLS INTERFACE s_axilite port = in 
+    #pragma HLS INTERFACE s_axilite port = out 
+    #pragma HLS INTERFACE s_axilite port = t_size 
+    #pragma HLS INTERFACE s_axilite port = return 
 
     uintV_t buffer_in[SIZE];
 	uintV_t buffer_out[SIZE];

@@ -57,7 +57,7 @@ void krnl_stream_vmult(hls::stream<pkt> &a,
    #pragma HLS INTERFACE axis port=a
    #pragma HLS INTERFACE axis port=b
    #pragma HLS INTERFACE axis port=output
-   #pragma HLS INTERFACE s_axilite port=return bundle=control
+   #pragma HLS INTERFACE s_axilite port=return 
 
     bool eos = false;
 vmult:

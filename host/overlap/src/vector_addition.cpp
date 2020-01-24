@@ -45,11 +45,11 @@ void vadd(int *c, int *a, int *b, const int elements) {
 #pragma HLS INTERFACE m_axi port = a offset = slave bundle = gmem
 #pragma HLS INTERFACE m_axi port = b offset = slave bundle = gmem
 
-#pragma HLS INTERFACE s_axilite port = c bundle = control
-#pragma HLS INTERFACE s_axilite port = a bundle = control
-#pragma HLS INTERFACE s_axilite port = b bundle = control
-#pragma HLS INTERFACE s_axilite port = elements bundle = control
-#pragma HLS INTERFACE s_axilite port = return bundle = control
+#pragma HLS INTERFACE s_axilite port = c 
+#pragma HLS INTERFACE s_axilite port = a 
+#pragma HLS INTERFACE s_axilite port = b 
+#pragma HLS INTERFACE s_axilite port = elements 
+#pragma HLS INTERFACE s_axilite port = return 
 
     int arrayA[BUFFER_SIZE];
     int arrayB[BUFFER_SIZE];

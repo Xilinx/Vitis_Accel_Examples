@@ -52,11 +52,11 @@ void krnl_vadd(const v_dt *in1,        // Read-Only Vector 1
 #pragma HLS INTERFACE m_axi port = in2 offset = slave bundle = gmem1
 #pragma HLS INTERFACE m_axi port = out_r offset = slave bundle = gmem0
 
-#pragma HLS INTERFACE s_axilite port = in1 bundle = control
-#pragma HLS INTERFACE s_axilite port = in2 bundle = control
-#pragma HLS INTERFACE s_axilite port = out_r bundle = control
-#pragma HLS INTERFACE s_axilite port = size bundle = control
-#pragma HLS INTERFACE s_axilite port = return bundle = control
+#pragma HLS INTERFACE s_axilite port = in1 
+#pragma HLS INTERFACE s_axilite port = in2 
+#pragma HLS INTERFACE s_axilite port = out_r 
+#pragma HLS INTERFACE s_axilite port = size 
+#pragma HLS INTERFACE s_axilite port = return 
 
 #pragma HLS DATA_PACK variable = in1
 #pragma HLS DATA_PACK variable = in2
