@@ -33,7 +33,6 @@ ABS_COMMON_REPO = $(shell readlink -f $(COMMON_REPO))
 TARGET := hw
 HOST_ARCH := x86
 SYSROOT := 
-DEVICE = xilinx_samsung_u2x4_201920_2
 
 include ./utils.mk
 

@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python 
 from sys import argv
 import json
 import glob
@@ -27,11 +27,6 @@ def create_params(target,data):
     target.write("TARGET := hw\n")
     target.write("HOST_ARCH := x86\n")
     target.write("SYSROOT := \n")
-    target.write("DEVICE = ")
-    if "default_device" in data:
-        target.write(data["default_device"] + "\n")
-    else:
-        target.write("xilinx_u200_xdma_201920_1\n")
     target.write("\n")
     target.write("include ./utils.mk\n")
     target.write("\n")
@@ -96,10 +91,8 @@ def add_includes2(target, data):
     
         if "linker" in data["host"]:
                 if "options" in data["host"]["linker"]:
-                        target.write("\nCXXFLAGS +=")
-                        for option in data["host"]["linker"]["options"]:
-                                target.write(" ")
-                                target.write(option)
+                        target.write("\nCXXFLAGS += ")
+                        target.write(data["host"]["linker"]["options"])
         target.write("\n")                
         return
 

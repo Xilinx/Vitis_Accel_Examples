@@ -33,7 +33,6 @@ ABS_COMMON_REPO = $(shell readlink -f $(COMMON_REPO))
 TARGET := hw
 HOST_ARCH := x86
 SYSROOT := 
-DEVICE = xilinx_u200_xdma_201920_1
 
 include ./utils.mk
 
@@ -118,19 +117,10 @@ endif
 ifeq ($(findstring zed, $(DEVICE)), zed)
 $(error This example is not supported for $(DEVICE))
 endif
-ifeq ($(findstring xilinx_v350-es1_xdma, $(DEVICE)), xilinx_v350-es1_xdma)
-$(error This example is not supported for $(DEVICE))
-endif
 ifeq ($(findstring xilinx_u50_xdma, $(DEVICE)), xilinx_u50_xdma)
 $(error This example is not supported for $(DEVICE))
 endif
 ifeq ($(findstring samsung, $(DEVICE)), samsung)
-$(error This example is not supported for $(DEVICE))
-endif
-ifeq ($(findstring xilinx:u50:xdma, $(DEVICE)), xilinx:u50:xdma)
-$(error This example is not supported for $(DEVICE))
-endif
-ifeq ($(findstring xilinx:v350-es1:xdma, $(DEVICE)), xilinx:v350-es1:xdma)
 $(error This example is not supported for $(DEVICE))
 endif
 

@@ -7,7 +7,6 @@
         "ap_ctrl_chain", 
         "PLRAM"
     ], 
-    "default_device": "xilinx_u200_qdma_201910_1", 
     "ndevice": [
         "xilinx_u50_xdma",
         "samsung",

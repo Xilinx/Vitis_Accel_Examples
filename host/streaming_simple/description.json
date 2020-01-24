@@ -12,7 +12,6 @@
         "Read/Write Stream", 
         "Create/Release Stream"
     ], 
-    "default_device": "xilinx_u200_qdma_201910_1", 
     "ndevice": [
         "zc",
         "xdma",
