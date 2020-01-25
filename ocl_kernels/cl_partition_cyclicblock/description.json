@@ -15,8 +15,8 @@
         "Cyclic Partition"
     ], 
     "ndevice": [
-        "zc702_base",
-        "zc706_base"
+        "zc702",
+        "zc706"
     ],
     "os": [
         "Linux"

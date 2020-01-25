@@ -4,12 +4,9 @@
         "This is a HBM bandwidth check design. Design contains 3 compute units of a kernel which has access to all HBM banks (0:31). Host application allocate buffer into all HBM banks and run these 3 compute units concurrently and measure the overall bandwidth between Kernel and HBM Memory."
     ],
     "ndevice": [
-        "xilinx_u200_xdma", 
-        "xilinx_u200_qdma", 
+        "u200", 
         "zc", 
-        "xilinx_u250_xdma", 
-        "xilinx_u250_qdma", 
-	"xilinx_u250_qep",
+	"u250",
 	"aws",
         "samsung"
     ], 

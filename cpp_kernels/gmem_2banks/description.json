@@ -2,7 +2,7 @@
     "ndevice": [
         "zc", 
 	"zed",
-       	"xilinx_u50_xdma",
+       	"u50",
        	"samsung"
     ], 
     "description": [
