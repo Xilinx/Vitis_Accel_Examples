@@ -48,11 +48,11 @@ void matmul_partition(int *in1, int *in2, int *out_r, int size) {
    #pragma HLS INTERFACE m_axi port=in1 offset=slave bundle=gmem
    #pragma HLS INTERFACE m_axi port=in2 offset=slave bundle=gmem
    #pragma HLS INTERFACE m_axi port=out_r offset=slave bundle=gmem
-   #pragma HLS INTERFACE s_axilite port=in1 bundle=control
-   #pragma HLS INTERFACE s_axilite port=in2 bundle=control
-   #pragma HLS INTERFACE s_axilite port=out_r bundle=control
-   #pragma HLS INTERFACE s_axilite port=size bundle=control
-   #pragma HLS INTERFACE s_axilite port=return bundle=control
+   #pragma HLS INTERFACE s_axilite port=in1 
+   #pragma HLS INTERFACE s_axilite port=in2 
+   #pragma HLS INTERFACE s_axilite port=out_r 
+   #pragma HLS INTERFACE s_axilite port=size 
+   #pragma HLS INTERFACE s_axilite port=return 
 
     // Local buffers to hold input data
     int A[MAX_SIZE][MAX_SIZE];

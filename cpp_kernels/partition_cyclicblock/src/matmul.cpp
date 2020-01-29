@@ -44,11 +44,11 @@ void matmul_naive(const int *in1, // Read-Only Matrix 1
 #pragma HLS INTERFACE m_axi port = in1 offset = slave bundle = gmem
 #pragma HLS INTERFACE m_axi port = in2 offset = slave bundle = gmem
 #pragma HLS INTERFACE m_axi port = out_r offset = slave bundle = gmem
-#pragma HLS INTERFACE s_axilite port = in1 bundle = control
-#pragma HLS INTERFACE s_axilite port = in2 bundle = control
-#pragma HLS INTERFACE s_axilite port = out_r bundle = control
-#pragma HLS INTERFACE s_axilite port = dim bundle = control
-#pragma HLS INTERFACE s_axilite port = return bundle = control
+#pragma HLS INTERFACE s_axilite port = in1 
+#pragma HLS INTERFACE s_axilite port = in2 
+#pragma HLS INTERFACE s_axilite port = out_r 
+#pragma HLS INTERFACE s_axilite port = dim 
+#pragma HLS INTERFACE s_axilite port = return 
 
     // Local memory is implemented as BRAM memory blocks
     int A[MAX_DIM * MAX_DIM];

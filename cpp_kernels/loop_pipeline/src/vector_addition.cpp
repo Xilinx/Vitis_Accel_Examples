@@ -64,11 +64,11 @@ void vadd_pipelined(int *c, const int *a, const int *b, const int len) {
 #pragma HLS INTERFACE m_axi port = c offset = slave bundle = gmem
 #pragma HLS INTERFACE m_axi port = a offset = slave bundle = gmem
 #pragma HLS INTERFACE m_axi port = b offset = slave bundle = gmem
-#pragma HLS INTERFACE s_axilite port = c bundle = control
-#pragma HLS INTERFACE s_axilite port = a bundle = control
-#pragma HLS INTERFACE s_axilite port = b bundle = control
-#pragma HLS INTERFACE s_axilite port = len bundle = control
-#pragma HLS INTERFACE s_axilite port = return bundle = control
+#pragma HLS INTERFACE s_axilite port = c 
+#pragma HLS INTERFACE s_axilite port = a 
+#pragma HLS INTERFACE s_axilite port = b 
+#pragma HLS INTERFACE s_axilite port = len 
+#pragma HLS INTERFACE s_axilite port = return 
 
     int result[N];
     int iterations = len / N;

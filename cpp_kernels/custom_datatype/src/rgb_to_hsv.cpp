@@ -42,10 +42,10 @@ void rgb_to_hsv(RGBcolor *in,  // Access global memory as RGBcolor struct-wise
                 int size) {
 #pragma HLS INTERFACE m_axi port = in offset = slave bundle = gmem
 #pragma HLS INTERFACE m_axi port = out offset = slave bundle = gmem
-#pragma HLS INTERFACE s_axilite port = in bundle = control
-#pragma HLS INTERFACE s_axilite port = out bundle = control
-#pragma HLS INTERFACE s_axilite port = size bundle = control
-#pragma HLS INTERFACE s_axilite port = return bundle = control
+#pragma HLS INTERFACE s_axilite port = in 
+#pragma HLS INTERFACE s_axilite port = out 
+#pragma HLS INTERFACE s_axilite port = size 
+#pragma HLS INTERFACE s_axilite port = return 
 
     //data_pack pragma is provided to 'in' and 'out' arguments to instruct
     //compiler to do full structure access (all elements of structure).
