@@ -108,22 +108,13 @@ $(EMCONFIG_DIR)/emconfig.json:
 	emconfigutil --platform $(DEVICE) --od $(EMCONFIG_DIR)
 
 check: all
-ifeq ($(findstring xilinx_u200_xdma, $(DEVICE)), xilinx_u200_xdma)
-$(error This example is not supported for $(DEVICE))
-endif
-ifeq ($(findstring xilinx_u200_qdma, $(DEVICE)), xilinx_u200_qdma)
+ifeq ($(findstring u200, $(DEVICE)), u200)
 $(error This example is not supported for $(DEVICE))
 endif
 ifeq ($(findstring zc, $(DEVICE)), zc)
 $(error This example is not supported for $(DEVICE))
 endif
-ifeq ($(findstring xilinx_u250_xdma, $(DEVICE)), xilinx_u250_xdma)
-$(error This example is not supported for $(DEVICE))
-endif
-ifeq ($(findstring xilinx_u250_qdma, $(DEVICE)), xilinx_u250_qdma)
-$(error This example is not supported for $(DEVICE))
-endif
-ifeq ($(findstring xilinx_u250_qep, $(DEVICE)), xilinx_u250_qep)
+ifeq ($(findstring u250, $(DEVICE)), u250)
 $(error This example is not supported for $(DEVICE))
 endif
 ifeq ($(findstring aws, $(DEVICE)), aws)

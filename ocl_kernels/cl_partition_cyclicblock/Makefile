@@ -110,10 +110,10 @@ $(EMCONFIG_DIR)/emconfig.json:
 	emconfigutil --platform $(DEVICE) --od $(EMCONFIG_DIR)
 
 check: all
-ifeq ($(findstring zc702_base, $(DEVICE)), zc702_base)
+ifeq ($(findstring zc702, $(DEVICE)), zc702)
 $(error This example is not supported for $(DEVICE))
 endif
-ifeq ($(findstring zc706_base, $(DEVICE)), zc706_base)
+ifeq ($(findstring zc706, $(DEVICE)), zc706)
 $(error This example is not supported for $(DEVICE))
 endif
 

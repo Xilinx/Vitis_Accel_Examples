@@ -4,7 +4,7 @@
         "Bandwidth test of global to local memory."
     ], 
     "ndevice": [
-	"xilinx_u50_xdma",
+	"u50",
 	"zc"
     ], 
     "os": [

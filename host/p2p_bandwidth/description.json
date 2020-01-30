@@ -46,7 +46,8 @@
             ]
         },
         "linker" : {
-            "options" : "-laio"
+            "options" : ["-laio"
+                ]
         }
     },  
     "containers": [

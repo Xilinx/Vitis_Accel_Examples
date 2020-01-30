@@ -4,8 +4,8 @@
         "Host to global memory bandwidth test"
     ],
     "ndevice": [
-      	"xilinx_u50_xdma",
-	"xilinx_u280_xdma",
+      	"u50",
+	"u280",
 	"samsung",
 	"zc"
     ], 
