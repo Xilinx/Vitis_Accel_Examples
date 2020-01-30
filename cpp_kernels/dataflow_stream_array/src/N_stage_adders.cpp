@@ -128,11 +128,11 @@ extern "C" {
 void N_stage_Adders(int *input, int *output, int incr, int size) {
 #pragma HLS INTERFACE m_axi port = input offset = slave bundle = gmem
 #pragma HLS INTERFACE m_axi port = output offset = slave bundle = gmem
-#pragma HLS INTERFACE s_axilite port = input bundle = control
-#pragma HLS INTERFACE s_axilite port = output bundle = control
-#pragma HLS INTERFACE s_axilite port = incr bundle = control
-#pragma HLS INTERFACE s_axilite port = size bundle = control
-#pragma HLS INTERFACE s_axilite port = return bundle = control
+#pragma HLS INTERFACE s_axilite port = input 
+#pragma HLS INTERFACE s_axilite port = output 
+#pragma HLS INTERFACE s_axilite port = incr 
+#pragma HLS INTERFACE s_axilite port = size 
+#pragma HLS INTERFACE s_axilite port = return 
 
     //array of stream declaration
     static hls::stream<int> streamArray[STAGES + 1];

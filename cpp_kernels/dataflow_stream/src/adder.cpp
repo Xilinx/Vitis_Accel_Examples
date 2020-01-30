@@ -127,11 +127,11 @@ extern "C" {
 void adder(unsigned int *in, unsigned int *out, int inc, int size) {
 #pragma HLS INTERFACE m_axi port = in offset = slave bundle = gmem
 #pragma HLS INTERFACE m_axi port = out offset = slave bundle = gmem
-#pragma HLS INTERFACE s_axilite port = in bundle = control
-#pragma HLS INTERFACE s_axilite port = out bundle = control
-#pragma HLS INTERFACE s_axilite port = inc bundle = control
-#pragma HLS INTERFACE s_axilite port = size bundle = control
-#pragma HLS INTERFACE s_axilite port = return bundle = control
+#pragma HLS INTERFACE s_axilite port = in 
+#pragma HLS INTERFACE s_axilite port = out 
+#pragma HLS INTERFACE s_axilite port = inc 
+#pragma HLS INTERFACE s_axilite port = size 
+#pragma HLS INTERFACE s_axilite port = return 
 
     //Adding names for the streams. It allows the name to be used in reporting. Vivado HLS
     //automatically checks to ensure all elements from an input stream are read during sw emulation.

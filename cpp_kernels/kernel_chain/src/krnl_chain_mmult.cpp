@@ -38,14 +38,14 @@ void krnl_chain_mmult(int *a, int *b, int *c, int *d, int *output, int dim) {
    #pragma HLS INTERFACE m_axi port = c offset = slave bundle = gmem2
    #pragma HLS INTERFACE m_axi port = d offset = slave bundle = gmem3
    #pragma HLS INTERFACE m_axi port = output offset = slave bundle = gmem3
-   #pragma HLS INTERFACE s_axilite port = a bundle = control
-   #pragma HLS INTERFACE s_axilite port = b bundle = control
-   #pragma HLS INTERFACE s_axilite port = c bundle = control
-   #pragma HLS INTERFACE s_axilite port = d bundle = control
-   #pragma HLS INTERFACE s_axilite port = output bundle = control
-   #pragma HLS INTERFACE s_axilite port = dim bundle = control
-   #pragma HLS INTERFACE s_axilite port = return bundle = control
-   #pragma HLS INTERFACE ap_ctrl_chain port = return bundle = control
+   #pragma HLS INTERFACE s_axilite port = a 
+   #pragma HLS INTERFACE s_axilite port = b 
+   #pragma HLS INTERFACE s_axilite port = c 
+   #pragma HLS INTERFACE s_axilite port = d 
+   #pragma HLS INTERFACE s_axilite port = output 
+   #pragma HLS INTERFACE s_axilite port = dim 
+   #pragma HLS INTERFACE s_axilite port = return 
+   #pragma HLS INTERFACE ap_ctrl_chain port = return 
 
    #pragma HLS STABLE variable=a
    #pragma HLS STABLE variable=b

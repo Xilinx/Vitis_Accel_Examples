@@ -58,11 +58,11 @@ extern "C" {
 void apply_watermark(const TYPE *input, TYPE *output, int width, int height) {
 #pragma HLS INTERFACE m_axi port = input offset = slave bundle = gmem
 #pragma HLS INTERFACE m_axi port = output offset = slave bundle = gmem
-#pragma HLS INTERFACE s_axilite port = input bundle = control
-#pragma HLS INTERFACE s_axilite port = output bundle = control
-#pragma HLS INTERFACE s_axilite port = width bundle = control
-#pragma HLS INTERFACE s_axilite port = height bundle = control
-#pragma HLS INTERFACE s_axilite port = return bundle = control
+#pragma HLS INTERFACE s_axilite port = input 
+#pragma HLS INTERFACE s_axilite port = output 
+#pragma HLS INTERFACE s_axilite port = width 
+#pragma HLS INTERFACE s_axilite port = height 
+#pragma HLS INTERFACE s_axilite port = return 
 
 #pragma HLS DATA_PACK variable = input
 #pragma HLS DATA_PACK variable = output

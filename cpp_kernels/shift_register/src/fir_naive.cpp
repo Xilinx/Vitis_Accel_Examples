@@ -73,11 +73,11 @@ void fir_naive(int *output_r, int *signal_r, int *coeff, int signal_length) {
 #pragma HLS INTERFACE m_axi port = output_r offset = slave bundle = gmem
 #pragma HLS INTERFACE m_axi port = signal_r offset = slave bundle = gmem
 #pragma HLS INTERFACE m_axi port = coeff offset = slave bundle = gmem
-#pragma HLS INTERFACE s_axilite port = output_r bundle = control
-#pragma HLS INTERFACE s_axilite port = signal_r bundle = control
-#pragma HLS INTERFACE s_axilite port = coeff bundle = control
-#pragma HLS INTERFACE s_axilite port = signal_length bundle = control
-#pragma HLS INTERFACE s_axilite port = return bundle = control
+#pragma HLS INTERFACE s_axilite port = output_r 
+#pragma HLS INTERFACE s_axilite port = signal_r 
+#pragma HLS INTERFACE s_axilite port = coeff 
+#pragma HLS INTERFACE s_axilite port = signal_length 
+#pragma HLS INTERFACE s_axilite port = return 
 
     int coeff_reg[N_COEFF];
 read_coef:
