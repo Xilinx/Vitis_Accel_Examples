@@ -44,9 +44,9 @@ void krnl_s2mm(ap_uint<512> *out,    // Write only memory mapped
 ) {
 #pragma HLS INTERFACE m_axi port = out offset = slave bundle = gmem
 #pragma HLS INTERFACE axis port = in
-#pragma HLS INTERFACE s_axilite port = out bundle = control
-#pragma HLS INTERFACE s_axilite port = size bundle = control
-#pragma HLS INTERFACE s_axilite port = return bundle = control
+#pragma HLS INTERFACE s_axilite port = out 
+#pragma HLS INTERFACE s_axilite port = size 
+#pragma HLS INTERFACE s_axilite port = return 
 
 data_mover:
 
