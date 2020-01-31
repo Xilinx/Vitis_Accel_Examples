@@ -12,6 +12,9 @@ help::
 	$(ECHO) "  make cleanall"
 	$(ECHO) "      Command to remove all the generated files."
 	$(ECHO) ""
+	$(ECHO)  "  make test DEVICE=<FPGA platform>"
+	$(ECHO)  "     Command to run the application. This is same as 'check' target but does not have any makefile dependency."
+	$ECHO)  ""
 	$(ECHO) "  make sd_card TARGET=<sw_emu/hw_emu/hw> DEVICE=<FPGA platform> HOST_ARCH=<aarch32/aarch64/x86> SYSROOT=<sysroot_path>"
 	$(ECHO) "      Command to prepare sd_card files."
 	$(ECHO) "      By default, HOST_ARCH=x86. HOST_ARCH and SYSROOT is required for SoC shells"
@@ -126,6 +129,11 @@ endif
 ifeq ($(HOST_ARCH), x86)
 	perf_analyze profile -i profile_summary.csv -f html
 endif
+
+.PHONY: test
+test:
+	./$(EXECUTABLE) $(CMD_ARGS)
+
 
 sd_card: $(EXECUTABLE) $(BINARY_CONTAINERS) emconfig
 ifneq ($(HOST_ARCH), x86)
