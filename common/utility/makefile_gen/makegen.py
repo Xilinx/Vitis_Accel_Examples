@@ -444,7 +444,11 @@ def mk_check(target, data):
     else:
         print("xrt.ini config file not found")		
     target.write("\n")
-
+    
+    target.write(".PHONY: test\n")
+    target.write("test:\n")
+    target.write("\t./$(EXECUTABLE) $(CMD_ARGS)\n")
+    target.write("\n\n")
 
     target.write("sd_card: $(EXECUTABLE) $(BINARY_CONTAINERS) emconfig\n")
     target.write("ifneq ($(HOST_ARCH), x86)\n")
@@ -499,6 +503,11 @@ def mk_help(target):
     target.write("\t$(ECHO) \"  make cleanall\"\n")
     target.write("\t$(ECHO) \"      Command to remove all the generated files.\"\n")
     target.write("\t$(ECHO) \"\"\n")
+    target.write("\t$(ECHO)  \"  make test DEVICE=<FPGA platform>\"\n")    
+    target.write("\t$(ECHO)  \"     Command to run the application. This is same as 'check' target but does not have any makefile dependency.\"\n")  
+    target.write("\t$ECHO)  \"\"\n")
+
+
     target.write("\t$(ECHO) \"  make sd_card TARGET=<sw_emu/hw_emu/hw> DEVICE=<FPGA platform> HOST_ARCH=<aarch32/aarch64/x86> SYSROOT=<sysroot_path>\"\n");
     target.write("\t$(ECHO) \"      Command to prepare sd_card files.\"\n")
     target.write("\t$(ECHO) \"      By default, HOST_ARCH=x86. HOST_ARCH and SYSROOT is required for SoC shells\"\n")
