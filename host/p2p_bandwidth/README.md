@@ -15,6 +15,7 @@ u200
 u250
 u50
 u280
+aws
 ```
 
 ##  DESIGN FILES
