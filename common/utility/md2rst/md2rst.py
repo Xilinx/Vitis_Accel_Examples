@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env /tools/cpkg/.packages/x86_64/RHEL7.2/python/3.7.1/bin/python3.7  
 import json
 import os
 import subprocess
