@@ -1,5 +1,5 @@
 // /*******************************************************************************
-// Copyright (c) 2018, Xilinx, Inc.
+// Copyright (c) 2019, Xilinx, Inc.
 // All rights reserved.
 // 
 // Redistribution and use in source and binary forms, with or without modification,
@@ -110,7 +110,8 @@ module krnl_vadd_rtl_0 #(
   output wire [1:0]                              s_axi_control_RRESP,
   output wire                                    s_axi_control_BVALID,
   input  wire                                    s_axi_control_BREADY,
-  output wire [1:0]                              s_axi_control_BRESP 
+  output wire [1:0]                              s_axi_control_BRESP,
+  output wire                                    interrupt 
 );
 
 krnl_vadd_rtl_int #(
@@ -178,7 +179,8 @@ inst_krnl_vadd_rtl_int (
   .s_axi_control_RRESP    ( s_axi_control_RRESP ),
   .s_axi_control_BVALID   ( s_axi_control_BVALID ),
   .s_axi_control_BREADY   ( s_axi_control_BREADY ),
-  .s_axi_control_BRESP    ( s_axi_control_BRESP )
+  .s_axi_control_BRESP    ( s_axi_control_BRESP ),
+  .interrupt              ( interrupt )
 );
 endmodule : krnl_vadd_rtl_0
 
