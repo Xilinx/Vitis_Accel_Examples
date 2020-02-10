@@ -54,30 +54,16 @@ if {[file exists "project_1"]} {
 }
 
 set fid [open $pinfo r]
-set fpgapart "fpgaPart"
+set bpart "part"
 while { ! [eof $fid] } {
     gets $fid line
     if { [regexp {([^:[:space:]]+): (.*),$} $line match left right] } {
 	regsub -all {\"} $left {} left
 	regsub -all {\"} $right {} right
-	if { $left eq $fpgapart } {
-	    if { [string match {*:*} $right] } {
-            set fields [split $right ":"]
-            set llen [llength $fields]
-	        set f0 [lindex $fields 0]
-	        set f1 [lindex $fields 1]
-	        set f2 [lindex $fields 2]
-	        set f3 [lindex $fields 3]
-	        set f4 [lindex $fields 4]
-            if { $llen eq 6 } {
-                 set f5 [lindex $fields 5]
-            set partname "${f1}-${f2}${f3}-${f4}-${f5}"
-               } else {
-                set partname "${f1}-${f2}${f3}-${f4}"
-               }
-            puts "partname = $partname\n"
-            break
-	    }
+	if { $left eq $bpart } {
+	    set partname $right
+ 	    puts "partname = $partname\n"
+	    break
         }
     }
 }

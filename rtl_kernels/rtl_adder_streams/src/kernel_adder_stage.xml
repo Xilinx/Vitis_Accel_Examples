@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root versionMajor="1" versionMinor="0">
-  <kernel name="krnl_adder_stage_rtl" language="ip" vlnv="xilinx.com:RTLKernel:krnl_adder_stage_rtl:1.0" attributes="" preferredWorkGroupSizeMultiple="0" workGroupSize="1" interrupt="true">
+  <kernel name="krnl_adder_stage_rtl" language="ip" vlnv="xilinx.com:RTLKernel:krnl_adder_stage_rtl:1.0" attributes="" preferredWorkGroupSizeMultiple="0" workGroupSize="1" interrupt="true" hwControlProtocol="ap_ctrl_hs">
     <ports>
       <port name="s_axi_control" mode="slave" range="0x1000" dataWidth="32" portType="addressable" base="0x0"/>
       <port name="p0" mode="read_only" dataWidth="32" portType="stream"/>

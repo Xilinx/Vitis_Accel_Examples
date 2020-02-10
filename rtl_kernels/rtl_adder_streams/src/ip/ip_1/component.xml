@@ -551,6 +551,10 @@
           <spirit:name>ASSOCIATED_BUSIF</spirit:name>
           <spirit:value spirit:id="BUSIFPARAM_VALUE.AP_CLK.ASSOCIATED_BUSIF">m_axi_gmem:s_axi_control:p0</spirit:value>
         </spirit:parameter>
+        <spirit:parameter>
+          <spirit:name>FREQ_HZ</spirit:name>
+          <spirit:value spirit:resolve="user" spirit:id="BUSIFPARAM_VALUE.AP_CLK.FREQ_HZ">250000000</spirit:value>
+        </spirit:parameter>
       </spirit:parameters>
     </spirit:busInterface>
     <spirit:busInterface>
@@ -571,7 +575,7 @@
       <spirit:parameters>
         <spirit:parameter>
           <spirit:name>SENSITIVITY</spirit:name>
-          <spirit:value spirit:id="BUSIFPARAM_VALUE.INTERRUPT.SENSITIVITY" spirit:choiceRef="choice_list_9ca20931">LEVEL_HIGH</spirit:value>
+          <spirit:value spirit:id="BUSIFPARAM_VALUE.INTERRUPT.SENSITIVITY" spirit:choiceRef="choice_list_99a1d2b9">LEVEL_HIGH</spirit:value>
         </spirit:parameter>
       </spirit:parameters>
     </spirit:busInterface>
@@ -652,8 +656,8 @@
           <spirit:field>
             <spirit:name>RESERVED_1</spirit:name>
             <spirit:description>Reserved.  0s on read.</spirit:description>
-            <spirit:bitOffset>5</spirit:bitOffset>
-            <spirit:bitWidth>2</spirit:bitWidth>
+            <spirit:bitOffset>4</spirit:bitOffset>
+            <spirit:bitWidth>3</spirit:bitWidth>
             <spirit:access>read-only</spirit:access>
             <spirit:writeValueConstraint>
               <spirit:minimum>0</spirit:minimum>
@@ -711,16 +715,17 @@
           <spirit:name>input_r</spirit:name>
           <spirit:addressOffset>0x010</spirit:addressOffset>
           <spirit:size spirit:format="long">64</spirit:size>
+          <spirit:parameters>
+            <spirit:parameter>
+              <spirit:name>ASSOCIATED_BUSIF</spirit:name>
+              <spirit:value>m_axi_gmem</spirit:value>
+            </spirit:parameter>
+          </spirit:parameters>
         </spirit:register>
         <spirit:register>
           <spirit:name>size</spirit:name>
           <spirit:addressOffset>0x01C</spirit:addressOffset>
-          <spirit:size spirit:format="long">64</spirit:size>
-        </spirit:register>
-        <spirit:register>
-          <spirit:name>p0</spirit:name>
-          <spirit:addressOffset>0x024</spirit:addressOffset>
-          <spirit:size spirit:format="long">64</spirit:size>
+          <spirit:size spirit:format="long">32</spirit:size>
         </spirit:register>
       </spirit:addressBlock>
     </spirit:memoryMap>
@@ -739,7 +744,7 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>viewChecksum</spirit:name>
-            <spirit:value>e5569a3d</spirit:value>
+            <spirit:value>decc15a7</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -755,7 +760,7 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>viewChecksum</spirit:name>
-            <spirit:value>e5569a3d</spirit:value>
+            <spirit:value>decc15a7</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -769,7 +774,7 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>viewChecksum</spirit:name>
-            <spirit:value>c321f143</spirit:value>
+            <spirit:value>d6344c0c</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -1815,6 +1820,13 @@
   </spirit:model>
   <spirit:choices>
     <spirit:choice>
+      <spirit:name>choice_list_99a1d2b9</spirit:name>
+      <spirit:enumeration>LEVEL_HIGH</spirit:enumeration>
+      <spirit:enumeration>LEVEL_LOW</spirit:enumeration>
+      <spirit:enumeration>EDGE_RISING</spirit:enumeration>
+      <spirit:enumeration>EDGE_FALLING</spirit:enumeration>
+    </spirit:choice>
+    <spirit:choice>
       <spirit:name>choice_list_9d8b0d81</spirit:name>
       <spirit:enumeration>ACTIVE_HIGH</spirit:enumeration>
       <spirit:enumeration>ACTIVE_LOW</spirit:enumeration>
@@ -1846,7 +1858,7 @@
       <spirit:file>
         <spirit:name>src/krnl_input_stage_rtl.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
-        <spirit:userFileType>CHECKSUM_46cdb2c7</spirit:userFileType>
+        <spirit:userFileType>CHECKSUM_f9e49bc5</spirit:userFileType>
         <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
       </spirit:file>
     </spirit:fileSet>
@@ -1883,7 +1895,7 @@
       <spirit:file>
         <spirit:name>xgui/krnl_input_stage_rtl_v1_0.tcl</spirit:name>
         <spirit:fileType>tclSource</spirit:fileType>
-        <spirit:userFileType>CHECKSUM_c321f143</spirit:userFileType>
+        <spirit:userFileType>CHECKSUM_d6344c0c</spirit:userFileType>
         <spirit:userFileType>XGUI_VERSION_2</spirit:userFileType>
       </spirit:file>
     </spirit:fileSet>
@@ -1908,22 +1920,21 @@
         <xilinx:xpmLibrary>XPM_MEMORY</xilinx:xpmLibrary>
         <xilinx:xpmLibrary>XPM_FIFO</xilinx:xpmLibrary>
       </xilinx:xpmLibraries>
-      <xilinx:coreRevision>5</xilinx:coreRevision>
-      <xilinx:coreCreationDateTime>2019-06-07T04:15:57Z</xilinx:coreCreationDateTime>
+      <xilinx:coreRevision>2</xilinx:coreRevision>
+      <xilinx:coreCreationDateTime>2019-11-05T19:58:20Z</xilinx:coreCreationDateTime>
       <xilinx:sdxKernelAttributes>
         <xilinx:sdx_kernel>true</xilinx:sdx_kernel>
         <xilinx:sdx_kernel_type>rtl</xilinx:sdx_kernel_type>
       </xilinx:sdxKernelAttributes>
     </xilinx:coreExtensions>
     <xilinx:packagingInfo>
-      <xilinx:xilinxVersion>2019.1</xilinx:xilinxVersion>
-      <xilinx:checksum xilinx:scope="busInterfaces" xilinx:value="6dec05f5"/>
+      <xilinx:xilinxVersion>2019.2</xilinx:xilinxVersion>
+      <xilinx:checksum xilinx:scope="busInterfaces" xilinx:value="25dc1d1d"/>
       <xilinx:checksum xilinx:scope="addressSpaces" xilinx:value="25c28554"/>
-      <xilinx:checksum xilinx:scope="memoryMaps" xilinx:value="04219c6e"/>
-      <xilinx:checksum xilinx:scope="fileGroups" xilinx:value="87dcc153"/>
-      <xilinx:checksum xilinx:scope="ports" xilinx:value="4a6cd6e5"/>
+      <xilinx:checksum xilinx:scope="memoryMaps" xilinx:value="433cccc3"/>
+      <xilinx:checksum xilinx:scope="fileGroups" xilinx:value="bb07dcdc"/>
+      <xilinx:checksum xilinx:scope="ports" xilinx:value="22932820"/>
       <xilinx:checksum xilinx:scope="hdlParameters" xilinx:value="eacf593b"/>
-      <xilinx:checksum xilinx:scope="parameters" xilinx:value="08bdd2f0"/>
     </xilinx:packagingInfo>
   </spirit:vendorExtensions>
 </spirit:component>
