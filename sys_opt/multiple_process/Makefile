@@ -136,9 +136,6 @@ ifneq ($(TARGET),$(findstring $(TARGET), hw))
 $(warning WARNING:Application supports only hw TARGET. Please use the target for running the application)
 endif
 
-ifeq ($(HOST_ARCH), x86)
-	perf_analyze profile -i profile_summary.csv -f html
-endif
 
 .PHONY: test
 test:

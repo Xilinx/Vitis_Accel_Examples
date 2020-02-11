@@ -128,9 +128,6 @@ ifeq ($(HOST_ARCH), x86)
 	./$(EXECUTABLE) $(BUILD_DIR)/mmult.xclbin
 endif
 endif
-ifeq ($(HOST_ARCH), x86)
-	perf_analyze profile -i profile_summary.csv -f html
-endif
 
 .PHONY: test
 test:
