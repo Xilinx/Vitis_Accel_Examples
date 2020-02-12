@@ -130,7 +130,7 @@ endif
 endif
 
 .PHONY: test
-test:
+test: $(EXECUTABLE)
 	./$(EXECUTABLE) $(CMD_ARGS)
 
 

@@ -426,7 +426,7 @@ def mk_check(target, data):
     target.write("\n")
     
     target.write(".PHONY: test\n")
-    target.write("test:\n")
+    target.write("test: $(EXECUTABLE)\n")
     target.write("\t./$(EXECUTABLE) $(CMD_ARGS)\n")
     target.write("\n\n")
 
