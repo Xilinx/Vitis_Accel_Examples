@@ -58,10 +58,6 @@ void krnl_vadd(const v_dt *in1,        // Read-Only Vector 1
 #pragma HLS INTERFACE s_axilite port = size 
 #pragma HLS INTERFACE s_axilite port = return 
 
-#pragma HLS DATA_PACK variable = in1
-#pragma HLS DATA_PACK variable = in2
-#pragma HLS DATA_PACK variable = out_r
-
     unsigned int vSize = ((size - 1) / VDATA_SIZE) + 1;
 
 vadd1:

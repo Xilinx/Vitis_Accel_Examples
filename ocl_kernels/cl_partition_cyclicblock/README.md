@@ -10,8 +10,8 @@ This example shows how to use array block and cyclic partitioning to improve per
 ## EXCLUDED PLATFORMS
 Platforms containing following strings in their names are not supported for this example :
 ```
-zc702_base
-zc706_base
+zc702
+zc706
 ```
 
 ##  DESIGN FILES

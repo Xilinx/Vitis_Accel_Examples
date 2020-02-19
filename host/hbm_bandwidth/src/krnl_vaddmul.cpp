@@ -59,11 +59,6 @@ void krnl_vaddmul(
 #pragma HLS INTERFACE s_axilite port = num_times 
 #pragma HLS INTERFACE s_axilite port = return 
 
-#pragma HLS DATA_PACK variable = in1
-#pragma HLS DATA_PACK variable = in2
-#pragma HLS DATA_PACK variable = out_add
-#pragma HLS DATA_PACK variable = out_mul
-
     unsigned int vSize = ((size - 1) / VDATA_SIZE) + 1;
 
     v_dt tmpIn1, tmpIn2;

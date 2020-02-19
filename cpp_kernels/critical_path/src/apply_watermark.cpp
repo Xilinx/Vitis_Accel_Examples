@@ -64,9 +64,6 @@ void apply_watermark(const TYPE *input, TYPE *output, int width, int height) {
 #pragma HLS INTERFACE s_axilite port = height 
 #pragma HLS INTERFACE s_axilite port = return 
 
-#pragma HLS DATA_PACK variable = input
-#pragma HLS DATA_PACK variable = output
-
     //WaterMark Image of 16x16 size
     int watermark[WATERMARK_HEIGHT][WATERMARK_WIDTH] = {
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},

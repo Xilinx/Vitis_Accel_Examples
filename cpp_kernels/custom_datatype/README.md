@@ -5,7 +5,7 @@ This is simple example of RGB to HSV conversion to demonstrate Custom DATA Type 
 
 ***KEY CONCEPTS:*** Custom Datatype
 
-***KEYWORDS:*** struct, #pragma HLS data_pack, #pragma HLS LOOP_TRIPCOUNT
+***KEYWORDS:*** struct, #pragma HLS LOOP_TRIPCOUNT
 
 ##  DESIGN FILES
 Application code is located in the src directory. Accelerator binary files will be compiled to the xclbin directory. The xclbin directory is required by the Makefile and its contents will be filled during compilation. A listing of all the files in this example is shown below

@@ -7,6 +7,13 @@ This is simple example of vector addition to demonstrate Wide Memory Access usin
 
 ***KEYWORDS:*** uint16, xcl_pipeline_loop
 
+## EXCLUDED PLATFORMS
+Platforms containing following strings in their names are not supported for this example :
+```
+zc702
+zc706
+```
+
 ##  DESIGN FILES
 Application code is located in the src directory. Accelerator binary files will be compiled to the xclbin directory. The xclbin directory is required by the Makefile and its contents will be filled during compilation. A listing of all the files in this example is shown below
 

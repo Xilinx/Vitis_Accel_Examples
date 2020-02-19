@@ -10,12 +10,10 @@ This is a simple example of vector addition to describe how to use HLS kernels w
 ## EXCLUDED PLATFORMS
 Platforms containing following strings in their names are not supported for this example :
 ```
-xilinx_u200_xdma
-xilinx_u200_qdma
+u200
 zc
-xilinx_u250_xdma
-xilinx_u250_qdma
-xilinx_u250_qep
+u250
+aws
 samsung
 ```
 

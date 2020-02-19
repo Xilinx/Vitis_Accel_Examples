@@ -8,7 +8,7 @@ This is a kernel containing the cascaded Matrix Multiplication using dataflow. a
 ## EXCLUDED PLATFORMS
 Platforms containing following strings in their names are not supported for this example :
 ```
-xilinx_u50_xdma
+u50
 samsung
 zc
 ```

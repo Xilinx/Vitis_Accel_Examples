@@ -5,7 +5,6 @@
     ], 
     "keywords": [
         "struct", 
-        "#pragma HLS data_pack", 
         "#pragma HLS LOOP_TRIPCOUNT"
     ], 
     "key_concepts": [
