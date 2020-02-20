@@ -1,0 +1,71 @@
+{
+    "name": "K Means", 
+    "description": [
+        "This is HLS C based K-Means clustering Implementation for Xilinx FPGA Devices. K-means clustering is a method of vector quantization, that is popular for cluster analysis in data mining. K-means clustering aims to partition n observations into k clusters in which each observation belongs to the cluster with the nearest mean, serving as a prototype of the cluster.\n\nCommand line argument flags:\n\n-x  :    Used to specify kernel xclbin\n\n-i  :    File containing data to be clustered\n\n-c  :    Golden file for comparison\n\n-n  :    Used to specify number of clusters\n\n-o  :    Output cluster center coordinates(default=off)\n\n"
+    ],
+    "keywords": [
+        "DATAFLOW",
+	"ARRAY PARTITION"
+    ], 
+    "key_concepts": [
+        "K-Means", 
+        "Multiple compute units"
+    ], 
+    "os": [
+        "Linux"
+    ], 
+    "ndevice": [
+	"zc"
+    ],	
+    "runtime": [
+        "OpenCL"
+    ], 
+    "host": {
+        "host_exe": "kmeans", 
+        "compiler": {
+            "sources": [
+                "REPO_DIR/common/includes/xcl2",
+		"REPO_DIR/common/includes/cmdparser",
+		"REPO_DIR/common/includes/logger",
+		"src/host.cpp",
+		"src/fpga_kmeans.cpp",
+		"src/kmeans_clustering_cmodel.c"
+            ], 
+            "includepaths": [
+                "REPO_DIR/common/includes/xcl2",
+		"REPO_DIR/common/includes/cmdparser",
+		"REPO_DIR/common/includes/logger"
+            ]
+        }
+    }, 
+    "containers": [
+        {
+            "accelerators": [
+                {
+                    "name": "kmeans", 
+                    "location": "src/krnl_kmeans.cpp",
+		    "num_compute_units": "8"
+                }
+            ], 
+            "name": "krnl_kmeans",
+	    "ldclflags": "-O3"
+        }
+    ],
+    "launch": [
+        {
+            "cmd_args": "-x BUILD/krnl_kmeans.xclbin -i PROJECT/data/100 -c PROJECT/data/100.gold_c10 -n 10", 
+            "name": "generic launch for all flows"
+        }
+    ], 
+    "config_make": "config.mk",
+    "contributors": [
+	{
+		"group": "Northwestern University",
+		"url" : "https://www.cs.virginia.edu/~skadron/wiki/rodinia/index.php/Rodinia:Accelerating_Compute-Intensive_Applications_with_Accelerators"
+	},
+        {
+            "url": "http://www.xilinx.com", 
+            "group": "Xilinx"
+        }
+    ] 
+}
