@@ -99,13 +99,6 @@ mem_wr:
 
 extern "C" {
 void vconv(int *in_r, int *out_r, int height, int width) {
-   #pragma HLS INTERFACE m_axi port=in_r  offset=slave bundle=gmem
-   #pragma HLS INTERFACE m_axi port=out_r offset=slave bundle=gmem
-   #pragma HLS INTERFACE s_axilite port=in_r  
-   #pragma HLS INTERFACE s_axilite port=out_r 
-   #pragma HLS INTERFACE s_axilite port=height 
-   #pragma HLS INTERFACE s_axilite port=width 
-   #pragma HLS INTERFACE s_axilite port=return 
 
     int size = height * width;
 

@@ -54,10 +54,6 @@ extern "C" {
 void krnl_stream_vadd(hls::stream<pkt> &a,
                       hls::stream<pkt> &b,
                       hls::stream<trans_pkt> &output) {
-   #pragma HLS INTERFACE axis port=a
-   #pragma HLS INTERFACE axis port=b
-   #pragma HLS INTERFACE axis port=output
-   #pragma HLS INTERFACE s_axilite port=return 
 
     bool eos = false;
 vadd:

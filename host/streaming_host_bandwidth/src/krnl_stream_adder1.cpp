@@ -47,9 +47,6 @@ typedef qdma_axis<DWIDTH, 0, 0, 0> pkt;
 
 extern "C" {
 void krnl_stream_adder1(hls::stream<pkt> &a, hls::stream<pkt> &output) {
-   #pragma HLS INTERFACE axis port=a
-   #pragma HLS INTERFACE axis port=output
-   #pragma HLS INTERFACE s_axilite port=return 
 
     bool eos = false;
 adder1:

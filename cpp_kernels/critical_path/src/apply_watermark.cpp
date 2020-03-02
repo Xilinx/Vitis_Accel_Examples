@@ -56,13 +56,6 @@ int saturatedAdd(int x, int y);
 
 extern "C" {
 void apply_watermark(const TYPE *input, TYPE *output, int width, int height) {
-#pragma HLS INTERFACE m_axi port = input offset = slave bundle = gmem
-#pragma HLS INTERFACE m_axi port = output offset = slave bundle = gmem
-#pragma HLS INTERFACE s_axilite port = input 
-#pragma HLS INTERFACE s_axilite port = output 
-#pragma HLS INTERFACE s_axilite port = width 
-#pragma HLS INTERFACE s_axilite port = height 
-#pragma HLS INTERFACE s_axilite port = return 
 
     //WaterMark Image of 16x16 size
     int watermark[WATERMARK_HEIGHT][WATERMARK_WIDTH] = {

@@ -43,12 +43,6 @@ const int c_len = LENGTH / BUFFER_SIZE;
 
 extern "C" {
 void krnl_vadd(int *a, int *e, const int length_r) {
-#pragma HLS INTERFACE m_axi port = a offset = slave bundle = gmem
-#pragma HLS INTERFACE m_axi port = e offset = slave bundle = gmem
-#pragma HLS INTERFACE s_axilite port = a 
-#pragma HLS INTERFACE s_axilite port = e 
-#pragma HLS INTERFACE s_axilite port = length_r 
-#pragma HLS INTERFACE s_axilite port = return 
 
     int arrayA[BUFFER_SIZE];
     int arrayB[BUFFER_SIZE];

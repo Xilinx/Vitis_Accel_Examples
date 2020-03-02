@@ -34,12 +34,6 @@ const int c_size = MAX_DIM;
 
 extern "C" {
 void mscale(int *inout_r, const int scale, const int dim0, const int dim1) {
-#pragma HLS INTERFACE m_axi port = inout_r offset = slave bundle = gmem
-#pragma HLS INTERFACE s_axilite port = inout_r 
-#pragma HLS INTERFACE s_axilite port = scale 
-#pragma HLS INTERFACE s_axilite port = dim0 
-#pragma HLS INTERFACE s_axilite port = dim1 
-#pragma HLS INTERFACE s_axilite port = return 
 
     int temp[MAX_DIM * MAX_DIM];
 

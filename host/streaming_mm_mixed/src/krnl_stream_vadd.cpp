@@ -50,12 +50,6 @@ void krnl_stream_vadd(hls::stream<pkt> &out, // Write-Only output Stream
                       int *in2,              // Memory mapped Input Vector 2
                       int size               // Size in integer
 ) {
-#pragma HLS INTERFACE m_axi port = in2 offset = slave bundle = gmem
-#pragma HLS INTERFACE axis port = out
-#pragma HLS INTERFACE axis port = in1
-#pragma HLS INTERFACE s_axilite port = in2 
-#pragma HLS INTERFACE s_axilite port = size 
-#pragma HLS INTERFACE s_axilite port = return 
 
 vadd:
     for (int i = 0; i < size; i++) {

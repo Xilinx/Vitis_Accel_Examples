@@ -46,12 +46,6 @@ extern "C" {
 void rgb_to_hsv(RGBcolor *in,  // Access global memory as RGBcolor struct-wise
                 HSVcolor *out, // Access Global Memory as HSVcolor struct-wise
                 int size) {
-#pragma HLS INTERFACE m_axi port = in offset = slave bundle = gmem
-#pragma HLS INTERFACE m_axi port = out offset = slave bundle = gmem
-#pragma HLS INTERFACE s_axilite port = in
-#pragma HLS INTERFACE s_axilite port = out
-#pragma HLS INTERFACE s_axilite port = size
-#pragma HLS INTERFACE s_axilite port = return
 
   RGBcolor rgb;
   HSVcolor hsv;

@@ -34,15 +34,6 @@ const int c_size = MAX_DIM;
 
 extern "C" {
 void mmult(int *c, int *a, const int *b, const int dim0, const int dim1) {
-#pragma HLS INTERFACE m_axi port = c offset = slave bundle = gmem
-#pragma HLS INTERFACE m_axi port = a offset = slave bundle = gmem
-#pragma HLS INTERFACE m_axi port = b offset = slave bundle = gmem
-#pragma HLS INTERFACE s_axilite port = c 
-#pragma HLS INTERFACE s_axilite port = a 
-#pragma HLS INTERFACE s_axilite port = b 
-#pragma HLS INTERFACE s_axilite port = dim0 
-#pragma HLS INTERFACE s_axilite port = dim1 
-#pragma HLS INTERFACE s_axilite port = return 
 
     int matA[MAX_DIM * MAX_DIM];
     int matB[MAX_DIM * MAX_DIM];

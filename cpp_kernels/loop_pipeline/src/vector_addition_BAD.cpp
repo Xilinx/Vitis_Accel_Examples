@@ -45,14 +45,6 @@ const int c_n = N;
 
 extern "C" {
 void vadd(int *c, const int *a, const int *b, const int len) {
-#pragma HLS INTERFACE m_axi port = c offset = slave bundle = gmem
-#pragma HLS INTERFACE m_axi port = a offset = slave bundle = gmem
-#pragma HLS INTERFACE m_axi port = b offset = slave bundle = gmem
-#pragma HLS INTERFACE s_axilite port = c 
-#pragma HLS INTERFACE s_axilite port = a 
-#pragma HLS INTERFACE s_axilite port = b 
-#pragma HLS INTERFACE s_axilite port = len 
-#pragma HLS INTERFACE s_axilite port = return 
 
 vadd_loop:
     for (int x = 0; x < len; ++x) {

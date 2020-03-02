@@ -56,22 +56,10 @@ void vadd(const unsigned int *in1, // Read-Only Vector 1
           unsigned int *out_r,     // Output Result
           int size                 // Size in integer
 ) {
-// Here Vitis kernel contains one s_axilite interface which will be used by host application to configure the kernel.
-// Here bundle control is defined which is s_axilite interface and associated with all the arguments (in1, in2, out_r and size),
-// control interface must also be associated with "return".
-// All the global memory access arguments must be associated to one m_axi(AXI Master Interface). Here all three arguments(in1, in2, out_r) are
-// associated to bundle gmem which means that a AXI master interface named "gmem" will be created in Kernel and all these variables will be
-// accessing global memory through this interface.
-// Multiple interfaces can also be created based on the requirements. For example when multiple memory accessing arguments need access to
-// global memory simultaneously, user can create multiple master interfaces and can connect to different arguments.
-#pragma HLS INTERFACE m_axi port = in1 offset = slave bundle = gmem
-#pragma HLS INTERFACE m_axi port = in2 offset = slave bundle = gmem
-#pragma HLS INTERFACE m_axi port = out_r offset = slave bundle = gmem
-#pragma HLS INTERFACE s_axilite port = in1 
-#pragma HLS INTERFACE s_axilite port = in2 
-#pragma HLS INTERFACE s_axilite port = out_r 
-#pragma HLS INTERFACE s_axilite port = size 
-#pragma HLS INTERFACE s_axilite port = return 
+
+    //In Vitis flow, a kernel can be defined without interface pragma. For such case, it follows default behavioral.
+    //All pointer arguments (in1,in2,out_r) will be referred as Memory Mapped pointers using single M_AXI interface.
+    //All the scalar arguments (size) and return argument will be associated to single s_axilite interface.
 
     unsigned int v1_buffer[BUFFER_SIZE];   // Local memory to store vector1
     unsigned int v2_buffer[BUFFER_SIZE];   // Local memory to store vector2

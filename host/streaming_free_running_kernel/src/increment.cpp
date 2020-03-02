@@ -33,8 +33,6 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 extern "C" {
     void increment(hls::stream<ap_axiu<32, 0, 0, 0> >& input, hls::stream<ap_axiu<32, 0, 0, 0> >& output)
     {
-#pragma HLS interface axis port=input
-#pragma HLS interface axis port=output
 
 //For free running kernel, user needs to specify ap_ctrl_none for return port. 
 //This will create the kernel without AXI lite interface. Kernel will always be in running states.
