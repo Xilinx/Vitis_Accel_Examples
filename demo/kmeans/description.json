@@ -15,7 +15,8 @@
         "Linux"
     ], 
     "ndevice": [
-	"zc"
+	"zc",
+	"samsung"
     ],	
     "runtime": [
         "OpenCL"
