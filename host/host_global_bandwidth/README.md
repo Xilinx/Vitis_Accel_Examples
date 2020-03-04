@@ -6,7 +6,8 @@ Host to global memory bandwidth test
 ## EXCLUDED PLATFORMS
 Platforms containing following strings in their names are not supported for this example :
 ```
-xilinx_u50_xdma
+u50
+u280
 samsung
 zc
 ```

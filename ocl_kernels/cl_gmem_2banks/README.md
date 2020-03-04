@@ -10,7 +10,7 @@ This example of 2ddr to demonstrate on how to use 2ddr XSA. How to create buffer
 ## EXCLUDED PLATFORMS
 Platforms containing following strings in their names are not supported for this example :
 ```
-xilinx_u50_xdma
+u50
 zc
 samsung
 ```

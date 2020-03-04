@@ -10,7 +10,7 @@
         "Multiple Compute Units"
     ], 
     "ndevice": [
-        "xilinx_u50_xdma",
+        "u50",
         "samsung",
         "zc"
     ], 
