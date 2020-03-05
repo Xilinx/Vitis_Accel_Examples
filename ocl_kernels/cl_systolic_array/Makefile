@@ -131,7 +131,22 @@ endif
 
 .PHONY: test
 test: $(EXECUTABLE)
-	./$(EXECUTABLE) $(CMD_ARGS)
+ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
+ifeq ($(HOST_ARCH), x86)
+	XCL_EMULATION_MODE=$(TARGET) ./$(EXECUTABLE) $(BUILD_DIR)/mmult.xclbin
+else
+	mkdir -p $(EMU_DIR)
+	$(CP) $(XILINX_VITIS)/data/emulation/unified $(EMU_DIR)
+	mkfatimg $(SDCARD) $(SDCARD).img 500000
+	launch_emulator -no-reboot -runtime ocl -t $(TARGET) -sd-card-image $(SDCARD).img -device-family $(DEV_FAM)
+endif
+else
+ifeq ($(HOST_ARCH), x86)
+	./$(EXECUTABLE) $(BUILD_DIR)/mmult.xclbin
+else
+	$(ECHO) "Please copy the content of sd_card folder and data to an SD Card and run on the board"
+endif
+endif
 
 
 sd_card: $(EXECUTABLE) $(BINARY_CONTAINERS) emconfig
