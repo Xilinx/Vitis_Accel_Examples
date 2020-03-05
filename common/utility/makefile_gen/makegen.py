@@ -427,7 +427,58 @@ def mk_check(target, data):
     
     target.write(".PHONY: test\n")
     target.write("test: $(EXECUTABLE)\n")
-    target.write("\t./$(EXECUTABLE) $(CMD_ARGS)\n")
+    target.write("ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))\n")
+    target.write("ifeq ($(HOST_ARCH), x86)\n")
+    target.write("\tXCL_EMULATION_MODE=$(TARGET) ./$(EXECUTABLE)")
+    
+    if "launch" in data:	
+        if "cmd_args" in data["launch"][0]:
+            args = data["launch"][0]["cmd_args"].split(" ")    
+            for arg in args[0:]:
+                target.write(" ")
+                arg = arg.replace('BUILD', '$(BUILD_DIR)')
+                arg = arg.replace('PROJECT', '.')
+                target.write(arg)
+    target.write("\nelse\n")
+    target.write("\tmkdir -p $(EMU_DIR)\n")
+    target.write("\t$(CP) $(XILINX_VITIS)/data/emulation/unified $(EMU_DIR)\n")
+    target.write("\tmkfatimg $(SDCARD) $(SDCARD).img 500000\n")
+    target.write("\tlaunch_emulator -no-reboot -runtime ocl -t $(TARGET) -sd-card-image $(SDCARD).img -device-family $(DEV_FAM)")
+    if "containers" in data:
+        target.write("\n")
+    else:
+        target.write(" -ps-only\n")
+    target.write("endif\n")
+    target.write("else\n")
+    target.write("ifeq ($(HOST_ARCH), x86)\n")
+    target.write("\t./$(EXECUTABLE)")
+	
+    if "launch" in data:
+        if "cmd_args" in data["launch"][0]:
+            args = data["launch"][0]["cmd_args"].split(" ")    
+            for arg in args[0:]:
+                target.write(" ")
+                arg = arg.replace('BUILD', '$(BUILD_DIR)')
+                arg = arg.replace('PROJECT', '.')
+                target.write(arg)
+    target.write("\nelse\n")
+    target.write("\t$(ECHO) \"Please copy the content of sd_card folder and data to an SD Card and run on the board\"")
+    target.write("\nendif\n")
+    target.write("endif\n")
+    if "targets" in data:
+        target.write("ifneq ($(TARGET),$(findstring $(TARGET),")
+        args = data["targets"]
+        for arg in args:
+            target.write(" ")
+            target.write(arg)
+        target.write("))\n")
+        target.write("$(warning WARNING:Application supports only")
+        for arg in args:
+            target.write(" ")
+            target.write(arg)
+        target.write(" TARGET. Please use the target for running the application)\n")
+        target.write("endif\n")
+        target.write("\n")
     target.write("\n\n")
 
     target.write("sd_card: $(EXECUTABLE) $(BINARY_CONTAINERS) emconfig\n")
