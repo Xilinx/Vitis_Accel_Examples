@@ -150,6 +150,7 @@ ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 	$(ECHO) './$(EXECUTABLE) $(CMD_ARGS)' >> $(SDCARD)/init.sh
 	$(ECHO) 'reboot' >> $(SDCARD)/init.sh
 else
+	$(ECHO) 'cd /mnt/' >> $(SDCARD)/init.sh
 	$(ECHO) './$(EXECUTABLE) $(CMD_ARGS)' >> $(SDCARD)/init.sh
 endif
 endif

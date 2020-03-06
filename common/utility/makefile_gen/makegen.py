@@ -502,6 +502,7 @@ def mk_check(target, data):
     target.write("else\n")
     if "containers" in data:
         target.write("\t[ -f $(SDCARD)/BOOT.BIN ] && echo \"INFO: BOOT.BIN already exists\" || $(CP) $(BUILD_DIR)/sd_card/BOOT.BIN $(SDCARD)/\n")
+    target.write("\t$(ECHO) 'cd /mnt/' >> $(SDCARD)/init.sh\n")
     target.write("\t$(ECHO) './$(EXECUTABLE) $(CMD_ARGS)' >> $(SDCARD)/init.sh\n")
     target.write("endif\n")
     target.write("endif\n")
