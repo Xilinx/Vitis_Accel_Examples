@@ -195,12 +195,12 @@ int main(int argc, char **argv) {
     for (unsigned int i = 0; i < devices.size(); i++) {
         auto device = devices[i];
         // Creating Context and Command Queue for selected Device
-        OCL_CHECK(err, context = cl::Context({device}, NULL, NULL, NULL, &err));
+        OCL_CHECK(err, context = cl::Context(device, NULL, NULL, NULL, &err));
         // This example will use an out of order command queue. The default command
         // queue created by cl::CommandQueue is an inorder command queue.
         OCL_CHECK(err,
                   q = cl::CommandQueue(context,
-                                       {device},
+                                       device,
                                        CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE,
                                        &err));
 
