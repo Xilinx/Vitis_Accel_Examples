@@ -38,6 +38,7 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "timer.h"
 #include "kmeans.h"
 #include "krnl_kmeans.h"
+#include "kmeans_config.h"
 
 class FPGA_KMEANS
 {

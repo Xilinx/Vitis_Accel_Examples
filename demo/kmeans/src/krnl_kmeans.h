@@ -3,10 +3,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <assert.h>
-
-#ifndef NUM_CU
-#define NUM_CU 8
-#endif
+#include "kmeans_config.h"
 
 #define CONST_NPOINTS   494020
 #define CONST_NCLUSTERS 100
@@ -24,6 +21,4 @@ void kmeans_kernel_wrapper(
 		unsigned      members_offset
 );
 
-// #define TRACK printf("line: %5d (function: %s)\n", __LINE__, __FUNCTION__);
-#define TRACK
 
