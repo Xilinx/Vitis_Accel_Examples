@@ -424,10 +424,10 @@ int FPGA_KMEANS::fpga_kmeans_init(std::string &binaryFile) {
     for (unsigned int i = 0; i < devices.size(); i++) {
         auto device = devices[i];
         // Creating Context and Command Queue for selected Device
-        OCL_CHECK(err, m_context = cl::Context({device}, NULL, NULL, NULL, &err));
+        OCL_CHECK(err, m_context = cl::Context(device, NULL, NULL, NULL, &err));
         OCL_CHECK(err,
                   m_q = cl::CommandQueue(
-                      m_context, {device}, CL_QUEUE_PROFILING_ENABLE | CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE, &err));
+                      m_context, device, CL_QUEUE_PROFILING_ENABLE | CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE, &err));
 
         std::cout << "Trying to program device[" << i
                   << "]: " << device.getInfo<CL_DEVICE_NAME>() << std::endl;
