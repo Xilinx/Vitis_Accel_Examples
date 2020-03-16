@@ -729,7 +729,7 @@ data = json.load(desc)
 desc.close()
 
 if "match_ini" in data and data["match_ini"] == "false":
-    print("Error:: xrt.ini File Manually Edited:: Auto-file Generator Failed")
+    print("Info:: xrt.ini File Manually Edited:: Auto-file Generator Failed")
     err = False
 else:
     print("Generating xrt.ini file for %s" %data["name"])
@@ -746,7 +746,7 @@ if "containers" in data:
                 create_config(data)	
 
 if "match_makefile" in data and data["match_makefile"] == "false":
-    print("Error:: Makefile Manually Edited:: AutoMakefile Generator Failed")
+    print("Info:: Makefile Manually Edited:: AutoMakefile Generator Failed")
 else:
     print("Generating Auto-Makefile for %s" %data["name"])
     target = open("Makefile", "w")
