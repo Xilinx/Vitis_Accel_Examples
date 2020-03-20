@@ -40,7 +40,8 @@
                     "location": "src/vadd.cpp"
                 }
             ], 
-            "name": "vadd"
+            "name": "vadd",
+            "ldclflags": "--config vadd.ini"
         }
     ],
     "launch": [

@@ -73,6 +73,8 @@ endif
 CLFLAGS += --config vadd_vadd.ini
 
 
+# Kernel linker flags
+LDCLFLAGS += --config vadd.ini
 
 EXECUTABLE = host
 CMD_ARGS = $(BUILD_DIR)/vadd.xclbin
