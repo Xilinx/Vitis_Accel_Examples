@@ -1,5 +1,5 @@
 #Number of compute units 
-NK:= 8
+NK:= 2
 #Number of parallel points
 PP:= 96
 

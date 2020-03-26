@@ -5,7 +5,8 @@
     ],
     "ndevice": [
         "u200", 
-        "zc", 
+        "zc",
+       "vck", 
 	"u250",
 	"aws",
         "samsung"

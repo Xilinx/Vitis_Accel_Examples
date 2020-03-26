@@ -114,6 +114,9 @@ check: all
 ifeq ($(findstring u50, $(DEVICE)), u50)
 $(error This example is not supported for $(DEVICE))
 endif
+ifeq ($(findstring vck, $(DEVICE)), vck)
+$(error This example is not supported for $(DEVICE))
+endif
 ifeq ($(findstring samsung, $(DEVICE)), samsung)
 $(error This example is not supported for $(DEVICE))
 endif

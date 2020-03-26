@@ -11,6 +11,7 @@
     ], 
     "ndevice": [
         "u50",
+        "vck",
         "samsung",
         "zc"
     ], 

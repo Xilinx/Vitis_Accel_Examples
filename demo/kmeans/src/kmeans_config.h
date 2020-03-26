@@ -29,7 +29,7 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 //Default macros for GUI
 #ifndef NUM_CU
-#define NUM_CU 8
+#define NUM_CU 2
 #endif
 
 #ifndef __USE_OPENCL__
