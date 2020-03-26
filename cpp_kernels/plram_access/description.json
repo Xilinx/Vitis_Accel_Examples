@@ -11,7 +11,8 @@
         "PLRAMs"
     ], 
     "ndevice": [
-        "zc", 
+        "zc",
+        "vck", 
         "u50",
  	"samsung"
     ], 

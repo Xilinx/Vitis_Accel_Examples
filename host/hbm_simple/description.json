@@ -15,6 +15,7 @@
     "ndevice": [        
         "u200",
         "zc",
+        "vck",
         "u250",
 	"aws",
         "samsung"

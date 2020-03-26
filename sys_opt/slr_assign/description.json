@@ -10,7 +10,8 @@
         "SLR Assignments"
     ], 
     "ndevice": [
-        "zc", 
+        "zc",
+   "vck", 
 	"samsung"
     ], 
     "os": [

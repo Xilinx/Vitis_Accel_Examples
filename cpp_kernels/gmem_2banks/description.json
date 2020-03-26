@@ -2,6 +2,7 @@
     "ndevice": [
         "zc", 
 	"zed",
+    "vck",
        	"u50",
        	"samsung"
     ], 
