@@ -43,6 +43,13 @@ XSA := $(call device2xsa, $(DEVICE))
 TEMP_DIR := ./_x.$(TARGET).$(XSA)
 BUILD_DIR := ./build_dir.$(TARGET).$(XSA)
 
+# SoC variables
+RUN_APP_SCRIPT = run_app.sh
+PACKAGE_OUT = package.$(TARGET)
+
+LAUNCH_EMULATOR = $(PACKAGE_OUT)/launch_$(TARGET).sh
+RESULT_STRING = TEST PASSED
+
 VPP := v++
 SDCARD := sd_card
 
@@ -84,7 +91,7 @@ BINARY_CONTAINER_vadd_OBJS += $(TEMP_DIR)/vadd.xo
 CP = cp -rf
 
 .PHONY: all clean cleanall docs emconfig
-all: check-devices $(EXECUTABLE) $(BINARY_CONTAINERS) emconfig sd_card
+all: check-devices $(EXECUTABLE) $(BINARY_CONTAINERS) emconfig sd_card 
 
 .PHONY: exe
 exe: $(EXECUTABLE)
@@ -114,10 +121,7 @@ ifeq ($(HOST_ARCH), x86)
 	$(CP) $(EMCONFIG_DIR)/emconfig.json .
 	XCL_EMULATION_MODE=$(TARGET) ./$(EXECUTABLE) $(BUILD_DIR)/vadd.xclbin
 else
-	mkdir -p $(EMU_DIR)
-	$(CP) $(XILINX_VITIS)/data/emulation/unified $(EMU_DIR)
-	mkfatimg $(SDCARD) $(SDCARD).img 500000
-	launch_emulator -no-reboot -runtime ocl -t $(TARGET) -sd-card-image $(SDCARD).img -device-family $(DEV_FAM)
+	$(ABS_COMMON_REPO)/common/utility/run_emulation.pl "./${LAUNCH_EMULATOR} | tee run_app.log" "./${RUN_APP_SCRIPT}" "${RESULT_STRING}" "7"
 endif
 else
 ifeq ($(HOST_ARCH), x86)
@@ -126,15 +130,12 @@ endif
 endif
 
 .PHONY: test
-test: $(EXECUTABLE)
+test: $(EXECUTABLE) sd_card
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 ifeq ($(HOST_ARCH), x86)
 	XCL_EMULATION_MODE=$(TARGET) ./$(EXECUTABLE) $(BUILD_DIR)/vadd.xclbin
 else
-	mkdir -p $(EMU_DIR)
-	$(CP) $(XILINX_VITIS)/data/emulation/unified $(EMU_DIR)
-	mkfatimg $(SDCARD) $(SDCARD).img 500000
-	launch_emulator -no-reboot -runtime ocl -t $(TARGET) -sd-card-image $(SDCARD).img -device-family $(DEV_FAM)
+	$(ABS_COMMON_REPO)/common/utility/run_emulation.pl "./${LAUNCH_EMULATOR} | tee embedded_run.log" "./${RUN_APP_SCRIPT}" "${RESULT_STRING}" "7"
 endif
 else
 ifeq ($(HOST_ARCH), x86)
@@ -144,24 +145,8 @@ else
 endif
 endif
 
-
-sd_card: $(EXECUTABLE) $(BINARY_CONTAINERS) emconfig
-ifneq ($(HOST_ARCH), x86)
-	mkdir -p $(SDCARD)/$(BUILD_DIR)
-	$(CP) $(B_NAME)/sw/$(XSA)/boot/generic.readme $(B_NAME)/sw/$(XSA)/xrt/image/* xrt.ini $(EXECUTABLE) $(SDCARD)
-	$(CP) $(BUILD_DIR)/*.xclbin $(SDCARD)/$(BUILD_DIR)/
-ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
-	$(ECHO) 'cd /mnt/' >> $(SDCARD)/init.sh
-	$(ECHO) 'export XILINX_VITIS=$$PWD' >> $(SDCARD)/init.sh
-	$(ECHO) 'export XCL_EMULATION_MODE=$(TARGET)' >> $(SDCARD)/init.sh
-	$(ECHO) './$(EXECUTABLE) $(CMD_ARGS)' >> $(SDCARD)/init.sh
-	$(ECHO) 'reboot' >> $(SDCARD)/init.sh
-else
-	[ -f $(SDCARD)/BOOT.BIN ] && echo "INFO: BOOT.BIN already exists" || $(CP) $(BUILD_DIR)/sd_card/BOOT.BIN $(SDCARD)/
-	$(ECHO) 'cd /mnt/' >> $(SDCARD)/init.sh
-	$(ECHO) './$(EXECUTABLE) $(CMD_ARGS)' >> $(SDCARD)/init.sh
-endif
-endif
+sd_card:
+	$(VPP) -t $(TARGET) --platform $(DEVICE) -p $(BUILD_DIR)/vadd.xclbin --package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/zynqmp/zynqmp-common/rootfs.ext4 --package.sd_file $(EDGE_COMMON_SW)/zynqmp/zynqmp-common/Image --package.sd_file xrt.ini --package.sd_file $(RUN_APP_SCRIPT) --package.sd_file $(EXECUTABLE)
 
 # Cleaning stuff
 clean:
@@ -171,5 +156,6 @@ clean:
 
 cleanall: clean
 	-$(RMDIR) build_dir* sd_card*
-	-$(RMDIR) _x.* *xclbin.run_summary qemu-memory-_* emulation/ _vimage/ pl* start_simulation.sh *.xclbin
+	-$(RMDIR) package.*
+	-$(RMDIR) _x* *xclbin.run_summary qemu-memory-_* emulation/ _vimage/ pl* start_simulation.sh *.xclbin
 
