@@ -91,7 +91,7 @@ BINARY_CONTAINER_vadd_OBJS += $(TEMP_DIR)/vadd.xo
 CP = cp -rf
 
 .PHONY: all clean cleanall docs emconfig
-all: check-devices $(EXECUTABLE) $(BINARY_CONTAINERS) emconfig sd_card 
+all: check-devices $(EXECUTABLE) $(BINARY_CONTAINERS) emconfig sd_card
 
 .PHONY: exe
 exe: $(EXECUTABLE)
@@ -121,7 +121,7 @@ ifeq ($(HOST_ARCH), x86)
 	$(CP) $(EMCONFIG_DIR)/emconfig.json .
 	XCL_EMULATION_MODE=$(TARGET) ./$(EXECUTABLE) $(BUILD_DIR)/vadd.xclbin
 else
-	$(ABS_COMMON_REPO)/common/utility/run_emulation.pl "./${LAUNCH_EMULATOR} | tee run_app.log" "./${RUN_APP_SCRIPT}" "${RESULT_STRING}" "7"
+	$(ABS_COMMON_REPO)/common/utility/run_emulation.pl "./${LAUNCH_EMULATOR} | tee run_app.log" "./${RUN_APP_SCRIPT} $(TARGET)" "${RESULT_STRING}" "7"
 endif
 else
 ifeq ($(HOST_ARCH), x86)
@@ -130,12 +130,12 @@ endif
 endif
 
 .PHONY: test
-test: $(EXECUTABLE) sd_card
+test: $(EXECUTABLE)
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 ifeq ($(HOST_ARCH), x86)
 	XCL_EMULATION_MODE=$(TARGET) ./$(EXECUTABLE) $(BUILD_DIR)/vadd.xclbin
 else
-	$(ABS_COMMON_REPO)/common/utility/run_emulation.pl "./${LAUNCH_EMULATOR} | tee embedded_run.log" "./${RUN_APP_SCRIPT}" "${RESULT_STRING}" "7"
+	$(ABS_COMMON_REPO)/common/utility/run_emulation.pl "./${LAUNCH_EMULATOR} | tee embedded_run.log" "./${RUN_APP_SCRIPT} $(TARGET)" "${RESULT_STRING}" "7"
 endif
 else
 ifeq ($(HOST_ARCH), x86)
@@ -145,8 +145,11 @@ else
 endif
 endif
 
+
 sd_card:
+ifneq ($(HOST_ARCH), x86)
 	$(VPP) -t $(TARGET) --platform $(DEVICE) -p $(BUILD_DIR)/vadd.xclbin --package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.sd_file $(EDGE_COMMON_SW)/Image --package.sd_file xrt.ini --package.sd_file $(RUN_APP_SCRIPT) --package.sd_file $(EXECUTABLE)
+endif
 
 # Cleaning stuff
 clean:

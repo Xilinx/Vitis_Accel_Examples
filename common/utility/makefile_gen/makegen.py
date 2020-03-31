@@ -34,6 +34,14 @@ def create_params(target,data):
     target.write("BUILD_DIR := ./build_dir.$(TARGET).$(XSA)\n")
     target.write("\n")
 
+    target.write("# SoC variables\n")
+    target.write("RUN_APP_SCRIPT = run_app.sh\n")
+    target.write("PACKAGE_OUT = package.$(TARGET)\n")
+    target.write("\n")
+    target.write("LAUNCH_EMULATOR = $(PACKAGE_OUT)/launch_$(TARGET).sh\n")
+    target.write("RESULT_STRING = TEST PASSED\n")
+    target.write("\n")
+
     target.write("VPP := ")
     target.write("v++\n")
     target.write("SDCARD := ")
@@ -307,7 +315,8 @@ def mk_clean(target, data):
 
     target.write("cleanall: clean\n")
     target.write("\t-$(RMDIR) build_dir* sd_card*\n")
-    target.write("\t-$(RMDIR) _x.* *xclbin.run_summary qemu-memory-_* emulation/ _vimage/ pl* start_simulation.sh *.xclbin\n")
+    target.write("\t-$(RMDIR) package.*\n")
+    target.write("\t-$(RMDIR) _x* *xclbin.run_summary qemu-memory-_* emulation/ _vimage/ pl* start_simulation.sh *.xclbin\n")
     if "output_files" in data:         
         target.write("\t-$(RMDIR) ")
         args = data["output_files"].split(" ")
@@ -384,10 +393,7 @@ def mk_check(target, data):
                 arg = arg.replace('PROJECT', '.')
                 target.write(arg)
     target.write("\nelse\n")
-    target.write("\tmkdir -p $(EMU_DIR)\n")
-    target.write("\t$(CP) $(XILINX_VITIS)/data/emulation/unified $(EMU_DIR)\n")
-    target.write("\tmkfatimg $(SDCARD) $(SDCARD).img 500000\n")
-    target.write("\tlaunch_emulator -no-reboot -runtime ocl -t $(TARGET) -sd-card-image $(SDCARD).img -device-family $(DEV_FAM)")
+    target.write("\t$(ABS_COMMON_REPO)/common/utility/run_emulation.pl \"./${LAUNCH_EMULATOR} | tee run_app.log\" \"./${RUN_APP_SCRIPT} $(TARGET)\" \"${RESULT_STRING}\" \"7\"")
     if "containers" in data:
         target.write("\n")
     else:
@@ -440,10 +446,7 @@ def mk_check(target, data):
                 arg = arg.replace('PROJECT', '.')
                 target.write(arg)
     target.write("\nelse\n")
-    target.write("\tmkdir -p $(EMU_DIR)\n")
-    target.write("\t$(CP) $(XILINX_VITIS)/data/emulation/unified $(EMU_DIR)\n")
-    target.write("\tmkfatimg $(SDCARD) $(SDCARD).img 500000\n")
-    target.write("\tlaunch_emulator -no-reboot -runtime ocl -t $(TARGET) -sd-card-image $(SDCARD).img -device-family $(DEV_FAM)")
+    target.write("\t$(ABS_COMMON_REPO)/common/utility/run_emulation.pl \"./${LAUNCH_EMULATOR} | tee embedded_run.log\" \"./${RUN_APP_SCRIPT} $(TARGET)\" \"${RESULT_STRING}\" \"7\"")
     if "containers" in data:
         target.write("\n")
     else:
@@ -481,30 +484,13 @@ def mk_check(target, data):
         target.write("\n")
     target.write("\n\n")
 
-    target.write("sd_card: $(EXECUTABLE) $(BINARY_CONTAINERS) emconfig\n")
+    target.write("sd_card:\n")
     target.write("ifneq ($(HOST_ARCH), x86)\n")
-    target.write("\tmkdir -p $(SDCARD)/$(BUILD_DIR)\n")
-    target.write("\t$(CP) $(B_NAME)/sw/$(XSA)/boot/generic.readme $(B_NAME)/sw/$(XSA)/xrt/image/* xrt.ini $(EXECUTABLE) $(SDCARD)\n")
     if "containers" in data:
-        target.write("\t$(CP) $(BUILD_DIR)/*.xclbin $(SDCARD)/$(BUILD_DIR)/\n")
-    
-    if os.path.exists("data"):
-        target.write("\t$(CP) data $(SDCARD)\n")
-
-    target.write("ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))\n")
-    
-    target.write("\t$(ECHO) 'cd /mnt/' >> $(SDCARD)/init.sh\n")
-    target.write("\t$(ECHO) 'export XILINX_VITIS=$$PWD' >> $(SDCARD)/init.sh\n")
-    target.write("\t$(ECHO) 'export XCL_EMULATION_MODE=$(TARGET)' >> $(SDCARD)/init.sh\n")
-    target.write("\t$(ECHO) './$(EXECUTABLE) $(CMD_ARGS)' >> $(SDCARD)/init.sh\n")
-    target.write("\t$(ECHO) 'reboot' >> $(SDCARD)/init.sh\n")
-    
-    target.write("else\n")
-    if "containers" in data:
-        target.write("\t[ -f $(SDCARD)/BOOT.BIN ] && echo \"INFO: BOOT.BIN already exists\" || $(CP) $(BUILD_DIR)/sd_card/BOOT.BIN $(SDCARD)/\n")
-    target.write("\t$(ECHO) 'cd /mnt/' >> $(SDCARD)/init.sh\n")
-    target.write("\t$(ECHO) './$(EXECUTABLE) $(CMD_ARGS)' >> $(SDCARD)/init.sh\n")
-    target.write("endif\n")
+        for con in data["containers"]:
+            target.write("\t$(VPP) -t $(TARGET) --platform $(DEVICE) -p $(BUILD_DIR)/")
+            target.write(con["name"])
+            target.write(".xclbin --package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.sd_file $(EDGE_COMMON_SW)/Image --package.sd_file xrt.ini --package.sd_file $(RUN_APP_SCRIPT) --package.sd_file $(EXECUTABLE)\n")
     target.write("endif\n")
     target.write("\n")
 
@@ -525,9 +511,9 @@ def mk_help(target):
     target.write("\n")
     target.write("help::\n")
     target.write("\t$(ECHO) \"Makefile Usage:\"\n")
-    target.write("\t$(ECHO) \"  make all TARGET=<sw_emu/hw_emu/hw> DEVICE=<FPGA platform> HOST_ARCH=<aarch32/aarch64/x86> SYSROOT=<sysroot_path>\"\n");
+    target.write("\t$(ECHO) \"  make all TARGET=<sw_emu/hw_emu/hw> DEVICE=<FPGA platform> HOST_ARCH=<aarch32/aarch64/x86> EDGE_COMMON_SW=<rootfs and kernel image path>\"\n");
     target.write("\t$(ECHO) \"      Command to generate the design for specified Target and Shell.\"\n")
-    target.write("\t$(ECHO) \"      By default, HOST_ARCH=x86. HOST_ARCH and SYSROOT is required for SoC shells\"\n")
+    target.write("\t$(ECHO) \"      By default, HOST_ARCH=x86. HOST_ARCH and EDGE_COMMON_SW is required for SoC shells\"\n")
     target.write("\t$(ECHO) \"\"\n")
     target.write("\t$(ECHO) \"  make clean \"\n");
     target.write("\t$(ECHO) \"      Command to remove the generated non-hardware files.\"\n")
@@ -540,17 +526,17 @@ def mk_help(target):
     target.write("\t$(ECHO)  \"\"\n")
 
 
-    target.write("\t$(ECHO) \"  make sd_card TARGET=<sw_emu/hw_emu/hw> DEVICE=<FPGA platform> HOST_ARCH=<aarch32/aarch64/x86> SYSROOT=<sysroot_path>\"\n");
+    target.write("\t$(ECHO) \"  make sd_card TARGET=<sw_emu/hw_emu/hw> DEVICE=<FPGA platform> HOST_ARCH=<aarch32/aarch64/x86> EDGE_COMMON_SW=<rootfs and kernel image path>\"\n");
     target.write("\t$(ECHO) \"      Command to prepare sd_card files.\"\n")
-    target.write("\t$(ECHO) \"      By default, HOST_ARCH=x86. HOST_ARCH and SYSROOT is required for SoC shells\"\n")
+    target.write("\t$(ECHO) \"      By default, HOST_ARCH=x86. HOST_ARCH and EDGE_COMMON_SW is required for SoC shells\"\n")
     target.write("\t$(ECHO) \"\"\n")
-    target.write("\t$(ECHO) \"  make check TARGET=<sw_emu/hw_emu/hw> DEVICE=<FPGA platform> HOST_ARCH=<aarch32/aarch64/x86> SYSROOT=<sysroot_path>\"\n");
+    target.write("\t$(ECHO) \"  make check TARGET=<sw_emu/hw_emu/hw> DEVICE=<FPGA platform> HOST_ARCH=<aarch32/aarch64/x86> EDGE_COMMON_SW=<rootfs and kernel image path>\"\n");
     target.write("\t$(ECHO) \"      Command to run application in emulation.\"\n")
-    target.write("\t$(ECHO) \"      By default, HOST_ARCH=x86. HOST_ARCH and SYSROOT is required for SoC shells\"\n")
+    target.write("\t$(ECHO) \"      By default, HOST_ARCH=x86. HOST_ARCH and EDGE_COMMON_SW is required for SoC shells\"\n")
     target.write("\t$(ECHO) \"\"\n")
-    target.write("\t$(ECHO) \"  make build TARGET=<sw_emu/hw_emu/hw> DEVICE=<FPGA platform> HOST_ARCH=<aarch32/aarch64/x86> SYSROOT=<sysroot_path>\"\n");
+    target.write("\t$(ECHO) \"  make build TARGET=<sw_emu/hw_emu/hw> DEVICE=<FPGA platform> HOST_ARCH=<aarch32/aarch64/x86> EDGE_COMMON_SW=<rootfs and kernel image path>\"\n");
     target.write("\t$(ECHO) \"      Command to build xclbin application.\"\n")
-    target.write("\t$(ECHO) \"      By default, HOST_ARCH=x86. HOST_ARCH and SYSROOT is required for SoC shells\"\n")
+    target.write("\t$(ECHO) \"      By default, HOST_ARCH=x86. HOST_ARCH and EDGE_COMMON_SW is required for SoC shells\"\n")
     target.write("\t$(ECHO) \"\"\n")
     #target.write("\t$(ECHO) \"  make run_nimbix DEVICE=<FPGA platform>\"\n");
     #target.write("\t$(ECHO) \"      Command to run application on Nimbix Cloud.\"\n")
@@ -629,12 +615,15 @@ def util_checks(target):
     target.write("endif\n")
     target.write("\n")
     
-
-
-    target.write("#Checks for SYSROOT\n")
+    target.write("#Checks for EDGE_COMMON_SW\n")
     target.write("ifneq ($(HOST_ARCH), x86)\n")
-    target.write("ifndef SYSROOT\n")
-    target.write("$(error SYSROOT variable is not set, please set correctly and rerun)\n")
+    target.write("ifndef EDGE_COMMON_SW\n")
+    target.write("$(error EDGE_COMMON_SW variable is not set, please set correctly and rerun)\n")
+    target.write("endif\n")
+    target.write("ifeq ($(HOST_ARCH), aarch64)\n")
+    target.write("SYSROOT := $(EDGE_COMMON_SW)/sysroots/aarch64-xilinx-linux\n")
+    target.write("else ifeq ($(HOST_ARCH), aarch32)\n")
+    target.write("$(error aarch32 not supported)\n")
     target.write("endif\n")
     target.write("endif\n")
     target.write("\n")
@@ -695,6 +684,24 @@ def create_utils(target, data):
     readme_gen(target)
     return
 
+def create_run_app(target, data):
+    target.write("export LD_LIBRARY_PATH=/mnt:/tmp:$LD_LIBRARY_PATH\n")
+    target.write("export XCL_EMULATION_MODE=$1\n")
+    target.write("export XILINX_XRT=/usr\n") 
+    target.write("export XILINX_VITIS=/mnt\n")
+    target.write("./host")
+    if "containers" in data:
+        for con in data["containers"]:
+            target.write(" ")
+            target.write(con["name"])
+            target.write(".xclbin")
+    target.write("\n")
+    target.write("return_code=$?\n")
+    target.write("if [ $return_code -ne 0 ]; then\n")
+    target.write("\techo \"ERROR: host run failed, RC=$return_code\"\n")
+    target.write("fi\n")
+    target.write("echo \"INFO: host run completed.\"\n")
+
 def create_config(data):
     if "containers" in data:
         for con in data["containers"]:
@@ -754,6 +761,9 @@ else:
     print("Generating utils.mk file for %s" %data["name"])
     target = open("utils.mk", "w+")
     create_utils(target, data)
+    print("Generating run_app.sh file for %s" %data["name"])
+    target = open("run_app.sh", "w+")
+    create_run_app(target, data)
 
 target.close
 

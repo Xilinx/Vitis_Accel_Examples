@@ -41,10 +41,15 @@ ifneq ($(HOST_ARCH), $(filter $(HOST_ARCH),aarch64 aarch32 x86))
 $(error HOST_ARCH variable not set, please set correctly and rerun)
 endif
 
-#Checks for SYSROOT
+#Checks for EDGE_COMMON_SW
 ifneq ($(HOST_ARCH), x86)
-ifndef SYSROOT
-$(error SYSROOT variable is not set, please set correctly and rerun)
+ifndef EDGE_COMMON_SW
+$(error EDGE_COMMON_SW variable is not set, please set correctly and rerun)
+endif
+ifeq ($(HOST_ARCH), aarch64)
+SYSROOT := $(EDGE_COMMON_SW)/sysroots/aarch64-xilinx-linux
+else ifeq ($(HOST_ARCH), aarch32)
+$(error aarch32 not supported)
 endif
 endif
 
