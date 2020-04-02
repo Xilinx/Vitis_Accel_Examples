@@ -44,7 +44,8 @@
             "name": "generic launch for all flows"
         }
     ], 
-    "output_files": "output.bmp", 
+    "output_files": "output.bmp",
+    "match_makefile" : "false", 
     "contributors": [
         {
             "url": "http://www.xilinx.com", 

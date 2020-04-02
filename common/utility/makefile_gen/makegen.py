@@ -689,7 +689,9 @@ def create_run_app(target, data):
     target.write("export XCL_EMULATION_MODE=$1\n")
     target.write("export XILINX_XRT=/usr\n") 
     target.write("export XILINX_VITIS=/mnt\n")
-    target.write("./host")
+    target.write("./")
+    if "host" in data:
+        target.write(data["host"]["host_exe"])
     if "containers" in data:
         for con in data["containers"]:
             target.write(" ")

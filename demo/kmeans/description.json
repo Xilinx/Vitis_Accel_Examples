@@ -16,6 +16,7 @@
     ], 
     "ndevice": [
 	"zc",
+    "vck",
 	"samsung"
     ],	
     "runtime": [

@@ -12,7 +12,8 @@
         "Multiple Kernel Binaries"
     ], 
     "ndevice": [
-        "zc"
+        "zc",
+        "vck"
      ],
     "contributors": [
         {

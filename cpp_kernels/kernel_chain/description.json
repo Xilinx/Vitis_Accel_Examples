@@ -10,6 +10,7 @@
     "ndevice": [
         "u50",
         "samsung",
+        "vck",
         "zc"
     ], 
     "os": [
