@@ -152,7 +152,7 @@ endif
 
 sd_card:
 ifneq ($(HOST_ARCH), x86)
-	$(VPP) -t $(TARGET) --platform $(DEVICE) -p $(BUILD_DIR)/device_only_buf.xclbin --package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.sd_file $(EDGE_COMMON_SW)/Image --package.sd_file xrt.ini --package.sd_file $(RUN_APP_SCRIPT) --package.sd_file $(EXECUTABLE)
+	$(VPP) -t $(TARGET) --platform $(DEVICE) -p $(BUILD_DIR)/device_only_buf.xclbin --package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.sd_file $(EDGE_COMMON_SW)/Image --package.sd_file xrt.ini --package.sd_file $(RUN_APP_SCRIPT) --package.sd_file $(EXECUTABLE) -o device_only_buf.xclbin
 endif
 
 # Cleaning stuff

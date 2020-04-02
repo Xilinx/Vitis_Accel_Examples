@@ -490,7 +490,10 @@ def mk_check(target, data):
         for con in data["containers"]:
             target.write("\t$(VPP) -t $(TARGET) --platform $(DEVICE) -p $(BUILD_DIR)/")
             target.write(con["name"])
-            target.write(".xclbin --package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.sd_file $(EDGE_COMMON_SW)/Image --package.sd_file xrt.ini --package.sd_file $(RUN_APP_SCRIPT) --package.sd_file $(EXECUTABLE)\n")
+            target.write(".xclbin --package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.sd_file $(EDGE_COMMON_SW)/Image --package.sd_file xrt.ini --package.sd_file $(RUN_APP_SCRIPT) --package.sd_file $(EXECUTABLE)")
+            target.write(" -o ")
+            target.write(con["name"])
+            target.write(".xclbin\n")
     target.write("endif\n")
     target.write("\n")
 
