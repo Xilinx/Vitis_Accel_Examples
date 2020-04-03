@@ -13,7 +13,7 @@ my $command;
 my $status;
 my $timeoutlevel;
 my $delay;
-my @timeout = (0,90,180,600,3600,7200,18000,43200,86400,172800,432000,691200); 
+my @timeout = (3,10,20,30,45,60,90,120,180,300,420,600,720,1080,1440,2160,2880,4320,7200,11520);
 my $exit_val=0;
 
 #$command="launch_emulator -no-reboot -runtime ocl -t hw_emu -sd-card-image sd_card.img -device-family Ultrascale";
@@ -37,7 +37,7 @@ if ($ARGV[3] eq '') {
 }
 else {
      $timeoutlevel=$ARGV[3];    
-     $delay= $timeout[int($timeoutlevel)];
+     $delay= $timeout[int($timeoutlevel)-1];
 }
 
 
@@ -46,14 +46,14 @@ or die "ERROR: Cannot spawn $command: $!\n";
 
 #| Detect if linux booted on Zynq:
 my $booted = 0;
- while ($i<3) {
-    if( $exp->expect(900, '-re', 'root@.*:.*#')) {
+ while ($i<15) {
+    if( $exp->expect(180, '-re', 'root@.*:.*#')) {
         $booted=1;
         printf "\nINFO: Linux kernel booted successfully\n";
         last;
     }
     
-    if( $exp->expect(100, 'ZynqMP>')) {
+    if( $exp->expect(180, 'ZynqMP>')) {
         printf "\nERROR: Linux kernel boot failed\n";
         $exit_val=1;
         print "\nINFO: Exiting QEMU\n";
@@ -86,29 +86,16 @@ $exp-> send( "cd /mnt\r");
 $exp-> send( "$EXECUTABLE\r");
 
 #| Check for finish of the host app:
-while ($j<6)
-{
-    if( $exp-> expect(300, "PASS", "Pass" , "Compiled", "COMPILED", " Test completed successfully", "user memory:", "Test passed", "TEST PASSED", "Completed", "Embedded host run completed" )) {
-        $k=1;
-    }
-    if( $exp-> expect(175, ':/mnt#')) {
-
-        #if( $xp-> expect(15, $status)) {
-        if($k==1) {
-            #print "\nINFO: Embedded host run completed.\n";
-            #$exp-> send( "echo 'INFO: Embedded host run completed.'");
-            $exit_val=0;
-            last;
-          } 
-            else {
-               print "\nERROR: Host application did not complete - pass/end string not found. Exiting as a failure\n";
-              #  exit(1);
-                 $exit_val=1;
-            last;
-          }
-    }
-	$j=$j+1;
+if( $exp-> expect(int($delay)*60, "host run completed" )) {
+    $k=1;
 }
+    
+if($k==1) {
+    $exit_val=0;
+} else {
+    print "\nERROR: Host application did not complete - pass/end string not found. Exiting as a failure\n";
+    $exit_val=1;
+  }
 
 print "\nINFO: Exiting QEMU \n";
  sleep(10);
