@@ -26,8 +26,9 @@ else
 endif
 
 #Checks for XILINX_VITIS
+check-vitis:
 ifndef XILINX_VITIS
-$(error XILINX_VITIS variable is not set, please set correctly and rerun)
+	$(error XILINX_VITIS variable is not set, please set correctly and rerun)
 endif
 
 #Checks for Device Family

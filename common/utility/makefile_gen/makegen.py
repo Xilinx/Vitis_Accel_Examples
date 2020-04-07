@@ -349,7 +349,7 @@ def mk_build_all(target, data):
     target.write("\n")
     
     target.write(".PHONY: build\n")
-    target.write("build: $(BINARY_CONTAINERS)\n")
+    target.write("build: check-vitis $(BINARY_CONTAINERS)\n")
     target.write("\n")
     
     counter = 0
@@ -592,8 +592,9 @@ def util_checks(target):
     target.write("\n")
 
     target.write("#Checks for XILINX_VITIS\n")
+    target.write("check-vitis:\n")
     target.write("ifndef XILINX_VITIS\n")
-    target.write("$(error XILINX_VITIS variable is not set, please set correctly and rerun)\n")
+    target.write("\t$(error XILINX_VITIS variable is not set, please set correctly and rerun)\n")
     target.write("endif\n")
     target.write("\n")
 

@@ -100,7 +100,7 @@ all: check-devices $(EXECUTABLE) $(BINARY_CONTAINERS) emconfig sd_card
 exe: $(EXECUTABLE)
 
 .PHONY: build
-build: $(BINARY_CONTAINERS)
+build: check-vitis $(BINARY_CONTAINERS)
 
 # Building kernel
 $(BUILD_DIR)/vadd.xclbin: $(BINARY_CONTAINER_vadd_OBJS)

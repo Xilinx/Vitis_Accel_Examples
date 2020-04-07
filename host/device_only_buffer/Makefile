@@ -98,7 +98,7 @@ all: check-devices $(EXECUTABLE) $(BINARY_CONTAINERS) emconfig sd_card
 exe: $(EXECUTABLE)
 
 .PHONY: build
-build: $(BINARY_CONTAINERS)
+build: check-vitis $(BINARY_CONTAINERS)
 
 # Building kernel
 $(TEMP_DIR)/madd.xo: src/madd.cpp
