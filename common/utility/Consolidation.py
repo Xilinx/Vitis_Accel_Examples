@@ -39,7 +39,7 @@ if(not os.path.isdir(folder_created)):
 	f.close()
 
 	f = open(folder_created + '/description.json', "r+")
-	
+
 	flag = 0
 	for txt in f:
 		if "\"includepaths\"" in txt:
@@ -62,6 +62,11 @@ if(not os.path.isdir(folder_created)):
 			cmd2 = 'cp -rf ' + commonfolders + '/' + foldername + '/* ' + folder_created + '/common/includes/' + foldername
 			os.system(cmd1)
 			os.system(cmd2)
+
+	cmd1 = 'mkdir -p ' + folder_created + '/common/utility/'
+	cmd2 = 'cp -rf ' + route[0] + '/common/utility/run_emulation.pl ' + folder_created + '/common/utility/'
+	os.system(cmd1)
+	os.system(cmd2)
 
 	g = open(folder_created + '/Makefile', "w")
 	g.write(string)
