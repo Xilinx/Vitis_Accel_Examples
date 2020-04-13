@@ -182,18 +182,18 @@ int main(int argc, char **argv) {
     ext.flags = 0;
     OCL_CHECK(ret,
               write_stream_a = xcl::Stream::createStream(
-                  device.get(), CL_STREAM_WRITE_ONLY, CL_STREAM, &ext, &ret));
+                  device.get(), XCL_STREAM_READ_ONLY, CL_STREAM, &ext, &ret));
     ext.flags = 1;
     OCL_CHECK(ret,
               write_stream_b = xcl::Stream::createStream(
-                  device.get(), CL_STREAM_WRITE_ONLY, CL_STREAM, &ext, &ret));
+                  device.get(), XCL_STREAM_READ_ONLY, CL_STREAM, &ext, &ret));
 
     //Create read stream for argument 2 of kernel
     cl_stream read_stream;
     ext.flags = 2;
     OCL_CHECK(ret,
               read_stream = xcl::Stream::createStream(
-                  device.get(), CL_STREAM_READ_ONLY, CL_STREAM, &ext, &ret));
+                  device.get(), XCL_STREAM_WRITE_ONLY, CL_STREAM, &ext, &ret));
 
     // Running the Kernel with blocking Stream APIs
     std::cout

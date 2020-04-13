@@ -39,9 +39,9 @@ ext.param = krnl_vadd.get(); //specifying the kernel object on which stream conn
 ext.obj = NULL;
 
 ext.flags = 0; //Create read stream for argument 0 of kernel
-cl_stream read_stream xcl::Stream::createStream(device.get(), CL_STREAM_READ_ONLY, CL_STREAM, &ext, &ret));
+cl_stream read_stream = xcl::Stream::createStream(device.get(), XCL_STREAM_WRITE_ONLY, CL_STREAM, &ext, &ret));
 ext.flags = 1; //Create write stream for argument 1 
-cl_stream write_stream_a = xcl::Stream::createStream(device.get(), CL_STREAM_WRITE_ONLY, CL_STREAM, &ext, &ret));
+cl_stream write_stream_a = xcl::Stream::createStream(device.get(), XCL_STREAM_READ_ONLY, CL_STREAM, &ext, &ret));
 ```
 
 Please refer `streaming_simple` example to more about Streaming kernel usage.

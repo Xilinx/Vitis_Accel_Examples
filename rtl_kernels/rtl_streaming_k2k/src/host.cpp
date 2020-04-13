@@ -175,7 +175,7 @@ int main(int argc, char **argv) {
     ext.flags = 1;
     OCL_CHECK(ret,
               write_stream_a = xcl::Stream::createStream(
-                  device.get(), CL_STREAM_WRITE_ONLY, CL_STREAM, &ext, &ret));
+                  device.get(), XCL_STREAM_READ_ONLY, CL_STREAM, &ext, &ret));
 
     ext.param = krnl_adder2.get();
 
@@ -184,7 +184,7 @@ int main(int argc, char **argv) {
     ext.flags = 0;
     OCL_CHECK(ret,
               read_stream = xcl::Stream::createStream(
-                  device.get(), CL_STREAM_READ_ONLY, CL_STREAM, &ext, &ret));
+                  device.get(), XCL_STREAM_WRITE_ONLY, CL_STREAM, &ext, &ret));
 
     // Initiating the WRITE transfer
     cl_stream_xfer_req wr_req{0};

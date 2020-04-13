@@ -187,22 +187,22 @@ int main(int argc, char **argv) {
     ext1.flags = 0;
     OCL_CHECK(ret,
               write_stream_a = xcl::Stream::createStream(
-                  device.get(), CL_STREAM_WRITE_ONLY, CL_STREAM, &ext1, &ret));
+                  device.get(), XCL_STREAM_READ_ONLY, CL_STREAM, &ext1, &ret));
     ext1.flags = 1;
     OCL_CHECK(ret,
               write_stream_b = xcl::Stream::createStream(
-                  device.get(), CL_STREAM_WRITE_ONLY, CL_STREAM, &ext1, &ret));
+                  device.get(), XCL_STREAM_READ_ONLY, CL_STREAM, &ext1, &ret));
     ext2.flags = 0;
     OCL_CHECK(ret,
               write_stream_c = xcl::Stream::createStream(
-                  device.get(), CL_STREAM_WRITE_ONLY, CL_STREAM, &ext2, &ret));
+                  device.get(), XCL_STREAM_READ_ONLY, CL_STREAM, &ext2, &ret));
 
     //Create read stream for argument 2 of kernel
     cl_stream read_stream;
     ext2.flags = 2;
     OCL_CHECK(ret,
               read_stream = xcl::Stream::createStream(
-                  device.get(), CL_STREAM_READ_ONLY, CL_STREAM, &ext2, &ret));
+                  device.get(), XCL_STREAM_WRITE_ONLY, CL_STREAM, &ext2, &ret));
 
     OCL_CHECK(err, err = q.enqueueTask(krnl_vadd));
     OCL_CHECK(err, err = q.enqueueTask(krnl_vmult));

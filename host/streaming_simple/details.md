@@ -52,12 +52,12 @@ cl_mem_ext_ptr_t ext;
 ext.param = krnl_adder1.get();
 ext.obj = NULL;
 ext.flags = 0; // Indicates that connect to argument 0 of kernel
-cl_stream write_stream_a = xcl::Stream::createStream(device.get(), CL_STREAM_WRITE_ONLY, CL_STREAM, &ext,nullptr));
+cl_stream write_stream_a = xcl::Stream::createStream(device.get(), XCL_STREAM_READ_ONLY, CL_STREAM, &ext,nullptr));
 ext.flags = 1; // Indicates that connect to argument 1 of kernel
-cl_stream read_stream = xcl::Stream::createStream(device.get(), CL_STREAM_READ_ONLY, CL_STREAM, &ext, &ret));
+cl_stream read_stream = xcl::Stream::createStream(device.get(), XCL_STREAM_WRITE_ONLY, CL_STREAM, &ext, &ret));
 ```
 
-`xcl::stream::createStream` API is used to create a stream and read and write properties are determined by the flags `CL_STREAM_WRITE_ONLY` and `CL_STREAM_READ_ONLY` .`.flags` is used to specify the kernel argument to which stream is connected.
+`xcl::stream::createStream` API is used to create a stream and read and write properties are determined by the flags `XCL_STREAM_WRITE_ONLY` and `XCL_STREAM_READ_ONLY` .`.flags` is used to specify the kernel argument to which stream is connected.
 
 There are blocking and non-blocking APIs to transfer data between Host and kernel via stream interface.
 
