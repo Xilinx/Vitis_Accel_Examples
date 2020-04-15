@@ -40,8 +40,14 @@ endif
 
 #Checks for XILINX_XRT
 check-xrt:
+ifeq ($(HOST_ARCH), x86)
 ifndef XILINX_XRT
 	$(error XILINX_XRT variable is not set, please set correctly and rerun)
+endif
+else
+ifndef XILINX_VITIS
+	$(error XILINX_VITIS variable is not set, please set correctly and rerun)
+endif
 endif
 
 #Checks for Correct architecture
