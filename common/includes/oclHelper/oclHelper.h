@@ -18,12 +18,18 @@ without specific prior written permission.
 
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
 ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
-THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
-IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
-INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
-HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
-OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
+THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ARE DISCLAIMED.
+IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
+INDIRECT,
+INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+LIMITED TO,
+PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR
+BUSINESS INTERRUPTION)
+HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+LIABILITY,
+OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 **********/
 #ifndef _OCL_HELP_H_
@@ -32,29 +38,29 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <CL/cl.h>
 
 struct oclHardware {
-    cl_platform_id mPlatform;
-    cl_context mContext;
-    cl_device_id mDevice;
-    cl_command_queue mQueue;
-    short mMajorVersion;
-    short mMinorVersion;
+  cl_platform_id mPlatform;
+  cl_context mContext;
+  cl_device_id mDevice;
+  cl_command_queue mQueue;
+  short mMajorVersion;
+  short mMinorVersion;
 };
 
 struct oclSoftware {
-    cl_program mProgram;
-    cl_kernel mKernel;
-    char mKernelName[128];
-    char mFileName[1024];
-    char mCompileOptions[1024];
+  cl_program mProgram;
+  cl_kernel mKernel;
+  char mKernelName[128];
+  char mFileName[1024];
+  char mCompileOptions[1024];
 };
 
 oclHardware getOclHardware(cl_device_type type);
 
 int getOclSoftware(oclSoftware &software, const oclHardware &hardware);
 
-void release(oclSoftware& software);
+void release(oclSoftware &software);
 
-void release(oclHardware& hardware);
+void release(oclHardware &hardware);
 
 const char *oclErrorCode(cl_int code);
 

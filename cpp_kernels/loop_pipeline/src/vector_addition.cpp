@@ -18,12 +18,18 @@ without specific prior written permission.
 
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
 ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
-THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
-IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
-INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
-HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
-OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
+THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ARE DISCLAIMED.
+IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
+INDIRECT,
+INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+LIMITED TO,
+PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR
+BUSINESS INTERRUPTION)
+HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+LIABILITY,
+OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 **********/
 
@@ -70,38 +76,38 @@ void vadd_pipelined(int *c, const int *a, const int *b, const int len) {
 #pragma HLS INTERFACE s_axilite port = len bundle = control
 #pragma HLS INTERFACE s_axilite port = return bundle = control
 
-    int result[N];
-    int iterations = len / N;
+  int result[N];
+  int iterations = len / N;
 
 // Default behavior of V++ will pipeline the outer loop. Since we have
 // multiple inner loops, the pipelining will fail. We can instead pipeline
 // the inner loops using the HLS PIPELINE pragma to guide the compiler.
 vadd_pipeline:
-    for (int i = 0; i < iterations; i++) {
-       #pragma HLS LOOP_TRIPCOUNT min=c_len/c_n max=c_len/c_n
+  for (int i = 0; i < iterations; i++) {
+#pragma HLS LOOP_TRIPCOUNT min = c_len/c_n max = c_len/c_n
 
-    // Pipelining loops that access only one variable is the ideal way to
-    // increase the global memory bandwidth.
-    read_a:
-        for (int x = 0; x < N; ++x) {
-           #pragma HLS LOOP_TRIPCOUNT min=c_n max=c_n
-           #pragma HLS PIPELINE II=1
-            result[x] = a[i * N + x];
-        }
-
-    read_b:
-        for (int x = 0; x < N; ++x) {
-           #pragma HLS LOOP_TRIPCOUNT min=c_n max=c_n
-           #pragma HLS PIPELINE II=1
-            result[x] += b[i * N + x];
-        }
-
-    write_c:
-        for (int x = 0; x < N; ++x) {
-           #pragma HLS LOOP_TRIPCOUNT min=c_n max=c_n
-           #pragma HLS PIPELINE II=1
-            c[i * N + x] = result[x];
-        }
+  // Pipelining loops that access only one variable is the ideal way to
+  // increase the global memory bandwidth.
+  read_a:
+    for (int x = 0; x < N; ++x) {
+#pragma HLS LOOP_TRIPCOUNT min = c_n max = c_n
+#pragma HLS PIPELINE II = 1
+      result[x] = a[i * N + x];
     }
+
+  read_b:
+    for (int x = 0; x < N; ++x) {
+#pragma HLS LOOP_TRIPCOUNT min = c_n max = c_n
+#pragma HLS PIPELINE II = 1
+      result[x] += b[i * N + x];
+    }
+
+  write_c:
+    for (int x = 0; x < N; ++x) {
+#pragma HLS LOOP_TRIPCOUNT min = c_n max = c_n
+#pragma HLS PIPELINE II = 1
+      c[i * N + x] = result[x];
+    }
+  }
 }
 }

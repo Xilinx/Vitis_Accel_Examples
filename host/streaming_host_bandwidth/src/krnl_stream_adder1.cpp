@@ -18,20 +18,27 @@ without specific prior written permission.
 
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
 ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
-THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
-IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
-INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
-HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
-OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
+THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ARE DISCLAIMED.
+IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
+INDIRECT,
+INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+LIMITED TO,
+PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR
+BUSINESS INTERRUPTION)
+HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+LIABILITY,
+OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 **********/
-/*In this example, we will demonstrate how to use Xilinx Streaming APIs for direct host to device transfer.
+/*In this example, we will demonstrate how to use Xilinx Streaming APIs for
+   direct host to device transfer.
             +----------+                                      +----------+
             |          |>>>>>>>>>>>> Input Stream 1 >>>>>>>>>>|          |
             |          |                                      |  ADDER   |
             |   HOST   |                                      |  Kernel  |
-            |          |                                      |          | 
+            |          |                                      |          |
             |          |<<<<<<<<<<<< Output Stream <<<<<<<<<<<|          |
             +----------+                                      +----------+
 */
@@ -47,48 +54,47 @@ typedef qdma_axis<DWIDTH, 0, 0, 0> pkt;
 
 extern "C" {
 void krnl_stream_adder1(hls::stream<pkt> &a, hls::stream<pkt> &output) {
-   #pragma HLS INTERFACE axis port=a
-   #pragma HLS INTERFACE axis port=output
-   #pragma HLS INTERFACE s_axilite port=return bundle=control
+#pragma HLS INTERFACE axis port = a
+#pragma HLS INTERFACE axis port = output
+#pragma HLS INTERFACE s_axilite port = return bundle = control
 
-    bool eos = false;
+  bool eos = false;
 adder1:
-    do {
-       #pragma HLS PIPELINE II=1
-        // Reading a stream into packets
-        pkt t1 = a.read();
+  do {
+#pragma HLS PIPELINE II = 1
+    // Reading a stream into packets
+    pkt t1 = a.read();
 
-        // Packet for output
-        pkt t_out;
+    // Packet for output
+    pkt t_out;
 
-        // Reading data from input packet
-        ap_uint<DWIDTH> in1 = t1.get_data();
-        ap_uint<DWIDTH> tmpOut;
+    // Reading data from input packet
+    ap_uint<DWIDTH> in1 = t1.get_data();
+    ap_uint<DWIDTH> tmpOut;
 
-        // Parallel Adder
-        for (int j = 0; j < VECTOR_SIZE; j++) {
-           #pragma HLS UNROLL
-            ap_uint<DATATYPE_SIZE> temp_a =
-                in1.range(DATATYPE_SIZE * (j + 1) - 1, j * DATATYPE_SIZE);
+    // Parallel Adder
+    for (int j = 0; j < VECTOR_SIZE; j++) {
+#pragma HLS UNROLL
+      ap_uint<DATATYPE_SIZE> temp_a =
+          in1.range(DATATYPE_SIZE * (j + 1) - 1, j * DATATYPE_SIZE);
 
-            // Increment operation
-            ap_uint<DATATYPE_SIZE> temp_res = temp_a + 1;
+      // Increment operation
+      ap_uint<DATATYPE_SIZE> temp_res = temp_a + 1;
 
-            tmpOut.range(DATATYPE_SIZE * (j + 1) - 1, j * DATATYPE_SIZE) =
-                temp_res;
-        }
+      tmpOut.range(DATATYPE_SIZE * (j + 1) - 1, j * DATATYPE_SIZE) = temp_res;
+    }
 
-        // Setting data and configuration to output packet
-        t_out.set_data(tmpOut);
-        t_out.set_last(t1.get_last());
-        t_out.set_keep(-1); // Enabling all bytes
+    // Setting data and configuration to output packet
+    t_out.set_data(tmpOut);
+    t_out.set_last(t1.get_last());
+    t_out.set_keep(-1); // Enabling all bytes
 
-        // Writing packet to output stream
-        output.write(t_out);
+    // Writing packet to output stream
+    output.write(t_out);
 
-        if (t1.get_last()) {
-            eos = true;
-        }
-    } while (eos == false);
+    if (t1.get_last()) {
+      eos = true;
+    }
+  } while (eos == false);
 }
 }

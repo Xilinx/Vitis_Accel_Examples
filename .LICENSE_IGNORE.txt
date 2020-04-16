@@ -1,0 +1,13 @@
+common/includes/lodepng/lodepng.cpp
+common/includes/lodepng/lodepng.h
+demo/kmeans/src/fpga_kmeans.cpp
+demo/kmeans/src/fpga_kmeans.h
+demo/kmeans/src/host.cpp
+demo/kmeans/src/kmeans.h
+demo/kmeans/src/kmeans_clustering_cmodel.c
+demo/kmeans/src/kmeans_config.h
+demo/kmeans/src/krnl_kmeans.cpp
+demo/kmeans/src/krnl_kmeans.h
+demo/kmeans/src/timer.h
+host/streaming_free_running_kernel/src/host.cpp
+host/streaming_multi_cus/src/host.cpp
