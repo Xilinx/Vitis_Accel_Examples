@@ -18,12 +18,18 @@ without specific prior written permission.
 
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
 ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
-THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
-IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
-INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
-HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
-OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
+THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ARE DISCLAIMED.
+IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
+INDIRECT,
+INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+LIMITED TO,
+PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR
+BUSINESS INTERRUPTION)
+HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+LIABILITY,
+OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 **********/
 
@@ -35,34 +41,34 @@ Description:
     which n is the nth chunk of data.
 *******************************************************************************/
 
-#include <stdint.h>
 #include <ap_int.h>
+#include <stdint.h>
 #define SIZE 1024
 
 typedef ap_uint<512> uintV_t;
 
-void read(uintV_t *in, uintV_t buffer_in[SIZE]){
+void read(uintV_t *in, uintV_t buffer_in[SIZE]) {
 read:
-    for (int i = 0; i < SIZE; i++) {
-        #pragma HLS PIPELINE II=1
-		buffer_in[i] = in[i];
-	}
+  for (int i = 0; i < SIZE; i++) {
+#pragma HLS PIPELINE II = 1
+    buffer_in[i] = in[i];
+  }
 }
 
-void cpy(uintV_t buffer_in[SIZE], uintV_t buffer_out[SIZE]){
+void cpy(uintV_t buffer_in[SIZE], uintV_t buffer_out[SIZE]) {
 cpy:
-    for (int i = 0; i < SIZE; i++) {
-        #pragma HLS PIPELINE II=1
-		buffer_out[i] = buffer_in[i];
-	}    
+  for (int i = 0; i < SIZE; i++) {
+#pragma HLS PIPELINE II = 1
+    buffer_out[i] = buffer_in[i];
+  }
 }
 
-void write(uintV_t buffer_out[SIZE], uintV_t *out){
+void write(uintV_t buffer_out[SIZE], uintV_t *out) {
 write:
-    for (int i = 0; i < SIZE; i++) {
-        #pragma HLS PIPELINE II=1
-		out[i] = buffer_out[i];
-	}
+  for (int i = 0; i < SIZE; i++) {
+#pragma HLS PIPELINE II = 1
+    out[i] = buffer_out[i];
+  }
 }
 
 extern "C" {
@@ -77,18 +83,17 @@ void copy(uintV_t *in,
     #pragma HLS INTERFACE s_axilite port = t_size 
     #pragma HLS INTERFACE s_axilite port = return 
 
-    uintV_t buffer_in[SIZE];
-	uintV_t buffer_out[SIZE];
+  uintV_t buffer_in[SIZE];
+  uintV_t buffer_out[SIZE];
 
-    int n_loop = t_size / (16 * SIZE);
-	int offset = 0;
+  int n_loop = t_size / (16 * SIZE);
+  int offset = 0;
 
 #pragma HLS dataflow
-    for (int i = 0; i < n_loop; i++, offset += SIZE) {
-		read(in + offset, buffer_in);
-		cpy(buffer_in, buffer_out);
-		write(buffer_out, out + offset);
-	}
+  for (int i = 0; i < n_loop; i++, offset += SIZE) {
+    read(in + offset, buffer_in);
+    cpy(buffer_in, buffer_out);
+    write(buffer_out, out + offset);
   }
-    
+}
 }

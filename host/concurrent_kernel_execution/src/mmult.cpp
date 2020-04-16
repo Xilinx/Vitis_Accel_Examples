@@ -18,55 +18,61 @@ without specific prior written permission.
 
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
 ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
-THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
-IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
-INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
-HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
-OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
+THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ARE DISCLAIMED.
+IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
+INDIRECT,
+INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+LIMITED TO,
+PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR
+BUSINESS INTERRUPTION)
+HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+LIABILITY,
+OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 **********/
 
 #define MAX_DIM 64
 
-//Tripcount identifiers
+// Tripcount identifiers
 const int c_size = MAX_DIM;
 
 extern "C" {
 void mmult(int *c, int *a, const int *b, const int dim0, const int dim1) {
 
-    int matA[MAX_DIM * MAX_DIM];
-    int matB[MAX_DIM * MAX_DIM];
+  int matA[MAX_DIM * MAX_DIM];
+  int matB[MAX_DIM * MAX_DIM];
 
 mmult_readA:
-    for (int i = 0; i < dim0 * dim1; ++i) {
-       #pragma HLS PIPELINE II=1
-       #pragma HLS LOOP_TRIPCOUNT min=c_size*c_size max=c_size*c_size
-        matA[i] = a[i];
-    }
+  for (int i = 0; i < dim0 * dim1; ++i) {
+#pragma HLS PIPELINE II = 1
+#pragma HLS LOOP_TRIPCOUNT min = c_size*c_size max = c_size*c_size
+    matA[i] = a[i];
+  }
 
 mmult_readB:
-    for (int i = 0; i < dim0 * dim1; ++i) {
-       #pragma HLS PIPELINE II=1
-       #pragma HLS LOOP_TRIPCOUNT min=c_size*c_size max=c_size*c_size
-        matB[i] = b[i];
-    }
+  for (int i = 0; i < dim0 * dim1; ++i) {
+#pragma HLS PIPELINE II = 1
+#pragma HLS LOOP_TRIPCOUNT min = c_size*c_size max = c_size*c_size
+    matB[i] = b[i];
+  }
 
 mmult1:
-    for (int j = 0; j < dim1; ++j) {
-       #pragma HLS LOOP_TRIPCOUNT min=c_size max=c_size
-    mmult2:
-        for (int i = 0; i < dim0; ++i) {
-           #pragma HLS LOOP_TRIPCOUNT min=c_size max=c_size
-            int temp = 0;
-        mmult3:
-            for (int k = 0; k < dim1; ++k)
-               #pragma HLS LOOP_TRIPCOUNT min=c_size max=c_size
-               #pragma HLS PIPELINE II=1
-                temp += matA[k + i * dim0] * matB[j + k * dim0];
+  for (int j = 0; j < dim1; ++j) {
+#pragma HLS LOOP_TRIPCOUNT min = c_size max = c_size
+  mmult2:
+    for (int i = 0; i < dim0; ++i) {
+#pragma HLS LOOP_TRIPCOUNT min = c_size max = c_size
+      int temp = 0;
+    mmult3:
+      for (int k = 0; k < dim1; ++k)
+#pragma HLS LOOP_TRIPCOUNT min = c_size max = c_size
+#pragma HLS PIPELINE II = 1
+        temp += matA[k + i * dim0] * matB[j + k * dim0];
 
-            c[i + j * dim0] = temp;
-        }
+      c[i + j * dim0] = temp;
     }
+  }
 }
 }

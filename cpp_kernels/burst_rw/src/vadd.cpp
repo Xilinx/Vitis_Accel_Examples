@@ -18,29 +18,35 @@ without specific prior written permission.
 
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
 ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
-THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
-IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
-INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
-HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
-OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
+THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ARE DISCLAIMED.
+IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
+INDIRECT,
+INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+LIMITED TO,
+PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR
+BUSINESS INTERRUPTION)
+HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+LIABILITY,
+OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 **********/
 
 /*******************************************************************************
-Description: 
-    HLS Example using AXI4-master interface for burst read and write 
+Description:
+    HLS Example using AXI4-master interface for burst read and write
 *******************************************************************************/
 
-//Includes
+// Includes
 #include <stdio.h>
 #include <string.h>
 
 #define DATA_SIZE 2048
-//define internal buffer max size
+// define internal buffer max size
 #define BURSTBUFFERSIZE 256
 
-//TRIPCOUNT identifiers
+// TRIPCOUNT identifiers
 const unsigned int c_size_min = 1;
 const unsigned int c_size_max = BURSTBUFFERSIZE;
 const unsigned int c_chunk_sz = DATA_SIZE;
@@ -55,30 +61,32 @@ void vadd(int *a, int size, int inc_value) {
    #pragma HLS INTERFACE s_axilite port=inc_value 
    #pragma HLS INTERFACE s_axilite port=return 
 
-    int burstbuffer[BURSTBUFFERSIZE];
+  int burstbuffer[BURSTBUFFERSIZE];
 
-    //Per iteration of this loop perform BURSTBUFFERSIZE vector addition
-    for (int i = 0; i < size; i += BURSTBUFFERSIZE) {
-       #pragma HLS LOOP_TRIPCOUNT min=c_size_min*c_size_min max=c_chunk_sz*c_chunk_sz/(c_size_max*c_size_max)
-        int chunk_size = BURSTBUFFERSIZE;
-        //boundary checks
-        if ((i + BURSTBUFFERSIZE) > size)
-            chunk_size = size - i;
-        //burst read
-        for (int j = 0; j < chunk_size; j++) {
-           #pragma HLS LOOP_TRIPCOUNT min = c_size_min max = c_size_max
-           #pragma HLS PIPELINE II=1
-            burstbuffer[j] = a[i + j];
-        }
-
-    //calculate and write results to global memory, the sequential write in a for loop can be inferred to a memory burst access
-    calc_write:
-        for (int j = 0; j < chunk_size; j++) {
-           #pragma HLS LOOP_TRIPCOUNT min=c_size_max max=c_chunk_sz
-           #pragma HLS PIPELINE II=1
-            burstbuffer[j] = burstbuffer[j] + inc_value;
-            a[i + j] = burstbuffer[j];
-        }
+  // Per iteration of this loop perform BURSTBUFFERSIZE vector addition
+  for (int i = 0; i < size; i += BURSTBUFFERSIZE) {
+#pragma HLS LOOP_TRIPCOUNT min = c_size_min*c_size_min max =                  \
+    c_chunk_sz*c_chunk_sz/(c_size_max*c_size_max)
+    int chunk_size = BURSTBUFFERSIZE;
+    // boundary checks
+    if ((i + BURSTBUFFERSIZE) > size)
+      chunk_size = size - i;
+    // burst read
+    for (int j = 0; j < chunk_size; j++) {
+#pragma HLS LOOP_TRIPCOUNT min = c_size_min max = c_size_max
+#pragma HLS PIPELINE II = 1
+      burstbuffer[j] = a[i + j];
     }
+
+  // calculate and write results to global memory, the sequential write in a for
+  // loop can be inferred to a memory burst access
+  calc_write:
+    for (int j = 0; j < chunk_size; j++) {
+#pragma HLS LOOP_TRIPCOUNT min = c_size_max max = c_chunk_sz
+#pragma HLS PIPELINE II = 1
+      burstbuffer[j] = burstbuffer[j] + inc_value;
+      a[i + j] = burstbuffer[j];
+    }
+  }
 }
 }

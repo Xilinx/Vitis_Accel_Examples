@@ -18,21 +18,27 @@ without specific prior written permission.
 
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
 ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
-THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
-IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
-INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
-HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
-OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
+THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ARE DISCLAIMED.
+IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
+INDIRECT,
+INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+LIMITED TO,
+PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR
+BUSINESS INTERRUPTION)
+HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+LIABILITY,
+OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 **********/
 
 #include <stdio.h>
 
-//Maximum Array Size
+// Maximum Array Size
 #define MAX_SIZE 8
 
-//TRIPCOUNT identifier
+// TRIPCOUNT identifier
 const unsigned int c_size = MAX_SIZE;
 
 extern "C" {
@@ -72,63 +78,63 @@ void mmult(const int *a, // Read-Only Matrix A
 // Burst reads on input matrices from global memory
 // Read Input A
 readA:
-    for (int loc = 0, i = 0, j = 0; loc < a_row * a_col; loc++, j++) {
-       #pragma HLS LOOP_TRIPCOUNT min=c_size*c_size max=c_size*c_size
-       #pragma HLS PIPELINE II=1
-        if (j == a_col) {
-            i++;
-            j = 0;
-        }
-        localA[i][j] = a[loc];
+  for (int loc = 0, i = 0, j = 0; loc < a_row * a_col; loc++, j++) {
+#pragma HLS LOOP_TRIPCOUNT min = c_size*c_size max = c_size*c_size
+#pragma HLS PIPELINE II = 1
+    if (j == a_col) {
+      i++;
+      j = 0;
     }
+    localA[i][j] = a[loc];
+  }
 
 // Read Input B
 readB:
-    for (int loc = 0, i = 0, j = 0; loc < b_row * b_col; loc++, j++) {
-       #pragma HLS LOOP_TRIPCOUNT min=c_size*c_size max=c_size*c_size
-       #pragma HLS PIPELINE II=1
-        if (j == b_col) {
-            i++;
-            j = 0;
-        }
-        localB[i][j] = b[loc];
+  for (int loc = 0, i = 0, j = 0; loc < b_row * b_col; loc++, j++) {
+#pragma HLS LOOP_TRIPCOUNT min = c_size*c_size max = c_size*c_size
+#pragma HLS PIPELINE II = 1
+    if (j == b_col) {
+      i++;
+      j = 0;
     }
+    localB[i][j] = b[loc];
+  }
 
 outer_loop1:
-    for (int k = 0; k < a_col; k++) {
-       #pragma HLS LOOP_TRIPCOUNT min=c_size max=c_size
-       #pragma HLS PIPELINE II=1
-    outer_loop2:
-        for (int i = 0; i < MAX_SIZE; i++) {
-        inner_loop:
-            for (int j = 0; j < MAX_SIZE; j++) {
+  for (int k = 0; k < a_col; k++) {
+#pragma HLS LOOP_TRIPCOUNT min = c_size max = c_size
+#pragma HLS PIPELINE II = 1
+  outer_loop2:
+    for (int i = 0; i < MAX_SIZE; i++) {
+    inner_loop:
+      for (int j = 0; j < MAX_SIZE; j++) {
 
-                // Get previous sum
-                int last = (k == 0) ? 0 : localC[i][j];
+        // Get previous sum
+        int last = (k == 0) ? 0 : localC[i][j];
 
-                // Update current sum
-                // Handle boundary conditions
-                int a_val = (i < a_row && k < a_col) ? localA[i][k] : 0;
-                int b_val = (k < b_row && j < b_col) ? localB[k][j] : 0;
-                int result = last + a_val * b_val;
+        // Update current sum
+        // Handle boundary conditions
+        int a_val = (i < a_row && k < a_col) ? localA[i][k] : 0;
+        int b_val = (k < b_row && j < b_col) ? localB[k][j] : 0;
+        int result = last + a_val * b_val;
 
-                // Write back results
-                localC[i][j] = result;
-            }
-        }
+        // Write back results
+        localC[i][j] = result;
+      }
     }
+  }
 
 // Burst write from output matrices to global memory
 // Burst write from matrix C
 writeC:
-    for (int loc = 0, i = 0, j = 0; loc < c_row * c_col; loc++, j++) {
-       #pragma HLS LOOP_TRIPCOUNT min=c_size*c_size max=c_size*c_size
-       #pragma HLS PIPELINE II=1
-        if (j == c_col) {
-            i++;
-            j = 0;
-        }
-        c[loc] = localC[i][j];
+  for (int loc = 0, i = 0, j = 0; loc < c_row * c_col; loc++, j++) {
+#pragma HLS LOOP_TRIPCOUNT min = c_size*c_size max = c_size*c_size
+#pragma HLS PIPELINE II = 1
+    if (j == c_col) {
+      i++;
+      j = 0;
     }
+    c[loc] = localC[i][j];
+  }
 }
 }

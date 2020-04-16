@@ -18,12 +18,18 @@ without specific prior written permission.
 
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
 ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
-THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
-IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
-INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
-HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
-OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
+THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ARE DISCLAIMED.
+IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
+INDIRECT,
+INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+LIMITED TO,
+PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR
+BUSINESS INTERRUPTION)
+HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+LIABILITY,
+OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 **********/
 #include <algorithm>
@@ -46,56 +52,106 @@ decltype(&clReadStream) xcl::Stream::readStream = nullptr;
 decltype(&clWriteStream) xcl::Stream::writeStream = nullptr;
 decltype(&clPollStreams) xcl::Stream::pollStreams = nullptr;
 
-auto constexpr c_test_size = 32 * 1024 * 1024; //32 MB data
+auto constexpr c_test_size = 32 * 1024 * 1024; // 32 MB data
 
 ////////////////////RESET FUNCTION//////////////////////////////////
-int reset(int *a,
-          int *b,
-          int *c,
-          int *sw_results,
-          int *hw_results,
+int reset(int *a, int *b, int *c, int *sw_results, int *hw_results,
           unsigned int size) {
-    //Fill the input vectors with data
-    std::generate(a, a + size, std::rand);
-    std::generate(b, b + size, std::rand);
-    std::generate(c, c + size, std::rand);
-    for (size_t i = 0; i < size; i++) {
-        hw_results[i] = 0;
-        sw_results[i] = (a[i] + b[i]) * c[i];
-    }
-    return 0;
+  // Fill the input vectors with data
+  std::generate(a, a + size, std::rand);
+  std::generate(b, b + size, std::rand);
+  std::generate(c, c + size, std::rand);
+  for (size_t i = 0; i < size; i++) {
+    hw_results[i] = 0;
+    sw_results[i] = (a[i] + b[i]) * c[i];
+  }
+  return 0;
 }
 ///////////////////VERIFY FUNCTION///////////////////////////////////
 int verify(int *sw_results, int *hw_results, int size) {
-    bool match = true;
-    for (int i = 0; i < size; i++) {
-        if (sw_results[i] != hw_results[i]) {
-            match = false;
-            break;
-        }
+  bool match = true;
+  for (int i = 0; i < size; i++) {
+    if (sw_results[i] != hw_results[i]) {
+      match = false;
+      break;
     }
-    std::cout << "TEST " << (match ? "PASSED" : "FAILED") << std::endl;
-    return match;
+  }
+  std::cout << "TEST " << (match ? "PASSED" : "FAILED") << std::endl;
+  return match;
 }
 ////////MAIN FUNCTION//////////
 int main(int argc, char **argv) {
-    size_t size = c_test_size;
-    if (xcl::is_hw_emulation()) {
-        size = 4096; // 4KB for HW emulation
-    } else if (xcl::is_emulation()) {
-        size = 2 * 1024 * 1024; // 2MB for sw emulation
-    }
+  size_t size = c_test_size;
+  if (xcl::is_hw_emulation()) {
+    size = 4096; // 4KB for HW emulation
+  } else if (xcl::is_emulation()) {
+    size = 2 * 1024 * 1024; // 2MB for sw emulation
+  }
 
-    // I/O Data Vectors
-    std::vector<int, aligned_allocator<int>> h_a(size);
-    std::vector<int, aligned_allocator<int>> h_b(size);
-    std::vector<int, aligned_allocator<int>> h_c(size);
-    std::vector<int, aligned_allocator<int>> hw_results(size);
-    std::vector<int> sw_results(size);
+  // I/O Data Vectors
+  std::vector<int, aligned_allocator<int>> h_a(size);
+  std::vector<int, aligned_allocator<int>> h_b(size);
+  std::vector<int, aligned_allocator<int>> h_c(size);
+  std::vector<int, aligned_allocator<int>> hw_results(size);
+  std::vector<int> sw_results(size);
 
-    if (argc != 2) {
-        std::cout << "Usage: " << argv[0] << " <XCLBIN File>" << std::endl;
-        return EXIT_FAILURE;
+  if (argc != 2) {
+    std::cout << "Usage: " << argv[0] << " <XCLBIN File>" << std::endl;
+    return EXIT_FAILURE;
+  }
+
+  auto binaryFile = argv[1];
+  std::cout << "Vector Addition and Multiplication of elements 0x" << std::hex
+            << size << std::endl;
+
+  // Reset the data vectors
+  reset(h_a.data(), h_b.data(), h_c.data(), sw_results.data(),
+        hw_results.data(), size);
+
+  // OpenCL Setup
+  // OpenCL objects
+  cl::Device device;
+  cl::Context context;
+  cl::CommandQueue q;
+  cl::Program program;
+  cl::Kernel krnl_vadd;
+  cl::Kernel krnl_vmult;
+
+  // Error Status variable
+  cl_int err;
+
+  // get_xil_devices() is a utility API which will find the xilinx
+  // platforms and will return list of devices connected to Xilinx platform
+  auto devices = xcl::get_xil_devices();
+
+  // read_binary_file() is a utility API which will load the binaryFile
+  // and will return the pointer to file buffer.
+  auto fileBuf = xcl::read_binary_file(binaryFile);
+  cl::Program::Binaries bins{{fileBuf.data(), fileBuf.size()}};
+  int valid_device = 0;
+  for (unsigned int i = 0; i < devices.size(); i++) {
+    device = devices[i];
+    // Creating Context and Command Queue for selected Device
+    OCL_CHECK(err, context = cl::Context(device, NULL, NULL, NULL, &err));
+    OCL_CHECK(err,
+              q = cl::CommandQueue(context, device,
+                                   CL_QUEUE_PROFILING_ENABLE |
+                                       CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE,
+                                   &err));
+
+    std::cout << "Trying to program device[" << i
+              << "]: " << device.getInfo<CL_DEVICE_NAME>() << std::endl;
+    cl::Program program(context, {device}, bins, NULL, &err);
+    if (err != CL_SUCCESS) {
+      std::cout << "Failed to program device[" << i << "] with xclbin file!\n";
+    } else {
+      std::cout << "Device[" << i << "]: program successful!\n";
+      // Creating Kernel
+      OCL_CHECK(err, krnl_vadd = cl::Kernel(program, "krnl_stream_vadd", &err));
+      OCL_CHECK(err,
+                krnl_vmult = cl::Kernel(program, "krnl_stream_vmult", &err));
+      valid_device++;
+      break; // we break because we found a valid device
     }
 
     auto binaryFile = argv[1];

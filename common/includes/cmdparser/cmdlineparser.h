@@ -18,12 +18,18 @@ without specific prior written permission.
 
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
 ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
-THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
-IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
-INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
-HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
-OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
+THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ARE DISCLAIMED.
+IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
+INDIRECT,
+INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+LIMITED TO,
+PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR
+BUSINESS INTERRUPTION)
+HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+LIABILITY,
+OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 **********/
 #ifndef CMDLINEPARSER_H_
@@ -38,7 +44,7 @@ using namespace std;
 namespace sda {
 namespace utils {
 
-bool is_file(const std::string& name);
+bool is_file(const std::string &name);
 
 /*!
  * Synopsis:
@@ -49,97 +55,91 @@ bool is_file(const std::string& name);
  */
 class CmdLineParser {
 public:
-    class CmdSwitch {
-    public:
-        CmdSwitch() {}
-        CmdSwitch(const CmdSwitch& rhs) {
-            copyfrom(rhs);
-        }
+  class CmdSwitch {
+  public:
+    CmdSwitch() {}
+    CmdSwitch(const CmdSwitch &rhs) { copyfrom(rhs); }
 
-        void copyfrom(const CmdSwitch& rhs) {
-            this->key = rhs.key;
-            this->shortcut = rhs.shortcut;
-            this->default_value = rhs.default_value;
-            this->value = rhs.value;
-            this->desc = rhs.desc;
-            this->istoggle = rhs.istoggle;
-            this->isvalid = rhs.isvalid;
-        }
+    void copyfrom(const CmdSwitch &rhs) {
+      this->key = rhs.key;
+      this->shortcut = rhs.shortcut;
+      this->default_value = rhs.default_value;
+      this->value = rhs.value;
+      this->desc = rhs.desc;
+      this->istoggle = rhs.istoggle;
+      this->isvalid = rhs.isvalid;
+    }
 
-        CmdSwitch& operator=(const CmdSwitch& rhs) {
-            this->copyfrom(rhs);
-            return *this;
-        }
-    public:
-        string key;
-        string shortcut;
-        string default_value;
-        string value;
-        string desc;
-        bool istoggle;
-        bool isvalid;
-    };
+    CmdSwitch &operator=(const CmdSwitch &rhs) {
+      this->copyfrom(rhs);
+      return *this;
+    }
+
+  public:
+    string key;
+    string shortcut;
+    string default_value;
+    string value;
+    string desc;
+    bool istoggle;
+    bool isvalid;
+  };
 
 public:
-    CmdLineParser();
-    //CmdLineParser(int argc, char* argv[]);
-    virtual ~CmdLineParser();
+  CmdLineParser();
+  // CmdLineParser(int argc, char* argv[]);
+  virtual ~CmdLineParser();
 
+  bool addSwitch(const CmdSwitch &s);
+  bool addSwitch(const string &name, const string &shortcut, const string &desc,
+                 const string &default_value = "", bool istoggle = false);
 
-    bool addSwitch(const CmdSwitch& s);
-    bool addSwitch(const string& name, const string& shortcut,
-                    const string& desc, const string& default_value = "",
-                    bool istoggle = false);
+  /*!
+   * sets default key to be able to read a 2 argumented call
+   */
+  bool setDefaultKey(const char *key);
 
-    /*!
-     * sets default key to be able to read a 2 argumented call
-     */
-    bool setDefaultKey(const char* key);
+  /*!
+   * parse and store command line
+   */
+  int parse(int argc, char *argv[]);
 
-    /*!
-     * parse and store command line
-     */
-    int parse(int argc, char* argv[]);
+  /*!
+   * retrieve value using a key
+   */
+  string value(const char *key);
 
-    /*!
-     * retrieve value using a key
-     */
-    string value(const char* key);
+  int value_to_int(const char *key);
 
-    int value_to_int(const char* key);
+  double value_to_double(const char *key);
 
+  /*!
+   * Returns true if a valid value is supplied by user
+   */
+  bool isValid(const char *key);
 
-    double value_to_double(const char* key);
-
-    /*!
-     * Returns true if a valid value is supplied by user
-     */
-    bool isValid(const char* key);
-
-    /*!
-     * prints the help menu in case the options are not correct.
-     */
-    virtual void printHelp();
+  /*!
+   * prints the help menu in case the options are not correct.
+   */
+  virtual void printHelp();
 
 protected:
-    /*!
-     * Retrieve command switch
-     */
-    CmdSwitch* getCmdSwitch(const char* key);
+  /*!
+   * Retrieve command switch
+   */
+  CmdSwitch *getCmdSwitch(const char *key);
 
-    bool token_to_fullkeyname(const string& token, string& fullkey);
-
+  bool token_to_fullkeyname(const string &token, string &fullkey);
 
 private:
-    map<string, CmdSwitch*> m_mapKeySwitch;
-    map<string, string> m_mapShortcutKeys;
-    vector<CmdSwitch*> m_vSwitches;
-    string m_strDefaultKey;
-    string m_appname;
+  map<string, CmdSwitch *> m_mapKeySwitch;
+  map<string, string> m_mapShortcutKeys;
+  vector<CmdSwitch *> m_vSwitches;
+  string m_strDefaultKey;
+  string m_appname;
 };
 
-//bool starts_with(const string& src, const string& sub);
-
+// bool starts_with(const string& src, const string& sub);
 }
 }
 #endif /* CMDLINEPARSER_H_ */
