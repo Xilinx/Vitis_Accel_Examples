@@ -24,9 +24,7 @@ update_file() {
 	else
 		pushd . > /dev/null 
 		cd $(dirname $1)
-		#$appDir/utility/makefile_gen/makegen.py description.json #> /dev/null 2>&1
-        make check TARGET=sw_emu DEVICE=/proj/xbuilds/2019.2_released/internal_platforms/xilinx_u200_xdma_201830_2/xilinx_u200_xdma_201830_2.xpfm
-        make cleanall
+		$appDir/utility/makefile_gen/makegen.py description.json #> /dev/null 2>&1
 		popd >/dev/null
 	fi
 }

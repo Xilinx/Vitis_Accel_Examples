@@ -14,8 +14,7 @@
         "xdma",
 	"xilinx_u250_qep",
 	"aws",
-        "samsung",
-	"zc706",
+	"samsung",
 	"zc702"
     ],
     "os": [
