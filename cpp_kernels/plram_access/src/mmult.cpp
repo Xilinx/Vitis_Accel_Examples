@@ -48,31 +48,31 @@ void mmult(const int *a, // Read-Only Matrix A
            int a_row,    // Matrix A Row Size
            int a_col,    // Matrix A Col Size
            int b_col     // Matrix B Col Size
-) {
-   #pragma HLS INTERFACE m_axi port=a offset=slave bundle=gmem
-   #pragma HLS INTERFACE m_axi port=b offset=slave bundle=gmem
-   #pragma HLS INTERFACE m_axi port=c offset=slave bundle=gmem
+           ) {
+#pragma HLS INTERFACE m_axi port = a offset = slave bundle = gmem
+#pragma HLS INTERFACE m_axi port = b offset = slave bundle = gmem
+#pragma HLS INTERFACE m_axi port = c offset = slave bundle = gmem
 
-   #pragma HLS INTERFACE s_axilite port=a 
-   #pragma HLS INTERFACE s_axilite port=b 
-   #pragma HLS INTERFACE s_axilite port=c 
-   #pragma HLS INTERFACE s_axilite port=a_row 
-   #pragma HLS INTERFACE s_axilite port=a_col 
-   #pragma HLS INTERFACE s_axilite port=b_col 
-   #pragma HLS INTERFACE s_axilite port=return 
+#pragma HLS INTERFACE s_axilite port = a
+#pragma HLS INTERFACE s_axilite port = b
+#pragma HLS INTERFACE s_axilite port = c
+#pragma HLS INTERFACE s_axilite port = a_row
+#pragma HLS INTERFACE s_axilite port = a_col
+#pragma HLS INTERFACE s_axilite port = b_col
+#pragma HLS INTERFACE s_axilite port = return
 
-    int b_row = a_col;
-    int c_row = a_row;
-    int c_col = b_col;
+  int b_row = a_col;
+  int c_row = a_row;
+  int c_col = b_col;
 
-    // Local memory to store input and output matrices
-    int localA[MAX_SIZE][MAX_SIZE];
-   #pragma HLS ARRAY_PARTITION variable=localA dim=1 complete
+  // Local memory to store input and output matrices
+  int localA[MAX_SIZE][MAX_SIZE];
+#pragma HLS ARRAY_PARTITION variable = localA dim = 1 complete
 
-    int localB[MAX_SIZE][MAX_SIZE];
-   #pragma HLS ARRAY_PARTITION variable=localB dim=2 complete
+  int localB[MAX_SIZE][MAX_SIZE];
+#pragma HLS ARRAY_PARTITION variable = localB dim = 2 complete
 
-    int localC[MAX_SIZE][MAX_SIZE];
+  int localC[MAX_SIZE][MAX_SIZE];
 #pragma HLS ARRAY_PARTITION variable = localC dim = 0 complete
 
 // Burst reads on input matrices from global memory

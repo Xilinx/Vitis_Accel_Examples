@@ -63,11 +63,14 @@ void vadd(const unsigned int *in1, // Read-Only Vector 1
           const unsigned int *in2, // Read-Only Vector 2
           unsigned int *out_r,     // Output Result
           int size                 // Size in integer
-) {
+          ) {
 
-    //In Vitis flow, a kernel can be defined without interface pragma. For such case, it follows default behavioral.
-    //All pointer arguments (in1,in2,out_r) will be referred as Memory Mapped pointers using single M_AXI interface.
-    //All the scalar arguments (size) and return argument will be associated to single s_axilite interface.
+  // In Vitis flow, a kernel can be defined without interface pragma. For such
+  // case, it follows default behavioral.
+  // All pointer arguments (in1,in2,out_r) will be referred as Memory Mapped
+  // pointers using single M_AXI interface.
+  // All the scalar arguments (size) and return argument will be associated to
+  // single s_axilite interface.
   unsigned int v1_buffer[BUFFER_SIZE];   // Local memory to store vector1
   unsigned int v2_buffer[BUFFER_SIZE];   // Local memory to store vector2
   unsigned int vout_buffer[BUFFER_SIZE]; // Local Memory to store result

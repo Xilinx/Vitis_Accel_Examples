@@ -106,20 +106,20 @@ mem_wr:
 extern "C" {
 void vconv(int *in_r, int *out_r, int height, int width) {
 
-    int size = height * width;
+  int size = height * width;
 
-    //inStream for reading input data
-    static hls::stream<int> inStream;
-   #pragma HLS stream variable=inStream depth=32
+  // inStream for reading input data
+  static hls::stream<int> inStream;
+#pragma HLS stream variable = inStream depth = 32
 
-    //outStream for writing data to Global Memory
-    static hls::stream<int> outStream;
-   #pragma HLS stream variable=outStream depth=32
+  // outStream for writing data to Global Memory
+  static hls::stream<int> outStream;
+#pragma HLS stream variable = outStream depth = 32
 
-   #pragma HLS dataflow
-    //dataflow pragma instruct compiler to run following three APIs in parallel
-    read_input(in_r, inStream, size);
-    vconv_compute(inStream, outStream, height, width);
-    write_result(out_r, outStream, size);
+#pragma HLS dataflow
+  // dataflow pragma instruct compiler to run following three APIs in parallel
+  read_input(in_r, inStream, size);
+  vconv_compute(inStream, outStream, height, width);
+  write_result(out_r, outStream, size);
 }
 }

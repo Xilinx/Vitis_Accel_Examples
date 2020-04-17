@@ -56,7 +56,7 @@ void krnl_stream_vadd(hls::stream<pkt> &out, // Write-Only output Stream
                       hls::stream<pkt> &in1, // Input Stream 1
                       int *in2,              // Memory mapped Input Vector 2
                       int size               // Size in integer
-) {
+                      ) {
 
 vadd:
   for (int i = 0; i < size; i++) {

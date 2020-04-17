@@ -54,11 +54,11 @@ extern "C" {
 void adder(unsigned int *in, unsigned int *out, int inc, int size) {
 #pragma HLS INTERFACE m_axi port = in offset = slave bundle = gmem
 #pragma HLS INTERFACE m_axi port = out offset = slave bundle = gmem
-#pragma HLS INTERFACE s_axilite port = in 
-#pragma HLS INTERFACE s_axilite port = out 
-#pragma HLS INTERFACE s_axilite port = inc 
-#pragma HLS INTERFACE s_axilite port = size 
-#pragma HLS INTERFACE s_axilite port = return 
+#pragma HLS INTERFACE s_axilite port = in
+#pragma HLS INTERFACE s_axilite port = out
+#pragma HLS INTERFACE s_axilite port = inc
+#pragma HLS INTERFACE s_axilite port = size
+#pragma HLS INTERFACE s_axilite port = return
 vadd:
   for (int i = 0; i < size; i++) {
 #pragma HLS PIPELINE II = 1

@@ -52,13 +52,13 @@ extern "C" {
 // This kernel presents array partition concept
 void matmul_partition(int *in1, int *in2, int *out_r, int size) {
 
-    // Local buffers to hold input data
-    int A[MAX_SIZE][MAX_SIZE];
-    int B[MAX_SIZE][MAX_SIZE];
-    int C[MAX_SIZE][MAX_SIZE];
-    int temp_sum[MAX_SIZE];
+  // Local buffers to hold input data
+  int A[MAX_SIZE][MAX_SIZE];
+  int B[MAX_SIZE][MAX_SIZE];
+  int C[MAX_SIZE][MAX_SIZE];
+  int temp_sum[MAX_SIZE];
 
-    //partitioning Array B and C
+// partitioning Array B and C
 #pragma HLS ARRAY_PARTITION variable = B dim = 2 complete
 #pragma HLS ARRAY_PARTITION variable = C dim = 2 complete
 #pragma HLS ARRAY_PARTITION variable = temp_sum dim = 1 complete

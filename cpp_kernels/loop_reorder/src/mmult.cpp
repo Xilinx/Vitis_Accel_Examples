@@ -81,14 +81,14 @@ void mmult(const int *in1, // Read-Only Matrix 1
            const int *in2, // Read-Only Matrix 2
            int *out_r,     // Output Result
            int size        // Size of one dimension of the matrices
-) {
+           ) {
 
-    // Local memory to store input and output matrices
-    // Local memory is implemented as BRAM memory blocks
-    int A[MAX_SIZE][MAX_SIZE];
-    int B[MAX_SIZE][MAX_SIZE];
-    int C[MAX_SIZE][MAX_SIZE];
-    int temp_sum[MAX_SIZE];
+  // Local memory to store input and output matrices
+  // Local memory is implemented as BRAM memory blocks
+  int A[MAX_SIZE][MAX_SIZE];
+  int B[MAX_SIZE][MAX_SIZE];
+  int C[MAX_SIZE][MAX_SIZE];
+  int temp_sum[MAX_SIZE];
 #pragma HLS ARRAY_PARTITION variable = B dim = 2 complete
 #pragma HLS ARRAY_PARTITION variable = C dim = 2 complete
 #pragma HLS ARRAY_PARTITION variable = temp_sum dim = 1 complete

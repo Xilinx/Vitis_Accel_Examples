@@ -53,13 +53,13 @@ const unsigned int c_chunk_sz = DATA_SIZE;
 
 extern "C" {
 void vadd(int *a, int size, int inc_value) {
-    // Map pointer a to AXI4-master interface for global memory access
-   #pragma HLS INTERFACE m_axi port=a  offset=slave bundle=gmem max_read_burst_length=256 max_write_burst_length=256
-    // We also need to map a and return to a bundled axilite slave interface
-   #pragma HLS INTERFACE s_axilite port=a 
-   #pragma HLS INTERFACE s_axilite port=size 
-   #pragma HLS INTERFACE s_axilite port=inc_value 
-   #pragma HLS INTERFACE s_axilite port=return 
+// Map pointer a to AXI4-master interface for global memory access
+#pragma HLS INTERFACE m_axi port = a offset = slave bundle = gmem max_read_burst_length = 256 max_write_burst_length = 256
+// We also need to map a and return to a bundled axilite slave interface
+#pragma HLS INTERFACE s_axilite port = a
+#pragma HLS INTERFACE s_axilite port = size
+#pragma HLS INTERFACE s_axilite port = inc_value
+#pragma HLS INTERFACE s_axilite port = return
 
   int burstbuffer[BURSTBUFFERSIZE];
 

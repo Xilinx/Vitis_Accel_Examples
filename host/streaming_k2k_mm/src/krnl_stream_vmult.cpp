@@ -46,7 +46,7 @@ void krnl_stream_vmult(int *in1,              // Read-Only Vector 1
                        hls::stream<pkt> &in2, // Internal Stream
                        int *out,              // Output Result
                        int size               // Size in integer
-) {
+                       ) {
 
 vmult:
   for (int i = 0; i < size; i++) {

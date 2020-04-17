@@ -159,36 +159,35 @@ int main(int argc, char **argv) {
     cl::Program::Binaries bins{{fileBuf.data(), fileBuf.size()}};
     int valid_device = 0;
     for (unsigned int i = 0; i < devices.size(); i++) {
-        device = devices[i];
-        // Creating Context and Command Queue for selected Device
-        OCL_CHECK(err, context = cl::Context(device, NULL, NULL, NULL, &err));
-        OCL_CHECK(err,
-                  q = cl::CommandQueue(
-                      context, device, CL_QUEUE_PROFILING_ENABLE, &err));
+      device = devices[i];
+      // Creating Context and Command Queue for selected Device
+      OCL_CHECK(err, context = cl::Context(device, NULL, NULL, NULL, &err));
+      OCL_CHECK(err, q = cl::CommandQueue(context, device,
+                                          CL_QUEUE_PROFILING_ENABLE, &err));
 
-        std::cout << "Trying to program device[" << i
-                  << "]: " << device.getInfo<CL_DEVICE_NAME>() << std::endl;
-        cl::Program program(context, {device}, bins, NULL, &err);
-        if (err != CL_SUCCESS) {
-            std::cout << "Failed to program device[" << i
-                      << "] with xclbin file!\n";
-        } else {
-            std::cout << "Device[" << i << "]: program successful!\n";
-            // Creating Kernel
-            OCL_CHECK(
-                err, krnl_vadd = cl::Kernel(program, "krnl_stream_vadd", &err));
-            valid_device++;
-            break; // we break because we found a valid device
-        }
+      std::cout << "Trying to program device[" << i
+                << "]: " << device.getInfo<CL_DEVICE_NAME>() << std::endl;
+      cl::Program program(context, {device}, bins, NULL, &err);
+      if (err != CL_SUCCESS) {
+        std::cout << "Failed to program device[" << i
+                  << "] with xclbin file!\n";
+      } else {
+        std::cout << "Device[" << i << "]: program successful!\n";
+        // Creating Kernel
+        OCL_CHECK(err,
+                  krnl_vadd = cl::Kernel(program, "krnl_stream_vadd", &err));
+        valid_device++;
+        break; // we break because we found a valid device
+      }
     }
     if (valid_device == 0) {
-        std::cout << "Failed to program any device found, exit!\n";
-        exit(EXIT_FAILURE);
+      std::cout << "Failed to program any device found, exit!\n";
+      exit(EXIT_FAILURE);
     }
 
     cl_platform_id platform_id = device.getInfo<CL_DEVICE_PLATFORM>(&err);
 
-    //Initialization of streaming class is needed before using it.
+    // Initialization of streaming class is needed before using it.
     xcl::Stream::init(platform_id);
     std::cout << "Vector Addition of elements 0x" << std::hex << size
               << std::endl;
@@ -196,27 +195,23 @@ int main(int argc, char **argv) {
     // Reset the data vectors
     reset(h_a.data(), h_b.data(), sw_results.data(), hw_results.data(), size);
 
-    //Running the kernel
+    // Running the kernel
     unsigned int vector_size_bytes = size * sizeof(int);
 
     // Allocate Buffer in Global Memory
     // Buffers are allocated using CL_MEM_USE_HOST_PTR for efficient memory and
     // Device-to-host communication
-    OCL_CHECK(err,
-              cl::Buffer buffer_in2(context,
-                                    CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY,
-                                    vector_size_bytes,
-                                    h_b.data(),
-                                    &err));
+    OCL_CHECK(err, cl::Buffer buffer_in2(context,
+                                         CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY,
+                                         vector_size_bytes, h_b.data(), &err));
 
     // Setting Kernel Arguments
     OCL_CHECK(err, err = krnl_vadd.setArg(2, buffer_in2));
     OCL_CHECK(err, err = krnl_vadd.setArg(3, size));
 
     // Copy input data to device global memory
-    OCL_CHECK(err,
-              err = q.enqueueMigrateMemObjects({buffer_in2},
-                                               0 /* 0 means from host*/));
+    OCL_CHECK(err, err = q.enqueueMigrateMemObjects({buffer_in2},
+                                                    0 /* 0 means from host*/));
 
     // Launch the Kernel
     OCL_CHECK(err, err = q.enqueueTask(krnl_vadd));
@@ -228,14 +223,14 @@ int main(int argc, char **argv) {
     ext.param = krnl_vadd.get();
     ext.obj = NULL;
 
-    //Create write stream for argument 1 of kernel
+    // Create write stream for argument 1 of kernel
     cl_stream write_stream_a;
     ext.flags = 1;
     OCL_CHECK(ret,
               write_stream_a = xcl::Stream::createStream(
                   device.get(), XCL_STREAM_READ_ONLY, CL_STREAM, &ext, &ret));
 
-    //Create read stream for argument 0 of kernel
+    // Create read stream for argument 0 of kernel
     cl_stream read_stream;
     ext.flags = 0;
     OCL_CHECK(ret,
@@ -248,25 +243,19 @@ int main(int argc, char **argv) {
     wr_req.flags = CL_STREAM_EOT;
     wr_req.priv_data = (void *)"write_a";
 
-    // Thread 1 for writing data to input stream 1 independently in case of default blocking transfers.
-    std::thread thr1(xcl::Stream::writeStream,
-                     write_stream_a,
-                     h_a.data(),
-                     vector_size_bytes,
-                     &wr_req,
-                     &ret);
+    // Thread 1 for writing data to input stream 1 independently in case of
+    // default blocking transfers.
+    std::thread thr1(xcl::Stream::writeStream, write_stream_a, h_a.data(),
+                     vector_size_bytes, &wr_req, &ret);
 
     // Initiating the READ transfer
     cl_stream_xfer_req rd_req{0};
     rd_req.flags = CL_STREAM_EOT;
     rd_req.priv_data = (void *)"read";
-    // Output thread to read the stream data independently in case of default blocking transfers.
-    std::thread thr2(xcl::Stream::readStream,
-                     read_stream,
-                     hw_results.data(),
-                     vector_size_bytes,
-                     &rd_req,
-                     &ret);
+    // Output thread to read the stream data independently in case of default
+    // blocking transfers.
+    std::thread thr2(xcl::Stream::readStream, read_stream, hw_results.data(),
+                     vector_size_bytes, &rd_req, &ret);
 
     // Waiting for all the threads to complete their respective operations.
     thr1.join();
@@ -282,4 +271,4 @@ int main(int argc, char **argv) {
     bool match = verify(sw_results.data(), hw_results.data(), size);
 
     return (match ? EXIT_SUCCESS : EXIT_FAILURE);
-}
+  }

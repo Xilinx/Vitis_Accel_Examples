@@ -47,13 +47,13 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 extern "C" {
 void krnl_vsub(int *a, int *b, int *out_r, const int n_elements) {
 #pragma HLS INTERFACE m_axi port = a offset = slave bundle = gmem
-#pragma HLS INTERFACE s_axilite port = a 
+#pragma HLS INTERFACE s_axilite port = a
 #pragma HLS INTERFACE m_axi port = b offset = slave bundle = gmem
-#pragma HLS INTERFACE s_axilite port = b 
+#pragma HLS INTERFACE s_axilite port = b
 #pragma HLS INTERFACE m_axi port = out_r offset = slave bundle = gmem
-#pragma HLS INTERFACE s_axilite port = out_r 
-#pragma HLS INTERFACE s_axilite port = n_elements 
-#pragma HLS INTERFACE s_axilite port = return 
+#pragma HLS INTERFACE s_axilite port = out_r
+#pragma HLS INTERFACE s_axilite port = n_elements
+#pragma HLS INTERFACE s_axilite port = return
 
   int arrayA[BUFFER_SIZE];
 

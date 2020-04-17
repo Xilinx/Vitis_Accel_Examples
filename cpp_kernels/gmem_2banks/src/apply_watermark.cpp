@@ -78,11 +78,11 @@ void apply_watermark(TYPE *input, TYPE *output, int width, int height) {
 // and as a result allow kernel to access both interfaces simultaneous.
 #pragma HLS INTERFACE m_axi port = input offset = slave bundle = gmem0
 #pragma HLS INTERFACE m_axi port = output offset = slave bundle = gmem1
-#pragma HLS INTERFACE s_axilite port = input 
-#pragma HLS INTERFACE s_axilite port = output 
-#pragma HLS INTERFACE s_axilite port = width 
-#pragma HLS INTERFACE s_axilite port = height 
-#pragma HLS INTERFACE s_axilite port = return 
+#pragma HLS INTERFACE s_axilite port = input
+#pragma HLS INTERFACE s_axilite port = output
+#pragma HLS INTERFACE s_axilite port = width
+#pragma HLS INTERFACE s_axilite port = height
+#pragma HLS INTERFACE s_axilite port = return
 
   // WaterMark Image of 16x16 size
   int watermark[WATERMARK_HEIGHT][WATERMARK_WIDTH] = {

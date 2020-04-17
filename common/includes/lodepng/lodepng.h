@@ -344,9 +344,8 @@ typedef struct LodePNGColorMode {
   */
   unsigned char *palette; /*palette in RGBARGBA... order. When allocated, must
                              be either 0, or have size 1024*/
-  size_t
-      palettesize; /*palette size in number of colors (amount of bytes is 4 *
-                      palettesize)*/
+  size_t palettesize; /*palette size in number of colors (amount of bytes is 4 *
+                         palettesize)*/
 
   /*
   transparent color key (tRNS)
@@ -487,12 +486,11 @@ typedef struct LodePNGInfo {
   LodePNGTime time;
 
   /*phys chunk (pHYs)*/
-  unsigned
-      phys_defined;   /*if 0, there is no pHYs chunk and the values below are
-                         undefined, if 1 else there is one*/
-  unsigned phys_x;    /*pixels per unit in x direction*/
-  unsigned phys_y;    /*pixels per unit in y direction*/
-  unsigned phys_unit; /*may be 0 (unknown unit) or 1 (metre)*/
+  unsigned phys_defined; /*if 0, there is no pHYs chunk and the values below are
+                            undefined, if 1 else there is one*/
+  unsigned phys_x;       /*pixels per unit in x direction*/
+  unsigned phys_y;       /*pixels per unit in y direction*/
+  unsigned phys_unit;    /*may be 0 (unknown unit) or 1 (metre)*/
 
   /*
   unknown chunks

@@ -70,7 +70,7 @@ void vadd(const uint512_dt *in1, // Read-Only Vector 1
           const uint512_dt *in2, // Read-Only Vector 2
           uint512_dt *out,       // Output Result
           int size               // Size in integer
-) {
+          ) {
 
   uint512_dt v1_local[BUFFER_SIZE];     // Local memory to store vector1
   uint512_dt result_local[BUFFER_SIZE]; // Local Memory to store result

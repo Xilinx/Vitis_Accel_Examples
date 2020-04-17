@@ -37,14 +37,13 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <hls_stream.h>
 
 extern "C" {
-    void mem_read(int* mem, hls::stream<ap_axiu<32, 0, 0, 0> >& stream, int size)
-    {
-     
-        for (int i = 0; i < size; i++) {
-            int a = mem[i];
-            ap_axiu<32, 0, 0, 0> v;
-            v.data = a;
-            stream.write(v);
-        }
-    }
+void mem_read(int *mem, hls::stream<ap_axiu<32, 0, 0, 0>> &stream, int size) {
+
+  for (int i = 0; i < size; i++) {
+    int a = mem[i];
+    ap_axiu<32, 0, 0, 0> v;
+    v.data = a;
+    stream.write(v);
+  }
+}
 }
