@@ -11,6 +11,7 @@ This is simple example to describe SLR assignment information for a platform des
 Platforms containing following strings in their names are not supported for this example :
 ```
 zc
+vck
 samsung
 ```
 

@@ -11,6 +11,7 @@ This is a simple Vector Increment C Kernel design with 1 Stream input and 1 Stre
 Platforms containing following strings in their names are not supported for this example :
 ```
 zc
+vck
 xdma
 xilinx_u250_qep
 aws

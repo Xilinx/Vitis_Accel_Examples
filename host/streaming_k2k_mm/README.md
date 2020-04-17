@@ -11,6 +11,7 @@ This is a simple kernel to kernel streaming Vector Add and Vector Multiply C Ker
 Platforms containing following strings in their names are not supported for this example :
 ```
 samsung
+vck
 zc
 ```
 

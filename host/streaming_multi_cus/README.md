@@ -11,6 +11,7 @@ This is a simple vadd Kernel design in which multiple compute units of kernel ar
 Platforms containing following strings in their names are not supported for this example :
 ```
 zc
+vck
 xdma
 xilinx_u250_qep
 aws

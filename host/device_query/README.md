@@ -9,6 +9,7 @@ This Example prints the OpenCL properties of the platform and its devices using 
 Platforms containing following strings in their names are not supported for this example :
 ```
 zc
+vck
 ```
 
 ##  DESIGN FILES

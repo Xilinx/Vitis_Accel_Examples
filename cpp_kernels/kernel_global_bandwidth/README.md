@@ -7,6 +7,7 @@ Bandwidth test of global to local memory.
 Platforms containing following strings in their names are not supported for this example :
 ```
 u50
+vck
 zc
 ```
 

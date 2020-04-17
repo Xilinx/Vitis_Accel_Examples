@@ -11,6 +11,7 @@ This is a simple Vector Increment RTL Kernel design with 1 Stream input and 1 St
 Platforms containing following strings in their names are not supported for this example :
 ```
 zc
+vck
 xdma
 xilinx_u250_qep
 aws

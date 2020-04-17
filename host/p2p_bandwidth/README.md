@@ -11,6 +11,7 @@ This is simple example to test Synchronous and Asyncronous data transfer between
 Platforms containing following strings in their names are not supported for this example :
 ```
 zc
+vck
 u200
 u250
 u50

@@ -11,6 +11,7 @@ This example shows how host can swap the kernels and share same buffer between t
 Platforms containing following strings in their names are not supported for this example :
 ```
 zc
+vck
 ```
 
 ##  DESIGN FILES

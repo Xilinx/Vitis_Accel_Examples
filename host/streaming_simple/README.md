@@ -11,6 +11,7 @@ This is a simple Vector Add C Kernel design with 2 Stream inputs and 1 Stream ou
 Platforms containing following strings in their names are not supported for this example :
 ```
 zc
+vck
 xdma
 xilinx_u250_qep
 aws

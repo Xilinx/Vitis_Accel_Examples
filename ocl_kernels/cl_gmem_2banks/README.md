@@ -11,6 +11,7 @@ This example of 2ddr to demonstrate on how to use 2ddr XSA. How to create buffer
 Platforms containing following strings in their names are not supported for this example :
 ```
 u50
+vck
 zc
 samsung
 ```
