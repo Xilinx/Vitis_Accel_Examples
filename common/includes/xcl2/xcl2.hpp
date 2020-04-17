@@ -70,13 +70,39 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // Buffer/Mem Object with CL_MEM_USE_HOST_PTR.
 template <typename T> struct aligned_allocator {
   using value_type = T;
+
+  aligned_allocator() {}
+
+  aligned_allocator(const aligned_allocator &) {}
+
+  template <typename U> aligned_allocator(const aligned_allocator<U> &) {}
+
   T *allocate(std::size_t num) {
     void *ptr = nullptr;
-    if (posix_memalign(&ptr, 4096, num * sizeof(T)))
-      throw std::bad_alloc();
+
+#if defined(_WINDOWS)
+    {
+      ptr = _aligned_malloc(num * sizeof(T), 4096);
+      if (ptr == NULL) {
+        std::cout << "Failed to allocate memory" << std::endl;
+        exit(EXIT_FAILURE);
+      }
+    }
+#else
+    {
+      if (posix_memalign(&ptr, 4096, num * sizeof(T)))
+        throw std::bad_alloc();
+    }
+#endif
     return reinterpret_cast<T *>(ptr);
   }
-  void deallocate(T *p, std::size_t num) { free(p); }
+  void deallocate(T *p, std::size_t num) {
+#if defined(_WINDOWS)
+    _aligned_free(p);
+#else
+    free(p);
+#endif
+  }
 };
 
 namespace xcl {

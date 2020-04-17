@@ -34,9 +34,13 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 **********/
 
 #include "xcl2.hpp"
-#include <limits.h>
+#include <climits>
 #include <sys/stat.h>
+#if defined(_WINDOWS)
+#include <io.h>
+#else
 #include <unistd.h>
+#endif
 
 namespace xcl {
 std::vector<cl::Device> get_devices(const std::string &vendor_name) {
@@ -71,8 +75,8 @@ std::vector<cl::Device> get_xil_devices() { return get_devices("Xilinx"); }
 std::vector<unsigned char>
 read_binary_file(const std::string &xclbin_file_name) {
   std::cout << "INFO: Reading " << xclbin_file_name << std::endl;
-
-  if (access(xclbin_file_name.c_str(), R_OK) != 0) {
+  FILE *fp;
+  if ((fp = fopen(xclbin_file_name.c_str(), "r")) == NULL) {
     printf("ERROR: %s xclbin not available please build\n",
            xclbin_file_name.c_str());
     exit(EXIT_FAILURE);
