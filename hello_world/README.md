@@ -24,7 +24,7 @@ Once the environment has been configured, the application can be executed by
 ##  COMMANDS FOR WINDOWS FLOW 
 Once the environment has been configured, run the following commands : 
 ```
-cmake -G "Visual Studio 15 2017 Win64" -DCMAKE_BUILD_TYPE=Debug -DXILINX_XRT=<set xilinx xrt path> -DXILINX_XRT=<set ocl root path>
+cmake -G "Visual Studio 15 2017 Win64" -DCMAKE_BUILD_TYPE=Debug -DXILINX_XRT=<set xilinx xrt path> -DOCL_ROOT=<set ocl root path>
 cmake --build . --verbose --config Debug --target install
 
 For Example : 
