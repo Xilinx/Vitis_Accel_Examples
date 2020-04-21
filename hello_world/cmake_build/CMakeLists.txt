@@ -12,9 +12,9 @@ else()
   find_package(OpenCL)
 endif(WIN32)
 
-include_directories(${XILINX_XRT}/include ${XILINX_XRT}/ext/include ./src ../../common/includes/xcl2)
+include_directories(${XILINX_XRT}/include ${XILINX_XRT}/ext/include ../src ../../common/includes/xcl2)
 
-add_executable(${EXECNAME} ../../common/includes/xcl2/xcl2.cpp src/host.cpp)
+add_executable(${EXECNAME} ../../common/includes/xcl2/xcl2.cpp ../src/host.cpp)
 
 target_link_libraries(${EXECNAME} PRIVATE ${OpenCL_LIBRARY})
 
