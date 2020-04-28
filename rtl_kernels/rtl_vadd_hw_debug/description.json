@@ -9,6 +9,9 @@
     "targets": [
         "hw", 
         "hw_emu"
+    ],
+   "ndevice": [
+      	"vck"
     ], 
     "os": [
         "Linux"
