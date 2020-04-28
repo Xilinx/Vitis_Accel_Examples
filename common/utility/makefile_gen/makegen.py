@@ -484,13 +484,25 @@ def mk_check(target, data):
         target.write("\n")
     target.write("\n\n")
 
-    target.write("sd_card:\n")
+    target.write("sd_card: gen_run_app\n")
+    extra_file_list = []
+    if "launch" in data:	
+        if "cmd_args" in data["launch"][0]:
+            args = data["launch"][0]["cmd_args"].split(" ")    
+            for arg in args:
+                if "xclbin" not in arg:
+                    arg = arg.replace('BUILD', '$(BUILD_DIR)')
+                    arg = arg.replace('PROJECT', '.')
+                    extra_file_list.append(arg)  
     target.write("ifneq ($(HOST_ARCH), x86)\n")
     if "containers" in data:
         for con in data["containers"]:
             target.write("\t$(VPP) -t $(TARGET) --platform $(DEVICE) -p $(BUILD_DIR)/")
             target.write(con["name"])
             target.write(".xclbin --package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.sd_file $(SD_IMAGE_FILE) --package.sd_file xrt.ini --package.sd_file $(RUN_APP_SCRIPT) --package.sd_file $(EXECUTABLE)")
+            for extra_filename in extra_file_list:
+                target.write(" --package.sd_file ")
+                target.write(extra_filename)
             target.write(" -o ")
             target.write(con["name"])
             target.write(".xclbin\n")
@@ -640,6 +652,31 @@ def util_checks(target):
     target.write("CXX := $(XILINX_VITIS)/gnu/aarch32/lin/gcc-arm-linux-gnueabi/bin/arm-linux-gnueabihf-g++\n")
     target.write("endif\n")
     target.write("endif\n\n")
+
+    target.write("gen_run_app:\n")
+    target.write("ifneq ($(HOST_ARCH), x86)\n")
+    target.write("\trm -rf run_app.sh\n")
+    target.write("\t$(ECHO) 'export LD_LIBRARY_PATH=/mnt:/tmp:$(LD_LIBRARY_PATH)' >> run_app.sh\n")
+    target.write("\t$(ECHO) 'export XILINX_XRT=/usr' >> run_app.sh\n")
+    target.write("ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))\n")
+    target.write("\t$(ECHO) 'export XILINX_VITIS=/mnt' >> run_app.sh\n")
+    target.write("\t$(ECHO) 'export XCL_EMULATION_MODE=$(TARGET)' >> run_app.sh\n")
+    target.write("endif\n")
+    target.write("\t$(ECHO) './$(EXECUTABLE)")
+    if "launch" in data:	
+        if "cmd_args" in data["launch"][0]:
+            args = data["launch"][0]["cmd_args"].split(" ")    
+            for arg in args:
+                arg_name = arg.split("/") 
+                target.write(" ")
+                target.write(arg_name[-1])
+    target.write("' >> run_app.sh\n")
+    target.write("\t$(ECHO) 'return_code=$$?' >> run_app.sh\n")
+    target.write("\t$(ECHO) 'if [ $$return_code -ne 0 ]; then' >> run_app.sh\n")
+    target.write("\t$(ECHO) 'echo \"ERROR: host run failed, RC=$$return_code\"' >> run_app.sh\n")
+    target.write("\t$(ECHO) 'fi' >> run_app.sh\n")
+    target.write("\t$(ECHO) 'echo \"INFO: host run completed.\"' >> run_app.sh\n")
+    target.write("endif\n")
     
     target.write("check-devices:\n")
     target.write("ifndef DEVICE\n")
@@ -681,26 +718,6 @@ def create_utils(target, data):
     clean_util(target)
     readme_gen(target)
     return
-
-def create_run_app(target, data):
-    target.write("export LD_LIBRARY_PATH=/mnt:/tmp:$LD_LIBRARY_PATH\n")
-    target.write("export XCL_EMULATION_MODE=$1\n")
-    target.write("export XILINX_XRT=/usr\n") 
-    target.write("export XILINX_VITIS=/mnt\n")
-    target.write("./")
-    if "host" in data:
-        target.write(data["host"]["host_exe"])
-    if "containers" in data:
-        for con in data["containers"]:
-            target.write(" ")
-            target.write(con["name"])
-            target.write(".xclbin")
-    target.write("\n")
-    target.write("return_code=$?\n")
-    target.write("if [ $return_code -ne 0 ]; then\n")
-    target.write("\techo \"ERROR: host run failed, RC=$return_code\"\n")
-    target.write("fi\n")
-    target.write("echo \"INFO: host run completed.\"\n")
 
 def create_config(data):
     if "containers" in data:
@@ -761,9 +778,6 @@ else:
     print("Generating utils.mk file for %s" %data["name"])
     target = open("utils.mk", "w+")
     create_utils(target, data)
-    print("Generating run_app.sh file for %s" %data["name"])
-    target = open("run_app.sh", "w+")
-    create_run_app(target, data)
 
 target.close
 

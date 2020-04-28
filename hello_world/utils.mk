@@ -73,7 +73,7 @@ endif
 
 gen_run_app:
 ifneq ($(HOST_ARCH), x86)
-	rm run_app.sh
+	rm -rf run_app.sh
 	$(ECHO) 'export LD_LIBRARY_PATH=/mnt:/tmp:$(LD_LIBRARY_PATH)' >> run_app.sh
 	$(ECHO) 'export XILINX_XRT=/usr' >> run_app.sh
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
@@ -87,7 +87,6 @@ endif
 	$(ECHO) 'fi' >> run_app.sh
 	$(ECHO) 'echo "INFO: host run completed."' >> run_app.sh
 endif
-
 check-devices:
 ifndef DEVICE
 	$(error DEVICE not set. Please set the DEVICE properly and rerun. Run "make help" for more details.)

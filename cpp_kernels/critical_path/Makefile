@@ -149,9 +149,9 @@ endif
 endif
 
 
-sd_card:
+sd_card: gen_run_app
 ifneq ($(HOST_ARCH), x86)
-	$(VPP) -t $(TARGET) --platform $(DEVICE) -p $(BUILD_DIR)/apply_watermark_GOOD.xclbin --package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.sd_file $(EDGE_COMMON_SW)/Image --package.sd_file xrt.ini --package.sd_file $(RUN_APP_SCRIPT) --package.sd_file $(EXECUTABLE) --package.sd_file ./data/input.bmp --package.sd_file ./data/golden.bmp -o apply_watermark_GOOD.xclbin
+	$(VPP) -t $(TARGET) --platform $(DEVICE) -p $(BUILD_DIR)/apply_watermark_GOOD.xclbin --package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.sd_file $(SD_IMAGE_FILE) --package.sd_file xrt.ini --package.sd_file $(RUN_APP_SCRIPT) --package.sd_file $(EXECUTABLE) --package.sd_file ./data/input.bmp --package.sd_file ./data/golden.bmp -o apply_watermark_GOOD.xclbin
 endif
 
 # Cleaning stuff

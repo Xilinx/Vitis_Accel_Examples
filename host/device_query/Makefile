@@ -143,7 +143,7 @@ endif
 endif
 
 
-sd_card:
+sd_card: gen_run_app
 ifneq ($(HOST_ARCH), x86)
 endif
 
