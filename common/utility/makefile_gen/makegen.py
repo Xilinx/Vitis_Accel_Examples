@@ -96,12 +96,6 @@ def add_includes2(target, data):
                                 target.write(path.split("/")[-1])
                                 target.write("_SRCS)")
     
-        if "linker" in data["host"]:
-                if "options" in data["host"]["linker"]:
-                        target.write("\nCXXFLAGS +=")
-                        for option in data["host"]["linker"]["options"]:
-                                target.write(" ")	
-                                target.write(option)
         target.write("\n")                
         return
 
@@ -126,10 +120,18 @@ def add_host_flags(target, data):
     target.write("\n")	
     target.write("LDFLAGS += ")
     target.write("-lrt -lstdc++ ")
+    target.write("\n")
+    if "linker" in data["host"]:
+            if "options" in data["host"]["linker"]:
+                    target.write("\nLDFLAGS +=")
+                    for option in data["host"]["linker"]["options"]:
+                            target.write(" ")	
+                            target.write(option)
     target.write("\n\n")
     target.write("ifneq ($(HOST_ARCH), x86)\n")
     target.write("\tLDFLAGS += --sysroot=$(SYSROOT)\n")
     target.write("endif\n\n")
+
     return
 
 def add_kernel_flags(target, data):
