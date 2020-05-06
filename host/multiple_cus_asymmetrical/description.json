@@ -3,9 +3,6 @@
     "description": [
         "This is simple example of vector addition to demonstrate how to connect each compute unit to different banks and how to use these compute units in host applications"
     ],
-    "keywords": [
-        "#pragma HLS PIPELINE"
-    ], 
     "key_concepts": [
         "Multiple Compute Units"
     ], 

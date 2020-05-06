@@ -68,9 +68,9 @@ void matmul_partition(const int *in1, // Read-Only Matrix 1
 // into local Array in MATRIX[MAX_DIM * MAX_DIM] format
 
 // Burst read for matrix A
+// Auto-pipeline is going to apply pipeline to these loops
 readA:
   for (int itr = 0, i = 0, j = 0; itr < dim * dim; itr++, j++) {
-#pragma HLS PIPELINE II = 1
 #pragma HLS LOOP_TRIPCOUNT min = c_dim*c_dim max = c_dim*c_dim
     if (j == dim) {
       j = 0;
@@ -82,7 +82,6 @@ readA:
 // Burst read for matrix B
 readB:
   for (int itr = 0, i = 0, j = 0; itr < dim * dim; itr++, j++) {
-#pragma HLS PIPELINE II = 1
 #pragma HLS LOOP_TRIPCOUNT min = c_dim*c_dim max = c_dim*c_dim
     if (j == dim) {
       j = 0;
@@ -98,7 +97,6 @@ lreorder1:
   // at 2nd level loop and which will eventually unroll the lower loop
   lreorder2:
     for (int j = 0; j < dim; j++) {
-#pragma HLS PIPELINE II = 1
 #pragma HLS LOOP_TRIPCOUNT min = c_dim max = c_dim
       int result = 0;
     lreorder3:
@@ -114,7 +112,6 @@ lreorder1:
 // Burst write from matrix C
 writeC:
   for (int itr = 0, i = 0, j = 0; itr < dim * dim; itr++, j++) {
-#pragma HLS PIPELINE II = 1
 #pragma HLS LOOP_TRIPCOUNT min = c_dim*c_dim max = c_dim*c_dim
     if (j == dim) {
       j = 0;

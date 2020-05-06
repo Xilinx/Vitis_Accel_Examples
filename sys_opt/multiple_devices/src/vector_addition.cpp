@@ -59,23 +59,21 @@ void vadd(int *c, int *a, int *b, const int len) {
     int size = BUFFER_SIZE;
     if (i + size > len)
       size = len - i;
+// Auto-pipeline is going to apply pipeline to these loops
   readA:
     for (int j = 0; j < size; j++) {
-#pragma HLS PIPELINE II = 1
 #pragma HLS LOOP_TRIPCOUNT min = c_size max = c_size
       arrayA[j] = a[i + j];
     }
 
   readB:
     for (int j = 0; j < size; j++) {
-#pragma HLS PIPELINE II = 1
 #pragma HLS LOOP_TRIPCOUNT min = c_size max = c_size
       arrayB[j] = b[i + j];
     }
 
   vadd_writeC:
     for (int j = 0; j < size; j++) {
-#pragma HLS PIPELINE II = 1
 #pragma HLS LOOP_TRIPCOUNT min = c_size max = c_size
       c[i + j] = arrayA[j] + arrayB[j];
     }

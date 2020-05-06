@@ -59,9 +59,9 @@ void adder(unsigned int *in, unsigned int *out, int inc, int size) {
 #pragma HLS INTERFACE s_axilite port = inc
 #pragma HLS INTERFACE s_axilite port = size
 #pragma HLS INTERFACE s_axilite port = return
+// Auto-pipeline is going to apply pipeline to this loop
 vadd:
   for (int i = 0; i < size; i++) {
-#pragma HLS PIPELINE II = 1
     out[i] = in[i] + inc;
   }
 }

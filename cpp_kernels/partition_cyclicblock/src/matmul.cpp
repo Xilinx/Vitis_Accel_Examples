@@ -62,10 +62,10 @@ void matmul_naive(const int *in1, // Read-Only Matrix 1
   int C[MAX_DIM * MAX_DIM];
 
 // Burst read for matrix A
+// Auto-pipeline is going to apply pipeline to these loops
 readA:
   for (int i = 0; i < dim * dim; i++) {
 #pragma HLS LOOP_TRIPCOUNT min = c_dim*c_dim max = c_dim*c_dim
-#pragma HLS PIPELINE II = 1
     A[i] = in1[i];
   }
 
@@ -73,7 +73,6 @@ readA:
 readB:
   for (int i = 0; i < dim * dim; i++) {
 #pragma HLS LOOP_TRIPCOUNT min = c_dim*c_dim max = c_dim*c_dim
-#pragma HLS PIPELINE II = 1
     B[i] = in2[i];
   }
 
@@ -86,7 +85,6 @@ lreorder1:
       int result = 0;
     lreorder3:
       for (int k = 0; k < dim; k++) {
-#pragma HLS PIPELINE II = 1
 #pragma HLS LOOP_TRIPCOUNT min = c_dim max = c_dim
         result += A[i * dim + k] * B[k * dim + j];
       }
@@ -97,7 +95,6 @@ lreorder1:
 // Burst write from matrix C
 writeC:
   for (int i = 0; i < dim * dim; i++) {
-#pragma HLS PIPELINE II = 1
 #pragma HLS LOOP_TRIPCOUNT min = c_dim*c_dim max = c_dim*c_dim
     out_r[i] = C[i];
   }

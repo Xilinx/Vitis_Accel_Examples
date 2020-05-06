@@ -40,9 +40,9 @@ void dummy_kernel(unsigned int *buffer0, unsigned int *buffer1,
 // Intentional empty kernel as this example doesn't require actual
 // kernel to work.
 
+// Auto-pipeline is going to apply pipeline to this loop
 dummy:
   for (unsigned int i = 0; i < size; i++) {
-#pragma HLS PIPELINE II = 1
     buffer0[i] = buffer1[i];
   }
 }

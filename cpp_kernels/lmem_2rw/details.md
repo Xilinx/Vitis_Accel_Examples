@@ -15,7 +15,6 @@ In this case, two ports of BRAM will be utilized rather than 1 reducing the tota
 ```c++
  vadd:
         for (int j = 0; j < chunk_size; j++) {
-           #pragma HLS PIPELINE II=1
            #pragma HLS UNROLL FACTOR=2
            #pragma HLS LOOP_TRIPCOUNT min=c_chunk_sz max=c_chunk_sz
             //perform vector addition

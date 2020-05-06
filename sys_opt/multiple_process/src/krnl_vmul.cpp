@@ -66,9 +66,9 @@ vmul:
       size = n_elements - i;
 
   // Burst reading A
+  // Auto-pipeline is going to apply pipeline to these loops
   readA:
     for (int j = 0; j < size; j++) {
-#pragma HLS PIPELINE II = 1
 #pragma HLS LOOP_TRIPCOUNT min = c_size max = c_size
       arrayA[j] = a[i + j];
     }
@@ -77,7 +77,6 @@ vmul:
   // to  Global memory
   vmul_writeC:
     for (int j = 0; j < size; j++) {
-#pragma HLS PIPELINE II = 1
 #pragma HLS LOOP_TRIPCOUNT min = c_size max = c_size
       out_r[i + j] = arrayA[j] * b[i + j];
     }

@@ -10,7 +10,6 @@ This example demontrates the use of an array of `HLS streams` in kernels.
 ```c++
  mem_rd:
     for (int i = 0; i < size; i++) {
-       #pragma HLS PIPELINE II=1
        #pragma HLS LOOP_TRIPCOUNT min=c_size max=c_size
         inStream << input[i];
     }
@@ -32,7 +31,6 @@ Finally, result is written back from stream to global memory buffer.
 static void write_result(int *output, hls::stream<int> &outStream, int size) {
 mem_wr:
     for (int i = 0; i < size; i++) {
-       #pragma HLS PIPELINE II=1
        #pragma HLS LOOP_TRIPCOUNT min=c_size max=c_size
         output[i] = outStream.read();
     }

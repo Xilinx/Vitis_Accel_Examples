@@ -56,9 +56,9 @@ void krnl_stream_vadd(hls::stream<pkt> &a, hls::stream<pkt> &b,
                       hls::stream<pkt> &output) {
 
   bool eos = false;
+// Auto-pipeline is going to apply pipeline to these loops
 vadd:
   do {
-#pragma HLS PIPELINE II = 1
     // Reading a and b streaming into packets
     pkt t1 = a.read();
     pkt t2 = b.read();

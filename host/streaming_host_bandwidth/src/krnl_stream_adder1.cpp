@@ -56,9 +56,9 @@ extern "C" {
 void krnl_stream_adder1(hls::stream<pkt> &a, hls::stream<pkt> &output) {
 
   bool eos = false;
+// Auto-pipeline is going to apply pipeline to this loop
 adder1:
   do {
-#pragma HLS PIPELINE II = 1
     // Reading a stream into packets
     pkt t1 = a.read();
 

@@ -59,8 +59,8 @@ data_mover:
 
   int i = 0;
   pkt v;
+  // Auto-pipeline is going to apply pipeline to this loop
   for (int i = 0; i < (size * 32 / 512); i++) {
-#pragma HLS PIPELINE II = 1
     v = in.read();
     out[i] = v.data;
   }

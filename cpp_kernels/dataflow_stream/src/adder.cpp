@@ -85,9 +85,9 @@ const int c_size = DATA_SIZE;
 // Read Data from Global Memory and write into Stream inStream
 static void read_input(unsigned int *in, hls::stream<unsigned int> &inStream,
                        int size) {
+// Auto-pipeline is going to apply pipeline to this loop
 mem_rd:
   for (int i = 0; i < size; i++) {
-#pragma HLS PIPELINE II = 1
 #pragma HLS LOOP_TRIPCOUNT min = c_size max = c_size
     // Blocking write command to inStream
     inStream << in[i];
@@ -98,9 +98,9 @@ mem_rd:
 static void compute_add(hls::stream<unsigned int> &inStream,
                         hls::stream<unsigned int> &outStream, int inc,
                         int size) {
+// Auto-pipeline is going to apply pipeline to this loop
 execute:
   for (int i = 0; i < size; i++) {
-#pragma HLS PIPELINE II = 1
 #pragma HLS LOOP_TRIPCOUNT min = c_size max = c_size
     // Blocking read command from inStream and Blocking write command
     // to outStream
@@ -111,9 +111,9 @@ execute:
 // Read result from outStream and write the result to Global Memory
 static void write_result(unsigned int *out,
                          hls::stream<unsigned int> &outStream, int size) {
+// Auto-pipeline is going to apply pipeline to this loop
 mem_wr:
   for (int i = 0; i < size; i++) {
-#pragma HLS PIPELINE II = 1
 #pragma HLS LOOP_TRIPCOUNT min = c_size max = c_size
     // Blocking read command to inStream
     out[i] = outStream.read();

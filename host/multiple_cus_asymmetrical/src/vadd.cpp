@@ -78,17 +78,16 @@ void vadd(const unsigned int *in1, // Read-Only Vector 1
   // available on-chip memory on target FPGA.
   // burst read of v1 and v2 vector from global memory
 
+  // Auto-pipeline is going to apply pipeline to these loops
   read1:
     for (int j = 0; j < chunk_size; j++) {
 #pragma HLS LOOP_TRIPCOUNT min = c_size max = c_size
-#pragma HLS PIPELINE II = 1
       v1_buffer[j] = in1[i + j];
     }
 
   read2:
     for (int j = 0; j < chunk_size; j++) {
 #pragma HLS LOOP_TRIPCOUNT min = c_size max = c_size
-#pragma HLS PIPELINE II = 1
       v2_buffer[j] = in2[i + j];
     }
 
@@ -97,7 +96,6 @@ void vadd(const unsigned int *in1, // Read-Only Vector 1
   vadd:
     for (int j = 0; j < chunk_size; j++) {
 #pragma HLS LOOP_TRIPCOUNT min = c_size max = c_size
-#pragma HLS PIPELINE II = 1
       // perform vector addition
       vout_buffer[j] = v1_buffer[j] + v2_buffer[j];
     }
@@ -106,7 +104,6 @@ void vadd(const unsigned int *in1, // Read-Only Vector 1
   write:
     for (int j = 0; j < chunk_size; j++) {
 #pragma HLS LOOP_TRIPCOUNT min = c_size max = c_size
-#pragma HLS PIPELINE II = 1
       out_r[i + j] = vout_buffer[j];
     }
   }

@@ -62,8 +62,8 @@ data_mover:
   pkt v;
 
   int i = 0;
+  // Auto-pipeline is going to apply pipeline to this loop
   for (i = 0; i < (size / chunk_size) - 1; i++) {
-#pragma HLS PIPELINE II = 1
     ap_uint<512> res = in[i];
     v.data = res;
     v.last = 0;

@@ -16,7 +16,6 @@ VConvH:
     VConvW:
         for (int row = 0; row < width; ++row) {
            #pragma HLS DEPENDENCE variable=linebuf inter false
-           #pragma HLS PIPELINE
             int in_val = inStream.read();
             int out_val = 0;
         VConv:

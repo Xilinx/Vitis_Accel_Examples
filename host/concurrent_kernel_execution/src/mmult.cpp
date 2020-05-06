@@ -44,16 +44,15 @@ void mmult(int *c, int *a, const int *b, const int dim0, const int dim1) {
   int matA[MAX_DIM * MAX_DIM];
   int matB[MAX_DIM * MAX_DIM];
 
+// Auto-pipeline is going to apply pipeline to these loops
 mmult_readA:
   for (int i = 0; i < dim0 * dim1; ++i) {
-#pragma HLS PIPELINE II = 1
 #pragma HLS LOOP_TRIPCOUNT min = c_size*c_size max = c_size*c_size
     matA[i] = a[i];
   }
 
 mmult_readB:
   for (int i = 0; i < dim0 * dim1; ++i) {
-#pragma HLS PIPELINE II = 1
 #pragma HLS LOOP_TRIPCOUNT min = c_size*c_size max = c_size*c_size
     matB[i] = b[i];
   }
@@ -68,7 +67,6 @@ mmult1:
     mmult3:
       for (int k = 0; k < dim1; ++k)
 #pragma HLS LOOP_TRIPCOUNT min = c_size max = c_size
-#pragma HLS PIPELINE II = 1
         temp += matA[k + i * dim0] * matB[j + k * dim0];
 
       c[i + j * dim0] = temp;

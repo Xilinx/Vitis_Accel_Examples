@@ -94,9 +94,9 @@ const unsigned int c_size = DATA_SIZE;
 
 // read_input(): Read Data from Global Memory and write into Stream inStream
 static void read_input(int *input, hls::stream<int> &inStream, int size) {
+// Auto-pipeline is going to apply pipeline to this loop
 mem_rd:
   for (int i = 0; i < size; i++) {
-#pragma HLS PIPELINE II = 1
 #pragma HLS LOOP_TRIPCOUNT min = c_size max = c_size
     // Blocking write command to inStream
     inStream << input[i];
@@ -106,9 +106,9 @@ mem_rd:
 // adder(): Read Input data from inStream and write the result into outStream
 static void adder(hls::stream<int> &inStream, hls::stream<int> &outStream,
                   int incr, int size) {
+// Auto-pipeline is going to apply pipeline to this loop
 execute:
   for (int i = 0; i < size; i++) {
-#pragma HLS PIPELINE II = 1
 #pragma HLS LOOP_TRIPCOUNT min = c_size max = c_size
     int inVar = inStream.read();
     int adderedVal = inVar + incr;
@@ -121,9 +121,9 @@ execute:
 // write_result(): Read result from outStream and write the result to Global
 // Memory
 static void write_result(int *output, hls::stream<int> &outStream, int size) {
+// Auto-pipeline is going to apply pipeline to this loop
 mem_wr:
   for (int i = 0; i < size; i++) {
-#pragma HLS PIPELINE II = 1
 #pragma HLS LOOP_TRIPCOUNT min = c_size max = c_size
     // Blocking read command from OutStream
     output[i] = outStream.read();

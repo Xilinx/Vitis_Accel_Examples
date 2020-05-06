@@ -102,10 +102,10 @@ void mmult(const int *a, // Read-Only Matrix A
 
 // Burst reads on input matrices from global memory
 // Read Input A
+// Auto-pipeline is going to apply pipeline to these loops
 readA:
   for (int loc = 0, i = 0, j = 0; loc < a_row * a_col; loc++, j++) {
 #pragma HLS LOOP_TRIPCOUNT min = c_size*c_size max = c_size*c_size
-#pragma HLS PIPELINE II = 1
     if (j == a_col) {
       i++;
       j = 0;
@@ -117,7 +117,6 @@ readA:
 readB:
   for (int loc = 0, i = 0, j = 0; loc < b_row * b_col; loc++, j++) {
 #pragma HLS LOOP_TRIPCOUNT min = c_size*c_size max = c_size*c_size
-#pragma HLS PIPELINE II = 1
     if (j == b_col) {
       i++;
       j = 0;
@@ -167,7 +166,6 @@ readB:
 systolic1:
   for (int k = 0; k < a_col; k++) {
 #pragma HLS LOOP_TRIPCOUNT min = c_size max = c_size
-#pragma HLS PIPELINE II = 1
   systolic2:
     for (int i = 0; i < MAX_SIZE; i++) {
     systolic3:
@@ -193,7 +191,6 @@ systolic1:
 writeC:
   for (int loc = 0, i = 0, j = 0; loc < c_row * c_col; loc++, j++) {
 #pragma HLS LOOP_TRIPCOUNT min = c_size*c_size max = c_size*c_size
-#pragma HLS PIPELINE II = 1
     if (j == c_col) {
       i++;
       j = 0;

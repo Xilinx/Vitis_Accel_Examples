@@ -5,8 +5,6 @@ This is simple example of vector addition to demonstrate how to connect each com
 
 ***KEY CONCEPTS:*** Multiple Compute Units
 
-***KEYWORDS:*** #pragma HLS PIPELINE
-
 ## EXCLUDED PLATFORMS
 Platforms containing following strings in their names are not supported for this example :
 ```

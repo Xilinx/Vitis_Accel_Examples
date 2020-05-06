@@ -44,23 +44,21 @@ void madd(int *a, int *b, int *c, const int dim) {
   int matA[MAX_DIM * MAX_DIM];
   int matB[MAX_DIM * MAX_DIM];
 
+// Auto-pipeline is going to apply pipeline to these loops
 madd_readA:
   for (int i = 0; i < dim * dim; ++i) {
-#pragma HLS PIPELINE II = 1
 #pragma HLS LOOP_TRIPCOUNT min = c_size*c_size max = c_size*c_size
     matA[i] = a[i];
   }
 
 madd_readB:
   for (int i = 0; i < dim * dim; ++i) {
-#pragma HLS PIPELINE II = 1
 #pragma HLS LOOP_TRIPCOUNT min = c_size*c_size max = c_size*c_size
     matB[i] = b[i];
   }
 
 madd_writeC:
   for (int i = 0; i < dim * dim; ++i) {
-#pragma HLS PIPELINE II = 1
 #pragma HLS LOOP_TRIPCOUNT min = c_size*c_size max = c_size*c_size
     c[i] = matA[i] + matB[i];
   }

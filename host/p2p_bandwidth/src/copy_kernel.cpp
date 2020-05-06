@@ -48,9 +48,9 @@ Description:
 typedef ap_uint<512> uintV_t;
 
 void read(uintV_t *in, uintV_t buffer_in[SIZE]) {
+// Auto-pipeline is going to apply pipeline to these loops
 read:
   for (int i = 0; i < SIZE; i++) {
-#pragma HLS PIPELINE II = 1
     buffer_in[i] = in[i];
   }
 }
@@ -58,7 +58,6 @@ read:
 void cpy(uintV_t buffer_in[SIZE], uintV_t buffer_out[SIZE]) {
 cpy:
   for (int i = 0; i < SIZE; i++) {
-#pragma HLS PIPELINE II = 1
     buffer_out[i] = buffer_in[i];
   }
 }
@@ -66,7 +65,6 @@ cpy:
 void write(uintV_t buffer_out[SIZE], uintV_t *out) {
 write:
   for (int i = 0; i < SIZE; i++) {
-#pragma HLS PIPELINE II = 1
     out[i] = buffer_out[i];
   }
 }

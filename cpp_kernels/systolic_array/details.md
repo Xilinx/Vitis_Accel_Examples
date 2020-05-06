@@ -19,7 +19,6 @@ Matrix multiplication is performed in the `mmult` kernel. Local matrices A and B
 systolic1:
     for (int k = 0; k < a_col; k++) {
        #pragma HLS LOOP_TRIPCOUNT min=c_size max=c_size
-       #pragma HLS PIPELINE II=1
     systolic2:
         for (int i = 0; i < MAX_SIZE; i++) {
         systolic3:

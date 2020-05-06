@@ -46,9 +46,9 @@ void mm2s(int *a, hls::stream<pkt> &strm_a, hls::stream<int> &strm_ctrl_trans1,
   int dim = strm_ctrl_trans1.read();
   int size = dim * dim;
 
+// Auto-pipeline is going to apply pipeline to this loop
 mm2s:
   for (int i = 0; i < size; i++) {
-#pragma HLS PIPELINE II = 1
     pkt p1;
     p1 = a[i];
 
@@ -71,9 +71,9 @@ void mmult(hls::stream<pkt> &strm_a, int *b, hls::stream<int> &strm_ctrl_trans2,
   int temp_sum[MAT_DIM];
   int i, j, itr;
 
+// Auto-pipeline is going to apply pipeline to these loops
 read_strm_in1:
   for (itr = 0, i = 0, j = 0; itr < size; itr++, j++) {
-#pragma HLS PIPELINE II = 1
     if (j == dim) {
       j = 0;
       i++;
@@ -84,7 +84,6 @@ read_strm_in1:
 
 read_mm_in2:
   for (itr = 0, i = 0, j = 0; itr < size; itr++, j++) {
-#pragma HLS PIPELINE II = 1
     if (j == dim) {
       j = 0;
       i++;
@@ -96,7 +95,6 @@ mmult_strm_1:
   for (int row = 0; row < dim; row++) {
   mmult_strm_2:
     for (int col = 0; col < dim; col++) {
-#pragma HLS PIPELINE II = 1
       int result = 0;
     mmult_strm_3:
       for (int l = 0; l < dim; l++) {
@@ -108,7 +106,6 @@ mmult_strm_1:
 
 write_strm_out:
   for (itr = 0, i = 0, j = 0; itr < size; itr++, j++) {
-#pragma HLS PIPELINE II = 1
     if (j == dim) {
       j = 0;
       i++;
@@ -131,7 +128,6 @@ void s2mm(hls::stream<pkt> &strm_in, int *output,
 
 write_output:
   for (int i = 0; i < size; i++) {
-#pragma HLS PIPELINE II = 1
     pkt temp = strm_in.read();
     output[i] = temp;
   }

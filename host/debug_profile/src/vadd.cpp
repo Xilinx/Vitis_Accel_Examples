@@ -60,11 +60,10 @@ void krnl_vadd(int *a, int *e, const int length_r) {
     int size = BUFFER_SIZE;
     if (i + size > length_r)
       size = length_r - i;
-
+// Auto-pipeline is going to apply pipeline to these loops
   readA:
     for (int j = 0; j < 4 * size; j++) {
 #pragma HLS LOOP_TRIPCOUNT min = c_size max = c_size
-#pragma HLS PIPELINE II = 1
       int tmpValue = a[i + j];
       switch (j % 4) {
       case 0:
@@ -85,7 +84,6 @@ void krnl_vadd(int *a, int *e, const int length_r) {
   vadd_writeC:
     for (int j = 0; j < size; j++) {
 #pragma HLS LOOP_TRIPCOUNT min = c_size max = c_size
-#pragma HLS PIPELINE II = 1
       e[j] = arrayA[j] + arrayB[j] + arrayC[j] + arrayD[j];
     }
   }

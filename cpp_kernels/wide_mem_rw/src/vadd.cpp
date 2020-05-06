@@ -90,9 +90,9 @@ void vadd(const uint512_dt *in1, // Read-Only Vector 1
       chunk_size = size_in16 - i;
 
   // burst read first vector from global memory to local memory
+  // Auto-pipeline is going to apply pipeline to these loops
   v1_rd:
     for (int j = 0; j < chunk_size; j++) {
-#pragma HLS PIPELINE II = 1
 #pragma HLS LOOP_TRIPCOUNT min = c_chunk_sz max = c_chunk_sz
       v1_local[j] = in1[i + j];
     }
@@ -100,7 +100,6 @@ void vadd(const uint512_dt *in1, // Read-Only Vector 1
   // burst read second vector and perform vector addition
   v2_rd_add:
     for (int j = 0; j < chunk_size; j++) {
-#pragma HLS PIPELINE II = 1
 #pragma HLS LOOP_TRIPCOUNT min = c_chunk_sz max = c_chunk_sz
       uint512_dt tmpV1 = v1_local[j];
       uint512_dt tmpV2 = in2[i + j];
@@ -122,7 +121,6 @@ void vadd(const uint512_dt *in1, // Read-Only Vector 1
   // burst write the result
   out_write:
     for (int j = 0; j < chunk_size; j++) {
-#pragma HLS PIPELINE II = 1
 #pragma HLS LOOP_TRIPCOUNT min = c_chunk_sz max = c_chunk_sz
       out[i + j] = result_local[j];
     }

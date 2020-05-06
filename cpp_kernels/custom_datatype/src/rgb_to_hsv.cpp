@@ -53,9 +53,9 @@ void rgb_to_hsv(RGBcolor *in,  // Access global memory as RGBcolor struct-wise
 // Single loop is sufficient to read each RGB pixel from Global memory,
 // Converting RGB pixel to HSV Pixel, and writing HSV Pixel Back to Global
 // Memory.
+// Auto-pipeline is going to apply pipeline to this loop
 rgb2hsv_loop:
   for (unsigned int i = 0; i < size; i++) {
-#pragma HLS PIPELINE II = 1
 // Loop is marked for pipeline. Compiler will be able to get Loop II=1
 // as a result, Kernel will be able to do burst read and burst write.
 // Kernel will be performing RGB to HSV conversion per pixel per clock.

@@ -64,9 +64,9 @@ void krnl_vadd(const v_dt *in1,        // Read-Only Vector 1
 
   unsigned int vSize = ((size - 1) / VDATA_SIZE) + 1;
 
+// Auto-pipeline is going to apply pipeline to this loop
 vadd1:
   for (int i = 0; i < vSize; i++) {
-#pragma HLS PIPELINE II = 1
   vadd2:
     for (int k = 0; k < VDATA_SIZE; k++) {
 #pragma HLS LOOP_TRIPCOUNT min = c_dt_size max = c_dt_size

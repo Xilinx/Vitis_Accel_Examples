@@ -112,10 +112,10 @@ void apply_watermark(TYPE *input, TYPE *output, int width, int height) {
   int size = ((imageSize - 1) / DATA_SIZE) + 1;
 
 // Process the whole image
+// Auto-pipeline is going to apply pipeline to this loop
 image_traverse:
   for (int idx = 0, x = 0, y = 0; idx < size; ++idx, x += DATA_SIZE) {
 #pragma HLS LOOP_TRIPCOUNT min = c_image_size max = c_image_size
-#pragma HLS PIPELINE II = 1
     // Read the next 16 Pixels
     TYPE tmp = input[idx];
 

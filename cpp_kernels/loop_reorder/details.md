@@ -7,7 +7,6 @@ If matrix multiplication is performed with the commented code as shown below, In
 ```c++
 // lreorder1: for (int i = 0; i < size; i++) {
 //     lreorder2: for (int j = 0; j < size; j++) {
-//     #pragma HLS PIPELINE
 //         lreorder3: for (int k = 0; k < MAX_SIZE; k++) {
 //             int result = (k == 0) ? 0 : temp_sum[j];
 //             result += A[i][k] * B[k][j];
@@ -29,7 +28,6 @@ lreorder1:
     lreorder2:
         for (int k = 0; k < size; k++) {
            #pragma HLS LOOP_TRIPCOUNT min=c_size max=c_size
-           #pragma HLS PIPELINE II=1
         lreorder3:
             for (int j = 0; j < MAX_SIZE; j++) {
                 int result = (k == 0) ? 0 : temp_sum[j];

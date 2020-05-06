@@ -95,9 +95,9 @@ void mmult(const int *in1, // Read-Only Matrix 1
 
 // Burst reads on input matrices from global memory
 // Burst read for matrix A
+// Auto-pipeline is going to apply pipeline to this loops
 readA:
   for (int itr = 0, i = 0, j = 0; itr < size * size; itr++, j++) {
-#pragma HLS PIPELINE II = 1
 #pragma HLS LOOP_TRIPCOUNT min = c_size*c_size max = c_size*c_size
     if (j == size) {
       j = 0;
@@ -109,7 +109,6 @@ readA:
 // Burst read for matrix B
 readB:
   for (int itr = 0, i = 0, j = 0; itr < size * size; itr++, j++) {
-#pragma HLS PIPELINE II = 1
 #pragma HLS LOOP_TRIPCOUNT min = c_size*c_size max = c_size*c_size
     if (j == size) {
       j = 0;
@@ -133,7 +132,6 @@ readB:
 
 // lreorder1: for (int i = 0; i < size; i++) {
 //     lreorder2: for (int j = 0; j < size; j++) {
-//   #pragma HLS PIPELINE
 //         lreorder3: for (int k = 0; k < MAX_SIZE; k++) {
 //             int result = (k == 0) ? 0 : temp_sum[j];
 //             result += A[i][k] * B[k][j];
@@ -155,7 +153,6 @@ lreorder1:
   lreorder2:
     for (int k = 0; k < size; k++) {
 #pragma HLS LOOP_TRIPCOUNT min = c_size max = c_size
-#pragma HLS PIPELINE II = 1
     lreorder3:
       for (int j = 0; j < MAX_SIZE; j++) {
         int result = (k == 0) ? 0 : temp_sum[j];
@@ -171,7 +168,6 @@ lreorder1:
 // Burst write from matrix C
 writeC:
   for (int itr = 0, i = 0, j = 0; itr < size * size; itr++, j++) {
-#pragma HLS PIPELINE II = 1
 #pragma HLS LOOP_TRIPCOUNT min = c_size*c_size max = c_size*c_size
     if (j == size) {
       j = 0;

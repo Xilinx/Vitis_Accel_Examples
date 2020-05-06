@@ -72,9 +72,9 @@ void vadd(int *a, int size, int inc_value) {
     if ((i + BURSTBUFFERSIZE) > size)
       chunk_size = size - i;
     // burst read
+    // Auto-pipeline is going to apply pipeline to these loops
     for (int j = 0; j < chunk_size; j++) {
 #pragma HLS LOOP_TRIPCOUNT min = c_size_min max = c_size_max
-#pragma HLS PIPELINE II = 1
       burstbuffer[j] = a[i + j];
     }
 
@@ -83,7 +83,6 @@ void vadd(int *a, int size, int inc_value) {
   calc_write:
     for (int j = 0; j < chunk_size; j++) {
 #pragma HLS LOOP_TRIPCOUNT min = c_size_max max = c_chunk_sz
-#pragma HLS PIPELINE II = 1
       burstbuffer[j] = burstbuffer[j] + inc_value;
       a[i + j] = burstbuffer[j];
     }

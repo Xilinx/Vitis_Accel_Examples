@@ -74,9 +74,9 @@ void krnl_vaddmul(
   // Running same kernel operation num_times to keep the kernel busy for HBM
   // bandwidth testing
   for (int count = 0; count < num_times; count++) {
+  // Auto-pipeline is going to apply pipeline to this loop
   vops1:
     for (int i = 0; i < vSize; i++) {
-#pragma HLS PIPELINE II = 1
       tmpIn1 = in1[i];
       tmpIn2 = in2[i];
 

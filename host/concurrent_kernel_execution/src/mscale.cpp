@@ -43,16 +43,15 @@ void mscale(int *inout_r, const int scale, const int dim0, const int dim1) {
 
   int temp[MAX_DIM * MAX_DIM];
 
+// Auto-pipeline is going to apply pipeline to these loops
 mscale:
   for (int i = 0; i < dim0 * dim1; ++i)
 #pragma HLS LOOP_TRIPCOUNT min = c_size*c_size max = c_size*c_size
-#pragma HLS PIPELINE II = 1
     temp[i] = inout_r[i] * scale;
 
 mscale_write:
   for (int i = 0; i < dim0 * dim1; ++i)
 #pragma HLS LOOP_TRIPCOUNT min = c_size*c_size max = c_size*c_size
-#pragma HLS PIPELINE II = 1
     inout_r[i] = temp[i];
 }
 }

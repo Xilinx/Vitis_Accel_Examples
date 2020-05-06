@@ -14,12 +14,11 @@ uint512_dt v1_local[BUFFER_SIZE];
 uint512_dt result_local[BUFFER_SIZE];
 ```
 
-Using 512 bits user can enable the `burst` read and write for the data by using `#pragma HLS PIPELINE`.
+Using 512 bits user can enable the `burst` read and write for the data by using `#pragma HLS PIPELINE`. Auto-pipeline is going to apply pipeline to these loops.
 
 ```c++
 v1_rd:
        for (int j = 0; j < chunk_size; j++) {
-          #pragma HLS PIPELINE II=1
           #pragma HLS LOOP_TRIPCOUNT min=c_chunk_sz max=c_chunk_sz
            v1_local[j] = in1[i + j];
        }

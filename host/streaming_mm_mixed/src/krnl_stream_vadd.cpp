@@ -57,10 +57,9 @@ void krnl_stream_vadd(hls::stream<pkt> &out, // Write-Only output Stream
                       int *in2,              // Memory mapped Input Vector 2
                       int size               // Size in integer
                       ) {
-
+// Auto-pipeline is going to apply pipeline to this loop
 vadd:
   for (int i = 0; i < size; i++) {
-#pragma HLS PIPELINE II = 1
     // Local Packets
     pkt in_buf, out_buf;
 

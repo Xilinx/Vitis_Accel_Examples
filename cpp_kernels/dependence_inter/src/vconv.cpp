@@ -46,9 +46,9 @@ pragma
 
 // Read Data from DDR Memory and write into Stream inStream
 static void read_input(int *in_r, hls::stream<int> &inStream, int size) {
+// Auto-pipeline is going to apply pipeline to these loops
 mem_rd:
   for (int i = 0; i < size; i++) {
-#pragma HLS PIPELINE II = 1
 #pragma HLS LOOP_TRIPCOUNT min = c_size max = c_size
     // Blocking write command to inStream
     inStream << in_r[i];
@@ -65,7 +65,6 @@ VConvH:
   VConvW:
     for (int row = 0; row < width; ++row) {
 #pragma HLS DEPENDENCE variable = linebuf inter false
-#pragma HLS PIPELINE
       // HLS Dependence pragma provides extra dependency information to
       // compiler.
       // For example here linebuf has false inter dependency. Which means
@@ -96,7 +95,6 @@ VConvH:
 static void write_result(int *out_r, hls::stream<int> &outStream, int size) {
 mem_wr:
   for (int i = 0; i < size; i++) {
-#pragma HLS PIPELINE II = 1
 #pragma HLS LOOP_TRIPCOUNT min = c_size max = c_size
     // Blocking read command to outStream
     out_r[i] = outStream.read();
