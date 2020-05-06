@@ -66,7 +66,6 @@ HOST_SRCS += src/host.cpp
 # Host compiler global settings
 CXXFLAGS += -fmessage-length=0
 LDFLAGS += -lrt -lstdc++ 
-
 LDFLAGS += -laio
 
 ifneq ($(HOST_ARCH), x86)

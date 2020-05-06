@@ -21,7 +21,7 @@ Once the environment has been configured, the application can be executed by
 ./host <vadd XCLBIN>
 ```
 
-##  COMMANDS FOR WINDOWS FLOW 
+##  COMMANDS FOR WINDOWS FLOW
 Once the environment has been configured, run the following commands : 
 ```
 cd cmake_build

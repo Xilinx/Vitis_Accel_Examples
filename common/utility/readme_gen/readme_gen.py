@@ -119,7 +119,19 @@ def commandargs(target,data):
     target.write("\n```\n")
     target.write("\n")
 
-
+def windowscommands(target):
+    target.write("##  COMMANDS FOR WINDOWS FLOW\n") 
+    target.write("Once the environment has been configured, run the following commands : \n")
+    target.write("```\n")
+    target.write("cd cmake_build\n")
+    target.write("cmake -G \"Visual Studio 15 2017 Win64\" -DCMAKE_BUILD_TYPE=Debug -DXILINX_XRT=<set xilinx xrt path> -DOCL_ROOT=<set ocl root path>\n")
+    target.write("cmake --build . --verbose --config Debug --target install\n")
+    target.write("\n")
+    target.write("For Example : \n")
+    target.write("cd cmake_build\n")
+    target.write("cmake -G \"Visual Studio 15 2017 Win64\" -DCMAKE_BUILD_TYPE=Debug -DXILINX_XRT=C:\Xilinx\XRT -DOCL_ROOT=C:\Xilinx\XRT\ext\n")
+    target.write("cmake --build . --verbose --config Debug --target install\n")
+    target.write("```\n") 
 
 # Get the argument from the description
 script, desc_file = argv
@@ -143,5 +155,6 @@ else:
     requirements(target,data)
     hierarchy(target)
     commandargs(target,data)
+    windowscommands(target)
 
 target.close
