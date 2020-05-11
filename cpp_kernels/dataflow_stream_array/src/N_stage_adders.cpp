@@ -104,6 +104,7 @@ mem_rd:
 }
 
 // adder(): Read Input data from inStream and write the result into outStream
+// for each stage
 static void adder(hls::stream<int> &inStream, hls::stream<int> &outStream,
                   int incr, int size) {
 // Auto-pipeline is going to apply pipeline to this loop
@@ -115,6 +116,22 @@ execute:
     // Blocking read command from inStream and Blocking write command
     // to outStream
     outStream << adderedVal;
+  }
+}
+
+// cascaded_adder(): Read Input data from inStream and write the result into
+// outStream through all the Stages
+template <int LEVELS>
+static void cascaded_adder(hls::stream<int> inStream[LEVELS + 1], int incr,
+                           int size) {
+#pragma HLS inline
+compute_loop:
+  for (int i = 0; i < LEVELS; i++) {
+#pragma HLS UNROLL
+    // total 4 units of adder(). each is compute vector addition
+    // and sending result to immediate next unit using stream
+    // datatype
+    adder(inStream[i], inStream[i + 1], incr, size);
   }
 }
 
@@ -146,14 +163,8 @@ void N_stage_Adders(int *input, int *output, int incr, int size) {
 #pragma HLS dataflow
   // one read input unit for data read
   read_input(input, streamArray[0], size);
-compute_loop:
-  for (int i = 0; i < STAGES; i++) {
-#pragma HLS UNROLL
-    // total 4 units of adder(). each is compute vector addition
-    // and sending result to immediate next unit using stream
-    // datatype
-    adder(streamArray[i], streamArray[i + 1], incr, size);
-  }
+  // total 4 units of adder(). each is compute vector addition
+  cascaded_adder<STAGES>(streamArray, incr, size);
   // one write result unit to write result back to global Memory
   write_result(output, streamArray[STAGES], size);
 }
