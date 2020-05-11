@@ -1,5 +1,5 @@
-Array Partition
-================
+Array Partition (OpenCL Kernel)
+================================
 This example demonstrates how `array partition` in OpenCL kernels can improve the performance of an application. Operations like matrix
 multiplication require multiple accesses to data in memory for a single iteration. Two kernels are executed, `matmul_partition` with the array partitions and 
 `matmul` without the array partitions and performance is compared.

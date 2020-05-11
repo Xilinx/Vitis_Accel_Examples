@@ -1,4 +1,4 @@
-Global Memory Two Banks (CL)
+Global Memory Two Banks (OpenCL Kernel)
 ======================
 
 This example of 2ddr to demonstrate on how to use 2ddr XSA. How to create buffers in each DDR.

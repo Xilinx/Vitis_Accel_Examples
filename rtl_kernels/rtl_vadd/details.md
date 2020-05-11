@@ -1,5 +1,5 @@
-Vadd Simple
-=================================
+Vadd Simple (RTL Kernel)
+=========================
 
 This example demonstrates simple vector addition with RTL kernel. Two vectors are transferred from host to kernel, added and the result is
 written back to host and verified.

@@ -1,4 +1,4 @@
-Array Block and Cyclic Partitioning (CL)
+Array Block and Cyclic Partitioning (OpenCL Kernel)
 ======================
 
 This example shows how to use array block and cyclic partitioning to improve performance of a kernel

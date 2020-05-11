@@ -1,4 +1,4 @@
-Adder With Streams (RTL)
+Adder With Streams (RTL Kernel)
 ======================
 
 This example shows an adder with streams using 3 RTL kernels.

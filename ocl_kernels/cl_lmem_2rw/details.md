@@ -1,5 +1,5 @@
-Two Parallel Read/Write on Local Memory
-========================================
+Two Parallel Read/Write on Local Memory (OpenCL Kernel)
+========================================================
 This is a simple example to demonstrate how to utilize both ports of local memory in kernels.
 
 Kernel's local memory is usually `BRAM` which has two ports for read/write.

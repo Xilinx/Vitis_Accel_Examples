@@ -1,5 +1,5 @@
-Loop Reordering
-================
+Loop Reordering (OpenCL Kernel)
+================================
 
 This example demonstrates how changing the order of loop can improve the performance of the kernel. 
 In this case, loop reordering helps us achieve better `Initiation Interval`(II).

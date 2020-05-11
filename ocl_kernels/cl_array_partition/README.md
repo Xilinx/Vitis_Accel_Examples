@@ -1,4 +1,4 @@
-Array Partitioning (CL)
+Array Partitioning (OpenCL Kernel)
 ======================
 
 This example shows how to use array partitioning to improve performance of a kernel

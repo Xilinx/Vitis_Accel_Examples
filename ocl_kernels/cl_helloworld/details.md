@@ -1,5 +1,5 @@
-Hello World
-=============
+Hello World (OpenCL Kernel)
+============================
 This example introduces the basic structure of host and kernel code. Kernel `vadd` optimizes a simple vector addition.
 
 

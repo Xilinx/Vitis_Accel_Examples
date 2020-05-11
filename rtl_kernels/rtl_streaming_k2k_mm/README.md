@@ -1,4 +1,4 @@
-RTL Stream Kernel to Kernel and Memory Mapped
+RTL Stream Kernel to Kernel and Memory Mapped (RTL Kernel)
 ======================
 
 This example uses two simple increment RTL kernels connected to each other via stream interface and connected to host via memory mapped C++ data mover kernels

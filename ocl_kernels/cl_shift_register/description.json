@@ -1,5 +1,5 @@
 {
-    "name": "Shift Register (CL)", 
+    "name": "Shift Register (OpenCL Kernel)", 
     "description": [
         "This example demonstrates how to shift values in registers in each clock cycle"
     ],

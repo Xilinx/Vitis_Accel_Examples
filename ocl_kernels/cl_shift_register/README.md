@@ -1,4 +1,4 @@
-Shift Register (CL)
+Shift Register (OpenCL Kernel)
 ======================
 
 This example demonstrates how to shift values in registers in each clock cycle

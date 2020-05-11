@@ -1,5 +1,5 @@
 {
-    "name": "Adder With Streams (RTL)",
+    "name": "Adder With Streams (RTL Kernel)",
     "description": [
         "This example shows an adder with streams using 3 RTL kernels."
     ], 

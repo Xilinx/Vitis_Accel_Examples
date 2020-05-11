@@ -1,5 +1,5 @@
 {
-    "name": "Loop Reordering (CL)", 
+    "name": "Loop Reordering (OpenCL Kernel)", 
     "description": [
         "This is a simple example of matrix multiplication (Row x Col) to demonstrate how to achieve better pipeline II factor by loop reordering."
     ],

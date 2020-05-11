@@ -1,4 +1,4 @@
-Stream Kernel to Kernel
+Stream Kernel to Kernel (RTL Kernel)
 ======================
 
 This is a simple Vector Increment RTL Kernel to Kernel design with 1 Stream input and 1 Stream output that demonstrates on how to process an input stream of data for computation in an application.

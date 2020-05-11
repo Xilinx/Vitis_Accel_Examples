@@ -1,5 +1,5 @@
-Stream Kernel to Kernel
-=============================================
+Stream Kernel to Kernel (RTL Kernel)
+=====================================
 
 This example demonstrates the use of RTL kernels for addition with stream interfaces. Two kernels, `my_adder1` and `myadder2` are 
 connected by a stream interface. Each kernel simply increments the input by 1 and returns the result. Kernel to kernel stream interfaces 

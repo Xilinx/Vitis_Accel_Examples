@@ -1,5 +1,5 @@
-Vadd 2 Kernel Clocks
-=====================================
+Vadd 2 Kernel Clocks (RTL Kernel)
+==================================
 This example demonstrates the use of `two kernel clocks` for a simple case of vector addition.
 
 An RTL kernel can have up to two external clock interfaces; a primary clock, `ap_clk`, and an

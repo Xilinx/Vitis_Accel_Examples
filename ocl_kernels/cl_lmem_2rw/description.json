@@ -1,5 +1,5 @@
 {
-    "name": "Two Parallel Read/Write on Local Memory (CL)", 
+    "name": "Two Parallel Read/Write on Local Memory (OpenCL Kernel)", 
     "description": [
         "This is simple example of vector addition to demonstrate how to utilized both ports of Local Memory."
     ],

@@ -1,5 +1,5 @@
 {
-    "name": "Vadd 2 Kernel Clocks (RTL)", 
+    "name": "Vadd 2 Kernel Clocks (RTL Kernel)", 
     "description": [
         "This example shows vector addition with 2 kernel clocks using RTL Kernel."
     ], 

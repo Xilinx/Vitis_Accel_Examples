@@ -1,5 +1,5 @@
 {
-    "name": "Vadd Simple (RTL)", 
+    "name": "Vadd Simple (RTL Kernel)", 
     "description": [
         "Simple example of vector addition using RTL Kernel"
     ], 

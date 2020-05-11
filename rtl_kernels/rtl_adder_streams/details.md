@@ -1,5 +1,5 @@
-Adder With Streams
-===================
+Adder With Streams (RTL Kernel)
+================================
 
 This example demonstrates the use of RTL kernels for addition with stream interfaces.
 Kernel simply increments the input by 1 and returns the result.

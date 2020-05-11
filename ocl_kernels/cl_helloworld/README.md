@@ -1,4 +1,4 @@
-Hello World (CL)
+Hello World (OpenCL Kernel)
 ======================
 
 This example is a simple OpenCL application. It will highlight the basic flow of an OpenCL application.

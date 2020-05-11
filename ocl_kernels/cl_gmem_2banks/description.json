@@ -1,5 +1,5 @@
 {
-    "name": "Global Memory Two Banks (CL)",
+    "name": "Global Memory Two Banks (OpenCL Kernel)",
     "description": [
         "This example of 2ddr to demonstrate on how to use 2ddr XSA. How to create buffers in each DDR."
     ], 
