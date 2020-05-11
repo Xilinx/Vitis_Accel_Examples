@@ -1,4 +1,4 @@
-Vadd Simple (RTL)
+Vadd Simple (RTL Kernel)
 ======================
 
 Simple example of vector addition using RTL Kernel

@@ -1,4 +1,4 @@
-Hardware Debug (RTL)
+Hardware Debug (RTL Kernel)
 ======================
 
 This is an example that showcases the Hardware Debug of Vector Addition RTL Kernel in Hardware.

@@ -1,5 +1,5 @@
-Dataflow Function OpenCL
-=========================
+Dataflow Function OpenCL (OpenCL Kernel)
+=========================================
 
 This example demonstrates the use of `xcl_dataflow` attribute used to implement task level parallelism in OpenCL kernels i.e. 
 multiple functions can be pipelied to increase the throughput of the design.

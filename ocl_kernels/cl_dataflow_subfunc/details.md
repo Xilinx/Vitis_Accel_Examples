@@ -1,5 +1,5 @@
-Dataflow Subfunction OpenCL
-============================
+Dataflow Subfunction OpenCL (OpenCL Kernel)
+============================================
 
 This example demonstrates how `xcl_dataflow` attribute can be used to implement task level parallelism for subfunctions inside a function.
 

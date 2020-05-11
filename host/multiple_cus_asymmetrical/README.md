@@ -11,6 +11,7 @@ This is simple example of vector addition to demonstrate how to connect each com
 Platforms containing following strings in their names are not supported for this example :
 ```
 u50
+vck
 samsung
 zc
 ```

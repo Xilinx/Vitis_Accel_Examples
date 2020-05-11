@@ -1,4 +1,4 @@
-Dataflow SubFunction OpenCL(CL)
+Dataflow SubFunction OpenCL (OpenCL Kernel)
 ======================
 
 This is simple example of vector addition to demonstrate how OpenCL Dataflow allows user to run multiple sub functions together to achieve higher throughput.

@@ -1,5 +1,5 @@
-Global Memory Two Banks
-========================
+Global Memory Two Banks (OpenCL Kernel)
+========================================
 
 This example demonstrates how buffers can be created in two different DDR(Global memory) banks.
 

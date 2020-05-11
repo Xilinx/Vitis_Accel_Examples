@@ -1,4 +1,4 @@
-Burst Read/Write (CL)
+Burst Read/Write (OpenCL Kernel)
 ======================
 
 This is simple example of using AXI4-master interface for burst read and write

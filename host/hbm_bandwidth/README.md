@@ -6,12 +6,11 @@ This is a HBM bandwidth check design. Design contains 3 compute units of a kerne
 ## EXCLUDED PLATFORMS
 Platforms containing following strings in their names are not supported for this example :
 ```
-xilinx_u200_xdma
-xilinx_u200_qdma
+u200
 zc
-xilinx_u250_xdma
-xilinx_u250_qdma
-xilinx_u250_qep
+vck
+u250
+aws
 samsung
 ```
 

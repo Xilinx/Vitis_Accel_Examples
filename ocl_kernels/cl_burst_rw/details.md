@@ -1,5 +1,5 @@
-Burst Read/write
-================
+Burst Read/write (OpenCL Kernel)
+=================================
 
 The usual reason for having a burst mode capability, or using burst mode, is to increase data throughput. This example demonstrates how multiple items can be read from global memory to kernel's local memory in a single burst.
 This is done to achieve low memory access latency and also for efficient use of bandwidth provided by the `AXI` interface. 

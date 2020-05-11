@@ -1,5 +1,5 @@
 {
-    "name": "Hardware Debug (RTL)", 
+    "name": "Hardware Debug (RTL Kernel)", 
     "description": [
         "This is an example that showcases the Hardware Debug of Vector Addition RTL Kernel in Hardware."
     ], 

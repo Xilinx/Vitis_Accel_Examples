@@ -1,5 +1,5 @@
-Systolic Array
-===============
+Systolic Array (OpenCL Kernel)
+===============================
 
 This example demonstrates how `Systolic array algorithm` can be used in FPGAs to perform matrix operations efficiently.
 

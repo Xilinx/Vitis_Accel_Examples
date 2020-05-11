@@ -1,5 +1,5 @@
-Stream Free Running
-=======================
+Stream Free Running (RTL Kernel)
+=================================
 
 This example demonstrates the use of RTL `free running` kernel. Free running kernel starts as soon as it is out of reset and never stops.
 Free running kernels can only have `stream interfaces` for communication with the host. Kernel simply increments the input by 1 and returns

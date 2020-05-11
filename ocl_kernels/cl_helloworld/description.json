@@ -1,5 +1,5 @@
 {
-    "name": "Hello World (CL)", 
+    "name": "Hello World (OpenCL Kernel)", 
     "description": [
         "This example is a simple OpenCL application. It will highlight the basic flow of an OpenCL application."
     ],

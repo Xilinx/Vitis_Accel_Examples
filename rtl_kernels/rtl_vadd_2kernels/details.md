@@ -1,5 +1,5 @@
-Vadd 2 Kernels(RTL)
-=========================
+Vadd 2 Kernels (RTL Kernel)
+============================
 
 This example demonstrates the use of two RTL Kernels. 3 input vectors are added using these two kernels. `Kernel_1` performs the vector
 addition on 1st two vectors and then `Kernel_2` adds the result of former kernel to the 3rd vector.

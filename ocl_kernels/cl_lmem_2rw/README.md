@@ -1,4 +1,4 @@
-Two Parallel Read/Write on Local Memory (CL)
+Two Parallel Read/Write on Local Memory (OpenCL Kernel)
 ======================
 
 This is simple example of vector addition to demonstrate how to utilized both ports of Local Memory.

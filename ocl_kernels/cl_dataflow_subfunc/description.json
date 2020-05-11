@@ -1,5 +1,5 @@
 {
-    "name": "Dataflow SubFunction OpenCL(CL)", 
+    "name": "Dataflow SubFunction OpenCL (OpenCL Kernel)", 
     "description": [
         "This is simple example of vector addition to demonstrate how OpenCL Dataflow allows user to run multiple sub functions together to achieve higher throughput."
     ],

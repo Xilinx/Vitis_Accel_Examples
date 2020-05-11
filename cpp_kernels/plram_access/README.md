@@ -11,6 +11,7 @@ This example shows the usage of PLRAM and how to use it with simple matrix multi
 Platforms containing following strings in their names are not supported for this example :
 ```
 zc
+vck
 u50
 samsung
 ```

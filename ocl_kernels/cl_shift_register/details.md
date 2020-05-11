@@ -1,5 +1,5 @@
-Shift Register
-===============
+Shift Register (OpenCL Kernel)
+===============================
 
 This example demonstrates two ways to implement an FIR filter discrete convolution operation. It requires 
 the values of all elements of  FIR filter array for each element of the output array.

@@ -1,5 +1,5 @@
-Array Block and Cyclic Partitioning
-====================================
+Array Block and Cyclic Partitioning (OpenCL Kernel)
+====================================================
 This example demonstrates how to use array `block` and `cyclic` partitioning to improve the performance of the kernel.
 Matrix multiplication is performed in this example which would require repeated access to rows of former matrix and columns of latter. 
 Array can be partitioned across different dimensions to reduce the latency of these transfers.
