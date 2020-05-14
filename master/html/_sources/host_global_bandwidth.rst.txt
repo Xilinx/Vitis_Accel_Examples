@@ -85,8 +85,9 @@ for this example :
 
 ::
 
-   xilinx_u50_xdma
-   xilinx_u280_xdma
+   u50
+   u280
+   vck
    samsung
    zc
 

@@ -72,6 +72,8 @@ for this example :
    xilinx_u250_qep
    aws
    samsung
+   zc706
+   zc702
 
 DESIGN FILES
 ------------

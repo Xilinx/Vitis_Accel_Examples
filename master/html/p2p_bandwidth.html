@@ -17,7 +17,7 @@
     <link rel="icon" type="image/vnd.microsoft.icon" href="https://www.xilinx.com/etc.clientlibs/site/clientlibs/xilinx/all/resources/favicon.ico">
     <link rel="shortcut icon" type="image/vnd.microsoft.icon" href="https://www.xilinx.com/etc.clientlibs/site/clientlibs/xilinx/all/resources/favicon.ico">
   
-  <title>P2P byte copy Example &mdash; VITIS ACCEL EXAMPLES  documentation</title>
+  <title>P2P bandwidth Example &mdash; VITIS ACCEL EXAMPLES  documentation</title>
   
 <!-- Header information provided by Emily-->
     <meta name="apple-itunes-app" content="app-id=1063287962">
@@ -178,7 +178,7 @@
 <li class="toctree-l2"><a class="reference internal" href="mult_compute_units.html">Multiple Compute Units</a></li>
 <li class="toctree-l2"><a class="reference internal" href="overlap.html">Overlap Host and Kernel</a></li>
 <li class="toctree-l2"><a class="reference internal" href="p2p_simple.html">P2P Simple Example</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">P2P byte copy Example</a><ul>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">P2P bandwidth Example</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#excluded-platforms">EXCLUDED PLATFORMS</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#design-files">DESIGN FILES</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#command-line-arguments">COMMAND LINE ARGUMENTS</a></li>
@@ -255,7 +255,7 @@
         
           <li><a href="host.html">Host</a> &raquo;</li>
         
-      <li>P2P byte copy Example</li>
+      <li>P2P bandwidth Example</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -274,12 +274,37 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="p2p-byte-copy-example">
-<h1>P2P byte copy Example<a class="headerlink" href="#p2p-byte-copy-example" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="p2p-bandwidth-example">
+<h1>P2P bandwidth Example<a class="headerlink" href="#p2p-bandwidth-example" title="Permalink to this headline">¶</a></h1>
 <p>This is simple example to test Synchronous and Asyncronous data transfer
 between SSD and FPGA.</p>
-<p><strong>KEY CONCEPTS:</strong> P2P, SSD, XDMA</p>
+<p><strong>KEY CONCEPTS:</strong> P2P, SmartSSD, XDMA</p>
 <p><strong>KEYWORDS:</strong> XCL_MEM_EXT_P2P_BUFFER, pread, pwrite</p>
+<p>PCIe peer-to-peer communication (P2P) is a PCIe feature which enables
+two PCIe devices to directly transfer data between each other without
+using host RAM as a temporary storage. The latest version of SDx PCIe
+platforms support P2P feature via PCIe Resizeable BAR Capability</p>
+<p>In this Example we highlight the Synchronous and Asynchronous data
+transfer between SSD and FPGA and capture the performance numbers for
+p2p transfer, Kernel and XDMA.</p>
+<p>Following is the real log reported while running the design on samsung
+platform:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">host</span> <span class="n">copy_kernel</span><span class="o">.</span><span class="n">xclbin</span> <span class="o">-</span><span class="n">w</span> <span class="o">/</span><span class="n">dev</span><span class="o">/</span><span class="n">nvme0n1</span>
+<span class="n">INFO</span><span class="p">:</span> <span class="n">Successfully</span> <span class="n">opened</span> <span class="n">NVME</span> <span class="n">SSD</span> <span class="o">/</span><span class="n">dev</span><span class="o">/</span><span class="n">nvme0n1</span>
+<span class="n">INFO</span><span class="p">:</span> <span class="n">Preparing</span> <span class="mi">1048576</span><span class="n">KB</span> <span class="n">test</span> <span class="n">data</span> <span class="ow">in</span> <span class="mi">8</span> <span class="n">pipelines</span>
+<span class="c1">############################################################</span>
+                     <span class="n">Synchronous</span> <span class="n">P2P</span>
+<span class="c1">############################################################</span>
+<span class="n">INFO</span><span class="p">:</span> <span class="n">Kick</span> <span class="n">off</span> <span class="n">test</span>
+<span class="n">HOST</span> <span class="o">-&gt;</span> <span class="n">FPGA</span><span class="p">(</span><span class="n">host</span> <span class="n">BO</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">FPGA</span><span class="p">(</span><span class="n">p2p</span> <span class="n">BO</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SSD</span>
+ <span class="n">overall</span>      <span class="mi">556211</span><span class="n">ms</span>    <span class="mf">100.00</span><span class="o">%</span>    <span class="mf">1841.03</span><span class="n">MB</span><span class="o">/</span><span class="n">s</span>
+     <span class="n">p2p</span>      <span class="mi">359223</span><span class="n">ms</span>     <span class="mf">64.58</span><span class="o">%</span>    <span class="mf">2850.60</span><span class="n">MB</span><span class="o">/</span><span class="n">s</span>
+  <span class="n">kernel</span>      <span class="mi">199578</span><span class="n">ms</span>     <span class="mf">35.88</span><span class="o">%</span>    <span class="mf">5130.83</span><span class="n">MB</span><span class="o">/</span><span class="n">s</span>
+    <span class="n">XDMA</span>      <span class="mi">313203</span><span class="n">ms</span>     <span class="mf">56.31</span><span class="o">%</span>    <span class="mf">3269.45</span><span class="n">MB</span><span class="o">/</span><span class="n">s</span>
+<span class="n">INFO</span><span class="p">:</span> <span class="n">Evaluating</span> <span class="n">test</span> <span class="n">result</span>
+<span class="n">INFO</span><span class="p">:</span> <span class="n">Test</span> <span class="n">passed</span>
+</pre></div>
+</div>
 <div class="section" id="excluded-platforms">
 <h2>EXCLUDED PLATFORMS<a class="headerlink" href="#excluded-platforms" title="Permalink to this headline">¶</a></h2>
 <p>Platforms containing following strings in their names are not supported
@@ -289,6 +314,7 @@ for this example :</p>
 <span class="n">u250</span>
 <span class="n">u50</span>
 <span class="n">u280</span>
+<span class="n">aws</span>
 </pre></div>
 </div>
 </div>
@@ -298,11 +324,8 @@ for this example :</p>
 files will be compiled to the xclbin directory. The xclbin directory is
 required by the Makefile and its contents will be filled during
 compilation. A listing of all the files in this example is shown below</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">src</span><span class="o">/</span><span class="n">copy0_kernel</span><span class="o">.</span><span class="n">cpp</span>
-<span class="n">src</span><span class="o">/</span><span class="n">copy1_kernel</span><span class="o">.</span><span class="n">cpp</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">src</span><span class="o">/</span><span class="n">copy_kernel</span><span class="o">.</span><span class="n">cpp</span>
 <span class="n">src</span><span class="o">/</span><span class="n">host</span><span class="o">.</span><span class="n">cpp</span>
-<span class="n">src</span><span class="o">/</span><span class="n">xcl</span><span class="o">.</span><span class="n">c</span>
-<span class="n">src</span><span class="o">/</span><span class="n">xcl</span><span class="o">.</span><span class="n">h</span>
 </pre></div>
 </div>
 </div>
@@ -310,7 +333,7 @@ compilation. A listing of all the files in this example is shown below</p>
 <h2>COMMAND LINE ARGUMENTS<a class="headerlink" href="#command-line-arguments" title="Permalink to this headline">¶</a></h2>
 <p>Once the environment has been configured, the application can be
 executed by</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">host</span> <span class="o">&lt;</span><span class="n">copy_kernel</span> <span class="n">XCLBIN</span><span class="o">&gt;</span> <span class="o">-</span><span class="n">w</span> <span class="o">./</span><span class="n">sample</span><span class="o">.</span><span class="n">txt</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">host</span> <span class="o">&lt;</span><span class="n">copy_kernel</span> <span class="n">XCLBIN</span><span class="o">&gt;</span> <span class="o">-</span><span class="n">r</span> <span class="o">/</span><span class="n">dev</span><span class="o">/</span><span class="n">nvme0n1</span>
 </pre></div>
 </div>
 </div>

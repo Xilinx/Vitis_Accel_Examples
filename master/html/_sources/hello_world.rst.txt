@@ -1,5 +1,5 @@
 Hello World 
-============
+===========
 
 This is simple example of vector addition to describe how to use HLS
 kernels in Vitis Environment.

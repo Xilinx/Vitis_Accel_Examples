@@ -1,5 +1,5 @@
-Dataflow Function OpenCL
-========================
+Dataflow Function OpenCL (OpenCL Kernel)
+========================================
 
 This is simple example of vector addition to demonstrate Dataflow
 functionality in OpenCL Kernel. OpenCL Dataflow allows user to run

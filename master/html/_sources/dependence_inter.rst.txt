@@ -1,5 +1,5 @@
 Loop Dependency Inter 
-======================
+=====================
 
 This Example demonstrates the HLS pragma ‘DEPENDENCE’.Using ‘DEPENDENCE’
 pragma, user can provide additional dependency details to the compiler
@@ -48,6 +48,17 @@ design with larger II factor which in turn leads to slow performance.
            }
        }
    }
+
+EXCLUDED PLATFORMS
+------------------
+
+Platforms containing following strings in their names are not supported
+for this example :
+
+::
+
+   zc702
+   zc706
 
 DESIGN FILES
 ------------

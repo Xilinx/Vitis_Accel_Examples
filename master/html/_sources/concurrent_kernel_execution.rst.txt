@@ -1,5 +1,5 @@
 Concurrent Kernel Execution 
-============================
+===========================
 
 This example will demonstrate how to use multiple and out of order
 command queues to simultaneously execute multiple kernels on an FPGA.

@@ -1,5 +1,5 @@
 Global Memory Two Banks 
-========================
+=======================
 
 This example of 2ddr is to demonstrate how to use multiple ddr and
 create buffers in each DDR.
@@ -50,7 +50,8 @@ for this example :
 
    zc
    zed
-   xilinx_u50_xdma
+   vck
+   u50
    samsung
 
 DESIGN FILES

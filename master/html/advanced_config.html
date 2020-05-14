@@ -17,7 +17,7 @@
     <link rel="icon" type="image/vnd.microsoft.icon" href="https://www.xilinx.com/etc.clientlibs/site/clientlibs/xilinx/all/resources/favicon.ico">
     <link rel="shortcut icon" type="image/vnd.microsoft.icon" href="https://www.xilinx.com/etc.clientlibs/site/clientlibs/xilinx/all/resources/favicon.ico">
   
-  <title>Stream Kernel to Kernel &mdash; VITIS ACCEL EXAMPLES  documentation</title>
+  <title>Advanced Configuration &mdash; VITIS ACCEL EXAMPLES  documentation</title>
   
 <!-- Header information provided by Emily-->
     <meta name="apple-itunes-app" content="app-id=1063287962">
@@ -60,9 +60,7 @@
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Stream Kernel to Kernel Memory Mapped" href="streaming_k2k_mm.html" />
-    <link rel="prev" title="Device Only Buffer" href="device_only_buffer.html" /> 
+    <link rel="search" title="Search" href="search.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -161,39 +159,9 @@
 <li class="toctree-l1"><a class="reference internal" href="compile_execute.html">Compilation and Execution</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Category of Examples</span></p>
-<ul class="current">
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="hello_world.html">Hello World</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="host.html">Host</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="concurrent_kernel_execution.html">Concurrent Kernel Execution</a></li>
-<li class="toctree-l2"><a class="reference internal" href="copy_buffer.html">Copy Buffer</a></li>
-<li class="toctree-l2"><a class="reference internal" href="data_transfer.html">Data Transfer</a></li>
-<li class="toctree-l2"><a class="reference internal" href="device_query.html">Device Query (CPP)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="debug_profile.html">Debug Profile</a></li>
-<li class="toctree-l2"><a class="reference internal" href="errors.html">Error Handling</a></li>
-<li class="toctree-l2"><a class="reference internal" href="errors_cpp.html">Error Handling (CPP)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="hbm_bandwidth.html">HBM Bandwidth</a></li>
-<li class="toctree-l2"><a class="reference internal" href="hbm_simple.html">HBM Simple</a></li>
-<li class="toctree-l2"><a class="reference internal" href="host_global_bandwidth.html">Host Global Bandwidth</a></li>
-<li class="toctree-l2"><a class="reference internal" href="multiple_cus_asymmetrical.html">Multiple Compute Units (Asymmetrical)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="mult_compute_units.html">Multiple Compute Units</a></li>
-<li class="toctree-l2"><a class="reference internal" href="overlap.html">Overlap Host and Kernel</a></li>
-<li class="toctree-l2"><a class="reference internal" href="p2p_simple.html">P2P Simple Example</a></li>
-<li class="toctree-l2"><a class="reference internal" href="p2p_bandwidth.html">P2P bandwidth Example</a></li>
-<li class="toctree-l2"><a class="reference internal" href="streaming_host_bandwidth.html">Streaming Host to Kernel Bandwidth</a></li>
-<li class="toctree-l2"><a class="reference internal" href="streaming_free_running_kernel.html">Stream Free Running Kernel (HLS C/C++)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="device_only_buffer.html">Device Only Buffer</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Stream Kernel to Kernel</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#excluded-platforms">EXCLUDED PLATFORMS</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#design-files">DESIGN FILES</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#command-line-arguments">COMMAND LINE ARGUMENTS</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="streaming_k2k_mm.html">Stream Kernel to Kernel Memory Mapped</a></li>
-<li class="toctree-l2"><a class="reference internal" href="streaming_mm_mixed.html">Stream Memory Map Mixed</a></li>
-<li class="toctree-l2"><a class="reference internal" href="streaming_multi_cus.html">Stream Multiple Compute Units</a></li>
-<li class="toctree-l2"><a class="reference internal" href="streaming_simple.html">Stream Simple</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="host.html">Host</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cpp.html">C++ Kernels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sys_opt.html">System Optimization Kernels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="rtl.html">RTL Kernels</a></li>
@@ -207,7 +175,7 @@
             
 			<p class="caption"><span class="caption-text">This Page</span></p>
 				<ul class="current">
-				  <li class="toctree-l1"><a href="_sources/streaming_k2k.rst.txt"
+				  <li class="toctree-l1"><a href="_sources/advanced_config.rst.txt"
 						rel="nofollow">Show Source</a></li>						
 				</ul>
           
@@ -253,15 +221,13 @@
     
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
-          <li><a href="host.html">Host</a> &raquo;</li>
-        
-      <li>Stream Kernel to Kernel</li>
+      <li>Advanced Configuration</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="_sources/streaming_k2k.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/advanced_config.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -274,48 +240,14 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="stream-kernel-to-kernel">
-<h1>Stream Kernel to Kernel<a class="headerlink" href="#stream-kernel-to-kernel" title="Permalink to this headline">¶</a></h1>
-<p>This is a simple kernel to kernel streaming Vector Add and Vector
-Multiply C Kernel that demonstrates on how to process a stream of data
-for computation between two kernels.</p>
-<p><strong>KEY CONCEPTS:</strong> Read/Write Stream, Create/Release Stream</p>
-<p><strong>KEYWORDS:</strong> cl_stream, CL_STREAM_EOT, CL_STREAM_NONBLOCKING</p>
-<p>This example demonstrates how two kernels <code class="docutils literal notranslate"><span class="pre">kernel_stream_vadd</span></code> and
-<code class="docutils literal notranslate"><span class="pre">kernel_stream_vmult</span></code> can communicate through a stream interface.
-Rather than loading the results from producer kernel
-<code class="docutils literal notranslate"><span class="pre">kernel_stream_vadd</span></code> to global memory and then to consumer kernel
-<code class="docutils literal notranslate"><span class="pre">kernel_stream_vmult</span></code> we can use stream to transfer this data
-directly. It reduces the latency of the application and also reduces the
-memory utilization.</p>
-<p>For kernel to kernel streaming transfer, kernel to kernel data transfer
-ports do not need <code class="docutils literal notranslate"><span class="pre">clSetKernelArg</span></code> from host code.</p>
-<p>Producer kernel <code class="docutils literal notranslate"><span class="pre">krnl_stream_vadd</span></code> streaming output port needs to be
-connected to consumer kernel <code class="docutils literal notranslate"><span class="pre">krnl_stream_vmult</span></code> stream input port
-during <code class="docutils literal notranslate"><span class="pre">v++</span></code> using <code class="docutils literal notranslate"><span class="pre">krnl_stream_vadd_vmult.ini</span></code> file as below:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">connectivity</span><span class="p">]</span>
-<span class="n">stream_connect</span><span class="o">=</span><span class="n">krnl_stream_vadd_1</span><span class="o">.</span><span class="n">output</span><span class="p">:</span><span class="n">krnl_stream_vmult_1</span><span class="o">.</span><span class="n">b</span>
-</pre></div>
-</div>
-<p>This stream connection specify that <code class="docutils literal notranslate"><span class="pre">output</span></code> streaming port of
-<code class="docutils literal notranslate"><span class="pre">krnl_stream_vadd_1</span></code> will be connected to <code class="docutils literal notranslate"><span class="pre">b</span></code> streaming port of
-<code class="docutils literal notranslate"><span class="pre">krnl_stream_vmult</span></code> during system linker run. This connectivity file
-is provided to v++ command as below:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">--</span><span class="n">config</span> <span class="n">krnl_stream_vadd_vmult</span><span class="o">.</span><span class="n">ini</span>
-</pre></div>
-</div>
-<div class="section" id="excluded-platforms">
-<h2>EXCLUDED PLATFORMS<a class="headerlink" href="#excluded-platforms" title="Permalink to this headline">¶</a></h2>
-<p>Platforms containing following strings in their names are not supported
-for this example :</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">zc</span>
-<span class="n">xdma</span>
-<span class="n">xilinx_u250_qep</span>
-<span class="n">aws</span>
-<span class="n">samsung</span>
-</pre></div>
-</div>
-</div>
+  <div class="section" id="advanced-configuration">
+<h1>Advanced Configuration<a class="headerlink" href="#advanced-configuration" title="Permalink to this headline">¶</a></h1>
+<p>This is simple example to describe how user can provide various advanced
+options in Vitis flow.</p>
+<p><strong>KEY CONCEPTS:</strong> Using custom Tcl, Setting Kernel Clock Frequency,
+Clock Uncertainity</p>
+<p><strong>KEYWORDS:</strong> config, set_clock_uncertainity, kernel_frequency,
+hls_pre_tcl</p>
 <div class="section" id="design-files">
 <h2>DESIGN FILES<a class="headerlink" href="#design-files" title="Permalink to this headline">¶</a></h2>
 <p>Application code is located in the src directory. Accelerator binary
@@ -323,8 +255,7 @@ files will be compiled to the xclbin directory. The xclbin directory is
 required by the Makefile and its contents will be filled during
 compilation. A listing of all the files in this example is shown below</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">src</span><span class="o">/</span><span class="n">host</span><span class="o">.</span><span class="n">cpp</span>
-<span class="n">src</span><span class="o">/</span><span class="n">krnl_stream_vadd</span><span class="o">.</span><span class="n">cpp</span>
-<span class="n">src</span><span class="o">/</span><span class="n">krnl_stream_vmult</span><span class="o">.</span><span class="n">cpp</span>
+<span class="n">src</span><span class="o">/</span><span class="n">vadd</span><span class="o">.</span><span class="n">cpp</span>
 </pre></div>
 </div>
 </div>
@@ -332,7 +263,7 @@ compilation. A listing of all the files in this example is shown below</p>
 <h2>COMMAND LINE ARGUMENTS<a class="headerlink" href="#command-line-arguments" title="Permalink to this headline">¶</a></h2>
 <p>Once the environment has been configured, the application can be
 executed by</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">vadd_stream</span> <span class="o">&lt;</span><span class="n">krnl_stream_vadd_vmult</span> <span class="n">XCLBIN</span><span class="o">&gt;</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">host</span> <span class="o">&lt;</span><span class="n">vadd</span> <span class="n">XCLBIN</span><span class="o">&gt;</span>
 </pre></div>
 </div>
 </div>
@@ -343,15 +274,6 @@ executed by</p>
            
           </div>
           <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="streaming_k2k_mm.html" class="btn btn-neutral float-right" title="Stream Kernel to Kernel Memory Mapped" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="device_only_buffer.html" class="btn btn-neutral float-left" title="Device Only Buffer" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
-    </div>
   
 
   <hr/>

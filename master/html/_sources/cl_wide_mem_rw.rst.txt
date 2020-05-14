@@ -1,5 +1,5 @@
-Wide Memory Read/Write 
-=======================
+Wide Memory Read/Write (OpenCL Kernel)
+======================================
 
 This is simple example of vector addition to demonstrate Wide Memory
 Access using uint16 data type. Based on input argument type, V++
@@ -33,6 +33,17 @@ result_local[LOCAL_MEM_SIZE];
            for (int j = 0 ; j <  chunk_size; j++){
                v1_local[j] = in1 [i + j];
            }
+
+EXCLUDED PLATFORMS
+------------------
+
+Platforms containing following strings in their names are not supported
+for this example :
+
+::
+
+   zc702
+   zc706
 
 DESIGN FILES
 ------------

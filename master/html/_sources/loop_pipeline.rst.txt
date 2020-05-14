@@ -1,5 +1,5 @@
 Loop Pipelining 
-================
+===============
 
 This example demonstrates how loop pipelining can be used to improve the
 performance of a kernel.

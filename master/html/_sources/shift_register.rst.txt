@@ -1,5 +1,5 @@
 Shift Register 
-===============
+==============
 
 This example demonstrates how to shift values in registers in each clock
 cycle

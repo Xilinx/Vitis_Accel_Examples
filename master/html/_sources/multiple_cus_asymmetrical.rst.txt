@@ -1,5 +1,5 @@
 Multiple Compute Units (Asymmetrical) 
-======================================
+=====================================
 
 This is simple example of vector addition to demonstrate how to connect
 each compute unit to different banks and how to use these compute units
@@ -63,7 +63,8 @@ for this example :
 
 ::
 
-   xilinx_u50_xdma
+   u50
+   vck
    samsung
    zc
 

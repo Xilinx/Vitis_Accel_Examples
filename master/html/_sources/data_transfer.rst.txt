@@ -1,5 +1,5 @@
 Data Transfer 
-==============
+=============
 
 This example illustrates several ways to use the OpenCL API to transfer
 data to and from the FPGA

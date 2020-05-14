@@ -1,5 +1,5 @@
 Multiple Devices 
-=================
+================
 
 This example show how to take advantage of multiple FPGAs on a system.
 It will show how to initialized an OpenCL context, allocate memory on

@@ -1,5 +1,5 @@
 PLRAM Memory Access 
-====================
+===================
 
 This example shows the usage of PLRAM and how to use it with simple
 matrix multiplication (Row x Col).
@@ -33,7 +33,8 @@ for this example :
 ::
 
    zc
-   xilinx_u50_xdma
+   vck
+   u50
    samsung
 
 DESIGN FILES

@@ -1,5 +1,5 @@
 Multiple Compute Units 
-=======================
+======================
 
 This is simple Example of Multiple Compute units to showcase how a
 single kernel can be instantiated into Multiple compute units. Host code

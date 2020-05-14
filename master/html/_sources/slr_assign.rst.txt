@@ -1,5 +1,5 @@
 SLR Assign 
-===========
+==========
 
 This is simple example to describe SLR assignment information for a
 platform design. This example highlights how to provide extra input to
@@ -44,6 +44,7 @@ for this example :
 ::
 
    zc
+   vck
    samsung
 
 DESIGN FILES

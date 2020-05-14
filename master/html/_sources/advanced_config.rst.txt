@@ -1,12 +1,14 @@
-Device Only Buffer 
-==================
+Advanced Configuration
+======================
 
-This example will demonstrate how to create buffers in global memory
-which are not mapped to host.
+This is simple example to describe how user can provide various advanced
+options in Vitis flow.
 
-**KEY CONCEPTS:** Device only buffer
+**KEY CONCEPTS:** Using custom Tcl, Setting Kernel Clock Frequency,
+Clock Uncertainity
 
-**KEYWORDS:** CL_MEM_HOST_NO_ACCESS
+**KEYWORDS:** config, set_clock_uncertainity, kernel_frequency,
+hls_pre_tcl
 
 DESIGN FILES
 ------------
@@ -19,8 +21,7 @@ compilation. A listing of all the files in this example is shown below
 ::
 
    src/host.cpp
-   src/madd.cpp
-   src/mmult.cpp
+   src/vadd.cpp
 
 COMMAND LINE ARGUMENTS
 ----------------------
@@ -30,4 +31,4 @@ executed by
 
 ::
 
-   ./device_only_buf <device_only_buf XCLBIN>
+   ./host <vadd XCLBIN>

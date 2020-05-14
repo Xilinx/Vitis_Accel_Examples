@@ -1,53 +1,65 @@
-K-Means
+K Means
 =======
 
-This is OpenCL Based K-Means clustering Implementation for Xilinx FPGA
+This is HLS C based K-Means clustering Implementation for Xilinx FPGA
 Devices. K-means clustering is a method of vector quantization, that is
 popular for cluster analysis in data mining. K-means clustering aims to
 partition n observations into k clusters in which each observation
 belongs to the cluster with the nearest mean, serving as a prototype of
 the cluster.
 
+Command line argument flags:
+
+-x : Used to specify kernel xclbin
+
+-i : File containing data to be clustered
+
+-c : Golden file for comparison
+
+-n : Used to specify number of clusters
+
+-o : Output cluster center coordinates(default=off)
+
+**KEY CONCEPTS:** K-Means, Multiple compute units
+
+**KEYWORDS:** DATAFLOW, ARRAY PARTITION
+
 The application sets two compute units by default so that it will fit
 all Xilinx Devices. For bigger Xilinx Devices, user can increase the
-number of Compute units in Makefile and can get better performance. It
-is tested upto 6 compute units for ku115 device and got approximately 6x
-improvement with respect to single compute units, which shows that
-application is more compute bound (not memory bound) and performance is
-directly proportional to number of compute units.
+number of Compute units in krnl_kmeans.ini, kmeans_config.h and
+config.mk files for achieving better performance. It is tested upto 8
+compute units for U200 device and got better results when compared to
+single compute units, which shows that application is more compute bound
+(not memory bound).
 
-**Note**: This application is ported from Rodinia
-
-(https://www.cs.virginia.edu/~skadron/wiki/rodinia/)
-
-**Usage**
-
-./kmeans -i input_file [-m max_nclusters ] [-n min_nclusters] [-g
-global_size] [-c golden_file] [options]
+Following is the real log reported while running the design on U200
+platform with 8 compute units:
 
 ::
 
-    -i filename      : file containing data to be clustered
-    -m max_nclusters : maximum number of clusters allowed [default=5]
-    -n min_nclusters : minimum number of clusters allowed [default=5]
-    -g global_size   : Specify global size [default=1]
-    -c golden_file   : Golden File for result comparison
-    -b               : input file is in binary format
-    -o               : output cluster center coordinates [default=off]
+   ------------------------------------------------------
+     Performance Summary                                 
+   ------------------------------------------------------
+     Device Initialization      :    3224.1098 ms
+     Buffer Allocation          :      33.4063 ms
+   ------------------------------------------------------
+     Compute Memberships        :   11490.2810 ms
+     Update Delta               :    1387.0610 ms
+     Update Centers             :    1745.7366 ms
+     Update Clusters            :      41.0705 ms
+     Total K-Means Compute Time :   15208.3733 ms
+   ------------------------------------------------------
 
-SUPPORTED PLATFORMS
--------------------
+EXCLUDED PLATFORMS
+------------------
 
-==================== ================= ================
-Platform             Board             Software Version
-==================== ================= ================
-xilinx_u200_qdma     Xilinx Alveo U200 Vitis 2019.2
-xilinx_u280_xdma     Xilinx Alveo U280 Vitis 2019.2
-xilinx_u250_qdma     Xilinx Alveo U250 Vitis 2019.2
-xilinx_u200_xdma     Xilinx Alveo U200 Vitis 2019.2
-xilinx_u250_xdma     Xilinx Alveo U250 Vitis 2019.2
-xilinx_u280-es1_xdma Xilinx Alveo U280 Vitis 2019.2
-==================== ================= ================
+Platforms containing following strings in their names are not supported
+for this example :
+
+::
+
+   zc
+   samsung
 
 DESIGN FILES
 ------------
@@ -60,15 +72,17 @@ compilation. A listing of all the files in this example is shown below
 ::
 
    data/100
+   data/100.gold_c10
    data/100.gold_c5
-   src/cluster.c
    src/fpga_kmeans.cpp
    src/fpga_kmeans.h
    src/host.cpp
-   src/kmeans.cl
    src/kmeans.h
    src/kmeans_clustering_cmodel.c
-   src/rmse.c
+   src/kmeans_config.h
+   src/krnl_kmeans.cpp
+   src/krnl_kmeans.h
+   src/timer.h
 
 COMMAND LINE ARGUMENTS
 ----------------------
@@ -78,4 +92,4 @@ executed by
 
 ::
 
-   ./host_kmeans -x <kmeans XCLBIN> -i ./data/100 -c ./data/100.gold_c5 -m 5 -n 5 -g 2
+   ./kmeans -x <krnl_kmeans XCLBIN> -i ./data/100 -c ./data/100.gold_c10 -n 10

@@ -61,7 +61,7 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="P2P byte copy Example" href="p2p_bandwidth.html" />
+    <link rel="next" title="P2P bandwidth Example" href="p2p_bandwidth.html" />
     <link rel="prev" title="Overlap Host and Kernel" href="overlap.html" /> 
 </head>
 
@@ -183,7 +183,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#command-line-arguments">COMMAND LINE ARGUMENTS</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="p2p_bandwidth.html">P2P byte copy Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p2p_bandwidth.html">P2P bandwidth Example</a></li>
 <li class="toctree-l2"><a class="reference internal" href="streaming_host_bandwidth.html">Streaming Host to Kernel Bandwidth</a></li>
 <li class="toctree-l2"><a class="reference internal" href="streaming_free_running_kernel.html">Stream Free Running Kernel (HLS C/C++)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="device_only_buffer.html">Device Only Buffer</a></li>
@@ -278,8 +278,38 @@
 <h1>P2P Simple Example<a class="headerlink" href="#p2p-simple-example" title="Permalink to this headline">¶</a></h1>
 <p>This is simple example of vector increment to describe P2P between FPGA
 and NVMe SSD.</p>
-<p><strong>KEY CONCEPTS:</strong> P2P, NVMe SSD</p>
+<p><strong>KEY CONCEPTS:</strong> P2P, NVMe SSD, SmartSSD</p>
 <p><strong>KEYWORDS:</strong> XCL_MEM_EXT_P2P_BUFFER, pread, pwrite, O_DIRECT, O_RDWR</p>
+<p>PCIe peer-to-peer communication (P2P) is a PCIe feature which enables
+two PCIe devices to directly transfer data between each other without
+using host RAM as a temporary storage. The latest version of SDx PCIe
+platforms support P2P feature via PCIe Resizeable BAR Capability</p>
+<p>Using the P2P enabled device the data can be transferred between the
+FPGA device and another NVMe Device, such as SMART SSD, without
+migrating the data via host memory space</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Creating P2P Buffer</span>
+  <span class="n">cl_mem_ext_ptr_t</span> <span class="n">outExt</span><span class="p">;</span>
+  <span class="n">outExt</span> <span class="o">=</span> <span class="p">{</span><span class="n">XCL_MEM_EXT_P2P_BUFFER</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="mi">0</span><span class="p">};</span>
+
+  <span class="n">cl_mem</span> <span class="n">p2pBo</span> <span class="o">=</span>
+      <span class="n">clCreateBuffer</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">CL_MEM_WRITE_ONLY</span> <span class="o">|</span> <span class="n">CL_MEM_EXT_PTR_XILINX</span><span class="p">,</span>
+                     <span class="n">vector_size_bytes</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">outExt</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">err</span><span class="p">);</span>
+  <span class="n">clSetKernelArg</span><span class="p">(</span><span class="n">krnl_adder</span><span class="p">,</span> <span class="n">narg</span><span class="o">++</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">cl_mem</span><span class="p">),</span> <span class="o">&amp;</span><span class="n">p2pBo</span><span class="p">);</span>
+
+<span class="c1">// Map P2P buffer to host access pointers</span>
+  <span class="n">p2pPtr</span> <span class="o">=</span> <span class="p">(</span><span class="kt">uint32_t</span> <span class="o">*</span><span class="p">)</span><span class="n">clEnqueueMapBuffer</span><span class="p">(</span>
+        <span class="n">q</span><span class="p">,</span> <span class="n">p2pBo</span><span class="p">,</span> <span class="n">CL_TRUE</span><span class="p">,</span> <span class="n">CL_MAP_WRITE</span> <span class="o">|</span> <span class="n">CL_MAP_READ</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">vector_size_bytes</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+
+  <span class="n">filename</span> <span class="o">=</span> <span class="o">&lt;</span><span class="n">full</span> <span class="n">path</span> <span class="n">to</span> <span class="n">SSD</span><span class="o">&gt;</span>
+  <span class="n">fd</span> <span class="o">=</span> <span class="n">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">O_RDWR</span> <span class="o">|</span> <span class="n">O_DIRECT</span><span class="p">);</span>
+
+<span class="c1">// Read chunk_size bytes starting at offset 0 from fd into p2pPtr</span>
+  <span class="n">pread</span><span class="p">(</span><span class="n">fd</span><span class="p">,</span> <span class="n">p2pPtr</span><span class="p">,</span> <span class="n">chunk_size</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+
+<span class="c1">// Wrtie chunk_size bytes starting at offset 0 from p2pPtr into fd</span>
+  <span class="n">pwrite</span><span class="p">(</span><span class="n">fd</span><span class="p">,</span> <span class="n">p2pPtr</span><span class="p">,</span> <span class="n">chunk_size</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+</pre></div>
+</div>
 <div class="section" id="excluded-platforms">
 <h2>EXCLUDED PLATFORMS<a class="headerlink" href="#excluded-platforms" title="Permalink to this headline">¶</a></h2>
 <p>Platforms containing following strings in their names are not supported
@@ -289,6 +319,7 @@ for this example :</p>
 <span class="n">u250</span>
 <span class="n">u280</span>
 <span class="n">u50</span>
+<span class="n">aws</span>
 </pre></div>
 </div>
 </div>
@@ -307,7 +338,7 @@ compilation. A listing of all the files in this example is shown below</p>
 <h2>COMMAND LINE ARGUMENTS<a class="headerlink" href="#command-line-arguments" title="Permalink to this headline">¶</a></h2>
 <p>Once the environment has been configured, the application can be
 executed by</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">host</span> <span class="o">&lt;</span><span class="n">adder</span> <span class="n">XCLBIN</span><span class="o">&gt;</span> <span class="o">./</span><span class="n">sample</span><span class="o">.</span><span class="n">txt</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">host</span> <span class="o">&lt;</span><span class="n">adder</span> <span class="n">XCLBIN</span><span class="o">&gt;</span> <span class="o">/</span><span class="n">dev</span><span class="o">/</span><span class="n">nvme0n1</span>
 </pre></div>
 </div>
 </div>
@@ -321,7 +352,7 @@ executed by</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="p2p_bandwidth.html" class="btn btn-neutral float-right" title="P2P byte copy Example" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="p2p_bandwidth.html" class="btn btn-neutral float-right" title="P2P bandwidth Example" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="overlap.html" class="btn btn-neutral float-left" title="Overlap Host and Kernel" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
