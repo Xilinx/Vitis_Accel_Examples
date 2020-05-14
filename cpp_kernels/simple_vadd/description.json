@@ -1,0 +1,49 @@
+{
+    "name": "Vector Addition",
+    "description": ["This is a simple example of vector addition.The purpose of this code is to introduce the user to application development in the Vitis tools."],
+    "os": [
+        "Linux"
+    ],
+    "runtime": [
+        "OpenCL"
+    ],
+    "launch" : [
+        {
+            "cmd_args" : "BUILD/krnl_vadd.xclbin"
+        }
+    ],
+    "host": {
+        "host_exe": "vadd", 
+        "compiler": {
+            "sources": [
+                "REPO_DIR/common/includes/xcl2"
+            ], 
+            "includepaths": [
+                "REPO_DIR/common/includes/xcl2"
+            ]
+        }
+    },     
+    "containers" : [
+        {
+            "name" : "krnl_vadd",
+            "accelerators": [
+                {
+                    "name": "krnl_vadd",
+                    "location": "src/krnl_vadd.cpp"
+                }
+            ]
+        }
+    ],
+    "contributors" : [
+        {
+            "group" : "Xilinx, Inc.",
+            "url" : "http://www.xilinx.com"
+        }
+    ],
+    "revision" : [
+        {
+            "date" : "2019",
+            "version" : "1.0"
+        }
+    ]
+}
