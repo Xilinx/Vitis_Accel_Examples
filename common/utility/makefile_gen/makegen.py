@@ -153,7 +153,7 @@ def add_kernel_flags(target, data):
         for con in data["containers"]:
             for acc in con["accelerators"]:
                 if "clflags" in acc:
-                    target.write("CLFLAGS +=")
+                    target.write("CLFLAGS_"+acc["name"]+" += ")
                     flags = acc["clflags"].split(" ")
                     for flg in flags[0:]:
                         target.write(" ")
@@ -247,7 +247,10 @@ def building_kernel(target, data):
                     target.write(acc["location"])
                     target.write("\n")
                     target.write("\tmkdir -p $(TEMP_DIR)\n")
-                    target.write("\t$(VPP) $(CLFLAGS) --temp_dir ")
+                    target.write("\t$(VPP) $(CLFLAGS) ")
+                    if "clflags" in acc:
+                        target.write("$(CLFLAGS_"+acc["name"]+") ")
+                    target.write("--temp_dir ")
                     target.write("$(TEMP_DIR) ")
                     target.write("-c -k ")
                     target.write(acc["name"])

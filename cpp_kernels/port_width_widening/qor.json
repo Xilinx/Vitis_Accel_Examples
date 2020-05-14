@@ -1,0 +1,52 @@
+{
+    "containers": [
+        {
+            "name": "krnl_port_widen", 
+            "meet_system_timing": "true", 
+            "accelerators": [
+                {
+                    "name": "krnl_base", 
+                    "check_timing": "true", 
+                    "PipelineType": "none", 
+                    "check_latency": "true", 
+                    "check_warning": "true", 
+                    "loops": [
+                        {
+                            "name": "SUM_X", 
+                            "PipelineII": "1"
+                        }, 
+                        {
+                            "name": "SUM_Y", 
+                            "PipelineII": "1"
+                        }, 
+                        {
+                            "name": "MUL", 
+                            "PipelineII": "1"
+                        }
+                    ]
+                }, 
+                {
+                    "name": "krnl_widen", 
+                    "check_timing": "true", 
+                    "PipelineType": "none", 
+                    "check_latency": "true", 
+                    "check_warning": "false", 
+                    "loops": [
+                        {
+                            "name": "SUM_X", 
+                            "PipelineII": "1"
+                        }, 
+                        {
+                            "name": "SUM_Y", 
+                            "PipelineII": "1"
+                        },
+                        {
+                            "name": "MUL",
+                            "PipelineII": "1"
+                        }
+                    ]
+                } 
+            ]
+        }
+    ]
+}

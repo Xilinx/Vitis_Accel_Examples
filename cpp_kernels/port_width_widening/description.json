@@ -1,0 +1,62 @@
+{
+    "name": "Port Width Widening", 
+    "description": [
+        "This example shows how HLS introduces the capability of resizing the port width of the kernel interface ports for better resource utilization maintaining the performance."
+    ],
+    "keywords": [
+        "m_axi_max_widen_bitwidth "         
+    ], 
+    "key_concepts": [
+        "Interface port width auto widening"
+    ], 
+    "contributors": [
+        {
+            "group": "Xilinx"
+        }
+    ], 
+    "os": [
+        "Linux"
+    ], 
+    "runtime": [
+        "OpenCL"
+    ], 
+    "host": {
+        "host_exe": "host", 
+        "compiler": {
+            "sources": [
+                "REPO_DIR/common/includes/xcl2"
+            ], 
+            "includepaths": [
+                "REPO_DIR/common/includes/xcl2"
+            ]
+        }
+    }, 
+    "containers": [
+        {
+            "accelerators": [
+                {
+                    "name": "krnl_base", 
+                    "location": "src/krnl_base.cpp"
+                },
+                {
+                    "name": "krnl_widen",
+                    "clflags": "--config krnl_port_widen.ini", 
+                    "location": "src/krnl_widen.cpp"
+                }
+            ], 
+            "name": "krnl_port_widen"
+        }
+    ], 
+    "launch": [
+        {
+            "cmd_args": "BUILD/krnl_port_widen.xclbin", 
+            "name": "generic launch for all flows"
+        }
+    ], 
+    "contributors": [
+        {
+            "url": "http://www.xilinx.com", 
+            "group": "Xilinx"
+        }
+    ] 
+}
