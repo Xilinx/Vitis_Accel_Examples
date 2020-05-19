@@ -185,15 +185,15 @@ def add_kernel_flags(target, data):
 
     #adding config files to linker 
     if "containers" in data:
-        config_add=0
         for con in data["containers"]:
+                config_add=0
                 if "accelerators" in con:
                         for acc in con["accelerators"]:
                                 if "compute_units" in acc or "num_compute_units" in acc:
                                         if not config_add:			
                                                 target.write("\n")
                                                 target.write("# Adding config files to linker\n")
-                                                target.write("LDCLFLAGS += ")
+                                                target.write("LDCLFLAGS_"+con["name"]+" += ")
                                                 target.write("--config "+con["name"]+".ini ")
                                                 config_add=1
     target.write("\n")
@@ -268,6 +268,11 @@ def building_kernel(target, data):
             target.write("\t$(VPP) $(CLFLAGS) --temp_dir ")
             target.write("$(BUILD_DIR) ")
             target.write("-l $(LDCLFLAGS)")
+
+            if "accelerators" in con:
+                for acc in con["accelerators"]:
+                    if "compute_units" in acc or "num_compute_units" in acc:
+                        target.write(" $(LDCLFLAGS_"+con["name"]+")")
             target.write(" -o'$@' $(+)\n")
     target.write("\n")
     return

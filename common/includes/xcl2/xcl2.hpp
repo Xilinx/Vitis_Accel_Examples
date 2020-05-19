@@ -134,4 +134,16 @@ public:
     pollStreams = (decltype(&clPollStreams))bar;
   }
 };
+class P2P {
+public:
+  static decltype(&xclGetMemObjectFd) getMemObjectFd;
+  static decltype(&xclGetMemObjectFromFd) getMemObjectFromFd;
+  static void init(const cl_platform_id &platform) {
+    void *bar =
+        clGetExtensionFunctionAddressForPlatform(platform, "xclGetMemObjectFd");
+    getMemObjectFd = (decltype(&xclGetMemObjectFd))bar;
+    bar = clGetExtensionFunctionAddressForPlatform(platform, "xclGetMemObjectFromFd");
+    getMemObjectFromFd = (decltype(&xclGetMemObjectFromFd))bar;
+}
+};
 }

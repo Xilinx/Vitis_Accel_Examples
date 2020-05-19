@@ -1,0 +1,50 @@
+{
+    "containers": [
+        {
+            "name": "krnl_madd", 
+            "meet_system_timing": "true", 
+            "accelerators": [
+                {
+                    "name": "krnl_madd", 
+                    "check_timing": "true", 
+                    "PipelineType": "none", 
+                    "check_latency": "true", 
+                    "check_warning": "false", 
+                    "loops": [
+                        {
+                            "name": "Loop1", 
+                            "PipelineII": "1"
+                        }, 
+                        {
+                            "name": "Loop_Add", 
+                            "PipelineII": "1"
+                        } 
+                    ]
+                }
+            ]
+        }, 
+        {
+            "name": "krnl_mmult", 
+            "meet_system_timing": "true", 
+            "accelerators": [
+                {
+                    "name": "krnl_mmult", 
+                    "check_timing": "true", 
+                    "PipelineType": "none", 
+                    "check_latency": "true", 
+                    "check_warning": "false", 
+                    "loops": [
+                        {
+                            "name": "Loop1", 
+                            "PipelineII": "1"
+                        }, 
+                        {
+                            "name": "Loop_Mult", 
+                            "PipelineII": "1"
+                        } 
+                    ]
+                }
+            ]
+        }
+    ]
+}
