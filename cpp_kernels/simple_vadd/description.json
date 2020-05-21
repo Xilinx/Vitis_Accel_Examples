@@ -16,7 +16,8 @@
         "host_exe": "vadd", 
         "compiler": {
             "sources": [
-                "REPO_DIR/common/includes/xcl2"
+                "REPO_DIR/common/includes/xcl2",
+                "src/vadd.cpp"
             ], 
             "includepaths": [
                 "REPO_DIR/common/includes/xcl2"
