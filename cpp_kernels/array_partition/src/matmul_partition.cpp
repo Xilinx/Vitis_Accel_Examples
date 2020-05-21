@@ -67,7 +67,6 @@ void matmul_partition(int *in1, int *in2, int *out_r, int size) {
 read_A:
   for (int itr = 0, i = 0, j = 0; itr < size * size; itr++, j++) {
 #pragma HLS LOOP_TRIPCOUNT min = c_dim*c_dim max = c_dim*c_dim
-#pragma HLS PIPELINE II = 1
     if (j == size) {
       j = 0;
       i++;
@@ -79,7 +78,6 @@ read_A:
 read_B:
   for (int itr = 0, i = 0, j = 0; itr < size * size; itr++, j++) {
 #pragma HLS LOOP_TRIPCOUNT min = c_dim*c_dim max = c_dim*c_dim
-#pragma HLS PIPELINE II = 1
     if (j == size) {
       j = 0;
       i++;
@@ -95,7 +93,6 @@ arraypart1:
   arraypart2:
     for (int col = 0; col < size; col++) {
 #pragma HLS LOOP_TRIPCOUNT min = c_dim max = c_dim
-#pragma HLS PIPELINE II = 1
     arraypart3:
       for (int j = 0; j < MAX_SIZE; j++) {
 #pragma HLS LOOP_TRIPCOUNT min = c_dim max = c_dim
@@ -112,7 +109,6 @@ arraypart1:
 writeC:
   for (int itr = 0, i = 0, j = 0; itr < size * size; itr++, j++) {
 #pragma HLS LOOP_TRIPCOUNT min = c_dim*c_dim max = c_dim*c_dim
-#pragma HLS PIPELINE II = 1
     if (j == size) {
       j = 0;
       i++;

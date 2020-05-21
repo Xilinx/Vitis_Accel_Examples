@@ -63,7 +63,6 @@ void matmul(int *in1, int *in2, int *out_r, int size) {
 readA:
   for (int itr = 0, i = 0, j = 0; itr < size * size; itr++, j++) {
 #pragma HLS LOOP_TRIPCOUNT min = c_dim*c_dim max = c_dim*c_dim
-#pragma HLS PIPELINE II = 1
     if (j == size) {
       j = 0;
       i++;
@@ -75,7 +74,6 @@ readA:
 readB:
   for (int itr = 0, i = 0, j = 0; itr < size * size; itr++, j++) {
 #pragma HLS LOOP_TRIPCOUNT min = c_dim*c_dim max = c_dim*c_dim
-#pragma HLS PIPELINE II = 1
     if (j == size) {
       j = 0;
       i++;
@@ -91,7 +89,6 @@ nopart1:
   nopart2:
     for (int col = 0; col < size; col++) {
 #pragma HLS LOOP_TRIPCOUNT min = c_dim max = c_dim
-#pragma HLS PIPELINE
     nopart3:
       for (int j = 0; j < MAX_SIZE; j++) {
 #pragma HLS LOOP_TRIPCOUNT min = c_dim max = c_dim
@@ -108,7 +105,6 @@ nopart1:
 writeC:
   for (int itr = 0, i = 0, j = 0; itr < size * size; itr++, j++) {
 #pragma HLS LOOP_TRIPCOUNT min = c_dim*c_dim max = c_dim*c_dim
-#pragma HLS PIPELINE II = 1
     if (j == size) {
       j = 0;
       i++;
