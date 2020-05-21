@@ -49,17 +49,6 @@ void mmult(const int *a, // Read-Only Matrix A
            int a_col,    // Matrix A Col Size
            int b_col     // Matrix B Col Size
            ) {
-#pragma HLS INTERFACE m_axi port = a offset = slave bundle = gmem
-#pragma HLS INTERFACE m_axi port = b offset = slave bundle = gmem
-#pragma HLS INTERFACE m_axi port = c offset = slave bundle = gmem
-
-#pragma HLS INTERFACE s_axilite port = a
-#pragma HLS INTERFACE s_axilite port = b
-#pragma HLS INTERFACE s_axilite port = c
-#pragma HLS INTERFACE s_axilite port = a_row
-#pragma HLS INTERFACE s_axilite port = a_col
-#pragma HLS INTERFACE s_axilite port = b_col
-#pragma HLS INTERFACE s_axilite port = return
 
   int b_row = a_col;
   int c_row = a_row;
@@ -80,7 +69,7 @@ void mmult(const int *a, // Read-Only Matrix A
 // Auto-pipeline is going to apply pipeline to these loops
 readA:
   for (int loc = 0, i = 0, j = 0; loc < a_row * a_col; loc++, j++) {
-#pragma HLS LOOP_TRIPCOUNT min = c_size*c_size max = c_size*c_size
+#pragma HLS LOOP_TRIPCOUNT min = c_size *c_size max = c_size * c_size
     if (j == a_col) {
       i++;
       j = 0;
@@ -91,7 +80,7 @@ readA:
 // Read Input B
 readB:
   for (int loc = 0, i = 0, j = 0; loc < b_row * b_col; loc++, j++) {
-#pragma HLS LOOP_TRIPCOUNT min = c_size*c_size max = c_size*c_size
+#pragma HLS LOOP_TRIPCOUNT min = c_size *c_size max = c_size * c_size
     if (j == b_col) {
       i++;
       j = 0;
@@ -126,7 +115,7 @@ outer_loop1:
 // Burst write from matrix C
 writeC:
   for (int loc = 0, i = 0, j = 0; loc < c_row * c_col; loc++, j++) {
-#pragma HLS LOOP_TRIPCOUNT min = c_size*c_size max = c_size*c_size
+#pragma HLS LOOP_TRIPCOUNT min = c_size *c_size max = c_size * c_size
     if (j == c_col) {
       i++;
       j = 0;
