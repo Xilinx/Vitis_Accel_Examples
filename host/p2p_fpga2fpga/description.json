@@ -19,7 +19,9 @@
     "ndevice": [
         "zc",
         "201910",
-        "2018"
+        "2018",
+        "vck",
+        "aws"
     ],
      "runtime": [
         "OpenCL"

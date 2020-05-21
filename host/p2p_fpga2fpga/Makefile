@@ -67,7 +67,6 @@ HOST_SRCS += src/host.cpp
 CXXFLAGS += -fmessage-length=0
 LDFLAGS += -lrt -lstdc++ 
 
-
 ifneq ($(HOST_ARCH), x86)
 	LDFLAGS += --sysroot=$(SYSROOT)
 endif
@@ -132,6 +131,12 @@ ifeq ($(findstring 201910, $(DEVICE)), 201910)
 $(error This example is not supported for $(DEVICE))
 endif
 ifeq ($(findstring 2018, $(DEVICE)), 2018)
+$(error This example is not supported for $(DEVICE))
+endif
+ifeq ($(findstring vck, $(DEVICE)), vck)
+$(error This example is not supported for $(DEVICE))
+endif
+ifeq ($(findstring aws, $(DEVICE)), aws)
 $(error This example is not supported for $(DEVICE))
 endif
 
