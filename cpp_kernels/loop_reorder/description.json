@@ -26,7 +26,13 @@
                 "REPO_DIR/common/includes/xcl2"
             ]
         }
-    }, 
+    }, 	
+    "v++": {
+        "build_datafiles" : [            
+            "PROJECT/hls_config.tcl",
+            "PROJECT/mmult_mmult.ini"
+        ]
+     },
     "containers": [
         {
             "accelerators": [

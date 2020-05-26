@@ -13,7 +13,7 @@ The interface size setting need to be specified in hls_config.tcl file. We inclu
 Following is the content of ini file
 ```c++
 [advanced]
-prop=solution.hls_pre_tcl=data/hls_config.tcl
+prop=solution.hls_pre_tcl=hls_config.tcl
 ```
 
 Below are the resource numbers while running the design on U200 platform :

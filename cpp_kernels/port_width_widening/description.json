@@ -31,6 +31,12 @@
             ]
         }
     }, 
+    "v++": {
+        "build_datafiles" : [            
+            "PROJECT/hls_config.tcl",
+            "PROJECT/krnl_port_widen.ini"
+        ]
+     },
     "containers": [
         {
             "accelerators": [

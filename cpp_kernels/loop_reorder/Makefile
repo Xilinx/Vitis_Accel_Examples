@@ -77,7 +77,7 @@ CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps
 ifneq ($(TARGET), hw)
 	CLFLAGS += -g
 endif
-CLFLAGS += --config ./mmult_mmult.ini
+CLFLAGS_mmult +=  --config ./mmult_mmult.ini
 
 
 
@@ -103,7 +103,7 @@ build: check-vitis $(BINARY_CONTAINERS)
 # Building kernel
 $(TEMP_DIR)/mmult.xo: src/mmult.cpp
 	mkdir -p $(TEMP_DIR)
-	$(VPP) $(CLFLAGS) --temp_dir $(TEMP_DIR) -c -k mmult -I'$(<D)' -o'$@' '$<'
+	$(VPP) $(CLFLAGS) $(CLFLAGS_mmult) --temp_dir $(TEMP_DIR) -c -k mmult -I'$(<D)' -o'$@' '$<'
 $(BUILD_DIR)/mmult.xclbin: $(BINARY_CONTAINER_mmult_OBJS)
 	mkdir -p $(BUILD_DIR)
 	$(VPP) $(CLFLAGS) --temp_dir $(BUILD_DIR) -l $(LDCLFLAGS) -o'$@' $(+)

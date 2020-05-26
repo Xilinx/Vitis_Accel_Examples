@@ -30,7 +30,14 @@
                 "REPO_DIR/common/includes/xcl2"
             ]
         }
-    }, 
+    },
+   "v++": {
+        "build_datafiles" : [            
+            "PROJECT/my_directives.tcl",
+            "PROJECT/vadd_vadd.ini",
+            "PROJECT/vadd.ini"
+        ]
+     }, 
     "containers": [
         {
             "accelerators": [
