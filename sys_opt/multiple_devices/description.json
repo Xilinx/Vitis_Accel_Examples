@@ -51,5 +51,8 @@
             "url": "http://www.xilinx.com", 
             "group": "Xilinx"
         }
-    ] 
+    ],
+    "testinfo": {
+        "profile": "no"
+    }   
 }

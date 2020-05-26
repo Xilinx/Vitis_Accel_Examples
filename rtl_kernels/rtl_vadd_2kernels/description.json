@@ -64,5 +64,8 @@
             "version": "1.0", 
             "description": "Initial Xilinx Release"
         }
-    ] 
+    ],
+   "testinfo": {
+       "profile": "no"
+    }   
 }
