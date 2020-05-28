@@ -78,17 +78,16 @@ ifneq ($(TARGET), hw)
 	CLFLAGS += -g
 endif
 
-
-
-
 EXECUTABLE = vmulvadd
 CMD_ARGS = $(BUILD_DIR)/krnl_vmul.xclbin $(BUILD_DIR)/krnl_vadd.xclbin
 EMCONFIG_DIR = $(TEMP_DIR)
 EMU_DIR = $(SDCARD)/data/emulation
 
 BINARY_CONTAINERS += $(BUILD_DIR)/krnl_vmul.xclbin
+BINARY_CONTAINER_krnl_vmul_LINK += $(BUILD_DIR)/krnl_vmul.link.xclbin
 BINARY_CONTAINER_krnl_vmul_OBJS += $(TEMP_DIR)/krnl_vmul.xo
 BINARY_CONTAINERS += $(BUILD_DIR)/krnl_vadd.xclbin
+BINARY_CONTAINER_krnl_vadd_LINK += $(BUILD_DIR)/krnl_vadd.link.xclbin
 BINARY_CONTAINER_krnl_vadd_OBJS += $(TEMP_DIR)/krnl_vadd.xo
 
 CP = cp -rf
@@ -111,10 +110,33 @@ $(TEMP_DIR)/krnl_vadd.xo: src/krnl_vadd.cpp
 	$(VPP) $(CLFLAGS) --temp_dir $(TEMP_DIR) -c -k krnl_vadd -I'$(<D)' -o'$@' '$<'
 $(BUILD_DIR)/krnl_vmul.xclbin: $(BINARY_CONTAINER_krnl_vmul_OBJS)
 	mkdir -p $(BUILD_DIR)
-	$(VPP) $(CLFLAGS) --temp_dir $(BUILD_DIR) -l $(LDCLFLAGS) -o'$@' $(+)
+ifeq ($(HOST_ARCH), x86)	
+	$(VPP) $(CLFLAGS) --temp_dir $(BUILD_DIR) -l $(LDCLFLAGS) -o'$(BUILD_DIR)/krnl_vmul.link.xclbin' $(+)
+	$(VPP) -t $(TARGET) --platform $(DEVICE) -p $(BUILD_DIR)/krnl_vmul.link.xclbin --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/krnl_vmul.xclbin
+else
+	$(VPP) $(CLFLAGS) --temp_dir $(BUILD_DIR) -l $(LDCLFLAGS) -o'$(BUILD_DIR)/krnl_vmul.xclbin' $(+)
+endif
+
 $(BUILD_DIR)/krnl_vadd.xclbin: $(BINARY_CONTAINER_krnl_vadd_OBJS)
 	mkdir -p $(BUILD_DIR)
-	$(VPP) $(CLFLAGS) --temp_dir $(BUILD_DIR) -l $(LDCLFLAGS) -o'$@' $(+)
+ifeq ($(HOST_ARCH), x86)	
+	$(VPP) $(CLFLAGS) --temp_dir $(BUILD_DIR) -l $(LDCLFLAGS) -o'$(BUILD_DIR)/krnl_vadd.link.xclbin' $(+)
+	$(VPP) -t $(TARGET) --platform $(DEVICE) -p $(BUILD_DIR)/krnl_vadd.link.xclbin --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/krnl_vadd.xclbin
+else
+	$(VPP) $(CLFLAGS) --temp_dir $(BUILD_DIR) -l $(LDCLFLAGS) -o'$(BUILD_DIR)/krnl_vadd.xclbin' $(+)
+endif
+
+$(BUILD_DIR)/$(PACKAGE_OUT)/krnl_vmul.xclbin: $(BUILD_DIR)/krnl_vmul.xclbin $(BUILD_DIR)/krnl_vadd.xclbin $(EXECUTABLE)
+ifneq ($(HOST_ARCH), x86)
+	$(VPP) -t $(TARGET) --platform $(DEVICE) -p $(BUILD_DIR)/krnl_vmul.xclbin --package.sd_file $(BUILD_DIR)/krnl_vadd.xclbin --package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.sd_file $(SD_IMAGE_FILE) --package.sd_file xrt.ini --package.sd_file $(RUN_APP_SCRIPT) --package.sd_file $(EXECUTABLE) -o $(BUILD_DIR)/$(PACKAGE_OUT)/krnl_vmul.xclbin
+else
+	$(error package command not needed for x86 platform)
+endif
+
+sd_card : $(BINARY_CONTAINERS) $(EXECUTABLE) gen_run_app
+ifneq ($(HOST_ARCH), x86)
+	make $(BUILD_DIR)/$(PACKAGE_OUT)/krnl_vmul.xclbin
+endif
 
 # Building Host
 $(EXECUTABLE): check-xrt $(HOST_SRCS) $(HOST_HDRS)
@@ -125,13 +147,15 @@ $(EMCONFIG_DIR)/emconfig.json:
 	emconfigutil --platform $(DEVICE) --od $(EMCONFIG_DIR)
 
 check: all
-ifeq ($(findstring zc, $(DEVICE)), zc)
+ifeq ($(findstring zcu102_base_202010, $(DEVICE)), zcu102_base_202010)
+$(error This example is not supported for $(DEVICE))
+endif
+ifeq ($(findstring zcu104_base_202010, $(DEVICE)), zcu104_base_202010)
 $(error This example is not supported for $(DEVICE))
 endif
 ifeq ($(findstring vck, $(DEVICE)), vck)
 $(error This example is not supported for $(DEVICE))
 endif
-
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 ifeq ($(HOST_ARCH), x86)
 	$(CP) $(EMCONFIG_DIR)/emconfig.json .
@@ -161,12 +185,6 @@ else
 endif
 endif
 
-
-sd_card: gen_run_app
-ifneq ($(HOST_ARCH), x86)
-	$(VPP) -t $(TARGET) --platform $(DEVICE) -p $(BUILD_DIR)/krnl_vmul.xclbin --package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.sd_file $(SD_IMAGE_FILE) --package.sd_file xrt.ini --package.sd_file $(RUN_APP_SCRIPT) --package.sd_file $(EXECUTABLE) -o krnl_vmul.xclbin
-	$(VPP) -t $(TARGET) --platform $(DEVICE) -p $(BUILD_DIR)/krnl_vadd.xclbin --package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.sd_file $(SD_IMAGE_FILE) --package.sd_file xrt.ini --package.sd_file $(RUN_APP_SCRIPT) --package.sd_file $(EXECUTABLE) -o krnl_vadd.xclbin
-endif
 
 # Cleaning stuff
 clean:

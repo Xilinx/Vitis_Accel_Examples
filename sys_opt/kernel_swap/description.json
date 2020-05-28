@@ -12,7 +12,8 @@
         "Multiple Kernel Binaries"
     ], 
     "ndevice": [
-        "zc",
+        "zcu102_base_202010",
+        "zcu104_base_202010",
         "vck"
      ],
     "contributors": [
