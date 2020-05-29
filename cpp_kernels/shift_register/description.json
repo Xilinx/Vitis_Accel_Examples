@@ -10,7 +10,7 @@
         "Kernel Optimization", 
         "Shift Register", 
         "FIR"
-    ], 
+    ],
     "os": [
         "Linux"
     ], 

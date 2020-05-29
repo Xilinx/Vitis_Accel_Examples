@@ -77,7 +77,7 @@ CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps
 ifneq ($(TARGET), hw)
 	CLFLAGS += -g
 endif
-CLFLAGS += --config ./adder_adder.ini
+CLFLAGS_adder +=  --config ./adder_adder.ini
 
 
 
@@ -103,7 +103,7 @@ build: check-vitis $(BINARY_CONTAINERS)
 # Building kernel
 $(TEMP_DIR)/adder.xo: src/adder.cl
 	mkdir -p $(TEMP_DIR)
-	$(VPP) $(CLFLAGS) --temp_dir $(TEMP_DIR) -c -k adder -I'$(<D)' -o'$@' '$<'
+	$(VPP) $(CLFLAGS) $(CLFLAGS_adder) --temp_dir $(TEMP_DIR) -c -k adder -I'$(<D)' -o'$@' '$<'
 $(BUILD_DIR)/adder.xclbin: $(BINARY_CONTAINER_adder_OBJS)
 	mkdir -p $(BUILD_DIR)
 	$(VPP) $(CLFLAGS) --temp_dir $(BUILD_DIR) -l $(LDCLFLAGS) -o'$@' $(+)
