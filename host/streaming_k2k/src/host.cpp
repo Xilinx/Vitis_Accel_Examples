@@ -176,25 +176,25 @@ int main(int argc, char **argv) {
   ext2.obj = NULL;
 
   // Create write stream for argument 0 and 1 of kernel
-  cl_stream write_stream_a, write_stream_b, write_stream_c;
+  cl_stream h2c_stream_a, h2c_stream_b, h2c_stream_c;
   ext1.flags = 0;
   OCL_CHECK(ret,
-            write_stream_a = xcl::Stream::createStream(
+            h2c_stream_a = xcl::Stream::createStream(
                 device.get(), XCL_STREAM_READ_ONLY, CL_STREAM, &ext1, &ret));
   ext1.flags = 1;
   OCL_CHECK(ret,
-            write_stream_b = xcl::Stream::createStream(
+            h2c_stream_b = xcl::Stream::createStream(
                 device.get(), XCL_STREAM_READ_ONLY, CL_STREAM, &ext1, &ret));
   ext2.flags = 0;
   OCL_CHECK(ret,
-            write_stream_c = xcl::Stream::createStream(
+            h2c_stream_c = xcl::Stream::createStream(
                 device.get(), XCL_STREAM_READ_ONLY, CL_STREAM, &ext2, &ret));
 
   // Create read stream for argument 2 of kernel
-  cl_stream read_stream;
+  cl_stream c2h_stream;
   ext2.flags = 2;
   OCL_CHECK(ret,
-            read_stream = xcl::Stream::createStream(
+            c2h_stream = xcl::Stream::createStream(
                 device.get(), XCL_STREAM_WRITE_ONLY, CL_STREAM, &ext2, &ret));
 
   OCL_CHECK(err, err = q.enqueueTask(krnl_vadd));
@@ -208,19 +208,19 @@ int main(int argc, char **argv) {
 
   // Writing data to input stream 1 independently in case of non-blocking
   // transfers.
-  OCL_CHECK(ret, xcl::Stream::writeStream(write_stream_a, h_a.data(),
+  OCL_CHECK(ret, xcl::Stream::writeStream(h2c_stream_a, h_a.data(),
                                           vector_size_bytes, &wr_req, &ret));
 
   wr_req.priv_data = (void *)"write_b";
   // Writing data to input stream 2 independently in case of non-blocking
   // transfers.
-  OCL_CHECK(ret, xcl::Stream::writeStream(write_stream_b, h_b.data(),
+  OCL_CHECK(ret, xcl::Stream::writeStream(h2c_stream_b, h_b.data(),
                                           vector_size_bytes, &wr_req, &ret));
 
   wr_req.priv_data = (void *)"write_c";
   // Writing data to input stream 2 independently in case of non-blocking
   // transfers.
-  OCL_CHECK(ret, xcl::Stream::writeStream(write_stream_c, h_c.data(),
+  OCL_CHECK(ret, xcl::Stream::writeStream(h2c_stream_c, h_c.data(),
                                           vector_size_bytes, &wr_req, &ret));
 
   // Initiating the READ transfer
@@ -228,7 +228,7 @@ int main(int argc, char **argv) {
   rd_req.flags = CL_STREAM_EOT | CL_STREAM_NONBLOCKING;
   rd_req.priv_data = (void *)"read";
   // Read the stream data independently in case of non-blocking transfers.
-  OCL_CHECK(ret, xcl::Stream::readStream(read_stream, hw_results.data(),
+  OCL_CHECK(ret, xcl::Stream::readStream(c2h_stream, hw_results.data(),
                                          vector_size_bytes, &rd_req, &ret));
 
   // Checking the request completion
@@ -246,9 +246,9 @@ int main(int argc, char **argv) {
   bool match = verify(sw_results.data(), hw_results.data(), size);
 
   // Releasing Streams
-  xcl::Stream::releaseStream(read_stream);
-  xcl::Stream::releaseStream(write_stream_a);
-  xcl::Stream::releaseStream(write_stream_b);
-  xcl::Stream::releaseStream(write_stream_c);
+  xcl::Stream::releaseStream(c2h_stream);
+  xcl::Stream::releaseStream(h2c_stream_a);
+  xcl::Stream::releaseStream(h2c_stream_b);
+  xcl::Stream::releaseStream(h2c_stream_c);
   return (match ? EXIT_SUCCESS : EXIT_FAILURE);
 }

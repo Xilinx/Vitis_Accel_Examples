@@ -21,8 +21,10 @@ Example        | Description           | Key Concepts / Keywords
 [multiple_cus_asymmetrical/][]|This is simple example of vector addition to demonstrate how to connect each compute unit to different banks and how to use these compute units in host applications|__Key__ __Concepts__<br> - Multiple Compute Units<br>
 [overlap/][]|This examples demonstrates techniques that allow user to overlap Host(CPU) and FPGA computation in an application. It will cover asynchronous operations and event object.|__Key__ __Concepts__<br> - OpenCL API<br> - Synchronize Host and FPGA<br> - Asynchronous Processing<br> - Events<br> - Asynchronous memcpy<br>__Keywords__<br> - cl_event<br> - cl::CommandQueue<br> - CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE<br> - enqueueMigrateMemObjects
 [p2p_bandwidth/][]|This is simple example to test Synchronous and Asyncronous data transfer between SSD and FPGA.|__Key__ __Concepts__<br> - P2P<br> - SmartSSD<br> - XDMA<br>__Keywords__<br> - XCL_MEM_EXT_P2P_BUFFER<br> - pread<br> - pwrite
+[p2p_fpga2fpga/][]|This is simple example to explain P2P transfer between two FPGA devices.|__Key__ __Concepts__<br> - P2P<br> - Multi-FPGA Execution<br> - XDMA<br>__Keywords__<br> - XCL_MEM_EXT_P2P_BUFFER
 [p2p_simple/][]|This is simple example of vector increment to describe P2P between FPGA and NVMe SSD.|__Key__ __Concepts__<br> - P2P<br> - NVMe SSD<br> - SmartSSD<br>__Keywords__<br> - XCL_MEM_EXT_P2P_BUFFER<br> - pread<br> - pwrite<br> - O_DIRECT<br> - O_RDWR
-[streaming_free_running_kernel/][]|This is simple example which demonstrate how to use and configure a free running kernel.|__Key__ __Concepts__<br> - Free Running Kernel<br>__Keywords__<br> - ap_ctrl_none<br> - stream_connect
+[streaming_free_running_h2k/][]|This is a simple streaming free running kernel that demonstrates how to interact with the host. In this design we showcase multiple stream requests in parallel.|__Key__ __Concepts__<br> - Free Running Kernel<br>__Keywords__<br> - cl_stream<br> - CL_STREAM_EOT<br> - CL_STREAM_NONBLOCKING
+[streaming_free_running_k2k/][]|This is simple example which demonstrate how to use and configure a free running kernel.|__Key__ __Concepts__<br> - Free Running Kernel<br>__Keywords__<br> - ap_ctrl_none<br> - stream_connect
 [streaming_host_bandwidth/][]|This is a simple Vector Increment C Kernel design with 1 Stream input and 1 Stream output that demonstrates on how to process an input stream of data for computation in an application and the Host to Device streaming bandwidth test.|__Key__ __Concepts__<br> - Read/Write Stream<br> - Create/Release Stream<br>__Keywords__<br> - cl_stream<br> - CL_STREAM_EOT<br> - CL_STREAM_NONBLOCKING
 [streaming_k2k/][]|This is a simple kernel to kernel streaming Vector Add and Vector Multiply C Kernel that demonstrates on how to process a stream of data for computation between two kernels.|__Key__ __Concepts__<br> - Read/Write Stream<br> - Create/Release Stream<br>__Keywords__<br> - cl_stream<br> - CL_STREAM_EOT<br> - CL_STREAM_NONBLOCKING
 [streaming_k2k_mm/][]|This is a simple kernel to kernel streaming Vector Add and Vector Multiply C Kernel design with 2 memory mapped input to kernel 1, 1 Stream output from kernel 1 to input of kernel 2, 1 memory mapped input to kernel 2, and 1 memory mapped output that demonstrates on how to process a stream of data for computation between two kernels.|__Key__ __Concepts__<br> - Read/Write Stream<br> - Create/Release Stream<br>__Keywords__<br> - stream_connect
@@ -46,8 +48,10 @@ Example        | Description           | Key Concepts / Keywords
 [multiple_cus_asymmetrical/]:multiple_cus_asymmetrical/
 [overlap/]:overlap/
 [p2p_bandwidth/]:p2p_bandwidth/
+[p2p_fpga2fpga/]:p2p_fpga2fpga/
 [p2p_simple/]:p2p_simple/
-[streaming_free_running_kernel/]:streaming_free_running_kernel/
+[streaming_free_running_h2k/]:streaming_free_running_h2k/
+[streaming_free_running_k2k/]:streaming_free_running_k2k/
 [streaming_host_bandwidth/]:streaming_host_bandwidth/
 [streaming_k2k/]:streaming_k2k/
 [streaming_k2k_mm/]:streaming_k2k_mm/

@@ -175,10 +175,10 @@ int main(int argc, char **argv) {
   ext.obj = NULL;
 
   // Create write stream for argument 0 of kernel
-  cl_stream write_stream_a;
+  cl_stream h2c_stream_a;
   ext.flags = 0;
   OCL_CHECK(ret,
-            write_stream_a = xcl::Stream::createStream(
+            h2c_stream_a = xcl::Stream::createStream(
                 device.get(), XCL_STREAM_READ_ONLY, CL_STREAM, &ext, &ret));
 
   // Create read stream for argument 1 of kernel
@@ -205,7 +205,7 @@ int main(int argc, char **argv) {
 
   // Thread 1 for writing data to input stream 1 independently in case of
   // default blocking transfers.
-  std::thread thr1(xcl::Stream::writeStream, write_stream_a, h_a.data(),
+  std::thread thr1(xcl::Stream::writeStream, h2c_stream_a, h_a.data(),
                    vector_size_bytes, &b_wr_req, &ret);
 
   // Initiating the READ transfer
@@ -250,7 +250,7 @@ int main(int argc, char **argv) {
 
   // Writing data to input stream 1 independently in case of non-blocking
   // transfers.
-  OCL_CHECK(ret, xcl::Stream::writeStream(write_stream_a, h_a.data(),
+  OCL_CHECK(ret, xcl::Stream::writeStream(h2c_stream_a, h_a.data(),
                                           vector_size_bytes, &nb_wr_req, &ret));
 
   // Initiating the READ transfer
@@ -280,6 +280,6 @@ int main(int argc, char **argv) {
 
   // Releasing Streams
   xcl::Stream::releaseStream(read_stream);
-  xcl::Stream::releaseStream(write_stream_a);
+  xcl::Stream::releaseStream(h2c_stream_a);
   return !b_match || !nb_match;
 }

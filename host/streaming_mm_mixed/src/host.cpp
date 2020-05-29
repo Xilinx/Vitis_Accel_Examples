@@ -182,18 +182,18 @@ int main(int argc, char **argv) {
   ext.obj = NULL;
 
   // Create write stream for argument 1 of kernel
-  cl_stream write_stream_a;
+  cl_stream h2c_stream_a;
   ext.flags = 1;
   OCL_CHECK(ret,
-            write_stream_a = xcl::Stream::createStream(
+            h2c_stream_a = xcl::Stream::createStream(
                 device.get(), XCL_STREAM_READ_ONLY, CL_STREAM, &ext, &ret));
 
   // Create read stream for argument 0 of kernel
-  cl_stream read_stream;
+  cl_stream c2h_stream;
   ext.flags = 0;
-  OCL_CHECK(ret,
-            read_stream = xcl::Stream::createStream(
-                device.get(), XCL_STREAM_WRITE_ONLY, CL_STREAM, &ext, &ret));
+  OCL_CHECK(ret, c2h_stream = xcl::Stream::createStream(device.get(),
+                                                        XCL_STREAM_WRITE_ONLY,
+                                                        CL_STREAM, &ext, &ret));
 
   // Initiating the WRITE transfer
   cl_stream_xfer_req wr_req{0};
@@ -203,7 +203,7 @@ int main(int argc, char **argv) {
 
   // Thread 1 for writing data to input stream 1 independently in case of
   // default blocking transfers.
-  std::thread thr1(xcl::Stream::writeStream, write_stream_a, h_a.data(),
+  std::thread thr1(xcl::Stream::writeStream, h2c_stream_a, h_a.data(),
                    vector_size_bytes, &wr_req, &ret);
 
   // Initiating the READ transfer
@@ -212,7 +212,7 @@ int main(int argc, char **argv) {
   rd_req.priv_data = (void *)"read";
   // Output thread to read the stream data independently in case of default
   // blocking transfers.
-  std::thread thr2(xcl::Stream::readStream, read_stream, hw_results.data(),
+  std::thread thr2(xcl::Stream::readStream, c2h_stream, hw_results.data(),
                    vector_size_bytes, &rd_req, &ret);
 
   // Waiting for all the threads to complete their respective operations.
@@ -221,8 +221,8 @@ int main(int argc, char **argv) {
 
   // Releasing all OpenCL objects
   q.finish();
-  xcl::Stream::releaseStream(read_stream);
-  xcl::Stream::releaseStream(write_stream_a);
+  xcl::Stream::releaseStream(c2h_stream);
+  xcl::Stream::releaseStream(h2c_stream_a);
   // OpenCL Host Code Ends
 
   // Compare the device results with software results

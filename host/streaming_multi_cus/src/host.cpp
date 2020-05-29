@@ -168,9 +168,9 @@ int main(int argc, char **argv) {
   xcl::Stream::init(platform_id);
 
   // Streams
-  std::vector<cl_stream> write_stream_a(NCU);
-  std::vector<cl_stream> write_stream_b(NCU);
-  std::vector<cl_stream> read_stream(NCU);
+  std::vector<cl_stream> h2c_stream_a(NCU);
+  std::vector<cl_stream> h2c_stream_b(NCU);
+  std::vector<cl_stream> c2h_stream(NCU);
 
   cl_int ret;
 
@@ -184,17 +184,17 @@ int main(int argc, char **argv) {
     std::cout << "\n Creating Stream for CU: " << i;
     ext.flags = 0;
     OCL_CHECK(ret,
-              write_stream_a[i] = xcl::Stream::createStream(
+              h2c_stream_a[i] = xcl::Stream::createStream(
                   device.get(), XCL_STREAM_READ_ONLY, CL_STREAM, &ext, &ret));
     ext.flags = 1;
     OCL_CHECK(ret,
-              write_stream_b[i] = xcl::Stream::createStream(
+              h2c_stream_b[i] = xcl::Stream::createStream(
                   device.get(), XCL_STREAM_READ_ONLY, CL_STREAM, &ext, &ret));
 
     // Create read stream for argument 2 of kernel
     ext.flags = 2;
     OCL_CHECK(ret,
-              read_stream[i] = xcl::Stream::createStream(
+              c2h_stream[i] = xcl::Stream::createStream(
                   device.get(), XCL_STREAM_WRITE_ONLY, CL_STREAM, &ext, &ret));
   }
 
@@ -215,24 +215,24 @@ int main(int argc, char **argv) {
     auto write_tag_a = "write_a_" + std::to_string(i);
     wr_req.priv_data = (void *)write_tag_a.c_str();
 
-    std::cout << "\n Writing Stream write_stream_a[" << i << "]";
-    OCL_CHECK(ret, xcl::Stream::writeStream(write_stream_a[i],
+    std::cout << "\n Writing Stream h2c_stream_a[" << i << "]";
+    OCL_CHECK(ret, xcl::Stream::writeStream(h2c_stream_a[i],
                                             (h_a.data() + i * no_of_elem),
                                             vector_size_bytes, &wr_req, &ret));
 
     auto write_tag_b = "write_b_" + std::to_string(i);
     wr_req.priv_data = (void *)write_tag_b.c_str();
 
-    std::cout << "\n Writing Stream write_stream_b[" << i << "]";
-    OCL_CHECK(ret, xcl::Stream::writeStream(write_stream_b[i],
+    std::cout << "\n Writing Stream h2c_stream_b[" << i << "]";
+    OCL_CHECK(ret, xcl::Stream::writeStream(h2c_stream_b[i],
                                             (h_b.data() + i * no_of_elem),
                                             vector_size_bytes, &wr_req, &ret));
 
     auto read_tag = "read_" + std::to_string(i);
     rd_req.priv_data = (void *)read_tag.c_str();
 
-    std::cout << "\n Reading Stream read_stream[" << i << "]";
-    OCL_CHECK(ret, xcl::Stream::readStream(read_stream[i],
+    std::cout << "\n Reading Stream c2h_stream[" << i << "]";
+    OCL_CHECK(ret, xcl::Stream::readStream(c2h_stream[i],
                                            (hw_results.data() + i * no_of_elem),
                                            vector_size_bytes, &rd_req, &ret));
   }
@@ -256,9 +256,9 @@ int main(int argc, char **argv) {
   // Releasing all OpenCL objects
   q.finish();
   for (int i = 0; i < NCU; i++) {
-    xcl::Stream::releaseStream(read_stream[i]);
-    xcl::Stream::releaseStream(write_stream_a[i]);
-    xcl::Stream::releaseStream(write_stream_b[i]);
+    xcl::Stream::releaseStream(c2h_stream[i]);
+    xcl::Stream::releaseStream(h2c_stream_a[i]);
+    xcl::Stream::releaseStream(h2c_stream_b[i]);
   }
   return (match ? EXIT_SUCCESS : EXIT_FAILURE);
 }

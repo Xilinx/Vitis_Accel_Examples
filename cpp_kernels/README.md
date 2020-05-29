@@ -21,7 +21,9 @@ Example        | Description           | Key Concepts / Keywords
 [loop_reorder/][]|This is a simple example of matrix multiplication (Row x Col) to demonstrate how to achieve better pipeline II factor by loop reordering.|__Key__ __Concepts__<br> - Kernel Optimization<br> - Loop reorder to improve II<br>__Keywords__<br> - #pragma HLS ARRAY_PARTITION
 [partition_cyclicblock/][]|This example shows how to use array block and cyclic partitioning to improve performance of a kernel|__Key__ __Concepts__<br> - Kernel Optimization<br> - Array Partitioning<br> - Block Partition<br> - Cyclic Partition<br>__Keywords__<br> - #pragma HLS ARRAY_PARTITION<br> - cyclic<br> - block<br> - factor<br> - dim
 [plram_access/][]|This example shows the usage of PLRAM and how to use it with simple matrix multiplication (Row x Col).|__Key__ __Concepts__<br> - Vitis Memory Hierarchy<br> - PLRAMs<br>__Keywords__<br> - PLRAM
+[port_width_widening/][]|This example shows how HLS introduces the capability of resizing the port width of the kernel interface ports for better resource utilization maintaining the performance.|__Key__ __Concepts__<br> - Interface port width auto widening<br>__Keywords__<br> - m_axi_max_widen_bitwidth 
 [shift_register/][]|This example demonstrates how to shift values in registers in each clock cycle|__Key__ __Concepts__<br> - Kernel Optimization<br> - Shift Register<br> - FIR<br>__Keywords__<br> - #pragma HLS ARRAY_PARTITION
+[simple_vadd/][]|This is a simple example of vector addition.The purpose of this code is to introduce the user to application development in the Vitis tools.|
 [systolic_array/][]|This is a simple example of matrix multiplication (Row x Col) to help developers learn systolic array based algorithm design. Note : Systolic array based algorithm design is well suited for FPGA.|
 [wide_mem_rw/][]|This is simple example of vector addition to demonstrate Wide Memory Access using ap_uint<512> data type. Based on input argument type, V++ compiler will figure our the memory datawidth between Global Memory and Kernel. For this example, ap_uint<512> datatype is used, so Memory datawidth will be 16 x (integer bit size) = 16 x 32 = 512 bit.|__Key__ __Concepts__<br> - Kernel to DDR<br> - wide memory access<br> - burst read and write<br>__Keywords__<br> - ap_uint<><br> - ap_int.h
 
@@ -41,6 +43,8 @@ Example        | Description           | Key Concepts / Keywords
 [loop_reorder/]:loop_reorder/
 [partition_cyclicblock/]:partition_cyclicblock/
 [plram_access/]:plram_access/
+[port_width_widening/]:port_width_widening/
 [shift_register/]:shift_register/
+[simple_vadd/]:simple_vadd/
 [systolic_array/]:systolic_array/
 [wide_mem_rw/]:wide_mem_rw/

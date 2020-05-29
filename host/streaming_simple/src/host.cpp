@@ -179,22 +179,22 @@ int main(int argc, char **argv) {
   ext.obj = NULL;
 
   // Create write stream for argument 0 and 1 of kernel
-  cl_stream write_stream_a, write_stream_b;
+  cl_stream h2c_stream_a, h2c_stream_b;
   ext.flags = 0;
   OCL_CHECK(ret,
-            write_stream_a = xcl::Stream::createStream(
+            h2c_stream_a = xcl::Stream::createStream(
                 device.get(), XCL_STREAM_READ_ONLY, CL_STREAM, &ext, &ret));
   ext.flags = 1;
   OCL_CHECK(ret,
-            write_stream_b = xcl::Stream::createStream(
+            h2c_stream_b = xcl::Stream::createStream(
                 device.get(), XCL_STREAM_READ_ONLY, CL_STREAM, &ext, &ret));
 
   // Create read stream for argument 2 of kernel
-  cl_stream read_stream;
+  cl_stream c2h_stream;
   ext.flags = 2;
-  OCL_CHECK(ret,
-            read_stream = xcl::Stream::createStream(
-                device.get(), XCL_STREAM_WRITE_ONLY, CL_STREAM, &ext, &ret));
+  OCL_CHECK(ret, c2h_stream = xcl::Stream::createStream(device.get(),
+                                                        XCL_STREAM_WRITE_ONLY,
+                                                        CL_STREAM, &ext, &ret));
 
   // Running the Kernel with blocking Stream APIs
   std::cout << "############################################################\n";
@@ -213,13 +213,13 @@ int main(int argc, char **argv) {
 
   // Thread 1 for writing data to input stream 1 independently in case of
   // default blocking transfers.
-  std::thread thr1(xcl::Stream::writeStream, write_stream_a, h_a.data(),
+  std::thread thr1(xcl::Stream::writeStream, h2c_stream_a, h_a.data(),
                    vector_size_bytes, &b_wr_req, &ret);
 
   b_wr_req.priv_data = (void *)"b_write_b";
   // Thread 2 for writing data to input stream 2 independently in case of
   // default blocking transfers.
-  std::thread thr2(xcl::Stream::writeStream, write_stream_b, h_b.data(),
+  std::thread thr2(xcl::Stream::writeStream, h2c_stream_b, h_b.data(),
                    vector_size_bytes, &b_wr_req, &ret);
 
   // Initiating the READ transfer
@@ -228,7 +228,7 @@ int main(int argc, char **argv) {
   b_rd_req.priv_data = (void *)"b_read";
   // Output thread to read the stream data independently in case of default
   // blocking transfers.
-  std::thread thr3(xcl::Stream::readStream, read_stream, hw_results.data(),
+  std::thread thr3(xcl::Stream::readStream, c2h_stream, hw_results.data(),
                    vector_size_bytes, &b_rd_req, &ret);
 
   // Waiting for all the threads to complete their respective operations.
@@ -266,13 +266,13 @@ int main(int argc, char **argv) {
 
   // Writing data to input stream 1 independently in case of non-blocking
   // transfers.
-  OCL_CHECK(ret, xcl::Stream::writeStream(write_stream_a, h_a.data(),
+  OCL_CHECK(ret, xcl::Stream::writeStream(h2c_stream_a, h_a.data(),
                                           vector_size_bytes, &nb_wr_req, &ret));
 
   nb_wr_req.priv_data = (void *)"nb_write_b";
   // Writing data to input stream 2 independently in case of non-blocking
   // transfers.
-  OCL_CHECK(ret, xcl::Stream::writeStream(write_stream_b, h_b.data(),
+  OCL_CHECK(ret, xcl::Stream::writeStream(h2c_stream_b, h_b.data(),
                                           vector_size_bytes, &nb_wr_req, &ret));
 
   // Initiating the READ transfer
@@ -280,7 +280,7 @@ int main(int argc, char **argv) {
   nb_rd_req.flags = CL_STREAM_EOT | CL_STREAM_NONBLOCKING;
   nb_rd_req.priv_data = (void *)"nb_read";
   // Reading the stream data independently in case of non-blocking transfers.
-  OCL_CHECK(ret, xcl::Stream::readStream(read_stream, hw_results.data(),
+  OCL_CHECK(ret, xcl::Stream::readStream(c2h_stream, hw_results.data(),
                                          vector_size_bytes, &nb_rd_req, &ret));
 
   // Checking the request completion
@@ -302,8 +302,8 @@ int main(int argc, char **argv) {
                          hw_results.data(), size);
 
   // Releasing Streams
-  xcl::Stream::releaseStream(read_stream);
-  xcl::Stream::releaseStream(write_stream_a);
-  xcl::Stream::releaseStream(write_stream_b);
+  xcl::Stream::releaseStream(c2h_stream);
+  xcl::Stream::releaseStream(h2c_stream_a);
+  xcl::Stream::releaseStream(h2c_stream_b);
   return !b_match || !nb_match;
 }

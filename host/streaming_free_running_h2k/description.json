@@ -1,0 +1,61 @@
+{
+    "name": "Stream Free Running Host to Kernel(HLS C/C++)",
+    "description": [
+        "This is a simple streaming free running kernel that demonstrates how to interact with the host. In this design we showcase multiple stream requests in parallel."
+    ], 
+    "keywords": [
+        "cl_stream", 
+        "CL_STREAM_EOT", 
+        "CL_STREAM_NONBLOCKING"
+    ], 
+    "key_concepts": [
+        "Free Running Kernel" 
+    ], 
+    "ndevice": [
+        "zc",
+        "xdma",
+        "xilinx_u250_qep",	
+        "aws",
+        "samsung"
+    ], 
+    "os": [
+        "Linux"
+    ], 
+    "runtime": [
+        "OpenCL"
+    ], 
+    "host": {
+        "host_exe": "host", 
+        "compiler": {
+            "sources": [
+                "REPO_DIR/common/includes/xcl2"
+            ], 
+            "includepaths": [
+                "REPO_DIR/common/includes/xcl2"
+            ]
+        }
+    }, 
+    "containers": [
+        {
+            "accelerators": [
+                {
+                    "location": "src/increment.cpp", 
+                    "name": "increment"
+                }
+            ], 
+            "name": "increment"
+        }
+    ],
+    "launch": [
+        {
+            "cmd_args": "BUILD/increment.xclbin", 
+            "name": "generic launch for all flows"
+        }
+    ], 
+    "contributors": [
+        {
+            "url": "http://www.xilinx.com", 
+            "group": "Xilinx"
+        }
+    ] 
+}

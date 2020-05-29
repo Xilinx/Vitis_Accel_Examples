@@ -1,21 +1,34 @@
-Vector Addition
+Stream Free Running Host to Kernel(HLS C/C++)
 ======================
 
-This is a simple example of vector addition.The purpose of this code is to introduce the user to application development in the Vitis tools.
+This is a simple streaming free running kernel that demonstrates how to interact with the host. In this design we showcase multiple stream requests in parallel.
+
+***KEY CONCEPTS:*** Free Running Kernel
+
+***KEYWORDS:*** cl_stream, CL_STREAM_EOT, CL_STREAM_NONBLOCKING
+
+## EXCLUDED PLATFORMS
+Platforms containing following strings in their names are not supported for this example :
+```
+zc
+xdma
+xilinx_u250_qep
+aws
+samsung
+```
 
 ##  DESIGN FILES
 Application code is located in the src directory. Accelerator binary files will be compiled to the xclbin directory. The xclbin directory is required by the Makefile and its contents will be filled during compilation. A listing of all the files in this example is shown below
 
 ```
-src/krnl_vadd.cpp
-src/vadd.cpp
-src/vadd.h
+src/host.cpp
+src/increment.cpp
 ```
 
 ##  COMMAND LINE ARGUMENTS
 Once the environment has been configured, the application can be executed by
 ```
-./vadd <krnl_vadd XCLBIN>
+./host <increment XCLBIN>
 ```
 
 ##  COMMANDS FOR WINDOWS FLOW
