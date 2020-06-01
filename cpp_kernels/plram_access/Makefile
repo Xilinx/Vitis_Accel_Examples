@@ -81,7 +81,7 @@ endif
 
 
 # Adding config files to linker
-LDCLFLAGS += --config mmult.ini 
+LDCLFLAGS_mmult += --config mmult.ini 
 EXECUTABLE = host
 CMD_ARGS = $(BUILD_DIR)/mmult.xclbin
 EMCONFIG_DIR = $(TEMP_DIR)
@@ -107,7 +107,7 @@ $(TEMP_DIR)/mmult.xo: src/mmult.cpp
 	$(VPP) $(CLFLAGS) --temp_dir $(TEMP_DIR) -c -k mmult -I'$(<D)' -o'$@' '$<'
 $(BUILD_DIR)/mmult.xclbin: $(BINARY_CONTAINER_mmult_OBJS)
 	mkdir -p $(BUILD_DIR)
-	$(VPP) $(CLFLAGS) --temp_dir $(BUILD_DIR) -l $(LDCLFLAGS) -o'$@' $(+)
+	$(VPP) $(CLFLAGS) --temp_dir $(BUILD_DIR) -l $(LDCLFLAGS) $(LDCLFLAGS_mmult) -o'$@' $(+)
 
 # Building Host
 $(EXECUTABLE): check-xrt $(HOST_SRCS) $(HOST_HDRS)
