@@ -1,0 +1,71 @@
+{
+    "name": "Control and Status Register access continuously streaming kernel (HLS C/C++)", 
+    "description": [
+        "This is simple example which demonstrate streaming free-running kernel with scalar input and output."
+    ],
+    "keywords": [
+        "xclRegRead",
+        "xclRegWrite" 
+    ], 
+    "key_concepts": [
+        "Free Running Kernel" 
+    ], 
+    "ndevice": [
+        "xdma",
+	"xilinx_u250_qep",
+	"aws",
+        "samsung",
+	"zc",
+    "vck"
+    ],
+    "os": [
+        "Linux"
+    ], 
+    "runtime": [
+        "OpenCL"
+    ], 
+    "host": {
+        "host_exe": "host", 
+        "compiler": {
+            "sources": [
+                "REPO_DIR/common/includes/xcl2"
+            ], 
+            "includepaths": [
+                "REPO_DIR/common/includes/xcl2"
+            ]
+        },
+        "linker" : {
+            "options" : ["-luuid"
+                ]
+        }
+    },
+   "gui": false,
+   "config_make" : "config.mk",
+   "targets": [
+        "hw", 
+        "hw_emu"
+    ],  
+    "containers": [
+        {
+            "accelerators": [
+                {
+                    "name": "increment", 
+                    "location": "src/increment.cpp"
+                }
+            ], 
+            "name": "krnl_incr"
+        }
+    ],
+    "launch": [
+        {
+            "cmd_args": "BUILD/krnl_incr.xclbin 5", 
+            "name": "generic launch for all flows"
+        }
+    ], 
+    "contributors": [
+        {
+            "url": "http://www.xilinx.com", 
+            "group": "Xilinx"
+        }
+    ] 
+}

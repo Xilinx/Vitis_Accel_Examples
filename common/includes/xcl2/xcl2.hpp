@@ -146,4 +146,13 @@ public:
     getMemObjectFromFd = (decltype(&xclGetMemObjectFromFd))bar;
 }
 };
+class Ext {
+public:
+  static decltype(&xclGetComputeUnitInfo) getComputeUnitInfo;
+  static void init(const cl_platform_id &platform) {
+    void *bar =
+        clGetExtensionFunctionAddressForPlatform(platform, "xclGetComputeUnitInfo");
+    getComputeUnitInfo = (decltype(&xclGetComputeUnitInfo))bar;
+}
+};
 }
