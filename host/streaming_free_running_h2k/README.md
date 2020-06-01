@@ -11,6 +11,7 @@ This is a simple streaming free running kernel that demonstrates how to interact
 Platforms containing following strings in their names are not supported for this example :
 ```
 zc
+vck
 xdma
 xilinx_u250_qep
 aws
