@@ -26,13 +26,19 @@
             ]
         }
     }, 
+    "v++": {
+        "build_datafiles" : [            
+            "PROJECT/hls_config.tcl",
+            "PROJECT/bandwidth.ini"
+        ]
+     },
     "containers": [
         {
             "accelerators": [
                 {
-                    "max_memory_ports": "true", 
                     "name": "bandwidth", 
-                    "location": "src/kernel.cl"
+                    "location": "src/kernel.cpp",
+                    "clflags": "--config PROJECT/bandwidth.ini"
                 }
             ], 
             "name": "krnl_kernel_global"

@@ -78,7 +78,7 @@ CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps
 ifneq ($(TARGET), hw)
 	CLFLAGS += -g
 endif
-CLFLAGS +=  --max_memory_ports bandwidth
+CLFLAGS_bandwidth +=  --config ./bandwidth.ini
 
 
 
@@ -102,9 +102,9 @@ exe: $(EXECUTABLE)
 build: check-vitis $(BINARY_CONTAINERS)
 
 # Building kernel
-$(TEMP_DIR)/bandwidth.xo: src/kernel.cl
+$(TEMP_DIR)/bandwidth.xo: src/kernel.cpp
 	mkdir -p $(TEMP_DIR)
-	$(VPP) $(CLFLAGS) --temp_dir $(TEMP_DIR) -c -k bandwidth -I'$(<D)' -o'$@' '$<'
+	$(VPP) $(CLFLAGS) $(CLFLAGS_bandwidth) --temp_dir $(TEMP_DIR) -c -k bandwidth -I'$(<D)' -o'$@' '$<'
 $(BUILD_DIR)/krnl_kernel_global.xclbin: $(BINARY_CONTAINER_krnl_kernel_global_OBJS)
 	mkdir -p $(BUILD_DIR)
 	$(VPP) $(CLFLAGS) --temp_dir $(BUILD_DIR) -l $(LDCLFLAGS) -o'$@' $(+)

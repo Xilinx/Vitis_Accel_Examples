@@ -32,31 +32,35 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 **********/
+#include <ap_int.h>
+#include <iostream>
+
+auto constexpr DATAWIDTH = 512;
+using TYPE = ap_uint<DATAWIDTH>;
 
 // Tripcount identifiers
-__constant int c_min_size = (1024 * 1024) / 64;
-__constant int c_max_size = (1024 * 1024 * 1024) / 64;
+auto constexpr c_min_size = (1024 * 1024) / 64;
+auto constexpr c_max_size = (1024 * 1024 * 1024) / 64;
 
-kernel __attribute__((reqd_work_group_size(1, 1, 1))) void
-bandwidth(__global uint16 *__restrict input0,
-          __global uint16 *__restrict output0,
+extern "C" {
+void bandwidth(TYPE *__restrict__ input0, TYPE *__restrict__ output0,
 #if NDDR_BANKS == 3
-          __global uint16 *__restrict output1,
+               TYPE *__restrict__ output1,
 #elif NDDR_BANKS > 3
-          __global uint16 *__restrict input1,
-          __global uint16 *__restrict output1,
+               TYPE *__restrict__ input1, TYPE *__restrict__ output1,
 #endif
-          ulong num_blocks) {
-  __attribute__((xcl_pipeline_loop(1))) __attribute__((xcl_loop_tripcount(
-      c_min_size, c_max_size))) for (ulong blockindex = 0;
-                                     blockindex < num_blocks; blockindex++) {
-    uint16 temp0 = input0[blockindex];
+               int64_t num_blocks) {
+
+  for (int64_t blockindex = 0; blockindex < num_blocks; blockindex++) {
+#pragma HLS LOOP_TRIPCOUNT min = c_min_size max = c_max_size
+    TYPE temp0 = input0[blockindex];
     output0[blockindex] = temp0;
 #if NDDR_BANKS == 3
     output1[blockindex] = temp0;
 #elif NDDR_BANKS > 3
-    uint16 temp1 = input1[blockindex];
+    TYPE temp1 = input1[blockindex];
     output1[blockindex] = temp1;
 #endif
   }
+}
 }

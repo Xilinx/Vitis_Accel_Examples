@@ -56,7 +56,7 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 *     --config ../src/<config_file>.ini
 *  3. Default number of banks for CLI flow is 2 banks, for GUI flow is 1 bank.
 *     For 3 or 4 DDR connections, "#define NDDR_BANKS <3 or 4>" at the top of
-*kernel.cl
+*kernel.cpp
 * *****************************************************************************************
 *
 *  CLI Flow:
