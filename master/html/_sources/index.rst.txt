@@ -10,7 +10,6 @@ ready to be compiled and executed on Vitis supported boards and accelerated clou
    :caption: Table of Contents
 
    prerequisites.rst
-   shells.rst
    compile_execute.rst
 
 .. toctree::
