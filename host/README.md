@@ -30,6 +30,7 @@ Example        | Description           | Key Concepts / Keywords
 [streaming_k2k_mm/][]|This is a simple kernel to kernel streaming Vector Add and Vector Multiply C Kernel design with 2 memory mapped input to kernel 1, 1 Stream output from kernel 1 to input of kernel 2, 1 memory mapped input to kernel 2, and 1 memory mapped output that demonstrates on how to process a stream of data for computation between two kernels.|__Key__ __Concepts__<br> - Read/Write Stream<br> - Create/Release Stream<br>__Keywords__<br> - stream_connect
 [streaming_mm_mixed/][]|This is a simple streaming Vector Addition C Kernel design with 1 Stream input, 1 memory mapped input to the kernel, and 1 stream output that demonstrates on how to process a stream of data along with memory mapped interface.|__Key__ __Concepts__<br> - Read/Write Stream<br> - Create/Release Stream<br>__Keywords__<br> - cl_stream<br> - CL_STREAM_EOT
 [streaming_multi_cus/][]|This is a simple vadd Kernel design in which multiple compute units of kernel are directly communicating with host using stream interfaces.|__Key__ __Concepts__<br> - Read/Write Stream<br> - Create/Release Stream<br>__Keywords__<br> - cl_stream<br> - CL_STREAM_EOT<br> - nk
+[streaming_reg_access/][]|This is simple example which demonstrate streaming free-running kernel with scalar input and output.|__Key__ __Concepts__<br> - Free Running Kernel<br>__Keywords__<br> - xclRegRead<br> - xclRegWrite
 [streaming_simple/][]|This is a simple Vector Add C Kernel design with 2 Stream inputs and 1 Stream output that demonstrates on how streaming kernel can be implemented and how host can directly send data to kernel without global memory.|__Key__ __Concepts__<br> - Read/Write Stream<br> - Create/Release Stream<br>__Keywords__<br> - cl_stream<br> - CL_STREAM_EOT<br> - CL_STREAM_NONBLOCKING
 
 [.]:.
@@ -57,4 +58,5 @@ Example        | Description           | Key Concepts / Keywords
 [streaming_k2k_mm/]:streaming_k2k_mm/
 [streaming_mm_mixed/]:streaming_mm_mixed/
 [streaming_multi_cus/]:streaming_multi_cus/
+[streaming_reg_access/]:streaming_reg_access/
 [streaming_simple/]:streaming_simple/
