@@ -20,6 +20,7 @@ ready to be compiled and executed on Vitis supported boards and accelerated clou
    hello_world.rst
    host.rst
    cpp.rst
+   demo.rst
    sys_opt.rst
    rtl.rst
    ocl.rst
