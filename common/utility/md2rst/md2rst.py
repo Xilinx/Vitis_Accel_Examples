@@ -129,35 +129,25 @@ def overview(target,data):
     return
 
 def requirements(target,data):
-    target.write("## SUPPORTED SHELLS\n")
-    target.write("SHELL | Board             | Software Version\n")
-    target.write("---------|-------------------|-----------------\n")
-
-    boards = []
-    if 'device' in data:
-        board = data['device']
-        boards = [word for word in DEVICES if word in board]
-    else:
-        for board in DEVICES:
-                nboard_flag=0
-                if 'ndevice' in data:	
-                        for nboard in data['ndevice']:
-                                if nboard in board:
-                       	       	        nboard_flag=1
-                if nboard_flag == 0:
-                        boards.append(board)			
-
-    boards.sort()
-    for board in boards:
-       	target.write(board)
-        target.write("|")
-        target.write(DEVICES[board]['name'])
-        target.write("|")
-        target.write(VERSION)
+    if 'ndevice' in data:
+        target.write("## EXCLUDED PLATFORMS\n")
+        target.write("Platforms containing following strings in their names are not supported for this example :")
         target.write("\n")
-    target.write("\n\n")
+        target.write("```\n")
+        for board in data['ndevice']:
+            target.write(board)
+            target.write("\n")
+        target.write("```")
+        target.write("\n\n")
+    if 'device' in data:
+        target.write('## SUPPORTED PLATFORMS\n')
+        target.write('Platforms containing following strings in their names are supported for this example :\n\n')
+        for board in data['device']:
+            target.write(board)
+            target.write("\n")
+        target.write("```")
+        target.write('\n\n')
     return
-
 
 def hierarchy(target):
     target.write("##  DESIGN FILES\n")

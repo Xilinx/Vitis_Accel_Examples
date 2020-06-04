@@ -30,7 +30,7 @@ update_file() {
 		# Run the detailed .md generator
 		$appDir/utility/md2rst/md2rst.py description.json #> /dev/null 2>&1
 		# Run the .md to .rst file generator using correct path to pandoc
-		$appDir/pandoc-2.7.3/bin/pandoc -f markdown D_README.md -t rst -o $b_name.rst
+		$appDir/pandoc-2.9.2.1/bin/pandoc -f markdown D_README.md -t rst -o $b_name.rst
 		# move the generated .rst to desired folder
 		mv $b_name.rst $appDir/../../test/
 		# delete the detailed readme

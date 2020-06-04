@@ -9,5 +9,3 @@ demo/kmeans/src/kmeans_config.h
 demo/kmeans/src/krnl_kmeans.cpp
 demo/kmeans/src/krnl_kmeans.h
 demo/kmeans/src/timer.h
-host/streaming_free_running_kernel/src/host.cpp
-host/streaming_multi_cus/src/host.cpp
