@@ -1,0 +1,58 @@
+{
+    "name": "BIND OP and STORAGE (HLS C/C++ Kernel)", 
+    "description": [
+        "This is simple example of vector addition to describe how to use BIND OP and STORAGE for better implementation style."
+    ],
+    "keywords": [
+        "BIND_OP", 
+        "BIND_STORAGE",
+        "impl", 
+        "op",
+        "type", 
+        "latency" 
+    ], 
+    "key_concepts": [
+        "BIND OP",
+        "BIND STORAGE" 
+    ], 
+    "os": [
+        "Linux"
+    ], 
+    "runtime": [
+        "OpenCL"
+    ], 
+    "host": {
+        "host_exe": "host", 
+        "compiler": {
+            "sources": [
+                "REPO_DIR/common/includes/xcl2"
+            ], 
+            "includepaths": [
+                "REPO_DIR/common/includes/xcl2"
+            ]
+        }
+    }, 
+    "containers": [
+        {
+            "accelerators": [
+                {
+                    "name": "vadd", 
+                    "location": "src/vadd.cpp"
+                }
+            ], 
+            "name": "vadd"
+        }
+    ],
+    "launch": [
+        {
+            "cmd_args": "BUILD/vadd.xclbin", 
+            "name": "generic launch for all flows"
+        }
+    ], 
+    "contributors": [
+        {
+            "url": "http://www.xilinx.com", 
+            "group": "Xilinx"
+        }
+    ] 
+}

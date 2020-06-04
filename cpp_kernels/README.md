@@ -7,6 +7,7 @@ This section contains HLS C/C++ Kernel Examples.
 Example        | Description           | Key Concepts / Keywords 
 ---------------|-----------------------|-------------------------
 [array_partition/][]|This is a simple example of matrix multiplication (Row x Col) to demonstrate how to achieve better performance by array partitioning, using HLS kernel in Vitis Environment.|__Key__ __Concepts__<br> - Kernel Optimization<br> - HLS C Kernel<br> - Array Partition<br>__Keywords__<br> - #pragma HLS ARRAY_PARTITION<br> - complete
+[bind_op_storage/][]|This is simple example of vector addition to describe how to use BIND OP for better implementation style.|__Key__ __Concepts__<br> - BIND OP and STORAGE<br>__Keywords__<br> - BIND OP<br> - impl<br> - op<br> - latency
 [burst_rw/][]|This is simple example of using AXI4-master interface for burst read and write|__Key__ __Concepts__<br> - burst access<br>__Keywords__<br> - memcpy<br> - max_read_burst_length<br> - max_write_burst_length
 [critical_path/][]|This example shows a normal coding style which could lead to critical path issue and design will give degraded timing.  Example also contains better coding style which can improve design timing.|__Key__ __Concepts__<br> - Critical Path handling<br> - Improve Timing<br>
 [custom_datatype/][]|This is simple example of RGB to HSV conversion to demonstrate Custom DATA Type usages in C Based Kernel. Xilinx HLS Compiler Supports Custom Data Type to use for operation as well as Memory Interface between Kernel and Global Memory.|__Key__ __Concepts__<br> - Custom Datatype<br>__Keywords__<br> - struct<br> - #pragma HLS LOOP_TRIPCOUNT
@@ -29,6 +30,7 @@ Example        | Description           | Key Concepts / Keywords
 
 [.]:.
 [array_partition/]:array_partition/
+[bind_op_storage/]:bind_op_storage/
 [burst_rw/]:burst_rw/
 [critical_path/]:critical_path/
 [custom_datatype/]:custom_datatype/
