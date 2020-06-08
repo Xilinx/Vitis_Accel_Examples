@@ -1,12 +1,10 @@
 # Definition of include file locations
-xrt_path = $(XILINX_XRT)
 ifneq ($(HOST_ARCH), x86)
-	xrt_path =  $(SYSROOT)/usr/
-endif
-
-OPENCL_INCLUDE:= $(xrt_path)/include
-ifneq ($(HOST_ARCH), x86)
-	OPENCL_INCLUDE:= $(xrt_path)/include/xrt
+    xrt_path = $(SYSROOT)/usr
+    OPENCL_INCLUDE:= $(xrt_path)/include/xrt
+else
+    xrt_path = $(XILINX_XRT)
+    OPENCL_INCLUDE:= $(xrt_path)/include
 endif
 
 VIVADO_INCLUDE:= $(XILINX_VIVADO)/include
