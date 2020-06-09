@@ -35,11 +35,16 @@
             ]
         }
     }, 
+    "v++": {
+        "build_datafiles" : [            
+            "PROJECT/hls_config.tcl",
+            "PROJECT/bandwidth.ini"
+        ]
+     },
     "containers": [
         {
             "accelerators": [
                 {
-                    "max_memory_ports": "true", 
                     "compute_units": [
                         {
                             "arguments": [
@@ -55,7 +60,8 @@
                         }
                     ], 
                     "name": "apply_watermark", 
-                    "location": "src/apply_watermark.cl"
+                    "location": "src/apply_watermark.cl",
+                    "clflags": "--config PROJECT/bandwidth.ini"
                 }
             ], 
             "name": "apply_watermark"

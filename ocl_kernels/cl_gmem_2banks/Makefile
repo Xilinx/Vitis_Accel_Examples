@@ -78,12 +78,12 @@ CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps
 ifneq ($(TARGET), hw)
 	CLFLAGS += -g
 endif
-CLFLAGS +=  --max_memory_ports apply_watermark
+CLFLAGS_apply_watermark +=  --config ./bandwidth.ini
 
 
 
 # Adding config files to linker
-LDCLFLAGS += --config apply_watermark.ini 
+LDCLFLAGS_apply_watermark += --config apply_watermark.ini 
 EXECUTABLE = host
 CMD_ARGS = $(BUILD_DIR)/apply_watermark.xclbin ./data/input.bmp ./data/golden.bmp
 EMCONFIG_DIR = $(TEMP_DIR)
@@ -107,10 +107,10 @@ build: check-vitis $(BINARY_CONTAINERS)
 # Building kernel
 $(TEMP_DIR)/apply_watermark.xo: src/apply_watermark.cl
 	mkdir -p $(TEMP_DIR)
-	$(VPP) $(CLFLAGS) --temp_dir $(TEMP_DIR) -c -k apply_watermark -I'$(<D)' -o'$@' '$<'
+	$(VPP) $(CLFLAGS) $(CLFLAGS_apply_watermark) --temp_dir $(TEMP_DIR) -c -k apply_watermark -I'$(<D)' -o'$@' '$<'
 $(BUILD_DIR)/apply_watermark.xclbin: $(BINARY_CONTAINER_apply_watermark_OBJS)
 	mkdir -p $(BUILD_DIR)
-	$(VPP) $(CLFLAGS) --temp_dir $(BUILD_DIR) -l $(LDCLFLAGS) -o'$@' $(+)
+	$(VPP) $(CLFLAGS) --temp_dir $(BUILD_DIR) -l $(LDCLFLAGS) $(LDCLFLAGS_apply_watermark) -o'$@' $(+)
 
 # Building Host
 $(EXECUTABLE): check-xrt $(HOST_SRCS) $(HOST_HDRS)
