@@ -46,6 +46,7 @@ for this example :
 ::
 
    zc
+   vck
    u200
    u250
    u50

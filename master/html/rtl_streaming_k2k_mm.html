@@ -305,6 +305,10 @@
           
             
             
+              <div class="version">
+                2020.1
+              </div>
+            
           
 
           
@@ -344,6 +348,7 @@
 <li class="toctree-l2"><a class="reference internal" href="rtl_adder_streams.html">Adder With Streams (RTL Kernel)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="rtl_streaming_free_running.html">Stream Free Running Kernel (RTL Kernel)</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">RTL Stream Kernel to Kernel and Memory Mapped (RTL Kernel)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#excluded-platforms">EXCLUDED PLATFORMS</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#design-files">DESIGN FILES</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#command-line-arguments">COMMAND LINE ARGUMENTS</a></li>
 </ul>
@@ -440,6 +445,14 @@ other via stream interface and connected to host via memory mapped C++
 data mover kernels</p>
 <p><strong>KEY CONCEPTS:</strong> Read/Write Stream, RTL Kernel</p>
 <p><strong>KEYWORDS:</strong> ap_axiu, hls::stream</p>
+<div class="section" id="excluded-platforms">
+<h2>EXCLUDED PLATFORMS<a class="headerlink" href="#excluded-platforms" title="Permalink to this headline">¶</a></h2>
+<p>Platforms containing following strings in their names are not supported
+for this example :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">vck</span>
+</pre></div>
+</div>
+</div>
 <div class="section" id="design-files">
 <h2>DESIGN FILES<a class="headerlink" href="#design-files" title="Permalink to this headline">¶</a></h2>
 <p>Application code is located in the src directory. Accelerator binary
@@ -568,7 +581,7 @@ executed by</p>
 														<div class="col-md-pull-6 col-lg-pull-6 col-md-6 col-lg-6">
 															<span class="copyright">
                                   
-                                  &copy; 2019, Xilinx
+                                  &copy; 2020, Xilinx
                               </span>
 															<ul class="list-inline sub-menu">
 																<li>

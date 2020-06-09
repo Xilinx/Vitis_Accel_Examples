@@ -54,6 +54,7 @@ for this example :
    u250
    u280
    u50
+   vck
    aws
 
 DESIGN FILES

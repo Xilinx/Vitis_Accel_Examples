@@ -111,7 +111,7 @@ compilation. A listing of all the files in this example is shown below
 
 ::
 
-   src/kernel.cl
+   src/kernel.cpp
    src/kernel_global_bandwidth.cpp
 
 COMMAND LINE ARGUMENTS

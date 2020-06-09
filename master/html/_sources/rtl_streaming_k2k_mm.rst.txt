@@ -9,6 +9,16 @@ data mover kernels
 
 **KEYWORDS:** ap_axiu, hls::stream
 
+EXCLUDED PLATFORMS
+------------------
+
+Platforms containing following strings in their names are not supported
+for this example :
+
+::
+
+   vck
+
 DESIGN FILES
 ------------
 

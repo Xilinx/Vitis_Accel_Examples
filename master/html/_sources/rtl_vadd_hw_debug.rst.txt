@@ -13,6 +13,16 @@ kernel <https://github.com/Xilinx/Vitis_Accel_Examples/wiki/rtl_kernel_debug>`__
 
 **KEY CONCEPTS:** RTL Kernel Debug
 
+EXCLUDED PLATFORMS
+------------------
+
+Platforms containing following strings in their names are not supported
+for this example :
+
+::
+
+   vck
+
 DESIGN FILES
 ------------
 

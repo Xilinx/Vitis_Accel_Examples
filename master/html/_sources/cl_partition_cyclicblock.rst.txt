@@ -41,7 +41,6 @@ for this example :
 ::
 
    zc702
-   zc706
 
 DESIGN FILES
 ------------

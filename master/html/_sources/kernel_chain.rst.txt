@@ -45,6 +45,7 @@ for this example :
 
    u50
    samsung
+   vck
    zc
 
 DESIGN FILES

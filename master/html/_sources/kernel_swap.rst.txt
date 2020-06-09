@@ -68,7 +68,10 @@ for this example :
 
 ::
 
-   zc
+   zcu102_base_202010
+   zcu104_base_202010
+   vck
+   zc7
 
 DESIGN FILES
 ------------

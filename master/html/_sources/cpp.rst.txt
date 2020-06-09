@@ -9,6 +9,7 @@ This page contains examples for users who are new to Xilinx Vitis OpenCL Flows. 
 
    array_partition.rst
    burst_rw.rst
+   bind_op_storage.rst
    critical_path.rst
    custom_datatype.rst
    dataflow_stream.rst
@@ -21,7 +22,9 @@ This page contains examples for users who are new to Xilinx Vitis OpenCL Flows. 
    loop_pipeline.rst
    loop_reorder.rst
    partition_cyclicblock.rst
+   port_width_widening.rst
    plram_access.rst
+   simple_vadd.rst
    shift_register.rst
    systolic_array.rst
    wide_mem_rw.rst

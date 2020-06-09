@@ -305,6 +305,10 @@
           
             
             
+              <div class="version">
+                2020.1
+              </div>
+            
           
 
           
@@ -340,6 +344,7 @@
 <li class="toctree-l1 current"><a class="reference internal" href="cpp.html">C++ Kernels</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="array_partition.html">Array Partition</a></li>
 <li class="toctree-l2"><a class="reference internal" href="burst_rw.html">Burst Read/Write</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bind_op_storage.html">BIND OP and STORAGE</a></li>
 <li class="toctree-l2"><a class="reference internal" href="critical_path.html">Critical Path</a></li>
 <li class="toctree-l2"><a class="reference internal" href="custom_datatype.html">Custom Data Type</a></li>
 <li class="toctree-l2"><a class="reference internal" href="dataflow_stream.html">Dataflow Using HLS Stream</a></li>
@@ -356,7 +361,9 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="partition_cyclicblock.html">Array Block and Cyclic Partitioning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="port_width_widening.html">Port Width Widening</a></li>
 <li class="toctree-l2"><a class="reference internal" href="plram_access.html">PLRAM Memory Access</a></li>
+<li class="toctree-l2"><a class="reference internal" href="simple_vadd.html">Vector Addition</a></li>
 <li class="toctree-l2"><a class="reference internal" href="shift_register.html">Shift Register</a></li>
 <li class="toctree-l2"><a class="reference internal" href="systolic_array.html">Systolic Array</a></li>
 <li class="toctree-l2"><a class="reference internal" href="wide_mem_rw.html">Wide Memory Read/Write</a></li>
@@ -447,7 +454,7 @@
 <p>This is a simple example of matrix multiplication (Row x Col) to
 demonstrate how to achieve better pipeline II factor by loop reordering.</p>
 <p><strong>KEY CONCEPTS:</strong> Kernel Optimization, Loop reorder to improve II</p>
-<p><strong>KEYWORDS:</strong> #pragma HLS PIPELINE, #pragma HLS ARRAY_PARTITION</p>
+<p><strong>KEYWORDS:</strong> #pragma HLS ARRAY_PARTITION</p>
 <p>This example demonstrates how changing the order of loop can improve the
 performance of the kernel. In this case, loop reordering helps us
 achieve better <code class="docutils literal notranslate"><span class="pre">Initiation</span> <span class="pre">Interval</span></code>(II).</p>
@@ -455,7 +462,6 @@ achieve better <code class="docutils literal notranslate"><span class="pre">Init
 below, Initiation Interval achieved is 64.</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// lreorder1: for (int i = 0; i &lt; size; i++) {</span>
 <span class="c1">//     lreorder2: for (int j = 0; j &lt; size; j++) {</span>
-<span class="c1">//     #pragma HLS PIPELINE</span>
 <span class="c1">//         lreorder3: for (int k = 0; k &lt; MAX_SIZE; k++) {</span>
 <span class="c1">//             int result = (k == 0) ? 0 : temp_sum[j];</span>
 <span class="c1">//             result += A[i][k] * B[k][j];</span>
@@ -474,7 +480,6 @@ avoids the adder tree for the sum(output) of a single output element.</p>
     <span class="nl">lreorder2</span><span class="p">:</span>
         <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">k</span> <span class="o">&lt;</span> <span class="n">size</span><span class="p">;</span> <span class="n">k</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
            <span class="cp">#pragma HLS LOOP_TRIPCOUNT min=c_size max=c_size</span>
-           <span class="cp">#pragma HLS PIPELINE II=1</span>
         <span class="nl">lreorder3</span><span class="p">:</span>
             <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">MAX_SIZE</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
                 <span class="kt">int</span> <span class="n">result</span> <span class="o">=</span> <span class="p">(</span><span class="n">k</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="o">?</span> <span class="mi">0</span> <span class="o">:</span> <span class="n">temp_sum</span><span class="p">[</span><span class="n">j</span><span class="p">];</span>
@@ -493,8 +498,7 @@ avoids the adder tree for the sum(output) of a single output element.</p>
 files will be compiled to the xclbin directory. The xclbin directory is
 required by the Makefile and its contents will be filled during
 compilation. A listing of all the files in this example is shown below</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">data</span><span class="o">/</span><span class="n">hls_config</span><span class="o">.</span><span class="n">tcl</span>
-<span class="n">src</span><span class="o">/</span><span class="n">host</span><span class="o">.</span><span class="n">cpp</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">src</span><span class="o">/</span><span class="n">host</span><span class="o">.</span><span class="n">cpp</span>
 <span class="n">src</span><span class="o">/</span><span class="n">mmult</span><span class="o">.</span><span class="n">cpp</span>
 </pre></div>
 </div>
@@ -613,7 +617,7 @@ executed by</p>
 														<div class="col-md-pull-6 col-lg-pull-6 col-md-6 col-lg-6">
 															<span class="copyright">
                                   
-                                  &copy; 2019, Xilinx
+                                  &copy; 2020, Xilinx
                               </span>
 															<ul class="list-inline sub-menu">
 																<li>

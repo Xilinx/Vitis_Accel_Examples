@@ -57,7 +57,7 @@
   <link rel="stylesheet" href="_static/css/pro.min.css" media="all" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Stream Free Running Kernel (HLS C/C++)" href="streaming_free_running_kernel.html" />
+    <link rel="next" title="Stream Free Running Host to Kernel(HLS C/C++)" href="streaming_free_running_h2k.html" />
     <link rel="prev" title="Stream Chain Matrix Multiplication" href="streaming_chain.html" /> 
 	</head>
 	<body>
@@ -305,6 +305,10 @@
           
             
             
+              <div class="version">
+                2020.1
+              </div>
+            
           
 
           
@@ -352,6 +356,7 @@
 <li class="toctree-l2"><a class="reference internal" href="overlap.html">Overlap Host and Kernel</a></li>
 <li class="toctree-l2"><a class="reference internal" href="p2p_simple.html">P2P Simple Example</a></li>
 <li class="toctree-l2"><a class="reference internal" href="p2p_bandwidth.html">P2P bandwidth Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p2p_fpga2fpga.html">P2P FPGA to FPGA Example</a></li>
 <li class="toctree-l2"><a class="reference internal" href="streaming_chain.html">Stream Chain Matrix Multiplication</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Streaming Host to Kernel Bandwidth</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#excluded-platforms">EXCLUDED PLATFORMS</a></li>
@@ -359,7 +364,9 @@
 <li class="toctree-l3"><a class="reference internal" href="#command-line-arguments">COMMAND LINE ARGUMENTS</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="streaming_free_running_kernel.html">Stream Free Running Kernel (HLS C/C++)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="streaming_free_running_h2k.html">Stream Free Running Host to Kernel(HLS C/C++)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="streaming_free_running_k2k.html">Stream Free Running Kernel (HLS C/C++)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="streaming_reg_access.html">Control and Status Register access continuously streaming kernel (HLS C/C++)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="device_only_buffer.html">Device Only Buffer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="streaming_k2k.html">Stream Kernel to Kernel</a></li>
 <li class="toctree-l2"><a class="reference internal" href="streaming_k2k_mm.html">Stream Kernel to Kernel Memory Mapped</a></li>
@@ -504,6 +511,7 @@ time as below:</p>
 <p>Platforms containing following strings in their names are not supported
 for this example :</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">zc</span>
+<span class="n">vck</span>
 <span class="n">xdma</span>
 <span class="n">xilinx_u250_qep</span>
 <span class="n">aws</span>
@@ -548,7 +556,7 @@ executed by</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="streaming_free_running_kernel.html" class="btn btn-neutral float-right" title="Stream Free Running Kernel (HLS C/C++)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="streaming_free_running_h2k.html" class="btn btn-neutral float-right" title="Stream Free Running Host to Kernel(HLS C/C++)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="streaming_chain.html" class="btn btn-neutral float-left" title="Stream Chain Matrix Multiplication" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
@@ -636,7 +644,7 @@ executed by</p>
 														<div class="col-md-pull-6 col-lg-pull-6 col-md-6 col-lg-6">
 															<span class="copyright">
                                   
-                                  &copy; 2019, Xilinx
+                                  &copy; 2020, Xilinx
                               </span>
 															<ul class="list-inline sub-menu">
 																<li>

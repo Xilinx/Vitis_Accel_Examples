@@ -8,7 +8,7 @@ Kernel and Global Memory.
 
 **KEY CONCEPTS:** Custom Datatype
 
-**KEYWORDS:** struct, #pragma HLS data_pack, #pragma HLS LOOP_TRIPCOUNT
+**KEYWORDS:** struct, #pragma HLS LOOP_TRIPCOUNT
 
 Kernel ports can have custom datatypes.It is recommended that custom
 datatype is a power of 2 and minimum 32 bits to allow ``burst transfer``
@@ -41,19 +41,6 @@ input and output ports.
    void rgb_to_hsv(RGBcolor *in,  // Access global memory as RGBcolor struct-wise
                    HSVcolor *out, // Access Global Memory as HSVcolor struct-wise
                    int size) 
-
-The ``DATA_PACK`` pragma is used for packing all the elements of a
-struct into a single wide vector to reduce the memory required for the
-variable, while allowing all members of the struct to be read and
-written to simultaneously. The bit alignment of the resulting new
-wideword can be inferred from the declaration order of the struct
-fields. The first field takes the LSB of the vector, and the final
-element of the struct is aligned with the MSB of the vector.
-
-::
-
-   #pragma HLS data_pack variable = in
-   #pragma HLS data_pack variable = out
 
 Custom datatypes can be used to reduce the number of
 ``kernel arguments`` thus reducing the number of interfaces between

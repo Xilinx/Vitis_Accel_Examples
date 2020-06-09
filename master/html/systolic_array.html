@@ -305,6 +305,10 @@
           
             
             
+              <div class="version">
+                2020.1
+              </div>
+            
           
 
           
@@ -340,6 +344,7 @@
 <li class="toctree-l1 current"><a class="reference internal" href="cpp.html">C++ Kernels</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="array_partition.html">Array Partition</a></li>
 <li class="toctree-l2"><a class="reference internal" href="burst_rw.html">Burst Read/Write</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bind_op_storage.html">BIND OP and STORAGE</a></li>
 <li class="toctree-l2"><a class="reference internal" href="critical_path.html">Critical Path</a></li>
 <li class="toctree-l2"><a class="reference internal" href="custom_datatype.html">Custom Data Type</a></li>
 <li class="toctree-l2"><a class="reference internal" href="dataflow_stream.html">Dataflow Using HLS Stream</a></li>
@@ -352,7 +357,9 @@
 <li class="toctree-l2"><a class="reference internal" href="loop_pipeline.html">Loop Pipelining</a></li>
 <li class="toctree-l2"><a class="reference internal" href="loop_reorder.html">Loop Reordering</a></li>
 <li class="toctree-l2"><a class="reference internal" href="partition_cyclicblock.html">Array Block and Cyclic Partitioning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="port_width_widening.html">Port Width Widening</a></li>
 <li class="toctree-l2"><a class="reference internal" href="plram_access.html">PLRAM Memory Access</a></li>
+<li class="toctree-l2"><a class="reference internal" href="simple_vadd.html">Vector Addition</a></li>
 <li class="toctree-l2"><a class="reference internal" href="shift_register.html">Shift Register</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Systolic Array</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#excluded-platforms">EXCLUDED PLATFORMS</a></li>
@@ -473,7 +480,6 @@ the FPGA.</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="nl">systolic1</span><span class="p">:</span>
     <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">k</span> <span class="o">&lt;</span> <span class="n">a_col</span><span class="p">;</span> <span class="n">k</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
        <span class="cp">#pragma HLS LOOP_TRIPCOUNT min=c_size max=c_size</span>
-       <span class="cp">#pragma HLS PIPELINE II=1</span>
     <span class="nl">systolic2</span><span class="p">:</span>
         <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">MAX_SIZE</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
         <span class="nl">systolic3</span><span class="p">:</span>
@@ -623,7 +629,7 @@ executed by</p>
 														<div class="col-md-pull-6 col-lg-pull-6 col-md-6 col-lg-6">
 															<span class="copyright">
                                   
-                                  &copy; 2019, Xilinx
+                                  &copy; 2020, Xilinx
                               </span>
 															<ul class="list-inline sub-menu">
 																<li>

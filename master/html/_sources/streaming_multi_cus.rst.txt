@@ -69,6 +69,7 @@ for this example :
 ::
 
    zc
+   vck
    xdma
    xilinx_u250_qep
    aws

@@ -59,6 +59,7 @@ for this example :
 ::
 
    zc
+   vck
    samsung
 
 DESIGN FILES

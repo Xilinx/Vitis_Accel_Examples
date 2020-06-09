@@ -109,6 +109,7 @@ for this example :
 ::
 
    zc
+   vck
 
 DESIGN FILES
 ------------
