@@ -24,8 +24,6 @@ src/ip_1/hdl/krnl_vadd_rtl_axi_write_master.sv
 src/ip_1/hdl/krnl_vadd_rtl_control_s_axi.v
 src/ip_1/hdl/krnl_vadd_rtl_counter.sv
 src/ip_1/hdl/krnl_vadd_rtl_int.sv
-src/kernel_0.xml
-src/kernel_1.xml
 ```
 
 ##  COMMAND LINE ARGUMENTS

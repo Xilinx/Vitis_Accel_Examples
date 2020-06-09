@@ -52,4 +52,4 @@ if {[file exists "${xoname}"]} {
     file delete -force "${xoname}"
 }
 
-package_xo -xo_path ${xoname} -kernel_name krnl_vadd_rtl_1 -ip_directory ./packaged_kernel/ip_1_${suffix} -kernel_xml ./src/kernel_1.xml
+package_xo -xo_path ${xoname} -kernel_name krnl_vadd_rtl_1 -ip_directory ./packaged_kernel/ip_1_${suffix}

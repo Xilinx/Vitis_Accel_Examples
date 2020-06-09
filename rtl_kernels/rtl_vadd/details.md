@@ -9,5 +9,4 @@ C/C++ kernels. That is, they are seen by the host application as functions with 
 arguments. 
 
 The RTL Kernel Wizard automates some of the steps that need to be taken to ensure that the RTL IP is packaged into a kernel that can be 
-integrated into a system in Vitis environment. A `kernel.xml` file is generated to match the software function prototype and behavior
-specified in the wizard.
+integrated into a system in Vitis environment.

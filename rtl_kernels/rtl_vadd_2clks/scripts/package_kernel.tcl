@@ -160,7 +160,7 @@ set reg      [::ipx::add_register -quiet "c" $addr_block]
 
 set reg      [::ipx::add_register -quiet "length_r" $addr_block]
   set_property address_offset 0x034 $reg
-  set_property size           [expr {8*8}]   $reg
+  set_property size           [expr {4*8}]   $reg
 
 
 set_property slave_memory_map_ref "s_axi_control" [::ipx::get_bus_interfaces -of $core "s_axi_control"]

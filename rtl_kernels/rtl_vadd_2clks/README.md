@@ -19,7 +19,6 @@ src/hdl/krnl_vadd_2clk_rtl_control_s_axi.v
 src/hdl/krnl_vadd_2clk_rtl_counter.sv
 src/hdl/krnl_vadd_2clk_rtl_int.sv
 src/host.cpp
-src/kernel.xml
 ```
 
 ##  COMMAND LINE ARGUMENTS
