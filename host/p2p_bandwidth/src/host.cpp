@@ -51,6 +51,7 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // and XDMA (x). Conceptually, x, c and p happens consecutively. The pipeline
 // is designed so that c(n) and x(n) will happen in parallel with p(n+1).
 
+#include "cmdlineparser.h"
 #include <chrono>
 #include <fcntl.h>
 #include <iomanip>
@@ -366,7 +367,7 @@ void exec_read_test() {
 }
 
 void usage() {
-  cout << "Options: <-r|-w> <path-to-SSD>" << endl;
+  cout << "Options: <-r|-w> <path-to-SSD> <-d> <device id>" << endl;
   exit(EXIT_FAILURE);
 }
 
@@ -388,7 +389,7 @@ int main(int argc, char **argv) {
   bool isWrite;
   char *filename;
 
-  if (argc != 4)
+  if (argc != 6)
     usage();
   else if (strcmp(argv[2], "-r") == 0)
     isWrite = false;
@@ -434,6 +435,17 @@ int main(int argc, char **argv) {
     exit(EXIT_FAILURE);
   }
   cl_device_id device = devices.front();
+  cl_uint dev_id = 0;
+
+  // Command Line Parser
+  sda::utils::CmdLineParser parser;
+
+  parser.addSwitch("--device", "-d", "device id", "0");
+  dev_id = atoi((parser.value("device")).c_str());
+  if(dev_id <= num_devices)
+      device = devices[dev_id];
+  else
+      cout << "The device_id provided using -d flag is outside the range of available devices\n";
 
   context = clCreateContext(0, 1, &device, nullptr, nullptr, &err);
   if (err != CL_SUCCESS)

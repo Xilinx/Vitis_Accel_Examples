@@ -31,7 +31,6 @@
      "runtime": [
         "OpenCL"
     ], 
-        "match_ini": "false",
     "launch": [
         {
             "cmd_args": "BUILD/adder.xclbin /dev/nvme0n1", 
@@ -54,10 +53,11 @@
             "accelerators": [
                 {
                     "name": "adder", 
-                    "location": "src/adder.cpp"
+                    "location": "src/adder.cpp"                    
                 }
             ], 
-            "name": "adder"
+            "name": "adder",
+            "ldclflags": "--config PROJECT/adder.ini"
         }
     ],
     "contributors": [

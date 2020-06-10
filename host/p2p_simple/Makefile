@@ -79,6 +79,8 @@ ifneq ($(TARGET), hw)
 endif
 
 
+# Kernel linker flags
+LDCLFLAGS += --config ./adder.ini
 
 EXECUTABLE = host
 CMD_ARGS = $(BUILD_DIR)/adder.xclbin /dev/nvme0n1

@@ -29,10 +29,9 @@
      "runtime": [
         "OpenCL"
     ], 
-        "match_ini": "false",
     "launch": [
         {
-            "cmd_args": "BUILD/copy_kernel.xclbin -r /dev/nvme0n1", 
+            "cmd_args": "BUILD/copy_kernel.xclbin -r /dev/nvme0n1 -d 0", 
             "name": "generic launch for all flows"
         }
     ], 
@@ -41,10 +40,14 @@
         "compiler": {
             "sources": [
                 "REPO_DIR/common/includes/xcl2",
+                "REPO_DIR/common/includes/cmdparser",
+                "REPO_DIR/common/includes/logger",
 		"src/host.cpp"
             ], 
             "includepaths": [
-                "REPO_DIR/common/includes/xcl2"
+                "REPO_DIR/common/includes/xcl2",
+                "REPO_DIR/common/includes/cmdparser",
+                "REPO_DIR/common/includes/logger"
             ]
         },
         "linker" : {

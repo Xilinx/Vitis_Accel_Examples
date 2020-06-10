@@ -43,68 +43,50 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <unistd.h>
 #include <vector>
 
-using std::ifstream;
-using std::ios;
-using std::streamsize;
-
 #define DATA_SIZE 4096
 #define INCR_VALUE 10
 
-std::vector<unsigned char> readBinary(const std::string &fileName) {
-  ifstream file(fileName, ios::binary | ios::ate);
-  if (file) {
-    file.seekg(0, ios::end);
-    streamsize size = file.tellg();
-    file.seekg(0, ios::beg);
-    std::vector<unsigned char> buffer(size);
-    file.read((char *)buffer.data(), size);
-    return buffer;
-  } else {
-    return std::vector<unsigned char>(0);
-  }
-}
-
-void p2p_host_to_ssd(int &nvmeFd, cl_context context, cl_command_queue q,
-                     cl_program program,
+void p2p_host_to_ssd(int &nvmeFd, cl::Context context, cl::CommandQueue q,
+                     cl::Program program,
                      std::vector<int, aligned_allocator<int>> source_input_A) {
-  uint32_t *p2pPtr;
-  cl_int error;
   int err;
   int ret = 0, inc = INCR_VALUE;
   int size = DATA_SIZE;
   size_t vector_size_bytes = sizeof(int) * DATA_SIZE;
 
-  cl_kernel krnl_adder;
+  cl::Kernel krnl_adder;
   // Allocate Buffer in Global Memory
   cl_mem_ext_ptr_t outExt;
   outExt = {XCL_MEM_EXT_P2P_BUFFER, NULL, 0};
 
-  cl_mem input_a =
-      clCreateBuffer(context, CL_MEM_READ_ONLY | CL_MEM_USE_HOST_PTR,
-                     vector_size_bytes, source_input_A.data(), &err);
-  cl_mem p2pBo =
-      clCreateBuffer(context, CL_MEM_WRITE_ONLY | CL_MEM_EXT_PTR_XILINX,
-                     vector_size_bytes, &outExt, &err);
-
-  krnl_adder = clCreateKernel(program, "adder", &err);
+  OCL_CHECK(err, cl::Buffer input_a(
+                     context, CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY,
+                     vector_size_bytes, source_input_A.data(), &err));
+  OCL_CHECK(err, cl::Buffer p2pBo(
+                     context, CL_MEM_WRITE_ONLY | CL_MEM_EXT_PTR_XILINX,
+                     vector_size_bytes, &outExt, &err));
+  OCL_CHECK(err, krnl_adder = cl::Kernel(program, "adder", &err));
   // Set the Kernel Arguments
-  int narg = 0;
-  clSetKernelArg(krnl_adder, narg++, sizeof(cl_mem), &input_a);
-  clSetKernelArg(krnl_adder, narg++, sizeof(cl_mem), &p2pBo);
-  clSetKernelArg(krnl_adder, narg++, sizeof(int), &inc);
-  clSetKernelArg(krnl_adder, narg++, sizeof(int), &size);
+  OCL_CHECK(err, err = krnl_adder.setArg(0, input_a));
+  OCL_CHECK(err, err = krnl_adder.setArg(1, p2pBo));
+  OCL_CHECK(err, err = krnl_adder.setArg(2, inc));
+  OCL_CHECK(err, err = krnl_adder.setArg(3, size));
 
   // Copy input data to device global memory
-  clEnqueueMigrateMemObjects(q, 1, &input_a, 0, 0, nullptr, nullptr);
-
+  OCL_CHECK(err, err = q.enqueueMigrateMemObjects({input_a},
+                                                  0 /* 0 means from host*/));
   // Launch the Kernel
-  OCL_CHECK(error, error = clEnqueueTask(q, krnl_adder, 0, NULL, NULL));
+  OCL_CHECK(err, err = q.enqueueTask(krnl_adder));
 
   std::cout << "\nMap P2P device buffers to host access pointers\n"
             << std::endl;
-  p2pPtr = (uint32_t *)clEnqueueMapBuffer(
-      q, p2pBo, CL_TRUE, CL_MAP_WRITE | CL_MAP_READ, 0, vector_size_bytes, 0,
-      NULL, NULL, NULL);
+  void *p2pPtr = q.enqueueMapBuffer(p2pBo,        // buffer
+                                 CL_TRUE,       // blocking call
+                                 CL_MAP_WRITE | CL_MAP_READ,  // Indicates we will be writing
+                                 0,             // buffer offset
+                                 vector_size_bytes, // size in bytes
+                                 nullptr, nullptr,
+                                 &err); // error code
 
   std::cout << "Now start P2P Write from device buffers to SSD\n" << std::endl;
   ret = pwrite(nvmeFd, (void *)p2pPtr, vector_size_bytes, 0);
@@ -113,39 +95,37 @@ void p2p_host_to_ssd(int &nvmeFd, cl_context context, cl_command_queue q,
               << std::endl;
 
   std::cout << "Clean up the buffers\n" << std::endl;
-  clReleaseKernel(krnl_adder);
-  clReleaseMemObject(input_a);
-  clReleaseMemObject(p2pBo);
 }
 
 void p2p_ssd_to_host(
-    int &nvmeFd, cl_context context, cl_command_queue q, cl_program program,
+    int &nvmeFd, cl::Context context, cl::CommandQueue q, cl::Program program,
     std::vector<int, aligned_allocator<int>> *source_hw_results) {
-  uint32_t *p2pPtr1;
-  cl_int error;
   int err;
   int inc = INCR_VALUE;
   int size = DATA_SIZE;
   size_t vector_size_bytes = sizeof(int) * DATA_SIZE;
 
-  cl_kernel krnl_adder1;
+  cl::Kernel krnl_adder1;
   // Allocate Buffer in Global Memory
   cl_mem_ext_ptr_t inExt;
   inExt = {XCL_MEM_EXT_P2P_BUFFER, NULL, 0};
 
-  cl_mem buffer_input =
-      clCreateBuffer(context, CL_MEM_READ_ONLY | CL_MEM_EXT_PTR_XILINX,
-                     vector_size_bytes, &inExt, &err);
-  cl_mem buffer_output =
-      clCreateBuffer(context, CL_MEM_WRITE_ONLY | CL_MEM_USE_HOST_PTR,
-                     vector_size_bytes, source_hw_results->data(), &err);
-
-  krnl_adder1 = clCreateKernel(program, "adder", &err);
+  OCL_CHECK(err, cl::Buffer buffer_input(
+                     context, CL_MEM_READ_ONLY | CL_MEM_EXT_PTR_XILINX,
+                     vector_size_bytes, &inExt, &err));
+  OCL_CHECK(err, cl::Buffer buffer_output(
+                     context, CL_MEM_WRITE_ONLY | CL_MEM_USE_HOST_PTR,
+                     vector_size_bytes, source_hw_results->data(), &err));
+  OCL_CHECK(err, krnl_adder1 = cl::Kernel(program, "adder", &err));
   std::cout << "\nMap P2P device buffers to host access pointers\n"
             << std::endl;
-  p2pPtr1 =
-      (uint32_t *)clEnqueueMapBuffer(q, buffer_input, CL_TRUE, CL_MAP_READ, 0,
-                                     vector_size_bytes, 0, NULL, NULL, NULL);
+  void *p2pPtr1 = q.enqueueMapBuffer(buffer_input,        // buffer
+                                 CL_TRUE,       // blocking call
+                                 CL_MAP_READ,  // Indicates we will be writing
+                                 0,             // buffer offset
+                                 vector_size_bytes, // size in bytes
+                                 nullptr, nullptr,
+                                 &err); // error code
 
   std::cout << "Now start P2P Read from SSD to device buffers\n" << std::endl;
   if (pread(nvmeFd, (void *)p2pPtr1, vector_size_bytes, 0) <= 0) {
@@ -155,24 +135,20 @@ void p2p_ssd_to_host(
   }
 
   // Set the Kernel Arguments
-  int narg = 0;
-  clSetKernelArg(krnl_adder1, narg++, sizeof(cl_mem), &buffer_input);
-  clSetKernelArg(krnl_adder1, narg++, sizeof(cl_mem), &buffer_output);
-  clSetKernelArg(krnl_adder1, narg++, sizeof(int), &inc);
-  clSetKernelArg(krnl_adder1, narg++, sizeof(int), &size);
+  OCL_CHECK(err, err = krnl_adder1.setArg(0, buffer_input));
+  OCL_CHECK(err, err = krnl_adder1.setArg(1, buffer_output));
+  OCL_CHECK(err, err = krnl_adder1.setArg(2, inc));
+  OCL_CHECK(err, err = krnl_adder1.setArg(3, size));
 
   // Launch the Kernel
-  OCL_CHECK(error, error = clEnqueueTask(q, krnl_adder1, 0, NULL, NULL));
+  OCL_CHECK(err, err = q.enqueueTask(krnl_adder1));
 
   // Read output data to host
-  clEnqueueReadBuffer(q, buffer_output, CL_TRUE, 0, vector_size_bytes,
-                      static_cast<void *>(source_hw_results->data()), 0, NULL,
-                      NULL);
+  OCL_CHECK(err, err = q.enqueueReadBuffer(buffer_output, CL_TRUE, 0,
+                                           vector_size_bytes,
+                                           source_hw_results->data(), nullptr, nullptr));
 
   std::cout << "Clean up the buffers\n" << std::endl;
-  clReleaseKernel(krnl_adder1);
-  clReleaseMemObject(buffer_input);
-  clReleaseMemObject(buffer_output);
 }
 
 int main(int argc, char **argv) {
@@ -182,77 +158,14 @@ int main(int argc, char **argv) {
     return EXIT_FAILURE;
   }
 
-  auto binaryFile = argv[1];
+  std::string binaryFile = argv[1];
   char *filename;
   filename = argv[2];
   int nvmeFd = -1;
 
-  // Allocate Memory in Host Memory
-  cl_int error;
-  cl_program program;
-  cl_context context;
-  cl_command_queue q;
-
-  int err;
-  cl_device_id device;
-  cl_platform_id platform;
-  cl_uint num_platforms;
-  err = clGetPlatformIDs(0, NULL, &num_platforms);
-  cl_platform_id *platform_ids =
-      (cl_platform_id *)malloc(sizeof(cl_platform_id) * num_platforms);
-  err = clGetPlatformIDs(num_platforms, platform_ids, NULL);
-  size_t i;
-  device = 0;
-
-  for (i = 0; i < num_platforms; i++) {
-    size_t platform_name_size;
-    err = clGetPlatformInfo(platform_ids[i], CL_PLATFORM_NAME, 0, NULL,
-                            &platform_name_size);
-    if (err != CL_SUCCESS) {
-      printf("Error: Could not determine platform name!\n");
-      exit(EXIT_FAILURE);
-    }
-
-    char *platform_name = (char *)malloc(sizeof(char) * platform_name_size);
-    if (platform_name == NULL) {
-      printf("Error: out of memory!\n");
-      exit(EXIT_FAILURE);
-    }
-
-    err = clGetPlatformInfo(platform_ids[i], CL_PLATFORM_NAME,
-                            platform_name_size, platform_name, NULL);
-    if (err != CL_SUCCESS) {
-      printf("Error: could not determine platform name!\n");
-      exit(EXIT_FAILURE);
-    }
-
-    if (!strcmp(platform_name, "Xilinx")) {
-      free(platform_name);
-      platform = platform_ids[i];
-      break;
-    }
-
-    free(platform_name);
-  }
-
-  err = clGetDeviceIDs(platform, CL_DEVICE_TYPE_ALL, 1, &device, NULL);
-  cl_context_properties properties[3] = {CL_CONTEXT_PLATFORM,
-                                         (cl_context_properties)platform, 0};
-
-  context = clCreateContext(properties, 1, &device, NULL, NULL, &err);
-  if (err != CL_SUCCESS)
-    std::cout << "clCreateContext call: Failed to create a compute context"
-              << err << std::endl;
-
-  std::vector<unsigned char> binary = readBinary(binaryFile);
-  size_t binary_size = binary.size();
-  const unsigned char *binary_data = binary.data();
-
-  program = clCreateProgramWithBinary(context, 1, &device, &binary_size,
-                                      &binary_data, NULL, &err);
-
-  q = clCreateCommandQueue(context, device, CL_QUEUE_PROFILING_ENABLE, &error);
-
+  cl_int err;
+  cl::Context context;
+  cl::CommandQueue q;
   std::vector<int, aligned_allocator<int>> source_input_A(DATA_SIZE, 15);
   std::vector<int, aligned_allocator<int>> source_sw_results(DATA_SIZE);
   std::vector<int, aligned_allocator<int>> source_hw_results(DATA_SIZE);
@@ -260,6 +173,39 @@ int main(int argc, char **argv) {
   // Create the test data and Software Result
   for (int i = 0; i < DATA_SIZE; i++) {
     source_sw_results[i] = source_input_A[i] + 2 * INCR_VALUE;
+  }
+
+  // OPENCL HOST CODE AREA START
+  // get_xil_devices() is a utility API which will find the xilinx
+  // platforms and will return list of devices connected to Xilinx platform
+  auto devices = xcl::get_xil_devices();
+  // read_binary_file() is a utility API which will load the binaryFile
+  // and will return the pointer to file buffer.
+  auto fileBuf = xcl::read_binary_file(binaryFile);
+  cl::Program::Binaries bins{{fileBuf.data(), fileBuf.size()}};
+  int valid_device = 0;
+  cl::Program program;
+
+  for (unsigned int i = 0; i < devices.size(); i++) {
+    auto device = devices[i];
+    // Creating Context and Command Queue for selected Device
+    OCL_CHECK(err, context = cl::Context(device, NULL, NULL, NULL, &err));
+    OCL_CHECK(err, q = cl::CommandQueue(context, device,
+                                        CL_QUEUE_PROFILING_ENABLE, &err));
+    std::cout << "Trying to program device[" << i
+              << "]: " << device.getInfo<CL_DEVICE_NAME>() << std::endl;
+    program = cl::Program(context, {device}, bins, NULL, &err);
+    if (err != CL_SUCCESS) {
+      std::cout << "Failed to program device[" << i << "] with xclbin file!\n";
+    } else {
+      std::cout << "Device[" << i << "]: program successful!\n";
+      valid_device++;
+      break; // we break because we found a valid device
+    }
+  }
+  if (valid_device == 0) {
+    std::cout << "Failed to program any device found, exit!\n";
+    exit(EXIT_FAILURE);
   }
 
   // P2P transfer from host to SSD
@@ -299,11 +245,6 @@ int main(int argc, char **argv) {
   }
 
   (void)close(nvmeFd);
-
-  // Release rest of OpenCL setup
-  clReleaseCommandQueue(q);
-  clReleaseContext(context);
-  clReleaseProgram(program);
 
   std::cout << "TEST " << (num_matched ? "PASSED" : "FAILED") << std::endl;
   return (num_matched ? EXIT_SUCCESS : EXIT_FAILURE);
