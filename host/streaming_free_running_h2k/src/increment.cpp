@@ -36,7 +36,7 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <ap_int.h>
 #include <hls_stream.h>
 
-#define DWIDTH 32
+#define DWIDTH 512
 typedef qdma_axis<DWIDTH, 0, 0, 0> pkt;
 extern "C" {
 void increment(hls::stream<pkt> &input, hls::stream<pkt> &output) {
@@ -48,11 +48,7 @@ void increment(hls::stream<pkt> &input, hls::stream<pkt> &output) {
 // in running states.
 #pragma HLS interface ap_ctrl_none port = return
 
-  union {
-    int ival;
-    float fval;
-  } tmp;
-
+increment1:
   while (true) {
     // Read the input data from the qdma
     pkt t = input.read();
@@ -60,8 +56,13 @@ void increment(hls::stream<pkt> &input, hls::stream<pkt> &output) {
     ap_uint<DWIDTH> tmp_out;
 
     // Setup the output data
-    tmp.ival = t.data;
-    t_out.set_data(tmp.ival + 1);
+    ap_uint<DWIDTH> tmp = t.data;
+    for (int i = 0; i < 16; i++) {
+#pragma HLS UNROLL
+      tmp_out.range((i + 1) * 32 - 1, i * 32) =
+          tmp.range((i + 1) * 32 - 1, i * 32) + 1;
+    }
+    t_out.data = tmp_out;
     t_out.set_keep(-1);
     t_out.set_last(0);
 
