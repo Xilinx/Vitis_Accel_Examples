@@ -1,3 +1,4 @@
+############################## Help Section ##############################
 .PHONY: help
 
 help::
@@ -28,6 +29,7 @@ help::
 	$(ECHO) "      By default, HOST_ARCH=x86. HOST_ARCH and EDGE_COMMON_SW is required for SoC shells"
 	$(ECHO) ""
 
+############################## Setting up Project Variables ##############################
 # Points to top directory of Git repository
 COMMON_REPO = ../../
 PWD = $(shell readlink -f .)
@@ -62,6 +64,8 @@ HOST_SRCS += $(xcl2_SRCS)
 CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++11
 LDFLAGS += $(opencl_LDFLAGS)
 
+############################## Setting up Host Variables ##############################
+#Include Required Host Source Files
 HOST_SRCS += src/host.cpp
 
 # Host compiler global settings
@@ -72,6 +76,7 @@ ifneq ($(HOST_ARCH), x86)
 	LDFLAGS += --sysroot=$(SYSROOT)
 endif
 
+############################## Setting up Kernel Variables ##############################
 # Kernel compiler global settings
 CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps 
 ifneq ($(TARGET), hw)
@@ -83,7 +88,9 @@ EXECUTABLE = device_query
 EMCONFIG_DIR = $(TEMP_DIR)
 EMU_DIR = $(SDCARD)/data/emulation
 
+############################## Declaring Binary Containers ##############################
 
+############################## Setting Targets ##############################
 CP = cp -rf
 
 .PHONY: all clean cleanall docs emconfig
@@ -95,9 +102,8 @@ exe: $(EXECUTABLE)
 .PHONY: build
 build: check-vitis $(BINARY_CONTAINERS)
 
-# Building kernel
 
-# Building Host
+############################## Setting Rules for Host (Building Host Executable) ##############################
 $(EXECUTABLE): check-xrt $(HOST_SRCS) $(HOST_HDRS)
 	$(CXX) $(CXXFLAGS) $(HOST_SRCS) $(HOST_HDRS) -o '$@' $(LDFLAGS)
 
@@ -105,6 +111,7 @@ emconfig:$(EMCONFIG_DIR)/emconfig.json
 $(EMCONFIG_DIR)/emconfig.json:
 	emconfigutil --platform $(DEVICE) --od $(EMCONFIG_DIR)
 
+############################## Setting Essential Checks and Running Rules ##############################
 check: all
 ifeq ($(findstring zc, $(DEVICE)), zc)
 $(error This example is not supported for $(DEVICE))
@@ -143,10 +150,12 @@ endif
 endif
 
 
+############################## Preparing sdcard ##############################
 sd_card: gen_run_app
 ifneq ($(HOST_ARCH), x86)
 endif
 
+############################## Cleaning Rules ##############################
 # Cleaning stuff
 clean:
 	-$(RMDIR) $(EXECUTABLE) $(XCLBIN)/{*sw_emu*,*hw_emu*} 

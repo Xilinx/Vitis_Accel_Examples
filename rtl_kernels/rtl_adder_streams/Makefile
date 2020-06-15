@@ -1,3 +1,4 @@
+############################## Help Section ##############################
 .PHONY: help
 
 help::
@@ -28,6 +29,7 @@ help::
 	$(ECHO) "      By default, HOST_ARCH=x86. HOST_ARCH and EDGE_COMMON_SW is required for SoC shells"
 	$(ECHO) ""
 
+############################## Setting up Project Variables ##############################
 # Points to top directory of Git repository
 COMMON_REPO = ../../
 PWD = $(shell readlink -f .)
@@ -64,6 +66,8 @@ include config.mk
 CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++11
 LDFLAGS += $(opencl_LDFLAGS)
 
+############################## Setting up Host Variables ##############################
+#Include Required Host Source Files
 HOST_SRCS += src/host.cpp 
 # Host compiler global settings
 CXXFLAGS += -fmessage-length=0
@@ -73,6 +77,7 @@ ifneq ($(HOST_ARCH), x86)
 	LDFLAGS += --sysroot=$(SYSROOT)
 endif
 
+############################## Setting up Kernel Variables ##############################
 # Kernel compiler global settings
 CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps 
 ifneq ($(TARGET), hw)
@@ -88,11 +93,13 @@ CMD_ARGS = $(BUILD_DIR)/adder.xclbin
 EMCONFIG_DIR = $(TEMP_DIR)
 EMU_DIR = $(SDCARD)/data/emulation
 
+############################## Declaring Binary Containers ##############################
 BINARY_CONTAINERS += $(BUILD_DIR)/adder.xclbin
 BINARY_CONTAINER_adder_OBJS += $(TEMP_DIR)/input.xo
 BINARY_CONTAINER_adder_OBJS += $(TEMP_DIR)/adder.xo
 BINARY_CONTAINER_adder_OBJS += $(TEMP_DIR)/output.xo
 
+############################## Setting Targets ##############################
 CP = cp -rf
 
 .PHONY: all clean cleanall docs emconfig
@@ -109,7 +116,7 @@ $(BUILD_DIR)/adder.xclbin: $(BINARY_CONTAINER_adder_OBJS)
 	mkdir -p $(BUILD_DIR)
 	$(VPP) $(CLFLAGS) --temp_dir $(BUILD_DIR) -l $(LDCLFLAGS) -o'$@' $(+)
 
-# Building Host
+############################## Setting Rules for Host (Building Host Executable) ##############################
 $(EXECUTABLE): check-xrt $(HOST_SRCS) $(HOST_HDRS)
 	$(CXX) $(CXXFLAGS) $(HOST_SRCS) $(HOST_HDRS) -o '$@' $(LDFLAGS)
 
@@ -117,6 +124,7 @@ emconfig:$(EMCONFIG_DIR)/emconfig.json
 $(EMCONFIG_DIR)/emconfig.json:
 	emconfigutil --platform $(DEVICE) --od $(EMCONFIG_DIR)
 
+############################## Setting Essential Checks and Running Rules ##############################
 check: all
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 ifeq ($(HOST_ARCH), x86)
@@ -156,11 +164,13 @@ endif
 
 
 
+############################## Preparing sdcard ##############################
 sd_card: gen_run_app
 ifneq ($(HOST_ARCH), x86)
 	$(VPP) -t $(TARGET) --platform $(DEVICE) -p $(BUILD_DIR)/adder.xclbin --package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.sd_file $(SD_IMAGE_FILE) --package.sd_file xrt.ini --package.sd_file $(RUN_APP_SCRIPT) --package.sd_file $(EXECUTABLE) -o adder.xclbin
 endif
 
+############################## Cleaning Rules ##############################
 # Cleaning stuff
 clean:
 	-$(RMDIR) $(EXECUTABLE) $(XCLBIN)/{*sw_emu*,*hw_emu*} 

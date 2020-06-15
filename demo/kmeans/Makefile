@@ -1,3 +1,4 @@
+############################## Help Section ##############################
 .PHONY: help
 
 help::
@@ -28,6 +29,7 @@ help::
 	$(ECHO) "      By default, HOST_ARCH=x86. HOST_ARCH and EDGE_COMMON_SW is required for SoC shells"
 	$(ECHO) ""
 
+############################## Setting up Project Variables ##############################
 # Points to top directory of Git repository
 COMMON_REPO = ../../
 PWD = $(shell readlink -f .)
@@ -66,6 +68,8 @@ include config.mk
 CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++11
 LDFLAGS += $(opencl_LDFLAGS)
 
+############################## Setting up Host Variables ##############################
+#Include Required Host Source Files
 HOST_SRCS += src/host.cpp src/fpga_kmeans.cpp src/kmeans_clustering_cmodel.c 
 # Host compiler global settings
 CXXFLAGS += -fmessage-length=0
@@ -75,6 +79,7 @@ ifneq ($(HOST_ARCH), x86)
 	LDFLAGS += --sysroot=$(SYSROOT)
 endif
 
+############################## Setting up Kernel Variables ##############################
 # Kernel compiler global settings
 CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps 
 ifneq ($(TARGET), hw)
@@ -86,15 +91,17 @@ endif
 LDCLFLAGS += -O3
 
 # Adding config files to linker
-LDCLFLAGS += --config krnl_kmeans.ini 
+LDCLFLAGS_krnl_kmeans += --config krnl_kmeans.ini 
 EXECUTABLE = kmeans
 CMD_ARGS = -x $(BUILD_DIR)/krnl_kmeans.xclbin -i ./data/100 -c ./data/100.gold_c10 -n 10
 EMCONFIG_DIR = $(TEMP_DIR)
 EMU_DIR = $(SDCARD)/data/emulation
 
+############################## Declaring Binary Containers ##############################
 BINARY_CONTAINERS += $(BUILD_DIR)/krnl_kmeans.xclbin
 BINARY_CONTAINER_krnl_kmeans_OBJS += $(TEMP_DIR)/kmeans.xo
 
+############################## Setting Targets ##############################
 CP = cp -rf
 DATA = ./data
 
@@ -107,15 +114,15 @@ exe: $(EXECUTABLE)
 .PHONY: build
 build: check-vitis $(BINARY_CONTAINERS)
 
-# Building kernel
+############################## Setting Rules for Binary Containers (Building Kernels) ##############################
 $(TEMP_DIR)/kmeans.xo: src/krnl_kmeans.cpp
 	mkdir -p $(TEMP_DIR)
 	$(VPP) $(CLFLAGS) --temp_dir $(TEMP_DIR) -c -k kmeans -I'$(<D)' -o'$@' '$<'
 $(BUILD_DIR)/krnl_kmeans.xclbin: $(BINARY_CONTAINER_krnl_kmeans_OBJS)
 	mkdir -p $(BUILD_DIR)
-	$(VPP) $(CLFLAGS) --temp_dir $(BUILD_DIR) -l $(LDCLFLAGS) -o'$@' $(+)
+	$(VPP) $(CLFLAGS) --temp_dir $(BUILD_DIR) -l $(LDCLFLAGS) $(LDCLFLAGS_krnl_kmeans) -o'$@' $(+)
 
-# Building Host
+############################## Setting Rules for Host (Building Host Executable) ##############################
 $(EXECUTABLE): check-xrt $(HOST_SRCS) $(HOST_HDRS)
 	$(CXX) $(CXXFLAGS) $(HOST_SRCS) $(HOST_HDRS) -o '$@' $(LDFLAGS)
 
@@ -123,6 +130,7 @@ emconfig:$(EMCONFIG_DIR)/emconfig.json
 $(EMCONFIG_DIR)/emconfig.json:
 	emconfigutil --platform $(DEVICE) --od $(EMCONFIG_DIR)
 
+############################## Setting Essential Checks and Running Rules ##############################
 check: all
 ifeq ($(findstring zc, $(DEVICE)), zc)
 $(error This example is not supported for $(DEVICE))
@@ -164,11 +172,13 @@ endif
 endif
 
 
+############################## Preparing sdcard ##############################
 sd_card: gen_run_app
 ifneq ($(HOST_ARCH), x86)
 	$(VPP) -t $(TARGET) --platform $(DEVICE) -p $(BUILD_DIR)/krnl_kmeans.xclbin --package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.sd_file $(SD_IMAGE_FILE) --package.sd_file xrt.ini --package.sd_file $(RUN_APP_SCRIPT) --package.sd_file $(EXECUTABLE) --package.sd_file -x --package.sd_file -i --package.sd_file ./data/100 --package.sd_file -c --package.sd_file ./data/100.gold_c10 --package.sd_file -n --package.sd_file 10 -o krnl_kmeans.xclbin
 endif
 
+############################## Cleaning Rules ##############################
 # Cleaning stuff
 clean:
 	-$(RMDIR) $(EXECUTABLE) $(XCLBIN)/{*sw_emu*,*hw_emu*} 

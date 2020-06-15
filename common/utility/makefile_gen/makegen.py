@@ -9,8 +9,10 @@ import subprocess
 #ini flags
 config_file = 0
 
-def create_params(target,data):    
+def create_params(target,data): 
+    target.write("############################## Setting up Project Variables ##############################\n")      
     target.write("# Points to top directory of Git repository\n")
+
     dirName = os.getcwd()
     dirNameList = list(dirName.split("/"))
     dirNameIndex = dirNameList.index("Vitis_Accel_Examples")
@@ -100,6 +102,9 @@ def add_includes2(target, data):
         return
 
 def add_host_flags(target, data):
+    target.write("############################## Setting up Host Variables ##############################\n")
+    target.write("#Include Required Host Source Files\n")
+    
     target.write("HOST_SRCS += ")
     source_flag = 0
     if "sources" in data["host"]["compiler"]:
@@ -134,7 +139,9 @@ def add_host_flags(target, data):
     return
 
 def add_kernel_flags(target, data):
+    target.write("############################## Setting up Kernel Variables ##############################\n")
     target.write("# Kernel compiler global settings\n")
+
     target.write("CLFLAGS += ")
     target.write("-t $(TARGET) --platform $(DEVICE) --save-temps \n")   
     target.write("ifneq ($(TARGET), hw)\n")
@@ -221,6 +228,8 @@ def add_kernel_flags(target, data):
     return
 
 def add_containers(target, data):
+    target.write("############################## Declaring Binary Containers ##############################\n")
+
     if "containers" in data:
         for con in data["containers"]:
             target.write("BINARY_CONTAINERS += $(BUILD_DIR)/")
@@ -236,8 +245,8 @@ def add_containers(target, data):
     target.write("\n")
 
 def building_kernel(target, data):
-    target.write("# Building kernel\n")
     if "containers" in data:
+        target.write("############################## Setting Rules for Binary Containers (Building Kernels) ##############################\n")
         for con in data["containers"]:
             if "accelerators" in con:
                 for acc in con["accelerators"]:
@@ -256,7 +265,6 @@ def building_kernel(target, data):
                     target.write(acc["name"])
                     target.write(" -I'$(<D)'")
                     target.write(" -o'$@' '$<'\n")
-    if "containers" in data:
         for con in data["containers"]:
             target.write("$(BUILD_DIR)/")
             target.write(con["name"])
@@ -295,7 +303,8 @@ def building_kernel_rtl(target, data):
     return
 
 def building_host(target, data):
-    target.write("# Building Host\n")
+    target.write("############################## Setting Rules for Host (Building Host Executable) ##############################\n")
+
     target.write("$(EXECUTABLE): check-xrt $(HOST_SRCS) $(HOST_HDRS)\n")
     target.write("\t$(CXX) $(CXXFLAGS) $(HOST_SRCS) $(HOST_HDRS) -o '$@' $(LDFLAGS)\n")
     target.write("\n")
@@ -315,6 +324,8 @@ def profile_report(target):
     return
 
 def mk_clean(target, data):
+    target.write("############################## Cleaning Rules ##############################\n")
+
     target.write("# Cleaning stuff\n")
     target.write("clean:\n")
     target.write("\t-$(RMDIR) $(EXECUTABLE) $(XCLBIN)/{*sw_emu*,*hw_emu*} \n")
@@ -338,6 +349,7 @@ def mk_clean(target, data):
     return
 
 def mk_build_all(target, data):
+    target.write("############################## Setting Targets ##############################\n")
     target.write("CP = cp -rf\n")
 
     args = []
@@ -377,6 +389,8 @@ def mk_build_all(target, data):
     return
 
 def mk_check(target, data):
+    target.write("############################## Setting Essential Checks and Running Rules ##############################\n")
+
     target.write("check: all\n")
     if "ndevice" in data:
         for board in data["ndevice"]:
@@ -493,6 +507,7 @@ def mk_check(target, data):
         target.write("\n")
     target.write("\n\n")
 
+    target.write("############################## Preparing sdcard ##############################\n")
     target.write("sd_card: gen_run_app\n")
     extra_file_list = []
     if "launch" in data:	
@@ -531,6 +546,8 @@ def aws_build(target):
     target.write("\t$(COMMON_REPO)/common/utility/aws/run_aws.py $(BINARY_CONTAINERS)\n\n")
 
 def mk_help(target):
+    target.write("############################## Help Section ##############################\n")   
+
     target.write(".PHONY: help\n")
     target.write("\n")
     target.write("help::\n")
