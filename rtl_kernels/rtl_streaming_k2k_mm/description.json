@@ -15,7 +15,10 @@
             "cmd_args": "BUILD/myadder.xclbin", 
             "name": "generic launch for all flows"
         }
-    ], 
+    ],
+    "ndevice": [
+        "aws"
+       ], 
     "gui": false, 
     "host": {
         "linker": {
