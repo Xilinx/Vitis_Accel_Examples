@@ -50,8 +50,8 @@ decltype(&clReadStream) xcl::Stream::readStream = nullptr;
 decltype(&clWriteStream) xcl::Stream::writeStream = nullptr;
 decltype(&clPollStreams) xcl::Stream::pollStreams = nullptr;
 
-auto constexpr c_test_size = 256 * 1024 * 1024; // 256 MB data
-auto constexpr num_streams = 32;
+auto constexpr Block_Size = 256 * 1024; // 256 K integer per block
+auto constexpr num_of_Blocks = 1024;
 
 ////////////////////RESET FUNCTION//////////////////////////////////
 int reset(int *a, int *sw_results, int *hw_results, unsigned int size) {
@@ -68,8 +68,8 @@ bool verify(int *sw_results, int *hw_results, int size) {
   for (int i = 0; i < size; i++) {
     if (sw_results[i] != hw_results[i]) {
       match = false;
+      std::cout << i << "\n" << sw_results[i] << "\n" << hw_results[i] << " \n";
       break;
-      std::cout << sw_results[i] << "\n" << hw_results[i] << " \n";
     }
   }
   std::cout << "TEST " << (match ? "PASSED" : "FAILED") << std::endl;
@@ -77,13 +77,14 @@ bool verify(int *sw_results, int *hw_results, int size) {
 }
 ////////MAIN FUNCTION//////////
 int main(int argc, char **argv) {
-  unsigned int size = c_test_size;
 
-  if (xcl::is_hw_emulation()) {
-    size = 4096; // 4KB for HW emulation
-  } else if (xcl::is_emulation()) {
-    size = 2 * 1024 * 1024; // 2MB for sw emulation
+  unsigned int num_Blocks = num_of_Blocks;
+
+  if (xcl::is_emulation()) {
+    num_Blocks = 2;
   }
+
+  unsigned int size = num_Blocks * Block_Size;
 
   // I/O Data Vectors
   std::vector<int, aligned_allocator<int>> h_a(size);
@@ -100,14 +101,13 @@ int main(int argc, char **argv) {
   auto binaryFile = argv[1];
   std::cout << "\n Vector Addition of elements " << size << std::endl;
 
-  // Bytes per CU Stream
-  int vector_size_bytes = sizeof(int) * size / num_streams;
+  // Bytes per Block
+  int vector_size_bytes = sizeof(int) * Block_Size;
 
   // OpenCL Host Code Begins
   cl_int err;
-  std::string cu_id;
   cl::Kernel increment;
-  int no_of_elem = size / num_streams;
+  int no_of_elem = Block_Size;
   cl::CommandQueue q;
   cl::Context context;
   cl::Device device;
@@ -156,8 +156,8 @@ int main(int argc, char **argv) {
   xcl::Stream::init(platform_id);
 
   // Streams
-  cl_stream h2c_stream_a;
-  cl_stream c2h_stream;
+  cl_stream h2c_Stream_a;
+  cl_stream c2h_Stream;
 
   cl_int ret;
 
@@ -169,17 +169,17 @@ int main(int argc, char **argv) {
   // Create write stream for argument 0 of kernel
   ext.flags = 0;
   OCL_CHECK(ret,
-            h2c_stream_a = xcl::Stream::createStream(
+            h2c_Stream_a = xcl::Stream::createStream(
                 device.get(), XCL_STREAM_READ_ONLY, CL_STREAM, &ext, &ret));
 
   // Create read stream for argument 1 of kernel
   ext.flags = 1;
-  OCL_CHECK(ret, c2h_stream = xcl::Stream::createStream(device.get(),
+  OCL_CHECK(ret, c2h_Stream = xcl::Stream::createStream(device.get(),
                                                         XCL_STREAM_WRITE_ONLY,
                                                         CL_STREAM, &ext, &ret));
 
   // Sync for the async streaming
-  int num_compl = 2 * num_streams;
+  int num_compl = 2 * num_Blocks;
 
   // Checking the request completions
   cl_streams_poll_req_completions *poll_req;
@@ -194,28 +194,28 @@ int main(int argc, char **argv) {
   wr_req.flags = CL_STREAM_EOT | CL_STREAM_NONBLOCKING;
 
   auto total_start = std::chrono::high_resolution_clock::now();
-  for (int i = 0; i < num_streams; i++) {
+  for (unsigned int i = 0; i < num_Blocks; i++) {
 
     auto write_tag_a = "write_a_" + std::to_string(i);
     wr_req.priv_data = (void *)write_tag_a.c_str();
 
-    std::cout << "\n Writing Stream h2c_stream_a[" << i << "]";
-    OCL_CHECK(ret, xcl::Stream::writeStream(h2c_stream_a,
+    std::cout << "\n Writing Block h2c_Stream_a[" << i << "]";
+    OCL_CHECK(ret, xcl::Stream::writeStream(h2c_Stream_a,
                                             (h_a.data() + i * no_of_elem),
                                             vector_size_bytes, &wr_req, &ret));
 
     auto read_tag = "read_" + std::to_string(i);
     rd_req.priv_data = (void *)read_tag.c_str();
 
-    std::cout << "\n Reading Stream c2h_stream[" << i << "]";
-    OCL_CHECK(ret, xcl::Stream::readStream(c2h_stream,
+    std::cout << "\n Reading Block c2h_Stream[" << i << "]";
+    OCL_CHECK(ret, xcl::Stream::readStream(c2h_Stream,
                                            (hw_results.data() + i * no_of_elem),
                                            vector_size_bytes, &rd_req, &ret));
   }
 
   // Checking the request completions
   std::cout << "\n clPollStreams for (" << num_compl
-            << ") events (CU: " << num_streams
+            << ") events (Blocks: " << num_Blocks
             << ", axis_in: 1, axis_out: 1)\n";
   OCL_CHECK(ret, xcl::Stream::pollStreams(device.get(), poll_req, num_compl,
                                           num_compl, &num_compl, 50000, &ret));
@@ -224,15 +224,18 @@ int main(int argc, char **argv) {
   auto total_end = std::chrono::high_resolution_clock::now();
   auto duration =
       std::chrono::duration<double, std::nano>(total_end - total_start);
-  double throput = ((double)size * sizeof(double)) / (double)duration.count();
-  std::cout << "[ Case: 1 ] -> Throughput = " << throput << " GB/s\n";
+  double throput =
+      ((double)size * sizeof(int) * 2) /
+      (double)
+          duration.count(); // Multiplied by 2 because read and write both done
+  std::cout << "Throughput = " << throput << " GB/s\n";
 
   // Compare the device results with software results
   bool match = verify(sw_results.data(), hw_results.data(), size);
 
   // Releasing all OpenCL objects
-  xcl::Stream::releaseStream(c2h_stream);
-  xcl::Stream::releaseStream(h2c_stream_a);
+  xcl::Stream::releaseStream(c2h_Stream);
+  xcl::Stream::releaseStream(h2c_Stream_a);
 
   return match ? EXIT_SUCCESS : EXIT_FAILURE;
 }
