@@ -32,9 +32,6 @@ src/ip/ip_3/src/krnl_output_stage_rtl_counter.sv
 src/ip/ip_3/src/krnl_output_stage_rtl_int.sv
 src/ip/ip_3/src/krnl_output_stage_rtl_register_slice.sv
 src/ip/ip_3/xgui/krnl_output_stage_rtl_v1_0.tcl
-src/kernel_adder_stage.xml
-src/kernel_input_stage.xml
-src/kernel_output_stage.xml
 ```
 
 ##  COMMAND LINE ARGUMENTS
