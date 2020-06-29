@@ -525,8 +525,9 @@ def mk_check(target, data):
             target.write(con["name"])
             target.write(".xclbin --package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.sd_file $(SD_IMAGE_FILE) --package.sd_file xrt.ini --package.sd_file $(RUN_APP_SCRIPT) --package.sd_file $(EXECUTABLE)")
             for extra_filename in extra_file_list:
-                target.write(" --package.sd_file ")
-                target.write(extra_filename)
+                if ('-' not in extra_filename):
+                    target.write(" --package.sd_file ")
+                    target.write(extra_filename)
             target.write(" -o ")
             target.write(con["name"])
             target.write(".xclbin\n")

@@ -276,7 +276,7 @@ void exec_write_test() {
     // Now start P2P write to SSD.
     if (pwrite(nvmeFd, (void *)c->p2pPtr, chunk_size, c->id * chunk_size) <=
         0) {
-      cout << "ERR: pwrite failed: "
+      cerr << "ERR: pwrite failed: "
            << "index: " << idx << ", error: " << strerror(errno) << endl;
       exit(EXIT_FAILURE);
     }
@@ -348,7 +348,7 @@ void exec_read_test() {
     // into P2P device memory first.
     c->p2pStart = chrono::high_resolution_clock::now();
     if (pread(nvmeFd, (void *)c->p2pPtr, chunk_size, c->id * chunk_size) <= 0) {
-      cout << "ERR: pread failed: "
+      cerr << "ERR: pread failed: "
            << "index: " << idx << ", error: " << strerror(errno) << endl;
       exit(EXIT_FAILURE);
     }
@@ -367,7 +367,7 @@ void exec_read_test() {
 }
 
 void usage() {
-  cout << "Options: <-r|-w> <path-to-SSD> <-d> <device id>" << endl;
+  cerr << "Options: <-m>  <r|w> <path-to-SSD> <-d> <device id>" << endl;
   exit(EXIT_FAILURE);
 }
 
@@ -386,31 +386,47 @@ std::vector<unsigned char> readBinary(const std::string &fileName) {
 }
 
 int main(int argc, char **argv) {
-  bool isWrite;
-  char *filename;
+  // Command Line Parser
+  sda::utils::CmdLineParser parser;
 
-  if (argc != 6)
-    usage();
-  else if (strcmp(argv[2], "-r") == 0)
+  // Switches
+  //**************//"<Full Arg>",  "<Short Arg>", "<Description>", "<Default>"
+  parser.addSwitch("--xclbin_file", "-x", "input binary file string", "");
+  parser.addSwitch("--input_file", "-i", "input test data flie", "");
+  parser.addSwitch("--device", "-d", "device id", "0");
+  parser.addSwitch("--mode", "-m", "mode r/w", "r");
+
+  // Read settings
+  auto binaryFile = parser.value("xclbin_file");
+  auto filename = parser.value("input_file");
+  cl_uint dev_id = stoi(parser.value("device"));
+  auto mode = parser.value("mode");
+
+  if (argc < 5) {
+    parser.printHelp();
+    return EXIT_FAILURE;
+  }
+
+  bool isWrite;
+
+  if (mode == "r")
     isWrite = false;
-  else if (strcmp(argv[2], "-w") == 0)
+  else if (mode == "w")
     isWrite = true;
   else
     usage();
-  filename = argv[3];
-  auto binaryFile = argv[1];
 
   // Each chunk of data needs to be multiple of 64k, which is one
   // process unit for each kernel run.
   if (chunk_size < kernel_unit || (chunk_size % kernel_unit) != 0) {
-    cout << "Data chunk size is misaligned" << endl;
+    cerr << "Data chunk size is misaligned" << endl;
     return EXIT_FAILURE;
   }
 
   // Get access to the NVME SSD.
-  nvmeFd = open(filename, O_RDWR | O_DIRECT);
+  nvmeFd = open(filename.c_str(), O_RDWR | O_DIRECT);
   if (nvmeFd < 0) {
-    cout << "ERR: open " << filename << "failed: " << strerror(errno) << endl;
+    cerr << "ERR: open " << filename << "failed: " << strerror(errno) << endl;
     return EXIT_FAILURE;
   }
   cout << "INFO: Successfully opened NVME SSD " << filename << endl;
@@ -435,17 +451,11 @@ int main(int argc, char **argv) {
     exit(EXIT_FAILURE);
   }
   cl_device_id device = devices.front();
-  cl_uint dev_id = 0;
-
-  // Command Line Parser
-  sda::utils::CmdLineParser parser;
-
-  parser.addSwitch("--device", "-d", "device id", "0");
-  dev_id = atoi((parser.value("device")).c_str());
-  if(dev_id <= num_devices)
-      device = devices[dev_id];
+  if (dev_id <= num_devices)
+    device = devices[dev_id];
   else
-      cout << "The device_id provided using -d flag is outside the range of available devices\n";
+    cout << "The device_id provided using -d flag is outside the range of "
+            "available devices\n";
 
   context = clCreateContext(0, 1, &device, nullptr, nullptr, &err);
   if (err != CL_SUCCESS)

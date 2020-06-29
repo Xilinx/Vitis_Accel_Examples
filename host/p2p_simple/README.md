@@ -30,7 +30,7 @@ src/host.cpp
 ##  COMMAND LINE ARGUMENTS
 Once the environment has been configured, the application can be executed by
 ```
-./host <adder XCLBIN> /dev/nvme0n1
+./host -x <adder XCLBIN> -i /dev/nvme0n1
 ```
 
 ##  COMMANDS FOR WINDOWS FLOW

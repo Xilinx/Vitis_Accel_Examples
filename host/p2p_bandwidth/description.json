@@ -19,19 +19,19 @@
     ],
     "ndevice": [
         "zc",
-    "vck",
-	"u200",
-	"u250",
-	"u50",
-	"u280",
-    "aws"
+        "vck",
+        "u200",
+        "u250",
+        "u50",
+        "u280",
+        "aws"
     ],
      "runtime": [
         "OpenCL"
     ], 
     "launch": [
         {
-            "cmd_args": "BUILD/copy_kernel.xclbin -r /dev/nvme0n1 -d 0", 
+            "cmd_args": "-x BUILD/copy_kernel.xclbin -i /dev/nvme0n1", 
             "name": "generic launch for all flows"
         }
     ], 

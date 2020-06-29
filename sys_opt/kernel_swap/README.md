@@ -28,7 +28,7 @@ src/krnl_vmul.cpp
 ##  COMMAND LINE ARGUMENTS
 Once the environment has been configured, the application can be executed by
 ```
-./vmulvadd <krnl_vmul XCLBIN> <krnl_vadd XCLBIN>
+./vmulvadd -x1 <krnl_vmul XCLBIN> -x2 <krnl_vadd XCLBIN>
 ```
 
 ##  COMMANDS FOR WINDOWS FLOW

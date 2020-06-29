@@ -30,7 +30,7 @@ src/krnl_mmult.cpp
 ##  COMMAND LINE ARGUMENTS
 Once the environment has been configured, the application can be executed by
 ```
-./host <krnl_mmult XCLBIN> <krnl_madd XCLBIN>
+./host -x1 <krnl_mmult XCLBIN> -x2 <krnl_madd XCLBIN>
 ```
 
 ##  COMMANDS FOR WINDOWS FLOW

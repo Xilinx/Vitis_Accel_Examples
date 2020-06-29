@@ -34,6 +34,7 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 **********/
 
 // OpenCL utility layer include
+#include "cmdlineparser.h"
 #include "xcl2.hpp"
 #include <fcntl.h>
 #include <fstream>
@@ -59,12 +60,12 @@ void p2p_host_to_ssd(int &nvmeFd, cl::Context context, cl::CommandQueue q,
   cl_mem_ext_ptr_t outExt;
   outExt = {XCL_MEM_EXT_P2P_BUFFER, NULL, 0};
 
-  OCL_CHECK(err, cl::Buffer input_a(
-                     context, CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY,
-                     vector_size_bytes, source_input_A.data(), &err));
-  OCL_CHECK(err, cl::Buffer p2pBo(
-                     context, CL_MEM_WRITE_ONLY | CL_MEM_EXT_PTR_XILINX,
-                     vector_size_bytes, &outExt, &err));
+  OCL_CHECK(err,
+            cl::Buffer input_a(context, CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY,
+                               vector_size_bytes, source_input_A.data(), &err));
+  OCL_CHECK(err,
+            cl::Buffer p2pBo(context, CL_MEM_WRITE_ONLY | CL_MEM_EXT_PTR_XILINX,
+                             vector_size_bytes, &outExt, &err));
   OCL_CHECK(err, krnl_adder = cl::Kernel(program, "adder", &err));
   // Set the Kernel Arguments
   OCL_CHECK(err, err = krnl_adder.setArg(0, input_a));
@@ -80,13 +81,14 @@ void p2p_host_to_ssd(int &nvmeFd, cl::Context context, cl::CommandQueue q,
 
   std::cout << "\nMap P2P device buffers to host access pointers\n"
             << std::endl;
-  void *p2pPtr = q.enqueueMapBuffer(p2pBo,        // buffer
-                                 CL_TRUE,       // blocking call
-                                 CL_MAP_WRITE | CL_MAP_READ,  // Indicates we will be writing
-                                 0,             // buffer offset
-                                 vector_size_bytes, // size in bytes
-                                 nullptr, nullptr,
-                                 &err); // error code
+  void *p2pPtr = q.enqueueMapBuffer(
+      p2pBo,                      // buffer
+      CL_TRUE,                    // blocking call
+      CL_MAP_WRITE | CL_MAP_READ, // Indicates we will be writing
+      0,                          // buffer offset
+      vector_size_bytes,          // size in bytes
+      nullptr, nullptr,
+      &err); // error code
 
   std::cout << "Now start P2P Write from device buffers to SSD\n" << std::endl;
   ret = pwrite(nvmeFd, (void *)p2pPtr, vector_size_bytes, 0);
@@ -110,26 +112,27 @@ void p2p_ssd_to_host(
   cl_mem_ext_ptr_t inExt;
   inExt = {XCL_MEM_EXT_P2P_BUFFER, NULL, 0};
 
-  OCL_CHECK(err, cl::Buffer buffer_input(
-                     context, CL_MEM_READ_ONLY | CL_MEM_EXT_PTR_XILINX,
-                     vector_size_bytes, &inExt, &err));
+  OCL_CHECK(err, cl::Buffer buffer_input(context, CL_MEM_READ_ONLY |
+                                                      CL_MEM_EXT_PTR_XILINX,
+                                         vector_size_bytes, &inExt, &err));
   OCL_CHECK(err, cl::Buffer buffer_output(
                      context, CL_MEM_WRITE_ONLY | CL_MEM_USE_HOST_PTR,
                      vector_size_bytes, source_hw_results->data(), &err));
   OCL_CHECK(err, krnl_adder1 = cl::Kernel(program, "adder", &err));
   std::cout << "\nMap P2P device buffers to host access pointers\n"
             << std::endl;
-  void *p2pPtr1 = q.enqueueMapBuffer(buffer_input,        // buffer
-                                 CL_TRUE,       // blocking call
-                                 CL_MAP_READ,  // Indicates we will be writing
-                                 0,             // buffer offset
-                                 vector_size_bytes, // size in bytes
-                                 nullptr, nullptr,
-                                 &err); // error code
+  void *p2pPtr1 =
+      q.enqueueMapBuffer(buffer_input,      // buffer
+                         CL_TRUE,           // blocking call
+                         CL_MAP_READ,       // Indicates we will be writing
+                         0,                 // buffer offset
+                         vector_size_bytes, // size in bytes
+                         nullptr, nullptr,
+                         &err); // error code
 
   std::cout << "Now start P2P Read from SSD to device buffers\n" << std::endl;
   if (pread(nvmeFd, (void *)p2pPtr1, vector_size_bytes, 0) <= 0) {
-    std::cout << "ERR: pread failed: "
+    std::cerr << "ERR: pread failed: "
               << " error: " << strerror(errno) << std::endl;
     exit(EXIT_FAILURE);
   }
@@ -144,23 +147,31 @@ void p2p_ssd_to_host(
   OCL_CHECK(err, err = q.enqueueTask(krnl_adder1));
 
   // Read output data to host
-  OCL_CHECK(err, err = q.enqueueReadBuffer(buffer_output, CL_TRUE, 0,
-                                           vector_size_bytes,
-                                           source_hw_results->data(), nullptr, nullptr));
+  OCL_CHECK(err, err = q.enqueueReadBuffer(
+                     buffer_output, CL_TRUE, 0, vector_size_bytes,
+                     source_hw_results->data(), nullptr, nullptr));
 
   std::cout << "Clean up the buffers\n" << std::endl;
 }
 
 int main(int argc, char **argv) {
-  if (argc != 3) {
-    std::cout << "Usage: " << argv[0] << " <XCLBIN File>"
-              << "<Path to SSD>" << std::endl;
+  // Command Line Parser
+  sda::utils::CmdLineParser parser;
+
+  // Switches
+  //**************//"<Full Arg>",  "<Short Arg>", "<Description>", "<Default>"
+  parser.addSwitch("--xclbin_file", "-x", "input binary file string", "");
+  parser.addSwitch("--input_file", "-i", "input test data flie", "");
+  parser.parse(argc, argv);
+
+  // Read settings
+  auto binaryFile = parser.value("xclbin_file");
+  auto filename = parser.value("input_file");
+
+  if (argc != 5) {
+    parser.printHelp();
     return EXIT_FAILURE;
   }
-
-  std::string binaryFile = argv[1];
-  char *filename;
-  filename = argv[2];
   int nvmeFd = -1;
 
   cl_int err;
@@ -204,7 +215,7 @@ int main(int argc, char **argv) {
     }
   }
   if (valid_device == 0) {
-    std::cout << "Failed to program any device found, exit!\n";
+    std::cerr << "Failed to program any device found, exit!\n";
     exit(EXIT_FAILURE);
   }
 
@@ -213,9 +224,9 @@ int main(int argc, char **argv) {
   std::cout << "                  Writing data to SSD                       \n";
   std::cout << "############################################################\n";
   // Get access to the NVMe SSD.
-  nvmeFd = open(filename, O_RDWR | O_DIRECT);
+  nvmeFd = open(filename.c_str(), O_RDWR | O_DIRECT);
   if (nvmeFd < 0) {
-    std::cout << "ERROR: open " << filename << "failed: " << std::endl;
+    std::cerr << "ERROR: open " << filename << "failed: " << std::endl;
     return EXIT_FAILURE;
   }
   std::cout << "INFO: Successfully opened NVME SSD " << filename << std::endl;
@@ -228,9 +239,9 @@ int main(int argc, char **argv) {
       << "                  Reading data from SSD                       \n";
   std::cout << "############################################################\n";
 
-  nvmeFd = open(filename, O_RDWR | O_DIRECT);
+  nvmeFd = open(filename.c_str(), O_RDWR | O_DIRECT);
   if (nvmeFd < 0) {
-    std::cout << "ERROR: open " << filename << "failed: " << std::endl;
+    std::cerr << "ERROR: open " << filename << "failed: " << std::endl;
     return EXIT_FAILURE;
   }
   std::cout << "INFO: Successfully opened NVME SSD " << filename << std::endl;

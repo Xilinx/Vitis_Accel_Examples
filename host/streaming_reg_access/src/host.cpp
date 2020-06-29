@@ -32,6 +32,7 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 **********/
+#include "cmdlineparser.h"
 #include <algorithm>
 #include <cstring>
 #include <iostream>
@@ -42,7 +43,6 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <vector>
 #include <xclhal2.h>
 #include "experimental/xclbin_util.h"
-
 // This extension file is required for stream APIs
 #include "CL/cl_ext_xilinx.h"
 // This file is required for OpenCL C++ wrapper APIs
@@ -68,14 +68,23 @@ int main(int argc, char **argv) {
   std::vector<int, aligned_allocator<int>> h_data(max_length);
   std::vector<int, aligned_allocator<int>> read_data(size);
 
-  if (argc != 3) {
-    std::cout << "Usage: " << argv[0] << " <XCLBIN File>"
-              << "<an interger> " << std::endl;
+  // Command Line Parser
+  sda::utils::CmdLineParser parser;
+
+  // Switches
+  //**************//"<Full Arg>",  "<Short Arg>", "<Description>", "<Default>"
+  parser.addSwitch("--xclbin_file", "-x", "input binary file string", "");
+  parser.addSwitch("--register_value", "-i", "regster value to be printed", "");
+  parser.parse(argc, argv);
+
+  // Read settings
+  auto binaryFile = parser.value("xclbin_file");
+  int foo = stoi(parser.value("register_value"));
+
+  if (argc != 5) {
+    parser.printHelp();
     return EXIT_FAILURE;
   }
-
-  auto binaryFile = argv[1];
-  int foo = atoi(argv[2]);
 
   // Reset the data vector
   for (size_t i = 0; i < max_length; i++) {
@@ -127,7 +136,7 @@ int main(int argc, char **argv) {
     }
   }
   if (valid_device == 0) {
-    std::cout << "Failed to program any device found, exit!\n";
+    std::cerr << "Failed to program any device found, exit!\n";
     exit(EXIT_FAILURE);
   }
 
@@ -149,7 +158,7 @@ int main(int argc, char **argv) {
 
   cl_uint cuidx;
   xcl::Ext::getComputeUnitInfo(krnl_incr.get(), 0, XCL_COMPUTE_UNIT_INDEX,
-                                  sizeof(cuidx), &cuidx, nullptr);
+                               sizeof(cuidx), &cuidx, nullptr);
 
   // Get the argument offset
   size_t foo_offset = 0;
@@ -205,7 +214,8 @@ int main(int argc, char **argv) {
   // Use device handle and offset to read the register value
   xclOpenContext(handle, xclbinId, cuidx, false);
   xclRegRead(handle, cuidx, beyond_foo_offset, &beyond_foo);
-  std::cout << "\nThe register value that is read : " << beyond_foo << std::endl;
+  std::cout << "\nThe register value that is read : " << beyond_foo
+            << std::endl;
   xclCloseContext(handle, xclbinId, cuidx);
 
   for (cl_uint i = 0; i < size; i++) {

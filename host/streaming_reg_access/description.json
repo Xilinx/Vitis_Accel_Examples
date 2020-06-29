@@ -28,10 +28,14 @@
         "host_exe": "host", 
         "compiler": {
             "sources": [
-                "REPO_DIR/common/includes/xcl2"
+                "REPO_DIR/common/includes/xcl2",
+                "REPO_DIR/common/includes/cmdparser",
+                "REPO_DIR/common/includes/logger"
             ], 
             "includepaths": [
-                "REPO_DIR/common/includes/xcl2"
+                "REPO_DIR/common/includes/xcl2",
+                "REPO_DIR/common/includes/cmdparser",
+                "REPO_DIR/common/includes/logger"
             ]
         },
         "linker" : {
@@ -58,7 +62,7 @@
     ],
     "launch": [
         {
-            "cmd_args": "BUILD/krnl_incr.xclbin 5", 
+            "cmd_args": "-x BUILD/krnl_incr.xclbin -i 5", 
             "name": "generic launch for all flows"
         }
     ], 

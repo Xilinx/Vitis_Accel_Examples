@@ -17,11 +17,15 @@
         "host_exe": "host", 
         "compiler": {
             "sources": [
-                "REPO_DIR/common/includes/xcl2", 
+                "REPO_DIR/common/includes/xcl2",
+                "REPO_DIR/common/includes/cmdparser",
+                "REPO_DIR/common/includes/logger",
                 "REPO_DIR/common/includes/bitmap"
             ], 
             "includepaths": [
                 "REPO_DIR/common/includes/xcl2", 
+                "REPO_DIR/common/includes/cmdparser",
+                "REPO_DIR/common/includes/logger",
                 "REPO_DIR/common/includes/bitmap"
             ]
         }
@@ -40,7 +44,7 @@
     ], 
     "launch": [
         {
-            "cmd_args": "BUILD/apply_watermark_GOOD.xclbin PROJECT/data/input.bmp PROJECT/data/golden.bmp", 
+            "cmd_args": "-x BUILD/apply_watermark_GOOD.xclbin -i PROJECT/data/input.bmp -c PROJECT/data/golden.bmp", 
             "name": "generic launch for all flows"
         }
     ], 

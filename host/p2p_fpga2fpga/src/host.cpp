@@ -32,6 +32,7 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 **********/
+#include "cmdlineparser.h"
 #include "xcl2.hpp"
 #include <chrono>
 #include <iomanip>
@@ -77,9 +78,24 @@ void sw_read(data_t in1[LENGTH], data_t in2[LENGTH], data_t in3[LENGTH],
 }
 
 int main(int argc, char *argv[]) {
-  if (argc != 3) {
-    std::cout << "usage: " << "EXECUTABLE " << "<XCLBIN1 file> " << "<XCLBIN2 file>\n";
-    exit(EXIT_FAILURE);
+  // Command Line Parser
+  sda::utils::CmdLineParser parser;
+
+  // Switches
+  //**************//"<Full Arg>",  "<Short Arg>", "<Description>", "<Default>"
+  parser.addSwitch("--xclbin_file_krnl_mmult", "-x1",
+                   "krnl_mmult binary file string", "");
+  parser.addSwitch("--xclbin_file_krnl_madd", "-x2",
+                   "krnl_madd binary file string", "");
+  parser.parse(argc, argv);
+
+  // Read settings
+  auto binaryFile1 = parser.value("xclbin_file_krnl_mmult");
+  auto binaryFile2 = parser.value("xclbin_file_krnl_madd");
+
+  if (argc != 5) {
+    parser.printHelp();
+    return EXIT_FAILURE;
   }
 
   uint32_t size = LENGTH;
@@ -104,8 +120,9 @@ int main(int argc, char *argv[]) {
   std::cout << "Device count - " << device_count << std::endl;
 
   if (device_count < 2) {
-    std::cout << "WARNING: This design does P2P transfer between two devices. Please run this "
-           "design on machine with two devices.\n";
+    std::cout << "WARNING: This design does P2P transfer between two devices. "
+                 "Please run this "
+                 "design on machine with two devices.\n";
     return 0;
   }
 
@@ -139,10 +156,14 @@ int main(int argc, char *argv[]) {
   int buffersize = sizeof(data_t) * LENGTH;
   //------------------------------- Program
   //-------------------------------------------
-  program[0] = xcl_import_binary_file(device_id[0], context[0], argv[1]);
-  OCL_CHECK(err, krnl_mmult_dev0 = clCreateKernel(program[0], "krnl_mmult", &err));
-  program[1] = xcl_import_binary_file(device_id[1], context[1], argv[2]);
-  OCL_CHECK(err, krnl_madd_dev1 = clCreateKernel(program[1], "krnl_madd", &err));
+  program[0] =
+      xcl_import_binary_file(device_id[0], context[0], binaryFile1.c_str());
+  OCL_CHECK(err,
+            krnl_mmult_dev0 = clCreateKernel(program[0], "krnl_mmult", &err));
+  program[1] =
+      xcl_import_binary_file(device_id[1], context[1], binaryFile2.c_str());
+  OCL_CHECK(err,
+            krnl_madd_dev1 = clCreateKernel(program[1], "krnl_madd", &err));
 
   xcl::P2P::init(platform_id);
   std::chrono::high_resolution_clock::time_point start =
@@ -180,17 +201,23 @@ int main(int argc, char *argv[]) {
   // ----------------------------Set Args
   // -------------------------------------------
   std::cout << "Set Args FPGA-1\n" << std::endl;
-  OCL_CHECK(err, err = clSetKernelArg(krnl_mmult_dev0, 0, sizeof(cl_mem), &input_a));
-  OCL_CHECK(err, err = clSetKernelArg(krnl_mmult_dev0, 1, sizeof(cl_mem), &input_b));
   OCL_CHECK(err,
-            err = clSetKernelArg(krnl_mmult_dev0, 2, sizeof(cl_mem), &mmult_out));
-  OCL_CHECK(err, err = clSetKernelArg(krnl_mmult_dev0, 3, sizeof(uint32_t), &size));
+            err = clSetKernelArg(krnl_mmult_dev0, 0, sizeof(cl_mem), &input_a));
+  OCL_CHECK(err,
+            err = clSetKernelArg(krnl_mmult_dev0, 1, sizeof(cl_mem), &input_b));
+  OCL_CHECK(err, err = clSetKernelArg(krnl_mmult_dev0, 2, sizeof(cl_mem),
+                                      &mmult_out));
+  OCL_CHECK(err,
+            err = clSetKernelArg(krnl_mmult_dev0, 3, sizeof(uint32_t), &size));
 
   std::cout << "Set Args FPGA-2\n" << std::endl;
-  OCL_CHECK(err, err = clSetKernelArg(krnl_madd_dev1, 0, sizeof(cl_mem), &madd_in));
-  OCL_CHECK(err, err = clSetKernelArg(krnl_madd_dev1, 1, sizeof(cl_mem), &input_c));
+  OCL_CHECK(err,
+            err = clSetKernelArg(krnl_madd_dev1, 0, sizeof(cl_mem), &madd_in));
+  OCL_CHECK(err,
+            err = clSetKernelArg(krnl_madd_dev1, 1, sizeof(cl_mem), &input_c));
   OCL_CHECK(err, err = clSetKernelArg(krnl_madd_dev1, 2, sizeof(cl_mem), &out));
-  OCL_CHECK(err, err = clSetKernelArg(krnl_madd_dev1, 3, sizeof(uint32_t), &size));
+  OCL_CHECK(err,
+            err = clSetKernelArg(krnl_madd_dev1, 3, sizeof(uint32_t), &size));
 
   // -----------------------------------------------------------------------
   std::cout << "Write data to FPGA-1 \n" << std::endl;
@@ -222,8 +249,9 @@ int main(int argc, char *argv[]) {
   }
 
   cl_mem exported_buf;
-  OCL_CHECK(err, err = xcl::P2P::getMemObjectFromFd(context[0], device_id[0], 0, fd,
-                                             &exported_buf)); // Import
+  OCL_CHECK(err,
+            err = xcl::P2P::getMemObjectFromFd(context[0], device_id[0], 0, fd,
+                                               &exported_buf)); // Import
   cl_event event;
   OCL_CHECK(err, err = clEnqueueCopyBuffer(queue[0], mmult_out, exported_buf, 0,
                                            0, sizeof(data_t) * LENGTH, 0, NULL,
@@ -278,11 +306,11 @@ int main(int argc, char *argv[]) {
           .count();
   report_time("p2p", totalTime, p2pTime);
 
-  if (counter == LENGTH) {      
-      std::cout << "Test passed!\n";
+  if (counter == LENGTH) {
+    std::cout << "Test passed!\n";
     return EXIT_SUCCESS;
   } else {
-      std::cout << "Test failed\n";
+    std::cerr << "Test failed\n";
     return EXIT_FAILURE;
   }
 
@@ -299,7 +327,8 @@ cl_program xcl_import_binary_file(cl_device_id device_id, cl_context context,
 
   if (access(xclbin_file_name, R_OK) != 0) {
     return NULL;
-    std::cout << "ERROR: "<< xclbin_file_name << "xclbin not available please build\n";
+    std::cerr << "ERROR: " << xclbin_file_name
+              << "xclbin not available please build\n";
     exit(EXIT_FAILURE);
   }
 
@@ -311,8 +340,9 @@ cl_program xcl_import_binary_file(cl_device_id device_id, cl_context context,
       clCreateProgramWithBinary(context, 1, &device_id, &krnl_size,
                                 (const unsigned char **)&krnl_bin, NULL, &err);
   if ((!program) || (err != CL_SUCCESS)) {
-      std::cout << "Error: Failed to create compute program from binary "<< err << std::endl;
-      std::cout << "Test failed\n";
+    std::cout << "Error: Failed to create compute program from binary " << err
+              << std::endl;
+    std::cerr << "Test failed\n";
     exit(EXIT_FAILURE);
   }
 
@@ -326,7 +356,7 @@ cl_program xcl_import_binary_file(cl_device_id device_id, cl_context context,
     clGetProgramBuildInfo(program, device_id, CL_PROGRAM_BUILD_LOG,
                           sizeof(buffer), buffer, &len);
     std::cout << buffer << std::endl;
-    std::cout << "Error: Failed to build program executable!\n";
+    std::cerr << "Error: Failed to build program executable!\n";
     exit(EXIT_FAILURE);
   }
 
@@ -343,7 +373,7 @@ static void *smalloc(size_t size) {
   ptr = malloc(size);
 
   if (ptr == NULL) {
-      std::cout << "Error: Cannot allocate memory\n";
+    std::cerr << "Error: Cannot allocate memory\n";
     exit(EXIT_FAILURE);
   }
   // return 0;
@@ -354,7 +384,7 @@ static int load_file_to_memory(const char *filename, char **result) {
   FILE *f = fopen(filename, "rb");
   if (f == NULL) {
     *result = NULL;
-    std::cout << "Error: Could not read file" << filename << std::endl;
+    std::cerr << "Error: Could not read file" << filename << std::endl;
     exit(EXIT_FAILURE);
   }
 
@@ -366,7 +396,7 @@ static int load_file_to_memory(const char *filename, char **result) {
 
   if (size != fread(*result, sizeof(char), size, f)) {
     free(*result);
-    std::cout << "Error: read of kernel failed\n";
+    std::cerr << "Error: read of kernel failed\n";
     exit(EXIT_FAILURE);
   }
 

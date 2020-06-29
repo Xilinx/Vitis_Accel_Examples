@@ -32,6 +32,7 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 **********/
+#include "cmdlineparser.h"
 #include "xcl2.hpp"
 #include <vector>
 #define USE_IN_HOST
@@ -43,15 +44,24 @@ void sw_RgbToHsv(int *in, int *out, size_t image_size);
 void sw_HsvToRgb(int *in, int *out, size_t image_size);
 int compareImages(int *in, int *out, size_t image_size);
 
-int main(int argc, char *argv[]) {
-  if (argc != 3) {
-    std::cout << "Usage: " << argv[0] << " <XCLBIN File>"
-              << " <input bitmap>" << std::endl;
+int main(int argc, char **argv) {
+  // Command Line Parser
+  sda::utils::CmdLineParser parser;
+
+  // Switches
+  //**************//"<Full Arg>",  "<Short Arg>", "<Description>", "<Default>"
+  parser.addSwitch("--xclbin_file", "-x", "input binary file string", "");
+  parser.addSwitch("--input_file", "-i", "input test data flie", "");
+  parser.parse(argc, argv);
+
+  // Read settings
+  std::string binaryFile = parser.value("xclbin_file");
+  std::string bitmapFilename = parser.value("input_file");
+
+  if (argc != 5) {
+    parser.printHelp();
     return EXIT_FAILURE;
   }
-
-  std::string binaryFile = argv[1];
-  std::string bitmapFilename = argv[2];
 
   cl_int err;
   cl::CommandQueue q;
@@ -61,7 +71,7 @@ int main(int argc, char *argv[]) {
   BitmapInterface image(bitmapFilename.data());
   bool result = image.readBitmapFile();
   if (!result) {
-    std::cout << "ERROR:Unable to Read Bitmap File " << bitmapFilename.data()
+    std::cerr << "ERROR:Unable to Read Bitmap File " << bitmapFilename.data()
               << std::endl;
     return EXIT_FAILURE;
   }
@@ -88,8 +98,8 @@ int main(int argc, char *argv[]) {
   for (unsigned int i = 0; i < devices.size(); i++) {
     auto device = devices[i];
     // Creating Context and Command Queue for selected Device
-    OCL_CHECK(err, context = cl::Context({device}, NULL, NULL, NULL, &err));
-    OCL_CHECK(err, q = cl::CommandQueue(context, {device},
+    OCL_CHECK(err, context = cl::Context(device, NULL, NULL, NULL, &err));
+    OCL_CHECK(err, q = cl::CommandQueue(context, device,
                                         CL_QUEUE_PROFILING_ENABLE, &err));
 
     std::cout << "Trying to program device[" << i
@@ -105,7 +115,7 @@ int main(int argc, char *argv[]) {
     }
   }
   if (valid_device == 0) {
-    std::cout << "Failed to program any device found, exit!\n";
+    std::cerr << "Failed to program any device found, exit!\n";
     exit(EXIT_FAILURE);
   }
 
@@ -263,7 +273,7 @@ int compareImages(int *_in, int *_out, size_t image_size) {
     out = out & 0xffffff;
     if (in != out) {
       cnt++;
-      std::cout << "ERROR: Pixel=" << i << " mismatch Expected=" << in
+      std::cerr << "ERROR: Pixel=" << i << " mismatch Expected=" << in
                 << " and Got=" << out << std::endl;
       return EXIT_FAILURE;
     }

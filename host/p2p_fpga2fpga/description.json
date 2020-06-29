@@ -29,7 +29,7 @@
     ], 
     "launch": [
         {
-            "cmd_args": "BUILD/krnl_mmult.xclbin BUILD/krnl_madd.xclbin", 
+            "cmd_args": "-x1 BUILD/krnl_mmult.xclbin -x2 BUILD/krnl_madd.xclbin", 
             "name": "generic launch for all flows"
         }
     ], 
@@ -38,10 +38,14 @@
         "compiler": {
             "sources": [
                 "REPO_DIR/common/includes/xcl2",
-		"src/host.cpp"
+                "REPO_DIR/common/includes/cmdparser",
+                "REPO_DIR/common/includes/logger",
+                "src/host.cpp"
             ], 
             "includepaths": [
-                "REPO_DIR/common/includes/xcl2"
+                "REPO_DIR/common/includes/xcl2",
+                "REPO_DIR/common/includes/cmdparser",
+                "REPO_DIR/common/includes/logger"
             ]
         }
     },  

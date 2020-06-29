@@ -20,7 +20,7 @@ src/rgb_to_hsv.h
 ##  COMMAND LINE ARGUMENTS
 Once the environment has been configured, the application can be executed by
 ```
-./host <rgb_to_hsv XCLBIN> ./data/input.bmp
+./host -x <rgb_to_hsv XCLBIN> -i ./data/input.bmp
 ```
 
 ##  COMMANDS FOR WINDOWS FLOW

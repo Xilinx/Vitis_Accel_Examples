@@ -249,9 +249,9 @@ int main(int argc, char **argv) {
   threshold = atof((parser.value("threshold")).c_str());
   isOutput = parser.value_to_int("output");
 
-  if (filename.empty()) {
+  if (argc < 7) {
     parser.printHelp();
-    exit(EXIT_FAILURE);
+    return EXIT_FAILURE;
   }
 
   FPGA_KMEANS *fpga = new FPGA_KMEANS();

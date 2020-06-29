@@ -38,11 +38,11 @@ extern "C" {
 void krnl_mmult(const unsigned int *input1, const unsigned int *input2,
                 unsigned int *out, unsigned int size) {
 
-unsigned int v1_buffer[BUFFER_SIZE];   // Local memory to store vector1
-    
+  unsigned int v1_buffer[BUFFER_SIZE]; // Local memory to store vector1
+
 Loop1:
   for (int i = 0; i < BUFFER_SIZE; i++)
-      v1_buffer[i] = input1[i];
+    v1_buffer[i] = input1[i];
 
 Loop_Mult:
   for (int i = 0; i < size; i++)

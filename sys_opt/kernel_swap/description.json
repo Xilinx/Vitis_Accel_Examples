@@ -33,10 +33,14 @@
         "host_exe": "vmulvadd", 
         "compiler": {
             "sources": [
-                "REPO_DIR/common/includes/xcl2"
+                "REPO_DIR/common/includes/xcl2",
+                "REPO_DIR/common/includes/cmdparser",
+                "REPO_DIR/common/includes/logger"
             ], 
             "includepaths": [
-                "REPO_DIR/common/includes/xcl2"
+                "REPO_DIR/common/includes/xcl2",
+                "REPO_DIR/common/includes/cmdparser",
+                "REPO_DIR/common/includes/logger"
             ]
         }
     }, 
@@ -64,7 +68,7 @@
     ], 
     "launch": [
         {
-            "cmd_args": "BUILD/krnl_vmul.xclbin BUILD/krnl_vadd.xclbin", 
+            "cmd_args": "-x1 BUILD/krnl_vmul.xclbin -x2 BUILD/krnl_vadd.xclbin", 
             "name": "generic launch for all flows"
         }
     ], 

@@ -21,10 +21,14 @@
         "compiler": {
             "sources": [
                 "REPO_DIR/common/includes/xcl2", 
+                "REPO_DIR/common/includes/cmdparser",
+                "REPO_DIR/common/includes/logger",
                 "REPO_DIR/common/includes/bitmap"
             ], 
             "includepaths": [
                 "REPO_DIR/common/includes/xcl2", 
+                "REPO_DIR/common/includes/cmdparser",
+                "REPO_DIR/common/includes/logger",
                 "REPO_DIR/common/includes/bitmap"
             ]
         }
@@ -42,7 +46,7 @@
     ], 
     "launch": [
         {
-            "cmd_args": "BUILD/rgb_to_hsv.xclbin PROJECT/data/input.bmp", 
+            "cmd_args": "-x BUILD/rgb_to_hsv.xclbin -i PROJECT/data/input.bmp", 
             "name": "generic launch for all flows"
         }
     ], 

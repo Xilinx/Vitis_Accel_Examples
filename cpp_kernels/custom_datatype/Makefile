@@ -58,10 +58,12 @@ SDCARD := sd_card
 #Include Libraries
 include $(ABS_COMMON_REPO)/common/includes/opencl/opencl.mk
 include $(ABS_COMMON_REPO)/common/includes/xcl2/xcl2.mk
+include $(ABS_COMMON_REPO)/common/includes/cmdparser/cmdparser.mk
+include $(ABS_COMMON_REPO)/common/includes/logger/logger.mk
 include $(ABS_COMMON_REPO)/common/includes/bitmap/bitmap.mk
-CXXFLAGS += $(xcl2_CXXFLAGS) $(bitmap_CXXFLAGS)
-LDFLAGS += $(xcl2_LDFLAGS) $(bitmap_LDFLAGS)
-HOST_SRCS += $(xcl2_SRCS) $(bitmap_SRCS)
+CXXFLAGS += $(xcl2_CXXFLAGS) $(cmdparser_CXXFLAGS) $(logger_CXXFLAGS) $(bitmap_CXXFLAGS)
+LDFLAGS += $(xcl2_LDFLAGS) $(cmdparser_LDFLAGS) $(logger_LDFLAGS) $(bitmap_LDFLAGS)
+HOST_SRCS += $(xcl2_SRCS) $(cmdparser_SRCS) $(logger_SRCS) $(bitmap_SRCS)
 CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++11
 LDFLAGS += $(opencl_LDFLAGS)
 
@@ -87,7 +89,7 @@ endif
 
 
 EXECUTABLE = host
-CMD_ARGS = $(BUILD_DIR)/rgb_to_hsv.xclbin ./data/input.bmp
+CMD_ARGS = -x $(BUILD_DIR)/rgb_to_hsv.xclbin -i ./data/input.bmp
 EMCONFIG_DIR = $(TEMP_DIR)
 EMU_DIR = $(SDCARD)/data/emulation
 
@@ -129,13 +131,13 @@ check: all
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 ifeq ($(HOST_ARCH), x86)
 	$(CP) $(EMCONFIG_DIR)/emconfig.json .
-	XCL_EMULATION_MODE=$(TARGET) ./$(EXECUTABLE) $(BUILD_DIR)/rgb_to_hsv.xclbin ./data/input.bmp
+	XCL_EMULATION_MODE=$(TARGET) ./$(EXECUTABLE) -x $(BUILD_DIR)/rgb_to_hsv.xclbin -i ./data/input.bmp
 else
 	$(ABS_COMMON_REPO)/common/utility/run_emulation.pl "./${LAUNCH_EMULATOR} | tee run_app.log" "./${RUN_APP_SCRIPT} $(TARGET)" "${RESULT_STRING}" "7"
 endif
 else
 ifeq ($(HOST_ARCH), x86)
-	./$(EXECUTABLE) $(BUILD_DIR)/rgb_to_hsv.xclbin ./data/input.bmp
+	./$(EXECUTABLE) -x $(BUILD_DIR)/rgb_to_hsv.xclbin -i ./data/input.bmp
 endif
 endif
 
@@ -143,13 +145,13 @@ endif
 test: $(EXECUTABLE)
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 ifeq ($(HOST_ARCH), x86)
-	XCL_EMULATION_MODE=$(TARGET) ./$(EXECUTABLE) $(BUILD_DIR)/rgb_to_hsv.xclbin ./data/input.bmp
+	XCL_EMULATION_MODE=$(TARGET) ./$(EXECUTABLE) -x $(BUILD_DIR)/rgb_to_hsv.xclbin -i ./data/input.bmp
 else
 	$(ABS_COMMON_REPO)/common/utility/run_emulation.pl "./${LAUNCH_EMULATOR} | tee embedded_run.log" "./${RUN_APP_SCRIPT} $(TARGET)" "${RESULT_STRING}" "7"
 endif
 else
 ifeq ($(HOST_ARCH), x86)
-	./$(EXECUTABLE) $(BUILD_DIR)/rgb_to_hsv.xclbin ./data/input.bmp
+	./$(EXECUTABLE) -x $(BUILD_DIR)/rgb_to_hsv.xclbin -i ./data/input.bmp
 else
 	$(ECHO) "Please copy the content of sd_card folder and data to an SD Card and run on the board"
 endif

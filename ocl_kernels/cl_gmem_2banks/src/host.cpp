@@ -33,28 +33,41 @@ THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 **********/
 #include "bitmap.h"
+#include "cmdlineparser.h"
 #include "xcl2.hpp"
 #include <vector>
 
 int main(int argc, char *argv[]) {
+  // Command Line Parser
+  sda::utils::CmdLineParser parser;
+
+  // Switches
+  //**************//"<Full Arg>",  "<Short Arg>", "<Description>", "<Default>"
+  parser.addSwitch("--xclbin_file", "-x", "input binary file string", "");
+  parser.addSwitch("--input_file", "-i", "input test data flie", "");
+  parser.addSwitch("--compare_file", "-c", "Compare File to compare result",
+                   "");
+  parser.parse(argc, argv);
+
+  // Read settings
+  auto binaryFile = parser.value("xclbin_file");
+  std::string bitmapFilename = parser.value("input_file");
+  std::string goldenFilename = parser.value("compare_file");
+
+  if (argc != 7) {
+    parser.printHelp();
+    return EXIT_FAILURE;
+  }
   cl_int err;
   cl::CommandQueue q;
   cl::Context context;
   cl::Kernel krnl_applyWatermark;
 
-  if (argc < 3 || argc > 4) {
-    std::cout << "Usage: " << argv[0] << " <XCLBIN File>"
-              << " <input bitmap> <golden bitmap(optional)>" << std::endl;
-    return EXIT_FAILURE;
-  }
-  std::string binaryFile = argv[1];
-  std::string bitmapFilename = argv[2];
-
   // Read the input bit map file into memory
   BitmapInterface image(bitmapFilename.data());
   bool result = image.readBitmapFile();
   if (!result) {
-    std::cout << "ERROR:Unable to Read Input Bitmap File "
+    std::cerr << "ERROR:Unable to Read Input Bitmap File "
               << bitmapFilename.data() << std::endl;
     return EXIT_FAILURE;
   }
@@ -99,7 +112,7 @@ int main(int argc, char *argv[]) {
     }
   }
   if (valid_device == 0) {
-    std::cout << "Failed to program any device found, exit!\n";
+    std::cerr << "Failed to program any device found, exit!\n";
     exit(EXIT_FAILURE);
   }
 
@@ -138,28 +151,25 @@ int main(int argc, char *argv[]) {
 
   // Compare Golden Image with Output image
   bool match = 1;
-  if (argc == 4) {
-    std::string goldenFilename = argv[3];
-    // Read the golden bit map file into memory
-    BitmapInterface goldenImage(goldenFilename.data());
-    result = goldenImage.readBitmapFile();
-    if (!result) {
-      std::cout << "ERROR:Unable to Read Golden Bitmap File "
-                << goldenFilename.data() << std::endl;
-      return EXIT_FAILURE;
-    }
-    if (image.getHeight() != goldenImage.getHeight() ||
-        image.getWidth() != goldenImage.getWidth()) {
-      match = 0;
-    } else {
-      int *goldImgPtr = goldenImage.bitmap();
-      for (unsigned int i = 0; i < image.numPixels(); i++) {
-        if (outImage[i] != goldImgPtr[i]) {
-          match = 0;
-          printf("Pixel %d Mismatch Output %x and Expected %x \n", i,
-                 outImage[i], goldImgPtr[i]);
-          break;
-        }
+  // Read the golden bit map file into memory
+  BitmapInterface goldenImage(goldenFilename.data());
+  result = goldenImage.readBitmapFile();
+  if (!result) {
+    std::cerr << "ERROR:Unable to Read Golden Bitmap File "
+              << goldenFilename.data() << std::endl;
+    return EXIT_FAILURE;
+  }
+  if (image.getHeight() != goldenImage.getHeight() ||
+      image.getWidth() != goldenImage.getWidth()) {
+    match = 0;
+  } else {
+    int *goldImgPtr = goldenImage.bitmap();
+    for (unsigned int i = 0; i < image.numPixels(); i++) {
+      if (outImage[i] != goldImgPtr[i]) {
+        match = 0;
+        printf("Pixel %d Mismatch Output %x and Expected %x \n", i, outImage[i],
+               goldImgPtr[i]);
+        break;
       }
     }
   }

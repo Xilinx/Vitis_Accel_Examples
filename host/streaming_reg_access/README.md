@@ -29,7 +29,7 @@ src/increment.cpp
 ##  COMMAND LINE ARGUMENTS
 Once the environment has been configured, the application can be executed by
 ```
-./host <krnl_incr XCLBIN> 5
+./host -x <krnl_incr XCLBIN> -i 5
 ```
 
 ##  COMMANDS FOR WINDOWS FLOW

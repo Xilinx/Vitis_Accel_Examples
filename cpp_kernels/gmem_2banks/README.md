@@ -30,7 +30,7 @@ src/host.cpp
 ##  COMMAND LINE ARGUMENTS
 Once the environment has been configured, the application can be executed by
 ```
-./host <apply_watermark XCLBIN> ./data/input.bmp ./data/golden.bmp
+./host -x <apply_watermark XCLBIN> -i ./data/input.bmp -c ./data/golden.bmp
 ```
 
 ##  COMMANDS FOR WINDOWS FLOW

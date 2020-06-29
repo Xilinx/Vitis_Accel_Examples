@@ -32,14 +32,30 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 **********/
+#include "cmdlineparser.h"
 #include "xcl2.hpp"
 #include <vector>
 
 #define LENGTH 1024
 
 int main(int argc, char **argv) {
-  if (argc != 3) {
-    std::cout << "Usage: " << argv[0] << " <XCLBIN File>" << std::endl;
+  // Command Line Parser
+  sda::utils::CmdLineParser parser;
+
+  // Switches
+  //**************//"<Full Arg>",  "<Short Arg>", "<Description>", "<Default>"
+  parser.addSwitch("--xclbin_file_krnl_mmult", "-x1",
+                   "krnl_mmult binary file string", "");
+  parser.addSwitch("--xclbin_file_krnl_madd", "-x2",
+                   "krnl_madd binary file string", "");
+  parser.parse(argc, argv);
+
+  // Read settings
+  auto binaryFile1 = parser.value("xclbin_file_krnl_mmult");
+  auto binaryFile2 = parser.value("xclbin_file_krnl_madd");
+
+  if (argc != 5) {
+    parser.printHelp();
     return EXIT_FAILURE;
   }
 
@@ -83,7 +99,7 @@ int main(int argc, char **argv) {
   // are automatically released once the block ends
   {
     printf("INFO: loading vmul kernel\n");
-    std::string vmulBinaryFile = argv[1];
+    std::string vmulBinaryFile = binaryFile1.c_str();
     auto fileBuf = xcl::read_binary_file(vmulBinaryFile);
     cl::Program::Binaries vmul_bins{{fileBuf.data(), fileBuf.size()}};
     devices.resize(1);
@@ -129,7 +145,7 @@ int main(int argc, char **argv) {
 
   if (match) {
     printf("INFO: loading vadd_krnl\n");
-    auto vaddBinaryFile = argv[2];
+    auto vaddBinaryFile = binaryFile2.c_str();
     auto fileBuf = xcl::read_binary_file(vaddBinaryFile);
     cl::Program::Binaries vadd_bins{{fileBuf.data(), fileBuf.size()}};
     cl::Program program(context, devices, vadd_bins);

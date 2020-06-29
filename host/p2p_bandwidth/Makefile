@@ -88,7 +88,7 @@ endif
 
 
 EXECUTABLE = host
-CMD_ARGS = $(BUILD_DIR)/copy_kernel.xclbin -r /dev/nvme0n1 -d 0
+CMD_ARGS = -x $(BUILD_DIR)/copy_kernel.xclbin -i /dev/nvme0n1
 EMCONFIG_DIR = $(TEMP_DIR)
 EMU_DIR = $(SDCARD)/data/emulation
 
@@ -151,13 +151,13 @@ endif
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 ifeq ($(HOST_ARCH), x86)
 	$(CP) $(EMCONFIG_DIR)/emconfig.json .
-	XCL_EMULATION_MODE=$(TARGET) ./$(EXECUTABLE) $(BUILD_DIR)/copy_kernel.xclbin -r /dev/nvme0n1 -d 0
+	XCL_EMULATION_MODE=$(TARGET) ./$(EXECUTABLE) -x $(BUILD_DIR)/copy_kernel.xclbin -i /dev/nvme0n1
 else
 	$(ABS_COMMON_REPO)/common/utility/run_emulation.pl "./${LAUNCH_EMULATOR} | tee run_app.log" "./${RUN_APP_SCRIPT} $(TARGET)" "${RESULT_STRING}" "7"
 endif
 else
 ifeq ($(HOST_ARCH), x86)
-	./$(EXECUTABLE) $(BUILD_DIR)/copy_kernel.xclbin -r /dev/nvme0n1 -d 0
+	./$(EXECUTABLE) -x $(BUILD_DIR)/copy_kernel.xclbin -i /dev/nvme0n1
 endif
 endif
 
@@ -165,13 +165,13 @@ endif
 test: $(EXECUTABLE)
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 ifeq ($(HOST_ARCH), x86)
-	XCL_EMULATION_MODE=$(TARGET) ./$(EXECUTABLE) $(BUILD_DIR)/copy_kernel.xclbin -r /dev/nvme0n1 -d 0
+	XCL_EMULATION_MODE=$(TARGET) ./$(EXECUTABLE) -x $(BUILD_DIR)/copy_kernel.xclbin -i /dev/nvme0n1
 else
 	$(ABS_COMMON_REPO)/common/utility/run_emulation.pl "./${LAUNCH_EMULATOR} | tee embedded_run.log" "./${RUN_APP_SCRIPT} $(TARGET)" "${RESULT_STRING}" "7"
 endif
 else
 ifeq ($(HOST_ARCH), x86)
-	./$(EXECUTABLE) $(BUILD_DIR)/copy_kernel.xclbin -r /dev/nvme0n1 -d 0
+	./$(EXECUTABLE) -x $(BUILD_DIR)/copy_kernel.xclbin -i /dev/nvme0n1
 else
 	$(ECHO) "Please copy the content of sd_card folder and data to an SD Card and run on the board"
 endif
@@ -181,7 +181,7 @@ endif
 ############################## Preparing sdcard ##############################
 sd_card: gen_run_app
 ifneq ($(HOST_ARCH), x86)
-	$(VPP) -t $(TARGET) --platform $(DEVICE) -p $(BUILD_DIR)/copy_kernel.xclbin --package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.sd_file $(SD_IMAGE_FILE) --package.sd_file xrt.ini --package.sd_file $(RUN_APP_SCRIPT) --package.sd_file $(EXECUTABLE) --package.sd_file -r --package.sd_file /dev/nvme0n1 --package.sd_file -d --package.sd_file 0 -o copy_kernel.xclbin
+	$(VPP) -t $(TARGET) --platform $(DEVICE) -p $(BUILD_DIR)/copy_kernel.xclbin --package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.sd_file $(SD_IMAGE_FILE) --package.sd_file xrt.ini --package.sd_file $(RUN_APP_SCRIPT) --package.sd_file $(EXECUTABLE) --package.sd_file /dev/nvme0n1 -o copy_kernel.xclbin
 endif
 
 ############################## Cleaning Rules ##############################
