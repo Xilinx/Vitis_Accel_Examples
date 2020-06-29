@@ -32,6 +32,7 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 **********/
+#include "cmdlineparser.h"
 #include <algorithm>
 #include <cstdlib>
 #include <iostream>
@@ -49,9 +50,6 @@ decltype(&clReleaseStream) xcl::Stream::releaseStream = nullptr;
 decltype(&clReadStream) xcl::Stream::readStream = nullptr;
 decltype(&clWriteStream) xcl::Stream::writeStream = nullptr;
 decltype(&clPollStreams) xcl::Stream::pollStreams = nullptr;
-
-auto constexpr Block_Size = 256 * 1024; // 256 K integer per block
-auto constexpr num_of_Blocks = 1024;
 
 ////////////////////RESET FUNCTION//////////////////////////////////
 int reset(int *a, int *sw_results, int *hw_results, unsigned int size) {
@@ -78,11 +76,32 @@ bool verify(int *sw_results, int *hw_results, int size) {
 ////////MAIN FUNCTION//////////
 int main(int argc, char **argv) {
 
-  unsigned int num_Blocks = num_of_Blocks;
-
+  std::string Block_Count = "1024";
   if (xcl::is_emulation()) {
-    num_Blocks = 2;
+    Block_Count = "2";
   }
+
+  // Command Line Parser
+  sda::utils::CmdLineParser parser;
+
+  // Switches
+  //**************//"<Full Arg>",  "<Short Arg>", "<Description>", "<Default>"
+  parser.addSwitch("--xclbin_file", "-x", "input binary file string", "");
+  parser.addSwitch("--block_count", "-nb", "number of blocks", Block_Count);
+  parser.addSwitch("--block_size", "-bs", "Size of each block in KB", "256");
+  parser.parse(argc, argv);
+
+  // Read settings
+  std::string binaryFile = parser.value("xclbin_file");
+  unsigned int num_Blocks = stoi(parser.value("block_count"));
+  unsigned int Block_Size = stoi(parser.value("block_size"));
+
+  if (binaryFile.empty()) {
+    parser.printHelp();
+    exit(EXIT_FAILURE);
+  }
+
+  Block_Size *= 1000;
 
   unsigned int size = num_Blocks * Block_Size;
 
@@ -93,12 +112,6 @@ int main(int argc, char **argv) {
 
   reset(h_a.data(), sw_results.data(), hw_results.data(), size);
 
-  if (argc != 2) {
-    std::cout << "Usage: " << argv[0] << " <XCLBIN File>" << std::endl;
-    return EXIT_FAILURE;
-  }
-
-  auto binaryFile = argv[1];
   std::cout << "\n Vector Addition of elements " << size << std::endl;
 
   // Bytes per Block
