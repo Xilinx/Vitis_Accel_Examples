@@ -11,12 +11,20 @@
         "Free Running Kernel" 
     ], 
     "ndevice": [
+        "zc",
+        "vck",
         "xdma",
-	"xilinx_u250_qep",
-	"aws",
-        "samsung",
-	"zc",
-    "vck"
+        "xilinx_u250_qep",	
+        "aws",
+        "samsung"
+    ],
+    "platform_blacklist": [
+        "zc",
+        "vck",
+        "xdma",
+        "xilinx_u250_qep",	
+        "aws",
+        "samsung"
     ],
     "os": [
         "Linux"

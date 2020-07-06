@@ -24,6 +24,14 @@
         "aws",
         "u50"
     ],
+    "platform_blacklist": [
+        "zc",
+        "201910",
+        "2018",
+        "vck",
+        "aws",
+        "u50"
+    ],
      "runtime": [
         "OpenCL"
     ], 

@@ -26,6 +26,15 @@
         "u280",
         "aws"
     ],
+    "platform_blacklist": [
+        "zc",
+        "vck",
+        "u200",
+        "u250",
+        "u50",
+        "u280",
+        "aws"
+    ],
      "runtime": [
         "OpenCL"
     ], 

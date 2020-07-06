@@ -13,6 +13,12 @@
         "vck",
         "zc"
     ], 
+    "platform_blacklist": [
+        "u50",
+        "samsung",
+        "vck",
+        "zc"
+    ], 
     "os": [
         "Linux"
     ], 

@@ -1,10 +1,17 @@
 {
     "ndevice": [
         "zc", 
-	"zed",
-    "vck",
-       	"u50",
-       	"samsung"
+        "zed",
+        "vck",
+        "u50",
+        "samsung"
+    ], 
+    "platform_blacklist": [
+        "zc", 
+        "zed",
+        "vck",
+        "u50",
+        "samsung"
     ], 
     "description": [
         "This example of 2ddr is to demonstrate how to use multiple ddr and create buffers in each DDR."

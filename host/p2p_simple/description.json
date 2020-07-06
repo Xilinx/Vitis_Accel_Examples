@@ -21,12 +21,21 @@
     ],
     "ndevice": [
         "zc",
-	"u200",
-	"u250",
-	"u280",
-	"u50",
-    "vck",
-    "aws"
+        "u200",
+        "u250",
+        "u280",
+        "u50",
+        "vck",
+        "aws"
+    ],
+    "platform_blacklist": [
+        "zc",
+        "u200",
+        "u250",
+        "u280",
+        "u50",
+        "vck",
+        "aws"
     ],
      "runtime": [
         "OpenCL"

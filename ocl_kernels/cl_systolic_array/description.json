@@ -6,6 +6,9 @@
     "ndevice": [
         "zc702_base"
     ],
+    "platform_blacklist": [
+        "zc702_base"
+    ],
     "os": [
         "Linux"
     ], 

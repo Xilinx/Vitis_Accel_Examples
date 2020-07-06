@@ -11,6 +11,10 @@
         "zc",
         "vck"
     ],
+    "platform_blacklist": [
+        "zc",
+        "vck"
+    ],
     "os": [
         "Linux"
     ],

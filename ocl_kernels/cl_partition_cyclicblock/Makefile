@@ -145,6 +145,26 @@ ifeq ($(HOST_ARCH), x86)
 endif
 endif
 
+
+############################## Setting Essential Checks and Running Rules ##############################
+run: all
+ifeq ($(findstring zc702, $(DEVICE)), zc702)
+$(error This example is not supported for $(DEVICE))
+endif
+
+ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
+ifeq ($(HOST_ARCH), x86)
+	$(CP) $(EMCONFIG_DIR)/emconfig.json .
+	XCL_EMULATION_MODE=$(TARGET) ./$(EXECUTABLE) $(BUILD_DIR)/matmul.xclbin
+else
+	$(ABS_COMMON_REPO)/common/utility/run_emulation.pl "./${LAUNCH_EMULATOR} | tee run_app.log" "./${RUN_APP_SCRIPT} $(TARGET)" "${RESULT_STRING}" "7"
+endif
+else
+ifeq ($(HOST_ARCH), x86)
+	./$(EXECUTABLE) $(BUILD_DIR)/matmul.xclbin
+endif
+endif
+
 .PHONY: test
 test: $(EXECUTABLE)
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))

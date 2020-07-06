@@ -16,8 +16,16 @@
         "zc",
         "vck",
         "xdma",
-	"xilinx_u250_qep",	
-	"aws",
+        "xilinx_u250_qep",	
+        "aws",
+        "samsung"
+    ], 
+    "platform_blacklist": [
+        "zc",
+        "vck",
+        "xdma",
+        "xilinx_u250_qep",	
+        "aws",
         "samsung"
     ], 
     "os": [

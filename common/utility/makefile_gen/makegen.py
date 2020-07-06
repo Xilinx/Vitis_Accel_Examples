@@ -392,8 +392,71 @@ def mk_check(target, data):
     target.write("############################## Setting Essential Checks and Running Rules ##############################\n")
 
     target.write("check: all\n")
-    if "ndevice" in data:
-        for board in data["ndevice"]:
+    if "platform_blacklist" in data:
+        for board in data["platform_blacklist"]:
+            target.write("ifeq ($(findstring ")
+            target.write(board)
+            target.write(", $(DEVICE)), ")
+            target.write(board)
+            target.write(")\n")                   
+            target.write("$(error This example is not supported for $(DEVICE))\n")
+            target.write("endif\n")
+        target.write("\n")
+    target.write("ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))\n")
+    target.write("ifeq ($(HOST_ARCH), x86)\n")
+    target.write("\t$(CP) $(EMCONFIG_DIR)/emconfig.json .\n") 
+    target.write("\tXCL_EMULATION_MODE=$(TARGET) ./$(EXECUTABLE)")
+    
+    if "launch" in data:	
+        if "cmd_args" in data["launch"][0]:
+            args = data["launch"][0]["cmd_args"].split(" ")    
+            for arg in args[0:]:
+                target.write(" ")
+                arg = arg.replace('BUILD', '$(BUILD_DIR)')
+                arg = arg.replace('PROJECT', '.')
+                target.write(arg)
+    target.write("\nelse\n")
+    target.write("\t$(ABS_COMMON_REPO)/common/utility/run_emulation.pl \"./${LAUNCH_EMULATOR} | tee run_app.log\" \"./${RUN_APP_SCRIPT} $(TARGET)\" \"${RESULT_STRING}\" \"7\"")
+    if "containers" in data:
+        target.write("\n")
+    else:
+        target.write(" -ps-only\n")
+    target.write("endif\n")
+    target.write("else\n")
+    target.write("ifeq ($(HOST_ARCH), x86)\n")
+    target.write("\t./$(EXECUTABLE)")
+	
+    if "launch" in data:
+        if "cmd_args" in data["launch"][0]:
+            args = data["launch"][0]["cmd_args"].split(" ")    
+            for arg in args[0:]:
+                target.write(" ")
+                arg = arg.replace('BUILD', '$(BUILD_DIR)')
+                arg = arg.replace('PROJECT', '.')
+                target.write(arg)
+    target.write("\nendif\n")
+    target.write("endif\n")
+    if "targets" in data:
+        target.write("ifneq ($(TARGET),$(findstring $(TARGET),")
+        args = data["targets"]
+        for arg in args:
+            target.write(" ")
+            target.write(arg)
+        target.write("))\n")
+        target.write("$(warning WARNING:Application supports only")
+        for arg in args:
+            target.write(" ")
+            target.write(arg)
+        target.write(" TARGET. Please use the target for running the application)\n")
+        target.write("endif\n")
+    target.write("\n\n")
+
+def mk_run(target, data):
+    target.write("############################## Setting Essential Checks and Running Rules ##############################\n")
+
+    target.write("run: all\n")
+    if "platform_blacklist" in data:
+        for board in data["platform_blacklist"]:
             target.write("ifeq ($(findstring ")
             target.write(board)
             target.write(", $(DEVICE)), ")
@@ -507,6 +570,7 @@ def mk_check(target, data):
         target.write("\n")
     target.write("\n\n")
 
+def mk_sdcard(target, data):
     target.write("############################## Preparing sdcard ##############################\n")
     target.write("sd_card: gen_run_app\n")
     extra_file_list = []
@@ -735,6 +799,8 @@ def create_mk(target, data):
     add_containers(target, data)
     mk_build_all(target, data)
     mk_check(target, data)
+    mk_run(target, data)
+    mk_sdcard(target, data)
     mk_clean(target,data)
     return 
 

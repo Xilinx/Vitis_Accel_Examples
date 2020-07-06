@@ -7,6 +7,10 @@
         "zcu104_base",
         "zc702_base"
     ], 
+    "platform_blacklist": [
+        "zcu104_base",
+        "zc702_base"
+    ], 
     "os": [
         "Linux"
     ], 

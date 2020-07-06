@@ -13,6 +13,9 @@
    "ndevice": [
       	"vck"
     ], 
+    "platform_blacklist": [
+      	"vck"
+    ], 
     "os": [
         "Linux"
     ], 

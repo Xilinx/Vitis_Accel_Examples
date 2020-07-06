@@ -17,7 +17,15 @@
         "zc",
         "vck",
         "u250",
-	"aws",
+        "aws",
+        "samsung"
+    ],
+    "platform_blacklist": [
+        "u200",
+        "zc",
+        "vck",
+        "u250",
+        "aws",
         "samsung"
     ],
     "os": [

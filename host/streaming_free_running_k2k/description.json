@@ -12,10 +12,17 @@
     ], 
     "ndevice": [
         "xdma",
-	"xilinx_u250_qep",
-	"aws",
-	"samsung",
-	"zc702"
+        "xilinx_u250_qep",
+        "aws",
+        "samsung",
+        "zc702"
+    ],
+    "platform_blacklist": [
+        "xdma",
+        "xilinx_u250_qep",
+        "aws",
+        "samsung",
+        "zc702"
     ],
     "os": [
         "Linux"

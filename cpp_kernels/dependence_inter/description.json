@@ -14,6 +14,9 @@
     "ndevice": [
 	"zc702"
     ],
+    "platform_blacklist": [
+	"zc702"
+    ],
     "os": [
         "Linux"
     ], 

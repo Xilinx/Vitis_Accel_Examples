@@ -15,9 +15,14 @@
         "Linux"
     ], 
     "ndevice": [
-	"zc",
-    "vck",
-	"samsung"
+        "zc",
+        "vck",
+        "samsung"
+    ],	
+    "platform_blacklist": [
+        "zc",
+        "vck",
+        "samsung"
     ],	
     "runtime": [
         "OpenCL"

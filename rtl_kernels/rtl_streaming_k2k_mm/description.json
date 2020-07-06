@@ -7,6 +7,9 @@
    "ndevice": [
       	"vck"
        ], 
+    "platform_blacklist": [
+      	"vck"
+       ], 
     "contributors": [
         {
             "url": "http://www.xilinx.com", 

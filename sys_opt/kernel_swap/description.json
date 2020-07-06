@@ -17,6 +17,12 @@
         "vck",
         "zc7"
      ],
+    "platform_blacklist": [
+        "zcu102_base_202010",
+        "zcu104_base_202010",
+        "vck",
+        "zc7"
+     ],
     "contributors": [
         {
             "group": "Xilinx"

@@ -4,9 +4,14 @@
         "Bandwidth test of global to local memory."
     ], 
     "ndevice": [
-	"u50",
-    "vck",
-	"zc"
+        "u50",
+        "vck",
+        "zc"
+    ], 
+    "platform_blacklist": [
+        "u50",
+        "vck",
+        "zc"
     ], 
     "os": [
         "Linux"
