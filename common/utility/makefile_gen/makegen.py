@@ -434,6 +434,15 @@ def mk_check(target, data):
                 arg = arg.replace('BUILD', '$(BUILD_DIR)')
                 arg = arg.replace('PROJECT', '.')
                 target.write(arg)
+    if "post_launch" in data:
+        for post_launch in data["post_launch"]:
+            if "launch_cmd" in post_launch:
+                target.write("\n")
+                args = post_launch["launch_cmd"]
+                args = args.replace('BUILD', '$(BUILD_DIR)')
+                args = args.replace("REPO_DIR","$(ABS_COMMON_REPO)")
+                args = args.replace('HOST_EXE', '$(EXE_FILE)')
+                target.write("\t" + args)
     target.write("\nendif\n")
     target.write("endif\n")
     if "targets" in data:
@@ -449,7 +458,7 @@ def mk_check(target, data):
             target.write(arg)
         target.write(" TARGET. Please use the target for running the application)\n")
         target.write("endif\n")
-    target.write("\n\n")
+    target.write("\n")
 
 def mk_run(target, data):
     target.write("############################## Setting Essential Checks and Running Rules ##############################\n")
@@ -497,8 +506,17 @@ def mk_run(target, data):
                 arg = arg.replace('BUILD', '$(BUILD_DIR)')
                 arg = arg.replace('PROJECT', '.')
                 target.write(arg)
+    if "post_launch" in data:
+        for post_launch in data["post_launch"]:
+            if "launch_cmd" in post_launch:
+                target.write("\n")
+                args = post_launch["launch_cmd"]
+                args = args.replace('BUILD', '$(BUILD_DIR)')
+                args = args.replace("REPO_DIR","$(ABS_COMMON_REPO)")
+                args = args.replace('HOST_EXE', '$(EXE_FILE)')
+                target.write("\t" + args)
     target.write("\nendif\n")
-    target.write("endif\n")
+    target.write("endif")
     if "targets" in data:
         target.write("ifneq ($(TARGET),$(findstring $(TARGET),")
         args = data["targets"]
@@ -515,7 +533,7 @@ def mk_run(target, data):
         target.write("\n")
     
 
-    target.write("\n")
+    target.write("\n\n")
     
     target.write(".PHONY: test\n")
     target.write("test: $(EXECUTABLE)\n")
@@ -550,6 +568,15 @@ def mk_run(target, data):
                 arg = arg.replace('BUILD', '$(BUILD_DIR)')
                 arg = arg.replace('PROJECT', '.')
                 target.write(arg)
+    if "post_launch" in data:
+        for post_launch in data["post_launch"]:
+            if "launch_cmd" in post_launch:
+                target.write("\n")
+                args = post_launch["launch_cmd"]
+                args = args.replace('BUILD', '$(BUILD_DIR)')
+                args = args.replace("REPO_DIR","$(ABS_COMMON_REPO)")
+                args = args.replace('HOST_EXE', '$(EXE_FILE)')
+                target.write("\t" + args)
     target.write("\nelse\n")
     target.write("\t$(ECHO) \"Please copy the content of sd_card folder and data to an SD Card and run on the board\"")
     target.write("\nendif\n")
