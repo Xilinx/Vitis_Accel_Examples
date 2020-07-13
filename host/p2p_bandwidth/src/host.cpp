@@ -395,6 +395,7 @@ int main(int argc, char **argv) {
   parser.addSwitch("--input_file", "-i", "input test data flie", "");
   parser.addSwitch("--device", "-d", "device id", "0");
   parser.addSwitch("--mode", "-m", "mode r/w", "r");
+  parser.parse(argc, argv);
 
   // Read settings
   auto binaryFile = parser.value("xclbin_file");
