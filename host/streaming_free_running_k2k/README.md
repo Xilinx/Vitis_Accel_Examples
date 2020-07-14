@@ -11,7 +11,7 @@ This is simple example which demonstrate how to use and configure a free running
 Platforms containing following strings in their names are not supported for this example :
 ```
 xdma
-xilinx_u250_qep
+qep
 aws
 samsung
 zc702

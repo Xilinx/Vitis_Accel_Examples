@@ -14,7 +14,7 @@
         "zc",
         "vck",
         "xdma",
-        "xilinx_u250_qep",	
+        "qep",	
         "aws",
         "samsung"
     ],
@@ -22,7 +22,7 @@
         "zc",
         "vck",
         "xdma",
-        "xilinx_u250_qep",	
+        "qep",	
         "aws",
         "samsung"
     ],

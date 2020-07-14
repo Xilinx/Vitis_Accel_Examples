@@ -12,14 +12,14 @@
     ], 
     "ndevice": [
         "xdma",
-        "xilinx_u250_qep",
+        "qep",
         "aws",
         "samsung",
         "zc702"
     ],
     "platform_blacklist": [
         "xdma",
-        "xilinx_u250_qep",
+        "qep",
         "aws",
         "samsung",
         "zc702"

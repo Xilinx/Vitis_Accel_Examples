@@ -137,7 +137,7 @@ check: all
 ifeq ($(findstring xdma, $(DEVICE)), xdma)
 $(error This example is not supported for $(DEVICE))
 endif
-ifeq ($(findstring xilinx_u250_qep, $(DEVICE)), xilinx_u250_qep)
+ifeq ($(findstring qep, $(DEVICE)), qep)
 $(error This example is not supported for $(DEVICE))
 endif
 ifeq ($(findstring aws, $(DEVICE)), aws)
@@ -163,13 +163,12 @@ ifeq ($(HOST_ARCH), x86)
 endif
 endif
 
-
 ############################## Setting Essential Checks and Running Rules ##############################
 run: all
 ifeq ($(findstring xdma, $(DEVICE)), xdma)
 $(error This example is not supported for $(DEVICE))
 endif
-ifeq ($(findstring xilinx_u250_qep, $(DEVICE)), xilinx_u250_qep)
+ifeq ($(findstring qep, $(DEVICE)), qep)
 $(error This example is not supported for $(DEVICE))
 endif
 ifeq ($(findstring aws, $(DEVICE)), aws)

@@ -516,7 +516,7 @@ def mk_run(target, data):
                 args = args.replace('HOST_EXE', '$(EXE_FILE)')
                 target.write("\t" + args)
     target.write("\nendif\n")
-    target.write("endif")
+    target.write("endif\n")
     if "targets" in data:
         target.write("ifneq ($(TARGET),$(findstring $(TARGET),")
         args = data["targets"]
@@ -529,9 +529,7 @@ def mk_run(target, data):
             target.write(" ")
             target.write(arg)
         target.write(" TARGET. Please use the target for running the application)\n")
-        target.write("endif\n")
-        target.write("\n")
-    
+        target.write("endif\n")    
 
     target.write("\n\n")
     

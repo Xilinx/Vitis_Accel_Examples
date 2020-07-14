@@ -10,12 +10,12 @@ This is simple example which demonstrate streaming free-running kernel with scal
 ## EXCLUDED PLATFORMS
 Platforms containing following strings in their names are not supported for this example :
 ```
-xdma
-xilinx_u250_qep
-aws
-samsung
 zc
 vck
+xdma
+qep
+aws
+samsung
 ```
 
 ##  DESIGN FILES

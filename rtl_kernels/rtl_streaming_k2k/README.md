@@ -13,7 +13,7 @@ Platforms containing following strings in their names are not supported for this
 zc
 vck
 xdma
-xilinx_u250_qep
+qep
 aws
 samsung
 ```

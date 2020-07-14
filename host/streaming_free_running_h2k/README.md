@@ -13,7 +13,7 @@ Platforms containing following strings in their names are not supported for this
 zc
 vck
 xdma
-xilinx_u250_qep
+qep
 aws
 samsung
 ```
@@ -29,7 +29,7 @@ src/increment.cpp
 ##  COMMAND LINE ARGUMENTS
 Once the environment has been configured, the application can be executed by
 ```
-./host <increment XCLBIN>
+./host -x <increment XCLBIN>
 ```
 
 ##  COMMANDS FOR WINDOWS FLOW
