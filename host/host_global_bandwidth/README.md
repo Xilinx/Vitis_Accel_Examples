@@ -6,6 +6,7 @@ Host to global memory bandwidth test
 ## EXCLUDED PLATFORMS
 Platforms containing following strings in their names are not supported for this example :
 ```
+u25
 u50
 u280
 vck
