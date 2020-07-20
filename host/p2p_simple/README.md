@@ -11,6 +11,7 @@ This is simple example of vector increment to describe P2P between FPGA and NVMe
 Platforms containing following strings in their names are not supported for this example :
 ```
 zc
+u25
 u200
 u250
 u280

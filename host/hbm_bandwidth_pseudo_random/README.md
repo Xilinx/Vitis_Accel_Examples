@@ -6,6 +6,7 @@ This is a HBM bandwidth example using a pseudo random 1024 bit data access patte
 ## EXCLUDED PLATFORMS
 Platforms containing following strings in their names are not supported for this example :
 ```
+u25
 u200
 zc
 vck

@@ -126,6 +126,9 @@ $(EMCONFIG_DIR)/emconfig.json:
 
 ############################## Setting Essential Checks and Running Rules ##############################
 check: all
+ifeq ($(findstring u25, $(DEVICE)), u25)
+$(error This example is not supported for $(DEVICE))
+endif
 ifeq ($(findstring u50, $(DEVICE)), u50)
 $(error This example is not supported for $(DEVICE))
 endif
@@ -151,10 +154,12 @@ ifeq ($(HOST_ARCH), x86)
 	./$(EXECUTABLE) $(BUILD_DIR)/vadd.xclbin
 endif
 endif
-
 
 ############################## Setting Essential Checks and Running Rules ##############################
 run: all
+ifeq ($(findstring u25, $(DEVICE)), u25)
+$(error This example is not supported for $(DEVICE))
+endif
 ifeq ($(findstring u50, $(DEVICE)), u50)
 $(error This example is not supported for $(DEVICE))
 endif
@@ -180,6 +185,7 @@ ifeq ($(HOST_ARCH), x86)
 	./$(EXECUTABLE) $(BUILD_DIR)/vadd.xclbin
 endif
 endif
+
 
 .PHONY: test
 test: $(EXECUTABLE)

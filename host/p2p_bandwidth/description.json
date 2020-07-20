@@ -20,6 +20,7 @@
     "ndevice": [
         "zc",
         "vck",
+        "u25",
         "u200",
         "u250",
         "u50",
@@ -29,6 +30,7 @@
     "platform_blacklist": [
         "zc",
         "vck",
+        "u25",
         "u200",
         "u250",
         "u50",

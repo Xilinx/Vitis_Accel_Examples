@@ -132,6 +132,9 @@ endif
 ifeq ($(findstring vck, $(DEVICE)), vck)
 $(error This example is not supported for $(DEVICE))
 endif
+ifeq ($(findstring u25, $(DEVICE)), u25)
+$(error This example is not supported for $(DEVICE))
+endif
 ifeq ($(findstring u200, $(DEVICE)), u200)
 $(error This example is not supported for $(DEVICE))
 endif
@@ -160,7 +163,6 @@ ifeq ($(HOST_ARCH), x86)
 	./$(EXECUTABLE) -x $(BUILD_DIR)/copy_kernel.xclbin -i /dev/nvme0n1
 endif
 endif
-
 
 ############################## Setting Essential Checks and Running Rules ##############################
 run: all
@@ -170,6 +172,9 @@ endif
 ifeq ($(findstring vck, $(DEVICE)), vck)
 $(error This example is not supported for $(DEVICE))
 endif
+ifeq ($(findstring u25, $(DEVICE)), u25)
+$(error This example is not supported for $(DEVICE))
+endif
 ifeq ($(findstring u200, $(DEVICE)), u200)
 $(error This example is not supported for $(DEVICE))
 endif
@@ -198,6 +203,7 @@ ifeq ($(HOST_ARCH), x86)
 	./$(EXECUTABLE) -x $(BUILD_DIR)/copy_kernel.xclbin -i /dev/nvme0n1
 endif
 endif
+
 
 .PHONY: test
 test: $(EXECUTABLE)

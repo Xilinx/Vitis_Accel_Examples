@@ -12,7 +12,8 @@
         "High Bandwidth Memory", 
         "Multiple HBM Banks"
     ], 
-    "ndevice": [        
+    "ndevice": [    
+        "u25",
         "u200",
         "zc",
         "vck",
@@ -21,6 +22,7 @@
         "samsung"
     ],
     "platform_blacklist": [
+        "u25",
         "u200",
         "zc",
         "vck",

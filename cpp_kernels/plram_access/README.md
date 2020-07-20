@@ -10,6 +10,7 @@ This example shows the usage of PLRAM and how to use it with simple matrix multi
 ## EXCLUDED PLATFORMS
 Platforms containing following strings in their names are not supported for this example :
 ```
+u25
 zc
 vck
 u50

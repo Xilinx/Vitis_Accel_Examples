@@ -12,6 +12,7 @@ Platforms containing following strings in their names are not supported for this
 ```
 zc
 vck
+u25
 u200
 u250
 u50
