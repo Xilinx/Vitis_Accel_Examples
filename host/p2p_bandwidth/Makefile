@@ -132,7 +132,7 @@ endif
 ifeq ($(findstring vck, $(DEVICE)), vck)
 $(error This example is not supported for $(DEVICE))
 endif
-ifeq ($(findstring u25, $(DEVICE)), u25)
+ifeq ($(findstring _u25_, $(DEVICE)), _u25_)
 $(error This example is not supported for $(DEVICE))
 endif
 ifeq ($(findstring u200, $(DEVICE)), u200)
@@ -172,7 +172,7 @@ endif
 ifeq ($(findstring vck, $(DEVICE)), vck)
 $(error This example is not supported for $(DEVICE))
 endif
-ifeq ($(findstring u25, $(DEVICE)), u25)
+ifeq ($(findstring _u25_, $(DEVICE)), _u25_)
 $(error This example is not supported for $(DEVICE))
 endif
 ifeq ($(findstring u200, $(DEVICE)), u200)

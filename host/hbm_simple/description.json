@@ -13,7 +13,7 @@
         "Multiple HBM Banks"
     ], 
     "ndevice": [    
-        "u25",
+        "_u25_",
         "u200",
         "zc",
         "vck",
@@ -22,7 +22,7 @@
         "samsung"
     ],
     "platform_blacklist": [
-        "u25",
+        "_u25_",
         "u200",
         "zc",
         "vck",

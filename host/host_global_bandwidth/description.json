@@ -4,7 +4,7 @@
         "Host to global memory bandwidth test"
     ],
     "ndevice": [
-        "u25",
+        "_u25_",
         "u50",
         "u280",
         "vck",
@@ -12,7 +12,7 @@
         "zc"
     ], 
     "platform_blacklist": [
-        "u25",
+        "_u25_",
         "u50",
         "u280",
         "vck",

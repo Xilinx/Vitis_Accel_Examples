@@ -11,14 +11,14 @@
         "PLRAMs"
     ], 
     "ndevice": [
-        "u25",
+        "_u25_",
         "zc",
         "vck", 
         "u50",
         "samsung"
     ], 
     "platform_blacklist": [
-        "u25",
+        "_u25_",
         "zc",
         "vck", 
         "u50",

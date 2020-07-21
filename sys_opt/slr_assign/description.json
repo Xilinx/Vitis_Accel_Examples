@@ -10,13 +10,13 @@
         "SLR Assignments"
     ], 
     "ndevice": [
-        "u25",
+        "_u25_",
         "zc",
         "vck", 
         "samsung"
     ], 
     "platform_blacklist": [
-        "u25",
+        "_u25_",
         "zc",
         "vck", 
         "samsung"

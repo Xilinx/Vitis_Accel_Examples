@@ -6,7 +6,7 @@ This is a HBM bandwidth check design. Design contains 3 compute units of a kerne
 ## EXCLUDED PLATFORMS
 Platforms containing following strings in their names are not supported for this example :
 ```
-u25
+_u25_
 u200
 zc
 vck

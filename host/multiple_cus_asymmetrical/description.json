@@ -7,14 +7,14 @@
         "Multiple Compute Units"
     ], 
     "ndevice": [
-        "u25",
+        "_u25_",
         "u50",
         "vck",
         "samsung",
         "zc"
     ], 
     "platform_blacklist": [
-        "u25",
+        "_u25_",
         "u50",
         "vck",
         "samsung",

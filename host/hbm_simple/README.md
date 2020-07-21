@@ -10,7 +10,7 @@ This is a simple example of vector addition to describe how to use HLS kernels w
 ## EXCLUDED PLATFORMS
 Platforms containing following strings in their names are not supported for this example :
 ```
-u25
+_u25_
 u200
 zc
 vck

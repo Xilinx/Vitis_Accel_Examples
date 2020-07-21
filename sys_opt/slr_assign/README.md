@@ -10,7 +10,7 @@ This is simple example to describe SLR assignment information for a platform des
 ## EXCLUDED PLATFORMS
 Platforms containing following strings in their names are not supported for this example :
 ```
-u25
+_u25_
 zc
 vck
 samsung
