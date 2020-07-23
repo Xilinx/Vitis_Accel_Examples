@@ -13,14 +13,11 @@ def create_params(target,data):
     target.write("############################## Setting up Project Variables ##############################\n")      
     target.write("# Points to top directory of Git repository\n")
 
-    dirName = os.getcwd()
-    dirNameList = list(dirName.split("/"))
-    dirNameIndex = dirNameList.index("Vitis_Accel_Examples")
-    diff = len(dirNameList) - dirNameIndex - 1
-    target.write("COMMON_REPO = ")
-    while diff > 0:
-        target.write("../")
-        diff -= 1 
+    target.write("MK_PATH := $(abspath $(lastword $(MAKEFILE_LIST)))\n")
+    refpath = init_cur_dir.replace(cur_dir+"/","")
+    target.write("COMMON_REPO ?= ")
+    MK_PATH = 'export MK_PATH=$(MK_PATH); echo $${MK_PATH%' + refpath+ '/*}'
+    target.write("$(shell bash -c '%s')" %MK_PATH)
     target.write("\n")
     target.write("PWD = $(shell readlink -f .)\n")
     target.write("ABS_COMMON_REPO = $(shell readlink -f $(COMMON_REPO))\n")
@@ -529,7 +526,7 @@ def mk_run(target, data):
             target.write(" ")
             target.write(arg)
         target.write(" TARGET. Please use the target for running the application)\n")
-        target.write("endif\n")    
+        target.write("endif\n")
 
     target.write("\n\n")
     
@@ -897,6 +894,22 @@ script, desc_file = argv
 desc = open(desc_file, 'r')
 data = json.load(desc)
 desc.close()
+
+file_name = "LICENSE.txt" # file to be searched
+cur_dir = os.getcwd()      # Dir from where search starts can be replaced with any path
+init_cur_dir = cur_dir
+
+while True:
+    file_list = os.listdir(cur_dir)
+    parent_dir = os.path.dirname(cur_dir)
+    if file_name in file_list:
+        break
+    else:
+        if cur_dir == parent_dir:         # if dir is root dir
+            print ("LICENSE.txt file not found")
+            break
+        else:
+            cur_dir = parent_dir
 
 if "match_ini" in data and data["match_ini"] == "false":
     print("Info:: xrt.ini File Manually Edited:: Auto-file Generator Failed")

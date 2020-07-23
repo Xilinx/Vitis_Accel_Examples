@@ -3,6 +3,7 @@
     "description": [
         "This is simple example of vector addition to describe how to use BIND OP and STORAGE for better implementation style."
     ],
+    "flow": "vitis",
     "keywords": [
         "BIND_OP", 
         "BIND_STORAGE",
@@ -54,5 +55,24 @@
             "url": "http://www.xilinx.com", 
             "group": "Xilinx"
         }
-    ] 
+    ],
+    "testinfo": {
+        "disable": false,
+        "jobs": [
+            {
+                "index": 0,
+                "dependency": [],
+                "env": "",
+                "cmd": "",
+                "max_memory_MB": 32768,
+                "max_time_min": 300
+            }
+        ],
+        "targets": [
+            "vitis_sw_emu",
+            "vitis_hw_emu",
+            "vitis_hw"
+        ],
+        "category": "canary"
+    }
 }
