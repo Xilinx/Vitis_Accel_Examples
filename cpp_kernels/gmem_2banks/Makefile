@@ -31,7 +31,8 @@ help::
 
 ############################## Setting up Project Variables ##############################
 # Points to top directory of Git repository
-COMMON_REPO = ../../
+MK_PATH := $(abspath $(lastword $(MAKEFILE_LIST)))
+COMMON_REPO ?= $(shell bash -c 'export MK_PATH=$(MK_PATH); echo $${MK_PATH%cpp_kernels/gmem_2banks/*}')
 PWD = $(shell readlink -f .)
 ABS_COMMON_REPO = $(shell readlink -f $(COMMON_REPO))
 
@@ -160,7 +161,6 @@ ifeq ($(HOST_ARCH), x86)
 endif
 endif
 
-
 ############################## Setting Essential Checks and Running Rules ##############################
 run: all
 ifeq ($(findstring zc, $(DEVICE)), zc)
@@ -191,6 +191,7 @@ ifeq ($(HOST_ARCH), x86)
 	./$(EXECUTABLE) -x $(BUILD_DIR)/apply_watermark.xclbin -i ./data/input.bmp -c ./data/golden.bmp
 endif
 endif
+
 
 .PHONY: test
 test: $(EXECUTABLE)
