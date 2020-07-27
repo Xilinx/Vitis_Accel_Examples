@@ -15,6 +15,7 @@ Example        | Description           | Key Concepts / Keywords
 [errors/][]|This example discuss the different reasons for errors in OpenCL and how to handle them at runtime.|__Key__ __Concepts__<br> - OpenCL API<br> - Error handling<br>__Keywords__<br> - CL_SUCCESS<br> - CL_DEVICE_NOT_FOUND<br> - CL_DEVICE_NOT_AVAILABLE
 [errors_cpp/][]|This example discuss the different reasons for errors in OpenCL C++ and how to handle them at runtime.|__Key__ __Concepts__<br> - OpenCL C++ API<br> - Error handling<br>__Keywords__<br> - CL_SUCCESS<br> - CL_DEVICE_NOT_FOUND<br> - CL_DEVICE_NOT_AVAILABLE<br> - CL_INVALID_VALUE<br> - CL_INVALID_KERNEL_NAME<br> - CL_INVALID_BUFFER_SIZE
 [hbm_bandwidth/][]|This is a HBM bandwidth check design. Design contains 3 compute units of a kernel which has access to all HBM banks (0:31). Host application allocate buffer into all HBM banks and run these 3 compute units concurrently and measure the overall bandwidth between Kernel and HBM Memory.|
+[hbm_bandwidth_pseudo_random/][]|This is a HBM bandwidth example using a pseudo random 1024 bit data access pattern to mimic Ethereum Ethash workloads. The design contains 3 compute units of a kernel, reading 1024 bits from a pseudo random address in each of 2 pseudo channels and writing the results of a simple mathematical operation to a pseudo random address in 2 other pseudo channels. To maximize bandwidth the pseudo channels are used in  P2P like configuration - See https://developer.xilinx.com/en/articles/maximizing-memory-bandwidth-with-vitis-and-xilinx-ultrascale-hbm-devices.html for more information on HBM memory access configurations. The host application allocates buffers in 12  HBM banks and runs the compute units concurrently to measure the overall bandwidth between kernel and HBM Memory.|
 [hbm_simple/][]|This is a simple example of vector addition to describe how to use HLS kernels with HBM (High Bandwidth Memory) for achieving high throughput.|__Key__ __Concepts__<br> - High Bandwidth Memory<br> - Multiple HBM Banks<br>__Keywords__<br> - HBM<br> - XCL_MEM_TOPOLOGY<br> - cl_mem_ext_ptr_t
 [host_global_bandwidth/][]|Host to global memory bandwidth test|
 [mult_compute_units/][]|This is simple Example of Multiple Compute units to showcase how a single kernel can be instantiated into Multiple compute units. Host code will show how to use multiple compute units and run them concurrently.|__Key__ __Concepts__<br> - Multiple Compute Units<br>__Keywords__<br> - nk
@@ -43,6 +44,7 @@ Example        | Description           | Key Concepts / Keywords
 [errors/]:errors/
 [errors_cpp/]:errors_cpp/
 [hbm_bandwidth/]:hbm_bandwidth/
+[hbm_bandwidth_pseudo_random/]:hbm_bandwidth_pseudo_random/
 [hbm_simple/]:hbm_simple/
 [host_global_bandwidth/]:host_global_bandwidth/
 [mult_compute_units/]:mult_compute_units/

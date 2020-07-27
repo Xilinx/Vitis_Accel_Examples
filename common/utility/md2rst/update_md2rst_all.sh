@@ -28,13 +28,9 @@ update_file() {
 		# Take out the name of the example
 		b_name=$(basename $(dirname $1))
 		# Run the detailed .md generator
-		$appDir/utility/md2rst/md2rst.py description.json #> /dev/null 2>&1
-		# Run the .md to .rst file generator using correct path to pandoc
-		$appDir/pandoc-2.9.2.1/bin/pandoc -f markdown D_README.md -t rst -o $b_name.rst
+		$appDir/utility/md2rst/md2rst.py description.json $b_name #> /dev/null 2>&1
 		# move the generated .rst to desired folder
 		mv $b_name.rst $appDir/../../test/
-		# delete the detailed readme
-		rm D_README.md
 		# Locate the desired folder and run sphinx to generate html files from
 		# rst files. Go live...
 		popd >/dev/null
