@@ -31,7 +31,8 @@ help::
 
 ############################## Setting up Project Variables ##############################
 # Points to top directory of Git repository
-COMMON_REPO = ../../
+MK_PATH := $(abspath $(lastword $(MAKEFILE_LIST)))
+COMMON_REPO ?= $(shell bash -c 'export MK_PATH=$(MK_PATH); echo $${MK_PATH%host/device_query/*}')
 PWD = $(shell readlink -f .)
 ABS_COMMON_REPO = $(shell readlink -f $(COMMON_REPO))
 
@@ -133,7 +134,6 @@ ifeq ($(HOST_ARCH), x86)
 endif
 endif
 
-
 ############################## Setting Essential Checks and Running Rules ##############################
 run: all
 ifeq ($(findstring zc, $(DEVICE)), zc)
@@ -156,6 +156,7 @@ ifeq ($(HOST_ARCH), x86)
 endif
 endif
 
+
 .PHONY: test
 test: $(EXECUTABLE)
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
@@ -174,7 +175,7 @@ endif
 
 
 ############################## Preparing sdcard ##############################
-sd_card: gen_run_app
+sd_card: $(BINARY_CONTAINERS) $(EXECUTABLE) gen_run_app
 ifneq ($(HOST_ARCH), x86)
 endif
 

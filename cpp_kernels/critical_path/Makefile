@@ -118,7 +118,12 @@ $(TEMP_DIR)/apply_watermark.xo: src/apply_watermark.cpp
 	$(VPP) $(CLFLAGS) $(CLFLAGS_apply_watermark) --temp_dir $(TEMP_DIR) -c -k apply_watermark -I'$(<D)' -o'$@' '$<'
 $(BUILD_DIR)/apply_watermark_GOOD.xclbin: $(BINARY_CONTAINER_apply_watermark_GOOD_OBJS)
 	mkdir -p $(BUILD_DIR)
-	$(VPP) $(CLFLAGS) --temp_dir $(BUILD_DIR) -l $(LDCLFLAGS) -o'$@' $(+)
+ifeq ($(HOST_ARCH), x86)
+	$(VPP) $(CLFLAGS) --temp_dir $(BUILD_DIR) -l $(LDCLFLAGS) -o'$(BUILD_DIR)/apply_watermark_GOOD.link.xclbin' $(+)
+	$(VPP) -t $(TARGET) --platform $(DEVICE) -p $(BUILD_DIR)/apply_watermark_GOOD.link.xclbin --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/apply_watermark_GOOD.xclbin
+else
+	$(VPP) $(CLFLAGS) --temp_dir $(BUILD_DIR) -l $(LDCLFLAGS) -o'$(BUILD_DIR)/apply_watermark_GOOD.xclbin' $(+)
+endif
 
 ############################## Setting Rules for Host (Building Host Executable) ##############################
 $(EXECUTABLE): check-xrt $(HOST_SRCS) $(HOST_HDRS)
@@ -177,7 +182,7 @@ endif
 
 
 ############################## Preparing sdcard ##############################
-sd_card: gen_run_app
+sd_card: $(BINARY_CONTAINERS) $(EXECUTABLE) gen_run_app
 ifneq ($(HOST_ARCH), x86)
 	$(VPP) -t $(TARGET) --platform $(DEVICE) -p $(BUILD_DIR)/apply_watermark_GOOD.xclbin --package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.sd_file $(SD_IMAGE_FILE) --package.sd_file xrt.ini --package.sd_file $(RUN_APP_SCRIPT) --package.sd_file $(EXECUTABLE) --package.sd_file ./data/input.bmp --package.sd_file ./data/golden.bmp -o apply_watermark_GOOD.xclbin
 endif

@@ -31,7 +31,8 @@ help::
 
 ############################## Setting up Project Variables ##############################
 # Points to top directory of Git repository
-COMMON_REPO = ../../
+MK_PATH := $(abspath $(lastword $(MAKEFILE_LIST)))
+COMMON_REPO ?= $(shell bash -c 'export MK_PATH=$(MK_PATH); echo $${MK_PATH%demo/kmeans/*}')
 PWD = $(shell readlink -f .)
 ABS_COMMON_REPO = $(shell readlink -f $(COMMON_REPO))
 
@@ -120,7 +121,12 @@ $(TEMP_DIR)/kmeans.xo: src/krnl_kmeans.cpp
 	$(VPP) $(CLFLAGS) --temp_dir $(TEMP_DIR) -c -k kmeans -I'$(<D)' -o'$@' '$<'
 $(BUILD_DIR)/krnl_kmeans.xclbin: $(BINARY_CONTAINER_krnl_kmeans_OBJS)
 	mkdir -p $(BUILD_DIR)
-	$(VPP) $(CLFLAGS) --temp_dir $(BUILD_DIR) -l $(LDCLFLAGS) $(LDCLFLAGS_krnl_kmeans) -o'$@' $(+)
+ifeq ($(HOST_ARCH), x86)
+	$(VPP) $(CLFLAGS) --temp_dir $(BUILD_DIR) -l $(LDCLFLAGS) $(LDCLFLAGS_krnl_kmeans) -o'$(BUILD_DIR)/krnl_kmeans.link.xclbin' $(+)
+	$(VPP) -t $(TARGET) --platform $(DEVICE) -p $(BUILD_DIR)/krnl_kmeans.link.xclbin --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/krnl_kmeans.xclbin
+else
+	$(VPP) $(CLFLAGS) --temp_dir $(BUILD_DIR) -l $(LDCLFLAGS) -o'$(BUILD_DIR)/krnl_kmeans.xclbin' $(+)
+endif
 
 ############################## Setting Rules for Host (Building Host Executable) ##############################
 $(EXECUTABLE): check-xrt $(HOST_SRCS) $(HOST_HDRS)
@@ -155,7 +161,6 @@ ifeq ($(HOST_ARCH), x86)
 endif
 endif
 
-
 ############################## Setting Essential Checks and Running Rules ##############################
 run: all
 ifeq ($(findstring zc, $(DEVICE)), zc)
@@ -181,6 +186,7 @@ ifeq ($(HOST_ARCH), x86)
 endif
 endif
 
+
 .PHONY: test
 test: $(EXECUTABLE)
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
@@ -199,7 +205,7 @@ endif
 
 
 ############################## Preparing sdcard ##############################
-sd_card: gen_run_app
+sd_card: $(BINARY_CONTAINERS) $(EXECUTABLE) gen_run_app
 ifneq ($(HOST_ARCH), x86)
 	$(VPP) -t $(TARGET) --platform $(DEVICE) -p $(BUILD_DIR)/krnl_kmeans.xclbin --package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.sd_file $(SD_IMAGE_FILE) --package.sd_file xrt.ini --package.sd_file $(RUN_APP_SCRIPT) --package.sd_file $(EXECUTABLE) --package.sd_file ./data/100 --package.sd_file ./data/100.gold_c10 --package.sd_file 10 -o krnl_kmeans.xclbin
 endif

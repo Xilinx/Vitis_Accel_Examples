@@ -270,6 +270,7 @@ def building_kernel(target, data):
             target.write(con["name"])
             target.write("_OBJS)\n")
             target.write("\tmkdir -p $(BUILD_DIR)\n")
+            target.write("ifeq ($(HOST_ARCH), x86)\n")
             target.write("\t$(VPP) $(CLFLAGS) --temp_dir ")
             target.write("$(BUILD_DIR) ")
             target.write("-l $(LDCLFLAGS)")
@@ -278,7 +279,14 @@ def building_kernel(target, data):
                 for acc in con["accelerators"]:
                     if "compute_units" in acc or "num_compute_units" in acc:
                         target.write(" $(LDCLFLAGS_"+con["name"]+")")
-            target.write(" -o'$@' $(+)\n")
+            target.write(" -o'$(BUILD_DIR)/" + con["name"] + ".link.xclbin' $(+)\n")
+
+            target.write("\t$(VPP) -t $(TARGET) --platform $(DEVICE) ")
+            target.write("-p $(BUILD_DIR)/" + con["name"] + ".link.xclbin --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/" + con["name"] + ".xclbin\n")
+            target.write("else\n")
+            target.write("\t$(VPP) $(CLFLAGS) --temp_dir $(BUILD_DIR) -l ")
+            target.write("$(LDCLFLAGS) -o'$(BUILD_DIR)/" + con["name"] + ".xclbin' $(+)\n")
+            target.write("endif\n")
     target.write("\n")
     return
 
@@ -594,7 +602,7 @@ def mk_run(target, data):
 
 def mk_sdcard(target, data):
     target.write("############################## Preparing sdcard ##############################\n")
-    target.write("sd_card: gen_run_app\n")
+    target.write("sd_card: $(BINARY_CONTAINERS) $(EXECUTABLE) gen_run_app\n")
     extra_file_list = []
     if "launch" in data:	
         if "cmd_args" in data["launch"][0]:

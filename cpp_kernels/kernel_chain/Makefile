@@ -117,7 +117,12 @@ $(TEMP_DIR)/krnl_simple_mmult.xo: src/krnl_simple_mmult.cpp
 	$(VPP) $(CLFLAGS) --temp_dir $(TEMP_DIR) -c -k krnl_simple_mmult -I'$(<D)' -o'$@' '$<'
 $(BUILD_DIR)/krnl_mmult.xclbin: $(BINARY_CONTAINER_krnl_mmult_OBJS)
 	mkdir -p $(BUILD_DIR)
-	$(VPP) $(CLFLAGS) --temp_dir $(BUILD_DIR) -l $(LDCLFLAGS) -o'$@' $(+)
+ifeq ($(HOST_ARCH), x86)
+	$(VPP) $(CLFLAGS) --temp_dir $(BUILD_DIR) -l $(LDCLFLAGS) -o'$(BUILD_DIR)/krnl_mmult.link.xclbin' $(+)
+	$(VPP) -t $(TARGET) --platform $(DEVICE) -p $(BUILD_DIR)/krnl_mmult.link.xclbin --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/krnl_mmult.xclbin
+else
+	$(VPP) $(CLFLAGS) --temp_dir $(BUILD_DIR) -l $(LDCLFLAGS) -o'$(BUILD_DIR)/krnl_mmult.xclbin' $(+)
+endif
 
 ############################## Setting Rules for Host (Building Host Executable) ##############################
 $(EXECUTABLE): check-xrt $(HOST_SRCS) $(HOST_HDRS)
@@ -202,7 +207,7 @@ endif
 
 
 ############################## Preparing sdcard ##############################
-sd_card: gen_run_app
+sd_card: $(BINARY_CONTAINERS) $(EXECUTABLE) gen_run_app
 ifneq ($(HOST_ARCH), x86)
 	$(VPP) -t $(TARGET) --platform $(DEVICE) -p $(BUILD_DIR)/krnl_mmult.xclbin --package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.sd_file $(SD_IMAGE_FILE) --package.sd_file xrt.ini --package.sd_file $(RUN_APP_SCRIPT) --package.sd_file $(EXECUTABLE) -o krnl_mmult.xclbin
 endif

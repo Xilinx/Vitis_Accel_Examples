@@ -31,7 +31,8 @@ help::
 
 ############################## Setting up Project Variables ##############################
 # Points to top directory of Git repository
-COMMON_REPO = ../../
+MK_PATH := $(abspath $(lastword $(MAKEFILE_LIST)))
+COMMON_REPO ?= $(shell bash -c 'export MK_PATH=$(MK_PATH); echo $${MK_PATH%host/mult_compute_units/*}')
 PWD = $(shell readlink -f .)
 ABS_COMMON_REPO = $(shell readlink -f $(COMMON_REPO))
 
@@ -114,7 +115,12 @@ $(TEMP_DIR)/vadd.xo: src/vadd.cpp
 	$(VPP) $(CLFLAGS) --temp_dir $(TEMP_DIR) -c -k vadd -I'$(<D)' -o'$@' '$<'
 $(BUILD_DIR)/vadd.xclbin: $(BINARY_CONTAINER_vadd_OBJS)
 	mkdir -p $(BUILD_DIR)
-	$(VPP) $(CLFLAGS) --temp_dir $(BUILD_DIR) -l $(LDCLFLAGS) $(LDCLFLAGS_vadd) -o'$@' $(+)
+ifeq ($(HOST_ARCH), x86)
+	$(VPP) $(CLFLAGS) --temp_dir $(BUILD_DIR) -l $(LDCLFLAGS) $(LDCLFLAGS_vadd) -o'$(BUILD_DIR)/vadd.link.xclbin' $(+)
+	$(VPP) -t $(TARGET) --platform $(DEVICE) -p $(BUILD_DIR)/vadd.link.xclbin --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/vadd.xclbin
+else
+	$(VPP) $(CLFLAGS) --temp_dir $(BUILD_DIR) -l $(LDCLFLAGS) -o'$(BUILD_DIR)/vadd.xclbin' $(+)
+endif
 
 ############################## Setting Rules for Host (Building Host Executable) ##############################
 $(EXECUTABLE): check-xrt $(HOST_SRCS) $(HOST_HDRS)
@@ -139,7 +145,6 @@ ifeq ($(HOST_ARCH), x86)
 endif
 endif
 
-
 ############################## Setting Essential Checks and Running Rules ##############################
 run: all
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
@@ -154,6 +159,7 @@ ifeq ($(HOST_ARCH), x86)
 	./$(EXECUTABLE) $(BUILD_DIR)/vadd.xclbin
 endif
 endif
+
 
 .PHONY: test
 test: $(EXECUTABLE)
@@ -173,7 +179,7 @@ endif
 
 
 ############################## Preparing sdcard ##############################
-sd_card: gen_run_app
+sd_card: $(BINARY_CONTAINERS) $(EXECUTABLE) gen_run_app
 ifneq ($(HOST_ARCH), x86)
 	$(VPP) -t $(TARGET) --platform $(DEVICE) -p $(BUILD_DIR)/vadd.xclbin --package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.sd_file $(SD_IMAGE_FILE) --package.sd_file xrt.ini --package.sd_file $(RUN_APP_SCRIPT) --package.sd_file $(EXECUTABLE) -o vadd.xclbin
 endif
