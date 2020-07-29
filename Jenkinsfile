@@ -1,3 +1,4 @@
 @Library('pipeline-library')_
-VitisExamplePipeline (libname: 'Vitis_Accel_Examples', TARGETS: 'sw_emu', forcerdi: 'true',  
-                  devtest: 'RunDevTest.sh', TOOLVERSION: '2019.2_daily_latest')
+
+VitisLibPipeline (branch: 'master', libname: 'Vitis_Accel_Examples', TARGETS: 'vitis_sw_emu:vitis_hw_emu',
+                  email: 'heeran@xilinx.com', devtest: 'RunDeploy.sh', TOOLVERSION: '2020.1_released')
