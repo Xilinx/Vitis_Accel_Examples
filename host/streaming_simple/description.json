@@ -3,6 +3,7 @@
     "description": [
         "This is a simple Vector Add C Kernel design with 2 Stream inputs and 1 Stream output that demonstrates on how streaming kernel can be implemented and how host can directly send data to kernel without global memory."
     ], 
+    "flow": "vitis",
     "keywords": [
         "cl_stream", 
         "CL_STREAM_EOT", 
@@ -12,6 +13,9 @@
         "Read/Write Stream", 
         "Create/Release Stream"
     ], 
+    "platform_whitelist": [
+        "u200_qdma"
+    ],  
     "ndevice": [
         "zc",
         "vck",
@@ -73,5 +77,24 @@
             "url": "http://www.xilinx.com", 
             "group": "Xilinx"
         }
-    ] 
+    ],
+    "testinfo": {
+        "disable": false,
+        "jobs": [
+            {
+                "index": 0,
+                "dependency": [],
+                "env": "",
+                "cmd": "",
+                "max_memory_MB": 32768,
+                "max_time_min": 300
+            }
+        ],
+        "targets": [
+            "vitis_sw_emu",
+            "vitis_hw_emu",
+            "vitis_hw"
+        ],
+        "category": "canary"
+    }
 }

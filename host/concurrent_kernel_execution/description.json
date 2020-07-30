@@ -3,6 +3,7 @@
     "description": [
         "This example will demonstrate how to use multiple and out of order command queues to simultaneously execute multiple kernels on an FPGA."
     ],
+    "flow": "vitis",
     "keywords": [
         "CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE", 
         "setCallback"
@@ -59,5 +60,24 @@
             "url": "http://www.xilinx.com", 
             "group": "Xilinx"
         }
-    ] 
+    ],
+    "testinfo": {
+        "disable": false,
+        "jobs": [
+            {
+                "index": 0,
+                "dependency": [],
+                "env": "",
+                "cmd": "",
+                "max_memory_MB": 32768,
+                "max_time_min": 300
+            }
+        ],
+        "targets": [
+            "vitis_sw_emu",
+            "vitis_hw_emu",
+            "vitis_hw"
+        ],
+        "category": "canary"
+    }
 }

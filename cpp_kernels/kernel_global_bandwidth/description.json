@@ -68,9 +68,7 @@
             {
                 "hw": "1"
             }
-        ]
-    },
-    "testinfo": {
+        ],
         "disable": false,
         "jobs": [
             {

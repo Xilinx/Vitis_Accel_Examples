@@ -3,6 +3,7 @@
     "description": [
         "This is a simple example of matrix multiplication (Row x Col) to help developers learn systolic array based algorithm design. Note: Systolic array based algorithm design is well suited for FPGA."
     ],
+    "flow": "vitis",
     "ndevice": [
         "zc702_base"
     ],
@@ -54,6 +55,23 @@
             {
                 "hw": "1"
             }
-        ]
-    } 
+        ],
+        "disable": false,
+        "jobs": [
+            {
+                "index": 0,
+                "dependency": [],
+                "env": "",
+                "cmd": "",
+                "max_memory_MB": 32768,
+                "max_time_min": 300
+            }
+        ],
+        "targets": [
+            "vitis_sw_emu",
+            "vitis_hw_emu",
+            "vitis_hw"
+        ],
+        "category": "canary"
+    }
 }

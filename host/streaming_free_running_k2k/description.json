@@ -3,12 +3,16 @@
     "description": [
         "This is simple example which demonstrate how to use and configure a free running kernel."
     ],
+    "flow": "vitis",
     "keywords": [
         "ap_ctrl_none",
         "stream_connect" 
     ], 
     "key_concepts": [
         "Free Running Kernel" 
+    ], 
+    "platform_whitelist": [
+        "u200_qdma"
     ], 
     "ndevice": [
         "xdma",
@@ -72,5 +76,24 @@
             "url": "http://www.xilinx.com", 
             "group": "Xilinx"
         }
-    ] 
+    ],
+    "testinfo": {
+        "disable": false,
+        "jobs": [
+            {
+                "index": 0,
+                "dependency": [],
+                "env": "",
+                "cmd": "",
+                "max_memory_MB": 32768,
+                "max_time_min": 300
+            }
+        ],
+        "targets": [
+            "vitis_sw_emu",
+            "vitis_hw_emu",
+            "vitis_hw"
+        ],
+        "category": "canary"
+    }
 }

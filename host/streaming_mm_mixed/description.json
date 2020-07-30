@@ -3,6 +3,7 @@
     "description": [
         "This is a simple streaming Vector Addition C Kernel design with 1 Stream input, 1 memory mapped input to the kernel, and 1 stream output that demonstrates on how to process a stream of data along with memory mapped interface."
     ], 
+    "flow": "vitis",
     "keywords": [
         "cl_stream", 
         "CL_STREAM_EOT"
@@ -11,6 +12,9 @@
         "Read/Write Stream", 
         "Create/Release Stream"
     ], 
+    "platform_whitelist": [
+        "u200_qdma"
+    ],  
     "ndevice": [
         "zc",
         "vck",
@@ -72,5 +76,24 @@
             "url": "http://www.xilinx.com", 
             "group": "Xilinx"
         }
-    ] 
+    ],
+    "testinfo": {
+        "disable": false,
+        "jobs": [
+            {
+                "index": 0,
+                "dependency": [],
+                "env": "",
+                "cmd": "",
+                "max_memory_MB": 32768,
+                "max_time_min": 300
+            }
+        ],
+        "targets": [
+            "vitis_sw_emu",
+            "vitis_hw_emu",
+            "vitis_hw"
+        ],
+        "category": "canary"
+    }
 }

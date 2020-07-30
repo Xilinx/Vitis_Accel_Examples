@@ -3,7 +3,11 @@
     "description": [
         "This example uses two simple increment RTL kernels connected to each other via stream interface and connected to host via memory mapped C++ data mover kernels"
     ], 
+    "flow": "vitis",
     "config_make": "config.mk",
+    "platform_whitelist": [
+        "u200_qdma"
+    ],  
    "ndevice": [
       	"vck"
        ], 
@@ -82,5 +86,23 @@
 	    "ldclflags": "--config PROJECT/myadder.ini"
         }
     ], 
+    "testinfo": {
+        "disable": false,
+        "jobs": [
+            {
+                "index": 0,
+                "dependency": [],
+                "env": "",
+                "cmd": "",
+                "max_memory_MB": 32768,
+                "max_time_min": 300
+            }
+        ],
+        "targets": [
+            "vitis_hw_emu",
+            "vitis_hw"
+        ],
+        "category": "canary"
+    },
     "output_files": "tmp_kernel_pack* packaged_kernel* _x* *_ex project* pinfo.json *.xo"
 }

@@ -3,6 +3,7 @@
     "description": [
         "This is a simple example of vector addition to describe how to use HLS kernels with HBM (High Bandwidth Memory) for achieving high throughput."
     ],
+    "flow": "vitis",
     "keywords": [
         "HBM", 
         "XCL_MEM_TOPOLOGY", 
@@ -12,7 +13,7 @@
         "High Bandwidth Memory", 
         "Multiple HBM Banks"
     ], 
-    "ndevice": [    
+    "ndevice": [  
         "_u25_",
         "u200",
         "zc",
@@ -87,5 +88,24 @@
             "url": "http://www.xilinx.com", 
             "group": "Xilinx"
         }
-    ] 
+    ],
+    "testinfo": {
+        "disable": false,
+        "jobs": [
+            {
+                "index": 0,
+                "dependency": [],
+                "env": "",
+                "cmd": "",
+                "max_memory_MB": 32768,
+                "max_time_min": 300
+            }
+        ],
+        "targets": [
+            "vitis_sw_emu",
+            "vitis_hw_emu",
+            "vitis_hw"
+        ],
+        "category": "canary"
+    }
 }

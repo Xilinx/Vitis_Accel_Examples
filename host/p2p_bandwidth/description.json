@@ -3,6 +3,7 @@
     "description": [
         "This is simple example to test Synchronous and Asyncronous data transfer between SSD and FPGA."
     ],
+    "flow": "vitis",
     "keywords": [
         "XCL_MEM_EXT_P2P_BUFFER",
         "pread",
@@ -16,6 +17,9 @@
     "platform_type": "pcie",
     "os": [
         "Linux"
+    ],
+    "platform_whitelist": [
+        "samsung_u2"
     ],
     "ndevice": [
         "zc",
@@ -82,5 +86,24 @@
             "url": "http://www.xilinx.com", 
             "group": "Xilinx"
         }
-    ] 
+    ],
+    "testinfo": {
+        "disable": false,
+        "jobs": [
+            {
+                "index": 0,
+                "dependency": [],
+                "env": "",
+                "cmd": "",
+                "max_memory_MB": 32768,
+                "max_time_min": 300
+            }
+        ],
+        "targets": [
+            "vitis_sw_emu",
+            "vitis_hw_emu",
+            "vitis_hw"
+        ],
+        "category": "canary"
+    }
 }

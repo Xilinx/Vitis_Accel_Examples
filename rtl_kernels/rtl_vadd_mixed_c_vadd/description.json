@@ -3,6 +3,7 @@
     "description": [
         "This example has one RTL kernel and one C kernel. Both RTL kernel and C kernel perform vector addition. The C kernel reads the output from RTL kernel as one of two inputs."
     ], 
+    "flow": "vitis",
     "key_concepts": [
         "Mixed Kernels"
     ], 
@@ -64,5 +65,23 @@
             "version": "1.0", 
             "description": "Initial Xilinx Release"
         }
-    ] 
+    ],
+    "testinfo": {
+        "disable": false,
+        "jobs": [
+            {
+                "index": 0,
+                "dependency": [],
+                "env": "",
+                "cmd": "",
+                "max_memory_MB": 32768,
+                "max_time_min": 300
+            }
+        ],
+        "targets": [
+            "vitis_hw_emu",
+            "vitis_hw"
+        ],
+        "category": "canary"
+    } 
 }

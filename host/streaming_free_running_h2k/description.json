@@ -3,6 +3,7 @@
     "description": [
         "This is a simple streaming free running kernel that demonstrates how to interact with the host. In this design we showcase multiple stream requests in parallel."
     ], 
+    "flow": "vitis",
     "keywords": [
         "cl_stream", 
         "CL_STREAM_EOT", 
@@ -10,7 +11,10 @@
     ], 
     "key_concepts": [
         "Free Running Kernel" 
-    ], 
+    ],
+    "platform_whitelist": [
+        "u200_qdma"
+    ],
     "ndevice": [
         "zc",
         "vck",
@@ -70,5 +74,24 @@
             "url": "http://www.xilinx.com", 
             "group": "Xilinx"
         }
-    ] 
+    ],
+    "testinfo": {
+        "disable": false,
+        "jobs": [
+            {
+                "index": 0,
+                "dependency": [],
+                "env": "",
+                "cmd": "",
+                "max_memory_MB": 32768,
+                "max_time_min": 300
+            }
+        ],
+        "targets": [
+            "vitis_sw_emu",
+            "vitis_hw_emu",
+            "vitis_hw"
+        ],
+        "category": "canary"
+    }
 }

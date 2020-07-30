@@ -3,6 +3,7 @@
     "description": [
         "This example will demonstrate how to create buffers in global memory which are not mapped to host."
     ],
+    "flow": "vitis",
     "keywords": [
         "CL_MEM_HOST_NO_ACCESS"
     ], 
@@ -54,5 +55,24 @@
             "url": "http://www.xilinx.com", 
             "group": "Xilinx"
         }
-    ] 
+    ],
+    "testinfo": {
+        "disable": false,
+        "jobs": [
+            {
+                "index": 0,
+                "dependency": [],
+                "env": "",
+                "cmd": "",
+                "max_memory_MB": 32768,
+                "max_time_min": 300
+            }
+        ],
+        "targets": [
+            "vitis_sw_emu",
+            "vitis_hw_emu",
+            "vitis_hw"
+        ],
+        "category": "canary"
+    }
 }

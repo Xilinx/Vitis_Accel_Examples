@@ -3,6 +3,7 @@
     "description": [
         "This is a simple kernel to kernel streaming Vector Add and Vector Multiply C Kernel design with 2 memory mapped input to kernel 1, 1 Stream output from kernel 1 to input of kernel 2, 1 memory mapped input to kernel 2, and 1 memory mapped output that demonstrates on how to process a stream of data for computation between two kernels."
     ],
+    "flow": "vitis",
     "keywords": [
 	"stream_connect"
     ], 
@@ -10,6 +11,9 @@
         "Read/Write Stream", 
         "Create/Release Stream"
     ], 
+    "platform_whitelist": [
+        "u200_qdma"
+    ],  
     "ndevice": [
         "samsung",
         "vck",
@@ -70,5 +74,24 @@
             "url": "http://www.xilinx.com", 
             "group": "Xilinx"
         }
-    ] 
+    ],
+    "testinfo": {
+        "disable": false,
+        "jobs": [
+            {
+                "index": 0,
+                "dependency": [],
+                "env": "",
+                "cmd": "",
+                "max_memory_MB": 32768,
+                "max_time_min": 300
+            }
+        ],
+        "targets": [
+            "vitis_sw_emu",
+            "vitis_hw_emu",
+            "vitis_hw"
+        ],
+        "category": "canary"
+    }
 }

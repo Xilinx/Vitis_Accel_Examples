@@ -1,6 +1,7 @@
 {
     "name": "Vector Addition",
     "description": ["This is a simple example of vector addition.The purpose of this code is to introduce the user to application development in the Vitis tools."],
+    "flow": "vitis",
     "os": [
         "Linux"
     ],
@@ -46,5 +47,24 @@
             "date" : "2019",
             "version" : "1.0"
         }
-    ]
+    ],
+    "testinfo": {
+        "disable": false,
+        "jobs": [
+            {
+                "index": 0,
+                "dependency": [],
+                "env": "",
+                "cmd": "",
+                "max_memory_MB": 32768,
+                "max_time_min": 300
+            }
+        ],
+        "targets": [
+            "vitis_sw_emu",
+            "vitis_hw_emu",
+            "vitis_hw"
+        ],
+        "category": "canary"
+    }
 }

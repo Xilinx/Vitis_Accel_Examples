@@ -3,6 +3,7 @@
     "description": [
         "This is simple example which demonstrate streaming free-running kernel with scalar input and output."
     ],
+    "flow": "vitis",
     "keywords": [
         "xclRegRead",
         "xclRegWrite" 
@@ -10,6 +11,9 @@
     "key_concepts": [
         "Free Running Kernel" 
     ], 
+    "platform_whitelist": [
+        "u200_qdma"
+    ],  
     "ndevice": [
         "zc",
         "vck",
@@ -79,5 +83,23 @@
             "url": "http://www.xilinx.com", 
             "group": "Xilinx"
         }
-    ] 
+    ],
+    "testinfo": {
+        "disable": false,
+        "jobs": [
+            {
+                "index": 0,
+                "dependency": [],
+                "env": "",
+                "cmd": "",
+                "max_memory_MB": 32768,
+                "max_time_min": 300
+            }
+        ],
+        "targets": [
+            "vitis_hw_emu",
+            "vitis_hw"
+        ],
+        "category": "canary"
+    }
 }
