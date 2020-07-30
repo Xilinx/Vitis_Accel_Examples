@@ -14,10 +14,8 @@ Platforms containing following strings in their names are not supported for this
 
 ::
 
-xilinx_u200_xdma_201830
-xilinx_u250_xdma_201830
-::
-
+   xilinx_u200_xdma_201830
+   xilinx_u250_xdma_201830
 
 DESIGN FILES
 ------------

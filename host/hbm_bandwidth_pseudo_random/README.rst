@@ -10,15 +10,13 @@ Platforms containing following strings in their names are not supported for this
 
 ::
 
-_u25_
-u200
-zc
-vck
-u250
-aws
-samsung
-::
-
+   _u25_
+   u200
+   zc
+   vck
+   u250
+   aws
+   samsung
 
 DESIGN FILES
 ------------

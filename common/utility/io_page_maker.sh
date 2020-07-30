@@ -5,28 +5,23 @@
 
 #If adding any new examples, first update top level index lists in internal branch and merge into upstream/internal
 
-#pandoc should be installed and working
 
-
-#arguments : branches upstream/master , your_fork, pandoc location
+#arguments : branches upstream/master , your_fork
 
 
 #md2rst
 	
-	if [ "$#" -ne 3 ];
+	if [ "$#" -ne 2 ];
 	then 
 		echo ""
 		echo "Invalid arguments"
-		echo "Usage : ./io_updator.sh upstream/master_clone_path your_fork_clone_path pandoc_location"
+		echo "Usage : ./io_updator.sh upstream/master_clone_path your_fork_clone_path"
 		echo ""
 		exit 1
 	fi
 
 	#clone master
 	git clone $1
-
-	#copy pandoc
-	cp -rf $3/pandoc-2.9.2.1/ ./Vitis_Accel_Examples/common
         
 	#make a test folder if not there just outside the clone to collect the rst files
 	

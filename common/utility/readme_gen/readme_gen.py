@@ -66,10 +66,10 @@ def requirements(target,data):
         target.write("Platforms containing following strings in their names are not supported for this example :\n\n")
         target.write("::\n\n")
         for board in data['platform_blacklist']:
+            target.write("   ")
             target.write(board)
             target.write("\n")
-        target.write("::\n")
-        target.write("\n\n")
+        target.write("\n")
     return
 
 def hierarchy(target):

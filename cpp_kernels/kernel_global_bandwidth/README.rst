@@ -10,11 +10,9 @@ Platforms containing following strings in their names are not supported for this
 
 ::
 
-u50
-vck
-zc
-::
-
+   u50
+   vck
+   zc
 
 DESIGN FILES
 ------------

@@ -11,27 +11,14 @@ XSA = 'xilinx_u200_qdma'
 VERSION = 'Vitis 2019.2'
 
 def overview(target,data):
-    target.write("<a href=\"./")
-    dirName = os.getcwd()
-    dirNameList = list(dirName.split("/"))
-    dirNameIndex = dirNameList.index("Vitis_Accel_Examples")
-    diff = len(dirNameList) - dirNameIndex - 1
-    while diff > 0:
-        target.write("../")
-        diff -= 1
-    for locs in range(dirNameIndex + 1,len(dirNameList)):
-        target.write(dirNameList[locs])
-        target.write("/")
-    target.write("\">")
     title = data["name"]
     title = title.replace("(C)", "")
     title = title.replace("(CL)", "")
     title = title.replace("(RTL)", "")
     title = title.replace("(HLS C/C++ Kernel)", "")
     target.write(title)
-    target.write("</a>")
     target.write("\n")
-    target.write("=" * len(data["name"]))
+    target.write("=" * len(title))
     target.write("\n\n")
     target.write(('\n').join(data["description"]))
     target.write("\n\n")
@@ -93,10 +80,10 @@ def requirements(target,data):
         target.write("Platforms containing following strings in their names are not supported for this example :\n\n")
         target.write("::\n\n")
         for board in data['platform_blacklist']:
+            target.write("   ")
             target.write(board)
             target.write("\n")
-        target.write("::\n")
-        target.write("\n\n")
+        target.write("\n")
     return
 
 def hierarchy(target):

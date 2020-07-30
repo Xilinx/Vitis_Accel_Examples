@@ -14,13 +14,11 @@ Platforms containing following strings in their names are not supported for this
 
 ::
 
-_u25_
-zc
-vck
-u50
-samsung
-::
-
+   _u25_
+   zc
+   vck
+   u50
+   samsung
 
 DESIGN FILES
 ------------

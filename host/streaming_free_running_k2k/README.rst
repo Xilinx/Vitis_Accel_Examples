@@ -14,13 +14,11 @@ Platforms containing following strings in their names are not supported for this
 
 ::
 
-xdma
-qep
-aws
-samsung
-zc702
-::
-
+   xdma
+   qep
+   aws
+   samsung
+   zc702
 
 DESIGN FILES
 ------------

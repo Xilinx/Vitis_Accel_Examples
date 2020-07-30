@@ -14,12 +14,10 @@ Platforms containing following strings in their names are not supported for this
 
 ::
 
-zcu102_base_202010
-zcu104_base_202010
-vck
-zc7
-::
-
+   zcu102_base_202010
+   zcu104_base_202010
+   vck
+   zc7
 
 DESIGN FILES
 ------------

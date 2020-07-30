@@ -14,16 +14,14 @@ Platforms containing following strings in their names are not supported for this
 
 ::
 
-zc
-vck
-_u25_
-u200
-u250
-u50
-u280
-aws
-::
-
+   zc
+   vck
+   _u25_
+   u200
+   u250
+   u50
+   u280
+   aws
 
 DESIGN FILES
 ------------

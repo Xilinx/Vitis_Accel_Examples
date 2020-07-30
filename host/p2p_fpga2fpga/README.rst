@@ -14,14 +14,12 @@ Platforms containing following strings in their names are not supported for this
 
 ::
 
-zc
-201910
-2018
-vck
-aws
-u50
-::
-
+   zc
+   201910
+   2018
+   vck
+   aws
+   u50
 
 DESIGN FILES
 ------------
