@@ -40,10 +40,10 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -349,10 +349,16 @@
 <li class="toctree-l2"><a class="reference internal" href="errors.html">Error Handling</a></li>
 <li class="toctree-l2"><a class="reference internal" href="errors_cpp.html">Error Handling (CPP)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="hbm_bandwidth.html">HBM Bandwidth</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hbm_bandwidth_pseudo_random.html">HBM Bandwidth - Pseudo Random Ethash</a></li>
 <li class="toctree-l2"><a class="reference internal" href="hbm_simple.html">HBM Simple</a></li>
 <li class="toctree-l2"><a class="reference internal" href="host_global_bandwidth.html">Host Global Bandwidth</a></li>
 <li class="toctree-l2"><a class="reference internal" href="multiple_cus_asymmetrical.html">Multiple Compute Units (Asymmetrical)</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Multiple Compute Units</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Multiple Compute Units</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#design-files">DESIGN FILES</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#command-line-arguments">COMMAND LINE ARGUMENTS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#commands-for-windows-flow">COMMANDS FOR WINDOWS FLOW</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="overlap.html">Overlap Host and Kernel</a></li>
 <li class="toctree-l2"><a class="reference internal" href="p2p_simple.html">P2P Simple Example</a></li>
 <li class="toctree-l2"><a class="reference internal" href="p2p_bandwidth.html">P2P bandwidth Example</a></li>
@@ -453,9 +459,7 @@
             
   <div class="section" id="multiple-compute-units">
 <h1>Multiple Compute Units<a class="headerlink" href="#multiple-compute-units" title="Permalink to this headline">¶</a></h1>
-<p>This is simple Example of Multiple Compute units to showcase how a
-single kernel can be instantiated into Multiple compute units. Host code
-will show how to use multiple compute units and run them concurrently.</p>
+<p>This is simple Example of Multiple Compute units to showcase how a single kernel can be instantiated into Multiple compute units. Host code will show how to use multiple compute units and run them concurrently.</p>
 <p><strong>KEY CONCEPTS:</strong> Multiple Compute Units</p>
 <p><strong>KEYWORDS:</strong> nk</p>
 <p>This example explains how to create multiple instances of a kernel and
@@ -469,19 +473,38 @@ config file as shown below:</p>
 </div>
 <p>For kernels to execute concurrently, command queue is initialized with
 out of order execution mode enabled.</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">OCL_CHECK</span><span class="p">(</span><span class="n">err</span><span class="p">,</span>
-              <span class="n">q</span> <span class="o">=</span> <span class="n">cl</span><span class="o">::</span><span class="n">CommandQueue</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">device</span><span class="p">,</span>  <span class="n">CL_QUEUE_PROFILING_ENABLE</span> <span class="o">|</span>   <span class="n">CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">err</span><span class="p">));</span>
+<p>```c++ OCL_CHECK(err, q = cl::CommandQueue(context, device,
+CL_QUEUE_PROFILING_ENABLE | CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE,
+&amp;err));</p>
+<div class="section" id="design-files">
+<h2>DESIGN FILES<a class="headerlink" href="#design-files" title="Permalink to this headline">¶</a></h2>
+<p>Application code is located in the src directory. Accelerator binary files will be compiled to the xclbin directory. The xclbin directory is required by the Makefile and its contents will be filled during compilation. A listing of all the files in this example is shown below</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">src</span><span class="o">/</span><span class="n">host</span><span class="o">.</span><span class="n">cpp</span>
+<span class="n">src</span><span class="o">/</span><span class="n">vadd</span><span class="o">.</span><span class="n">cpp</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="command-line-arguments">
+<h2>COMMAND LINE ARGUMENTS<a class="headerlink" href="#command-line-arguments" title="Permalink to this headline">¶</a></h2>
+<p>Once the environment has been configured, the application can be executed by</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">host</span> <span class="o">&lt;</span><span class="n">vadd</span> <span class="n">XCLBIN</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="commands-for-windows-flow">
+<h2>COMMANDS FOR WINDOWS FLOW<a class="headerlink" href="#commands-for-windows-flow" title="Permalink to this headline">¶</a></h2>
+<p>Once the environment has been configured, run the following commands :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="n">cmake_build</span>
+<span class="n">cmake</span> <span class="o">-</span><span class="n">G</span> <span class="s2">&quot;Visual Studio 15 2017 Win64&quot;</span> <span class="o">-</span><span class="n">DCMAKE_BUILD_TYPE</span><span class="o">=</span><span class="n">Debug</span> <span class="o">-</span><span class="n">DXILINX_XRT</span><span class="o">=&lt;</span><span class="nb">set</span> <span class="n">xilinx</span> <span class="n">xrt</span> <span class="n">path</span><span class="o">&gt;</span> <span class="o">-</span><span class="n">DOCL_ROOT</span><span class="o">=&lt;</span><span class="nb">set</span> <span class="n">ocl</span> <span class="n">root</span> <span class="n">path</span><span class="o">&gt;</span>
+<span class="n">cmake</span> <span class="o">--</span><span class="n">build</span> <span class="o">.</span> <span class="o">--</span><span class="n">verbose</span> <span class="o">--</span><span class="n">config</span> <span class="n">Debug</span> <span class="o">--</span><span class="n">target</span> <span class="n">install</span>
 
-<span class="cp">##  DESIGN FILES</span>
-<span class="n">Application</span> <span class="n">code</span> <span class="n">is</span> <span class="n">located</span> <span class="n">in</span> <span class="n">the</span> <span class="n">src</span> <span class="n">directory</span><span class="p">.</span> <span class="n">Accelerator</span> <span class="n">binary</span> <span class="n">files</span> <span class="n">will</span> <span class="n">be</span> <span class="n">compiled</span> <span class="n">to</span> <span class="n">the</span> <span class="n">xclbin</span> <span class="n">directory</span><span class="p">.</span> <span class="n">The</span> <span class="n">xclbin</span> <span class="n">directory</span> <span class="n">is</span> <span class="n">required</span> <span class="n">by</span> <span class="n">the</span> <span class="n">Makefile</span> <span class="n">and</span> <span class="n">its</span> <span class="n">contents</span> <span class="n">will</span> <span class="n">be</span> <span class="n">filled</span> <span class="n">during</span> <span class="n">compilation</span><span class="p">.</span> <span class="n">A</span> <span class="n">listing</span> <span class="n">of</span> <span class="n">all</span> <span class="n">the</span> <span class="n">files</span> <span class="n">in</span> <span class="k">this</span> <span class="n">example</span> <span class="n">is</span> <span class="n">shown</span> <span class="n">below</span>
+<span class="n">For</span> <span class="n">Example</span> <span class="p">:</span>
+<span class="n">cd</span> <span class="n">cmake_build</span>
+<span class="n">cmake</span> <span class="o">-</span><span class="n">G</span> <span class="s2">&quot;Visual Studio 15 2017 Win64&quot;</span> <span class="o">-</span><span class="n">DCMAKE_BUILD_TYPE</span><span class="o">=</span><span class="n">Debug</span> <span class="o">-</span><span class="n">DXILINX_XRT</span><span class="o">=</span><span class="n">C</span><span class="p">:</span>\<span class="n">Xilinx</span>\<span class="n">XRT</span> <span class="o">-</span><span class="n">DOCL_ROOT</span><span class="o">=</span><span class="n">C</span><span class="p">:</span>\<span class="n">Xilinx</span>\<span class="n">XRT</span>\<span class="n">ext</span>
+<span class="n">cmake</span> <span class="o">--</span><span class="n">build</span> <span class="o">.</span> <span class="o">--</span><span class="n">verbose</span> <span class="o">--</span><span class="n">config</span> <span class="n">Debug</span> <span class="o">--</span><span class="n">target</span> <span class="n">install</span>
 </pre></div>
 </div>
-<p>src/host.cpp src/vadd.cpp</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">##  COMMAND LINE ARGUMENTS</span>
-<span class="n">Once</span> <span class="n">the</span> <span class="n">environment</span> <span class="n">has</span> <span class="n">been</span> <span class="n">configured</span><span class="p">,</span> <span class="n">the</span> <span class="n">application</span> <span class="n">can</span> <span class="n">be</span> <span class="n">executed</span> <span class="n">by</span>
-</pre></div>
 </div>
-<p>./host ```</p>
 </div>
 
 

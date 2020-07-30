@@ -40,10 +40,10 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -354,6 +354,7 @@
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Vadd 2 Kernels (RTL Kernel)</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#design-files">DESIGN FILES</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#command-line-arguments">COMMAND LINE ARGUMENTS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#commands-for-windows-flow">COMMANDS FOR WINDOWS FLOW</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="rtl_vadd_hw_debug.html">Hardware Debug (RTL Kernel)</a></li>
@@ -439,9 +440,7 @@
             
   <div class="section" id="vadd-2-kernels-rtl-kernel">
 <h1>Vadd 2 Kernels (RTL Kernel)<a class="headerlink" href="#vadd-2-kernels-rtl-kernel" title="Permalink to this headline">¶</a></h1>
-<p>This example has two RTL Kernels. Both Kernel_0 and Kernel_1 perform
-vector addition. The Kernel_1 reads the output from Kernel_0 as one of
-two inputs.</p>
+<p>This example has two RTL Kernels. Both Kernel_0 and Kernel_1 perform vector addition. The Kernel_1 reads the output from Kernel_0 as one of two inputs.</p>
 <p><strong>KEY CONCEPTS:</strong> Multiple RTL Kernels</p>
 <p>This example demonstrates the use of two RTL Kernels. 3 input vectors
 are added using these two kernels. <code class="docutils literal notranslate"><span class="pre">Kernel_1</span></code> performs the vector
@@ -453,15 +452,10 @@ kernels. That is, they are seen by the host application as functions
 with a void return value, scalar arguments, and pointer arguments.</p>
 <p>The RTL Kernel Wizard automates some of the steps that need to be taken
 to ensure that the RTL IP is packaged into a kernel that can be
-integrated into a system in Vitis environment. A <code class="docutils literal notranslate"><span class="pre">kernel.xml</span></code> file is
-generated to match the software function prototype and behavior
-specified in the wizard.</p>
+integrated into a system in Vitis environment.</p>
 <div class="section" id="design-files">
 <h2>DESIGN FILES<a class="headerlink" href="#design-files" title="Permalink to this headline">¶</a></h2>
-<p>Application code is located in the src directory. Accelerator binary
-files will be compiled to the xclbin directory. The xclbin directory is
-required by the Makefile and its contents will be filled during
-compilation. A listing of all the files in this example is shown below</p>
+<p>Application code is located in the src directory. Accelerator binary files will be compiled to the xclbin directory. The xclbin directory is required by the Makefile and its contents will be filled during compilation. A listing of all the files in this example is shown below</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">src</span><span class="o">/</span><span class="n">host</span><span class="o">.</span><span class="n">cpp</span>
 <span class="n">src</span><span class="o">/</span><span class="n">ip_0</span><span class="o">/</span><span class="n">hdl</span><span class="o">/</span><span class="n">krnl_vadd_rtl_0</span><span class="o">.</span><span class="n">v</span>
 <span class="n">src</span><span class="o">/</span><span class="n">ip_0</span><span class="o">/</span><span class="n">hdl</span><span class="o">/</span><span class="n">krnl_vadd_rtl_adder</span><span class="o">.</span><span class="n">sv</span>
@@ -477,16 +471,27 @@ compilation. A listing of all the files in this example is shown below</p>
 <span class="n">src</span><span class="o">/</span><span class="n">ip_1</span><span class="o">/</span><span class="n">hdl</span><span class="o">/</span><span class="n">krnl_vadd_rtl_control_s_axi</span><span class="o">.</span><span class="n">v</span>
 <span class="n">src</span><span class="o">/</span><span class="n">ip_1</span><span class="o">/</span><span class="n">hdl</span><span class="o">/</span><span class="n">krnl_vadd_rtl_counter</span><span class="o">.</span><span class="n">sv</span>
 <span class="n">src</span><span class="o">/</span><span class="n">ip_1</span><span class="o">/</span><span class="n">hdl</span><span class="o">/</span><span class="n">krnl_vadd_rtl_int</span><span class="o">.</span><span class="n">sv</span>
-<span class="n">src</span><span class="o">/</span><span class="n">kernel_0</span><span class="o">.</span><span class="n">xml</span>
-<span class="n">src</span><span class="o">/</span><span class="n">kernel_1</span><span class="o">.</span><span class="n">xml</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="command-line-arguments">
 <h2>COMMAND LINE ARGUMENTS<a class="headerlink" href="#command-line-arguments" title="Permalink to this headline">¶</a></h2>
-<p>Once the environment has been configured, the application can be
-executed by</p>
+<p>Once the environment has been configured, the application can be executed by</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">host</span> <span class="o">&lt;</span><span class="n">vadd</span> <span class="n">XCLBIN</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="commands-for-windows-flow">
+<h2>COMMANDS FOR WINDOWS FLOW<a class="headerlink" href="#commands-for-windows-flow" title="Permalink to this headline">¶</a></h2>
+<p>Once the environment has been configured, run the following commands :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="n">cmake_build</span>
+<span class="n">cmake</span> <span class="o">-</span><span class="n">G</span> <span class="s2">&quot;Visual Studio 15 2017 Win64&quot;</span> <span class="o">-</span><span class="n">DCMAKE_BUILD_TYPE</span><span class="o">=</span><span class="n">Debug</span> <span class="o">-</span><span class="n">DXILINX_XRT</span><span class="o">=&lt;</span><span class="nb">set</span> <span class="n">xilinx</span> <span class="n">xrt</span> <span class="n">path</span><span class="o">&gt;</span> <span class="o">-</span><span class="n">DOCL_ROOT</span><span class="o">=&lt;</span><span class="nb">set</span> <span class="n">ocl</span> <span class="n">root</span> <span class="n">path</span><span class="o">&gt;</span>
+<span class="n">cmake</span> <span class="o">--</span><span class="n">build</span> <span class="o">.</span> <span class="o">--</span><span class="n">verbose</span> <span class="o">--</span><span class="n">config</span> <span class="n">Debug</span> <span class="o">--</span><span class="n">target</span> <span class="n">install</span>
+
+<span class="n">For</span> <span class="n">Example</span> <span class="p">:</span>
+<span class="n">cd</span> <span class="n">cmake_build</span>
+<span class="n">cmake</span> <span class="o">-</span><span class="n">G</span> <span class="s2">&quot;Visual Studio 15 2017 Win64&quot;</span> <span class="o">-</span><span class="n">DCMAKE_BUILD_TYPE</span><span class="o">=</span><span class="n">Debug</span> <span class="o">-</span><span class="n">DXILINX_XRT</span><span class="o">=</span><span class="n">C</span><span class="p">:</span>\<span class="n">Xilinx</span>\<span class="n">XRT</span> <span class="o">-</span><span class="n">DOCL_ROOT</span><span class="o">=</span><span class="n">C</span><span class="p">:</span>\<span class="n">Xilinx</span>\<span class="n">XRT</span>\<span class="n">ext</span>
+<span class="n">cmake</span> <span class="o">--</span><span class="n">build</span> <span class="o">.</span> <span class="o">--</span><span class="n">verbose</span> <span class="o">--</span><span class="n">config</span> <span class="n">Debug</span> <span class="o">--</span><span class="n">target</span> <span class="n">install</span>
 </pre></div>
 </div>
 </div>

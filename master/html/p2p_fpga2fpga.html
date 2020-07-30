@@ -40,10 +40,10 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -349,6 +349,7 @@
 <li class="toctree-l2"><a class="reference internal" href="errors.html">Error Handling</a></li>
 <li class="toctree-l2"><a class="reference internal" href="errors_cpp.html">Error Handling (CPP)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="hbm_bandwidth.html">HBM Bandwidth</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hbm_bandwidth_pseudo_random.html">HBM Bandwidth - Pseudo Random Ethash</a></li>
 <li class="toctree-l2"><a class="reference internal" href="hbm_simple.html">HBM Simple</a></li>
 <li class="toctree-l2"><a class="reference internal" href="host_global_bandwidth.html">Host Global Bandwidth</a></li>
 <li class="toctree-l2"><a class="reference internal" href="multiple_cus_asymmetrical.html">Multiple Compute Units (Asymmetrical)</a></li>
@@ -485,7 +486,7 @@ Currently XRT does not check if the P2P memory is in use. Administrator
 needs to make sure P2P is not in use before disabling it. The result of
 disabling P2P while it is in use is undefined.</p>
 <p>There are three possible values for P2P Enabled field :</p>
-<table class="docutils align-center">
+<table class="docutils align-default">
 <colgroup>
 <col style="width: 36%" />
 <col style="width: 64%" />
@@ -574,8 +575,7 @@ Test passed!
 </div>
 <div class="section" id="excluded-platforms">
 <h4>EXCLUDED PLATFORMS<a class="headerlink" href="#excluded-platforms" title="Permalink to this headline">¶</a></h4>
-<p>Platforms containing following strings in their names are not supported
-for this example :</p>
+<p>Platforms containing following strings in their names are not supported for this example :</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">zc</span>
 <span class="mi">201910</span>
 <span class="mi">2018</span>
@@ -587,10 +587,7 @@ for this example :</p>
 </div>
 <div class="section" id="design-files">
 <h4>DESIGN FILES<a class="headerlink" href="#design-files" title="Permalink to this headline">¶</a></h4>
-<p>Application code is located in the src directory. Accelerator binary
-files will be compiled to the xclbin directory. The xclbin directory is
-required by the Makefile and its contents will be filled during
-compilation. A listing of all the files in this example is shown below</p>
+<p>Application code is located in the src directory. Accelerator binary files will be compiled to the xclbin directory. The xclbin directory is required by the Makefile and its contents will be filled during compilation. A listing of all the files in this example is shown below</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">src</span><span class="o">/</span><span class="n">host</span><span class="o">.</span><span class="n">cpp</span>
 <span class="n">src</span><span class="o">/</span><span class="n">krnl_madd</span><span class="o">.</span><span class="n">cpp</span>
 <span class="n">src</span><span class="o">/</span><span class="n">krnl_mmult</span><span class="o">.</span><span class="n">cpp</span>
@@ -599,9 +596,22 @@ compilation. A listing of all the files in this example is shown below</p>
 </div>
 <div class="section" id="command-line-arguments">
 <h4>COMMAND LINE ARGUMENTS<a class="headerlink" href="#command-line-arguments" title="Permalink to this headline">¶</a></h4>
-<p>Once the environment has been configured, the application can be
-executed by</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">host</span> <span class="o">&lt;</span><span class="n">krnl_mmult</span> <span class="n">XCLBIN</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">krnl_madd</span> <span class="n">XCLBIN</span><span class="o">&gt;</span>
+<p>Once the environment has been configured, the application can be executed by</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">host</span> <span class="o">-</span><span class="n">x1</span> <span class="o">&lt;</span><span class="n">krnl_mmult</span> <span class="n">XCLBIN</span><span class="o">&gt;</span> <span class="o">-</span><span class="n">x2</span> <span class="o">&lt;</span><span class="n">krnl_madd</span> <span class="n">XCLBIN</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="commands-for-windows-flow">
+<h4>COMMANDS FOR WINDOWS FLOW<a class="headerlink" href="#commands-for-windows-flow" title="Permalink to this headline">¶</a></h4>
+<p>Once the environment has been configured, run the following commands :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="n">cmake_build</span>
+<span class="n">cmake</span> <span class="o">-</span><span class="n">G</span> <span class="s2">&quot;Visual Studio 15 2017 Win64&quot;</span> <span class="o">-</span><span class="n">DCMAKE_BUILD_TYPE</span><span class="o">=</span><span class="n">Debug</span> <span class="o">-</span><span class="n">DXILINX_XRT</span><span class="o">=&lt;</span><span class="nb">set</span> <span class="n">xilinx</span> <span class="n">xrt</span> <span class="n">path</span><span class="o">&gt;</span> <span class="o">-</span><span class="n">DOCL_ROOT</span><span class="o">=&lt;</span><span class="nb">set</span> <span class="n">ocl</span> <span class="n">root</span> <span class="n">path</span><span class="o">&gt;</span>
+<span class="n">cmake</span> <span class="o">--</span><span class="n">build</span> <span class="o">.</span> <span class="o">--</span><span class="n">verbose</span> <span class="o">--</span><span class="n">config</span> <span class="n">Debug</span> <span class="o">--</span><span class="n">target</span> <span class="n">install</span>
+
+<span class="n">For</span> <span class="n">Example</span> <span class="p">:</span>
+<span class="n">cd</span> <span class="n">cmake_build</span>
+<span class="n">cmake</span> <span class="o">-</span><span class="n">G</span> <span class="s2">&quot;Visual Studio 15 2017 Win64&quot;</span> <span class="o">-</span><span class="n">DCMAKE_BUILD_TYPE</span><span class="o">=</span><span class="n">Debug</span> <span class="o">-</span><span class="n">DXILINX_XRT</span><span class="o">=</span><span class="n">C</span><span class="p">:</span>\<span class="n">Xilinx</span>\<span class="n">XRT</span> <span class="o">-</span><span class="n">DOCL_ROOT</span><span class="o">=</span><span class="n">C</span><span class="p">:</span>\<span class="n">Xilinx</span>\<span class="n">XRT</span>\<span class="n">ext</span>
+<span class="n">cmake</span> <span class="o">--</span><span class="n">build</span> <span class="o">.</span> <span class="o">--</span><span class="n">verbose</span> <span class="o">--</span><span class="n">config</span> <span class="n">Debug</span> <span class="o">--</span><span class="n">target</span> <span class="n">install</span>
 </pre></div>
 </div>
 </div>

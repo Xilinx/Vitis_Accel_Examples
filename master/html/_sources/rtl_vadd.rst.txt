@@ -5,6 +5,7 @@ Simple example of vector addition using RTL Kernel
 
 **KEY CONCEPTS:** RTL Kernel
 
+
 This example demonstrates simple vector addition with RTL kernel. Two
 vectors are transferred from host to kernel, added and the result is
 written back to host and verified.
@@ -16,17 +17,12 @@ with a void return value, scalar arguments, and pointer arguments.
 
 The RTL Kernel Wizard automates some of the steps that need to be taken
 to ensure that the RTL IP is packaged into a kernel that can be
-integrated into a system in Vitis environment. A ``kernel.xml`` file is
-generated to match the software function prototype and behavior
-specified in the wizard.
+integrated into a system in Vitis environment.
 
 DESIGN FILES
 ------------
 
-Application code is located in the src directory. Accelerator binary
-files will be compiled to the xclbin directory. The xclbin directory is
-required by the Makefile and its contents will be filled during
-compilation. A listing of all the files in this example is shown below
+Application code is located in the src directory. Accelerator binary files will be compiled to the xclbin directory. The xclbin directory is required by the Makefile and its contents will be filled during compilation. A listing of all the files in this example is shown below
 
 ::
 
@@ -38,14 +34,28 @@ compilation. A listing of all the files in this example is shown below
    src/hdl/krnl_vadd_rtl_counter.sv
    src/hdl/krnl_vadd_rtl_int.sv
    src/host.cpp
-   src/kernel.xml
-
+   
 COMMAND LINE ARGUMENTS
 ----------------------
 
-Once the environment has been configured, the application can be
-executed by
+Once the environment has been configured, the application can be executed by
 
 ::
 
    ./host <vadd XCLBIN>
+
+COMMANDS FOR WINDOWS FLOW
+-------------------------
+
+Once the environment has been configured, run the following commands :
+
+::
+
+   cd cmake_build
+   cmake -G "Visual Studio 15 2017 Win64" -DCMAKE_BUILD_TYPE=Debug -DXILINX_XRT=<set xilinx xrt path> -DOCL_ROOT=<set ocl root path>
+   cmake --build . --verbose --config Debug --target install
+
+   For Example : 
+   cd cmake_build
+   cmake -G "Visual Studio 15 2017 Win64" -DCMAKE_BUILD_TYPE=Debug -DXILINX_XRT=C:\Xilinx\XRT -DOCL_ROOT=C:\Xilinx\XRT\ext
+   cmake --build . --verbose --config Debug --target install

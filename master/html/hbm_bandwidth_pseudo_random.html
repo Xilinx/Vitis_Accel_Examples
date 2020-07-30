@@ -57,8 +57,8 @@
   <link rel="stylesheet" href="_static/css/pro.min.css" media="all" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="C++ Kernels" href="cpp.html" />
-    <link rel="prev" title="Stream Multiple Compute Units" href="streaming_multi_cus.html" /> 
+    <link rel="next" title="HBM Simple" href="hbm_simple.html" />
+    <link rel="prev" title="HBM Bandwidth" href="hbm_bandwidth.html" /> 
 	</head>
 	<body>
 		<div class="xilinx-bs3"/>
@@ -349,7 +349,13 @@
 <li class="toctree-l2"><a class="reference internal" href="errors.html">Error Handling</a></li>
 <li class="toctree-l2"><a class="reference internal" href="errors_cpp.html">Error Handling (CPP)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="hbm_bandwidth.html">HBM Bandwidth</a></li>
-<li class="toctree-l2"><a class="reference internal" href="hbm_bandwidth_pseudo_random.html">HBM Bandwidth - Pseudo Random Ethash</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">HBM Bandwidth - Pseudo Random Ethash</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#excluded-platforms">EXCLUDED PLATFORMS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#design-files">DESIGN FILES</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#command-line-arguments">COMMAND LINE ARGUMENTS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#commands-for-windows-flow">COMMANDS FOR WINDOWS FLOW</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="hbm_simple.html">HBM Simple</a></li>
 <li class="toctree-l2"><a class="reference internal" href="host_global_bandwidth.html">Host Global Bandwidth</a></li>
 <li class="toctree-l2"><a class="reference internal" href="multiple_cus_asymmetrical.html">Multiple Compute Units (Asymmetrical)</a></li>
@@ -368,13 +374,7 @@
 <li class="toctree-l2"><a class="reference internal" href="streaming_k2k_mm.html">Stream Kernel to Kernel Memory Mapped</a></li>
 <li class="toctree-l2"><a class="reference internal" href="streaming_mm_mixed.html">Stream Memory Map Mixed</a></li>
 <li class="toctree-l2"><a class="reference internal" href="streaming_multi_cus.html">Stream Multiple Compute Units</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Stream Simple</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#excluded-platforms">EXCLUDED PLATFORMS</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#design-files">DESIGN FILES</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#command-line-arguments">COMMAND LINE ARGUMENTS</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#commands-for-windows-flow">COMMANDS FOR WINDOWS FLOW</a></li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="streaming_simple.html">Stream Simple</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="cpp.html">C++ Kernels</a></li>
@@ -391,7 +391,7 @@
             
 			<p class="caption"><span class="caption-text">This Page</span></p>
 				<ul class="current">
-				  <li class="toctree-l1"><a href="_sources/streaming_simple.rst.txt"
+				  <li class="toctree-l1"><a href="_sources/hbm_bandwidth_pseudo_random.rst.txt"
 						rel="nofollow">Show Source</a></li>						
 				</ul>
           
@@ -439,13 +439,13 @@
         
           <li><a href="host.html">Host</a> &raquo;</li>
         
-      <li>Stream Simple</li>
+      <li>HBM Bandwidth - Pseudo Random Ethash</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="_sources/streaming_simple.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/hbm_bandwidth_pseudo_random.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -458,158 +458,79 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="stream-simple">
-<h1>Stream Simple<a class="headerlink" href="#stream-simple" title="Permalink to this headline">¶</a></h1>
-<p>This is a simple Vector Add C Kernel design with 2 Stream inputs and 1 Stream output that demonstrates on how streaming kernel can be implemented and how host can directly send data to kernel without global memory.</p>
-<p><strong>KEY CONCEPTS:</strong> Read/Write Stream, Create/Release Stream</p>
-<p><strong>KEYWORDS:</strong> cl_stream, CL_STREAM_EOT, CL_STREAM_NONBLOCKING</p>
-<p>This is Simple Streaming Kernel Example and demonstrate how host
-application can directly transfer data via streaming interface without
-moving data to Global memory. Host Application demonstrate both
-approaches (blocking and non-blocking) stream interface between host and
-device. Stream interface does not require address management as access
-to data is done in sequential manner. Stream interfaces are useful for
-applications where either the data is too big to reside on an FPGA or
-data is being streamed from a sensor network.</p>
-<p>Inside Kernel code HLS pragma must be defined for every streaming
-interface.</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;ap_axi_sdata.h&quot;</span><span class="cp"></span>
-<span class="k">typedef</span> <span class="n">qdma_axis</span><span class="o">&lt;</span><span class="mi">32</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="o">&gt;</span> <span class="n">pkt</span><span class="p">;</span>
-<span class="kt">void</span> <span class="nf">krnl_stream_adder1</span><span class="p">(</span><span class="n">hls</span><span class="o">::</span><span class="n">stream</span><span class="o">&lt;</span><span class="n">pkt</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">a</span><span class="p">,</span> <span class="n">hls</span><span class="o">::</span><span class="n">stream</span><span class="o">&lt;</span><span class="n">pkt</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">output</span><span class="p">)</span> <span class="p">{</span>
-    <span class="cp">#pragma HLS INTERFACE axis port=a</span>
-    <span class="cp">#pragma HLS INTERFACE axis port=output</span>
-    <span class="cp">#pragma HLS INTERFACE s_axilite port=return bundle=control</span>
-<span class="p">...</span>
-<span class="p">}</span>
+  <div class="section" id="hbm-bandwidth-pseudo-random-ethash">
+<h1>HBM Bandwidth - Pseudo Random Ethash<a class="headerlink" href="#hbm-bandwidth-pseudo-random-ethash" title="Permalink to this headline">¶</a></h1>
+<p>This is a HBM bandwidth example using a pseudo random 1024 bit data access pattern to mimic Ethereum Ethash workloads. The design contains 3 compute units of a kernel, reading 1024 bits from a pseudo random address in each of 2 pseudo channels and writing the results of a simple mathematical operation to a pseudo random address in 2 other pseudo channels. To maximize bandwidth the pseudo channels are used in  P2P like configuration - See <a class="reference external" href="https://developer.xilinx.com/en/articles/maximizing-memory-bandwidth-with-vitis-and-xilinx-ultrascale-hbm-devices.html">https://developer.xilinx.com/en/articles/maximizing-memory-bandwidth-with-vitis-and-xilinx-ultrascale-hbm-devices.html</a> for more information on HBM memory access configurations. The host application allocates buffers in 12  HBM banks and runs the compute units concurrently to measure the overall bandwidth between kernel and HBM Memory.</p>
+<p>This is host application to test HBM interface bandwidth for pseudo
+random 1024 bit data access pattern, mimicking Ethereum Ethash
+workloads. Design contains 3 compute units of Kernel. Each compute unit
+reads 1024 bits from a pseudo random address in each of 2 pseudo
+channels and writes the results of a simple mathematical operation to a
+pseudo random address in 2 other pseudo channels. Host application
+allocates buffers into all 12 HBM Banks (6 Input buffers and 6 output
+buffers). Host application runs all 3 compute units together and
+measures the overall HBM bandwidth.</p>
+<p>HBM is a high performance RAM interface for 3D-stacked DRAM. HBM can
+provide very high bandwidth greater than <strong>400 GB/s</strong> with low power
+consumption (HBM2 ~ 20W vs GDDR5 ~ 100W). These 32 memory resources
+referenced as HBM [0:31] by v++ are accessed via 16 memory controllers.</p>
+<p>Host can allocate a buffer into specific HBM bank using
+<code class="docutils literal notranslate"><span class="pre">CL_MEM_EXT_PTR_XILINX</span></code> flag of buffer. <code class="docutils literal notranslate"><span class="pre">cl_mem_ext_ptr</span></code> object
+needs to be used in cases where memory assignment is done by user
+explicitly:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">cl_mem_ext_ptr_t</span> <span class="n">bufExt</span><span class="p">;</span>
+<span class="n">bufExt</span><span class="p">.</span><span class="n">obj</span> <span class="o">=</span> <span class="n">host_pointer</span><span class="p">;</span>
+<span class="n">bufExt</span><span class="p">.</span><span class="n">param</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="n">bufExt</span><span class="p">.</span><span class="n">flags</span> <span class="o">=</span> <span class="n">n</span>  <span class="o">|</span> <span class="n">XCL_MEM_TOPOLOGY</span><span class="p">;</span>
+<span class="n">buffer_input</span> <span class="o">=</span> <span class="n">cl</span><span class="o">::</span><span class="n">Buffer</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">CL_MEM_READ_ONLY</span> <span class="o">|</span> <span class="n">CL_MEM_EXT_PTR_XILINX</span> <span class="o">|</span> <span class="n">CL_MEM_USE_HOST_PTR</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">bufExt</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">err</span><span class="p">));</span>
 </pre></div>
 </div>
-<p><code class="docutils literal notranslate"><span class="pre">hls::stream</span></code> kernels use a special class <code class="docutils literal notranslate"><span class="pre">qdma_axis&lt;D,0,0,0&gt;</span></code> for
-kernel streams which requires the header file <code class="docutils literal notranslate"><span class="pre">ap_axi_sdata.h</span></code>. It has
-variables <code class="docutils literal notranslate"><span class="pre">data</span></code>,<code class="docutils literal notranslate"><span class="pre">last</span></code> and <code class="docutils literal notranslate"><span class="pre">keep</span></code> to manage the data transfer.</p>
-<p><code class="docutils literal notranslate"><span class="pre">data</span></code>: Internally qdma_axis datatype has <code class="docutils literal notranslate"><span class="pre">ap_uint&lt;D&gt;</span></code> which can be
-accessed by <code class="docutils literal notranslate"><span class="pre">get_data()</span></code> and <code class="docutils literal notranslate"><span class="pre">set_data()</span></code> methods.</p>
-<p><code class="docutils literal notranslate"><span class="pre">keep</span></code>: For all data before last, <code class="docutils literal notranslate"><span class="pre">keep</span></code> variable must be set to
-<code class="docutils literal notranslate"><span class="pre">-1</span></code> to denote all bytes of data are valid. For the last data, the
-kernel has the flexibility to send fewer bytes. For example, for the
-four bytes data transfer, the kernel can truncate the last data by
-sending 1 byte or 2 bytes or 3 bytes by using set_keep() function.</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span> <span class="n">qdma_axis</span><span class="o">&lt;</span><span class="mi">32</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="o">&gt;</span> <span class="n">t_out</span><span class="p">;</span>
-<span class="n">t_out</span><span class="p">.</span><span class="n">set_data</span><span class="p">(</span><span class="n">tmpOut</span><span class="p">);</span>
-<span class="n">t_out</span><span class="p">.</span><span class="n">set_last</span><span class="p">(</span><span class="n">t1</span><span class="p">.</span><span class="n">get_last</span><span class="p">());</span>
-<span class="n">t_out</span><span class="p">.</span><span class="n">set_keep</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">);</span>
+<p>HBM memory must be associated to respective kernel I/O ports using
+<code class="docutils literal notranslate"><span class="pre">sp</span></code> option. We need to add mapping between HBM memory and I/O ports
+in <code class="docutils literal notranslate"><span class="pre">krnl_vaddmul.ini</span></code> file</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sp</span><span class="o">=</span><span class="n">krnl_vaddmul_1</span><span class="o">.</span><span class="n">in1</span><span class="p">:</span><span class="n">HBM</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">sp</span><span class="o">=</span><span class="n">krnl_vaddmul_1</span><span class="o">.</span><span class="n">in2</span><span class="p">:</span><span class="n">HBM</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">sp</span><span class="o">=</span><span class="n">krnl_vaddmul_1</span><span class="o">.</span><span class="n">out_add</span><span class="p">:</span><span class="n">HBM</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+<span class="n">sp</span><span class="o">=</span><span class="n">krnl_vaddmul_1</span><span class="o">.</span><span class="n">out_mul</span><span class="p">:</span><span class="n">HBM</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
 </pre></div>
 </div>
-<p><code class="docutils literal notranslate"><span class="pre">last</span></code>: Final data transferred must be identified by the last
-variable. get_last() and set_last() methods are used to access/set the
-last variable. Kernel doesn not know how many data items are coming
-through the stream. Stream is polled by calling get_last() after every
-transfer and breaks when get_last() returns 1.</p>
-<p>Host to Kernel Streaming is supported by all QDMA based platforms. To
-use streaming support and utility APIs provided inside xcl2.hpp,
-programmer needs to specify following in host code:</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Declaration of custom stream APIs that binds to Xilinx Streaming APIs.</span>
-<span class="k">decltype</span><span class="p">(</span><span class="o">&amp;</span><span class="n">clCreateStream</span><span class="p">)</span> <span class="n">xcl</span><span class="o">::</span><span class="n">Stream</span><span class="o">::</span><span class="n">createStream</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">;</span>
-<span class="k">decltype</span><span class="p">(</span><span class="o">&amp;</span><span class="n">clReleaseStream</span><span class="p">)</span> <span class="n">xcl</span><span class="o">::</span><span class="n">Stream</span><span class="o">::</span><span class="n">releaseStream</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">;</span>
-<span class="k">decltype</span><span class="p">(</span><span class="o">&amp;</span><span class="n">clReadStream</span><span class="p">)</span> <span class="n">xcl</span><span class="o">::</span><span class="n">Stream</span><span class="o">::</span><span class="n">readStream</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">;</span>
-<span class="k">decltype</span><span class="p">(</span><span class="o">&amp;</span><span class="n">clWriteStream</span><span class="p">)</span> <span class="n">xcl</span><span class="o">::</span><span class="n">Stream</span><span class="o">::</span><span class="n">writeStream</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">;</span>
-<span class="k">decltype</span><span class="p">(</span><span class="o">&amp;</span><span class="n">clPollStreams</span><span class="p">)</span> <span class="n">xcl</span><span class="o">::</span><span class="n">Stream</span><span class="o">::</span><span class="n">pollStreams</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">;</span>
+<p>To improve the random access bandwidth, in <code class="docutils literal notranslate"><span class="pre">krnl_vaddmul.cpp</span></code> the
+<code class="docutils literal notranslate"><span class="pre">latency</span></code> and <code class="docutils literal notranslate"><span class="pre">num_read_outstanding</span></code> switches have been added to the
+<code class="docutils literal notranslate"><span class="pre">HLS</span> <span class="pre">INTERFACE</span></code> definition.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">void</span> <span class="n">krnl_vaddmul</span><span class="p">(</span>
+    <span class="n">const</span> <span class="n">v_dt</span> <span class="o">*</span><span class="n">in1</span><span class="p">,</span>             <span class="o">//</span> <span class="n">Read</span><span class="o">-</span><span class="n">Only</span> <span class="n">Vector</span> <span class="mi">1</span>
+    <span class="n">const</span> <span class="n">v_dt</span> <span class="o">*</span><span class="n">in2</span><span class="p">,</span>             <span class="o">//</span> <span class="n">Read</span><span class="o">-</span><span class="n">Only</span> <span class="n">Vector</span> <span class="mi">2</span>
+    <span class="n">v_dt</span> <span class="o">*</span><span class="n">out_add</span><span class="p">,</span>               <span class="o">//</span> <span class="n">Output</span> <span class="n">Result</span> <span class="k">for</span> <span class="n">ADD</span>
+    <span class="n">v_dt</span> <span class="o">*</span><span class="n">out_mul</span><span class="p">,</span>               <span class="o">//</span> <span class="n">Output</span> <span class="n">Result</span> <span class="k">for</span> <span class="n">MUL</span>
+    <span class="n">const</span> <span class="n">unsigned</span> <span class="nb">int</span> <span class="n">size</span><span class="p">,</span>     <span class="o">//</span> <span class="n">Size</span> <span class="ow">in</span> <span class="n">integer</span>
+    <span class="n">const</span> <span class="n">unsigned</span> <span class="nb">int</span> <span class="n">num_times</span> <span class="o">//</span> <span class="n">Running</span> <span class="n">the</span> <span class="n">same</span> <span class="n">kernel</span> <span class="n">operations</span> <span class="n">num_times</span>
+    <span class="p">)</span> <span class="p">{</span>
+<span class="c1">#pragma HLS INTERFACE m_axi port = in1 offset = slave bundle = gmem0 latency = 300 num_read_outstanding=64</span>
+<span class="c1">#pragma HLS INTERFACE m_axi port = in2 offset = slave bundle = gmem1 latency = 300 num_read_outstanding=64</span>
 </pre></div>
 </div>
-<p>Streaming class needs to be initialized before use as below:</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">xcl</span><span class="o">::</span><span class="n">Stream</span><span class="o">::</span><span class="n">init</span><span class="p">(</span><span class="n">platform_id</span><span class="p">);</span>
+<p>To see the benefit of HBM, user can look into the runtime logs and see
+the overall throughput. Following is the real log reported while running
+the design on U50 platform:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Loading</span><span class="p">:</span> <span class="s1">&#39;./build_dir.hw.xilinx_u50_xdma_201920_1/krnl_vaddmul.xclbin&#39;</span>
+<span class="n">Creating</span> <span class="n">a</span> <span class="n">kernel</span> <span class="p">[</span><span class="n">krnl_vaddmul</span><span class="p">:{</span><span class="n">krnl_vaddmul_1</span><span class="p">}]</span> <span class="k">for</span> <span class="n">CU</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">Creating</span> <span class="n">a</span> <span class="n">kernel</span> <span class="p">[</span><span class="n">krnl_vaddmul</span><span class="p">:{</span><span class="n">krnl_vaddmul_2</span><span class="p">}]</span> <span class="k">for</span> <span class="n">CU</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">Creating</span> <span class="n">a</span> <span class="n">kernel</span> <span class="p">[</span><span class="n">krnl_vaddmul</span><span class="p">:{</span><span class="n">krnl_vaddmul_3</span><span class="p">}]</span> <span class="k">for</span> <span class="n">CU</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">OVERALL</span> <span class="n">THROUGHPUT</span> <span class="o">=</span> <span class="mf">138.022</span> <span class="n">GB</span><span class="o">/</span><span class="n">s</span>
+<span class="n">CHANNEL</span> <span class="n">THROUGHPUT</span> <span class="o">=</span> <span class="mf">11.501</span> <span class="n">GB</span><span class="o">/</span><span class="n">s</span>
+<span class="n">TEST</span> <span class="n">PASSED</span>
 </pre></div>
 </div>
-<p>To make a streaming object connection to specific kernel of design,
-following steps are needed:</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">cl_mem_ext_ptr_t</span> <span class="n">ext</span><span class="p">;</span>
-<span class="n">ext</span><span class="p">.</span><span class="n">param</span> <span class="o">=</span> <span class="n">krnl_adder1</span><span class="p">.</span><span class="n">get</span><span class="p">();</span>
-<span class="n">ext</span><span class="p">.</span><span class="n">obj</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
-<span class="n">ext</span><span class="p">.</span><span class="n">flags</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="c1">// Indicates that connect to argument 0 of kernel</span>
-<span class="n">cl_stream</span> <span class="n">write_stream_a</span> <span class="o">=</span> <span class="n">xcl</span><span class="o">::</span><span class="n">Stream</span><span class="o">::</span><span class="n">createStream</span><span class="p">(</span><span class="n">device</span><span class="p">.</span><span class="n">get</span><span class="p">(),</span> <span class="n">XCL_STREAM_READ_ONLY</span><span class="p">,</span> <span class="n">CL_STREAM</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">ext</span><span class="p">,</span><span class="k">nullptr</span><span class="p">));</span>
-<span class="n">ext</span><span class="p">.</span><span class="n">flags</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="c1">// Indicates that connect to argument 1 of kernel</span>
-<span class="n">cl_stream</span> <span class="n">read_stream</span> <span class="o">=</span> <span class="n">xcl</span><span class="o">::</span><span class="n">Stream</span><span class="o">::</span><span class="n">createStream</span><span class="p">(</span><span class="n">device</span><span class="p">.</span><span class="n">get</span><span class="p">(),</span> <span class="n">XCL_STREAM_WRITE_ONLY</span><span class="p">,</span> <span class="n">CL_STREAM</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">ext</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">ret</span><span class="p">));</span>
-</pre></div>
-</div>
-<p><code class="docutils literal notranslate"><span class="pre">xcl::stream::createStream</span></code> API is used to create a stream and read
-and write properties are determined by the flags
-<code class="docutils literal notranslate"><span class="pre">XCL_STREAM_WRITE_ONLY</span></code> and <code class="docutils literal notranslate"><span class="pre">XCL_STREAM_READ_ONLY</span></code> .<code class="docutils literal notranslate"><span class="pre">.flags</span></code> is
-used to specify the kernel argument to which stream is connected.</p>
-<p>There are blocking and non-blocking APIs to transfer data between Host
-and kernel via stream interface.</p>
-<p>Blocking stream requires the stream operation (read or write) to finish
-before the next operation can be executed. Following shows a blocking
-call of writeStream but inside a child thread:</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">cl_stream_xfer_req</span> <span class="n">b_wr_req</span><span class="p">{</span><span class="mi">0</span><span class="p">};</span>
-<span class="n">b_wr_req</span><span class="p">.</span><span class="n">flags</span> <span class="o">=</span> <span class="n">CL_STREAM_EOT</span><span class="p">;</span>
-<span class="n">b_wr_req</span><span class="p">.</span><span class="n">priv_data</span> <span class="o">=</span> <span class="p">(</span><span class="kt">void</span> <span class="o">*</span><span class="p">)</span><span class="s">&quot;b_write_a&quot;</span><span class="p">;</span>
-<span class="c1">// Thread 1 for writing data to input stream 1 independently in case of default blocking transfers.</span>
-<span class="n">std</span><span class="o">::</span><span class="kr">thread</span> <span class="n">thr1</span><span class="p">(</span><span class="n">xcl</span><span class="o">::</span><span class="n">Stream</span><span class="o">::</span><span class="n">writeStream</span><span class="p">,</span>
-                <span class="n">write_stream_a</span><span class="p">,</span>     <span class="c1">// cl_stream object</span>
-                <span class="n">h_a</span><span class="p">.</span><span class="n">data</span><span class="p">(),</span>         <span class="c1">// host memory pointer from where the data has to be transferred</span>
-                <span class="n">vector_size_bytes</span><span class="p">,</span>  <span class="c1">// size of data to be transfered in bytes</span>
-                <span class="o">&amp;</span><span class="n">b_wr_req</span><span class="p">,</span>          <span class="c1">// xfer req flag to indicate type of transfer</span>
-                <span class="o">&amp;</span><span class="n">ret</span><span class="p">);</span>
-</pre></div>
-</div>
-<p>Similar to this following shows a blocking call of readStream but inside
-a child thread:</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">cl_stream_xfer_req</span> <span class="n">b_rd_req</span><span class="p">{</span><span class="mi">0</span><span class="p">};</span>
-<span class="n">b_rd_req</span><span class="p">.</span><span class="n">flags</span> <span class="o">=</span> <span class="n">CL_STREAM_EOT</span><span class="p">;</span>
-<span class="n">b_rd_req</span><span class="p">.</span><span class="n">priv_data</span> <span class="o">=</span> <span class="p">(</span><span class="kt">void</span> <span class="o">*</span><span class="p">)</span><span class="s">&quot;b_read_out&quot;</span><span class="p">;</span>
-<span class="c1">// Output thread to read the stream data independently in case of default blocking transfers.</span>
-<span class="n">std</span><span class="o">::</span><span class="kr">thread</span> <span class="n">thr2</span><span class="p">(</span><span class="n">xcl</span><span class="o">::</span><span class="n">Stream</span><span class="o">::</span><span class="n">readStream</span><span class="p">,</span>
-                 <span class="n">read_stream</span><span class="p">,</span>       <span class="c1">//cl_stream object</span>
-                 <span class="n">hw_results</span><span class="p">.</span><span class="n">data</span><span class="p">(),</span> <span class="c1">// host memory pointer on which data will be read</span>
-                 <span class="n">vector_size_bytes</span><span class="p">,</span> <span class="c1">// max size of data which can be stored in host memory</span>
-                 <span class="o">&amp;</span><span class="n">b_rd_req</span><span class="p">,</span>         <span class="c1">// xfer_req flag to indicate type of transfer</span>
-                 <span class="o">&amp;</span><span class="n">ret</span><span class="p">);</span>
-</pre></div>
-</div>
-<p>As both are blocking calls running inside different threads. So host
-application needs to wait for thread to finish to successful data
-transfer using thread <code class="docutils literal notranslate"><span class="pre">join()</span></code> API as below:</p>
-<p><code class="docutils literal notranslate"><span class="pre">xcl::clReadstream</span></code> and <code class="docutils literal notranslate"><span class="pre">xcl::clWritestream</span></code> APIs are used to read
-from and write to streams respectively.</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">thr1</span><span class="p">.</span><span class="n">join</span><span class="p">();</span>
-<span class="n">thr2</span><span class="p">.</span><span class="n">join</span><span class="p">();</span>
-</pre></div>
-</div>
-<p>In case of non-blocking stream, other operations can be carried out
-while data is being written into or being read from the stream.
-Non-blocking stream requires <code class="docutils literal notranslate"><span class="pre">CL_STREAM_NONBLOCKING</span></code> flag to be
-specified in the transfer initiation request.</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">cl_stream_xfer_req</span> <span class="n">nb_wr_req</span><span class="p">{</span><span class="mi">0</span><span class="p">};</span>
-<span class="n">nb_wr_req</span><span class="p">.</span><span class="n">flags</span> <span class="o">=</span> <span class="n">CL_STREAM_EOT</span> <span class="o">|</span> <span class="n">CL_STREAM_NONBLOCKING</span><span class="p">;</span>
-<span class="n">nb_wr_req</span><span class="p">.</span><span class="n">priv_data</span> <span class="o">=</span> <span class="p">(</span><span class="kt">void</span> <span class="o">*</span><span class="p">)</span><span class="s">&quot;nb_write_a&quot;</span><span class="p">;</span>
-<span class="n">xcl</span><span class="o">::</span><span class="n">Stream</span><span class="o">::</span><span class="n">writeStream</span><span class="p">(</span><span class="n">write_stream_a</span><span class="p">,</span> <span class="n">h_a</span><span class="p">.</span><span class="n">data</span><span class="p">(),</span> <span class="n">vector_size_bytes</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">nb_wr_req</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">ret</span><span class="p">));</span>
-<span class="n">cl_stream_xfer_req</span> <span class="n">nb_rd_req</span><span class="p">{</span><span class="mi">0</span><span class="p">};</span>
-<span class="n">nb_rd_req</span><span class="p">.</span><span class="n">flags</span> <span class="o">=</span> <span class="n">CL_STREAM_EOT</span> <span class="o">|</span> <span class="n">CL_STREAM_NONBLOCKING</span><span class="p">;</span>
-<span class="n">nb_rd_req</span><span class="p">.</span><span class="n">priv_data</span> <span class="o">=</span> <span class="p">(</span><span class="kt">void</span> <span class="o">*</span><span class="p">)</span><span class="s">&quot;nb_read&quot;</span><span class="p">;</span>
-<span class="n">xcl</span><span class="o">::</span><span class="n">Stream</span><span class="o">::</span><span class="n">readStream</span><span class="p">(</span><span class="n">read_stream</span><span class="p">,</span> <span class="n">hw_results</span><span class="p">.</span><span class="n">data</span><span class="p">(),</span><span class="n">vector_size_bytes</span><span class="p">,</span><span class="o">&amp;</span><span class="n">nb_rd_req</span><span class="p">,</span><span class="o">&amp;</span><span class="n">ret</span><span class="p">));</span>
-</pre></div>
-</div>
-<p>Since non-blocking streams are asynchronous and return immediately,
-<code class="docutils literal notranslate"><span class="pre">xcl::stream::pollStream</span></code> is a blocking API used to monitor the status
-of completion of the transfer through streams, it returns the execution
-to the host code after streams are completed.</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">cl_streams_poll_req_completions</span> <span class="n">poll_req</span><span class="p">[</span><span class="mi">2</span><span class="p">]{</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">};</span> <span class="c1">// 2 Requests</span>
-<span class="k">auto</span> <span class="n">num_compl</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
-<span class="n">xcl</span><span class="o">::</span><span class="n">Stream</span><span class="o">::</span><span class="n">pollStreams</span><span class="p">(</span><span class="n">device</span><span class="p">.</span><span class="n">get</span><span class="p">(),</span> <span class="n">poll_req</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">num_compl</span><span class="p">,</span> <span class="mi">50000</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">ret</span><span class="p">);</span>
-<span class="c1">// Blocking API, waits for 2 poll request completion or 50000ms, whichever occurs first.</span>
-</pre></div>
-</div>
-<p><code class="docutils literal notranslate"><span class="pre">xcl::clreleaseStream</span></code> is used to release stream objects.</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">xcl</span><span class="o">::</span><span class="n">Stream</span><span class="o">::</span><span class="n">releaseStream</span><span class="p">(</span><span class="n">read_stream</span><span class="p">);</span>
-<span class="n">xcl</span><span class="o">::</span><span class="n">Stream</span><span class="o">::</span><span class="n">releaseStream</span><span class="p">(</span><span class="n">write_stream_a</span><span class="p">);</span>
-</pre></div>
-</div>
+<p>By default we are going with 3 compute units of kernel as we have power
+consumption limitation while targeting U50 platform.</p>
 <div class="section" id="excluded-platforms">
 <h2>EXCLUDED PLATFORMS<a class="headerlink" href="#excluded-platforms" title="Permalink to this headline">¶</a></h2>
 <p>Platforms containing following strings in their names are not supported for this example :</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">zc</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">_u25_</span>
+<span class="n">u200</span>
+<span class="n">zc</span>
 <span class="n">vck</span>
-<span class="n">xdma</span>
-<span class="n">qep</span>
+<span class="n">u250</span>
 <span class="n">aws</span>
 <span class="n">samsung</span>
 </pre></div>
@@ -619,14 +540,15 @@ to the host code after streams are completed.</p>
 <h2>DESIGN FILES<a class="headerlink" href="#design-files" title="Permalink to this headline">¶</a></h2>
 <p>Application code is located in the src directory. Accelerator binary files will be compiled to the xclbin directory. The xclbin directory is required by the Makefile and its contents will be filled during compilation. A listing of all the files in this example is shown below</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">src</span><span class="o">/</span><span class="n">host</span><span class="o">.</span><span class="n">cpp</span>
-<span class="n">src</span><span class="o">/</span><span class="n">krnl_stream_vadd</span><span class="o">.</span><span class="n">cpp</span>
+<span class="n">src</span><span class="o">/</span><span class="n">krnl_vaddmul</span><span class="o">.</span><span class="n">cpp</span>
+<span class="n">src</span><span class="o">/</span><span class="n">krnl_vaddmul</span><span class="o">.</span><span class="n">h</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="command-line-arguments">
 <h2>COMMAND LINE ARGUMENTS<a class="headerlink" href="#command-line-arguments" title="Permalink to this headline">¶</a></h2>
 <p>Once the environment has been configured, the application can be executed by</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">vadd_stream</span> <span class="o">&lt;</span><span class="n">krnl_stream_vadd</span> <span class="n">XCLBIN</span><span class="o">&gt;</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">host</span> <span class="o">&lt;</span><span class="n">krnl_vaddmul</span> <span class="n">XCLBIN</span><span class="o">&gt;</span>
 </pre></div>
 </div>
 </div>
@@ -662,10 +584,10 @@ to the host code after streams are completed.</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="cpp.html" class="btn btn-neutral float-right" title="C++ Kernels" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="hbm_simple.html" class="btn btn-neutral float-right" title="HBM Simple" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="streaming_multi_cus.html" class="btn btn-neutral float-left" title="Stream Multiple Compute Units" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="hbm_bandwidth.html" class="btn btn-neutral float-left" title="HBM Bandwidth" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

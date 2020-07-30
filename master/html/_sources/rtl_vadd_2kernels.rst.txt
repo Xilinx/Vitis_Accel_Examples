@@ -1,11 +1,10 @@
 Vadd 2 Kernels (RTL Kernel)
 ===========================
 
-This example has two RTL Kernels. Both Kernel_0 and Kernel_1 perform
-vector addition. The Kernel_1 reads the output from Kernel_0 as one of
-two inputs.
+This example has two RTL Kernels. Both Kernel_0 and Kernel_1 perform vector addition. The Kernel_1 reads the output from Kernel_0 as one of two inputs.
 
 **KEY CONCEPTS:** Multiple RTL Kernels
+
 
 This example demonstrates the use of two RTL Kernels. 3 input vectors
 are added using these two kernels. ``Kernel_1`` performs the vector
@@ -19,17 +18,12 @@ with a void return value, scalar arguments, and pointer arguments.
 
 The RTL Kernel Wizard automates some of the steps that need to be taken
 to ensure that the RTL IP is packaged into a kernel that can be
-integrated into a system in Vitis environment. A ``kernel.xml`` file is
-generated to match the software function prototype and behavior
-specified in the wizard.
+integrated into a system in Vitis environment.
 
 DESIGN FILES
 ------------
 
-Application code is located in the src directory. Accelerator binary
-files will be compiled to the xclbin directory. The xclbin directory is
-required by the Makefile and its contents will be filled during
-compilation. A listing of all the files in this example is shown below
+Application code is located in the src directory. Accelerator binary files will be compiled to the xclbin directory. The xclbin directory is required by the Makefile and its contents will be filled during compilation. A listing of all the files in this example is shown below
 
 ::
 
@@ -48,15 +42,28 @@ compilation. A listing of all the files in this example is shown below
    src/ip_1/hdl/krnl_vadd_rtl_control_s_axi.v
    src/ip_1/hdl/krnl_vadd_rtl_counter.sv
    src/ip_1/hdl/krnl_vadd_rtl_int.sv
-   src/kernel_0.xml
-   src/kernel_1.xml
-
+   
 COMMAND LINE ARGUMENTS
 ----------------------
 
-Once the environment has been configured, the application can be
-executed by
+Once the environment has been configured, the application can be executed by
 
 ::
 
    ./host <vadd XCLBIN>
+
+COMMANDS FOR WINDOWS FLOW
+-------------------------
+
+Once the environment has been configured, run the following commands :
+
+::
+
+   cd cmake_build
+   cmake -G "Visual Studio 15 2017 Win64" -DCMAKE_BUILD_TYPE=Debug -DXILINX_XRT=<set xilinx xrt path> -DOCL_ROOT=<set ocl root path>
+   cmake --build . --verbose --config Debug --target install
+
+   For Example : 
+   cd cmake_build
+   cmake -G "Visual Studio 15 2017 Win64" -DCMAKE_BUILD_TYPE=Debug -DXILINX_XRT=C:\Xilinx\XRT -DOCL_ROOT=C:\Xilinx\XRT\ext
+   cmake --build . --verbose --config Debug --target install

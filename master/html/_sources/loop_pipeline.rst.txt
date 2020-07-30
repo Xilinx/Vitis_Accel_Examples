@@ -1,12 +1,12 @@
 Loop Pipelining 
-===============
+================
 
-This example demonstrates how loop pipelining can be used to improve the
-performance of a kernel.
+This example demonstrates how loop pipelining can be used to improve the performance of a kernel.
 
 **KEY CONCEPTS:** Kernel Optimization, Loop Pipelining
 
 **KEYWORDS:** pragma HLS PIPELINE
+
 
 This example demonstrates how loop pipelining can be used to improve the
 performance of a kernel. Pipelining is a technique to increase
@@ -50,23 +50,35 @@ Following is the log reported while running the design on U200 platform:
 DESIGN FILES
 ------------
 
-Application code is located in the src directory. Accelerator binary
-files will be compiled to the xclbin directory. The xclbin directory is
-required by the Makefile and its contents will be filled during
-compilation. A listing of all the files in this example is shown below
+Application code is located in the src directory. Accelerator binary files will be compiled to the xclbin directory. The xclbin directory is required by the Makefile and its contents will be filled during compilation. A listing of all the files in this example is shown below
 
 ::
 
    src/host.cpp
    src/vector_addition.cpp
    src/vector_addition_BAD.cpp
-
+   
 COMMAND LINE ARGUMENTS
 ----------------------
 
-Once the environment has been configured, the application can be
-executed by
+Once the environment has been configured, the application can be executed by
 
 ::
 
    ./loop_pipeline <vector_addition XCLBIN>
+
+COMMANDS FOR WINDOWS FLOW
+-------------------------
+
+Once the environment has been configured, run the following commands :
+
+::
+
+   cd cmake_build
+   cmake -G "Visual Studio 15 2017 Win64" -DCMAKE_BUILD_TYPE=Debug -DXILINX_XRT=<set xilinx xrt path> -DOCL_ROOT=<set ocl root path>
+   cmake --build . --verbose --config Debug --target install
+
+   For Example : 
+   cd cmake_build
+   cmake -G "Visual Studio 15 2017 Win64" -DCMAKE_BUILD_TYPE=Debug -DXILINX_XRT=C:\Xilinx\XRT -DOCL_ROOT=C:\Xilinx\XRT\ext
+   cmake --build . --verbose --config Debug --target install

@@ -1,13 +1,12 @@
 Concurrent Kernel Execution 
-===========================
+============================
 
-This example will demonstrate how to use multiple and out of order
-command queues to simultaneously execute multiple kernels on an FPGA.
+This example will demonstrate how to use multiple and out of order command queues to simultaneously execute multiple kernels on an FPGA.
 
-**KEY CONCEPTS:** Concurrent execution, Out of Order Command Queues,
-Multiple Command Queues
+**KEY CONCEPTS:** Concurrent execution, Out of Order Command Queues, Multiple Command Queues
 
 **KEYWORDS:** CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE, setCallback
+
 
 This example illustrates two ways to implement concurrent kernel
 execution. 1. Multiple command enqueues 2. Single command queue with out
@@ -59,10 +58,7 @@ finish execution.
 DESIGN FILES
 ------------
 
-Application code is located in the src directory. Accelerator binary
-files will be compiled to the xclbin directory. The xclbin directory is
-required by the Makefile and its contents will be filled during
-compilation. A listing of all the files in this example is shown below
+Application code is located in the src directory. Accelerator binary files will be compiled to the xclbin directory. The xclbin directory is required by the Makefile and its contents will be filled during compilation. A listing of all the files in this example is shown below
 
 ::
 
@@ -70,13 +66,28 @@ compilation. A listing of all the files in this example is shown below
    src/madd.cpp
    src/mmult.cpp
    src/mscale.cpp
-
+   
 COMMAND LINE ARGUMENTS
 ----------------------
 
-Once the environment has been configured, the application can be
-executed by
+Once the environment has been configured, the application can be executed by
 
 ::
 
    ./concurrent_execution <matrix_ops XCLBIN>
+
+COMMANDS FOR WINDOWS FLOW
+-------------------------
+
+Once the environment has been configured, run the following commands :
+
+::
+
+   cd cmake_build
+   cmake -G "Visual Studio 15 2017 Win64" -DCMAKE_BUILD_TYPE=Debug -DXILINX_XRT=<set xilinx xrt path> -DOCL_ROOT=<set ocl root path>
+   cmake --build . --verbose --config Debug --target install
+
+   For Example : 
+   cd cmake_build
+   cmake -G "Visual Studio 15 2017 Win64" -DCMAKE_BUILD_TYPE=Debug -DXILINX_XRT=C:\Xilinx\XRT -DOCL_ROOT=C:\Xilinx\XRT\ext
+   cmake --build . --verbose --config Debug --target install
