@@ -1,0 +1,98 @@
+{
+    "name": "Streaming Custom Data Type",
+    "description": [
+        "This is simple streaming example of RGB to HSV conversion to demonstrate how streams of custom DATA Types needs to be handled on the kernel side."
+    ], 
+    "flow": "vitis",
+    "keywords": [
+        "struct", 
+        "#pragma HLS LOOP_TRIPCOUNT",
+        "cl_stream", 
+        "CL_STREAM_EOT"
+    ], 
+    "key_concepts": [
+        "Custom Datatype"
+    ], 
+    "ndevice": [
+        "zc",
+        "vck",
+        "xdma",
+        "qep",	
+        "aws",
+        "samsung"
+    ], 
+    "platform_blacklist": [
+        "zc",
+        "vck",
+        "xdma",
+        "qep",	
+        "aws",
+        "samsung"
+    ], 
+    "os": [
+        "Linux"
+    ], 
+    "runtime": [
+        "OpenCL"
+    ], 
+    "host": {
+        "host_exe": "host", 
+        "compiler": {
+            "sources": [
+                "REPO_DIR/common/includes/xcl2", 
+                "REPO_DIR/common/includes/cmdparser",
+                "REPO_DIR/common/includes/logger",
+                "REPO_DIR/common/includes/bitmap"
+            ], 
+            "includepaths": [
+                "REPO_DIR/common/includes/xcl2", 
+                "REPO_DIR/common/includes/cmdparser",
+                "REPO_DIR/common/includes/logger",
+                "REPO_DIR/common/includes/bitmap"
+            ]
+        }
+    }, 
+    "containers": [
+        {
+            "accelerators": [
+                {
+                    "name": "rgb_to_hsv", 
+                    "location": "src/rgb_to_hsv.cpp"
+                }
+            ], 
+            "name": "rgb_to_hsv"
+        }
+    ], 
+    "launch": [
+        {
+            "cmd_args": "-x BUILD/rgb_to_hsv.xclbin -i PROJECT/data/input.bmp", 
+            "name": "generic launch for all flows"
+        }
+    ], 
+    "output_files": "output.bmp",
+    "contributors": [
+        {
+            "url": "http://www.xilinx.com", 
+            "group": "Xilinx"
+        }
+    ],
+    "testinfo": {
+        "disable": false,
+        "jobs": [
+            {
+                "index": 0,
+                "dependency": [],
+                "env": "",
+                "cmd": "",
+                "max_memory_MB": 32768,
+                "max_time_min": 300
+            }
+        ],
+        "targets": [
+            "vitis_sw_emu",
+            "vitis_hw_emu",
+            "vitis_hw"
+        ],
+        "category": "canary"
+    }
+}
