@@ -24,6 +24,7 @@ Example        | Description           | Key Concepts / Keywords
 [p2p_bandwidth/][]|This is simple example to test Synchronous and Asyncronous data transfer between SSD and FPGA.|__Key__ __Concepts__<br> - P2P<br> - SmartSSD<br> - XDMA<br>__Keywords__<br> - XCL_MEM_EXT_P2P_BUFFER<br> - pread<br> - pwrite
 [p2p_fpga2fpga/][]|This is simple example to explain P2P transfer between two FPGA devices.|__Key__ __Concepts__<br> - P2P<br> - Multi-FPGA Execution<br> - XDMA<br>__Keywords__<br> - XCL_MEM_EXT_P2P_BUFFER
 [p2p_simple/][]|This is simple example of vector increment to describe P2P between FPGA and NVMe SSD.|__Key__ __Concepts__<br> - P2P<br> - NVMe SSD<br> - SmartSSD<br>__Keywords__<br> - XCL_MEM_EXT_P2P_BUFFER<br> - pread<br> - pwrite<br> - O_DIRECT<br> - O_RDWR
+[streaming_custom_datatype/][]|This is simple streaming example of RGB to HSV conversion to demonstrate how streams of custom DATA Types needs to be handled on the kernel side.|__Key__ __Concepts__<br> - Custom Datatype<br>__Keywords__<br> - struct<br> - #pragma HLS LOOP_TRIPCOUNT<br> - cl_stream<br> - CL_STREAM_EOT
 [streaming_free_running_h2k/][]|This is a simple streaming free running kernel that demonstrates how to interact with the host. In this design we showcase multiple stream requests in parallel.|__Key__ __Concepts__<br> - Free Running Kernel<br>__Keywords__<br> - cl_stream<br> - CL_STREAM_EOT<br> - CL_STREAM_NONBLOCKING
 [streaming_free_running_k2k/][]|This is simple example which demonstrate how to use and configure a free running kernel.|__Key__ __Concepts__<br> - Free Running Kernel<br>__Keywords__<br> - ap_ctrl_none<br> - stream_connect
 [streaming_host_bandwidth/][]|This is a simple Vector Increment C Kernel design with 1 Stream input and 1 Stream output that demonstrates on how to process an input stream of data for computation in an application and the Host to Device streaming bandwidth test.|__Key__ __Concepts__<br> - Read/Write Stream<br> - Create/Release Stream<br>__Keywords__<br> - cl_stream<br> - CL_STREAM_EOT<br> - CL_STREAM_NONBLOCKING
@@ -53,6 +54,7 @@ Example        | Description           | Key Concepts / Keywords
 [p2p_bandwidth/]:p2p_bandwidth/
 [p2p_fpga2fpga/]:p2p_fpga2fpga/
 [p2p_simple/]:p2p_simple/
+[streaming_custom_datatype/]:streaming_custom_datatype/
 [streaming_free_running_h2k/]:streaming_free_running_h2k/
 [streaming_free_running_k2k/]:streaming_free_running_k2k/
 [streaming_host_bandwidth/]:streaming_host_bandwidth/
