@@ -13,6 +13,9 @@
     "key_concepts": [
         "Custom Datatype"
     ], 
+    "platform_whitelist": [
+        "u200_qdma"
+    ],
     "ndevice": [
         "zc",
         "vck",

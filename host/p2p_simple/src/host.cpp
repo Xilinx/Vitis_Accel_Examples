@@ -173,6 +173,9 @@ int main(int argc, char **argv) {
     return EXIT_FAILURE;
   }
   int nvmeFd = -1;
+  if (xcl::is_emulation()) {
+    filename = "./sample.txt";
+  }
 
   cl_int err;
   cl::Context context;

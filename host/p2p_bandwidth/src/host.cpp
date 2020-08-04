@@ -403,6 +403,14 @@ int main(int argc, char **argv) {
   cl_uint dev_id = stoi(parser.value("device"));
   auto mode = parser.value("mode");
 
+  if (xcl::is_emulation()) {
+    filename = "./sample.txt";
+    const size_t kernel_unit = 64;
+    const size_t total_size = 1024;
+    const int num_chunks = 8;
+    const size_t chunk_size = total_size / num_chunks;
+  }
+
   if (argc < 5) {
     parser.printHelp();
     return EXIT_FAILURE;
