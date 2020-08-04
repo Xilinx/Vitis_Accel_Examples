@@ -70,11 +70,11 @@ using namespace std;
 // Amount of data for each kernel loop
 const size_t kernel_unit = 64 * 1024;
 // Total amount of data to be processed.
-const size_t total_size = 1024 * 1024 * 1024;
+size_t total_size = 1024 * 1024 * 1024;
 // Total number of chunks/pipelines of data.
 const int num_chunks = 8;
 // Number of bytes per kernel process.
-const size_t chunk_size = total_size / num_chunks;
+size_t chunk_size = total_size / num_chunks;
 
 int nvmeFd = -1;
 cl_command_queue command_queue;
@@ -405,10 +405,8 @@ int main(int argc, char **argv) {
 
   if (xcl::is_emulation()) {
     filename = "./sample.txt";
-    const size_t kernel_unit = 64;
-    const size_t total_size = 1024;
-    const int num_chunks = 8;
-    const size_t chunk_size = total_size / num_chunks;
+    total_size = 512 * 1024;
+    chunk_size = total_size / num_chunks;
   }
 
   if (argc < 5) {
