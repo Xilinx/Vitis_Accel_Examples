@@ -301,10 +301,23 @@ def building_kernel_rtl(target, data):
             target.write(con["name"])
             target.write("_OBJS)\n")
             target.write("\tmkdir -p $(BUILD_DIR)\n")
+            target.write("ifeq ($(HOST_ARCH), x86)\n")
             target.write("\t$(VPP) $(CLFLAGS) --temp_dir ")
             target.write("$(BUILD_DIR) ")
             target.write("-l $(LDCLFLAGS)")
-            target.write(" -o'$@' $(+)\n\n")
+
+            if "accelerators" in con:
+                for acc in con["accelerators"]:
+                    if "compute_units" in acc or "num_compute_units" in acc:
+                        target.write(" $(LDCLFLAGS_"+con["name"]+")")
+            target.write(" -o'$(BUILD_DIR)/" + con["name"] + ".link.xclbin' $(+)\n")
+
+            target.write("\t$(VPP) -t $(TARGET) --platform $(DEVICE) ")
+            target.write("-p $(BUILD_DIR)/" + con["name"] + ".link.xclbin --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/" + con["name"] + ".xclbin\n")
+            target.write("else\n")
+            target.write("\t$(VPP) $(CLFLAGS) --temp_dir $(BUILD_DIR) -l ")
+            target.write("$(LDCLFLAGS) -o'$(BUILD_DIR)/" + con["name"] + ".xclbin' $(+)\n")
+            target.write("endif\n")
     return
 
 def building_host(target, data):

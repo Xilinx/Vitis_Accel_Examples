@@ -112,8 +112,12 @@ build: check-vitis $(BINARY_CONTAINERS)
 # Building kernel
 $(BUILD_DIR)/myadder1.xclbin: $(BINARY_CONTAINER_myadder1_OBJS)
 	mkdir -p $(BUILD_DIR)
-	$(VPP) $(CLFLAGS) --temp_dir $(BUILD_DIR) -l $(LDCLFLAGS) -o'$@' $(+)
-
+ifeq ($(HOST_ARCH), x86)
+	$(VPP) $(CLFLAGS) --temp_dir $(BUILD_DIR) -l $(LDCLFLAGS) -o'$(BUILD_DIR)/myadder1.link.xclbin' $(+)
+	$(VPP) -t $(TARGET) --platform $(DEVICE) -p $(BUILD_DIR)/myadder1.link.xclbin --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/myadder1.xclbin
+else
+	$(VPP) $(CLFLAGS) --temp_dir $(BUILD_DIR) -l $(LDCLFLAGS) -o'$(BUILD_DIR)/myadder1.xclbin' $(+)
+endif
 ############################## Setting Rules for Host (Building Host Executable) ##############################
 $(EXECUTABLE): check-xrt $(HOST_SRCS) $(HOST_HDRS)
 	$(CXX) $(CXXFLAGS) $(HOST_SRCS) $(HOST_HDRS) -o '$@' $(LDFLAGS)
