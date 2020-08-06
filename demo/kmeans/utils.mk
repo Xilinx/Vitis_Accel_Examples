@@ -80,7 +80,7 @@ ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 	$(ECHO) 'export XILINX_VITIS=/mnt' >> run_app.sh
 	$(ECHO) 'export XCL_EMULATION_MODE=$(TARGET)' >> run_app.sh
 endif
-	$(ECHO) './$(EXECUTABLE) -x krnl_kmeans.xclbin -i 100 -c 100.gold_c10 -n 10' >> run_app.sh
+	$(ECHO) '$(EXECUTABLE) -x krnl_kmeans.xclbin -i 100 -c 100.gold_c10 -n 10' >> run_app.sh
 	$(ECHO) 'return_code=$$?' >> run_app.sh
 	$(ECHO) 'if [ $$return_code -ne 0 ]; then' >> run_app.sh
 	$(ECHO) 'echo "ERROR: host run failed, RC=$$return_code"' >> run_app.sh
@@ -95,6 +95,11 @@ endif
 #   device2xsa - create a filesystem friendly name from device name
 #   $(1) - full name of device
 device2xsa = $(strip $(patsubst %.xpfm, % , $(shell basename $(DEVICE))))
+
+############################## Deprecated Checks and Running Rules ##############################
+check:
+	$(ECHO) "WARNING: \"make check\" is a deprecated command. Please use \"make run\" instead"
+	make run
 
 # Cleaning stuff
 RM = rm -f
