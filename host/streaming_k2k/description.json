@@ -17,6 +17,7 @@
         "u200_qdma"
     ],  
     "ndevice": [
+        "u250",
         "zc",
         "vck",
         "xdma",
@@ -25,6 +26,7 @@
         "samsung"
     ], 
     "platform_blacklist": [
+        "u250",
         "zc",
         "vck",
         "xdma",
