@@ -1,9 +1,9 @@
 Stream Kernel to Kernel Memory Mapped
 =====================================
 
-This is a simple kernel to kernel streaming Vector Add and Vector Multiply C Kernel design with 2 memory mapped input to kernel 1, 1 Stream output from kernel 1 to input of kernel 2, 1 memory mapped input to kernel 2, and 1 memory mapped output that demonstrates on how to process a stream of data for computation between two kernels.
+This is a simple kernel to kernel streaming Vector Add and Vector Multiply C Kernel design with 2 memory mapped input to kernel 1, 1 Stream output from kernel 1 to input of kernel 2, 1 memory mapped input to kernel 2, and 1 memory mapped output that demonstrates on how to process a stream of data for computation between two kernels. This design also illustrates how to set FIFO depth for AXIS connections i.e. for the stream connecting the two kernels
 
-**KEY CONCEPTS:** Read/Write Stream, Create/Release Stream
+**KEY CONCEPTS:** Read/Write Stream, Create/Release Stream, AXIS FIFO depth
 
 **KEYWORDS:** stream_connect
 

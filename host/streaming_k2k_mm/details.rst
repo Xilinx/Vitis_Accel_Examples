@@ -34,7 +34,7 @@ Content of ``krnl_stream_vadd_vmult.ini`` file is below:
 ::
 
    [connectivity]
-   stream_connect=krnl_stream_vadd_1.out:krnl_stream_vmult_1.in2 
+   stream_connect=krnl_stream_vadd_1.out:krnl_stream_vmult_1.in2:64 
 
 Above specify that ``out`` port of ``krnl_stream_vadd_1`` kernel is
-connected to ``in2`` port of ``krnl_stream_vmult_1``
+connected to ``in2`` port of ``krnl_stream_vmult_1``. The FIFO depth of this stream is 64.
