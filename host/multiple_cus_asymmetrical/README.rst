@@ -35,7 +35,7 @@ Once the environment has been configured, the application can be executed by
 
 ::
 
-   ./host <vadd XCLBIN>
+   ./multiple_cus_asymmetrical <vadd XCLBIN>
 
 COMMANDS FOR WINDOWS FLOW
 -------------------------

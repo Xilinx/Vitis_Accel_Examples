@@ -24,7 +24,7 @@ Once the environment has been configured, the application can be executed by
 
 ::
 
-   ./host <vadd XCLBIN>
+   ./bind_op_storage <vadd XCLBIN>
 
 COMMANDS FOR WINDOWS FLOW
 -------------------------

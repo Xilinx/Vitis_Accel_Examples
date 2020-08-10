@@ -607,7 +607,7 @@ def mk_help(target):
     target.write("\t$(ECHO) \"      Command to remove all the generated files.\"\n")
     target.write("\t$(ECHO) \"\"\n")
     target.write("\t$(ECHO)  \"  make test DEVICE=<FPGA platform>\"\n")    
-    target.write("\t$(ECHO)  \"     Command to run the application. This is same as 'check' target but does not have any makefile dependency.\"\n")  
+    target.write("\t$(ECHO)  \"     Command to run the application. This is same as 'run' target but does not have any makefile dependency.\"\n")  
     target.write("\t$(ECHO)  \"\"\n")
 
 

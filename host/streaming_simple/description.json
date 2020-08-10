@@ -46,7 +46,7 @@
                 "-pthread"
             ]
         }, 
-        "host_exe": "vadd_stream", 
+        "host_exe": "streaming_simple",
         "compiler": {
             "sources": [
                 "REPO_DIR/common/includes/xcl2", 

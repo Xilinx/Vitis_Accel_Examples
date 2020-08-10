@@ -25,7 +25,7 @@ Once the environment has been configured, the application can be executed by
 
 ::
 
-   ./host <krnl_port_widen XCLBIN>
+   ./port_width_widening <krnl_port_widen XCLBIN>
 
 COMMANDS FOR WINDOWS FLOW
 -------------------------

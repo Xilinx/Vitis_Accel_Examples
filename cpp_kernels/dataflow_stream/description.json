@@ -18,7 +18,7 @@
         "OpenCL"
     ], 
     "host": {
-        "host_exe": "host", 
+        "host_exe": "dataflow_stream",
         "compiler": {
             "sources": [
                 "REPO_DIR/common/includes/xcl2"

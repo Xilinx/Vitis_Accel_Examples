@@ -39,7 +39,7 @@ Once the environment has been configured, the application can be executed by
 
 ::
 
-   ./vadd_stream <myadder1 XCLBIN>
+   ./rtl_streaming_free_running <myadder1 XCLBIN>
 
 COMMANDS FOR WINDOWS FLOW
 -------------------------

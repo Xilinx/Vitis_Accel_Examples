@@ -37,7 +37,7 @@
         "OpenCL"
     ], 
     "host": {
-        "host_exe": "vmulvadd", 
+        "host_exe": "kernel_swap",
         "compiler": {
             "sources": [
                 "REPO_DIR/common/includes/xcl2",

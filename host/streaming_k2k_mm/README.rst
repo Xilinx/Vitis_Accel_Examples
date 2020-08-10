@@ -36,7 +36,7 @@ Once the environment has been configured, the application can be executed by
 
 ::
 
-   ./vadd_stream <krnl_stream_vadd_vmult XCLBIN>
+   ./streaming_k2k_mm <krnl_stream_vadd_vmult XCLBIN>
 
 COMMANDS FOR WINDOWS FLOW
 -------------------------

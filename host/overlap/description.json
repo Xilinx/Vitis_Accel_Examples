@@ -24,7 +24,7 @@
         "OpenCL"
     ], 
     "host": {
-        "host_exe": "overlap", 
+        "host_exe": "overlap",
         "compiler": {
             "sources": [
                 "REPO_DIR/common/includes/xcl2"

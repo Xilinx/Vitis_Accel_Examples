@@ -25,7 +25,7 @@
         "OpenCL"
     ], 
     "host": {
-        "host_exe": "host", 
+        "host_exe": "multiple_process",
         "compiler": {
             "sources": [
                 "REPO_DIR/common/includes/xcl2"

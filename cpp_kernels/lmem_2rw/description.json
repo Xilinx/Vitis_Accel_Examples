@@ -19,7 +19,7 @@
         "OpenCL"
     ], 
     "host": {
-        "host_exe": "host", 
+        "host_exe": "lmem_2rw",
         "compiler": {
             "sources": [
                 "REPO_DIR/common/includes/xcl2"

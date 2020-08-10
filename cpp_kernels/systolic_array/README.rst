@@ -30,7 +30,7 @@ Once the environment has been configured, the application can be executed by
 
 ::
 
-   ./host <mmult XCLBIN>
+   ./systolic_array <mmult XCLBIN>
 
 COMMANDS FOR WINDOWS FLOW
 -------------------------

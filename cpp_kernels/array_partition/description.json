@@ -20,7 +20,7 @@
         "OpenCL"
     ], 
     "host": {
-        "host_exe": "array_partition", 
+        "host_exe": "array_partition",
         "compiler": {
             "sources": [
                 "REPO_DIR/common/includes/xcl2"

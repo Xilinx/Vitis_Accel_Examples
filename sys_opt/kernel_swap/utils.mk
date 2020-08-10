@@ -96,6 +96,11 @@ endif
 #   $(1) - full name of device
 device2xsa = $(strip $(patsubst %.xpfm, % , $(shell basename $(DEVICE))))
 
+############################## Deprecated Checks and Running Rules ##############################
+check:
+	$(ECHO) "WARNING: \"make check\" is a deprecated command. Please use \"make run\" instead"
+	make run
+
 # Cleaning stuff
 RM = rm -f
 RMDIR = rm -rf

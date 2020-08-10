@@ -41,7 +41,7 @@
         "OpenCL"
     ], 
     "host": {
-        "host_exe": "vadd_stream", 
+        "host_exe": "streaming_multi_cus",
         "compiler": {
             "sources": [
                 "REPO_DIR/common/includes/xcl2"

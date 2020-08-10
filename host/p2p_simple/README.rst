@@ -40,7 +40,7 @@ Once the environment has been configured, the application can be executed by
 
 ::
 
-   ./host -x <adder XCLBIN> -i /dev/nvme0n1
+   ./p2p_simple -x <adder XCLBIN> -i /dev/nvme0n1
 
 COMMANDS FOR WINDOWS FLOW
 -------------------------

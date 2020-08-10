@@ -37,7 +37,7 @@ Once the environment has been configured, the application can be executed by
 
 ::
 
-   ./vmulvadd -x1 <krnl_vmul XCLBIN> -x2 <krnl_vadd XCLBIN>
+   ./kernel_swap -x1 <krnl_vmul XCLBIN> -x2 <krnl_vadd XCLBIN>
 
 COMMANDS FOR WINDOWS FLOW
 -------------------------

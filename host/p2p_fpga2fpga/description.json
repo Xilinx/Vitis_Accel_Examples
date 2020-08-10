@@ -46,7 +46,7 @@
         }
     ], 
     "host": {
-        "host_exe": "host", 
+        "host_exe": "p2p_fpga2fpga",
         "compiler": {
             "sources": [
                 "REPO_DIR/common/includes/xcl2",

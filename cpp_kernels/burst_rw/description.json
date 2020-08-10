@@ -19,7 +19,7 @@
         "OpenCL"
     ], 
     "host": {
-        "host_exe": "host", 
+        "host_exe": "burst_rw",
         "compiler": {
             "sources": [
                 "REPO_DIR/common/includes/xcl2", 

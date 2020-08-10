@@ -23,7 +23,7 @@
         "OpenCL"
     ], 
     "host": {
-        "host_exe": "device_query", 
+        "host_exe": "device_query",
         "compiler": {
             "sources": [
                 "REPO_DIR/common/includes/xcl2"

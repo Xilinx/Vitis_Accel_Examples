@@ -22,7 +22,7 @@
         "OpenCL"
     ], 
     "host": {
-        "host_exe": "host", 
+        "host_exe": "hello_world",
         "compiler": {
             "sources": [
                 "REPO_DIR/common/includes/xcl2"

@@ -31,7 +31,7 @@
     ], 
     "output_files": "output.bmp", 
     "host": {
-        "host_exe": "host", 
+        "host_exe": "gmem_2banks",
         "compiler": {
             "sources": [
                 "REPO_DIR/common/includes/xcl2", 

@@ -32,7 +32,7 @@
         "OpenCL"
     ], 
     "host": {
-        "host_exe": "host", 
+        "host_exe": "copy_buffer",
         "compiler": {
             "sources": [
                 "REPO_DIR/common/includes/xcl2"

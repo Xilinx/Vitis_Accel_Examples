@@ -39,7 +39,7 @@ Once the environment has been configured, the application can be executed by
 
 ::
 
-   ./host <krnl_vadd XCLBIN>
+   ./hbm_simple <krnl_vadd XCLBIN>
 
 COMMANDS FOR WINDOWS FLOW
 -------------------------

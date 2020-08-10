@@ -38,7 +38,7 @@ Once the environment has been configured, the application can be executed by
 
 ::
 
-   ./host -x <apply_watermark XCLBIN> -i ./data/input.bmp -c ./data/golden.bmp
+   ./cl_gmem_2banks -x <apply_watermark XCLBIN> -i ./data/input.bmp -c ./data/golden.bmp
 
 COMMANDS FOR WINDOWS FLOW
 -------------------------

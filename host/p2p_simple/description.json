@@ -53,7 +53,7 @@
         }
     ], 
     "host": {
-        "host_exe": "host", 
+        "host_exe": "p2p_simple",
         "compiler": {
             "sources": [
                 "REPO_DIR/common/includes/xcl2",

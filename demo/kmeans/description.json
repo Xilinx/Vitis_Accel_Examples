@@ -29,7 +29,7 @@
         "OpenCL"
     ], 
     "host": {
-        "host_exe": "kmeans", 
+        "host_exe": "kmeans",
         "compiler": {
             "sources": [
                 "REPO_DIR/common/includes/xcl2",

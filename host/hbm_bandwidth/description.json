@@ -26,7 +26,7 @@
         "OpenCL"
     ], 
     "host": {
-        "host_exe": "host", 
+        "host_exe": "hbm_bandwidth",
         "compiler": {
             "sources": [
                 "REPO_DIR/common/includes/xcl2"

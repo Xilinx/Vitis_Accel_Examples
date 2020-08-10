@@ -35,7 +35,7 @@
         "OpenCL"
     ], 
     "host": {
-        "host_exe": "host", 
+        "host_exe": "streaming_free_running_k2k",
         "compiler": {
             "sources": [
                 "REPO_DIR/common/includes/xcl2"

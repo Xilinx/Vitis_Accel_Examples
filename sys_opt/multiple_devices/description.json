@@ -20,7 +20,7 @@
         "OpenCL"
     ], 
     "host": {
-        "host_exe": "multiple_devices", 
+        "host_exe": "multiple_devices",
         "compiler": {
             "sources": [
                 "REPO_DIR/common/includes/xcl2"

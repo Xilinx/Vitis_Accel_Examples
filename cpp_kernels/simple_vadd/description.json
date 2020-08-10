@@ -14,7 +14,7 @@
         }
     ],
     "host": {
-        "host_exe": "vadd", 
+        "host_exe": "simple_vadd",
         "compiler": {
             "sources": [
                 "REPO_DIR/common/includes/xcl2",

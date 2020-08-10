@@ -34,7 +34,7 @@ Once the environment has been configured, the application can be executed by
 
 ::
 
-   ./host <vector_addition XCLBIN>
+   ./copy_buffer <vector_addition XCLBIN>
 
 COMMANDS FOR WINDOWS FLOW
 -------------------------

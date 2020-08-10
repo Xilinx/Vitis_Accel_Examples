@@ -24,7 +24,7 @@ Once the environment has been configured, the application can be executed by
 
 ::
 
-   ./host <adder XCLBIN>
+   ./cl_dataflow_subfunc <adder XCLBIN>
 
 COMMANDS FOR WINDOWS FLOW
 -------------------------

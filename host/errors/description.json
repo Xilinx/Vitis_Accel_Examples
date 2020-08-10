@@ -20,7 +20,7 @@
         "OpenCL"
     ], 
     "host": {
-        "host_exe": "errors", 
+        "host_exe": "errors",
         "compiler": {
             "sources": []
         }

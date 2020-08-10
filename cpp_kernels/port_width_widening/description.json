@@ -22,7 +22,7 @@
         "OpenCL"
     ], 
     "host": {
-        "host_exe": "host", 
+        "host_exe": "port_width_widening",
         "compiler": {
             "sources": [
                 "REPO_DIR/common/includes/xcl2"

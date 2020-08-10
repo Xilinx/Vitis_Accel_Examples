@@ -28,7 +28,7 @@
         "OpenCL"
     ], 
     "host": {
-        "host_exe": "array_partition", 
+        "host_exe": "cl_partition_cyclicblock",
         "compiler": {
             "sources": [
                 "REPO_DIR/common/includes/xcl2"

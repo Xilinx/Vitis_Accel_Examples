@@ -14,7 +14,7 @@ help::
 	$(ECHO) "      Command to remove all the generated files."
 	$(ECHO) ""
 	$(ECHO)  "  make test DEVICE=<FPGA platform>"
-	$(ECHO)  "     Command to run the application. This is same as 'check' target but does not have any makefile dependency."
+	$(ECHO)  "     Command to run the application. This is same as 'run' target but does not have any makefile dependency."
 	$(ECHO)  ""
 	$(ECHO) "  make sd_card TARGET=<sw_emu/hw_emu/hw> DEVICE=<FPGA platform> HOST_ARCH=<aarch32/aarch64/x86> EDGE_COMMON_SW=<rootfs and kernel image path>"
 	$(ECHO) "      Command to prepare sd_card files."
@@ -86,7 +86,7 @@ endif
 
 
 
-EXECUTABLE = ./concurrent_execution
+EXECUTABLE = ./concurrent_kernel_execution
 CMD_ARGS = $(BUILD_DIR)/matrix_ops.xclbin
 EMCONFIG_DIR = $(TEMP_DIR)
 EMU_DIR = $(SDCARD)/data/emulation

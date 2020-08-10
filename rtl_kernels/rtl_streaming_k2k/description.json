@@ -51,7 +51,7 @@
                 "-pthread"
             ]
         }, 
-        "host_exe": "vadd_stream", 
+        "host_exe": "rtl_streaming_k2k",
         "compiler": {
             "sources": [
                 "REPO_DIR/common/includes/xcl2", 

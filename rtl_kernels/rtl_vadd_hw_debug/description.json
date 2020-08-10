@@ -26,7 +26,7 @@
     "gui": false, 
     "xcl": true, 
     "host": {
-        "host_exe": "host", 
+        "host_exe": "rtl_vadd_hw_debug",
         "compiler": {
             "sources": [
                 "REPO_DIR/common/includes/xcl2", 

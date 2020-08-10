@@ -27,7 +27,7 @@ Once the environment has been configured, the application can be executed by
 
 ::
 
-   ./host <multi_krnl XCLBIN>
+   ./multiple_process <multi_krnl XCLBIN>
 
 COMMANDS FOR WINDOWS FLOW
 -------------------------

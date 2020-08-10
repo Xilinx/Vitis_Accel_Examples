@@ -37,7 +37,7 @@ Once the environment has been configured, the application can be executed by
 
 ::
 
-   ./host <mmult XCLBIN>
+   ./plram_access <mmult XCLBIN>
 
 COMMANDS FOR WINDOWS FLOW
 -------------------------

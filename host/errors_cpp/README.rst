@@ -24,7 +24,7 @@ Once the environment has been configured, the application can be executed by
 
 ::
 
-   ./errors <vector_addition XCLBIN>
+   ./errors_cpp <vector_addition XCLBIN>
 
 COMMANDS FOR WINDOWS FLOW
 -------------------------

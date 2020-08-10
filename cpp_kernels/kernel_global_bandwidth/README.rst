@@ -31,7 +31,7 @@ Once the environment has been configured, the application can be executed by
 
 ::
 
-   ./kernel_global <krnl_kernel_global XCLBIN>
+   ./kernel_global_bandwidth <krnl_kernel_global XCLBIN>
 
 COMMANDS FOR WINDOWS FLOW
 -------------------------

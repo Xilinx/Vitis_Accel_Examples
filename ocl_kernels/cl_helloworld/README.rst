@@ -22,7 +22,7 @@ Once the environment has been configured, the application can be executed by
 
 ::
 
-   ./helloworld <vector_addition XCLBIN>
+   ./cl_helloworld <vector_addition XCLBIN>
 
 COMMANDS FOR WINDOWS FLOW
 -------------------------

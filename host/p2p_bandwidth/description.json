@@ -51,7 +51,7 @@
         }
     ], 
     "host": {
-        "host_exe": "host", 
+        "host_exe": "p2p_bandwidth",
         "compiler": {
             "sources": [
                 "REPO_DIR/common/includes/xcl2",

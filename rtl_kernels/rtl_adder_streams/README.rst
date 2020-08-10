@@ -43,7 +43,7 @@ Once the environment has been configured, the application can be executed by
 
 ::
 
-   ./host <adder XCLBIN>
+   ./rtl_adder_streams <adder XCLBIN>
 
 COMMANDS FOR WINDOWS FLOW
 -------------------------

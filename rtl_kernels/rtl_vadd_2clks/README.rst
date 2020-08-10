@@ -30,7 +30,7 @@ Once the environment has been configured, the application can be executed by
 
 ::
 
-   ./host <vadd XCLBIN>
+   ./rtl_vadd_2clks <vadd XCLBIN>
 
 COMMANDS FOR WINDOWS FLOW
 -------------------------

@@ -21,7 +21,7 @@
         "OpenCL"
     ], 
     "host": {
-        "host_exe": "kernel_global", 
+        "host_exe": "kernel_global_bandwidth",
         "compiler": {
             "sources": [
                 "REPO_DIR/common/includes/xcl2", 

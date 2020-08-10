@@ -23,7 +23,7 @@ Once the environment has been configured, the application can be executed by
 
 ::
 
-   ./host <vadd XCLBIN>
+   ./debug_profile <vadd XCLBIN>
 
 COMMANDS FOR WINDOWS FLOW
 -------------------------

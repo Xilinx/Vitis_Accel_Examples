@@ -15,7 +15,7 @@
         "OpenCL"
     ], 
     "host": {
-        "host_exe": "host", 
+        "host_exe": "debug_profile",
         "compiler": {
             "sources": [
                 "REPO_DIR/common/includes/xcl2"

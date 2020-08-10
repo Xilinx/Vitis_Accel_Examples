@@ -36,7 +36,7 @@ Once the environment has been configured, the application can be executed by
 
 ::
 
-   ./host <vmult_vadd XCLBIN>
+   ./slr_assign <vmult_vadd XCLBIN>
 
 COMMANDS FOR WINDOWS FLOW
 -------------------------

@@ -36,7 +36,7 @@ Once the environment has been configured, the application can be executed by
 
 ::
 
-   ./host <krnl_vaddmul XCLBIN>
+   ./hbm_bandwidth_pseudo_random <krnl_vaddmul XCLBIN>
 
 COMMANDS FOR WINDOWS FLOW
 -------------------------

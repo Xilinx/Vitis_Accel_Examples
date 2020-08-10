@@ -24,7 +24,7 @@ Once the environment has been configured, the application can be executed by
 
 ::
 
-   ./host <mmult XCLBIN>
+   ./cl_loop_reorder <mmult XCLBIN>
 
 COMMANDS FOR WINDOWS FLOW
 -------------------------

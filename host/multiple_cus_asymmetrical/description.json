@@ -28,7 +28,7 @@
         "OpenCL"
     ], 
     "host": {
-        "host_exe": "host", 
+        "host_exe": "multiple_cus_asymmetrical",
         "compiler": {
             "sources": [
                 "REPO_DIR/common/includes/xcl2"

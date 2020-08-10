@@ -25,7 +25,7 @@ Once the environment has been configured, the application can be executed by
 
 ::
 
-   ./host <fir XCLBIN>
+   ./shift_register <fir XCLBIN>
 
 COMMANDS FOR WINDOWS FLOW
 -------------------------

@@ -28,7 +28,7 @@
                 "REPO_DIR/common/includes/xcl2"
             ]
         }, 
-        "host_exe": "concurrent_execution"
+        "host_exe": "concurrent_kernel_execution"
     }, 
     "containers": [
         {

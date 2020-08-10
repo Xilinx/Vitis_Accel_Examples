@@ -39,7 +39,7 @@ Once the environment has been configured, the application can be executed by
 
 ::
 
-   ./host -x <krnl_incr XCLBIN> -i 5
+   ./streaming_reg_access -x <krnl_incr XCLBIN> -i 5
 
 COMMANDS FOR WINDOWS FLOW
 -------------------------

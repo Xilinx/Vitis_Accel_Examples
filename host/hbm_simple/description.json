@@ -38,7 +38,7 @@
         "OpenCL"
     ], 
     "host": {
-        "host_exe": "host", 
+        "host_exe": "hbm_simple",
         "compiler": {
             "sources": [
                 "REPO_DIR/common/includes/xcl2"

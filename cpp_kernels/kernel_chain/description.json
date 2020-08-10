@@ -32,7 +32,7 @@
                 "-pthread"
             ]
         }, 
-        "host_exe": "vadd_mmult", 
+        "host_exe": "kernel_chain",
         "compiler": {
             "sources": [
                 "REPO_DIR/common/includes/xcl2", 

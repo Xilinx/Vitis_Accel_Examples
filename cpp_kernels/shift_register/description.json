@@ -19,7 +19,7 @@
         "OpenCL"
     ], 
     "host": {
-        "host_exe": "host", 
+        "host_exe": "shift_register",
         "compiler": {
             "sources": [
                 "REPO_DIR/common/includes/xcl2"

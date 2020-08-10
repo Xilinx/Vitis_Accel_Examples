@@ -23,7 +23,7 @@
         "OpenCL"
     ], 
     "host": {
-        "host_exe": "errors", 
+        "host_exe": "errors_cpp",
         "compiler": {
             "sources": [
                 "REPO_DIR/common/includes/xcl2"

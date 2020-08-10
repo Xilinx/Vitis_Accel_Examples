@@ -33,7 +33,7 @@ Once the environment has been configured, the application can be executed by
 
 ::
 
-   ./array_partition <matmul XCLBIN>
+   ./cl_partition_cyclicblock <matmul XCLBIN>
 
 COMMANDS FOR WINDOWS FLOW
 -------------------------

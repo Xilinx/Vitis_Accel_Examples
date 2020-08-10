@@ -39,7 +39,7 @@ Once the environment has been configured, the application can be executed by
 
 ::
 
-   ./host -x <increment XCLBIN>
+   ./streaming_free_running_h2k -x <increment XCLBIN>
 
 COMMANDS FOR WINDOWS FLOW
 -------------------------

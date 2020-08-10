@@ -20,7 +20,7 @@
     ], 
     "gui": false, 
     "host": {
-        "host_exe": "host", 
+        "host_exe": "rtl_adder_streams",
         "compiler": {
             "sources": [
                 "REPO_DIR/common/includes/xcl2", 

@@ -27,7 +27,7 @@
                 "REPO_DIR/common/includes/xcl2"
             ]
         }, 
-        "host_exe": "device_only_buf"
+        "host_exe": "device_only_buffer"
     }, 
     "containers": [
         {

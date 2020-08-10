@@ -26,7 +26,7 @@ Once the environment has been configured, the application can be executed by
 
 ::
 
-   ./concurrent_execution <matrix_ops XCLBIN>
+   ./concurrent_kernel_execution <matrix_ops XCLBIN>
 
 COMMANDS FOR WINDOWS FLOW
 -------------------------

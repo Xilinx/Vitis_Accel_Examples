@@ -36,7 +36,7 @@ Once the environment has been configured, the application can be executed by
 
 ::
 
-   ./vadd_mmult <krnl_mmult XCLBIN>
+   ./kernel_chain <krnl_mmult XCLBIN>
 
 COMMANDS FOR WINDOWS FLOW
 -------------------------

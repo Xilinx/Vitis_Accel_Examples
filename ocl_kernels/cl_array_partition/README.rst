@@ -24,7 +24,7 @@ Once the environment has been configured, the application can be executed by
 
 ::
 
-   ./array_partition <matmul XCLBIN>
+   ./cl_array_partition <matmul XCLBIN>
 
 COMMANDS FOR WINDOWS FLOW
 -------------------------
