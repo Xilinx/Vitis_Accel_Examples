@@ -383,12 +383,16 @@ def mk_build_all(target, data):
     target.write("all: check-devices $(EXECUTABLE) $(BINARY_CONTAINERS) emconfig sd_card\n")
     target.write("\n")
     
-    target.write(".PHONY: exe\n")
-    target.write("exe: $(EXECUTABLE)\n")
+    target.write(".PHONY: host\n")
+    target.write("host: $(EXECUTABLE)\n")
     target.write("\n")
     
     target.write(".PHONY: build\n")
     target.write("build: check-vitis $(BINARY_CONTAINERS)\n")
+    target.write("\n")
+
+    target.write(".PHONY: xclbin\n")
+    target.write("xclbin: build\n")
     target.write("\n")
     
     counter = 0
@@ -412,6 +416,11 @@ def deprecated_check(target, data):
     target.write("check:\n")
     target.write("\t$(ECHO) \"WARNING: \\\"make check\\\" is a deprecated command. Please use \\\"make run\\\" instead\"\n")
     target.write("\tmake run\n")
+    target.write("\n")
+
+    target.write("exe:\n")
+    target.write("\t$(ECHO) \"WARNING: \\\"make exe\\\" is a deprecated command. Please use \\\"make host\\\" instead\"\n")
+    target.write("\tmake host\n")
     target.write("\n")
 
 def mk_run(target, data):
@@ -621,6 +630,10 @@ def mk_help(target):
     target.write("\t$(ECHO) \"\"\n")
     target.write("\t$(ECHO) \"  make build TARGET=<sw_emu/hw_emu/hw> DEVICE=<FPGA platform> HOST_ARCH=<aarch32/aarch64/x86> EDGE_COMMON_SW=<rootfs and kernel image path>\"\n");
     target.write("\t$(ECHO) \"      Command to build xclbin application.\"\n")
+    target.write("\t$(ECHO) \"      By default, HOST_ARCH=x86. HOST_ARCH and EDGE_COMMON_SW is required for SoC shells\"\n")
+    target.write("\t$(ECHO) \"\"\n")
+    target.write("\t$(ECHO) \"  make host HOST_ARCH=<aarch32/aarch64/x86> EDGE_COMMON_SW=<rootfs and kernel image path>\"\n");
+    target.write("\t$(ECHO) \"      Command to build host application.\"\n")
     target.write("\t$(ECHO) \"      By default, HOST_ARCH=x86. HOST_ARCH and EDGE_COMMON_SW is required for SoC shells\"\n")
     target.write("\t$(ECHO) \"\"\n")
     #target.write("\t$(ECHO) \"  make run_nimbix DEVICE=<FPGA platform>\"\n");

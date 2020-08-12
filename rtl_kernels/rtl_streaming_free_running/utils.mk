@@ -101,6 +101,10 @@ check:
 	$(ECHO) "WARNING: \"make check\" is a deprecated command. Please use \"make run\" instead"
 	make run
 
+exe:
+	$(ECHO) "WARNING: \"make exe\" is a deprecated command. Please use \"make host\" instead"
+	make host
+
 # Cleaning stuff
 RM = rm -f
 RMDIR = rm -rf

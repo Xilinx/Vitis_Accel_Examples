@@ -28,6 +28,10 @@ help::
 	$(ECHO) "      Command to build xclbin application."
 	$(ECHO) "      By default, HOST_ARCH=x86. HOST_ARCH and EDGE_COMMON_SW is required for SoC shells"
 	$(ECHO) ""
+	$(ECHO) "  make host HOST_ARCH=<aarch32/aarch64/x86> EDGE_COMMON_SW=<rootfs and kernel image path>"
+	$(ECHO) "      Command to build host application."
+	$(ECHO) "      By default, HOST_ARCH=x86. HOST_ARCH and EDGE_COMMON_SW is required for SoC shells"
+	$(ECHO) ""
 
 ############################## Setting up Project Variables ##############################
 # Points to top directory of Git repository
@@ -101,11 +105,14 @@ CP = cp -rf
 .PHONY: all clean cleanall docs emconfig
 all: check-devices $(EXECUTABLE) $(BINARY_CONTAINERS) emconfig sd_card
 
-.PHONY: exe
-exe: $(EXECUTABLE)
+.PHONY: host
+host: $(EXECUTABLE)
 
 .PHONY: build
 build: check-vitis $(BINARY_CONTAINERS)
+
+.PHONY: xclbin
+xclbin: build
 
 ############################## Setting Rules for Binary Containers (Building Kernels) ##############################
 $(TEMP_DIR)/dummy_kernel.xo: src/dummy_kernel.cpp
