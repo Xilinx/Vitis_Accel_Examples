@@ -42,6 +42,10 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "xcl2.hpp"
 
+double throput_max_host_to_dev[3] = {0};
+double throput_max_dev_to_host[3] = {0};
+double throput_max_bidirectional[3] = {0};
+
 ////////////////////////////////////////////////////////////////////////////////
 class Timer {
   std::chrono::high_resolution_clock::time_point mTimeStart;
@@ -78,6 +82,12 @@ static int host_to_dev(cl::CommandQueue commands, int buff_size,
             << " buffers\n";
   strm << "Host to Card, " << dbuff_size << " KB, " << mems.size() << ", "
        << throput << "\n";
+
+  if (throput > throput_max_host_to_dev[0]) {
+    throput_max_host_to_dev[0] = throput;
+    throput_max_host_to_dev[1] = dbuff_size;
+    throput_max_host_to_dev[2] = mems.size();
+  }
   return CL_SUCCESS;
 }
 
@@ -101,6 +111,11 @@ static int dev_to_host(cl::CommandQueue commands, int buff_size,
             << " buffers\n";
   strm << "Card to Host, " << dbuff_size << " KB, " << mems.size() << ", "
        << throput << "\n";
+  if (throput > throput_max_dev_to_host[0]) {
+    throput_max_dev_to_host[0] = throput;
+    throput_max_dev_to_host[1] = dbuff_size;
+    throput_max_dev_to_host[2] = mems.size();
+  }
   return CL_SUCCESS;
 }
 
@@ -128,10 +143,16 @@ static int bidirectional(cl::CommandQueue commands, int buff_size,
   throput /= timer_stop2;
   double dbuff_size = (double)(buff_size) / 1024; // convert to KB
   std::cout << "OpenCL migration BW "
-            << " overall:" << throput << " MB/s for buffer size " << dbuff_size
+            << "overall: " << throput << " MB/s for buffer size " << dbuff_size
             << " KB with " << mems1.size() << " buffers\n";
   strm << "Card to Host, " << dbuff_size << " KB, " << mems1.size() << ", "
        << throput << "\n";
+
+  if (throput > throput_max_bidirectional[0]) {
+    throput_max_bidirectional[0] = throput;
+    throput_max_bidirectional[1] = dbuff_size;
+    throput_max_bidirectional[2] = mems1.size();
+  }
   return CL_SUCCESS;
 }
 
@@ -275,6 +296,30 @@ int main(int argc, char **argv) {
       break;
     }
   }
+
+  std::cout << "\nMaximum bandwidth achieved :\n";
+  std::cout << "OpenCL migration BW host to device: "
+            << throput_max_host_to_dev[0] << " MB/s"
+            << " for buffer size " << throput_max_host_to_dev[1] << " KB with "
+            << throput_max_host_to_dev[2] << " buffers\n";
+  handle << "\nMaximum bandwidth achieved :\n";
+  handle << "Host to Card, " << throput_max_host_to_dev[1] << " KB, "
+         << throput_max_host_to_dev[2] << ", " << throput_max_host_to_dev[0]
+         << "\n";
+  std::cout << "OpenCL migration BW device to host: "
+            << throput_max_dev_to_host[0] << " MB/s"
+            << " for buffer size " << throput_max_dev_to_host[1] << " KB with "
+            << throput_max_dev_to_host[2] << " buffers\n";
+  handle << "Card to Host, " << throput_max_dev_to_host[1] << " KB, "
+         << throput_max_dev_to_host[2] << ", " << throput_max_dev_to_host[0]
+         << "\n";
+  std::cout << "OpenCL migration BW "
+            << "overall: " << throput_max_bidirectional[0]
+            << " MB/s for buffer size " << throput_max_bidirectional[1]
+            << " KB with " << throput_max_bidirectional[2] << " buffers\n";
+  handle << "Card to Host, " << throput_max_bidirectional[1] << " KB, "
+         << throput_max_bidirectional[2] << ", " << throput_max_bidirectional[0]
+         << "\n";
 
   printf("\nTEST PASSED\n");
   // Shutdown and cleanup
