@@ -182,7 +182,7 @@ int main(int argc, char **argv) {
   // read_binary() command will find the OpenCL binary file
   auto fileBuf = xcl::read_binary_file(binaryFile);
   cl::Program::Binaries bins{{fileBuf.data(), fileBuf.size()}};
-  int valid_device = 0;
+  bool valid_device = false;
   for (unsigned int i = 0; i < devices.size(); i++) {
     auto device = devices[i];
     // Creating Context and Command Queue for selected Device
@@ -201,11 +201,11 @@ int main(int argc, char **argv) {
     } else {
       std::cout << "Device[" << i << "]: program successful!\n";
       OCL_CHECK(err, krnl_bandwidth = cl::Kernel(program, "bandwidth", &err));
-      valid_device++;
+      valid_device = true;
       break; // we break because we found a valid device
     }
   }
-  if (valid_device == 0) {
+  if (!valid_device) {
     std::cout << "Failed to program any device found, exit!\n";
     exit(EXIT_FAILURE);
   }

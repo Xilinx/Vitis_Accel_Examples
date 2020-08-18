@@ -94,7 +94,7 @@ int main(int argc, char **argv) {
   // and will return the pointer to file buffer.
   auto fileBuf = xcl::read_binary_file(binaryFile);
   cl::Program::Binaries bins{{fileBuf.data(), fileBuf.size()}};
-  int valid_device = 0;
+  bool valid_device = false;
   for (unsigned int i = 0; i < devices.size(); i++) {
     auto device = devices[i];
     // Creating Context and Command Queue for selected Device
@@ -110,11 +110,11 @@ int main(int argc, char **argv) {
     } else {
       std::cout << "Device[" << i << "]: program successful!\n";
       OCL_CHECK(err, krnl_rgb2hsv = cl::Kernel(program, "rgb_to_hsv", &err));
-      valid_device++;
+      valid_device = true;
       break; // we break because we found a valid device
     }
   }
-  if (valid_device == 0) {
+  if (!valid_device) {
     std::cerr << "Failed to program any device found, exit!\n";
     exit(EXIT_FAILURE);
   }

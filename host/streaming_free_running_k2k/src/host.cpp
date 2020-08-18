@@ -112,7 +112,7 @@ int main(int argc, char **argv) {
   // and will return pointer to file buffer.
   auto fileBuf = xcl::read_binary_file(binaryFile);
   cl::Program::Binaries bins{{fileBuf.data(), fileBuf.size()}};
-  int valid_device = 0;
+  bool valid_device = false;
   for (unsigned int i = 0; i < devices.size(); i++) {
     auto device = devices[i];
     // Creating Context and Command Queue for selected Device
@@ -132,11 +132,11 @@ int main(int argc, char **argv) {
       OCL_CHECK(err, krnl_increment = cl::Kernel(program, "increment", &err));
       OCL_CHECK(err, krnl_mem_read = cl::Kernel(program, "mem_read", &err));
       OCL_CHECK(err, krnl_mem_write = cl::Kernel(program, "mem_write", &err));
-      valid_device++;
+      valid_device = true;
       break; // we break because we found a valid device
     }
   }
-  if (valid_device == 0) {
+  if (!valid_device) {
     std::cout << "Failed to program any device found, exit!\n";
     exit(EXIT_FAILURE);
   }
