@@ -8,8 +8,7 @@
         "RTL Kernel Debug"
     ], 
     "targets": [
-        "hw", 
-        "hw_emu"
+        "hw"
     ],
    "ndevice": [
       	"vck"
@@ -82,7 +81,6 @@
             }
         ],
         "targets": [
-            "vitis_hw_emu",
             "vitis_hw"
         ],
         "category": "canary"

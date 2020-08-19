@@ -150,8 +150,8 @@ ifeq ($(HOST_ARCH), x86)
 	$(EXECUTABLE) $(BUILD_DIR)/vadd.xclbin
 endif
 endif
-ifneq ($(TARGET),$(findstring $(TARGET), hw hw_emu))
-$(warning WARNING:Application supports only hw hw_emu TARGET. Please use the target for running the application)
+ifneq ($(TARGET),$(findstring $(TARGET), hw))
+$(warning WARNING:Application supports only hw TARGET. Please use the target for running the application)
 endif
 
 
@@ -170,8 +170,8 @@ else
 	$(ECHO) "Please copy the content of sd_card folder and data to an SD Card and run on the board"
 endif
 endif
-ifneq ($(TARGET),$(findstring $(TARGET), hw hw_emu))
-$(warning WARNING:Application supports only hw hw_emu TARGET. Please use the target for running the application)
+ifneq ($(TARGET),$(findstring $(TARGET), hw))
+$(warning WARNING:Application supports only hw TARGET. Please use the target for running the application)
 endif
 
 
