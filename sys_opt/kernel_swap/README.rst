@@ -14,8 +14,8 @@ Platforms containing following strings in their names are not supported for this
 
 ::
 
-   zcu102_base_202010
-   zcu104_base_202010
+   zcu102_base_20
+   zcu104_base_20
    vck
    zc7
 

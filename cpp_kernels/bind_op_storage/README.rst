@@ -7,6 +7,15 @@ This is simple example of vector addition to describe how to use BIND OP and STO
 
 **KEYWORDS:** BIND_OP, BIND_STORAGE, impl, op, type, latency
 
+EXCLUDED PLATFORMS
+------------------
+
+Platforms containing following strings in their names are not supported for this example :
+
+::
+
+   zcu102
+
 DESIGN FILES
 ------------
 

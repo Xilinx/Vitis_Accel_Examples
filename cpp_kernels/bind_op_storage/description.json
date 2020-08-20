@@ -16,6 +16,12 @@
         "BIND OP",
         "BIND STORAGE" 
     ], 
+    "ndevice": [
+        "zcu102"
+     ],
+    "platform_blacklist": [
+        "zcu102"
+     ],
     "os": [
         "Linux"
     ], 

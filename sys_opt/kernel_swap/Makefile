@@ -166,10 +166,10 @@ $(EMCONFIG_DIR)/emconfig.json:
 
 ############################## Setting Essential Checks and Running Rules ##############################
 run: all
-ifeq ($(findstring zcu102_base_202010, $(DEVICE)), zcu102_base_202010)
+ifeq ($(findstring zcu102_base_20, $(DEVICE)), zcu102_base_20)
 $(error This example is not supported for $(DEVICE))
 endif
-ifeq ($(findstring zcu104_base_202010, $(DEVICE)), zcu104_base_202010)
+ifeq ($(findstring zcu104_base_20, $(DEVICE)), zcu104_base_20)
 $(error This example is not supported for $(DEVICE))
 endif
 ifeq ($(findstring vck, $(DEVICE)), vck)
