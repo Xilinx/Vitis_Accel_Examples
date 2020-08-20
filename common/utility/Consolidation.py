@@ -29,9 +29,7 @@ if(not os.path.isdir(folder_created)):
 
 	for txt in f:
 
-		x = re.search("^COMMON_REPO =.*", txt)
-
-		if (x):
+		if "COMMON_REPO ?=" in txt:
 			txt = "COMMON_REPO = ./\n"
 
 		string = string + txt
