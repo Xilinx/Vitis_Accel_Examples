@@ -51,6 +51,7 @@ void krnl_simple_mmult(int *a, int *b, int *c, int *d, int *output, int dim) {
 #pragma HLS INTERFACE s_axilite port = output
 #pragma HLS INTERFACE s_axilite port = dim
 #pragma HLS INTERFACE s_axilite port = return
+#pragma HLS INTERFACE ap_ctrl_hs port = return
 
 #pragma HLS STABLE variable = a
 #pragma HLS STABLE variable = b
