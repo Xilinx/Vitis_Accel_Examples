@@ -118,14 +118,14 @@ xclbin: build
 ############################## Setting Rules for Binary Containers (Building Kernels) ##############################
 $(TEMP_DIR)/N_stage_Adders.xo: src/N_stage_adders.cpp
 	mkdir -p $(TEMP_DIR)
-	$(VPP) $(CLFLAGS) $(CLFLAGS_N_stage_Adders) --temp_dir $(TEMP_DIR) -c -k N_stage_Adders -I'$(<D)' -o'$@' '$<'
+	$(VPP) -c -k N_stage_Adders $(CLFLAGS) $(CLFLAGS_N_stage_Adders) --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
 $(BUILD_DIR)/N_stage_Adders.xclbin: $(BINARY_CONTAINER_N_stage_Adders_OBJS)
 	mkdir -p $(BUILD_DIR)
 ifeq ($(HOST_ARCH), x86)
-	$(VPP) $(CLFLAGS) --temp_dir $(BUILD_DIR) -l $(LDCLFLAGS) -o'$(BUILD_DIR)/N_stage_Adders.link.xclbin' $(+)
-	$(VPP) -t $(TARGET) --platform $(DEVICE) -p $(BUILD_DIR)/N_stage_Adders.link.xclbin --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/N_stage_Adders.xclbin
+	$(VPP) -l $(LDCLFLAGS) $(CLFLAGS) --temp_dir $(BUILD_DIR)  -o'$(BUILD_DIR)/N_stage_Adders.link.xclbin' $(+)
+	$(VPP) -p $(BUILD_DIR)/N_stage_Adders.link.xclbin -t $(TARGET) --platform $(DEVICE) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/N_stage_Adders.xclbin
 else
-	$(VPP) $(CLFLAGS) --temp_dir $(BUILD_DIR) -l $(LDCLFLAGS) -o'$(BUILD_DIR)/N_stage_Adders.xclbin' $(+)
+	$(VPP) -l $(LDCLFLAGS) $(CLFLAGS) --temp_dir $(BUILD_DIR) -o'$(BUILD_DIR)/N_stage_Adders.xclbin' $(+)
 endif
 
 ############################## Setting Rules for Host (Building Host Executable) ##############################
@@ -172,7 +172,7 @@ endif
 ############################## Preparing sdcard ##############################
 sd_card: $(BINARY_CONTAINERS) $(EXECUTABLE) gen_run_app
 ifneq ($(HOST_ARCH), x86)
-	$(VPP) -t $(TARGET) --platform $(DEVICE) -p $(BUILD_DIR)/N_stage_Adders.xclbin --package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.sd_file $(SD_IMAGE_FILE) --package.sd_file xrt.ini --package.sd_file $(RUN_APP_SCRIPT) --package.sd_file $(EXECUTABLE) -o N_stage_Adders.xclbin
+	$(VPP) -p $(BUILD_DIR)/N_stage_Adders.xclbin -t $(TARGET) --platform $(DEVICE) --package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.sd_file $(SD_IMAGE_FILE) --package.sd_file xrt.ini --package.sd_file $(RUN_APP_SCRIPT) --package.sd_file $(EXECUTABLE) -o N_stage_Adders.xclbin
 endif
 
 ############################## Cleaning Rules ##############################

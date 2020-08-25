@@ -253,13 +253,14 @@ def building_kernel(target, data):
                     target.write(acc["location"])
                     target.write("\n")
                     target.write("\tmkdir -p $(TEMP_DIR)\n")
-                    target.write("\t$(VPP) $(CLFLAGS) ")
+                    target.write("\t$(VPP) ")
+                    target.write("-c -k ")
+                    target.write(acc["name"])
+                    target.write(" $(CLFLAGS) ")
                     if "clflags" in acc:
                         target.write("$(CLFLAGS_"+acc["name"]+") ")
                     target.write("--temp_dir ")
                     target.write("$(TEMP_DIR) ")
-                    target.write("-c -k ")
-                    target.write(acc["name"])
                     target.write(" -I'$(<D)'")
                     target.write(" -o'$@' '$<'\n")
         for con in data["containers"]:
@@ -271,9 +272,8 @@ def building_kernel(target, data):
             target.write("_OBJS)\n")
             target.write("\tmkdir -p $(BUILD_DIR)\n")
             target.write("ifeq ($(HOST_ARCH), x86)\n")
-            target.write("\t$(VPP) $(CLFLAGS) --temp_dir ")
+            target.write("\t$(VPP) -l $(LDCLFLAGS) $(CLFLAGS) --temp_dir ")
             target.write("$(BUILD_DIR) ")
-            target.write("-l $(LDCLFLAGS)")
 
             if "accelerators" in con:
                 for acc in con["accelerators"]:
@@ -281,11 +281,11 @@ def building_kernel(target, data):
                         target.write(" $(LDCLFLAGS_"+con["name"]+")")
             target.write(" -o'$(BUILD_DIR)/" + con["name"] + ".link.xclbin' $(+)\n")
 
-            target.write("\t$(VPP) -t $(TARGET) --platform $(DEVICE) ")
-            target.write("-p $(BUILD_DIR)/" + con["name"] + ".link.xclbin --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/" + con["name"] + ".xclbin\n")
+            target.write("\t$(VPP) -p $(BUILD_DIR)/" + con["name"] + ".link.xclbin -t $(TARGET) --platform $(DEVICE) ")
+            target.write("--package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/" + con["name"] + ".xclbin\n")
             target.write("else\n")
-            target.write("\t$(VPP) $(CLFLAGS) --temp_dir $(BUILD_DIR) -l ")
-            target.write("$(LDCLFLAGS) -o'$(BUILD_DIR)/" + con["name"] + ".xclbin' $(+)\n")
+            target.write("\t$(VPP) -l $(LDCLFLAGS) $(CLFLAGS) --temp_dir $(BUILD_DIR) ")
+            target.write("-o'$(BUILD_DIR)/" + con["name"] + ".xclbin' $(+)\n")
             target.write("endif\n")
     target.write("\n")
     return
@@ -302,9 +302,8 @@ def building_kernel_rtl(target, data):
             target.write("_OBJS)\n")
             target.write("\tmkdir -p $(BUILD_DIR)\n")
             target.write("ifeq ($(HOST_ARCH), x86)\n")
-            target.write("\t$(VPP) $(CLFLAGS) --temp_dir ")
+            target.write("\t$(VPP) -l $(LDCLFLAGS) $(CLFLAGS) --temp_dir ")
             target.write("$(BUILD_DIR) ")
-            target.write("-l $(LDCLFLAGS)")
 
             if "accelerators" in con:
                 for acc in con["accelerators"]:
@@ -312,11 +311,11 @@ def building_kernel_rtl(target, data):
                         target.write(" $(LDCLFLAGS_"+con["name"]+")")
             target.write(" -o'$(BUILD_DIR)/" + con["name"] + ".link.xclbin' $(+)\n")
 
-            target.write("\t$(VPP) -t $(TARGET) --platform $(DEVICE) ")
-            target.write("-p $(BUILD_DIR)/" + con["name"] + ".link.xclbin --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/" + con["name"] + ".xclbin\n")
+            target.write("\t$(VPP) -p $(BUILD_DIR)/" + con["name"] + ".link.xclbin -t $(TARGET) --platform $(DEVICE) ")
+            target.write("--package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/" + con["name"] + ".xclbin\n")
             target.write("else\n")
-            target.write("\t$(VPP) $(CLFLAGS) --temp_dir $(BUILD_DIR) -l ")
-            target.write("$(LDCLFLAGS) -o'$(BUILD_DIR)/" + con["name"] + ".xclbin' $(+)\n")
+            target.write("\t$(VPP) -l $(LDCLFLAGS) $(CLFLAGS) --temp_dir $(BUILD_DIR) ")
+            target.write("-o'$(BUILD_DIR)/" + con["name"] + ".xclbin' $(+)\n")
             target.write("endif\n")
     return
 
@@ -573,9 +572,10 @@ def mk_sdcard(target, data):
     target.write("ifneq ($(HOST_ARCH), x86)\n")
     if "containers" in data:
         for con in data["containers"]:
-            target.write("\t$(VPP) -t $(TARGET) --platform $(DEVICE) -p $(BUILD_DIR)/")
+            target.write("\t$(VPP) -p $(BUILD_DIR)/")
             target.write(con["name"])
-            target.write(".xclbin --package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.sd_file $(SD_IMAGE_FILE) --package.sd_file xrt.ini --package.sd_file $(RUN_APP_SCRIPT) --package.sd_file $(EXECUTABLE)")
+            target.write(".xclbin -t $(TARGET) --platform $(DEVICE) ")
+            target.write("--package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.sd_file $(SD_IMAGE_FILE) --package.sd_file xrt.ini --package.sd_file $(RUN_APP_SCRIPT) --package.sd_file $(EXECUTABLE)")
             for extra_filename in extra_file_list:
                 if ('-' not in extra_filename):
                     target.write(" --package.sd_file ")
