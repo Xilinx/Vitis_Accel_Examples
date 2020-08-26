@@ -1,0 +1,75 @@
+{
+    "name": "P2P FPGA to FPGA Bandwidth Example", 
+    "description": [
+        "This is simple example to explain performance bandwidth for P2P transfer between two FPGA devices."
+    ],
+    "keywords": [
+        "XCL_MEM_EXT_P2P_BUFFER"
+    ],
+    "key_concepts": [
+        "P2P",
+        "Multi-FPGA Execution", 
+        "XDMA"
+    ],
+    "num_devices": "2",
+    "platform_type": "pcie",
+    "os": [
+        "Linux"
+    ],
+    "ndevice": [
+        "zc",
+        "201910",
+        "2018",
+        "vck",
+        "aws",
+        "u50"
+    ],
+    "platform_blacklist": [
+        "zc",
+        "201910",
+        "2018",
+        "vck",
+        "aws",
+        "u50"
+    ],
+     "runtime": [
+        "OpenCL"
+    ], 
+    "launch": [
+        {
+            "cmd_args": "BUILD/bandwidth.xclbin", 
+            "name": "generic launch for all flows"
+        }
+    ], 
+    "host": {
+        "host_exe": "host", 
+        "compiler": {
+            "sources": [
+                "REPO_DIR/common/includes/xcl2",
+                "src/host.cpp"
+            ], 
+            "includepaths": [
+                "REPO_DIR/common/includes/xcl2"
+            ]
+        }
+    },  
+    "containers": [
+        {
+            "accelerators": [
+                {
+                    "container" : "bandwidth",
+                    "name": "bandwidth", 
+                    "location": "src/bandwidth.cpp"
+                }
+            ], 
+            "name": "bandwidth",
+            "ldclflags": "--config PROJECT/bandwidth.ini"
+        }
+    ],
+    "contributors": [
+        {
+            "url": "http://www.xilinx.com", 
+            "group": "Xilinx"
+        }
+    ] 
+}
