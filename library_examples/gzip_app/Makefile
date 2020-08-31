@@ -36,7 +36,7 @@ help::
 ############################## Setting up Project Variables ##############################
 # Points to top directory of Git repository
 MK_PATH := $(abspath $(lastword $(MAKEFILE_LIST)))
-COMMON_REPO ?= $(shell bash -c 'export MK_PATH=$(MK_PATH); echo $${MK_PATH%sys_opt/slr_assign/*}')
+COMMON_REPO ?= $(shell bash -c 'export MK_PATH=$(MK_PATH); echo $${MK_PATH%library_examples/gzip_app/*}')
 PWD = $(shell readlink -f .)
 ABS_COMMON_REPO = $(shell readlink -f $(COMMON_REPO))
 
@@ -62,19 +62,21 @@ SDCARD := sd_card
 
 #Include Libraries
 include $(ABS_COMMON_REPO)/common/includes/opencl/opencl.mk
-include $(ABS_COMMON_REPO)/common/includes/xcl2/xcl2.mk
-CXXFLAGS += $(xcl2_CXXFLAGS)
-LDFLAGS += $(xcl2_LDFLAGS)
-HOST_SRCS += $(xcl2_SRCS)
+include ./includes/includes.mk
+include ./thirdParty/thirdParty.mk
+CXXFLAGS += $(includes_CXXFLAGS) $(thirdParty_CXXFLAGS)
+LDFLAGS += $(includes_LDFLAGS) $(thirdParty_LDFLAGS)
+HOST_SRCS += $(includes_SRCS) $(thirdParty_SRCS)
+include ./config.mk
+
 CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++11
 LDFLAGS += $(opencl_LDFLAGS)
 
 ############################## Setting up Host Variables ##############################
 #Include Required Host Source Files
-HOST_SRCS += src/host.cpp
-
+HOST_SRCS += ./src/host.cpp ./src/zlib.cpp ./src/cmdlineparser.cpp ./src/logger.cpp ./src/xcl2.cpp ./src/crc32.c ./src/adler32.c 
 # Host compiler global settings
-CXXFLAGS += -fmessage-length=0
+CXXFLAGS += -fmessage-length=0 -O3
 LDFLAGS += -lrt -lstdc++ 
 
 ifneq ($(HOST_ARCH), x86)
@@ -87,20 +89,31 @@ CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps
 ifneq ($(TARGET), hw)
 	CLFLAGS += -g
 endif
+CLFLAGS_xilLz77Compress +=  -I${COMMON_REPO}/library_examples/gzip_app/includes
+CLFLAGS_xilHuffmanKernel +=  -I${COMMON_REPO}/library_examples/gzip_app/includes
+CLFLAGS_xilZlibDmReader +=  -DPARALLEL_BLOCK=8 -DMULTIPLE_BYTES=8 -DGZIP_MODE -I${COMMON_REPO}/library_examples/gzip_app/includes
+CLFLAGS_xilZlibDmWriter +=  -DPARALLEL_BLOCK=8 -DMULTIPLE_BYTES=8 -DGZIP_MODE -I${COMMON_REPO}/library_examples/gzip_app/includes
+CLFLAGS_xilDecompressFull +=  -DPARALLEL_BLOCK=8 -DMULTIPLE_BYTES=8 -DGZIP_MODE -I${COMMON_REPO}/library_examples/gzip_app/includes
 
+CXXFLAGS += -DC_COMPUTE_UNIT=2 -DH_COMPUTE_UNIT=2 -DD_COMPUTE_UNIT=8 -DPARALLEL_BLOCK=8 -DGZIP_MODE -DOVERLAP_HOST_DEVICE
 
+# Kernel linker flags
+LDCLFLAGS += --kernel_frequency 250 --config ./opts.ini
 
 # Adding config files to linker
-LDCLFLAGS_vmult_vadd += --config vmult_vadd.ini 
-EXECUTABLE = ./slr_assign
-CMD_ARGS = $(BUILD_DIR)/vmult_vadd.xclbin
+LDCLFLAGS_compress_decompress += --config compress_decompress.ini 
+EXECUTABLE = ./xil_gzip
+CMD_ARGS = -sx $(BUILD_DIR)/compress_decompress.xclbin -v ./sample.txt
 EMCONFIG_DIR = $(TEMP_DIR)
 EMU_DIR = $(SDCARD)/data/emulation
 
 ############################## Declaring Binary Containers ##############################
-BINARY_CONTAINERS += $(BUILD_DIR)/vmult_vadd.xclbin
-BINARY_CONTAINER_vmult_vadd_OBJS += $(TEMP_DIR)/vmult.xo
-BINARY_CONTAINER_vmult_vadd_OBJS += $(TEMP_DIR)/vadd.xo
+BINARY_CONTAINERS += $(BUILD_DIR)/compress_decompress.xclbin
+BINARY_CONTAINER_compress_decompress_OBJS += $(TEMP_DIR)/xilLz77Compress.xo
+BINARY_CONTAINER_compress_decompress_OBJS += $(TEMP_DIR)/xilHuffmanKernel.xo
+BINARY_CONTAINER_compress_decompress_OBJS += $(TEMP_DIR)/xilZlibDmReader.xo
+BINARY_CONTAINER_compress_decompress_OBJS += $(TEMP_DIR)/xilZlibDmWriter.xo
+BINARY_CONTAINER_compress_decompress_OBJS += $(TEMP_DIR)/xilDecompressFull.xo
 
 ############################## Setting Targets ##############################
 CP = cp -rf
@@ -118,19 +131,28 @@ build: check-vitis $(BINARY_CONTAINERS)
 xclbin: build
 
 ############################## Setting Rules for Binary Containers (Building Kernels) ##############################
-$(TEMP_DIR)/vmult.xo: src/kernel.cl
+$(TEMP_DIR)/xilLz77Compress.xo: ./src/zlib_lz77_compress_mm.cpp
 	mkdir -p $(TEMP_DIR)
-	$(VPP) -c -k vmult $(CLFLAGS) --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
-$(TEMP_DIR)/vadd.xo: src/kernel.cl
+	$(VPP) -c -k xilLz77Compress $(CLFLAGS) $(CLFLAGS_xilLz77Compress) --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
+$(TEMP_DIR)/xilHuffmanKernel.xo: ./src/zlib_huffman_enc_mm.cpp
 	mkdir -p $(TEMP_DIR)
-	$(VPP) -c -k vadd $(CLFLAGS) --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
-$(BUILD_DIR)/vmult_vadd.xclbin: $(BINARY_CONTAINER_vmult_vadd_OBJS)
+	$(VPP) -c -k xilHuffmanKernel $(CLFLAGS) $(CLFLAGS_xilHuffmanKernel) --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
+$(TEMP_DIR)/xilZlibDmReader.xo: ./src/zlib_dm_multibyte_rd.cpp
+	mkdir -p $(TEMP_DIR)
+	$(VPP) -c -k xilZlibDmReader $(CLFLAGS) $(CLFLAGS_xilZlibDmReader) --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
+$(TEMP_DIR)/xilZlibDmWriter.xo: ./src/zlib_dm_multibyte_wr.cpp
+	mkdir -p $(TEMP_DIR)
+	$(VPP) -c -k xilZlibDmWriter $(CLFLAGS) $(CLFLAGS_xilZlibDmWriter) --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
+$(TEMP_DIR)/xilDecompressFull.xo: ./src/zlib_parallelbyte_decompress_full.cpp
+	mkdir -p $(TEMP_DIR)
+	$(VPP) -c -k xilDecompressFull $(CLFLAGS) $(CLFLAGS_xilDecompressFull) --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
+$(BUILD_DIR)/compress_decompress.xclbin: $(BINARY_CONTAINER_compress_decompress_OBJS)
 	mkdir -p $(BUILD_DIR)
 ifeq ($(HOST_ARCH), x86)
-	$(VPP) -l $(LDCLFLAGS) $(CLFLAGS) --temp_dir $(BUILD_DIR)  $(LDCLFLAGS_vmult_vadd) -o'$(BUILD_DIR)/vmult_vadd.link.xclbin' $(+)
-	$(VPP) -p $(BUILD_DIR)/vmult_vadd.link.xclbin -t $(TARGET) --platform $(DEVICE) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/vmult_vadd.xclbin
+	$(VPP) -l $(LDCLFLAGS) $(CLFLAGS) --temp_dir $(BUILD_DIR)  $(LDCLFLAGS_compress_decompress) -o'$(BUILD_DIR)/compress_decompress.link.xclbin' $(+)
+	$(VPP) -p $(BUILD_DIR)/compress_decompress.link.xclbin -t $(TARGET) --platform $(DEVICE) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/compress_decompress.xclbin
 else
-	$(VPP) -l $(LDCLFLAGS) $(CLFLAGS) --temp_dir $(BUILD_DIR) -o'$(BUILD_DIR)/vmult_vadd.xclbin' $(+)
+	$(VPP) -l $(LDCLFLAGS) $(CLFLAGS) --temp_dir $(BUILD_DIR) -o'$(BUILD_DIR)/compress_decompress.xclbin' $(+)
 endif
 
 ############################## Setting Rules for Host (Building Host Executable) ##############################
@@ -143,29 +165,26 @@ $(EMCONFIG_DIR)/emconfig.json:
 
 ############################## Setting Essential Checks and Running Rules ##############################
 run: all
-ifeq ($(findstring _u25_, $(DEVICE)), _u25_)
-$(error This example is not supported for $(DEVICE))
-endif
-ifeq ($(findstring zc, $(DEVICE)), zc)
-$(error This example is not supported for $(DEVICE))
-endif
 ifeq ($(findstring vck, $(DEVICE)), vck)
 $(error This example is not supported for $(DEVICE))
 endif
-ifeq ($(findstring samsung, $(DEVICE)), samsung)
+ifeq ($(findstring u50, $(DEVICE)), u50)
+$(error This example is not supported for $(DEVICE))
+endif
+ifeq ($(findstring u280, $(DEVICE)), u280)
 $(error This example is not supported for $(DEVICE))
 endif
 
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 ifeq ($(HOST_ARCH), x86)
 	$(CP) $(EMCONFIG_DIR)/emconfig.json .
-	XCL_EMULATION_MODE=$(TARGET) $(EXECUTABLE) $(BUILD_DIR)/vmult_vadd.xclbin
+	XCL_EMULATION_MODE=$(TARGET) $(EXECUTABLE) -sx $(BUILD_DIR)/compress_decompress.xclbin -v ./sample.txt
 else
 	$(ABS_COMMON_REPO)/common/utility/run_emulation.pl "${LAUNCH_EMULATOR} | tee run_app.log" "${RUN_APP_SCRIPT} $(TARGET)" "${RESULT_STRING}" "7"
 endif
 else
 ifeq ($(HOST_ARCH), x86)
-	$(EXECUTABLE) $(BUILD_DIR)/vmult_vadd.xclbin
+	$(EXECUTABLE) -sx $(BUILD_DIR)/compress_decompress.xclbin -v ./sample.txt
 endif
 endif
 
@@ -174,13 +193,13 @@ endif
 test: $(EXECUTABLE)
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 ifeq ($(HOST_ARCH), x86)
-	XCL_EMULATION_MODE=$(TARGET) $(EXECUTABLE) $(BUILD_DIR)/vmult_vadd.xclbin
+	XCL_EMULATION_MODE=$(TARGET) $(EXECUTABLE) -sx $(BUILD_DIR)/compress_decompress.xclbin -v ./sample.txt
 else
 	$(ABS_COMMON_REPO)/common/utility/run_emulation.pl "${LAUNCH_EMULATOR} | tee embedded_run.log" "${RUN_APP_SCRIPT} $(TARGET)" "${RESULT_STRING}" "7"
 endif
 else
 ifeq ($(HOST_ARCH), x86)
-	$(EXECUTABLE) $(BUILD_DIR)/vmult_vadd.xclbin
+	$(EXECUTABLE) -sx $(BUILD_DIR)/compress_decompress.xclbin -v ./sample.txt
 else
 	$(ECHO) "Please copy the content of sd_card folder and data to an SD Card and run on the board"
 endif
@@ -190,7 +209,7 @@ endif
 ############################## Preparing sdcard ##############################
 sd_card: $(BINARY_CONTAINERS) $(EXECUTABLE) gen_run_app
 ifneq ($(HOST_ARCH), x86)
-	$(VPP) -p $(BUILD_DIR)/vmult_vadd.xclbin -t $(TARGET) --platform $(DEVICE) --package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.sd_file $(SD_IMAGE_FILE) --package.sd_file xrt.ini --package.sd_file $(RUN_APP_SCRIPT) --package.sd_file $(EXECUTABLE) -o vmult_vadd.xclbin
+	$(VPP) -p $(BUILD_DIR)/compress_decompress.xclbin -t $(TARGET) --platform $(DEVICE) --package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.sd_file $(SD_IMAGE_FILE) --package.sd_file xrt.ini --package.sd_file $(RUN_APP_SCRIPT) --package.sd_file $(EXECUTABLE) --package.sd_file ./sample.txt -o compress_decompress.xclbin
 endif
 
 ############################## Cleaning Rules ##############################
@@ -204,4 +223,4 @@ cleanall: clean
 	-$(RMDIR) build_dir* sd_card*
 	-$(RMDIR) package.*
 	-$(RMDIR) _x* *xclbin.run_summary qemu-memory-_* emulation _vimage pl* start_simulation.sh *.xclbin
-
+	-$(RMDIR) ./sample.txt.* 

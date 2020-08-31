@@ -279,6 +279,7 @@ def building_kernel(target, data):
                 for acc in con["accelerators"]:
                     if "compute_units" in acc or "num_compute_units" in acc:
                         target.write(" $(LDCLFLAGS_"+con["name"]+")")
+                        break
             target.write(" -o'$(BUILD_DIR)/" + con["name"] + ".link.xclbin' $(+)\n")
 
             target.write("\t$(VPP) -p $(BUILD_DIR)/" + con["name"] + ".link.xclbin -t $(TARGET) --platform $(DEVICE) ")
@@ -850,12 +851,13 @@ def create_config(data):
                             config_file = 1
                             target.write("[connectivity]\n")
                     if "compute_units" in acc:
-                        for com in acc["compute_units"]:
+                        for i in range(len(acc["compute_units"])):
+                            com = acc["compute_units"][i]
                             if "arguments" in com:
                                 for arg in com["arguments"]:
-                                    target.write("sp="+acc["name"]+"_"+str(acc["compute_units"].index(com)+1)+"."+arg["name"]+":"+arg["memory"]+"\n")
+                                    target.write("sp="+acc["name"]+"_"+str(i + 1)+"."+arg["name"]+":"+arg["memory"]+"\n")
                             if "slr" in com:
-                                target.write("slr="+acc["name"]+"_"+str(acc["compute_units"].index(com)+1)+":"+com["slr"]+"\n")
+                                target.write("slr="+acc["name"]+"_"+str(i + 1)+":"+com["slr"]+"\n")
                     if "num_compute_units" in acc:
                                 target.write("nk="+acc["name"]+":"+acc["num_compute_units"]+"\n")
     return
@@ -917,4 +919,3 @@ else:
         create_cmakelist(target, data)
 
 target.close
-
