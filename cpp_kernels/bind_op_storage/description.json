@@ -17,10 +17,12 @@
         "BIND STORAGE" 
     ], 
     "ndevice": [
-        "zcu102"
+        "zcu102",
+        "zc706"
      ],
     "platform_blacklist": [
-        "zcu102"
+        "zcu102",
+        "zc706"
      ],
     "os": [
         "Linux"

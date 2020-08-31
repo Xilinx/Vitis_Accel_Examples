@@ -143,6 +143,9 @@ run: all
 ifeq ($(findstring vck, $(DEVICE)), vck)
 $(error This example is not supported for $(DEVICE))
 endif
+ifeq ($(findstring zc706, $(DEVICE)), zc706)
+$(error This example is not supported for $(DEVICE))
+endif
 
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 ifeq ($(HOST_ARCH), x86)

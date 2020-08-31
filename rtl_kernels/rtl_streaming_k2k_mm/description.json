@@ -9,10 +9,12 @@
         "u200_qdma"
     ],  
    "ndevice": [
-      	"vck"
+      	"vck",
+        "zc706"
        ], 
     "platform_blacklist": [
-      	"vck"
+      	"vck",
+        "zc706"
        ], 
     "contributors": [
         {
