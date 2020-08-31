@@ -42,7 +42,23 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define NUM_TIMES 10
 ////////////////////UTILITY FUNCTION///////////////
 void print_summary(std::string k1, std::string k2, double t1, double t2,
-                   int iterations);
+                   int iterations) {
+  double speedup = t2 / t1;
+  std::cout << "|-------------------------+-------------------------|\n"
+            << "| Kernel(" << iterations
+            << " iterations)  |    Wall-Clock Time (s)  |\n"
+            << "|-------------------------+-------------------------|\n";
+  std::cout << "| " << k1.c_str() << "        | " << t1 << "\t|\n";
+  std::cout << "| " << k2.c_str() << "       | " << t2 << "\t|\n";
+  std::cout << "|-------------------------+-------------------------|\n";
+  std::cout << "| Speedup:                | " << speedup << "\t|\n";
+  std::cout << "|-------------------------+-------------------------|\n";
+  std::cout << "Note: Wall Clock Time is meaningful for real hardware "
+               "execution only, not for emulation.\n";
+  std::cout << "Please refer to profile summary for kernel execution time for "
+               "hardware emulation.\n";
+}
+
 ////////////////////RESET FUNCTION/////////////////
 int reset(int *a, int *b, int *c, int *d, int size) {
   // Fill the input vectors with data
@@ -76,7 +92,7 @@ int main(int argc, char **argv) {
 
   std::string binaryFile = argv[1];
   int size = MAT_DIM * MAT_DIM;
-  int vector_size_bytes = sizeof(int) * size;
+  size_t vector_size_bytes = sizeof(int) * size;
   int err;
   cl::CommandQueue q;
   cl::Context context;
@@ -293,29 +309,11 @@ int main(int argc, char **argv) {
   auto elapsed_chain =
       std::chrono::duration<double>(end_chain - start_chain).count();
   auto elapsed_hs = std::chrono::duration<double>(end_hs - start_hs).count();
-  if (elapsed_chain < elapsed_hs) {
-    print_summary("krnl_chain_mmult", "krnl_simple_mmult", elapsed_chain,
-                  elapsed_hs, NUM_TIMES);
-  }
+  print_summary("krnl_chain_mmult", "krnl_simple_mmult", elapsed_chain,
+                elapsed_hs, NUM_TIMES);
+
   bool test_status =
-      xcl::is_emulation ? match : (match && (elapsed_chain < elapsed_hs));
+      xcl::is_emulation() ? match : (match && (elapsed_chain < elapsed_hs));
   std::cout << "TEST " << (test_status ? "PASSED" : "FAILED") << std::endl;
   return (test_status ? EXIT_SUCCESS : EXIT_FAILURE);
-}
-void print_summary(std::string k1, std::string k2, double t1, double t2,
-                   int iterations) {
-  double speedup = t2 / t1;
-  printf("|-------------------------+-------------------------|\n"
-         "| Kernel(%3d iterations)  |    Wall-Clock Time (s) |\n"
-         "|-------------------------+-------------------------|\n",
-         iterations);
-  printf("| %-23s | %23f |\n", k1.c_str(), t1);
-  printf("| %-23s | %23f |\n", k2.c_str(), t2);
-  printf("|-------------------------+-------------------------|\n");
-  printf("| Speedup: | %23lf |\n", speedup);
-  printf("|-------------------------+-------------------------|\n");
-  printf("Note: Wall Clock Time is meaningful for real hardware execution "
-         "only, not for emulation.\n");
-  printf("Please refer to profile summary for kernel execution time for "
-         "hardware emulation.\n");
 }

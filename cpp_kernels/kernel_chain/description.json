@@ -9,13 +9,11 @@
         "PLRAM"
     ], 
     "ndevice": [
-        "u50",
         "samsung",
         "vck",
         "zc"
     ], 
     "platform_blacklist": [
-        "u50",
         "samsung",
         "vck",
         "zc"
