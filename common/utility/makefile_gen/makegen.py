@@ -41,13 +41,11 @@ def create_params(target,data):
     target.write("RESULT_STRING = TEST PASSED\n")
     target.write("\n")
 
-    target.write("VPP := ")
-    target.write("v++\n")
+    target.write("VPP := v++\n")
     target.write("SDCARD := ")
     target.write("sd_card\n")
     target.write("\n")
-    add_includes1(target, data)
-    add_includes2(target, data) 
+    target.write("include $(ABS_COMMON_REPO)/common/includes/opencl/opencl.mk\n")
     if "config_make" in data:
         target.write("include ")
         target.write(data["config_make"])
@@ -57,58 +55,27 @@ def create_params(target,data):
     target.write("\n")
     return
 
-#adding lib.mk
-def add_includes1(target, data):
-    target.write("#Include Libraries\n")
-    target.write("include $(ABS_COMMON_REPO)/common/includes/opencl/opencl.mk\n")
-    if "host" in data:
-        if "compiler" in data["host"]:	
-                if "includepaths" in data["host"]["compiler"]:
-                        for path in data["host"]["compiler"]["includepaths"]:
-                                target.write("include "+ path.replace("REPO_DIR","$(ABS_COMMON_REPO)"))
-                                #target.write(lib)
-                                target.write("/")
-                                target.write(path.split("/")[-1])
-                                target.write(".mk")
-                                target.write("\n")
-    return
-
-def add_includes2(target, data):
-    if "host" in data:
-        if "compiler" in data["host"]:		
-                if "includepaths" in data["host"]["compiler"]:
-                        target.write("CXXFLAGS +=")
-                        for path in data["host"]["compiler"]["includepaths"]:
-                                target.write(" $(")
-                                target.write(path.split("/")[-1])
-                                target.write("_CXXFLAGS)")
-                        target.write("\n")
-                        target.write("LDFLAGS +=")
-                        for path in data["host"]["compiler"]["includepaths"]:
-                                target.write(" $(")
-                                target.write(path.split("/")[-1])
-                                target.write("_LDFLAGS)")
-                        target.write("\n")
-                        target.write("HOST_SRCS +=")
-                        for path in data["host"]["compiler"]["includepaths"]:
-                                target.write(" $(")
-                                target.write(path.split("/")[-1])
-                                target.write("_SRCS)")
-    
-        target.write("\n")                
-        return
-
 def add_host_flags(target, data):
     target.write("############################## Setting up Host Variables ##############################\n")
     target.write("#Include Required Host Source Files\n")
     
+
+    if "host" in data:
+        if "compiler" in data["host"]:
+            if "includepaths" in data["host"]["compiler"]:
+                for path in data["host"]["compiler"]["includepaths"]:
+                    path = path.replace('BUILD', '$(BUILD_DIR)')
+                    path = path.replace('PROJECT', '.')
+                    path = path.replace("REPO_DIR","$(ABS_COMMON_REPO)")
+                    target.write("CXXFLAGS += -I" + path + "\n")
+
     target.write("HOST_SRCS += ")
     source_flag = 0
     if "sources" in data["host"]["compiler"]:
         for src in data["host"]["compiler"]["sources"]:
-                if "src" in src.split("/"):
-                        target.write(src+ " ")
-                        source_flag+=1
+            src = src.replace('PROJECT', '.')
+            target.write(src + " ")
+            source_flag+=1
     if not source_flag:
         target.write("src/host.cpp\n")
     target.write("\n")
@@ -118,7 +85,9 @@ def add_host_flags(target, data):
         
     if "compiler" in data["host"]:
         if "options" in data["host"]["compiler"]:
-            target.write(data["host"]["compiler"]["options"])
+            for option in data["host"]["compiler"]["options"]:
+                target.write(" ")	
+                target.write(option)
     target.write("\n")	
     target.write("LDFLAGS += ")
     target.write("-lrt -lstdc++ ")
@@ -139,6 +108,7 @@ def add_kernel_flags(target, data):
     target.write("############################## Setting up Kernel Variables ##############################\n")
     target.write("# Kernel compiler global settings\n")
 
+    target.write("VPP_FLAGS += \n")
     target.write("CLFLAGS += ")
     target.write("-t $(TARGET) --platform $(DEVICE) --save-temps \n")   
     target.write("ifneq ($(TARGET), hw)\n")
@@ -222,6 +192,37 @@ def add_kernel_flags(target, data):
     target.write("EMU_DIR = $(SDCARD)/data/emulation\n")
     target.write("\n")
 
+    if "v++" in data:
+        if "compiler" in data["v++"]:
+            if "includepaths" in data["v++"]["compiler"]:
+                for path in data["v++"]["compiler"]["includepaths"]:
+                    path = path.replace('BUILD', '$(BUILD_DIR)')
+                    path = path.replace('PROJECT', '.')
+                    path = path.replace("REPO_DIR","$(ABS_COMMON_REPO)")
+                    target.write("VPP_FLAGS += -I" + path + "\n")
+
+    if "v++" in data:
+        if "compiler" in data["v++"]:
+            if "clflags" in data["v++"]["compiler"]:
+                clflags = data["v++"]["compiler"]["clflags"]
+                target.write("\nVPP_FLAGS +=")
+                for path in clflags:
+                    path = path.replace('BUILD', '$(BUILD_DIR)')
+                    path = path.replace('PROJECT', '.')
+                    path = path.replace("REPO_DIR","$(ABS_COMMON_REPO)")
+                    target.write(" " + path)
+                target.write("\n")
+
+    if "v++" in data:
+        if "compiler" in data["v++"]:
+            if "symbols" in data["v++"]["compiler"]:
+                target.write("\nVPP_FLAGS += ")
+                for symb in data["v++"]["compiler"]["symbols"]:
+                    target.write("-D" + symb + " ")
+                target.write("\n")
+
+    target.write("\n")
+
     return
 
 def add_containers(target, data):
@@ -250,10 +251,12 @@ def building_kernel(target, data):
                     target.write("$(TEMP_DIR)/")
                     target.write(acc["name"])
                     target.write(".xo: ")
-                    target.write(acc["location"])
+                    location = acc["location"]
+                    location = location.replace('PROJECT', '.')
+                    target.write(location)
                     target.write("\n")
                     target.write("\tmkdir -p $(TEMP_DIR)\n")
-                    target.write("\t$(VPP) ")
+                    target.write("\t$(VPP) $(VPP_FLAGS) ")
                     target.write("-c -k ")
                     target.write(acc["name"])
                     target.write(" $(CLFLAGS) ")
@@ -272,7 +275,7 @@ def building_kernel(target, data):
             target.write("_OBJS)\n")
             target.write("\tmkdir -p $(BUILD_DIR)\n")
             target.write("ifeq ($(HOST_ARCH), x86)\n")
-            target.write("\t$(VPP) -l $(LDCLFLAGS) $(CLFLAGS) --temp_dir ")
+            target.write("\t$(VPP) $(VPP_FLAGS) -l $(LDCLFLAGS) $(CLFLAGS) --temp_dir ")
             target.write("$(BUILD_DIR) ")
 
             if "accelerators" in con:
@@ -303,7 +306,7 @@ def building_kernel_rtl(target, data):
             target.write("_OBJS)\n")
             target.write("\tmkdir -p $(BUILD_DIR)\n")
             target.write("ifeq ($(HOST_ARCH), x86)\n")
-            target.write("\t$(VPP) -l $(LDCLFLAGS) $(CLFLAGS) --temp_dir ")
+            target.write("\t$(VPP) $(VPP_FLAGS) -l $(LDCLFLAGS) $(CLFLAGS) --temp_dir ")
             target.write("$(BUILD_DIR) ")
 
             if "accelerators" in con:
