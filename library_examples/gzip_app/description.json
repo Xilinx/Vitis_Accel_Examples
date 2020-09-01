@@ -27,19 +27,21 @@
         "host_exe": "xil_gzip", 
         "compiler": {
             "sources": [
-                "./src/host.cpp", 
-                "./src/zlib.cpp", 
-                "./src/cmdlineparser.cpp", 
-                "./src/logger.cpp", 
-                "./src/xcl2.cpp", 
-                "./src/crc32.c", 
-                "./src/adler32.c" 
+                "PROJECT/src/host.cpp", 
+                "PROJECT/src/zlib.cpp", 
+                "PROJECT/src/cmdlineparser.cpp", 
+                "PROJECT/src/logger.cpp", 
+                "PROJECT/src/xcl2.cpp", 
+                "PROJECT/src/crc32.c", 
+                "PROJECT/src/adler32.c" 
             ], 
             "includepaths": [
-                "./includes",
-                "./thirdParty"
+                "PROJECT/include",
+                "PROJECT/thirdParty"
             ],
-            "options": " -O3", 
+            "options": [
+                "-O3"
+            ],
             "symbols": [
                 "C_COMPUTE_UNIT=2", 
                 "H_COMPUTE_UNIT=2", 
@@ -56,6 +58,9 @@
             "PROJECT/hls_directives.tcl"
         ], 
         "compiler": {
+            "includepaths": [
+                "PROJECT/include"
+            ],
             "symbols": [
                 "PARALLEL_BLOCK=8", 
                 "MULTIPLE_BYTES=8", 
@@ -74,7 +79,6 @@
                 {
                     "name": "xilLz77Compress", 
                     "location": "./src/zlib_lz77_compress_mm.cpp", 
-                    "clflags": "-I${COMMON_REPO}/library_examples/gzip_app/includes",
                     "num_compute_units": "2", 
                     "compute_units": [
                         {
@@ -140,7 +144,6 @@
                 {
                     "name": "xilHuffmanKernel", 
                     "location": "./src/zlib_huffman_enc_mm.cpp", 
-                    "clflags": "-I${COMMON_REPO}/library_examples/gzip_app/includes",
                     "num_compute_units": "2", 
                     "compute_units": [
                         {
@@ -206,7 +209,6 @@
                 {
                     "name": "xilZlibDmReader", 
                     "location": "./src/zlib_dm_multibyte_rd.cpp", 
-                    "clflags": "-DPARALLEL_BLOCK=8 -DMULTIPLE_BYTES=8 -DGZIP_MODE -I${COMMON_REPO}/library_examples/gzip_app/includes",
                     "num_compute_units": "8",
                     "compute_units": [
                         {
@@ -350,7 +352,6 @@
                 {
                     "name": "xilZlibDmWriter", 
                     "location": "./src/zlib_dm_multibyte_wr.cpp", 
-                    "clflags": "-DPARALLEL_BLOCK=8 -DMULTIPLE_BYTES=8 -DGZIP_MODE -I${COMMON_REPO}/library_examples/gzip_app/includes",
                     "num_compute_units": "8", 
                     "compute_units": [
                         {
@@ -430,7 +431,6 @@
                 {
                     "name": "xilDecompressFull", 
                     "location": "./src/zlib_parallelbyte_decompress_full.cpp", 
-                    "clflags": "-DPARALLEL_BLOCK=8 -DMULTIPLE_BYTES=8 -DGZIP_MODE -I${COMMON_REPO}/library_examples/gzip_app/includes",
                     "num_compute_units": "8", 
                     "compute_units": [
                         {

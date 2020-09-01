@@ -92,7 +92,7 @@ CLFLAGS_blasKernel +=  --kernel_frequency 200
 CXXFLAGS += -DBLAS_ddrWidth=16 -DBLAS_numKernels=3 -DBLAS_dataType=float -DBLAS_gemmMBlocks=4 -DBLAS_gemmKBlocks=4 -DBLAS_gemmNBlocks=4 -DBLAS_argPipeline=2 -DBLAS_instructionSizeBytes=64 -DBLAS_XdataType=float -DBLAS_argInstrWidth=1 -DBLAS_runGemm=1
 
 # Kernel linker flags
-LDCLFLAGS += --config opts.ini --config conn.ini --kernel_frequency 200
+LDCLFLAGS += --config ./opts.ini --config ./conn.ini --kernel_frequency 200
 
 EXECUTABLE = ./api_gemm.exe
 CMD_ARGS = $(BUILD_DIR)/blas.xclbin 64 64 64 64 64 64 64 1 0

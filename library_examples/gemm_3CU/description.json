@@ -85,7 +85,7 @@
     "containers": [
         {
             "name": "blas", 
-            "ldclflags": "--config opts.ini --config conn.ini --kernel_frequency 200", 
+            "ldclflags": "--config PROJECT/opts.ini --config PROJECT/conn.ini --kernel_frequency 200", 
             "frequency": 200, 
             "accelerators": [
                 {

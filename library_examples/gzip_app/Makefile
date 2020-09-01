@@ -60,13 +60,7 @@ RESULT_STRING = TEST PASSED
 VPP := v++
 SDCARD := sd_card
 
-#Include Libraries
 include $(ABS_COMMON_REPO)/common/includes/opencl/opencl.mk
-include ./includes/includes.mk
-include ./thirdParty/thirdParty.mk
-CXXFLAGS += $(includes_CXXFLAGS) $(thirdParty_CXXFLAGS)
-LDFLAGS += $(includes_LDFLAGS) $(thirdParty_LDFLAGS)
-HOST_SRCS += $(includes_SRCS) $(thirdParty_SRCS)
 include ./config.mk
 
 CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++11
@@ -74,6 +68,8 @@ LDFLAGS += $(opencl_LDFLAGS)
 
 ############################## Setting up Host Variables ##############################
 #Include Required Host Source Files
+CXXFLAGS += -I./include
+CXXFLAGS += -I./thirdParty
 HOST_SRCS += ./src/host.cpp ./src/zlib.cpp ./src/cmdlineparser.cpp ./src/logger.cpp ./src/xcl2.cpp ./src/crc32.c ./src/adler32.c 
 # Host compiler global settings
 CXXFLAGS += -fmessage-length=0 -O3
@@ -85,15 +81,11 @@ endif
 
 ############################## Setting up Kernel Variables ##############################
 # Kernel compiler global settings
+VPP_FLAGS += 
 CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps 
 ifneq ($(TARGET), hw)
 	CLFLAGS += -g
 endif
-CLFLAGS_xilLz77Compress +=  -I${COMMON_REPO}/library_examples/gzip_app/includes
-CLFLAGS_xilHuffmanKernel +=  -I${COMMON_REPO}/library_examples/gzip_app/includes
-CLFLAGS_xilZlibDmReader +=  -DPARALLEL_BLOCK=8 -DMULTIPLE_BYTES=8 -DGZIP_MODE -I${COMMON_REPO}/library_examples/gzip_app/includes
-CLFLAGS_xilZlibDmWriter +=  -DPARALLEL_BLOCK=8 -DMULTIPLE_BYTES=8 -DGZIP_MODE -I${COMMON_REPO}/library_examples/gzip_app/includes
-CLFLAGS_xilDecompressFull +=  -DPARALLEL_BLOCK=8 -DMULTIPLE_BYTES=8 -DGZIP_MODE -I${COMMON_REPO}/library_examples/gzip_app/includes
 
 CXXFLAGS += -DC_COMPUTE_UNIT=2 -DH_COMPUTE_UNIT=2 -DD_COMPUTE_UNIT=8 -DPARALLEL_BLOCK=8 -DGZIP_MODE -DOVERLAP_HOST_DEVICE
 
@@ -106,6 +98,12 @@ EXECUTABLE = ./xil_gzip
 CMD_ARGS = -sx $(BUILD_DIR)/compress_decompress.xclbin -v ./sample.txt
 EMCONFIG_DIR = $(TEMP_DIR)
 EMU_DIR = $(SDCARD)/data/emulation
+
+VPP_FLAGS += -I./include
+
+VPP_FLAGS += --config ./advanced.ini
+
+VPP_FLAGS += -DPARALLEL_BLOCK=8 -DMULTIPLE_BYTES=8 -DGZIP_MODE 
 
 ############################## Declaring Binary Containers ##############################
 BINARY_CONTAINERS += $(BUILD_DIR)/compress_decompress.xclbin
@@ -133,23 +131,23 @@ xclbin: build
 ############################## Setting Rules for Binary Containers (Building Kernels) ##############################
 $(TEMP_DIR)/xilLz77Compress.xo: ./src/zlib_lz77_compress_mm.cpp
 	mkdir -p $(TEMP_DIR)
-	$(VPP) -c -k xilLz77Compress $(CLFLAGS) $(CLFLAGS_xilLz77Compress) --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
+	$(VPP) $(VPP_FLAGS) -c -k xilLz77Compress $(CLFLAGS) --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
 $(TEMP_DIR)/xilHuffmanKernel.xo: ./src/zlib_huffman_enc_mm.cpp
 	mkdir -p $(TEMP_DIR)
-	$(VPP) -c -k xilHuffmanKernel $(CLFLAGS) $(CLFLAGS_xilHuffmanKernel) --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
+	$(VPP) $(VPP_FLAGS) -c -k xilHuffmanKernel $(CLFLAGS) --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
 $(TEMP_DIR)/xilZlibDmReader.xo: ./src/zlib_dm_multibyte_rd.cpp
 	mkdir -p $(TEMP_DIR)
-	$(VPP) -c -k xilZlibDmReader $(CLFLAGS) $(CLFLAGS_xilZlibDmReader) --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
+	$(VPP) $(VPP_FLAGS) -c -k xilZlibDmReader $(CLFLAGS) --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
 $(TEMP_DIR)/xilZlibDmWriter.xo: ./src/zlib_dm_multibyte_wr.cpp
 	mkdir -p $(TEMP_DIR)
-	$(VPP) -c -k xilZlibDmWriter $(CLFLAGS) $(CLFLAGS_xilZlibDmWriter) --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
+	$(VPP) $(VPP_FLAGS) -c -k xilZlibDmWriter $(CLFLAGS) --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
 $(TEMP_DIR)/xilDecompressFull.xo: ./src/zlib_parallelbyte_decompress_full.cpp
 	mkdir -p $(TEMP_DIR)
-	$(VPP) -c -k xilDecompressFull $(CLFLAGS) $(CLFLAGS_xilDecompressFull) --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
+	$(VPP) $(VPP_FLAGS) -c -k xilDecompressFull $(CLFLAGS) --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
 $(BUILD_DIR)/compress_decompress.xclbin: $(BINARY_CONTAINER_compress_decompress_OBJS)
 	mkdir -p $(BUILD_DIR)
 ifeq ($(HOST_ARCH), x86)
-	$(VPP) -l $(LDCLFLAGS) $(CLFLAGS) --temp_dir $(BUILD_DIR)  $(LDCLFLAGS_compress_decompress) -o'$(BUILD_DIR)/compress_decompress.link.xclbin' $(+)
+	$(VPP) $(VPP_FLAGS) -l $(LDCLFLAGS) $(CLFLAGS) --temp_dir $(BUILD_DIR)  $(LDCLFLAGS_compress_decompress) -o'$(BUILD_DIR)/compress_decompress.link.xclbin' $(+)
 	$(VPP) -p $(BUILD_DIR)/compress_decompress.link.xclbin -t $(TARGET) --platform $(DEVICE) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/compress_decompress.xclbin
 else
 	$(VPP) -l $(LDCLFLAGS) $(CLFLAGS) --temp_dir $(BUILD_DIR) -o'$(BUILD_DIR)/compress_decompress.xclbin' $(+)

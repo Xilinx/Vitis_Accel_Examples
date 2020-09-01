@@ -87,7 +87,7 @@
                 }
             ], 
             "name": "kernel_mc",
-            "ldclflags": "--config conn_vu9p.ini --kernel_frequency 300"
+            "ldclflags": "--config PROJECT/conn_vu9p.ini --kernel_frequency 300"
         }
     ], 
     "testinfo": {
