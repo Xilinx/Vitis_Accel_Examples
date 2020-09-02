@@ -149,7 +149,7 @@ Once the environment has been configured, the application can be executed by
 
 ::
 
-   ./host -x1 <krnl_mmult XCLBIN> -x2 <krnl_madd XCLBIN>
+   ./p2p_fpga2fpga -x1 <krnl_mmult XCLBIN> -x2 <krnl_madd XCLBIN>
 
 COMMANDS FOR WINDOWS FLOW
 -------------------------

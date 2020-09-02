@@ -72,7 +72,7 @@ Once the environment has been configured, the application can be executed by
 
 ::
 
-   ./host <vconv XCLBIN>
+   ./dependence_inter <vconv XCLBIN>
 
 COMMANDS FOR WINDOWS FLOW
 -------------------------

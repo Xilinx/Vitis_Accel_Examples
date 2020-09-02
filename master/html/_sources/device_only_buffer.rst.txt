@@ -26,7 +26,7 @@ Once the environment has been configured, the application can be executed by
 
 ::
 
-   ./device_only_buf <device_only_buf XCLBIN>
+   ./device_only_buffer <device_only_buf XCLBIN>
 
 COMMANDS FOR WINDOWS FLOW
 -------------------------

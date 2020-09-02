@@ -23,6 +23,12 @@ padding-top: 60px;
 margin-top: -50px;
 }
 
+ul.simple li {
+
+list-style: disc;
+    margin-left: 24px;
+}
+
 /*!
  *  Font Awesome 4.7.0 by @davegandy - http://fontawesome.io - @fontawesome
  *  License - http://fontawesome.io/license (Font: SIL OFL 1.1, CSS: MIT License)

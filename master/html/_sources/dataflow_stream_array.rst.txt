@@ -63,7 +63,7 @@ Once the environment has been configured, the application can be executed by
 
 ::
 
-   ./host <N_stage_Adders XCLBIN>
+   ./dataflow_stream_array <N_stage_Adders XCLBIN>
 
 COMMANDS FOR WINDOWS FLOW
 -------------------------

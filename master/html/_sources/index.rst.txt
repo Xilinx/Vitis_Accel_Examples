@@ -1,6 +1,6 @@
-Vitis Accel Examples' Documentation
+Vitis Accel Examples Documentation
 ===================================
-Welcome to the Vitis Accel Examples' documentation. The repository contains
+Welcome to the Vitis Accel Examples documentation. The repository contains
 the latest examples to get you started with application optimization targeting Xilinx
 PCIe FPGA acceleration boards and Xilinx SoC FPGA acceleration boards. All examples are
 ready to be compiled and executed on Vitis supported boards and accelerated cloud service partners.
@@ -30,3 +30,10 @@ ready to be compiled and executed on Vitis supported boards and accelerated clou
    :caption: Common Utilities
 
    common.rst
+
+.. toctree::
+   :maxdepth: 3
+   :caption: Versions
+   :hidden:
+
+   versions

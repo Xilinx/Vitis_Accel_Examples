@@ -92,7 +92,7 @@ Once the environment has been configured, the application can be executed by
 
 ::
 
-   ./host <krnl_incr XCLBIN>
+   ./streaming_free_running_k2k <krnl_incr XCLBIN>
 
 COMMANDS FOR WINDOWS FLOW
 -------------------------

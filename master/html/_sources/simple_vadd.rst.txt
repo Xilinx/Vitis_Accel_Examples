@@ -22,7 +22,7 @@ Once the environment has been configured, the application can be executed by
 
 ::
 
-   ./vadd <krnl_vadd XCLBIN>
+   ./simple_vadd <krnl_vadd XCLBIN>
 
 COMMANDS FOR WINDOWS FLOW
 -------------------------

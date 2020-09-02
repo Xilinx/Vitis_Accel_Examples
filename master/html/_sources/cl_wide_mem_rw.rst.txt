@@ -56,7 +56,7 @@ Once the environment has been configured, the application can be executed by
 
 ::
 
-   ./host <vadd XCLBIN>
+   ./cl_wide_mem_rw <vadd XCLBIN>
 
 COMMANDS FOR WINDOWS FLOW
 -------------------------

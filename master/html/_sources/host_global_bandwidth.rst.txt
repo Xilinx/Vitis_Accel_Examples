@@ -109,7 +109,7 @@ Once the environment has been configured, the application can be executed by
 
 ::
 
-   ./host_global <krnl_host_global XCLBIN>
+   ./host_global_bandwidth <krnl_host_global XCLBIN>
 
 COMMANDS FOR WINDOWS FLOW
 -------------------------

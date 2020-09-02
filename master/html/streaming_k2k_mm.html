@@ -296,7 +296,7 @@
           
 
           
-            <a href="index.html" class="icon icon-home" alt="Documentation Home"> VITIS ACCEL EXAMPLES
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> Vitis Accel Examples
           
 
           
@@ -359,6 +359,7 @@
 <li class="toctree-l2"><a class="reference internal" href="p2p_bandwidth.html">P2P bandwidth Example</a></li>
 <li class="toctree-l2"><a class="reference internal" href="p2p_fpga2fpga.html">P2P FPGA to FPGA Example</a></li>
 <li class="toctree-l2"><a class="reference internal" href="streaming_chain.html">Stream Chain Matrix Multiplication</a></li>
+<li class="toctree-l2"><a class="reference internal" href="streaming_custom_datatype.html">Streaming Custom Data Type</a></li>
 <li class="toctree-l2"><a class="reference internal" href="streaming_host_bandwidth.html">Streaming Host to Kernel Bandwidth</a></li>
 <li class="toctree-l2"><a class="reference internal" href="streaming_free_running_h2k.html">Stream Free Running Host to Kernel(HLS C/C++)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="streaming_free_running_k2k.html">Stream Free Running Kernel (HLS C/C++)</a></li>
@@ -387,6 +388,11 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="common.html">Common Files</a></li>
 </ul>
+<p class="caption"><span class="caption-text">Versions</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://pages.gitenterprise.xilinx.com/SDxGitExamples/Vitis_Accel_Examples/master/html/index.html">Master</a></li>
+<li class="toctree-l1"><a class="reference internal" href="versions.html">Previous Versions</a></li>
+</ul>
 
             
 			<p class="caption"><span class="caption-text">This Page</span></p>
@@ -406,7 +412,7 @@
       <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="index.html">VITIS ACCEL EXAMPLES</a>
+          <a href="index.html">Vitis Accel Examples</a>
         
       </nav>
 
@@ -460,8 +466,8 @@
             
   <div class="section" id="stream-kernel-to-kernel-memory-mapped">
 <h1>Stream Kernel to Kernel Memory Mapped<a class="headerlink" href="#stream-kernel-to-kernel-memory-mapped" title="Permalink to this headline">¶</a></h1>
-<p>This is a simple kernel to kernel streaming Vector Add and Vector Multiply C Kernel design with 2 memory mapped input to kernel 1, 1 Stream output from kernel 1 to input of kernel 2, 1 memory mapped input to kernel 2, and 1 memory mapped output that demonstrates on how to process a stream of data for computation between two kernels.</p>
-<p><strong>KEY CONCEPTS:</strong> Read/Write Stream, Create/Release Stream</p>
+<p>This is a simple kernel to kernel streaming Vector Add and Vector Multiply C Kernel design with 2 memory mapped input to kernel 1, 1 Stream output from kernel 1 to input of kernel 2, 1 memory mapped input to kernel 2, and 1 memory mapped output that demonstrates on how to process a stream of data for computation between two kernels. This design also illustrates how to set FIFO depth for AXIS connections i.e. for the stream connecting the two kernels</p>
+<p><strong>KEY CONCEPTS:</strong> Read/Write Stream, Create/Release Stream, AXIS FIFO depth</p>
 <p><strong>KEYWORDS:</strong> stream_connect</p>
 <p>This example demonstrates how kernels can have memory mapped inputs
 along with stream interface from one kernel to another.</p>
@@ -487,11 +493,11 @@ stream input port during the <code class="docutils literal notranslate"><span cl
 </div>
 <p>Content of <code class="docutils literal notranslate"><span class="pre">krnl_stream_vadd_vmult.ini</span></code> file is below:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">connectivity</span><span class="p">]</span>
-<span class="n">stream_connect</span><span class="o">=</span><span class="n">krnl_stream_vadd_1</span><span class="o">.</span><span class="n">out</span><span class="p">:</span><span class="n">krnl_stream_vmult_1</span><span class="o">.</span><span class="n">in2</span>
+<span class="n">stream_connect</span><span class="o">=</span><span class="n">krnl_stream_vadd_1</span><span class="o">.</span><span class="n">out</span><span class="p">:</span><span class="n">krnl_stream_vmult_1</span><span class="o">.</span><span class="n">in2</span><span class="p">:</span><span class="mi">64</span>
 </pre></div>
 </div>
 <p>Above specify that <code class="docutils literal notranslate"><span class="pre">out</span></code> port of <code class="docutils literal notranslate"><span class="pre">krnl_stream_vadd_1</span></code> kernel is
-connected to <code class="docutils literal notranslate"><span class="pre">in2</span></code> port of <code class="docutils literal notranslate"><span class="pre">krnl_stream_vmult_1</span></code></p>
+connected to <code class="docutils literal notranslate"><span class="pre">in2</span></code> port of <code class="docutils literal notranslate"><span class="pre">krnl_stream_vmult_1</span></code>. The FIFO depth of this stream is 64.</p>
 <div class="section" id="excluded-platforms">
 <h2>EXCLUDED PLATFORMS<a class="headerlink" href="#excluded-platforms" title="Permalink to this headline">¶</a></h2>
 <p>Platforms containing following strings in their names are not supported for this example :</p>
@@ -513,7 +519,7 @@ connected to <code class="docutils literal notranslate"><span class="pre">in2</s
 <div class="section" id="command-line-arguments">
 <h2>COMMAND LINE ARGUMENTS<a class="headerlink" href="#command-line-arguments" title="Permalink to this headline">¶</a></h2>
 <p>Once the environment has been configured, the application can be executed by</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">vadd_stream</span> <span class="o">&lt;</span><span class="n">krnl_stream_vadd_vmult</span> <span class="n">XCLBIN</span><span class="o">&gt;</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">streaming_k2k_mm</span> <span class="o">&lt;</span><span class="n">krnl_stream_vadd_vmult</span> <span class="n">XCLBIN</span><span class="o">&gt;</span>
 </pre></div>
 </div>
 </div>
@@ -576,6 +582,13 @@ connected to <code class="docutils literal notranslate"><span class="pre">in2</s
       });
   </script>
 
+   <script type="text/javascript">
+    jQuery(function() { Search.loadIndex("searchindex.js"); });
+  </script>
+
+  <script type="text/javascript" id="searchindexloader"></script>     	    
+	    
+	    
   
   
     

@@ -58,7 +58,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Stream Free Running Host to Kernel(HLS C/C++)" href="streaming_free_running_h2k.html" />
-    <link rel="prev" title="Stream Chain Matrix Multiplication" href="streaming_chain.html" /> 
+    <link rel="prev" title="Streaming Custom Data Type" href="streaming_custom_datatype.html" /> 
 	</head>
 	<body>
 		<div class="xilinx-bs3"/>
@@ -296,7 +296,7 @@
           
 
           
-            <a href="index.html" class="icon icon-home" alt="Documentation Home"> VITIS ACCEL EXAMPLES
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> Vitis Accel Examples
           
 
           
@@ -359,6 +359,7 @@
 <li class="toctree-l2"><a class="reference internal" href="p2p_bandwidth.html">P2P bandwidth Example</a></li>
 <li class="toctree-l2"><a class="reference internal" href="p2p_fpga2fpga.html">P2P FPGA to FPGA Example</a></li>
 <li class="toctree-l2"><a class="reference internal" href="streaming_chain.html">Stream Chain Matrix Multiplication</a></li>
+<li class="toctree-l2"><a class="reference internal" href="streaming_custom_datatype.html">Streaming Custom Data Type</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Streaming Host to Kernel Bandwidth</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#excluded-platforms">EXCLUDED PLATFORMS</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#design-files">DESIGN FILES</a></li>
@@ -387,6 +388,11 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="common.html">Common Files</a></li>
 </ul>
+<p class="caption"><span class="caption-text">Versions</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://pages.gitenterprise.xilinx.com/SDxGitExamples/Vitis_Accel_Examples/master/html/index.html">Master</a></li>
+<li class="toctree-l1"><a class="reference internal" href="versions.html">Previous Versions</a></li>
+</ul>
 
             
 			<p class="caption"><span class="caption-text">This Page</span></p>
@@ -406,7 +412,7 @@
       <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="index.html">VITIS ACCEL EXAMPLES</a>
+          <a href="index.html">Vitis Accel Examples</a>
         
       </nav>
 
@@ -508,7 +514,8 @@ time as below:</p>
 <div class="section" id="excluded-platforms">
 <h2>EXCLUDED PLATFORMS<a class="headerlink" href="#excluded-platforms" title="Permalink to this headline">¶</a></h2>
 <p>Platforms containing following strings in their names are not supported for this example :</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">zc</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">u250</span>
+<span class="n">zc</span>
 <span class="n">vck</span>
 <span class="n">xdma</span>
 <span class="n">qep</span>
@@ -528,7 +535,7 @@ time as below:</p>
 <div class="section" id="command-line-arguments">
 <h2>COMMAND LINE ARGUMENTS<a class="headerlink" href="#command-line-arguments" title="Permalink to this headline">¶</a></h2>
 <p>Once the environment has been configured, the application can be executed by</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">vadd_stream</span> <span class="o">&lt;</span><span class="n">krnl_stream_adder1</span> <span class="n">XCLBIN</span><span class="o">&gt;</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">streaming_host_bandwidth</span> <span class="o">&lt;</span><span class="n">krnl_stream_adder1</span> <span class="n">XCLBIN</span><span class="o">&gt;</span>
 </pre></div>
 </div>
 </div>
@@ -567,7 +574,7 @@ time as below:</p>
         <a href="streaming_free_running_h2k.html" class="btn btn-neutral float-right" title="Stream Free Running Host to Kernel(HLS C/C++)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="streaming_chain.html" class="btn btn-neutral float-left" title="Stream Chain Matrix Multiplication" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="streaming_custom_datatype.html" class="btn btn-neutral float-left" title="Streaming Custom Data Type" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -591,6 +598,13 @@ time as below:</p>
       });
   </script>
 
+   <script type="text/javascript">
+    jQuery(function() { Search.loadIndex("searchindex.js"); });
+  </script>
+
+  <script type="text/javascript" id="searchindexloader"></script>     	    
+	    
+	    
   
   
     

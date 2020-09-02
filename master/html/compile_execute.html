@@ -296,7 +296,7 @@
           
 
           
-            <a href="index.html" class="icon icon-home" alt="Documentation Home"> VITIS ACCEL EXAMPLES
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> Vitis Accel Examples
           
 
           
@@ -339,6 +339,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#compiling-for-application-emulation">Compiling for Application Emulation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#executing-emulated-application">Executing Emulated Application</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#compiling-for-fpga-accelerator-card">Compiling for FPGA Accelerator Card</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#commands-for-windows-flow">COMMANDS FOR WINDOWS FLOW</a></li>
 </ul>
 </li>
 </ul>
@@ -355,6 +356,11 @@
 <p class="caption"><span class="caption-text">Common Utilities</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="common.html">Common Files</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Versions</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://pages.gitenterprise.xilinx.com/SDxGitExamples/Vitis_Accel_Examples/master/html/index.html">Master</a></li>
+<li class="toctree-l1"><a class="reference internal" href="versions.html">Previous Versions</a></li>
 </ul>
 
             
@@ -375,7 +381,7 @@
       <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="index.html">VITIS ACCEL EXAMPLES</a>
+          <a href="index.html">Vitis Accel Examples</a>
         
       </nav>
 
@@ -491,6 +497,20 @@ board is:</p>
 <p>By default, HOST_ARCH=x86. HOST_ARCH and SYSROOT are required for SoC shells</p>
 <p><strong>NOTE:</strong> Compilation for hardware generates custom logic to implement the functionality of the kernels in an application. It is typical for hardware compile times to range from 30 minutes to a couple of hours.</p>
 </div>
+<div class="section" id="commands-for-windows-flow">
+<h2>COMMANDS FOR WINDOWS FLOW<a class="headerlink" href="#commands-for-windows-flow" title="Permalink to this headline">¶</a></h2>
+<p>Once the environment has been configured, run the following commands :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="o">&lt;</span><span class="n">PATH</span> <span class="n">TO</span> <span class="n">SAMPLE</span> <span class="n">APPLICATION</span><span class="o">&gt;/</span><span class="n">cmake_build</span>
+<span class="n">cmake</span> <span class="o">-</span><span class="n">G</span> <span class="s2">&quot;Visual Studio 15 2017 Win64&quot;</span> <span class="o">-</span><span class="n">DCMAKE_BUILD_TYPE</span><span class="o">=</span><span class="n">Debug</span> <span class="o">-</span><span class="n">DXILINX_XRT</span><span class="o">=&lt;</span><span class="nb">set</span> <span class="n">xilinx</span> <span class="n">xrt</span> <span class="n">path</span><span class="o">&gt;</span> <span class="o">-</span><span class="n">DOCL_ROOT</span><span class="o">=&lt;</span><span class="nb">set</span> <span class="n">ocl</span> <span class="n">root</span> <span class="n">path</span><span class="o">&gt;</span>
+<span class="n">cmake</span> <span class="o">--</span><span class="n">build</span> <span class="o">.</span> <span class="o">--</span><span class="n">verbose</span> <span class="o">--</span><span class="n">config</span> <span class="n">Debug</span> <span class="o">--</span><span class="n">target</span> <span class="n">install</span>
+
+<span class="n">For</span> <span class="n">Example</span> <span class="p">:</span>
+<span class="n">cd</span> <span class="n">hello_world</span><span class="o">/</span><span class="n">cmake_build</span>
+<span class="n">cmake</span> <span class="o">-</span><span class="n">G</span> <span class="s2">&quot;Visual Studio 15 2017 Win64&quot;</span> <span class="o">-</span><span class="n">DCMAKE_BUILD_TYPE</span><span class="o">=</span><span class="n">Debug</span> <span class="o">-</span><span class="n">DXILINX_XRT</span><span class="o">=</span><span class="n">C</span><span class="p">:</span>\<span class="n">Xilinx</span>\<span class="n">XRT</span> <span class="o">-</span><span class="n">DOCL_ROOT</span><span class="o">=</span><span class="n">C</span><span class="p">:</span>\<span class="n">Xilinx</span>\<span class="n">XRT</span>\<span class="n">ext</span>
+<span class="n">cmake</span> <span class="o">--</span><span class="n">build</span> <span class="o">.</span> <span class="o">--</span><span class="n">verbose</span> <span class="o">--</span><span class="n">config</span> <span class="n">Debug</span> <span class="o">--</span><span class="n">target</span> <span class="n">install</span>
+</pre></div>
+</div>
+</div>
 </div>
 
 
@@ -536,6 +556,13 @@ board is:</p>
       });
   </script>
 
+   <script type="text/javascript">
+    jQuery(function() { Search.loadIndex("searchindex.js"); });
+  </script>
+
+  <script type="text/javascript" id="searchindexloader"></script>     	    
+	    
+	    
   
   
     
