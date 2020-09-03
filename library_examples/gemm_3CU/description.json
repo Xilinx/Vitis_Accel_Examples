@@ -6,7 +6,7 @@
     "flow": "vitis", 
     "platform_type": "pcie", 
     "platform_whitelist": [
-        "vu9p"
+        "aws"
     ], 
     "platform_blacklist": [
         "zc"
@@ -85,14 +85,44 @@
     "containers": [
         {
             "name": "blas", 
-            "ldclflags": "--config PROJECT/opts.ini --config PROJECT/conn.ini --kernel_frequency 200", 
+            "ldclflags": "--config PROJECT/opts.ini --kernel_frequency 200", 
             "frequency": 200, 
             "accelerators": [
                 {
                     "name": "blasKernel", 
                     "location": "PROJECT/src/hw/kernel.cpp", 
                     "frequency": 200, 
-                    "clflags": "--kernel_frequency 200"                    
+                    "clflags": "--kernel_frequency 200",
+                    "num_compute_units": "3",
+                    "compute_units": [
+                        {
+                            "slr": "SLR0",
+                            "arguments": [
+                                {
+                                    "name": "m_axi_gmemm", 
+                                    "memory": "DDR[0]"
+                                }
+                            ]
+                        },
+                        {
+                            "slr": "SLR1",
+                            "arguments": [
+                                {
+                                    "name": "m_axi_gmemm", 
+                                    "memory": "DDR[1]"
+                                }
+                            ]
+                        },
+                        {
+                            "slr": "SLR2",
+                            "arguments": [
+                                {
+                                    "name": "m_axi_gmemm", 
+                                    "memory": "DDR[2]"
+                                }
+                            ]
+                        }
+                    ]
                 }
             ]
         }
@@ -116,7 +146,9 @@
         ], 
         "targets": [
             "vitis_sw_emu", 
-            "vitis_hw_emu"
+            "vitis_hw_emu",
+            "vitis_hw_build",
+            "vitis_hw_run"
         ], 
         "category": "canary"
     }

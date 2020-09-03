@@ -78,7 +78,7 @@
             "accelerators": [
                 {
                     "name": "xilLz77Compress", 
-                    "location": "./src/zlib_lz77_compress_mm.cpp", 
+                    "location": "PROJECT/src/zlib_lz77_compress_mm.cpp", 
                     "num_compute_units": "2", 
                     "compute_units": [
                         {
@@ -143,7 +143,7 @@
                 }, 
                 {
                     "name": "xilHuffmanKernel", 
-                    "location": "./src/zlib_huffman_enc_mm.cpp", 
+                    "location": "PROJECT/src/zlib_huffman_enc_mm.cpp", 
                     "num_compute_units": "2", 
                     "compute_units": [
                         {
@@ -208,7 +208,7 @@
                 }, 
                 {
                     "name": "xilZlibDmReader", 
-                    "location": "./src/zlib_dm_multibyte_rd.cpp", 
+                    "location": "PROJECT/src/zlib_dm_multibyte_rd.cpp", 
                     "num_compute_units": "8",
                     "compute_units": [
                         {
@@ -351,7 +351,7 @@
                 }, 
                 {
                     "name": "xilZlibDmWriter", 
-                    "location": "./src/zlib_dm_multibyte_wr.cpp", 
+                    "location": "PROJECT/src/zlib_dm_multibyte_wr.cpp", 
                     "num_compute_units": "8", 
                     "compute_units": [
                         {
@@ -430,7 +430,7 @@
                 }, 
                 {
                     "name": "xilDecompressFull", 
-                    "location": "./src/zlib_parallelbyte_decompress_full.cpp", 
+                    "location": "PROJECT/src/zlib_parallelbyte_decompress_full.cpp", 
                     "num_compute_units": "8", 
                     "compute_units": [
                         {

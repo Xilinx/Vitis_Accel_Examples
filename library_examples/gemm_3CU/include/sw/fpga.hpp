@@ -76,7 +76,7 @@ class Fpga {
     bool createKernel(unsigned int p_kernelId, std::string p_kernelName) {
         bool ok = false;
         assert(p_kernelId < BLAS_numKernels);
-        std::string l_name = p_kernelName + ":{" + p_kernelName + "_" + std::to_string(p_kernelId) + "}";
+        std::string l_name = p_kernelName + ":{" + p_kernelName + "_" + std::to_string(p_kernelId + 1) + "}";
         cl::Kernel l_kernel(m_Program, l_name.c_str());
         m_Kernels[p_kernelId] = l_kernel;
         ok = true;

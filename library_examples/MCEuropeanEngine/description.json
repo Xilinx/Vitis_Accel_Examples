@@ -7,7 +7,7 @@
     "flow": "vitis", 
     "platform_type": "pcie", 
     "platform_whitelist": [
-        "vu9p"
+        "aws"
     ], 
     "platform_blacklist": [
         "zc"
@@ -110,6 +110,7 @@
         "targets": [
             "vitis_sw_emu", 
             "vitis_hw_emu", 
+            "vitis_hw_build",
             "vitis_hw_run"
         ], 
         "category": "canary"
