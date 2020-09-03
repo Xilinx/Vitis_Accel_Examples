@@ -19,8 +19,13 @@ Application code is located in the src directory. Accelerator binary files will 
 
 ::
 
+   src/kernel_mc.cpp
+   src/kernel_mceuropeanengine.hpp
    src/test.cpp
    src/utils.hpp
+   src/xcl2.cpp
+   src/xcl2.hpp
+   src/xcl2.mk
    
 COMMAND LINE ARGUMENTS
 ----------------------

@@ -1,7 +1,7 @@
 {
-    "name": "Xilinx GZIP Application for u200 and u250 Platforms", 
+    "name": "Xilinx GZIP Application", 
     "description": [
-        "GZip application for DDR resides in `demos/gzip_app` directory."
+        "GZip application for DDR resides in `library_examples/gzip_app` directory."
     ], 
     "flow": "vitis", 
     "platform_blacklist": [
@@ -31,9 +31,8 @@
                 "PROJECT/src/zlib.cpp", 
                 "PROJECT/src/cmdlineparser.cpp", 
                 "PROJECT/src/logger.cpp", 
-                "PROJECT/src/xcl2.cpp", 
-                "PROJECT/src/crc32.c", 
-                "PROJECT/src/adler32.c" 
+                "PROJECT/src/xcl2.cpp",
+                "PROJECT/src/xxhash.c" 
             ], 
             "includepaths": [
                 "PROJECT/include",
@@ -43,9 +42,9 @@
                 "-O3"
             ],
             "symbols": [
-                "C_COMPUTE_UNIT=2", 
-                "H_COMPUTE_UNIT=2", 
-                "D_COMPUTE_UNIT=8", 
+                "C_COMPUTE_UNIT=1", 
+                "H_COMPUTE_UNIT=1", 
+                "D_COMPUTE_UNIT=1", 
                 "PARALLEL_BLOCK=8", 
                 "GZIP_MODE", 
                 "OVERLAP_HOST_DEVICE"
@@ -78,386 +77,23 @@
             "accelerators": [
                 {
                     "name": "xilLz77Compress", 
-                    "location": "PROJECT/src/zlib_lz77_compress_mm.cpp", 
-                    "num_compute_units": "2", 
-                    "compute_units": [
-                        {
-                            "slr": "SLR0", 
-                            "arguments": [
-                                {
-                                    "name": "in", 
-                                    "memory": "DDR[0]"
-                                }, 
-                                {
-                                    "name": "out", 
-                                    "memory": "DDR[0]"
-                                }, 
-                                {
-                                    "name": "compressd_size", 
-                                    "memory": "DDR[0]"
-                                }, 
-                                {
-                                    "name": "in_block_size", 
-                                    "memory": "DDR[0]"
-                                }, 
-                                {
-                                    "name": "dyn_ltree_freq", 
-                                    "memory": "DDR[0]"
-                                }, 
-                                {
-                                    "name": "dyn_dtree_freq", 
-                                    "memory": "DDR[0]"
-                                }
-                            ]
-                        }, 
-                        {
-                            "slr": "SLR2", 
-                            "arguments": [
-                                {
-                                    "name": "in", 
-                                    "memory": "DDR[3]"
-                                }, 
-                                {
-                                    "name": "out", 
-                                    "memory": "DDR[3]"
-                                }, 
-                                {
-                                    "name": "compressd_size", 
-                                    "memory": "DDR[3]"
-                                }, 
-                                {
-                                    "name": "in_block_size", 
-                                    "memory": "DDR[3]"
-                                }, 
-                                {
-                                    "name": "dyn_ltree_freq", 
-                                    "memory": "DDR[3]"
-                                }, 
-                                {
-                                    "name": "dyn_dtree_freq", 
-                                    "memory": "DDR[3]"
-                                }
-                            ]
-                        }
-                    ]
+                    "location": "PROJECT/src/zlib_lz77_compress_mm.cpp" 
                 }, 
                 {
                     "name": "xilHuffmanKernel", 
-                    "location": "PROJECT/src/zlib_huffman_enc_mm.cpp", 
-                    "num_compute_units": "2", 
-                    "compute_units": [
-                        {
-                            "slr": "SLR0", 
-                            "arguments": [
-                                {
-                                    "name": "in", 
-                                    "memory": "DDR[0]"
-                                }, 
-                                {
-                                    "name": "out", 
-                                    "memory": "DDR[0]"
-                                }, 
-                                {
-                                    "name": "in_block_size", 
-                                    "memory": "DDR[0]"
-                                }, 
-                                {
-                                    "name": "compressd_size", 
-                                    "memory": "DDR[0]"
-                                }, 
-                                {
-                                    "name": "dyn_ltree_freq", 
-                                    "memory": "DDR[0]"
-                                }, 
-                                {
-                                    "name": "dyn_dtree_freq", 
-                                    "memory": "DDR[0]"
-                                }
-                            ]
-                        }, 
-                        {
-                            "slr": "SLR2", 
-                            "arguments": [
-                                {
-                                    "name": "in", 
-                                    "memory": "DDR[3]"
-                                }, 
-                                {
-                                    "name": "out", 
-                                    "memory": "DDR[3]"
-                                }, 
-                                {
-                                    "name": "in_block_size", 
-                                    "memory": "DDR[3]"
-                                }, 
-                                {
-                                    "name": "compressd_size", 
-                                    "memory": "DDR[3]"
-                                }, 
-                                {
-                                    "name": "dyn_ltree_freq", 
-                                    "memory": "DDR[3]"
-                                }, 
-                                {
-                                    "name": "dyn_dtree_freq", 
-                                    "memory": "DDR[3]"
-                                }
-                            ]
-                        }
-                    ]
+                    "location": "PROJECT/src/zlib_huffman_enc_mm.cpp" 
                 }, 
                 {
                     "name": "xilZlibDmReader", 
-                    "location": "PROJECT/src/zlib_dm_multibyte_rd.cpp", 
-                    "num_compute_units": "8",
-                    "compute_units": [
-                        {
-                            "slr": "SLR0", 
-                            "arguments": [
-                                {
-                                    "name": "out", 
-                                    "memory": "DDR[0]"
-                                }, 
-                                {
-                                    "name": "encoded_size", 
-                                    "memory": "DDR[0]"
-                                }, 
-                                {
-                                    "name": "status_flag", 
-                                    "memory": "DDR[0]"
-                                }
-                            ]
-                        }, 
-                        {
-                            "slr": "SLR0", 
-                            "arguments": [
-                                {
-                                    "name": "out", 
-                                    "memory": "DDR[0]"
-                                }, 
-                                {
-                                    "name": "encoded_size", 
-                                    "memory": "DDR[0]"
-                                }, 
-                                {
-                                    "name": "status_flag", 
-                                    "memory": "DDR[0]"
-                                }
-                            ]
-                        }, 
-                        {
-                            "slr": "SLR1", 
-                            "arguments": [
-                                {
-                                    "name": "out", 
-                                    "memory": "DDR[1]"
-                                }, 
-                                {
-                                    "name": "encoded_size", 
-                                    "memory": "DDR[1]"
-                                }, 
-                                {
-                                    "name": "status_flag", 
-                                    "memory": "DDR[1]"
-                                }
-                            ]
-                        }, 
-                        {
-                            "slr": "SLR1", 
-                            "arguments": [
-                                {
-                                    "name": "out", 
-                                    "memory": "DDR[1]"
-                                }, 
-                                {
-                                    "name": "encoded_size", 
-                                    "memory": "DDR[1]"
-                                }, 
-                                {
-                                    "name": "status_flag", 
-                                    "memory": "DDR[1]"
-                                }
-                            ]
-                        }, 
-                        {
-                            "slr": "SLR1", 
-                            "arguments": [
-                                {
-                                    "name": "out", 
-                                    "memory": "DDR[2]"
-                                }, 
-                                {
-                                    "name": "encoded_size", 
-                                    "memory": "DDR[2]"
-                                }, 
-                                {
-                                    "name": "status_flag", 
-                                    "memory": "DDR[2]"
-                                }
-                            ]
-                        }, 
-                        {
-                            "slr": "SLR1", 
-                            "arguments": [
-                                {
-                                    "name": "out", 
-                                    "memory": "DDR[2]"
-                                }, 
-                                {
-                                    "name": "encoded_size", 
-                                    "memory": "DDR[2]"
-                                }, 
-                                {
-                                    "name": "status_flag", 
-                                    "memory": "DDR[2]"
-                                }
-                            ]
-                        }, 
-                        {
-                            "slr": "SLR2", 
-                            "arguments": [
-                                {
-                                    "name": "out", 
-                                    "memory": "DDR[3]"
-                                }, 
-                                {
-                                    "name": "encoded_size", 
-                                    "memory": "DDR[3]"
-                                }, 
-                                {
-                                    "name": "status_flag", 
-                                    "memory": "DDR[3]"
-                                }
-                            ]
-                        }, 
-                        {
-                            "slr": "SLR2", 
-                            "arguments": [
-                                {
-                                    "name": "out", 
-                                    "memory": "DDR[3]"
-                                }, 
-                                {
-                                    "name": "encoded_size", 
-                                    "memory": "DDR[3]"
-                                }, 
-                                {
-                                    "name": "status_flag", 
-                                    "memory": "DDR[3]"
-                                }
-                            ]
-                        }
-                    ]
+                    "location": "PROJECT/src/zlib_dm_multibyte_rd.cpp" 
                 }, 
                 {
                     "name": "xilZlibDmWriter", 
-                    "location": "PROJECT/src/zlib_dm_multibyte_wr.cpp", 
-                    "num_compute_units": "8", 
-                    "compute_units": [
-                        {
-                            "slr": "SLR0", 
-                            "arguments": [
-                                {
-                                    "name": "in", 
-                                    "memory": "DDR[0]"
-                                }
-                            ]
-                        }, 
-                        {
-                            "slr": "SLR0", 
-                            "arguments": [
-                                {
-                                    "name": "in", 
-                                    "memory": "DDR[0]"
-                                }
-                            ]
-                        }, 
-                        {
-                            "slr": "SLR1", 
-                            "arguments": [
-                                {
-                                    "name": "in", 
-                                    "memory": "DDR[1]"
-                                }
-                            ]
-                        }, 
-                        {
-                            "slr": "SLR1", 
-                            "arguments": [
-                                {
-                                    "name": "in", 
-                                    "memory": "DDR[1]"
-                                }
-                            ]
-                        }, 
-                        {
-                            "slr": "SLR1", 
-                            "arguments": [
-                                {
-                                    "name": "in", 
-                                    "memory": "DDR[2]"
-                                }
-                            ]
-                        }, 
-                        {
-                            "slr": "SLR1", 
-                            "arguments": [
-                                {
-                                    "name": "in", 
-                                    "memory": "DDR[2]"
-                                }
-                            ]
-                        }, 
-                        {
-                            "slr": "SLR2", 
-                            "arguments": [
-                                {
-                                    "name": "in", 
-                                    "memory": "DDR[3]"
-                                }
-                            ]
-                        }, 
-                        {
-                            "slr": "SLR2", 
-                            "arguments": [
-                                {
-                                    "name": "in", 
-                                    "memory": "DDR[3]"
-                                }
-                            ]
-                        }
-                    ]
+                    "location": "PROJECT/src/zlib_dm_multibyte_wr.cpp" 
                 }, 
                 {
                     "name": "xilDecompressFull", 
-                    "location": "PROJECT/src/zlib_parallelbyte_decompress_full.cpp", 
-                    "num_compute_units": "8", 
-                    "compute_units": [
-                        {
-                            "slr": "SLR0"
-                        }, 
-                        {
-                            "slr": "SLR0"
-                        }, 
-                        {
-                            "slr": "SLR1"
-                        }, 
-                        {
-                            "slr": "SLR1"
-                        }, 
-                        {
-                            "slr": "SLR1"
-                        }, 
-                        {
-                            "slr": "SLR1"
-                        }, 
-                        {
-                            "slr": "SLR2"
-                        }, 
-                        {
-                            "slr": "SLR2"
-                        }
-                    ]
+                    "location": "PROJECT/src/zlib_parallelbyte_decompress_full.cpp" 
                 }
             ]
         }

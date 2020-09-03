@@ -25,14 +25,12 @@
         "host_exe": "test.exe", 
         "compiler": {
             "sources": [
-                "PROJECT/src/test.cpp", 
-                "PROJECT/ext/xcl2/xcl2.cpp"
+                "PROJECT/src/test.cpp",
+                "PROJECT/src/xcl2.cpp"
             ], 
             "includepaths": [
                 "PROJECT/include", 
-                "PROJECT/src", 
-                "PROJECT/ext/xcl2", 
-                "PROJECT/kernel"
+                "PROJECT/src"
             ], 
             "options": [
                 "-O3" 
@@ -43,7 +41,7 @@
         "compiler": {
             "includepaths": [
                 "PROJECT/include", 
-                "PROJECT/kernel"
+                "PROJECT/src"
             ]
         }
     }, 
@@ -51,7 +49,7 @@
         {
             "accelerators": [
                 {
-                    "location": "PROJECT/kernel/kernel_mc.cpp", 
+                    "location": "PROJECT/src/kernel_mc.cpp", 
                     "clflags": " -D DPRAGMA", 
                     "name": "kernel_mc", 
                     "num_compute_units": "3", 

@@ -70,7 +70,7 @@ LDFLAGS += $(opencl_LDFLAGS)
 #Include Required Host Source Files
 CXXFLAGS += -I./include
 CXXFLAGS += -I./thirdParty
-HOST_SRCS += ./src/host.cpp ./src/zlib.cpp ./src/cmdlineparser.cpp ./src/logger.cpp ./src/xcl2.cpp ./src/crc32.c ./src/adler32.c 
+HOST_SRCS += ./src/host.cpp ./src/zlib.cpp ./src/cmdlineparser.cpp ./src/logger.cpp ./src/xcl2.cpp ./src/xxhash.c 
 # Host compiler global settings
 CXXFLAGS += -fmessage-length=0 -O3
 LDFLAGS += -lrt -lstdc++ 
@@ -87,13 +87,11 @@ ifneq ($(TARGET), hw)
 	CLFLAGS += -g
 endif
 
-CXXFLAGS += -DC_COMPUTE_UNIT=2 -DH_COMPUTE_UNIT=2 -DD_COMPUTE_UNIT=8 -DPARALLEL_BLOCK=8 -DGZIP_MODE -DOVERLAP_HOST_DEVICE
+CXXFLAGS += -DC_COMPUTE_UNIT=1 -DH_COMPUTE_UNIT=1 -DD_COMPUTE_UNIT=1 -DPARALLEL_BLOCK=8 -DGZIP_MODE -DOVERLAP_HOST_DEVICE
 
 # Kernel linker flags
 LDCLFLAGS += --kernel_frequency 250 --config ./opts.ini
 
-# Adding config files to linker
-LDCLFLAGS_compress_decompress += --config compress_decompress.ini 
 EXECUTABLE = ./xil_gzip
 CMD_ARGS = -sx $(BUILD_DIR)/compress_decompress.xclbin -v ./sample.txt
 EMCONFIG_DIR = $(TEMP_DIR)
@@ -147,7 +145,7 @@ $(TEMP_DIR)/xilDecompressFull.xo: ./src/zlib_parallelbyte_decompress_full.cpp
 $(BUILD_DIR)/compress_decompress.xclbin: $(BINARY_CONTAINER_compress_decompress_OBJS)
 	mkdir -p $(BUILD_DIR)
 ifeq ($(HOST_ARCH), x86)
-	$(VPP) $(VPP_FLAGS) -l $(LDCLFLAGS) $(CLFLAGS) --temp_dir $(BUILD_DIR)  $(LDCLFLAGS_compress_decompress) -o'$(BUILD_DIR)/compress_decompress.link.xclbin' $(+)
+	$(VPP) $(VPP_FLAGS) -l $(LDCLFLAGS) $(CLFLAGS) --temp_dir $(BUILD_DIR)  -o'$(BUILD_DIR)/compress_decompress.link.xclbin' $(+)
 	$(VPP) -p $(BUILD_DIR)/compress_decompress.link.xclbin -t $(TARGET) --platform $(DEVICE) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/compress_decompress.xclbin
 else
 	$(VPP) -l $(LDCLFLAGS) $(CLFLAGS) --temp_dir $(BUILD_DIR) -o'$(BUILD_DIR)/compress_decompress.xclbin' $(+)

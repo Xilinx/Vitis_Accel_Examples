@@ -28,8 +28,6 @@ Application code is located in the src directory. Accelerator binary files will 
    include/hw/xf_blas/helpers/dataMover/vecMoverB1.hpp
    src/hw/kernel.cpp
    src/sw/api_gemm.cpp
-   src/sw/gen_bin.cpp
-   src/sw/main.cpp
    src/sw/xcl2/xcl2.cpp
    
 COMMAND LINE ARGUMENTS

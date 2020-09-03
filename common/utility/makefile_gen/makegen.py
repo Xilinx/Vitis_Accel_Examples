@@ -840,25 +840,22 @@ def create_config(data):
     if "containers" in data:
         for con in data["containers"]:
             if "accelerators" in con:
+                config_file = 0
                 for acc in con["accelerators"]:
-                    if "compute_units" in acc or "num_compute_units" in acc:
-                        config_file = 0	
-                        for dirs,subdirs,files in os.walk("."):
-                            if con["name"]+".ini" in files:
-                                config_file = 1
-                        if config_file == 1:	
-                            target = open(con["name"]+".ini","a")
-                        else:	
-                            print("Creating "+con["name"]+".ini file for %s" %data["name"])
-                            target = open(con["name"]+".ini","w")
-                            config_file = 1
-                            target.write("[connectivity]\n")
+                    if ("compute_units" in acc or "num_compute_units" in acc) and config_file == 0:
+                        print ("Creating "+con["name"]+".ini file for %s" %data["name"])
+                        target = open(con["name"] + ".ini","w")
+                        target.write("[connectivity]\n")
+                        config_file = 1
                     if "compute_units" in acc:
                         for i in range(len(acc["compute_units"])):
                             com = acc["compute_units"][i]
                             if "arguments" in com:
                                 for arg in com["arguments"]:
-                                    target.write("sp="+acc["name"]+"_"+str(i + 1)+"."+arg["name"]+":"+arg["memory"]+"\n")
+                                    target.write("sp="+acc["name"]+"_"+str(i + 1)+"."+arg["name"])
+                                    if "memory" in arg:
+                                        target.write(":" + arg["memory"])
+                                    target.write("\n")
                             if "slr" in com:
                                 target.write("slr="+acc["name"]+"_"+str(i + 1)+":"+com["slr"]+"\n")
                     if "num_compute_units" in acc:
@@ -896,12 +893,7 @@ else:
 
 if "containers" in data:
        	config_flag = 0
-        for con in data["containers"]:
-                for dirs,subdirs,files in os.walk("."):
-                        if con["name"]+".ini" in files:
-                                config_flag = 1
-        if not config_flag:
-                create_config(data)	
+        create_config(data)	
 
 if "match_makefile" in data and data["match_makefile"] == "false":
     print("Info:: Makefile Manually Edited:: AutoMakefile Generator Failed")

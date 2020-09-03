@@ -68,9 +68,7 @@ LDFLAGS += $(opencl_LDFLAGS)
 #Include Required Host Source Files
 CXXFLAGS += -I./include
 CXXFLAGS += -I./src
-CXXFLAGS += -I./ext/xcl2
-CXXFLAGS += -I./kernel
-HOST_SRCS += ./src/test.cpp ./ext/xcl2/xcl2.cpp 
+HOST_SRCS += ./src/test.cpp ./src/xcl2.cpp 
 # Host compiler global settings
 CXXFLAGS += -fmessage-length=0 -O3
 LDFLAGS += -lrt -lstdc++ 
@@ -100,7 +98,7 @@ EMCONFIG_DIR = $(TEMP_DIR)
 EMU_DIR = $(SDCARD)/data/emulation
 
 VPP_FLAGS += -I./include
-VPP_FLAGS += -I./kernel
+VPP_FLAGS += -I./src
 
 ############################## Declaring Binary Containers ##############################
 BINARY_CONTAINERS += $(BUILD_DIR)/kernel_mc.xclbin
@@ -122,7 +120,7 @@ build: check-vitis $(BINARY_CONTAINERS)
 xclbin: build
 
 ############################## Setting Rules for Binary Containers (Building Kernels) ##############################
-$(TEMP_DIR)/kernel_mc.xo: ./kernel/kernel_mc.cpp
+$(TEMP_DIR)/kernel_mc.xo: ./src/kernel_mc.cpp
 	mkdir -p $(TEMP_DIR)
 	$(VPP) $(VPP_FLAGS) -c -k kernel_mc $(CLFLAGS) $(CLFLAGS_kernel_mc) --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
 $(BUILD_DIR)/kernel_mc.xclbin: $(BINARY_CONTAINER_kernel_mc_OBJS)

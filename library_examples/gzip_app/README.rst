@@ -1,7 +1,7 @@
-Xilinx GZIP Application for u200 and u250 Platforms
-===================================================
+Xilinx GZIP Application
+=======================
 
-GZip application for DDR resides in `demos/gzip_app` directory.
+GZip application for DDR resides in `library_examples/gzip_app` directory.
 
 EXCLUDED PLATFORMS
 ------------------
@@ -21,9 +21,7 @@ Application code is located in the src directory. Accelerator binary files will 
 
 ::
 
-   src/adler32.c
    src/cmdlineparser.cpp
-   src/crc32.c
    src/host.cpp
    src/logger.cpp
    src/xcl2.cpp
