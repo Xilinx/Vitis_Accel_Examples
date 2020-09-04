@@ -100,7 +100,7 @@
                             "arguments": [
                                 {
                                     "name": "m_axi_gmemm", 
-                                    "memory": "DDR[0]"
+                                    "memory": "DDR[3]"
                                 }
                             ]
                         },
@@ -109,7 +109,7 @@
                             "arguments": [
                                 {
                                     "name": "m_axi_gmemm", 
-                                    "memory": "DDR[1]"
+                                    "memory": "DDR[0]"
                                 }
                             ]
                         },
@@ -118,7 +118,7 @@
                             "arguments": [
                                 {
                                     "name": "m_axi_gmemm", 
-                                    "memory": "DDR[2]"
+                                    "memory": "DDR[1]"
                                 }
                             ]
                         }
