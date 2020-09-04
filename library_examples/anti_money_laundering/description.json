@@ -1,0 +1,179 @@
+{
+    "name": "Xilinx AML",
+    "description": [
+        "Anti Money Laundering checking against deny-lists"
+    ],
+    "flow": "vitis",
+    "platform_type": "pcie",
+    "platform_whitelist": [
+        "aws"
+    ],
+    "platform_blacklist": [
+        "zc"
+    ],
+    "runtime": [
+        "OpenCL"
+    ], 
+    "launch": [
+        {
+            "cmd_args": " -xclbin BUILD/aml.xclbin -d PROJECT/data -c 0",
+            "name": "generic launch for all flows"
+        }
+    ],
+    "host": {
+        "host_exe": "test_aml",
+        "compiler": {
+            "sources": [
+                "PROJECT/host/test.cpp",
+                "PROJECT/host/xcl2.cpp",
+                "PROJECT/host/swift_mt103_check.cpp"
+            ],
+            "includepaths": [
+                "PROJECT/host"
+            ],
+            "options": [
+                "-O3"
+            ]
+        }
+    },
+    "v++": {
+        "compiler": {
+            "includepaths": [
+                "PROJECT/kernel"
+            ]
+        }
+    },
+    "containers": [
+        {
+            "accelerators": [
+                {
+                    "location": "PROJECT/kernel/fuzzy_kernel_1.cpp",
+                    "name": "fuzzy_kernel_1",
+                    "compute_units": [
+                        {
+                            "arguments": [
+                                {
+                                    "name": "buf_in", 
+                                    "memory": "PLRAM[0]"
+                                },
+                                {
+                                    "name": "csv_part0", 
+                                    "memory": "bank1"
+                                },
+                                {
+                                    "name": "csv_part1", 
+                                    "memory": "bank1"
+                                },
+                                {
+                                    "name": "csv_part2", 
+                                    "memory": "bank1"
+                                },
+                                {
+                                    "name": "csv_part3", 
+                                    "memory": "bank1"
+                                },
+                                {
+                                    "name": "csv_part4", 
+                                    "memory": "bank1"
+                                },
+                                {
+                                    "name": "csv_part5", 
+                                    "memory": "bank1"
+                                },
+                                {
+                                     "name": "csv_part6", 
+                                    "memory": "bank1"
+                                },
+                                {
+                                     "name": "csv_part7", 
+                                    "memory": "bank1"
+                                },
+                                {
+                                     "name": "buf_out", 
+                                    "memory": "PLRAM[0]"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "location": "PROJECT/kernel/fuzzy_kernel_2.cpp",
+                    "name": "fuzzy_kernel_2",
+                    "compute_units": [
+                        {
+                            "arguments": [
+                                {
+                                    "name": "buf_in", 
+                                    "memory": "PLRAM[1]"
+                                },
+                                {
+                                    "name": "csv_part0", 
+                                    "memory": "bank2"
+                                },
+                                {
+                                    "name": "csv_part1", 
+                                    "memory": "bank2"
+                                },
+                                {
+                                    "name": "csv_part2", 
+                                    "memory": "bank2"
+                                },
+                                {
+                                    "name": "csv_part3", 
+                                    "memory": "bank2"
+                                },
+                                {
+                                    "name": "csv_part4", 
+                                    "memory": "bank2"
+                                },
+                                {
+                                    "name": "csv_part5", 
+                                    "memory": "bank2"
+                                },
+                                {
+                                     "name": "csv_part6", 
+                                    "memory": "bank2"
+                                },
+                                {
+                                     "name": "csv_part7", 
+                                    "memory": "bank2"
+                                },
+                                {
+                                     "name": "buf_out", 
+                                    "memory": "PLRAM[1]"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ],
+            "frequency": 300,
+            "name": "aml"
+        }
+    ],
+    "testinfo": {
+        "disable": false,
+        "jobs": [
+            {
+                "index": 0,
+                "dependency": [],
+                "env": "",
+                "cmd": "",
+                "max_memory_MB": 32768,
+                "max_time_min": {
+                    "vitis_hw_build": 470,
+                    "vitis_hw_emu": 120,
+                    "vitis_sw_emu": 60,
+                    "vitis_hw_run": 10
+                }
+            }
+        ],
+        "targets": [
+            "vitis_sw_emu",
+            "vitis_hw_emu",
+            "vitis_hw_build",
+            "vitis_hw_run"
+        ],
+        "category": "canary"
+    }
+}
