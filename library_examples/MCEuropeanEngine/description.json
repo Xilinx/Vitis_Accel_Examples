@@ -10,7 +10,8 @@
         "aws"
     ], 
     "platform_blacklist": [
-        "zc"
+        "zc",
+        "qdma"
     ],  
     "runtime": [
         "OpenCL"
