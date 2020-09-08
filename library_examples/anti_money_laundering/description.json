@@ -20,6 +20,7 @@
             "name": "generic launch for all flows"
         }
     ],
+    "config_make": "./config.mk",
     "host": {
         "host_exe": "test_aml",
         "compiler": {
