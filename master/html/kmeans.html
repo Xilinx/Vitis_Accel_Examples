@@ -57,7 +57,7 @@
   <link rel="stylesheet" href="_static/css/pro.min.css" media="all" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="System Optimization Kernels" href="sys_opt.html" />
+    <link rel="next" title="Library Examples" href="library_examples.html" />
     <link rel="prev" title="Demos" href="demo.html" /> 
 	</head>
 	<body>
@@ -347,11 +347,11 @@
 <li class="toctree-l3"><a class="reference internal" href="#excluded-platforms">EXCLUDED PLATFORMS</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#design-files">DESIGN FILES</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#command-line-arguments">COMMAND LINE ARGUMENTS</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#commands-for-windows-flow">COMMANDS FOR WINDOWS FLOW</a></li>
 </ul>
 </li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="library_examples.html">Library Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sys_opt.html">System Optimization Kernels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="rtl.html">RTL Kernels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ocl.html">OpenCL Kernels</a></li>
@@ -516,20 +516,6 @@ platform with 8 compute units:</p>
 </pre></div>
 </div>
 </div>
-<div class="section" id="commands-for-windows-flow">
-<h2>COMMANDS FOR WINDOWS FLOW<a class="headerlink" href="#commands-for-windows-flow" title="Permalink to this headline">¶</a></h2>
-<p>Once the environment has been configured, run the following commands :</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="n">cmake_build</span>
-<span class="n">cmake</span> <span class="o">-</span><span class="n">G</span> <span class="s2">&quot;Visual Studio 15 2017 Win64&quot;</span> <span class="o">-</span><span class="n">DCMAKE_BUILD_TYPE</span><span class="o">=</span><span class="n">Debug</span> <span class="o">-</span><span class="n">DXILINX_XRT</span><span class="o">=&lt;</span><span class="nb">set</span> <span class="n">xilinx</span> <span class="n">xrt</span> <span class="n">path</span><span class="o">&gt;</span> <span class="o">-</span><span class="n">DOCL_ROOT</span><span class="o">=&lt;</span><span class="nb">set</span> <span class="n">ocl</span> <span class="n">root</span> <span class="n">path</span><span class="o">&gt;</span>
-<span class="n">cmake</span> <span class="o">--</span><span class="n">build</span> <span class="o">.</span> <span class="o">--</span><span class="n">verbose</span> <span class="o">--</span><span class="n">config</span> <span class="n">Debug</span> <span class="o">--</span><span class="n">target</span> <span class="n">install</span>
-
-<span class="n">For</span> <span class="n">Example</span> <span class="p">:</span>
-<span class="n">cd</span> <span class="n">cmake_build</span>
-<span class="n">cmake</span> <span class="o">-</span><span class="n">G</span> <span class="s2">&quot;Visual Studio 15 2017 Win64&quot;</span> <span class="o">-</span><span class="n">DCMAKE_BUILD_TYPE</span><span class="o">=</span><span class="n">Debug</span> <span class="o">-</span><span class="n">DXILINX_XRT</span><span class="o">=</span><span class="n">C</span><span class="p">:</span>\<span class="n">Xilinx</span>\<span class="n">XRT</span> <span class="o">-</span><span class="n">DOCL_ROOT</span><span class="o">=</span><span class="n">C</span><span class="p">:</span>\<span class="n">Xilinx</span>\<span class="n">XRT</span>\<span class="n">ext</span>
-<span class="n">cmake</span> <span class="o">--</span><span class="n">build</span> <span class="o">.</span> <span class="o">--</span><span class="n">verbose</span> <span class="o">--</span><span class="n">config</span> <span class="n">Debug</span> <span class="o">--</span><span class="n">target</span> <span class="n">install</span>
-</pre></div>
-</div>
-</div>
 </div>
 
 
@@ -548,7 +534,7 @@ platform with 8 compute units:</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="sys_opt.html" class="btn btn-neutral float-right" title="System Optimization Kernels" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="library_examples.html" class="btn btn-neutral float-right" title="Library Examples" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="demo.html" class="btn btn-neutral float-left" title="Demos" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
