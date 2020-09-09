@@ -75,7 +75,24 @@ int main(int argc, char *argv[]) {
   }
 
   cl_platform_id platform_id;
-  clGetPlatformIDs(1, &platform_id, NULL);
+  cl_platform_id platforms[16] = {0};
+  cl_uint platform_count;
+  char platformName[256];
+  cl_int error;
+
+  clGetPlatformIDs(16, platforms, &platform_count);
+
+  for (cl_uint i = 0; i < platform_count; i++) {
+     error = clGetPlatformInfo(platforms[i], CL_PLATFORM_NAME, 256, platformName, 0);
+     if (error != CL_SUCCESS) {
+        exit(EXIT_FAILURE);
+     }
+
+     if(strcmp(platformName, "Xilinx")==0)
+     {
+        platform_id = platforms[i];
+     }
+  } 
   cl_uint device_count;
   clGetDeviceIDs(platform_id, CL_DEVICE_TYPE_ACCELERATOR, 0, NULL,
                  &device_count);
@@ -128,8 +145,6 @@ int main(int argc, char *argv[]) {
             krnl_dev1 = clCreateKernel(program[1], "bandwidth", &err));
 
   xcl::P2P::init(platform_id);
-  std::chrono::high_resolution_clock::time_point start =
-      std::chrono::high_resolution_clock::now();
   // ---------------------------- Buffer-1
   // -------------------------------------------
   cl_mem input_a;
@@ -156,15 +171,10 @@ int main(int argc, char *argv[]) {
   // ----------------------------Set Args
   // -------------------------------------------
   std::cout << "Set Args FPGA-1\n" << std::endl;
-  cl_mem temp;
-  OCL_CHECK(err, temp = clCreateBuffer(context[0], CL_MEM_WRITE_ONLY,
-                                          buffersize, nullptr, &err));
   OCL_CHECK(err,
             err = clSetKernelArg(krnl_dev0, 0, sizeof(cl_mem), &input_a));
   OCL_CHECK(err,
             err = clSetKernelArg(krnl_dev0, 1, sizeof(cl_mem), &output_a));
-  //OCL_CHECK(err,
-  //          err = clSetKernelArg(krnl_dev0, 1, sizeof(cl_mem), &temp));
 
   std::cout << "Set Args FPGA-2\n" << std::endl;
   OCL_CHECK(err,
@@ -206,12 +216,10 @@ int main(int argc, char *argv[]) {
                                            0, sizeof(data_t) * LENGTH, 0, NULL,
                                            &event)); // transfer
   clWaitForEvents(1, &event);
-  //p2pEnd = std::chrono::high_resolution_clock::now();
   clReleaseMemObject(exported_buf);
   // -----------------------------------------------------------------------
   //------------------------- P2P
   //-----------------------------------------------------------
-  //p2pStart = std::chrono::high_resolution_clock::now();
   std::cout << "Transferring from FPGA-2 to FPGA-1..." << std::endl;
   int fd2 = -1;
   OCL_CHECK(err,
@@ -243,14 +251,8 @@ int main(int argc, char *argv[]) {
   double bpersec = (size / dsduration);
   double gbpersec = (2*bpersec) / ((double)1024 * 1024);
 
-  //std::cout << "Kernel completed read " << dmbytes << " MB bytes from/to global memory.\n";
-  //std::cout << "Number of Iterations : " << iter << std::endl;
-  //std::cout << "\nExecution time = "<< dsduration << " (sec) \n";
   std::cout << "P2P Throughput = " << gbpersec << " (GB/sec) \n\n";
   
-  std::chrono::high_resolution_clock::time_point end =
-      std::chrono::high_resolution_clock::now();
-
   clFinish(queue[0]);
   clReleaseMemObject(input_a);
   clReleaseMemObject(output_a);
@@ -266,32 +268,12 @@ int main(int argc, char *argv[]) {
     clReleaseContext(context[i]);
     clReleaseCommandQueue(queue[i]);
   }
-  // ============= Software Function =========================================
-  //sw_read(in1, in2, in3, sw_results);
-  // =========================================================================
-
-  //int counter = 1;
-  /*for (int i = 0; i < LENGTH; i++) {
-    if (sw_results[i] == hw_results[i]) {
-      counter++;
-    }
-  }*/
-  //std::cout << "Computed " << counter << "/" << LENGTH << " correct values!\n";
-  cl_ulong totalTime =
-      std::chrono::duration_cast<std::chrono::microseconds>(end - start)
-          .count();
   p2pTime =
       std::chrono::duration_cast<std::chrono::microseconds>(p2pEnd - p2pStart)
           .count();
-  //report_time("p2p", totalTime, p2pTime);
 
-  //if (counter/* == LENGTH*/) {
-    std::cout << "Test passed!\n";
-    return EXIT_SUCCESS;
-  /*} else {
-    std::cerr << "Test failed\n";
-    return EXIT_FAILURE;
-  }*/
+  std::cout << "Test passed!\n";
+  return EXIT_SUCCESS;
 
 } // end of main
 
@@ -355,7 +337,7 @@ static void *smalloc(size_t size) {
     std::cerr << "Error: Cannot allocate memory\n";
     exit(EXIT_FAILURE);
   }
-  // return 0;
+   return ptr;
 }
 static int load_file_to_memory(const char *filename, char **result) {
   unsigned int size;

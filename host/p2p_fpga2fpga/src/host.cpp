@@ -113,7 +113,25 @@ int main(int argc, char *argv[]) {
   }
 
   cl_platform_id platform_id;
-  clGetPlatformIDs(1, &platform_id, NULL);
+  cl_platform_id platforms[16] = {0};
+  cl_uint platform_count;
+  char platformName[256];
+  cl_int error;
+
+  clGetPlatformIDs(16, platforms, &platform_count);
+
+  for (cl_uint i = 0; i < platform_count; i++) {
+     error = clGetPlatformInfo(platforms[i], CL_PLATFORM_NAME, 256, platformName, 0);
+     if (error != CL_SUCCESS) {
+        exit(EXIT_FAILURE);
+     }
+
+     if(strcmp(platformName, "Xilinx")==0)
+     {
+        platform_id = platforms[i];
+     }
+  } 
+
   cl_uint device_count;
   clGetDeviceIDs(platform_id, CL_DEVICE_TYPE_ACCELERATOR, 0, NULL,
                  &device_count);
@@ -376,7 +394,7 @@ static void *smalloc(size_t size) {
     std::cerr << "Error: Cannot allocate memory\n";
     exit(EXIT_FAILURE);
   }
-  // return 0;
+   return ptr;
 }
 static int load_file_to_memory(const char *filename, char **result) {
   unsigned int size;
