@@ -1,0 +1,125 @@
+{
+    "name": "Xilinx XF_BLAS GEMM Example", 
+    "description": [
+        "Xilinx XF_BLAS GEMM Implementation for FP32 data type"
+    ], 
+    "flow": "vitis", 
+    "platform_type": "pcie", 
+    "platform_whitelist": [
+        "aws"
+    ], 
+    "platform_blacklist": [
+        "zc"
+    ], 
+    "runtime": [
+        "OpenCL"
+    ], 
+    "launch": [
+        {
+            "name": "generic launch for all flows", 
+            "cmd_args": "BUILD/blas.xclbin 64 64 64 64 64 64 64 1 0"
+        }
+    ], 
+    "host": {
+        "host_exe": "api_gemm.exe", 
+        "compiler": {
+            "sources": [
+                "PROJECT/src/sw/api_gemm.cpp ", 
+                "PROJECT/src/sw/xcl2/xcl2.cpp"
+            ], 
+            "includepaths": [
+                "PROJECT/src", 
+                "PROJECT/include/hw/xf_blas/helpers/utils", 
+                "PROJECT/include/", 
+                "PROJECT/include/sw", 
+                "PROJECT/include/sw/xcl2"
+            ], 
+            "options": [
+                "-O3 -Wall -Wno-unknown-pragmas -Wno-unused-label -Wno-uninitialized -Wno-unused-value"
+            ],
+            "symbols":[
+            "BLAS_ddrWidth=16",
+            "BLAS_numKernels=1",
+            "BLAS_dataType=float",
+            "BLAS_gemmMBlocks=4",
+            "BLAS_gemmKBlocks=4",
+            "BLAS_gemmNBlocks=4",
+            "BLAS_argPipeline=2",
+            "BLAS_instructionSizeBytes=64",
+            "BLAS_XdataType=float",
+            "BLAS_argInstrWidth=1",
+            "BLAS_runGemm=1"
+            ]
+        }
+    }, 
+    "v++": {
+        "compiler": {
+            "includepaths": [
+                "PROJECT/include/hw", 
+                "PROJECT/include/hw/xf_blas", 
+                "PROJECT/include/hw/xf_blas/gemm", 
+                "PROJECT/include/hw/xf_blas/helpers/utils", 
+                "PROJECT/include"
+            ],
+            "symbols":[
+            "BLAS_ddrWidth=16",
+            "BLAS_XddrWidth=16",
+            "BLAS_numKernels=1",
+            "BLAS_dataType=float",
+            "BLAS_gemmMBlocks=4",
+            "BLAS_gemmKBlocks=4",
+            "BLAS_gemmNBlocks=4",
+            "BLAS_argPipeline=2",
+            "BLAS_dataEqIntType=float",
+            "BLAS_XdataType=float",
+            "BLAS_argInstrWidth=1",
+            "BLAS_numInstr=64",
+            "TEST_MEMCPY=0",
+            "BLAS_CACHE=0",
+            "BLAS_XVEC=0",
+            "BLAS_runGemm=1",
+            "AP_INT_MAX_W=1026"
+            ]
+        }
+    }, 
+    "containers": [
+        {
+            "name": "blas", 
+            "ldclflags": "--config PROJECT/opts.ini --kernel_frequency 200", 
+            "frequency": 200, 
+            "accelerators": [
+                {
+                    "name": "blasKernel", 
+                    "location": "PROJECT/src/hw/kernel.cpp", 
+                    "frequency": 200, 
+                    "clflags": "--kernel_frequency 200"
+                }
+            ]
+        }
+    ], 
+    "testinfo": {
+        "disable": false, 
+        "jobs": [
+            {
+                "index": 0, 
+                "dependency": [], 
+                "env": "", 
+                "cmd": "", 
+                "max_memory_MB": 32768, 
+                "max_time_min": {
+                    "vitis_hw_build": 1200, 
+                    "vitis_hw_emu": 470, 
+                    "vitis_sw_emu": 60, 
+                    "vitis_hw_run": 10
+                }
+            }
+        ], 
+        "targets": [
+            "vitis_sw_emu", 
+            "vitis_hw_emu",
+            "vitis_hw_build",
+            "vitis_hw_run"
+        ], 
+        "category": "canary"
+    }
+}

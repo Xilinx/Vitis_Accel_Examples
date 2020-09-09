@@ -81,18 +81,7 @@
             "accelerators": [
                 {
                     "name": "blasKernel", 
-                    "location": "PROJECT/src/hw/kernel.cpp", 
-                    "compute_units": [
-                        {
-                            "slr": "SLR0",
-                            "arguments": [
-                                {
-                                    "name": "m_axi_gmemm", 
-                                    "memory": "DDR[0]"
-                                }
-                            ]
-                        }
-                    ]
+                    "location": "PROJECT/src/hw/kernel.cpp" 
                 }
             ]
         }

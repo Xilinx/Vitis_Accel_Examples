@@ -36,7 +36,7 @@ help::
 ############################## Setting up Project Variables ##############################
 # Points to top directory of Git repository
 MK_PATH := $(abspath $(lastword $(MAKEFILE_LIST)))
-COMMON_REPO ?= $(shell bash -c 'export MK_PATH=$(MK_PATH); echo $${MK_PATH%library_examples/transp/*}')
+COMMON_REPO ?= $(shell bash -c 'export MK_PATH=$(MK_PATH); echo $${MK_PATH%library_examples/gemm/*}')
 PWD = $(shell readlink -f .)
 ABS_COMMON_REPO = $(shell readlink -f $(COMMON_REPO))
 
@@ -71,7 +71,7 @@ CXXFLAGS += -I./include/hw/xf_blas/helpers/utils
 CXXFLAGS += -I./include/
 CXXFLAGS += -I./include/sw
 CXXFLAGS += -I./include/sw/xcl2
-HOST_SRCS += ./src/sw/transp_main.cpp ./src/sw/xcl2/xcl2.cpp 
+HOST_SRCS += ./src/sw/api_gemm.cpp  ./src/sw/xcl2/xcl2.cpp 
 # Host compiler global settings
 CXXFLAGS += -fmessage-length=0 -O3 -Wall -Wno-unknown-pragmas -Wno-unused-label -Wno-uninitialized -Wno-unused-value
 LDFLAGS += -lrt -lstdc++ 
@@ -87,12 +87,15 @@ CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps
 ifneq ($(TARGET), hw)
 	CLFLAGS += -g
 endif
+CLFLAGS_blasKernel +=  --kernel_frequency 200
 
-CXXFLAGS += -DBLAS_ddrWidth=16 -DBLAS_numKernels=1 -DBLAS_dataType=float -DBLAS_argPipeline=2 -DBLAS_instructionSizeBytes=64 -DBLAS_argInstrWidth=1 -DBLAS_dataEqIntType=uint_32 -DBLAS_numInstr=2 -DBLAS_transpBlocks=1 -DBLAS_gemvmGroups=1 -DBLAS_runTransp=1
+CXXFLAGS += -DBLAS_ddrWidth=16 -DBLAS_numKernels=1 -DBLAS_dataType=float -DBLAS_gemmMBlocks=4 -DBLAS_gemmKBlocks=4 -DBLAS_gemmNBlocks=4 -DBLAS_argPipeline=2 -DBLAS_instructionSizeBytes=64 -DBLAS_XdataType=float -DBLAS_argInstrWidth=1 -DBLAS_runGemm=1
 
+# Kernel linker flags
+LDCLFLAGS += --config ./opts.ini --kernel_frequency 200
 
-EXECUTABLE = ./host.exe
-CMD_ARGS = $(BUILD_DIR)/transp.xclbin transp 256 512 A0 B0
+EXECUTABLE = ./api_gemm.exe
+CMD_ARGS = $(BUILD_DIR)/blas.xclbin 64 64 64 64 64 64 64 1 0
 EMCONFIG_DIR = $(TEMP_DIR)
 EMU_DIR = $(SDCARD)/data/emulation
 
@@ -102,11 +105,11 @@ VPP_FLAGS += -I./include/hw/xf_blas/gemm
 VPP_FLAGS += -I./include/hw/xf_blas/helpers/utils
 VPP_FLAGS += -I./include
 
-VPP_FLAGS += -DBLAS_ddrWidth=16 -DBLAS_numKernels=1 -DBLAS_dataType=float -DBLAS_argPipeline=2 -DBLAS_instructionSizeBytes=64 -DBLAS_argInstrWidth=1 -DBLAS_dataEqIntType=uint_32 -DBLAS_numInstr=2 -DBLAS_transpBlocks=1 -DBLAS_gemvmGroups=1 -DBLAS_runTransp=1 
+VPP_FLAGS += -DBLAS_ddrWidth=16 -DBLAS_XddrWidth=16 -DBLAS_numKernels=1 -DBLAS_dataType=float -DBLAS_gemmMBlocks=4 -DBLAS_gemmKBlocks=4 -DBLAS_gemmNBlocks=4 -DBLAS_argPipeline=2 -DBLAS_dataEqIntType=float -DBLAS_XdataType=float -DBLAS_argInstrWidth=1 -DBLAS_numInstr=64 -DTEST_MEMCPY=0 -DBLAS_CACHE=0 -DBLAS_XVEC=0 -DBLAS_runGemm=1 -DAP_INT_MAX_W=1026 
 
 ############################## Declaring Binary Containers ##############################
-BINARY_CONTAINERS += $(BUILD_DIR)/transp.xclbin
-BINARY_CONTAINER_transp_OBJS += $(TEMP_DIR)/blasKernel.xo
+BINARY_CONTAINERS += $(BUILD_DIR)/blas.xclbin
+BINARY_CONTAINER_blas_OBJS += $(TEMP_DIR)/blasKernel.xo
 
 ############################## Setting Targets ##############################
 CP = cp -rf
@@ -126,14 +129,14 @@ xclbin: build
 ############################## Setting Rules for Binary Containers (Building Kernels) ##############################
 $(TEMP_DIR)/blasKernel.xo: ./src/hw/kernel.cpp
 	mkdir -p $(TEMP_DIR)
-	$(VPP) $(VPP_FLAGS) -c -k blasKernel $(CLFLAGS) --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
-$(BUILD_DIR)/transp.xclbin: $(BINARY_CONTAINER_transp_OBJS)
+	$(VPP) $(VPP_FLAGS) -c -k blasKernel $(CLFLAGS) $(CLFLAGS_blasKernel) --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
+$(BUILD_DIR)/blas.xclbin: $(BINARY_CONTAINER_blas_OBJS)
 	mkdir -p $(BUILD_DIR)
 ifeq ($(HOST_ARCH), x86)
-	$(VPP) $(VPP_FLAGS) -l $(LDCLFLAGS) $(CLFLAGS) --temp_dir $(BUILD_DIR)  -o'$(BUILD_DIR)/transp.link.xclbin' $(+)
-	$(VPP) -p $(BUILD_DIR)/transp.link.xclbin -t $(TARGET) --platform $(DEVICE) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/transp.xclbin
+	$(VPP) $(VPP_FLAGS) -l $(LDCLFLAGS) $(CLFLAGS) --temp_dir $(BUILD_DIR)  -o'$(BUILD_DIR)/blas.link.xclbin' $(+)
+	$(VPP) -p $(BUILD_DIR)/blas.link.xclbin -t $(TARGET) --platform $(DEVICE) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/blas.xclbin
 else
-	$(VPP) -l $(LDCLFLAGS) $(CLFLAGS) --temp_dir $(BUILD_DIR) -o'$(BUILD_DIR)/transp.xclbin' $(+)
+	$(VPP) -l $(LDCLFLAGS) $(CLFLAGS) --temp_dir $(BUILD_DIR) -o'$(BUILD_DIR)/blas.xclbin' $(+)
 endif
 
 ############################## Setting Rules for Host (Building Host Executable) ##############################
@@ -153,13 +156,13 @@ endif
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 ifeq ($(HOST_ARCH), x86)
 	$(CP) $(EMCONFIG_DIR)/emconfig.json .
-	XCL_EMULATION_MODE=$(TARGET) $(EXECUTABLE) $(BUILD_DIR)/transp.xclbin transp 256 512 A0 B0
+	XCL_EMULATION_MODE=$(TARGET) $(EXECUTABLE) $(BUILD_DIR)/blas.xclbin 64 64 64 64 64 64 64 1 0
 else
 	$(ABS_COMMON_REPO)/common/utility/run_emulation.pl "${LAUNCH_EMULATOR} | tee run_app.log" "${RUN_APP_SCRIPT} $(TARGET)" "${RESULT_STRING}" "7"
 endif
 else
 ifeq ($(HOST_ARCH), x86)
-	$(EXECUTABLE) $(BUILD_DIR)/transp.xclbin transp 256 512 A0 B0
+	$(EXECUTABLE) $(BUILD_DIR)/blas.xclbin 64 64 64 64 64 64 64 1 0
 endif
 endif
 
@@ -168,13 +171,13 @@ endif
 test: $(EXECUTABLE)
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 ifeq ($(HOST_ARCH), x86)
-	XCL_EMULATION_MODE=$(TARGET) $(EXECUTABLE) $(BUILD_DIR)/transp.xclbin transp 256 512 A0 B0
+	XCL_EMULATION_MODE=$(TARGET) $(EXECUTABLE) $(BUILD_DIR)/blas.xclbin 64 64 64 64 64 64 64 1 0
 else
 	$(ABS_COMMON_REPO)/common/utility/run_emulation.pl "${LAUNCH_EMULATOR} | tee embedded_run.log" "${RUN_APP_SCRIPT} $(TARGET)" "${RESULT_STRING}" "7"
 endif
 else
 ifeq ($(HOST_ARCH), x86)
-	$(EXECUTABLE) $(BUILD_DIR)/transp.xclbin transp 256 512 A0 B0
+	$(EXECUTABLE) $(BUILD_DIR)/blas.xclbin 64 64 64 64 64 64 64 1 0
 else
 	$(ECHO) "Please copy the content of sd_card folder and data to an SD Card and run on the board"
 endif
@@ -184,7 +187,7 @@ endif
 ############################## Preparing sdcard ##############################
 sd_card: $(BINARY_CONTAINERS) $(EXECUTABLE) gen_run_app
 ifneq ($(HOST_ARCH), x86)
-	$(VPP) -p $(BUILD_DIR)/transp.xclbin -t $(TARGET) --platform $(DEVICE) --package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.sd_file $(SD_IMAGE_FILE) --package.sd_file xrt.ini --package.sd_file $(RUN_APP_SCRIPT) --package.sd_file $(EXECUTABLE) --package.sd_file transp --package.sd_file 256 --package.sd_file 512 --package.sd_file A0 --package.sd_file B0 -o transp.xclbin
+	$(VPP) -p $(BUILD_DIR)/blas.xclbin -t $(TARGET) --platform $(DEVICE) --package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.sd_file $(SD_IMAGE_FILE) --package.sd_file xrt.ini --package.sd_file $(RUN_APP_SCRIPT) --package.sd_file $(EXECUTABLE) --package.sd_file 64 --package.sd_file 64 --package.sd_file 64 --package.sd_file 64 --package.sd_file 64 --package.sd_file 64 --package.sd_file 64 --package.sd_file 1 --package.sd_file 0 -o blas.xclbin
 endif
 
 ############################## Cleaning Rules ##############################
