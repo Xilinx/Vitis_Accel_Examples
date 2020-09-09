@@ -94,7 +94,7 @@ the result of 16 sub-accumulator at last.
    Accumulator
 
 Antithetic paths
-================
+----------------
 
 Antithetic paths is a kind of variance reduction techniques.
 
