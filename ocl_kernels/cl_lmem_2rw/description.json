@@ -22,7 +22,8 @@
         "host_exe": "cl_lmem_2rw",
         "compiler": {
             "sources": [
-                "REPO_DIR/common/includes/xcl2"
+                "REPO_DIR/common/includes/xcl2/xcl2.cpp",
+                "./src/host.cpp"
             ], 
             "includepaths": [
                 "REPO_DIR/common/includes/xcl2"

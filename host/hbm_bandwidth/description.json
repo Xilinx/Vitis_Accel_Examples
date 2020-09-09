@@ -29,7 +29,8 @@
         "host_exe": "hbm_bandwidth",
         "compiler": {
             "sources": [
-                "REPO_DIR/common/includes/xcl2"
+                "REPO_DIR/common/includes/xcl2/xcl2.cpp",
+                "./src/host.cpp"
             ], 
             "includepaths": [
                 "REPO_DIR/common/includes/xcl2"

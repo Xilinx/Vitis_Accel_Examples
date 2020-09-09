@@ -48,7 +48,7 @@
         "host_exe": "streaming_mm_mixed",
         "compiler": {
             "sources": [
-                "REPO_DIR/common/includes/xcl2", 
+                "REPO_DIR/common/includes/xcl2/xcl2.cpp", 
                 "src/host.cpp"
             ], 
             "includepaths": [

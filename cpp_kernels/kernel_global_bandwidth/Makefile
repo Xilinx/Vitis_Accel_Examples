@@ -60,12 +60,7 @@ RESULT_STRING = TEST PASSED
 VPP := v++
 SDCARD := sd_card
 
-#Include Libraries
 include $(ABS_COMMON_REPO)/common/includes/opencl/opencl.mk
-include $(ABS_COMMON_REPO)/common/includes/xcl2/xcl2.mk
-CXXFLAGS += $(xcl2_CXXFLAGS)
-LDFLAGS += $(xcl2_LDFLAGS)
-HOST_SRCS += $(xcl2_SRCS)
 include config.mk
 
 CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++11
@@ -73,7 +68,8 @@ LDFLAGS += $(opencl_LDFLAGS)
 
 ############################## Setting up Host Variables ##############################
 #Include Required Host Source Files
-HOST_SRCS += src/kernel_global_bandwidth.cpp 
+CXXFLAGS += -I$(ABS_COMMON_REPO)/common/includes/xcl2
+HOST_SRCS += $(ABS_COMMON_REPO)/common/includes/xcl2/xcl2.cpp src/kernel_global_bandwidth.cpp 
 # Host compiler global settings
 CXXFLAGS += -fmessage-length=0
 LDFLAGS += -lrt -lstdc++ 
@@ -84,6 +80,7 @@ endif
 
 ############################## Setting up Kernel Variables ##############################
 # Kernel compiler global settings
+VPP_FLAGS += 
 CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps 
 ifneq ($(TARGET), hw)
 	CLFLAGS += -g
@@ -119,11 +116,11 @@ xclbin: build
 ############################## Setting Rules for Binary Containers (Building Kernels) ##############################
 $(TEMP_DIR)/bandwidth.xo: src/kernel.cpp
 	mkdir -p $(TEMP_DIR)
-	$(VPP) -c -k bandwidth $(CLFLAGS) $(CLFLAGS_bandwidth) --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
+	$(VPP) $(VPP_FLAGS) -c -k bandwidth $(CLFLAGS) $(CLFLAGS_bandwidth) --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
 $(BUILD_DIR)/krnl_kernel_global.xclbin: $(BINARY_CONTAINER_krnl_kernel_global_OBJS)
 	mkdir -p $(BUILD_DIR)
 ifeq ($(HOST_ARCH), x86)
-	$(VPP) -l $(LDCLFLAGS) $(CLFLAGS) --temp_dir $(BUILD_DIR)  -o'$(BUILD_DIR)/krnl_kernel_global.link.xclbin' $(+)
+	$(VPP) $(VPP_FLAGS) -l $(LDCLFLAGS) $(CLFLAGS) --temp_dir $(BUILD_DIR)  -o'$(BUILD_DIR)/krnl_kernel_global.link.xclbin' $(+)
 	$(VPP) -p $(BUILD_DIR)/krnl_kernel_global.link.xclbin -t $(TARGET) --platform $(DEVICE) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/krnl_kernel_global.xclbin
 else
 	$(VPP) -l $(LDCLFLAGS) $(CLFLAGS) --temp_dir $(BUILD_DIR) -o'$(BUILD_DIR)/krnl_kernel_global.xclbin' $(+)

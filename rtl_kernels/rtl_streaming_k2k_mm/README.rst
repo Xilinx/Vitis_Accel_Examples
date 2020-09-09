@@ -15,6 +15,7 @@ Platforms containing following strings in their names are not supported for this
 ::
 
    vck
+   zc706
 
 DESIGN FILES
 ------------
@@ -38,18 +39,3 @@ Once the environment has been configured, the application can be executed by
 
    ./rtl_streaming_k2k_mm <myadder XCLBIN>
 
-COMMANDS FOR WINDOWS FLOW
--------------------------
-
-Once the environment has been configured, run the following commands :
-
-::
-
-   cd cmake_build
-   cmake -G "Visual Studio 15 2017 Win64" -DCMAKE_BUILD_TYPE=Debug -DXILINX_XRT=<set xilinx xrt path> -DOCL_ROOT=<set ocl root path>
-   cmake --build . --verbose --config Debug --target install
-
-   For Example : 
-   cd cmake_build
-   cmake -G "Visual Studio 15 2017 Win64" -DCMAKE_BUILD_TYPE=Debug -DXILINX_XRT=C:\Xilinx\XRT -DOCL_ROOT=C:\Xilinx\XRT\ext
-   cmake --build . --verbose --config Debug --target install

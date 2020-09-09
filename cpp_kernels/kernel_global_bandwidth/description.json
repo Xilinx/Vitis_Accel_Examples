@@ -24,7 +24,7 @@
         "host_exe": "kernel_global_bandwidth",
         "compiler": {
             "sources": [
-                "REPO_DIR/common/includes/xcl2", 
+                "REPO_DIR/common/includes/xcl2/xcl2.cpp", 
                 "src/kernel_global_bandwidth.cpp"
             ], 
             "includepaths": [

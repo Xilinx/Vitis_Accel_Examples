@@ -60,14 +60,7 @@ RESULT_STRING = TEST PASSED
 VPP := v++
 SDCARD := sd_card
 
-#Include Libraries
 include $(ABS_COMMON_REPO)/common/includes/opencl/opencl.mk
-include $(ABS_COMMON_REPO)/common/includes/xcl2/xcl2.mk
-include $(ABS_COMMON_REPO)/common/includes/cmdparser/cmdparser.mk
-include $(ABS_COMMON_REPO)/common/includes/logger/logger.mk
-CXXFLAGS += $(xcl2_CXXFLAGS) $(cmdparser_CXXFLAGS) $(logger_CXXFLAGS)
-LDFLAGS += $(xcl2_LDFLAGS) $(cmdparser_LDFLAGS) $(logger_LDFLAGS)
-HOST_SRCS += $(xcl2_SRCS) $(cmdparser_SRCS) $(logger_SRCS)
 include config.mk
 
 CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++11
@@ -75,7 +68,10 @@ LDFLAGS += $(opencl_LDFLAGS)
 
 ############################## Setting up Host Variables ##############################
 #Include Required Host Source Files
-HOST_SRCS += src/host.cpp src/fpga_kmeans.cpp src/kmeans_clustering_cmodel.c 
+CXXFLAGS += -I$(ABS_COMMON_REPO)/common/includes/xcl2
+CXXFLAGS += -I$(ABS_COMMON_REPO)/common/includes/cmdparser
+CXXFLAGS += -I$(ABS_COMMON_REPO)/common/includes/logger
+HOST_SRCS += $(ABS_COMMON_REPO)/common/includes/xcl2/xcl2.cpp $(ABS_COMMON_REPO)/common/includes/cmdparser/cmdlineparser.cpp $(ABS_COMMON_REPO)/common/includes/logger/logger.cpp src/host.cpp src/fpga_kmeans.cpp src/kmeans_clustering_cmodel.c 
 # Host compiler global settings
 CXXFLAGS += -fmessage-length=0
 LDFLAGS += -lrt -lstdc++ 
@@ -93,10 +89,8 @@ endif
 
 
 # Kernel linker flags
-LDCLFLAGS += -O3
+LDCLFLAGS += --config krnl_kmeans.ini -O3
 
-# Adding config files to linker
-LDCLFLAGS_krnl_kmeans += --config krnl_kmeans.ini 
 EXECUTABLE = ./kmeans
 CMD_ARGS = -x $(BUILD_DIR)/krnl_kmeans.xclbin -i ./data/100 -c ./data/100.gold_c10 -n 10
 EMCONFIG_DIR = $(TEMP_DIR)
@@ -129,7 +123,7 @@ $(TEMP_DIR)/kmeans.xo: src/krnl_kmeans.cpp
 $(BUILD_DIR)/krnl_kmeans.xclbin: $(BINARY_CONTAINER_krnl_kmeans_OBJS)
 	mkdir -p $(BUILD_DIR)
 ifeq ($(HOST_ARCH), x86)
-	$(VPP) -l $(LDCLFLAGS) $(CLFLAGS) --temp_dir $(BUILD_DIR)  $(LDCLFLAGS_krnl_kmeans) -o'$(BUILD_DIR)/krnl_kmeans.link.xclbin' $(+)
+	$(VPP) -l $(LDCLFLAGS) $(CLFLAGS) --temp_dir $(BUILD_DIR)  -o'$(BUILD_DIR)/krnl_kmeans.link.xclbin' $(+)
 	$(VPP) -p $(BUILD_DIR)/krnl_kmeans.link.xclbin -t $(TARGET) --platform $(DEVICE) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/krnl_kmeans.xclbin
 else
 	$(VPP) -l $(LDCLFLAGS) $(CLFLAGS) --temp_dir $(BUILD_DIR) -o'$(BUILD_DIR)/krnl_kmeans.xclbin' $(+)

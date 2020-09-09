@@ -35,8 +35,7 @@
                 "PROJECT/src/xxhash.c" 
             ], 
             "includepaths": [
-                "PROJECT/include",
-                "PROJECT/thirdParty"
+                "PROJECT/include"
             ],
             "options": [
                 "-O3"

@@ -26,7 +26,7 @@
         "host_exe": "rtl_vadd_2clks",
         "compiler": {
             "sources": [
-                "REPO_DIR/common/includes/xcl2", 
+                "REPO_DIR/common/includes/xcl2/xcl2.cpp", 
                 "src/host.cpp"
             ], 
             "includepaths": [

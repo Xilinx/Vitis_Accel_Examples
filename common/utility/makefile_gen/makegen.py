@@ -74,6 +74,7 @@ def add_host_flags(target, data):
     if "sources" in data["host"]["compiler"]:
         for src in data["host"]["compiler"]["sources"]:
             src = src.replace('PROJECT', '.')
+            src = src.replace("REPO_DIR","$(ABS_COMMON_REPO)")
             target.write(src + " ")
             source_flag+=1
     if not source_flag:
@@ -108,7 +109,8 @@ def add_kernel_flags(target, data):
     target.write("############################## Setting up Kernel Variables ##############################\n")
     target.write("# Kernel compiler global settings\n")
 
-    target.write("VPP_FLAGS += \n")
+    if "v++" in data:
+        target.write("VPP_FLAGS += \n")
     target.write("CLFLAGS += ")
     target.write("-t $(TARGET) --platform $(DEVICE) --save-temps \n")   
     target.write("ifneq ($(TARGET), hw)\n")
@@ -200,28 +202,27 @@ def add_kernel_flags(target, data):
                     path = path.replace('PROJECT', '.')
                     path = path.replace("REPO_DIR","$(ABS_COMMON_REPO)")
                     target.write("VPP_FLAGS += -I" + path + "\n")
+                target.write("\n")
 
     if "v++" in data:
         if "compiler" in data["v++"]:
             if "clflags" in data["v++"]["compiler"]:
                 clflags = data["v++"]["compiler"]["clflags"]
-                target.write("\nVPP_FLAGS +=")
+                target.write("VPP_FLAGS +=")
                 for path in clflags:
                     path = path.replace('BUILD', '$(BUILD_DIR)')
                     path = path.replace('PROJECT', '.')
                     path = path.replace("REPO_DIR","$(ABS_COMMON_REPO)")
                     target.write(" " + path)
-                target.write("\n")
+                target.write("\n\n")
 
     if "v++" in data:
         if "compiler" in data["v++"]:
             if "symbols" in data["v++"]["compiler"]:
-                target.write("\nVPP_FLAGS += ")
+                target.write("VPP_FLAGS += ")
                 for symb in data["v++"]["compiler"]["symbols"]:
                     target.write("-D" + symb + " ")
-                target.write("\n")
-
-    target.write("\n")
+                target.write("\n\n")
 
     return
 
@@ -256,7 +257,9 @@ def building_kernel(target, data):
                     target.write(location)
                     target.write("\n")
                     target.write("\tmkdir -p $(TEMP_DIR)\n")
-                    target.write("\t$(VPP) $(VPP_FLAGS) ")
+                    target.write("\t$(VPP) ")
+                    if "v++" in data:
+                        target.write("$(VPP_FLAGS) ")
                     target.write("-c -k ")
                     target.write(acc["name"])
                     target.write(" $(CLFLAGS) ")
@@ -275,7 +278,10 @@ def building_kernel(target, data):
             target.write("_OBJS)\n")
             target.write("\tmkdir -p $(BUILD_DIR)\n")
             target.write("ifeq ($(HOST_ARCH), x86)\n")
-            target.write("\t$(VPP) $(VPP_FLAGS) -l $(LDCLFLAGS) $(CLFLAGS) --temp_dir ")
+            target.write("\t$(VPP) ")
+            if "v++" in data:
+                target.write("$(VPP_FLAGS) ")
+            target.write("-l $(LDCLFLAGS) $(CLFLAGS) --temp_dir ")
             target.write("$(BUILD_DIR) ")
 
             if "accelerators" in con:
@@ -306,7 +312,10 @@ def building_kernel_rtl(target, data):
             target.write("_OBJS)\n")
             target.write("\tmkdir -p $(BUILD_DIR)\n")
             target.write("ifeq ($(HOST_ARCH), x86)\n")
-            target.write("\t$(VPP) $(VPP_FLAGS) -l $(LDCLFLAGS) $(CLFLAGS) --temp_dir ")
+            target.write("\t$(VPP) ")
+            if "v++" in data:
+                target.write("$(VPP_FLAGS) ")
+            target.write("-l $(LDCLFLAGS) $(CLFLAGS) --temp_dir ")
             target.write("$(BUILD_DIR) ")
 
             if "accelerators" in con:

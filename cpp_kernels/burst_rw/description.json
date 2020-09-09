@@ -22,8 +22,9 @@
         "host_exe": "burst_rw",
         "compiler": {
             "sources": [
-                "REPO_DIR/common/includes/xcl2", 
-                "REPO_DIR/common/includes/bitmap"
+                "REPO_DIR/common/includes/xcl2/xcl2.cpp", 
+                "REPO_DIR/common/includes/bitmap/bitmap.cpp",
+                "./src/host.cpp"
             ], 
             "includepaths": [
                 "REPO_DIR/common/includes/xcl2", 

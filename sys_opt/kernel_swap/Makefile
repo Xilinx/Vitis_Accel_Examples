@@ -60,20 +60,16 @@ RESULT_STRING = TEST PASSED
 VPP := v++
 SDCARD := sd_card
 
-#Include Libraries
 include $(ABS_COMMON_REPO)/common/includes/opencl/opencl.mk
-include $(ABS_COMMON_REPO)/common/includes/xcl2/xcl2.mk
-include $(ABS_COMMON_REPO)/common/includes/cmdparser/cmdparser.mk
-include $(ABS_COMMON_REPO)/common/includes/logger/logger.mk
-CXXFLAGS += $(xcl2_CXXFLAGS) $(cmdparser_CXXFLAGS) $(logger_CXXFLAGS)
-LDFLAGS += $(xcl2_LDFLAGS) $(cmdparser_LDFLAGS) $(logger_LDFLAGS)
-HOST_SRCS += $(xcl2_SRCS) $(cmdparser_SRCS) $(logger_SRCS)
 CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++11
 LDFLAGS += $(opencl_LDFLAGS)
 
 ############################## Setting up Host Variables ##############################
 #Include Required Host Source Files
-HOST_SRCS += src/host.cpp
+CXXFLAGS += -I$(ABS_COMMON_REPO)/common/includes/xcl2
+CXXFLAGS += -I$(ABS_COMMON_REPO)/common/includes/cmdparser
+CXXFLAGS += -I$(ABS_COMMON_REPO)/common/includes/logger
+HOST_SRCS += $(ABS_COMMON_REPO)/common/includes/xcl2/xcl2.cpp $(ABS_COMMON_REPO)/common/includes/cmdparser/cmdlineparser.cpp $(ABS_COMMON_REPO)/common/includes/logger/logger.cpp ./src/host.cpp 
 
 # Host compiler global settings
 CXXFLAGS += -fmessage-length=0

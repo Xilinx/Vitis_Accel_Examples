@@ -60,22 +60,17 @@ RESULT_STRING = TEST PASSED
 VPP := v++
 SDCARD := sd_card
 
-#Include Libraries
 include $(ABS_COMMON_REPO)/common/includes/opencl/opencl.mk
-include $(ABS_COMMON_REPO)/common/includes/xcl2/xcl2.mk
-include $(ABS_COMMON_REPO)/common/includes/cmdparser/cmdparser.mk
-include $(ABS_COMMON_REPO)/common/includes/logger/logger.mk
-include $(ABS_COMMON_REPO)/common/includes/bitmap/bitmap.mk
-CXXFLAGS += $(xcl2_CXXFLAGS) $(cmdparser_CXXFLAGS) $(logger_CXXFLAGS) $(bitmap_CXXFLAGS)
-LDFLAGS += $(xcl2_LDFLAGS) $(cmdparser_LDFLAGS) $(logger_LDFLAGS) $(bitmap_LDFLAGS)
-HOST_SRCS += $(xcl2_SRCS) $(cmdparser_SRCS) $(logger_SRCS) $(bitmap_SRCS)
 CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++11
 LDFLAGS += $(opencl_LDFLAGS)
 
 ############################## Setting up Host Variables ##############################
 #Include Required Host Source Files
-HOST_SRCS += src/host.cpp
-
+CXXFLAGS += -I$(ABS_COMMON_REPO)/common/includes/xcl2
+CXXFLAGS += -I$(ABS_COMMON_REPO)/common/includes/cmdparser
+CXXFLAGS += -I$(ABS_COMMON_REPO)/common/includes/logger
+CXXFLAGS += -I$(ABS_COMMON_REPO)/common/includes/bitmap
+HOST_SRCS += $(ABS_COMMON_REPO)/common/includes/xcl2/xcl2.cpp $(ABS_COMMON_REPO)/common/includes/cmdparser/cmdlineparser.cpp $(ABS_COMMON_REPO)/common/includes/logger/logger.cpp $(ABS_COMMON_REPO)/common/includes/bitmap/bitmap.cpp ./src/host.cpp 
 # Host compiler global settings
 CXXFLAGS += -fmessage-length=0
 LDFLAGS += -lrt -lstdc++ 
@@ -86,6 +81,7 @@ endif
 
 ############################## Setting up Kernel Variables ##############################
 # Kernel compiler global settings
+VPP_FLAGS += 
 CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps 
 ifneq ($(TARGET), hw)
 	CLFLAGS += -g
@@ -124,11 +120,11 @@ xclbin: build
 ############################## Setting Rules for Binary Containers (Building Kernels) ##############################
 $(TEMP_DIR)/apply_watermark.xo: src/apply_watermark.cl
 	mkdir -p $(TEMP_DIR)
-	$(VPP) -c -k apply_watermark $(CLFLAGS) $(CLFLAGS_apply_watermark) --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
+	$(VPP) $(VPP_FLAGS) -c -k apply_watermark $(CLFLAGS) $(CLFLAGS_apply_watermark) --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
 $(BUILD_DIR)/apply_watermark.xclbin: $(BINARY_CONTAINER_apply_watermark_OBJS)
 	mkdir -p $(BUILD_DIR)
 ifeq ($(HOST_ARCH), x86)
-	$(VPP) -l $(LDCLFLAGS) $(CLFLAGS) --temp_dir $(BUILD_DIR)  $(LDCLFLAGS_apply_watermark) -o'$(BUILD_DIR)/apply_watermark.link.xclbin' $(+)
+	$(VPP) $(VPP_FLAGS) -l $(LDCLFLAGS) $(CLFLAGS) --temp_dir $(BUILD_DIR)  $(LDCLFLAGS_apply_watermark) -o'$(BUILD_DIR)/apply_watermark.link.xclbin' $(+)
 	$(VPP) -p $(BUILD_DIR)/apply_watermark.link.xclbin -t $(TARGET) --platform $(DEVICE) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/apply_watermark.xclbin
 else
 	$(VPP) -l $(LDCLFLAGS) $(CLFLAGS) --temp_dir $(BUILD_DIR) -o'$(BUILD_DIR)/apply_watermark.xclbin' $(+)
