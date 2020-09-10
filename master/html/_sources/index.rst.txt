@@ -21,6 +21,7 @@ ready to be compiled and executed on Vitis supported boards and accelerated clou
    host.rst
    cpp.rst
    demo.rst
+   library_examples.rst
    sys_opt.rst
    rtl.rst
    ocl.rst

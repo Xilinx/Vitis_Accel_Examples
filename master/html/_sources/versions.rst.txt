@@ -1,9 +1,9 @@
 
-Vitis Accel Examples documentation is organized by release version.
-Use the following links to browse Vitis Accel Examples documentation for a specific release.
+XRT documentation is organized by release version.
+Use the following links to browse XRT documentation for a specific release.
 
-- `2020.1 <https://xilinx.github.io/Vitis_Accel_Examples/master/html/index.html>`_
-- `2019.2 <https://xilinx.github.io/Vitis_Accel_Examples/2019.2/html/index.html>`_
+- `2020.1 <https://pages.gitenterprise.xilinx.com/SDxGitExamples/Vitis_Accel_Examples/master/html/index.html>`_
+- `2019.2 <https://pages.gitenterprise.xilinx.com/SDxGitExamples/Vitis_Accel_Examples/2019.2/html/index.html>`_
 
 
 
@@ -13,7 +13,7 @@ Use the following links to browse Vitis Accel Examples documentation for a speci
    :maxdepth: 1
    :hidden:
 
-   Master <https://xilinx.github.io/Vitis_Accel_Examples/master/html/index.html>
+   Master <https://pages.gitenterprise.xilinx.com/SDxGitExamples/Vitis_Accel_Examples/master/html/index.html>
 
 
 .. raw:: html
@@ -39,6 +39,6 @@ Previous Versions
    :caption: Previous Versions
    :hidden:
 
-   2020.1 <https://xilinx.github.io/Vitis_Accel_Examples/master/html/index.html>
-   2019.2 <https://xilinx.github.io/Vitis_Accel_Examples/2019.2/html/index.html>
+   2020.1 <https://pages.gitenterprise.xilinx.com/SDxGitExamples/Vitis_Accel_Examples/master/html/index.html>
+   2019.2 <https://pages.gitenterprise.xilinx.com/SDxGitExamples/Vitis_Accel_Examples/2019.2/html/index.html>
 
