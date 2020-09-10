@@ -6,7 +6,8 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
 	<head>
 		<meta charset="utf-8">
-		
+		<meta content="0; URL='../../master/html/index.html'" http-equiv="refresh" />
+
 		<meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
 		<link rel="stylesheet" href="https://static.cloud.coveo.com/searchui/v2.4382/css/CoveoFullSearch.css"/>
 		<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
@@ -57,8 +58,8 @@
   <link rel="stylesheet" href="_static/css/pro.min.css" media="all" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Vadd 2 Kernels (RTL Kernel)" href="rtl_vadd_2kernels.html" />
-    <link rel="prev" title="Vadd Simple (RTL Kernel)" href="rtl_vadd.html" /> 
+    <link rel="next" title="Previous Versions" href="versions.html" />
+    <link rel="prev" title="Common Files" href="common.html" /> 
 	</head>
 	<body>
 		<div class="xilinx-bs3"/>
@@ -338,29 +339,14 @@
 <li class="toctree-l1"><a class="reference internal" href="compile_execute.html">Compilation and Execution</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Category of Examples</span></p>
-<ul class="current">
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="hello_world.html">Hello World</a></li>
 <li class="toctree-l1"><a class="reference internal" href="host.html">Host</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cpp.html">C++ Kernels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="demo.html">Demos</a></li>
 <li class="toctree-l1"><a class="reference internal" href="library_examples.html">Library Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sys_opt.html">System Optimization Kernels</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="rtl.html">RTL Kernels</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="rtl_adder_streams.html">Adder With Streams (RTL Kernel)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="rtl_streaming_free_running.html">Stream Free Running Kernel (RTL Kernel)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="rtl_streaming_k2k_mm.html">RTL Stream Kernel to Kernel and Memory Mapped (RTL Kernel)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="rtl_streaming_k2k.html">Stream Kernel to Kernel (RTL Kernel)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="rtl_vadd.html">Vadd Simple (RTL Kernel)</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Vadd 2 Kernel Clocks (RTL Kernel)</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#design-files">DESIGN FILES</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#command-line-arguments">COMMAND LINE ARGUMENTS</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="rtl_vadd_2kernels.html">Vadd 2 Kernels (RTL Kernel)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="rtl_vadd_hw_debug.html">Hardware Debug (RTL Kernel)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="rtl_vadd_mixed_c_vadd.html">Mixed Kernels (RTL &amp; C)</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="rtl.html">RTL Kernels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ocl.html">OpenCL Kernels</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Common Utilities</span></p>
@@ -368,15 +354,15 @@
 <li class="toctree-l1"><a class="reference internal" href="common.html">Common Files</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Versions</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="master.html">Vitis Accel Examples</a></li>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Vitis Accel Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="versions.html">Previous Versions</a></li>
 </ul>
 
             
 			<p class="caption"><span class="caption-text">This Page</span></p>
 				<ul class="current">
-				  <li class="toctree-l1"><a href="_sources/rtl_vadd_2clks.rst.txt"
+				  <li class="toctree-l1"><a href="_sources/master.rst.txt"
 						rel="nofollow">Show Source</a></li>						
 				</ul>
           
@@ -422,15 +408,13 @@
     
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
-          <li><a href="rtl.html">RTL Kernels</a> &raquo;</li>
-        
-      <li>Vadd 2 Kernel Clocks (RTL Kernel)</li>
+      <li>Vitis Accel Examples</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="_sources/rtl_vadd_2clks.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/master.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -443,44 +427,9 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="vadd-2-kernel-clocks-rtl-kernel">
-<h1>Vadd 2 Kernel Clocks (RTL Kernel)<a class="headerlink" href="#vadd-2-kernel-clocks-rtl-kernel" title="Permalink to this headline">¶</a></h1>
-<p>This example shows vector addition with 2 kernel clocks using RTL Kernel.</p>
-<p><strong>KEY CONCEPTS:</strong> RTL Kernel, Multiple Kernel Clocks</p>
-<p><strong>KEYWORDS:</strong> kernel_frequency</p>
-<p>This example demonstrates the use of <code class="docutils literal notranslate"><span class="pre">two</span> <span class="pre">kernel</span> <span class="pre">clocks</span></code> for a simple
-case of vector addition.</p>
-<p>An RTL kernel can have up to two external clock interfaces; a primary
-clock, <code class="docutils literal notranslate"><span class="pre">ap_clk</span></code>, and an optional secondary clock, <code class="docutils literal notranslate"><span class="pre">ap_clk_2</span></code>. Both
-clocks can be used for clocking internal logic. However, all external
-RTL kernel interfaces must be clocked on the primary clock. Both primary
-and secondary clocks support independent automatic frequency scaling.</p>
-<p>These clock frequencies are specified at V++ linking stage in the
-following manner.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">kernel_frequency</span><span class="o">=</span><span class="mi">0</span><span class="p">:</span><span class="mi">150</span><span class="o">|</span><span class="mi">1</span><span class="p">:</span><span class="mi">250</span>
-</pre></div>
-</div>
-<div class="section" id="design-files">
-<h2>DESIGN FILES<a class="headerlink" href="#design-files" title="Permalink to this headline">¶</a></h2>
-<p>Application code is located in the src directory. Accelerator binary files will be compiled to the xclbin directory. The xclbin directory is required by the Makefile and its contents will be filled during compilation. A listing of all the files in this example is shown below</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">src</span><span class="o">/</span><span class="n">hdl</span><span class="o">/</span><span class="n">krnl_vadd_2clk_rtl</span><span class="o">.</span><span class="n">v</span>
-<span class="n">src</span><span class="o">/</span><span class="n">hdl</span><span class="o">/</span><span class="n">krnl_vadd_2clk_rtl_adder</span><span class="o">.</span><span class="n">sv</span>
-<span class="n">src</span><span class="o">/</span><span class="n">hdl</span><span class="o">/</span><span class="n">krnl_vadd_2clk_rtl_axi_read_master</span><span class="o">.</span><span class="n">sv</span>
-<span class="n">src</span><span class="o">/</span><span class="n">hdl</span><span class="o">/</span><span class="n">krnl_vadd_2clk_rtl_axi_write_master</span><span class="o">.</span><span class="n">sv</span>
-<span class="n">src</span><span class="o">/</span><span class="n">hdl</span><span class="o">/</span><span class="n">krnl_vadd_2clk_rtl_control_s_axi</span><span class="o">.</span><span class="n">v</span>
-<span class="n">src</span><span class="o">/</span><span class="n">hdl</span><span class="o">/</span><span class="n">krnl_vadd_2clk_rtl_counter</span><span class="o">.</span><span class="n">sv</span>
-<span class="n">src</span><span class="o">/</span><span class="n">hdl</span><span class="o">/</span><span class="n">krnl_vadd_2clk_rtl_int</span><span class="o">.</span><span class="n">sv</span>
-<span class="n">src</span><span class="o">/</span><span class="n">host</span><span class="o">.</span><span class="n">cpp</span>
-</pre></div>
-</div>
-</div>
-<div class="section" id="command-line-arguments">
-<h2>COMMAND LINE ARGUMENTS<a class="headerlink" href="#command-line-arguments" title="Permalink to this headline">¶</a></h2>
-<p>Once the environment has been configured, the application can be executed by</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">rtl_vadd_2clks</span> <span class="o">&lt;</span><span class="n">vadd</span> <span class="n">XCLBIN</span><span class="o">&gt;</span>
-</pre></div>
-</div>
-</div>
+  <div class="section" id="vitis-accel-examples">
+<h1>Vitis Accel Examples<a class="headerlink" href="#vitis-accel-examples" title="Permalink to this headline">¶</a></h1>
+<p>Vitis Accel Examples documentation is organized by release version. Redirecting to the latest version.</p>
 </div>
 
 
@@ -499,10 +448,10 @@ following manner.</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="rtl_vadd_2kernels.html" class="btn btn-neutral float-right" title="Vadd 2 Kernels (RTL Kernel)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="versions.html" class="btn btn-neutral float-right" title="Previous Versions" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="rtl_vadd.html" class="btn btn-neutral float-left" title="Vadd Simple (RTL Kernel)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="common.html" class="btn btn-neutral float-left" title="Common Files" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

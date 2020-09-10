@@ -37,4 +37,5 @@ ready to be compiled and executed on Vitis supported boards and accelerated clou
    :caption: Versions
    :hidden:
 
+   master
    versions
