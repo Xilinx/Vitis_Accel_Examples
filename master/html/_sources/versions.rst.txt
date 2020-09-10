@@ -7,7 +7,7 @@ Previous Versions
 Vitis Accel Examples documentation is organized by release versions.
 Use the following links to browse Vitis Accel Examples documentation for a specific release.
 
-- |master|_
+- |2020_1|_
 - |2019_2|_
 
 .. 

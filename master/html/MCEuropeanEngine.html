@@ -380,7 +380,7 @@
 </ul>
 <p class="caption"><span class="caption-text">Versions</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="master.html">Vitis Accel Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="master.html">Master</a></li>
 <li class="toctree-l1"><a class="reference internal" href="versions.html">Previous Versions</a></li>
 </ul>
 
@@ -498,18 +498,18 @@ time 0 for option price.</p>
 Monte Carlo Simulation will call the Monte Carlo Module (MCM) multiple
 times until it reaches the required samples number or required
 tolerance.</p>
-<div class="figure align-default" id="id2">
+<div class="figure align-default" id="id3">
 <img alt="monte Carlo Simulation" src="_images/mc1.PNG" />
-<p class="caption"><span class="caption-text">monte Carlo Simulation</span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></p>
+<p class="caption"><span class="caption-text">monte Carlo Simulation</span><a class="headerlink" href="#id3" title="Permalink to this image">¶</a></p>
 </div>
 <p>Every MCM generates a batch of paths. The number of MCM (M) is a
 template parameter, the maximum of which is related to the FPGA
 resource. Each MCM includes an RNG module, a path generator module, a
 path pricer module, and an accumulator. All of these modules are in
 dataflow region and connected with <em>hls::stream</em>.</p>
-<div class="figure align-default" id="id3">
+<div class="figure align-default" id="id4">
 <img alt="Monte Carlo Model" src="_images/mc2.PNG" />
-<p class="caption"><span class="caption-text">Monte Carlo Model</span><a class="headerlink" href="#id3" title="Permalink to this image">¶</a></p>
+<p class="caption"><span class="caption-text">Monte Carlo Model</span><a class="headerlink" href="#id4" title="Permalink to this image">¶</a></p>
 </div>
 <p>RNG module generates the normal random numbers. Currently, only
 generating pseudo-random number is supported. The detailed
@@ -526,9 +526,9 @@ all the paths. These sums are prepared for calculation of average and
 variance. Because the accumulation of floating point data type cannot
 achieve II = 1, the input is dispatched to 16 sub-accumulator and sum
 the result of 16 sub-accumulator at last.</p>
-<div class="figure align-default" id="id4">
+<div class="figure align-default" id="id5">
 <img alt="Accumulator" src="_images/acc.PNG" />
-<p class="caption"><span class="caption-text">Accumulator</span><a class="headerlink" href="#id4" title="Permalink to this image">¶</a></p>
+<p class="caption"><span class="caption-text">Accumulator</span><a class="headerlink" href="#id5" title="Permalink to this image">¶</a></p>
 </div>
 </div>
 </div>
@@ -550,9 +550,9 @@ antithetic is as follows.</p>
 generated random number from 2N to N, but also reduces the variance of
 samples paths and improves the accuracy if the correlation of two
 antithetic variables is negative.</p>
-<div class="figure align-default" id="id5">
+<div class="figure align-default" id="id6">
 <img alt="Monte Carlo Model" src="_images/mc3.PNG" />
-<p class="caption"><span class="caption-text">Monte Carlo Model</span><a class="headerlink" href="#id5" title="Permalink to this image">¶</a></p>
+<p class="caption"><span class="caption-text">Monte Carlo Model</span><a class="headerlink" href="#id6" title="Permalink to this image">¶</a></p>
 </div>
 </div>
 <div class="section" id="prerequisites">

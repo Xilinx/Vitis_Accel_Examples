@@ -4,8 +4,8 @@
 .. meta::
    :http-equiv=refresh: 0; URL='../../master/html/index.html'
 
-Vitis Accel Examples
-#####################
+Master
+########
 
 Vitis Accel Examples documentation is organized by release version. Redirecting to the latest version.
 
