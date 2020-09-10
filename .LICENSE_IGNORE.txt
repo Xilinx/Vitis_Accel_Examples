@@ -1,5 +1,3 @@
-common/includes/lodepng/lodepng.cpp
-common/includes/lodepng/lodepng.h
 demo/kmeans/src/fpga_kmeans.cpp
 demo/kmeans/src/fpga_kmeans.h
 demo/kmeans/src/host.cpp
