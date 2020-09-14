@@ -153,8 +153,8 @@ ifneq ($(HOST_ARCH), x86)
 endif
 
 ############################## Setting Rules for Host (Building Host Executable) ##############################
-$(EXECUTABLE): check-xrt $(HOST_SRCS) $(HOST_HDRS)
-	$(CXX) $(CXXFLAGS) $(HOST_SRCS) $(HOST_HDRS) -o '$@' $(LDFLAGS)
+$(EXECUTABLE): $(HOST_SRCS) | check-xrt
+	$(CXX) -o $@ $^ $(CXXFLAGS) $(LDFLAGS)
 
 emconfig:$(EMCONFIG_DIR)/emconfig.json
 $(EMCONFIG_DIR)/emconfig.json:

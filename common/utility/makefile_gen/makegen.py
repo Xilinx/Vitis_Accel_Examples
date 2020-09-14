@@ -42,8 +42,9 @@ def create_params(target,data):
     target.write("\n")
 
     target.write("VPP := v++\n")
-    target.write("SDCARD := ")
-    target.write("sd_card\n")
+    if not ("platform_type" in data and data["platform_type"] == "pcie"):
+        target.write("SDCARD := ")
+        target.write("sd_card\n")
     target.write("\n")
     target.write("include $(ABS_COMMON_REPO)/common/includes/opencl/opencl.mk\n")
     if "config_make" in data:
@@ -191,7 +192,8 @@ def add_kernel_flags(target, data):
     target.write("\n")
 
     target.write("EMCONFIG_DIR = $(TEMP_DIR)\n")
-    target.write("EMU_DIR = $(SDCARD)/data/emulation\n")
+    if not ("platform_type" in data and data["platform_type"] == "pcie"):
+        target.write("EMU_DIR = $(SDCARD)/data/emulation\n")
     target.write("\n")
 
     if "v++" in data:
@@ -335,8 +337,8 @@ def building_kernel_rtl(target, data):
 def building_host(target, data):
     target.write("############################## Setting Rules for Host (Building Host Executable) ##############################\n")
 
-    target.write("$(EXECUTABLE): check-xrt $(HOST_SRCS) $(HOST_HDRS)\n")
-    target.write("\t$(CXX) $(CXXFLAGS) $(HOST_SRCS) $(HOST_HDRS) -o '$@' $(LDFLAGS)\n")
+    target.write("$(EXECUTABLE): $(HOST_SRCS) | check-xrt\n")
+    target.write("\t	$(CXX) -o $@ $^ $(CXXFLAGS) $(LDFLAGS)\n")
     target.write("\n")
     target.write("emconfig:$(EMCONFIG_DIR)/emconfig.json\n")
     target.write("$(EMCONFIG_DIR)/emconfig.json:\n")
@@ -364,7 +366,10 @@ def mk_clean(target, data):
     target.write("\n")
 
     target.write("cleanall: clean\n")
-    target.write("\t-$(RMDIR) build_dir* sd_card*\n")
+    target.write("\t-$(RMDIR) build_dir*")
+    if not ("platform_type" in data and data["platform_type"] == "pcie"):
+        target.write(" sd_card*")
+    target.write("\n")
     target.write("\t-$(RMDIR) package.*\n")
     target.write("\t-$(RMDIR) _x* *xclbin.run_summary qemu-memory-_* emulation _vimage pl* start_simulation.sh *.xclbin\n")
     if "output_files" in data:         
@@ -392,8 +397,10 @@ def mk_build_all(target, data):
     target.write("\n")
 
     target.write(".PHONY: all clean cleanall docs emconfig\n")
-    target.write("all: check-devices $(EXECUTABLE) $(BINARY_CONTAINERS) emconfig sd_card\n")
-    target.write("\n")
+    target.write("all: check-devices $(EXECUTABLE) $(BINARY_CONTAINERS) emconfig")
+    if not ("platform_type" in data and data["platform_type"] == "pcie"):
+        target.write(" sd_card")
+    target.write("\n\n")
     
     target.write(".PHONY: host\n")
     target.write("host: $(EXECUTABLE)\n")
@@ -450,7 +457,8 @@ def mk_run(target, data):
             target.write("endif\n")
         target.write("\n")
     target.write("ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))\n")
-    target.write("ifeq ($(HOST_ARCH), x86)\n")
+    if not ("platform_type" in data and data["platform_type"] == "pcie"):
+        target.write("ifeq ($(HOST_ARCH), x86)\n")
     target.write("\t$(CP) $(EMCONFIG_DIR)/emconfig.json .\n") 
     target.write("\tXCL_EMULATION_MODE=$(TARGET) $(EXECUTABLE)")
     
@@ -462,15 +470,18 @@ def mk_run(target, data):
                 arg = arg.replace('BUILD', '$(BUILD_DIR)')
                 arg = arg.replace('PROJECT', '.')
                 target.write(arg)
-    target.write("\nelse\n")
-    target.write("\t$(ABS_COMMON_REPO)/common/utility/run_emulation.pl \"${LAUNCH_EMULATOR} | tee run_app.log\" \"${RUN_APP_SCRIPT} $(TARGET)\" \"${RESULT_STRING}\" \"7\"")
+    if not ("platform_type" in data and data["platform_type"] == "pcie"):
+        target.write("\nelse\n")
+        target.write("\t$(ABS_COMMON_REPO)/common/utility/run_emulation.pl \"${LAUNCH_EMULATOR} | tee run_app.log\" \"${RUN_APP_SCRIPT} $(TARGET)\" \"${RESULT_STRING}\" \"7\"")
     if "containers" in data:
         target.write("\n")
     else:
         target.write(" -ps-only\n")
-    target.write("endif\n")
+    if not ("platform_type" in data and data["platform_type"] == "pcie"):
+        target.write("endif\n")
     target.write("else\n")
-    target.write("ifeq ($(HOST_ARCH), x86)\n")
+    if not ("platform_type" in data and data["platform_type"] == "pcie"):
+        target.write("ifeq ($(HOST_ARCH), x86)\n")
     target.write("\t$(EXECUTABLE)")
 	
     if "launch" in data:
@@ -490,8 +501,9 @@ def mk_run(target, data):
                 args = args.replace("REPO_DIR","$(ABS_COMMON_REPO)")
                 args = args.replace('HOST_EXE', '$(EXE_FILE)')
                 target.write("\t" + args)
+    if not ("platform_type" in data and data["platform_type"] == "pcie"):
+        target.write("\nendif")
     target.write("\nendif\n")
-    target.write("endif\n")
     if "targets" in data:
         target.write("ifneq ($(TARGET),$(findstring $(TARGET),")
         args = data["targets"]
@@ -511,7 +523,8 @@ def mk_run(target, data):
     target.write(".PHONY: test\n")
     target.write("test: $(EXECUTABLE)\n")
     target.write("ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))\n")
-    target.write("ifeq ($(HOST_ARCH), x86)\n")
+    if not ("platform_type" in data and data["platform_type"] == "pcie"):
+        target.write("ifeq ($(HOST_ARCH), x86)\n")
     target.write("\tXCL_EMULATION_MODE=$(TARGET) $(EXECUTABLE)")
     
     if "launch" in data:	
@@ -522,15 +535,18 @@ def mk_run(target, data):
                 arg = arg.replace('BUILD', '$(BUILD_DIR)')
                 arg = arg.replace('PROJECT', '.')
                 target.write(arg)
-    target.write("\nelse\n")
-    target.write("\t$(ABS_COMMON_REPO)/common/utility/run_emulation.pl \"${LAUNCH_EMULATOR} | tee embedded_run.log\" \"${RUN_APP_SCRIPT} $(TARGET)\" \"${RESULT_STRING}\" \"7\"")
+    if not ("platform_type" in data and data["platform_type"] == "pcie"):
+        target.write("\nelse\n")
+        target.write("\t$(ABS_COMMON_REPO)/common/utility/run_emulation.pl \"${LAUNCH_EMULATOR} | tee embedded_run.log\" \"${RUN_APP_SCRIPT} $(TARGET)\" \"${RESULT_STRING}\" \"7\"")
     if "containers" in data:
         target.write("\n")
     else:
         target.write(" -ps-only\n")
-    target.write("endif\n")
+    if not ("platform_type" in data and data["platform_type"] == "pcie"):
+        target.write("endif\n")
     target.write("else\n")
-    target.write("ifeq ($(HOST_ARCH), x86)\n")
+    if not ("platform_type" in data and data["platform_type"] == "pcie"):
+        target.write("ifeq ($(HOST_ARCH), x86)\n")
     target.write("\t$(EXECUTABLE)")
 	
     if "launch" in data:
@@ -550,10 +566,11 @@ def mk_run(target, data):
                 args = args.replace("REPO_DIR","$(ABS_COMMON_REPO)")
                 args = args.replace('HOST_EXE', '$(EXE_FILE)')
                 target.write("\t" + args)
-    target.write("\nelse\n")
-    target.write("\t$(ECHO) \"Please copy the content of sd_card folder and data to an SD Card and run on the board\"")
+    if not ("platform_type" in data and data["platform_type"] == "pcie"):
+        target.write("\nelse\n")
+        target.write("\t$(ECHO) \"Please copy the content of sd_card folder and data to an SD Card and run on the board\"")
+        target.write("\nendif")
     target.write("\nendif\n")
-    target.write("endif\n")
     if "targets" in data:
         target.write("ifneq ($(TARGET),$(findstring $(TARGET),")
         args = data["targets"]
@@ -632,11 +649,11 @@ def mk_help(target):
     target.write("\t$(ECHO)  \"     Command to run the application. This is same as 'run' target but does not have any makefile dependency.\"\n")  
     target.write("\t$(ECHO)  \"\"\n")
 
-
-    target.write("\t$(ECHO) \"  make sd_card TARGET=<sw_emu/hw_emu/hw> DEVICE=<FPGA platform> HOST_ARCH=<aarch32/aarch64/x86> EDGE_COMMON_SW=<rootfs and kernel image path>\"\n");
-    target.write("\t$(ECHO) \"      Command to prepare sd_card files.\"\n")
-    target.write("\t$(ECHO) \"      By default, HOST_ARCH=x86. HOST_ARCH and EDGE_COMMON_SW is required for SoC shells\"\n")
-    target.write("\t$(ECHO) \"\"\n")
+    if not ("platform_type" in data and data["platform_type"] == "pcie"):
+        target.write("\t$(ECHO) \"  make sd_card TARGET=<sw_emu/hw_emu/hw> DEVICE=<FPGA platform> HOST_ARCH=<aarch32/aarch64/x86> EDGE_COMMON_SW=<rootfs and kernel image path>\"\n");
+        target.write("\t$(ECHO) \"      Command to prepare sd_card files.\"\n")
+        target.write("\t$(ECHO) \"      By default, HOST_ARCH=x86. HOST_ARCH and EDGE_COMMON_SW is required for SoC shells\"\n")
+        target.write("\t$(ECHO) \"\"\n")
     target.write("\t$(ECHO) \"  make run TARGET=<sw_emu/hw_emu/hw> DEVICE=<FPGA platform> HOST_ARCH=<aarch32/aarch64/x86> EDGE_COMMON_SW=<rootfs and kernel image path>\"\n");
     target.write("\t$(ECHO) \"      Command to run application in emulation.\"\n")
     target.write("\t$(ECHO) \"      By default, HOST_ARCH=x86. HOST_ARCH and EDGE_COMMON_SW is required for SoC shells\"\n")
@@ -749,30 +766,31 @@ def util_checks(target):
     target.write("endif\n")
     target.write("endif\n\n")
 
-    target.write("gen_run_app:\n")
-    target.write("ifneq ($(HOST_ARCH), x86)\n")
-    target.write("\trm -rf run_app.sh\n")
-    target.write("\t$(ECHO) 'export LD_LIBRARY_PATH=/mnt:/tmp:$(LD_LIBRARY_PATH)' >> run_app.sh\n")
-    target.write("\t$(ECHO) 'export XILINX_XRT=/usr' >> run_app.sh\n")
-    target.write("ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))\n")
-    target.write("\t$(ECHO) 'export XILINX_VITIS=/mnt' >> run_app.sh\n")
-    target.write("\t$(ECHO) 'export XCL_EMULATION_MODE=$(TARGET)' >> run_app.sh\n")
-    target.write("endif\n")
-    target.write("\t$(ECHO) '$(EXECUTABLE)")
-    if "launch" in data:	
-        if "cmd_args" in data["launch"][0]:
-            args = data["launch"][0]["cmd_args"].split(" ")    
-            for arg in args:
-                arg_name = arg.split("/") 
-                target.write(" ")
-                target.write(arg_name[-1])
-    target.write("' >> run_app.sh\n")
-    target.write("\t$(ECHO) 'return_code=$$?' >> run_app.sh\n")
-    target.write("\t$(ECHO) 'if [ $$return_code -ne 0 ]; then' >> run_app.sh\n")
-    target.write("\t$(ECHO) 'echo \"ERROR: host run failed, RC=$$return_code\"' >> run_app.sh\n")
-    target.write("\t$(ECHO) 'fi' >> run_app.sh\n")
-    target.write("\t$(ECHO) 'echo \"INFO: host run completed.\"' >> run_app.sh\n")
-    target.write("endif\n")
+    if not ("platform_type" in data and data["platform_type"] == "pcie"):
+        target.write("gen_run_app:\n")
+        target.write("ifneq ($(HOST_ARCH), x86)\n")
+        target.write("\trm -rf run_app.sh\n")
+        target.write("\t$(ECHO) 'export LD_LIBRARY_PATH=/mnt:/tmp:$(LD_LIBRARY_PATH)' >> run_app.sh\n")
+        target.write("\t$(ECHO) 'export XILINX_XRT=/usr' >> run_app.sh\n")
+        target.write("ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))\n")
+        target.write("\t$(ECHO) 'export XILINX_VITIS=/mnt' >> run_app.sh\n")
+        target.write("\t$(ECHO) 'export XCL_EMULATION_MODE=$(TARGET)' >> run_app.sh\n")
+        target.write("endif\n")
+        target.write("\t$(ECHO) '$(EXECUTABLE)")
+        if "launch" in data:	
+            if "cmd_args" in data["launch"][0]:
+                args = data["launch"][0]["cmd_args"].split(" ")    
+                for arg in args:
+                    arg_name = arg.split("/") 
+                    target.write(" ")
+                    target.write(arg_name[-1])
+        target.write("' >> run_app.sh\n")
+        target.write("\t$(ECHO) 'return_code=$$?' >> run_app.sh\n")
+        target.write("\t$(ECHO) 'if [ $$return_code -ne 0 ]; then' >> run_app.sh\n")
+        target.write("\t$(ECHO) 'echo \"ERROR: host run failed, RC=$$return_code\"' >> run_app.sh\n")
+        target.write("\t$(ECHO) 'fi' >> run_app.sh\n")
+        target.write("\t$(ECHO) 'echo \"INFO: host run completed.\"' >> run_app.sh\n")
+        target.write("endif\n")
     
     target.write("check-devices:\n")
     target.write("ifndef DEVICE\n")
@@ -804,7 +822,8 @@ def create_mk(target, data):
     add_containers(target, data)
     mk_build_all(target, data)
     mk_run(target, data)
-    mk_sdcard(target, data)
+    if not ("platform_type" in data and data["platform_type"] == "pcie"):
+        mk_sdcard(target, data)
     mk_clean(target,data)
     return 
 

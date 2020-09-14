@@ -10,7 +10,6 @@
     "key_concepts": [
         "Multiple Compute Units"
     ], 
-    "platform_type": "pcie", 
     "os": [
         "Linux"
     ], 
