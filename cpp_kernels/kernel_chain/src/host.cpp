@@ -312,8 +312,7 @@ int main(int argc, char **argv) {
   print_summary("krnl_chain_mmult", "krnl_simple_mmult", elapsed_chain,
                 elapsed_hs, NUM_TIMES);
 
-  bool test_status =
-      xcl::is_emulation() ? match : (match && (elapsed_chain < elapsed_hs));
+  bool test_status = match;
   std::cout << "TEST " << (test_status ? "PASSED" : "FAILED") << std::endl;
   return (test_status ? EXIT_SUCCESS : EXIT_FAILURE);
 }
