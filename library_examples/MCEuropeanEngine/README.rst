@@ -10,8 +10,10 @@ Platforms containing following strings in their names are not supported for this
 
 ::
 
+   u50
    zc
    qdma
+   vck
 
 DESIGN FILES
 ------------

@@ -10,6 +10,7 @@
         "aws"
     ], 
     "platform_blacklist": [
+        "u50",
         "zc",
         "qdma",
         "vck"
