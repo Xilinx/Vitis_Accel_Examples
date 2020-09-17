@@ -142,7 +142,10 @@ $(EMCONFIG_DIR)/emconfig.json:
 
 ############################## Setting Essential Checks and Running Rules ##############################
 run: all
-ifeq ($(findstring xdma, $(DEVICE)), xdma)
+ifeq ($(findstring u200_xdma, $(DEVICE)), u200_xdma)
+$(error This example is not supported for $(DEVICE))
+endif
+ifeq ($(findstring u250_xdma, $(DEVICE)), u250_xdma)
 $(error This example is not supported for $(DEVICE))
 endif
 ifeq ($(findstring qep, $(DEVICE)), qep)
