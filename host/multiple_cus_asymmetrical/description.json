@@ -111,7 +111,7 @@
                     ], 
                     "location": "src/vadd.cpp", 
                     "name": "vadd", 
-                    "num_compute_units": "4:vadd_1.vadd_2.vadd_3.vadd_4"
+                    "num_compute_units": "4"
                 }
             ], 
             "name": "vadd"
