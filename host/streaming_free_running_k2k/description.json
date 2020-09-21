@@ -15,16 +15,14 @@
         "u200_qdma"
     ], 
     "ndevice": [
-        "u200_xdma",
-        "u250_xdma",
+        "2018",
         "qep",
         "aws",
         "samsung",
         "zc702"
     ],
     "platform_blacklist": [
-        "u200_xdma",
-        "u250_xdma",
+        "2018",
         "qep",
         "aws",
         "samsung",
