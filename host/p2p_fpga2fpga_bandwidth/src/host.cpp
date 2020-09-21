@@ -59,6 +59,11 @@ cl_program xcl_import_binary_file(cl_device_id device_id, cl_context context, co
 
 int main(int argc, char* argv[]) {
     int length = 128*1024*1024;//std::stoi(argv[3]);//length;
+    size_t buffersize=1024*1024;
+    if (xcl::is_emulation()) {
+        length = 4 * 1024;
+        buffersize = 4;
+    }
     int inc = INCR_VALUE;
     std::ofstream handle_new("data_points.txt");
     handle_new << "p2p_dev2dev\n";
@@ -205,7 +210,7 @@ int main(int argc, char* argv[]) {
     cl_event event;
 
 
-  for(size_t bufsize=1024*1024; bufsize<=vector_size_bytes; bufsize*=2){
+  for(size_t bufsize=buffersize; bufsize<=vector_size_bytes; bufsize*=2){
     std::cout << "Now start P2P copy "<< bufsize<< " Bytes from a device to another device" << std::endl;
     int burst = vector_size_bytes / bufsize;
     std::chrono::high_resolution_clock::time_point p2pStart = std::chrono::high_resolution_clock::now();
