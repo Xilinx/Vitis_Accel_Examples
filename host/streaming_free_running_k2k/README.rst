@@ -14,7 +14,7 @@ Platforms containing following strings in their names are not supported for this
 
 ::
 
-   xdma
+   2018
    qep
    aws
    samsung
