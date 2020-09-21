@@ -62,7 +62,7 @@ int main(int argc, char* argv[]) {
     size_t buffersize=1024*1024;
     if (xcl::is_emulation()) {
         length = 4 * 1024;
-        buffersize = 4;
+        buffersize = 1024;
     }
     int inc = INCR_VALUE;
     std::ofstream handle_new("data_points.txt");
