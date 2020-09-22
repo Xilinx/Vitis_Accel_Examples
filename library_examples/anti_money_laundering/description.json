@@ -154,6 +154,11 @@
         }
     ],
     "testinfo": {
+        "level_up": [
+            {
+                "hw_emu": "1"
+            }
+        ],
         "disable": false,
         "jobs": [
             {
