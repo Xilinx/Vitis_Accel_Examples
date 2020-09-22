@@ -13,7 +13,8 @@
         "u50",
         "zc",
         "qdma",
-        "vck"
+        "vck",
+        "samsung"
     ],  
     "runtime": [
         "OpenCL"

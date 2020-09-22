@@ -4,11 +4,13 @@
         "A dense matrix transposer test"
     ],
     "flow": "vitis",
+    "platform_type": "pcie", 
     "platform_whitelist": [
         "aws"
     ],
     "platform_blacklist": [
-        "zc"
+        "zc",
+        "vck"
     ],
     "runtime": [
         "OpenCL"
