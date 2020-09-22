@@ -79,8 +79,6 @@ ifneq ($(TARGET), hw)
 endif
 
 
-# Kernel linker flags
-LDCLFLAGS += --config ./bandwidth.ini
 
 EXECUTABLE = ./p2p_fpga2fpga_bandwidth
 CMD_ARGS = $(BUILD_DIR)/bandwidth.xclbin

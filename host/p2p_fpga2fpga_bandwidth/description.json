@@ -62,8 +62,7 @@
                     "location": "src/bandwidth.cpp"
                 }
             ], 
-            "name": "bandwidth",
-            "ldclflags": "--config PROJECT/bandwidth.ini"
+            "name": "bandwidth"
         }
     ],
     "contributors": [

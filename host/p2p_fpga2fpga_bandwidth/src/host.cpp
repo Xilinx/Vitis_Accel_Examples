@@ -32,11 +32,9 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
-#include <CL/opencl.h>
 #include <vector>
 #include "xcl2.hpp"
 
-#define INCR_VALUE 10
 typedef int data_t; 
 decltype(&xclGetMemObjectFd) xcl::P2P::getMemObjectFd = nullptr;
 decltype(&xclGetMemObjectFromFd) xcl::P2P::getMemObjectFromFd = nullptr;
@@ -58,22 +56,16 @@ cl_program xcl_import_binary_file(cl_device_id device_id, cl_context context, co
 }*/
 
 int main(int argc, char* argv[]) {
-    int length = 128*1024*1024;//std::stoi(argv[3]);//length;
+    int length = 128*1024*1024;
     size_t buffersize=1024*1024;
     if (xcl::is_emulation()) {
         length = 4 * 1024;
         buffersize = 1024;
     }
-    int inc = INCR_VALUE;
     std::ofstream handle_new("data_points.txt");
     handle_new << "p2p_dev2dev\n";
     handle_new << "latency,throughput\n";
-    //
     
-    //data_t in1[length];              // original data set given to device
-    //data_t out1[length];
-    //data_t hw_results[length];    
-    //data_t sw_results[length];       
     std::vector<data_t, aligned_allocator<data_t>> in1(length);
     std::vector<data_t, aligned_allocator<data_t>> out1(length);
     std::vector<data_t, aligned_allocator<data_t>> sw_results(length);
@@ -130,24 +122,17 @@ int main(int argc, char* argv[]) {
     std::cout <<"Initializing OpenCL objects" << std::endl;
     for(uint i=0; i<device_count; i++) {
         OCL_CHECK(err, context[i] = clCreateContext(0, 1, &device_id[i], NULL, NULL, &err));
+        if (err != CL_SUCCESS)
+        std::cout << "clCreateContext call: Failed to create a compute context"
+                    << err << std::endl;
         OCL_CHECK(err, queue[i] = clCreateCommandQueue(context[i], device_id[i], CL_QUEUE_PROFILING_ENABLE, &err));
+        if (err != CL_SUCCESS)
+        std::cout << "clCreateCommandQueue call: Failed to create commandqueue"
+                    << err << std::endl;
 
-  /*std::cout << "Initializing OpenCL objects" << std::endl;
-  for (uint8_t i = 0; i < device_count; i++) {
-    context[i] = clCreateContext(0, 1, &device_id[i], NULL, NULL, &err);
-    if (err != CL_SUCCESS)
-      std::cout << "clCreateContext call: Failed to create a compute context"
-                << err << std::endl;
-    queue[i] = clCreateCommandQueue(context[i], device_id[i],
-                                    CL_QUEUE_PROFILING_ENABLE, &err);
-    if (err != CL_SUCCESS)
-      std::cout << "clCreateCommandQueue call: Failed to create commandqueue"
-                << err << std::endl;*/
     }
     
     size_t vector_size_bytes = sizeof(data_t)*length;
-    size_t global[1];
-    size_t local[1];
     //------------------------------- Program ------------------------------------------- 
     program[0] = xcl_import_binary_file(device_id[0], context[0], argv[1]);
     OCL_CHECK(err, krnl_dev0 = clCreateKernel(program[0], "bandwidth", &err));
@@ -186,8 +171,6 @@ int main(int argc, char* argv[]) {
             err = clSetKernelArg(krnl_dev1, 0, sizeof(cl_mem), &input_b));
     OCL_CHECK(err,
             err = clSetKernelArg(krnl_dev1, 1, sizeof(cl_mem), &output_b));
-
-    std::chrono::high_resolution_clock::time_point start = std::chrono::high_resolution_clock::now();
 
     // -----------------------------------------------------------------------
     std::cout << "Write data to FPGA-1" << std::endl;
@@ -232,18 +215,8 @@ int main(int argc, char* argv[]) {
     std::cout << "{\"metric\": \"copy_throughput\", \"buf_size_bytes\": " << bufsize << ", \"number_of_bufs\": " << burst << ", \"throughput_gb_per_sec\": " << gbpersec << "}\n";
   }
     
-    // -----------------------------------------------------------------------
-    /*std::cout << "Write data to FPGA-2" << std::endl;
-    
-    std::cout << "Launch FPGA-2" << std::endl;
-    OCL_CHECK(err, err = clEnqueueTask(queue[1], kernel[1], 0, NULL, NULL));  
-
-    std::cout << "Read data back from FPGA-2" << std::endl;
-    OCL_CHECK (err, err = clEnqueueReadBuffer(queue[1], out, CL_TRUE, 0, vector_size_bytes, hw_results.data(), 0, NULL, NULL));*/
     
     handle_new.close();
-    //clEnqueueUnmapMemObject(queue[0], output_a, (void*)out1, 0, NULL, NULL);
-    //std::cout << "Unmapped" << std::endl;
     clFinish(queue[0]);
     clReleaseMemObject(input_a);
     clReleaseMemObject(output_a);
@@ -351,5 +324,6 @@ static void* smalloc(size_t size) {
 		printf("Error: Cannot allocate memory\n");
 		exit(EXIT_FAILURE);
 	}
+    return ptr;
 }
 
