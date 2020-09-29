@@ -62,7 +62,9 @@ LDFLAGS += $(opencl_LDFLAGS)
 ############################## Setting up Host Variables ##############################
 #Include Required Host Source Files
 CXXFLAGS += -I$(ABS_COMMON_REPO)/common/includes/xcl2
-HOST_SRCS += $(ABS_COMMON_REPO)/common/includes/xcl2/xcl2.cpp src/host.cpp 
+CXXFLAGS += -I$(ABS_COMMON_REPO)/common/includes/cmdparser
+CXXFLAGS += -I$(ABS_COMMON_REPO)/common/includes/logger
+HOST_SRCS += $(ABS_COMMON_REPO)/common/includes/xcl2/xcl2.cpp $(ABS_COMMON_REPO)/common/includes/cmdparser/cmdlineparser.cpp $(ABS_COMMON_REPO)/common/includes/logger/logger.cpp src/host.cpp 
 # Host compiler global settings
 CXXFLAGS += -fmessage-length=0
 LDFLAGS += -lrt -lstdc++ 
@@ -81,7 +83,7 @@ endif
 
 
 EXECUTABLE = ./p2p_fpga2fpga_bandwidth
-CMD_ARGS = $(BUILD_DIR)/bandwidth.xclbin
+CMD_ARGS = -x1 $(BUILD_DIR)/bandwidth.xclbin -x2 $(BUILD_DIR)/bandwidth.xclbin
 EMCONFIG_DIR = $(TEMP_DIR)
 
 ############################## Declaring Binary Containers ##############################
@@ -147,18 +149,18 @@ endif
 
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 	$(CP) $(EMCONFIG_DIR)/emconfig.json .
-	XCL_EMULATION_MODE=$(TARGET) $(EXECUTABLE) $(BUILD_DIR)/bandwidth.xclbin
+	XCL_EMULATION_MODE=$(TARGET) $(EXECUTABLE) -x1 $(BUILD_DIR)/bandwidth.xclbin -x2 $(BUILD_DIR)/bandwidth.xclbin
 else
-	$(EXECUTABLE) $(BUILD_DIR)/bandwidth.xclbin
+	$(EXECUTABLE) -x1 $(BUILD_DIR)/bandwidth.xclbin -x2 $(BUILD_DIR)/bandwidth.xclbin
 endif
 
 
 .PHONY: test
 test: $(EXECUTABLE)
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
-	XCL_EMULATION_MODE=$(TARGET) $(EXECUTABLE) $(BUILD_DIR)/bandwidth.xclbin
+	XCL_EMULATION_MODE=$(TARGET) $(EXECUTABLE) -x1 $(BUILD_DIR)/bandwidth.xclbin -x2 $(BUILD_DIR)/bandwidth.xclbin
 else
-	$(EXECUTABLE) $(BUILD_DIR)/bandwidth.xclbin
+	$(EXECUTABLE) -x1 $(BUILD_DIR)/bandwidth.xclbin -x2 $(BUILD_DIR)/bandwidth.xclbin
 endif
 
 

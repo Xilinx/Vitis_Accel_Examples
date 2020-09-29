@@ -38,5 +38,5 @@ Once the environment has been configured, the application can be executed by
 
 ::
 
-   ./p2p_fpga2fpga_bandwidth <bandwidth XCLBIN>
+   ./p2p_fpga2fpga_bandwidth -x1 <bandwidth XCLBIN> -x2 <bandwidth XCLBIN>
 
