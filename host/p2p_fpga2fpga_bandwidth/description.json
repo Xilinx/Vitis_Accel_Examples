@@ -37,7 +37,7 @@
     ], 
     "launch": [
         {
-            "cmd_args": "BUILD/bandwidth.xclbin", 
+            "cmd_args": "-x1 BUILD/bandwidth.xclbin -x2 BUILD/bandwidth.xclbin", 
             "name": "generic launch for all flows"
         }
     ], 
@@ -46,10 +46,14 @@
         "compiler": {
             "sources": [
                 "REPO_DIR/common/includes/xcl2/xcl2.cpp",
+                "REPO_DIR/common/includes/cmdparser/cmdlineparser.cpp",
+                "REPO_DIR/common/includes/logger/logger.cpp",
                 "src/host.cpp"
             ], 
             "includepaths": [
-                "REPO_DIR/common/includes/xcl2"
+                "REPO_DIR/common/includes/xcl2",
+                "REPO_DIR/common/includes/cmdparser",
+                "REPO_DIR/common/includes/logger"
             ]
         }
     },  
