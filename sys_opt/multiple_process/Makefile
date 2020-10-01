@@ -153,7 +153,7 @@ ifeq ($(HOST_ARCH), x86)
 endif
 endif
 ifneq ($(TARGET),$(findstring $(TARGET), hw))
-$(warning WARNING:Application supports only hw TARGET. Please use the target for running the application)
+$(error ERROR:Application supports only hw TARGET. Please use the target for running the application)
 endif
 
 
