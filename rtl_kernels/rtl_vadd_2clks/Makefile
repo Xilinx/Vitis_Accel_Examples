@@ -145,7 +145,7 @@ ifeq ($(HOST_ARCH), x86)
 endif
 endif
 ifneq ($(TARGET),$(findstring $(TARGET), hw hw_emu))
-$(error ERROR:Application supports only hw hw_emu TARGET. Please use the target for running the application)
+$(error Application supports only hw hw_emu TARGET. Please use the target for running the application)
 endif
 
 
