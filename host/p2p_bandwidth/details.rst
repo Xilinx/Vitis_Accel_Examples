@@ -3,7 +3,7 @@ P2P Bandwidth
 
 PCIe peer-to-peer communication (P2P) is a PCIe feature which enables
 two PCIe devices to directly transfer data between each other without
-using host RAM as a temporary storage. The latest version of SDx PCIe
+using host RAM as a temporary storage. The latest version of Vitis PCIe
 platforms support P2P feature via PCIe Resizeable BAR Capability
 
 In this Example we highlight the Synchronous and Asynchronous data
