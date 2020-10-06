@@ -1,4 +1,10 @@
 /**
+* IMPORTANT:  READ BEFORE DOWNLOADING, COPYING, INSTALLING OR USING.
+* By downloading, copying, installing or using the software you agree
+* to this license.  If you do not agree to this license, do not download,
+* install, copy or use the software.
+*
+* Copyright (c) 2005 Northwestern University
 * Copyright (C) 2020 Xilinx, Inc
 *
 * Licensed under the Apache License, Version 2.0 (the "License"). You may
