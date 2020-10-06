@@ -511,7 +511,7 @@ def mk_run(target, data):
             target.write(" ")
             target.write(arg)
         target.write("))\n")
-        target.write("$(warning WARNING:Application supports only")
+        target.write("$(error Application supports only")
         for arg in args:
             target.write(" ")
             target.write(arg)
