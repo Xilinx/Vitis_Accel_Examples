@@ -1,9 +1,5 @@
-demo/kmeans/src/fpga_kmeans.cpp
-demo/kmeans/src/fpga_kmeans.h
 demo/kmeans/src/host.cpp
 demo/kmeans/src/kmeans.h
 demo/kmeans/src/kmeans_clustering_cmodel.c
-demo/kmeans/src/kmeans_config.h
-demo/kmeans/src/krnl_kmeans.cpp
-demo/kmeans/src/krnl_kmeans.h
-demo/kmeans/src/timer.h
+library_examples/gzip_app/src/xxhash.c
+library_examples/gzip_app/src/xxhash.h
