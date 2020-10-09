@@ -4,6 +4,10 @@
         "GZip application for DDR resides in `library_examples/gzip_app` directory."
     ], 
     "flow": "vitis", 
+    "platform_whitelist": [
+        "u200",
+        "aws"
+    ], 
     "platform_blacklist": [
         "zc",
         "vck", 
@@ -12,9 +16,6 @@
     ], 
      "runtime": [
         "OpenCL"
-    ], 
-    "platform_whitelist": [
-        "aws"
     ], 
     "launch": [
         {
