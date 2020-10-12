@@ -1,5 +1,3 @@
-#!/tools/xgs/perl/5.8.5/bin/perl
-
 use strict;
 use warnings;
 use Expect;
