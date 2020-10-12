@@ -16,6 +16,7 @@ Platforms containing following strings in their names are not supported for this
 
    zc
    _u25_
+   u30
    u200
    u250
    u280
