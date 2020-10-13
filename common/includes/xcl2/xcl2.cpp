@@ -34,7 +34,7 @@ std::vector<cl::Device> get_devices(const std::string &vendor_name) {
     platform = platforms[i];
     OCL_CHECK(err, std::string platformName =
                        platform.getInfo<CL_PLATFORM_NAME>(&err));
-    if (platformName == vendor_name) {
+    if (platformName.compare(vendor_name) == 0) {
       std::cout << "Found Platform" << std::endl;
       std::cout << "Platform Name: " << platformName.c_str() << std::endl;
       break;
@@ -42,6 +42,13 @@ std::vector<cl::Device> get_devices(const std::string &vendor_name) {
   }
   if (i == platforms.size()) {
     std::cout << "Error: Failed to find Xilinx platform" << std::endl;
+    std::cout << "Found the following platforms : " << std::endl;
+    for (size_t j = 0; j < platforms.size(); j++) {
+        platform = platforms[j];
+        OCL_CHECK(err, std::string platformName =
+                           platform.getInfo<CL_PLATFORM_NAME>(&err));
+        std::cout << "Platform Name: " << platformName.c_str() << std::endl;        
+    }
     exit(EXIT_FAILURE);
   }
   // Getting ACCELERATOR Devices and selecting 1st such device
