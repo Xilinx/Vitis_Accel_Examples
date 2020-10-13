@@ -136,9 +136,6 @@ endif
 ifeq ($(findstring _u25_, $(DEVICE)), _u25_)
 $(error This example is not supported for $(DEVICE))
 endif
-ifeq ($(findstring u30, $(DEVICE)), u30)
-$(error This example is not supported for $(DEVICE))
-endif
 ifeq ($(findstring u200, $(DEVICE)), u200)
 $(error This example is not supported for $(DEVICE))
 endif

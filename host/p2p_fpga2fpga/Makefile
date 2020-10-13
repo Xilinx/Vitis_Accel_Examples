@@ -163,9 +163,6 @@ endif
 ifeq ($(findstring _u25_, $(DEVICE)), _u25_)
 $(error This example is not supported for $(DEVICE))
 endif
-ifeq ($(findstring u30, $(DEVICE)), u30)
-$(error This example is not supported for $(DEVICE))
-endif
 
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 	$(CP) $(EMCONFIG_DIR)/emconfig.json .

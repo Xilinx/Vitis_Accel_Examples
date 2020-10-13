@@ -21,7 +21,6 @@ Platforms containing following strings in their names are not supported for this
    aws
    u50
    _u25_
-   u30
 
 DESIGN FILES
 ------------
