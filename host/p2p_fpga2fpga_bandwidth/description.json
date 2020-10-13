@@ -22,7 +22,8 @@
         "2018",
         "vck",
         "aws",
-        "u50"
+        "u50",
+        "_u25_"
     ],
     "platform_blacklist": [
         "zc",
@@ -30,7 +31,8 @@
         "2018",
         "vck",
         "aws",
-        "u50"
+        "u50",
+        "_u25_"
     ],
      "runtime": [
         "OpenCL"
