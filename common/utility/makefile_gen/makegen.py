@@ -472,7 +472,7 @@ def mk_run(target, data):
                 target.write(arg)
     if not ("platform_type" in data and data["platform_type"] == "pcie"):
         target.write("\nelse\n")
-        target.write("\t$(ABS_COMMON_REPO)/common/utility/run_emulation.pl \"${LAUNCH_EMULATOR} | tee run_app.log\" \"${RUN_APP_SCRIPT} $(TARGET)\" \"${RESULT_STRING}\" \"7\"")
+        target.write("\t$(LAUNCH_EMULATOR_CMD)")
     if "containers" in data:
         target.write("\n")
     else:
@@ -537,7 +537,7 @@ def mk_run(target, data):
                 target.write(arg)
     if not ("platform_type" in data and data["platform_type"] == "pcie"):
         target.write("\nelse\n")
-        target.write("\t$(ABS_COMMON_REPO)/common/utility/run_emulation.pl \"${LAUNCH_EMULATOR} | tee embedded_run.log\" \"${RUN_APP_SCRIPT} $(TARGET)\" \"${RESULT_STRING}\" \"7\"")
+        target.write("\t$(LAUNCH_EMULATOR_CMD)")
     if "containers" in data:
         target.write("\n")
     else:
@@ -694,6 +694,20 @@ def report_gen(target, data):
     
     target.write("DEBUG := no\n")
     target.write("B_TEMP = `$(ABS_COMMON_REPO)/common/utility/parse_platform_list.py $(DEVICE)`\n")
+    if not ("platform_type" in data and data["platform_type"] == "pcie"):
+        target.write("PERL := \n")
+        target.write("QEMU_IMODE := no\n")
+        target.write("LAUNCH_EMULATOR_CMD := \n")
+        target.write("\n")
+        target.write("ifneq ($(PERL), /tools/xgs/perl/5.8.5/bin/perl)\n")
+        target.write("\tQEMU_IMODE = yes\n")
+        target.write("endif\n")
+        target.write("\n")
+        target.write("ifeq ($(QEMU_IMODE), yes)\n")
+        target.write("\tLAUNCH_EMULATOR_CMD = $(LAUNCH_EMULATOR)\n")
+        target.write("else\n")
+        target.write("\tLAUNCH_EMULATOR_CMD = $(PERL) $(ABS_COMMON_REPO)/common/utility/run_emulation.pl \"${LAUNCH_EMULATOR} | tee run_app.log\" \"${RUN_APP_SCRIPT} $(TARGET)\" \"${RESULT_STRING}\" \"7\"\n")
+        target.write("endif\n")
     target.write("\n")
     target.write("#Generates debug summary report\n")
     target.write("ifeq ($(DEBUG), yes)\n")

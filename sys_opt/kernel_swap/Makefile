@@ -179,7 +179,7 @@ ifeq ($(HOST_ARCH), x86)
 	$(CP) $(EMCONFIG_DIR)/emconfig.json .
 	XCL_EMULATION_MODE=$(TARGET) $(EXECUTABLE) -x1 $(BUILD_DIR)/krnl_vmul.xclbin -x2 $(BUILD_DIR)/krnl_vadd.xclbin
 else
-	$(ABS_COMMON_REPO)/common/utility/run_emulation.pl "${LAUNCH_EMULATOR} | tee run_app.log" "${RUN_APP_SCRIPT} $(TARGET)" "${RESULT_STRING}" "7"
+	$(LAUNCH_EMULATOR_CMD)
 endif
 else
 ifeq ($(HOST_ARCH), x86)
@@ -193,7 +193,7 @@ ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 ifeq ($(HOST_ARCH), x86)
 	XCL_EMULATION_MODE=$(TARGET) $(EXECUTABLE) -x1 $(BUILD_DIR)/krnl_vmul.xclbin -x2 $(BUILD_DIR)/krnl_vadd.xclbin
 else
-	$(ABS_COMMON_REPO)/common/utility/run_emulation.pl "${LAUNCH_EMULATOR} | tee embedded_run.log" "${RUN_APP_SCRIPT} $(TARGET)" "${RESULT_STRING}" "7"
+	$(LAUNCH_EMULATOR_CMD)
 endif
 else
 ifeq ($(HOST_ARCH), x86)
