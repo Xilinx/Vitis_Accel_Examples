@@ -37,9 +37,12 @@
 #include <fcntl.h>
 #include <iomanip>
 #include <iostream>
-#include <libaio.h>
 #include <string.h>
 #include <unistd.h>
+
+#ifdef ASYNC_READ
+#include <libaio.h>
+#endif
 
 #include "xcl2.hpp"
 
@@ -270,6 +273,7 @@ void exec_write_test() {
     clWaitForEvents(1, &chunks[idx]->p2pEvt);
 }
 
+#ifdef ASYNC_READ
 void exec_async_read_test(Chunk **chunks) {
   io_context_t myctx;
   memset(&myctx, 0, sizeof(myctx));
@@ -319,6 +323,7 @@ void exec_async_read_test(Chunk **chunks) {
     clWaitForEvents(1, &chunks[idx]->p2pEvt);
 #endif
 }
+#endif
 
 void exec_read_test() {
   cout << "SSD -> FPGA(p2p BO) -> FPGA(host BO) -> HOST" << endl;
@@ -464,9 +469,12 @@ int main(int argc, char **argv) {
   cl_program program = clCreateProgramWithBinary(
       context, 1, &device, &binary_size, &binary_data, NULL, &err);
 
+#ifdef ASYNC_READ
   io_context_t ctx;
   memset(&ctx, 0, sizeof(ctx));
   io_queue_init(128, &ctx);
+#endif
+
   // Setting up OpenCL runtime environment.
   cl_kernel kernel = clCreateKernel(program, "copy", &err);
 
@@ -537,6 +545,7 @@ int main(int argc, char **argv) {
   for (int idx = 0; idx < num_chunks; idx++)
     delete chunks[idx];
 
+#ifdef ASYNC_READ  
   if (!isWrite) {
     // Running Asynchronous P2P
     std::cout
@@ -590,6 +599,7 @@ int main(int argc, char **argv) {
     for (int idx = 0; idx < num_chunks; idx++)
       delete chunks[idx];
   }
+#endif
 
   clReleaseKernel(kernel);
   clReleaseContext(context);

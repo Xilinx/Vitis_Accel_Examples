@@ -64,10 +64,6 @@
                 "REPO_DIR/common/includes/cmdparser",
                 "REPO_DIR/common/includes/logger"
             ]
-        },
-        "linker" : {
-            "options" : ["-laio"
-                ]
         }
     },  
     "containers": [
@@ -81,6 +77,7 @@
             "name": "copy_kernel"
         }
     ],
+    "config_make": "config.mk",
     "contributors": [
         {
             "url": "http://www.xilinx.com", 
