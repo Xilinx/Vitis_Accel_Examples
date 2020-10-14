@@ -56,6 +56,8 @@ RESULT_STRING = TEST PASSED
 VPP := v++
 
 include $(ABS_COMMON_REPO)/common/includes/opencl/opencl.mk
+include config.mk
+
 CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++11
 LDFLAGS += $(opencl_LDFLAGS)
 
@@ -68,7 +70,6 @@ HOST_SRCS += $(ABS_COMMON_REPO)/common/includes/xcl2/xcl2.cpp $(ABS_COMMON_REPO)
 # Host compiler global settings
 CXXFLAGS += -fmessage-length=0
 LDFLAGS += -lrt -lstdc++ 
-LDFLAGS += -laio
 
 ifneq ($(HOST_ARCH), x86)
 	LDFLAGS += --sysroot=$(SYSROOT)
