@@ -180,7 +180,7 @@ int main(int argc, char *argv[]) {
     std::cout << "[PID: " << getpid() << "] child: " << child
               << " exited with WIFEXITED: " << WIFEXITED(status)
               << " and WEXITSTATUS: " << WEXITSTATUS(status) << std::endl;
-    if (WEXITSTATUS(status))
+    if (WEXITSTATUS(status) and WIFEXITED(status))
       result = false;
   }
   std::cout << "\n[PID: " << getpid() << "] PARENT WAITS CHILD TO FINISH.\n\n"
