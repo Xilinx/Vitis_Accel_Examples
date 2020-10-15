@@ -174,6 +174,8 @@ int main(int argc, char *argv[]) {
   }
 
   // Need to wait for all child process to complete
+  std::cout << "\n[PID: " << getpid() << "] PARENT WAITS CHILD TO FINISH.\n\n"
+            << std::endl;
   for (int i = 0; i < iter; i++) {
     int status = 0;
     int child = wait(&status);
@@ -183,8 +185,6 @@ int main(int argc, char *argv[]) {
     if (WEXITSTATUS(status) and WIFEXITED(status))
       result = false;
   }
-  std::cout << "\n[PID: " << getpid() << "] PARENT WAITS CHILD TO FINISH.\n\n"
-            << std::endl;
 
   std::cout << "TEST " << ((result) ? "PASSED" : "FAILED") << std::endl;
   return ((result) ? EXIT_SUCCESS : EXIT_FAILURE);
