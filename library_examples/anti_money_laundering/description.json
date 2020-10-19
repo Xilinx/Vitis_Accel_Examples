@@ -10,6 +10,7 @@
         "aws"
     ],
     "platform_blacklist": [
+        "_u25_",
         "u50",
         "zc",
         "vck"
@@ -62,35 +63,35 @@
                                 },
                                 {
                                     "name": "csv_part0", 
-                                    "memory": "bank1"
+                                    "memory": "DDR[1]"
                                 },
                                 {
                                     "name": "csv_part1", 
-                                    "memory": "bank1"
+                                    "memory": "DDR[1]"
                                 },
                                 {
                                     "name": "csv_part2", 
-                                    "memory": "bank1"
+                                    "memory": "DDR[1]"
                                 },
                                 {
                                     "name": "csv_part3", 
-                                    "memory": "bank1"
+                                    "memory": "DDR[1]"
                                 },
                                 {
                                     "name": "csv_part4", 
-                                    "memory": "bank1"
+                                    "memory": "DDR[1]"
                                 },
                                 {
                                     "name": "csv_part5", 
-                                    "memory": "bank1"
+                                    "memory": "DDR[1]"
                                 },
                                 {
                                      "name": "csv_part6", 
-                                    "memory": "bank1"
+                                    "memory": "DDR[1]"
                                 },
                                 {
                                      "name": "csv_part7", 
-                                    "memory": "bank1"
+                                    "memory": "DDR[1]"
                                 },
                                 {
                                      "name": "buf_out", 
@@ -112,35 +113,35 @@
                                 },
                                 {
                                     "name": "csv_part0", 
-                                    "memory": "bank2"
+                                    "memory": "DDR[2]"
                                 },
                                 {
                                     "name": "csv_part1", 
-                                    "memory": "bank2"
+                                    "memory": "DDR[2]"
                                 },
                                 {
                                     "name": "csv_part2", 
-                                    "memory": "bank2"
+                                    "memory": "DDR[2]"
                                 },
                                 {
                                     "name": "csv_part3", 
-                                    "memory": "bank2"
+                                    "memory": "DDR[2]"
                                 },
                                 {
                                     "name": "csv_part4", 
-                                    "memory": "bank2"
+                                    "memory": "DDR[2]"
                                 },
                                 {
                                     "name": "csv_part5", 
-                                    "memory": "bank2"
+                                    "memory": "DDR[2]"
                                 },
                                 {
                                      "name": "csv_part6", 
-                                    "memory": "bank2"
+                                    "memory": "DDR[2]"
                                 },
                                 {
                                      "name": "csv_part7", 
-                                    "memory": "bank2"
+                                    "memory": "DDR[2]"
                                 },
                                 {
                                      "name": "buf_out", 
