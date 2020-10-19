@@ -18,10 +18,19 @@
 #include <vector>
 
 #define LENGTH 1024
+#ifndef device_type
+#define device_type 1
+#endif
 
 int main(int argc, char **argv) {
   // Command Line Parser
   sda::utils::CmdLineParser parser;
+
+  std::cout <<  "device_type : " << device_type << std::endl;
+  if (device_type != 0 and  xcl::is_hw_emulation()) {
+    std::cout <<  "INFO: This example is not supported for dfx platforms for hw_emu" << std::endl;
+    return EXIT_SUCCESS;
+  }
 
   // Switches
   //**************//"<Full Arg>",  "<Short Arg>", "<Description>", "<Default>"

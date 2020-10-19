@@ -80,6 +80,7 @@
             "name": "generic launch for all flows"
         }
     ], 
+    "config_make": "./config.mk",
     "contributors": [
         {
             "url": "http://www.xilinx.com", 
