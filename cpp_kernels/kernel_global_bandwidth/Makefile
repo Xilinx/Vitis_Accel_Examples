@@ -46,7 +46,10 @@ SYSROOT :=
 
 include ./utils.mk
 
+XSA := 
+ifneq ($(DEVICE), )
 XSA := $(call device2xsa, $(DEVICE))
+endif
 TEMP_DIR := ./_x.$(TARGET).$(XSA)
 BUILD_DIR := ./build_dir.$(TARGET).$(XSA)
 
