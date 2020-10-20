@@ -288,8 +288,6 @@ int main(int argc, char **argv) {
                        {buffer_c[flag]}, CL_MIGRATE_MEM_OBJECT_HOST, &eventList,
                        &read_events[flag]));
     set_callback(read_events[flag], "ooo_queue");
-
-    OCL_CHECK(err, err = read_events[flag].wait());
   }
 
   // Wait for all of the OpenCL operations to complete
