@@ -14,7 +14,6 @@
 # limitations under the License.
 #
 
-#Checks for g++
 ifneq ($(HOST_ARCH), x86)
-device_type := embedded
+CXXFLAGS += -Ddevice_type
 endif
