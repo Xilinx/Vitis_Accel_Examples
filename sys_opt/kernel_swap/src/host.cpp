@@ -23,7 +23,7 @@ int main(int argc, char **argv) {
   // Command Line Parser
   sda::utils::CmdLineParser parser;
 
-#ifdef device_type
+#ifdef dfx_device
   if (xcl::is_hw_emulation()) {
     std::cout
         << "INFO: This example is not supported for dfx platforms for hw_emu"

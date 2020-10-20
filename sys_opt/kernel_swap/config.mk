@@ -1,3 +1,3 @@
-ifneq ($(HOST_ARCH), x86)
-CXXFLAGS += -Ddevice_type
+ifeq ($(findstring dfx, $(DEVICE)), dfx)
+CXXFLAGS += -Ddfx_device
 endif
