@@ -23,6 +23,15 @@ int main(int argc, char **argv) {
   // Command Line Parser
   sda::utils::CmdLineParser parser;
 
+#ifdef dfx_device
+  if (xcl::is_hw_emulation()) {
+    std::cout
+        << "INFO: This example is not supported for dfx platforms for hw_emu"
+        << std::endl;
+    return EXIT_SUCCESS;
+  }
+#endif
+
   // Switches
   //**************//"<Full Arg>",  "<Short Arg>", "<Description>", "<Default>"
   parser.addSwitch("--xclbin_file_krnl_mmult", "-x1",
