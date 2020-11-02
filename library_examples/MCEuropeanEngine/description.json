@@ -12,6 +12,7 @@
     ], 
     "platform_blacklist": [
         "u50",
+        "u280",
         "zc",
         "qdma",
         "vck",

@@ -11,6 +11,7 @@ Platforms containing following strings in their names are not supported for this
 ::
 
    u50
+   u280
    zc
    qdma
    vck
