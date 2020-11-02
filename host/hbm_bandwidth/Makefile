@@ -89,7 +89,7 @@ endif
 
 
 # Adding config files to linker
-LDCLFLAGS_krnl_vaddmul += --config krnl_vaddmul.ini 
+LDCLFLAGS_krnl_vaddmul += --config krnl_vaddmul.cfg 
 EXECUTABLE = ./hbm_bandwidth
 CMD_ARGS = $(BUILD_DIR)/krnl_vaddmul.xclbin
 EMCONFIG_DIR = $(TEMP_DIR)
