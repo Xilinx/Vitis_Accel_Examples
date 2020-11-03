@@ -69,7 +69,7 @@ int main(int argc, char *argv[]) {
     return EXIT_FAILURE;
   }
 
-  int length = 128 * 1024 * 1024;
+  int length = 32 * 1024 * 1024;
   size_t buffersize = 1024 * 1024;
   if (xcl::is_emulation()) {
     length = 4 * 1024;
