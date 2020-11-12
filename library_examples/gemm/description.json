@@ -12,7 +12,8 @@
     "platform_blacklist": [
         "u50",
         "zc",
-        "vck"
+        "vck",
+        "u250"
     ], 
     "runtime": [
         "OpenCL"

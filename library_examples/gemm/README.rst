@@ -13,6 +13,7 @@ Platforms containing following strings in their names are not supported for this
    u50
    zc
    vck
+   u250
 
 DESIGN FILES
 ------------
