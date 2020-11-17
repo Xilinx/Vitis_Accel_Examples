@@ -475,7 +475,7 @@ xfZlib::xfZlib(const std::string &binaryFileName, uint8_t max_cr,
 
         OCL_CHECK(err,
                   buffer_zlib_output[i][j] = new cl::Buffer(
-                      *m_context, CL_MEM_USE_HOST_PTR | CL_MEM_WRITE_ONLY,
+                      *m_context, CL_MEM_USE_HOST_PTR | CL_MEM_READ_WRITE,
                       host_buffer_size * 2, h_buf_zlibout[i][j].data(), &err));
 
         OCL_CHECK(err, buffer_inblk_size[i][j] = new cl::Buffer(
@@ -529,7 +529,7 @@ xfZlib::xfZlib(const std::string &binaryFileName, uint8_t max_cr,
     // Output Device Buffer allocation (__enqueue_reads)
     for (int i = 0; i < DOUT_BUFFERCOUNT; i++) {
       OCL_CHECK(err, buffer_dec_zlib_output[i] = new cl::Buffer(
-                         *m_context, CL_MEM_USE_HOST_PTR | CL_MEM_WRITE_ONLY,
+                         *m_context, CL_MEM_USE_HOST_PTR | CL_MEM_READ_WRITE,
                          outBufferSize, h_dbufstream_zlibout[i].data(), &err));
     }
 
@@ -713,7 +713,7 @@ void xfZlib::_enqueue_reads(uint32_t bufSize, uint8_t *out,
   cl_int err;
   for (int i = 0; i < BUFCNT; i++) {
     OCL_CHECK(err, buffer_size[i] = new cl::Buffer(
-                       *m_context, CL_MEM_USE_HOST_PTR | CL_MEM_WRITE_ONLY,
+                       *m_context, CL_MEM_USE_HOST_PTR | CL_MEM_READ_WRITE,
                        2 * sizeof(uint32_t), h_dcompressSize_stream[i].data(),
                        &err));
   }
