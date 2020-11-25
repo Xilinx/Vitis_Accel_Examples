@@ -10,7 +10,7 @@ This is simple example to explain P2P transfer between two FPGA devices.
 
 PCIe peer-to-peer communication (P2P) is a PCIe feature which enables
 two PCIe devices to directly transfer data between each other without
-using host RAM as a temporary storage. The latest version of SDx PCIe
+using host RAM as a temporary storage. The latest version of Vitis PCIe
 platforms support P2P feature via PCIe Resizable BAR Capability
 
 In this Example we highlight the data transfer between FPGA and FPGA
@@ -130,6 +130,7 @@ Platforms containing following strings in their names are not supported for this
    vck
    aws
    u50
+   _u25_
 
 DESIGN FILES
 ------------

@@ -472,14 +472,14 @@
 <p><strong>KEYWORDS:</strong> XCL_MEM_EXT_P2P_BUFFER, pread, pwrite</p>
 <p>PCIe peer-to-peer communication (P2P) is a PCIe feature which enables
 two PCIe devices to directly transfer data between each other without
-using host RAM as a temporary storage. The latest version of SDx PCIe
+using host RAM as a temporary storage. The latest version of Vitis PCIe
 platforms support P2P feature via PCIe Resizeable BAR Capability</p>
 <p>In this Example we highlight the Synchronous and Asynchronous data
 transfer between SSD and FPGA and capture the performance numbers for
 p2p transfer, Kernel and XDMA.</p>
-<p>Following is the real log reported while running the design on samsung
-platform:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">host</span> <span class="n">copy_kernel</span><span class="o">.</span><span class="n">xclbin</span> <span class="o">-</span><span class="n">w</span> <span class="o">/</span><span class="n">dev</span><span class="o">/</span><span class="n">nvme0n1</span>
+<p>By default synchronous flow is ran and following is the real log
+reported while running the design on samsung platform:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">p2p_bandwidth</span> <span class="o">-</span><span class="n">x</span> <span class="n">copy_kernel</span><span class="o">.</span><span class="n">xclbin</span> <span class="o">-</span><span class="n">i</span> <span class="o">/</span><span class="n">dev</span><span class="o">/</span><span class="n">nvme0n1</span>
 <span class="n">INFO</span><span class="p">:</span> <span class="n">Successfully</span> <span class="n">opened</span> <span class="n">NVME</span> <span class="n">SSD</span> <span class="o">/</span><span class="n">dev</span><span class="o">/</span><span class="n">nvme0n1</span>
 <span class="n">INFO</span><span class="p">:</span> <span class="n">Preparing</span> <span class="mi">1048576</span><span class="n">KB</span> <span class="n">test</span> <span class="n">data</span> <span class="ow">in</span> <span class="mi">8</span> <span class="n">pipelines</span>
 <span class="c1">############################################################</span>
@@ -487,10 +487,44 @@ platform:</p>
 <span class="c1">############################################################</span>
 <span class="n">INFO</span><span class="p">:</span> <span class="n">Kick</span> <span class="n">off</span> <span class="n">test</span>
 <span class="n">HOST</span> <span class="o">-&gt;</span> <span class="n">FPGA</span><span class="p">(</span><span class="n">host</span> <span class="n">BO</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">FPGA</span><span class="p">(</span><span class="n">p2p</span> <span class="n">BO</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SSD</span>
- <span class="n">overall</span>      <span class="mi">556211</span><span class="n">ms</span>    <span class="mf">100.00</span><span class="o">%</span>    <span class="mf">1841.03</span><span class="n">MB</span><span class="o">/</span><span class="n">s</span>
-     <span class="n">p2p</span>      <span class="mi">359223</span><span class="n">ms</span>     <span class="mf">64.58</span><span class="o">%</span>    <span class="mf">2850.60</span><span class="n">MB</span><span class="o">/</span><span class="n">s</span>
-  <span class="n">kernel</span>      <span class="mi">199578</span><span class="n">ms</span>     <span class="mf">35.88</span><span class="o">%</span>    <span class="mf">5130.83</span><span class="n">MB</span><span class="o">/</span><span class="n">s</span>
-    <span class="n">XDMA</span>      <span class="mi">313203</span><span class="n">ms</span>     <span class="mf">56.31</span><span class="o">%</span>    <span class="mf">3269.45</span><span class="n">MB</span><span class="o">/</span><span class="n">s</span>
+ <span class="n">overall</span>      <span class="mi">556211</span><span class="n">ms</span>    <span class="mf">100.00</span><span class="o">%</span>    <span class="mf">1861.03</span><span class="n">MB</span><span class="o">/</span><span class="n">s</span>
+     <span class="n">p2p</span>      <span class="mi">359223</span><span class="n">ms</span>     <span class="mf">57.58</span><span class="o">%</span>    <span class="mf">3250.60</span><span class="n">MB</span><span class="o">/</span><span class="n">s</span>
+  <span class="n">kernel</span>      <span class="mi">199578</span><span class="n">ms</span>     <span class="mf">207.88</span><span class="o">%</span>    <span class="mf">871.83</span><span class="n">MB</span><span class="o">/</span><span class="n">s</span>
+    <span class="n">XDMA</span>      <span class="mi">313203</span><span class="n">ms</span>     <span class="mf">99.11</span><span class="o">%</span>    <span class="mf">1866.45</span><span class="n">MB</span><span class="o">/</span><span class="n">s</span>
+<span class="n">INFO</span><span class="p">:</span> <span class="n">Evaluating</span> <span class="n">test</span> <span class="n">result</span>
+<span class="n">INFO</span><span class="p">:</span> <span class="n">Test</span> <span class="n">passed</span>
+</pre></div>
+</div>
+<p>If we need to run the asynchronous flow, build the host with
+ENABLE_ASYNC_FLOW=yes :</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">make</span> <span class="n">host</span> <span class="n">ENABLE_ASYNC_FLOW</span><span class="o">=</span><span class="n">yes</span>
+</pre></div>
+</div>
+<p>Following is the real log reported while running the design
+on samsung platform for asynchronous flow:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">p2p_bandwidth</span> <span class="o">-</span><span class="n">x</span> <span class="n">copy_kernel</span><span class="o">.</span><span class="n">xclbin</span> <span class="o">-</span><span class="n">i</span> <span class="o">/</span><span class="n">dev</span><span class="o">/</span><span class="n">nvme0n1</span>
+<span class="n">INFO</span><span class="p">:</span> <span class="n">Successfully</span> <span class="n">opened</span> <span class="n">NVME</span> <span class="n">SSD</span> <span class="o">/</span><span class="n">dev</span><span class="o">/</span><span class="n">nvme0n1</span>
+<span class="n">INFO</span><span class="p">:</span> <span class="n">Preparing</span> <span class="mi">1048576</span><span class="n">KB</span> <span class="n">test</span> <span class="n">data</span> <span class="ow">in</span> <span class="mi">8</span> <span class="n">pipelines</span>
+<span class="c1">############################################################</span>
+                     <span class="n">Synchronous</span> <span class="n">P2P</span>
+<span class="c1">############################################################</span>
+<span class="n">INFO</span><span class="p">:</span> <span class="n">Kick</span> <span class="n">off</span> <span class="n">test</span>
+<span class="n">HOST</span> <span class="o">-&gt;</span> <span class="n">FPGA</span><span class="p">(</span><span class="n">host</span> <span class="n">BO</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">FPGA</span><span class="p">(</span><span class="n">p2p</span> <span class="n">BO</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SSD</span>
+<span class="n">overall</span>      <span class="mi">551211</span><span class="n">ms</span>    <span class="mf">100.00</span><span class="o">%</span>    <span class="mf">1862.23</span><span class="n">MB</span><span class="o">/</span><span class="n">s</span>
+    <span class="n">p2p</span>      <span class="mi">357223</span><span class="n">ms</span>     <span class="mf">58.58</span><span class="o">%</span>    <span class="mf">3200.30</span><span class="n">MB</span><span class="o">/</span><span class="n">s</span>
+ <span class="n">kernel</span>      <span class="mi">192578</span><span class="n">ms</span>     <span class="mf">211.88</span><span class="o">%</span>    <span class="mf">879.89</span><span class="n">MB</span><span class="o">/</span><span class="n">s</span>
+   <span class="n">XDMA</span>      <span class="mi">315203</span><span class="n">ms</span>     <span class="mf">99.31</span><span class="o">%</span>    <span class="mf">1867.35</span><span class="n">MB</span><span class="o">/</span><span class="n">s</span>
+<span class="n">INFO</span><span class="p">:</span> <span class="n">Evaluating</span> <span class="n">test</span> <span class="n">result</span>
+<span class="n">INFO</span><span class="p">:</span> <span class="n">Test</span> <span class="n">passed</span>
+<span class="c1">############################################################</span>
+                     <span class="n">Asynchronous</span> <span class="n">P2P</span>
+<span class="c1">############################################################</span>
+<span class="n">INFO</span><span class="p">:</span> <span class="n">Kick</span> <span class="n">off</span> <span class="n">test</span>
+<span class="n">HOST</span> <span class="o">-&gt;</span> <span class="n">FPGA</span><span class="p">(</span><span class="n">host</span> <span class="n">BO</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">FPGA</span><span class="p">(</span><span class="n">p2p</span> <span class="n">BO</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SSD</span>
+<span class="n">overall</span>      <span class="mi">556211</span><span class="n">ms</span>    <span class="mf">100.00</span><span class="o">%</span>    <span class="mf">1548.03</span><span class="n">MB</span><span class="o">/</span><span class="n">s</span>
+    <span class="n">p2p</span>      <span class="mi">359223</span><span class="n">ms</span>     <span class="mf">61.58</span><span class="o">%</span>    <span class="mf">3371.60</span><span class="n">MB</span><span class="o">/</span><span class="n">s</span>
+ <span class="n">kernel</span>      <span class="mi">199578</span><span class="n">ms</span>     <span class="mf">198.88</span><span class="o">%</span>    <span class="mf">697.83</span><span class="n">MB</span><span class="o">/</span><span class="n">s</span>
+   <span class="n">XDMA</span>      <span class="mi">313203</span><span class="n">ms</span>     <span class="mf">98.23</span><span class="o">%</span>    <span class="mf">1806.45</span><span class="n">MB</span><span class="o">/</span><span class="n">s</span>
 <span class="n">INFO</span><span class="p">:</span> <span class="n">Evaluating</span> <span class="n">test</span> <span class="n">result</span>
 <span class="n">INFO</span><span class="p">:</span> <span class="n">Test</span> <span class="n">passed</span>
 </pre></div>
