@@ -1,0 +1,66 @@
+host_global_5.0_shell
+=====================
+
+Host to global memory bandwidth test for 5.0 shell
+
+This example tests the bandwidth of the interconnect between host and
+global memory for 3 cases: \* host to global memory transfer, \* global
+memory to host transfer, and \* bidirectional transfer
+
+Host and device are connected via PCIe interconnect and latency of this
+interconnect can be seen as the acceleration tax for the application.
+Hence, these transfers should be efficiently managed.
+
+Different combinations of buffer sizes and number of buffers are created
+and data to be transferred is filled into buffers using
+``clEnqueueFillBuffer`` API in which pattern with which buffers are to
+be filled can be specified.
+
+.. code:: cpp
+
+   err = command_queue.enqueueFillBuffer<int>((cl::Buffer&)mems[i], i, 0, nxtcnt, 0, 0);
+
+For bandwidth test, ``clenqueueMigrateMemObjects()`` API is used to
+transfer the data from host to global memory and vice versa.
+
+.. code:: cpp
+
+   err = commands.enqueueMigrateMemObjects(mems1, 0/* 0 means from host*/);
+   err = commands.enqueueMigrateMemObjects(mems2, CL_MIGRATE_MEM_OBJECT_HOST);
+
+**Note :** From software emulation log it can be seen that for larger
+number of buffers of small sizes , throughput achieved for transfer is
+less whereas for small number of buffers with larger sizes, throughput
+achieved for transfer is more.
+
+SUPPORTED PLATFORMS
+-------------------
+
+======== ============== ================
+Platform Board          Software Version
+======== ============== ================
+Xilinx   5.0 Shell only Vitis 2019.2
+======== ============== ================
+
+DESIGN FILES
+------------
+
+Application code is located in the src directory. Accelerator binary
+files will be compiled to the xclbin directory. The xclbin directory is
+required by the Makefile and its contents will be filled during
+compilation. A listing of all the files in this example is shown below
+
+::
+
+   src/host.cpp
+   src/kernel.cpp
+
+COMMAND LINE ARGUMENTS
+----------------------
+
+Once the environment has been configured, the application can be
+executed by
+
+::
+
+   ./host_global <krnl_host_global XCLBIN>

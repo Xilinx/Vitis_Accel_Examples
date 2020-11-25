@@ -1,0 +1,9 @@
+.. _support.rst
+
+Support
+=======
+
+For questions and to get help on any project in this repository or your own projects, visit the `Vitis Forums`_.
+
+.. _Vitis Forums: https://forums.xilinx.com/t5/SDAccel/bd-p/SDx
+

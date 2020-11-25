@@ -1,0 +1,12 @@
+Validate
+========
+
+Validate OpenCL designs.
+
+.. toctree::
+   :maxdepth: 1
+   :caption: List of Examples
+
+   bandwidth_test.rst
+   slavebridge_test.rst
+   verify_test.rst
