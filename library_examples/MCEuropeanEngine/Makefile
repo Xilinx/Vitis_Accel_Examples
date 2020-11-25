@@ -89,7 +89,7 @@ CLFLAGS_kernel_mc +=   -D DPRAGMA
 LDCLFLAGS += --config ./conn_vu9p.ini --kernel_frequency 300
 
 # Adding config files to linker
-LDCLFLAGS_kernel_mc += --config kernel_mc.ini 
+LDCLFLAGS_kernel_mc += --config kernel_mc.cfg 
 EXECUTABLE = ./test.exe
 CMD_ARGS =  -xclbin $(BUILD_DIR)/kernel_mc.xclbin
 EMCONFIG_DIR = $(TEMP_DIR)
@@ -139,7 +139,16 @@ $(EMCONFIG_DIR)/emconfig.json:
 
 ############################## Setting Essential Checks and Running Rules ##############################
 run: all
+ifeq ($(findstring _u25_, $(DEVICE)), _u25_)
+$(error This example is not supported for $(DEVICE))
+endif
+ifeq ($(findstring u30, $(DEVICE)), u30)
+$(error This example is not supported for $(DEVICE))
+endif
 ifeq ($(findstring u50, $(DEVICE)), u50)
+$(error This example is not supported for $(DEVICE))
+endif
+ifeq ($(findstring u200, $(DEVICE)), u200)
 $(error This example is not supported for $(DEVICE))
 endif
 ifeq ($(findstring u280, $(DEVICE)), u280)
@@ -155,6 +164,9 @@ ifeq ($(findstring vck, $(DEVICE)), vck)
 $(error This example is not supported for $(DEVICE))
 endif
 ifeq ($(findstring samsung, $(DEVICE)), samsung)
+$(error This example is not supported for $(DEVICE))
+endif
+ifeq ($(findstring nodma, $(DEVICE)), nodma)
 $(error This example is not supported for $(DEVICE))
 endif
 

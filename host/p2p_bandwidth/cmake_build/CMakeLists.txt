@@ -1,5 +1,5 @@
-set(EXECNAME "host")
-set(XBIN_DIR "copy_kernel.xclbin")
+set(EXECNAME "p2p_bandwidth")
+set(XBIN_DIR "bandwidth.xclbin")
 
 if (WIN32)
   set(OpenCL_INCLUDE_DIR ${OCL_ROOT}/include)

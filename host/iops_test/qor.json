@@ -1,0 +1,17 @@
+{
+    "containers": [
+        {
+            "name": "krnl_cntr", 
+            "meet_system_timing": "true", 
+            "accelerators": [
+                {
+                    "name": "krnl_cntr", 
+                    "check_timing": "true", 
+                    "PipelineType": "none", 
+                    "check_latency": "true", 
+                    "check_warning": "false", 
+                }
+            ]
+        }
+    ]
+}

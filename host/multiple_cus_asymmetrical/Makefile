@@ -89,7 +89,7 @@ endif
 
 
 # Adding config files to linker
-LDCLFLAGS_vadd += --config vadd.ini 
+LDCLFLAGS_vadd += --config vadd.cfg 
 EXECUTABLE = ./multiple_cus_asymmetrical
 CMD_ARGS = $(BUILD_DIR)/vadd.xclbin
 EMCONFIG_DIR = $(TEMP_DIR)
@@ -140,6 +140,9 @@ run: all
 ifeq ($(findstring _u25_, $(DEVICE)), _u25_)
 $(error This example is not supported for $(DEVICE))
 endif
+ifeq ($(findstring u30, $(DEVICE)), u30)
+$(error This example is not supported for $(DEVICE))
+endif
 ifeq ($(findstring u50, $(DEVICE)), u50)
 $(error This example is not supported for $(DEVICE))
 endif
@@ -150,6 +153,9 @@ ifeq ($(findstring samsung, $(DEVICE)), samsung)
 $(error This example is not supported for $(DEVICE))
 endif
 ifeq ($(findstring zc, $(DEVICE)), zc)
+$(error This example is not supported for $(DEVICE))
+endif
+ifeq ($(findstring nodma, $(DEVICE)), nodma)
 $(error This example is not supported for $(DEVICE))
 endif
 

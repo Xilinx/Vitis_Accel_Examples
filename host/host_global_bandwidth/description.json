@@ -6,6 +6,7 @@
     "flow": "vitis",
     "ndevice": [
         "_u25_",
+        "u30",
         "u50",
         "u280",
         "vck",
@@ -14,6 +15,7 @@
     ], 
     "platform_blacklist": [
         "_u25_",
+        "u30",
         "u50",
         "u280",
         "vck",

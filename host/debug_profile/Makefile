@@ -74,6 +74,7 @@ HOST_SRCS += $(ABS_COMMON_REPO)/common/includes/xcl2/xcl2.cpp ./src/host.cpp
 # Host compiler global settings
 CXXFLAGS += -fmessage-length=0
 LDFLAGS += -lrt -lstdc++ 
+LDFLAGS += -lxrt_coreutil
 
 ifneq ($(HOST_ARCH), x86)
 	LDFLAGS += --sysroot=$(SYSROOT)
@@ -136,6 +137,10 @@ $(EMCONFIG_DIR)/emconfig.json:
 
 ############################## Setting Essential Checks and Running Rules ##############################
 run: all
+ifeq ($(findstring nodma, $(DEVICE)), nodma)
+$(error This example is not supported for $(DEVICE))
+endif
+
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 ifeq ($(HOST_ARCH), x86)
 	$(CP) $(EMCONFIG_DIR)/emconfig.json .

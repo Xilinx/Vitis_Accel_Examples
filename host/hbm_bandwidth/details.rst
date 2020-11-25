@@ -29,7 +29,7 @@ explicitly:
 
 HBM memory must be associated to respective kernel I/O ports using
 ``sp`` option. We need to add mapping between HBM memory and I/O ports
-in krnl_vaddmul.ini file
+in krnl_vaddmul.cfg file
 
 ::
 
@@ -54,8 +54,8 @@ By default we are going with 3 compute units of kernel as we have power
 consumption limitation while targeting U50 platform. We have the design
 support for 8 compute units of Kernel. To run the HBM Bandwidth with 8
 compute units targeting U280 platform, user need to update
-krnl_vaddmul.ini and host.cpp files. Add the following lines in
-krnl_vaddmul.ini file
+krnl_vaddmul.cfg and host.cpp files. Add the following lines in
+krnl_vaddmul.cfg file
 
 ::
 

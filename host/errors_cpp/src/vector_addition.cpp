@@ -35,7 +35,7 @@ void vector_add(int *c, int *a, int *b, const int n_elements) {
     int size = BUFFER_SIZE;
     if (i + size > n_elements)
       size = n_elements - i;
-// Auto-pipeline is going to apply pipeline to these loops
+  // Auto-pipeline is going to apply pipeline to these loops
   readA:
     for (int j = 0; j < size; j++) {
 #pragma HLS LOOP_TRIPCOUNT min = c_size max = c_size

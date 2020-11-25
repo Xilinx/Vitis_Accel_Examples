@@ -17,8 +17,10 @@ Platforms containing following strings in their names are not supported for this
    zc
    zed
    vck
+   u30
    u50
    samsung
+   nodma
 
 DESIGN FILES
 ------------

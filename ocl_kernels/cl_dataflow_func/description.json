@@ -10,6 +10,12 @@
     ], 
     "key_concepts": [
         "Function/Task Level Parallelism"
+    ],
+   "ndevice": [
+        "nodma"
+    ],
+    "platform_blacklist": [
+        "nodma"
     ], 
     "os": [
         "Linux"
@@ -54,7 +60,6 @@
         }
     ],
     "testinfo": {
-        "profile": "no",
         "disable": false,
         "jobs": [
             {

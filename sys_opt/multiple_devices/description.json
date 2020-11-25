@@ -11,6 +11,12 @@
         "OpenCL API", 
         "Multi-FPGA Execution", 
         "Event Handling"
+    ],
+    "ndevice": [
+        "nodma"
+    ],
+    "platform_blacklist": [
+        "nodma"
     ], 
     "num_devices": "2", 
     "os": [
@@ -55,7 +61,6 @@
         }
     ],
     "testinfo": {
-        "profile": "no",
         "disable": false,
         "jobs": [
             {

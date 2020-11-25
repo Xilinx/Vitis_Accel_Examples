@@ -7,6 +7,15 @@ This example discuss the different reasons for errors in OpenCL C++ and how to h
 
 **KEYWORDS:** CL_SUCCESS, CL_DEVICE_NOT_FOUND, CL_DEVICE_NOT_AVAILABLE, CL_INVALID_VALUE, CL_INVALID_KERNEL_NAME, CL_INVALID_BUFFER_SIZE
 
+EXCLUDED PLATFORMS
+------------------
+
+Platforms containing following strings in their names are not supported for this example :
+
+::
+
+   nodma
+
 DESIGN FILES
 ------------
 

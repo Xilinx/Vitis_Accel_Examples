@@ -11,7 +11,13 @@
         "Kernel Optimization", 
         "2port BRAM Utilization", 
         "two read/write Local Memory"
-    ], 
+    ],
+    "ndevice": [
+        "nodma"
+     ],
+    "platform_blacklist": [
+        "nodma"
+     ],    
     "os": [
         "Linux"
     ], 

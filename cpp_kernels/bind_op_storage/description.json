@@ -18,11 +18,13 @@
     ], 
     "ndevice": [
         "zcu102",
-        "zc706"
+        "zc706",
+        "nodma"
      ],
     "platform_blacklist": [
         "zcu102",
-        "zc706"
+        "zc706",
+        "nodma"
      ],
     "os": [
         "Linux"

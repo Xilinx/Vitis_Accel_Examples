@@ -10,6 +10,12 @@
     "key_concepts": [
         "Device only buffer" 
                
+    ],
+   "ndevice": [
+        "nodma"
+    ],
+    "platform_blacklist": [
+        "nodma"
     ], 
     "os": [
         "Linux"

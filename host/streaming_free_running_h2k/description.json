@@ -16,22 +16,26 @@
         "u200_qdma"
     ],
     "ndevice": [
+        "u30",
         "u250",
         "zc",
         "vck",
         "xdma",
         "qep",	
         "aws",
-        "samsung"
+        "samsung",
+        "nodma"
     ], 
     "platform_blacklist": [
+        "u30",
         "u250",
         "zc",
         "vck",
         "xdma",
         "qep",	
         "aws",
-        "samsung"
+        "samsung",
+        "nodma"
     ], 
     "os": [
         "Linux"

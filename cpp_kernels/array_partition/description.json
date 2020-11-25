@@ -12,7 +12,13 @@
         "Kernel Optimization", 
         "HLS C Kernel", 
         "Array Partition"
-    ], 
+    ],
+     "ndevice": [
+        "nodma"
+     ],
+    "platform_blacklist": [
+        "nodma"
+     ],
     "os": [
         "Linux"
     ], 
@@ -59,7 +65,6 @@
         }
     ],
     "testinfo": {
-        "profile": "no",
         "disable": false,
         "jobs": [
             {

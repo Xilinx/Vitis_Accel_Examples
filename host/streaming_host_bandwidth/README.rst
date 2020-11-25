@@ -14,6 +14,7 @@ Platforms containing following strings in their names are not supported for this
 
 ::
 
+   u30
    u250
    zc
    vck
@@ -21,6 +22,7 @@ Platforms containing following strings in their names are not supported for this
    qep
    aws
    samsung
+   nodma
 
 DESIGN FILES
 ------------

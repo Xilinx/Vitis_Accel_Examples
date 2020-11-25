@@ -1,0 +1,111 @@
+{
+    "name": "P2P overlap bandwidth Example", 
+    "description": [
+        "This is simple example to test Synchronous and Asyncronous data transfer between SSD and FPGA."
+    ],
+    "flow": "vitis",
+    "keywords": [
+        "XCL_MEM_EXT_P2P_BUFFER",
+        "pread",
+        "pwrite" 
+    ],
+    "key_concepts": [
+        "P2P", 
+        "SmartSSD",
+        "XDMA"
+    ],
+    "platform_type": "pcie",
+    "os": [
+        "Linux"
+    ],
+    "platform_whitelist": [
+        "samsung_u2"
+    ],
+    "ndevice": [
+        "zc",
+        "vck",
+        "_u25_",
+        "u30",
+        "u200",
+        "u250",
+        "u50",
+        "u280",
+        "aws",
+        "nodma"
+    ],
+    "platform_blacklist": [
+        "zc",
+        "vck",
+        "_u25_",
+        "u30",
+        "u200",
+        "u250",
+        "u50",
+        "u280",
+        "aws",
+        "nodma"
+    ],
+     "runtime": [
+        "OpenCL"
+    ],
+    "launch": [
+        {
+            "cmd_args": "-x BUILD/copy_kernel.xclbin", 
+            "name": "generic launch for all flows"
+        }
+    ], 
+    "host": {
+        "host_exe": "p2p_overlap_bandwidth",
+        "compiler": {
+            "sources": [
+                "REPO_DIR/common/includes/xcl2/xcl2.cpp",
+                "REPO_DIR/common/includes/cmdparser/cmdlineparser.cpp",
+                "REPO_DIR/common/includes/logger/logger.cpp",
+		"src/host.cpp"
+            ], 
+            "includepaths": [
+                "REPO_DIR/common/includes/xcl2",
+                "REPO_DIR/common/includes/cmdparser",
+                "REPO_DIR/common/includes/logger"
+            ]
+        }
+    },  
+    "containers": [
+        {
+            "accelerators": [
+                {
+                    "name": "copy", 
+                    "location": "src/copy_kernel.cpp"
+                }
+            ], 
+            "name": "copy_kernel"
+        }
+    ],
+    "config_make": "config.mk",
+    "match_makefile": "false",
+    "contributors": [
+        {
+            "url": "http://www.xilinx.com", 
+            "group": "Xilinx"
+        }
+    ],
+    "testinfo": {
+        "disable": false,
+        "jobs": [
+            {
+                "index": 0,
+                "dependency": [],
+                "env": "",
+                "cmd": "",
+                "max_memory_MB": 32768,
+                "max_time_min": 300
+            }
+        ],
+        "targets": [
+            "vitis_sw_emu",
+            "vitis_hw_emu",
+            "vitis_hw"
+        ],
+        "category": "canary"
+    }
+}

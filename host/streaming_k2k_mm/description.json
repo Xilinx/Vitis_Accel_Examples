@@ -18,12 +18,14 @@
     "ndevice": [
         "samsung",
         "vck",
-        "zc"
+        "zc",
+        "nodma"
     ], 
     "platform_blacklist": [
         "samsung",
         "vck",
-        "zc"
+        "zc",
+        "nodma"
     ], 
     "os": [
         "Linux"

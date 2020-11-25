@@ -89,7 +89,7 @@ endif
 
 
 # Adding config files to linker
-LDCLFLAGS_vmult_vadd += --config vmult_vadd.ini 
+LDCLFLAGS_vmult_vadd += --config vmult_vadd.cfg 
 EXECUTABLE = ./slr_assign
 CMD_ARGS = $(BUILD_DIR)/vmult_vadd.xclbin
 EMCONFIG_DIR = $(TEMP_DIR)
@@ -144,6 +144,9 @@ run: all
 ifeq ($(findstring _u25_, $(DEVICE)), _u25_)
 $(error This example is not supported for $(DEVICE))
 endif
+ifeq ($(findstring u30, $(DEVICE)), u30)
+$(error This example is not supported for $(DEVICE))
+endif
 ifeq ($(findstring zc, $(DEVICE)), zc)
 $(error This example is not supported for $(DEVICE))
 endif
@@ -151,6 +154,9 @@ ifeq ($(findstring vck, $(DEVICE)), vck)
 $(error This example is not supported for $(DEVICE))
 endif
 ifeq ($(findstring samsung, $(DEVICE)), samsung)
+$(error This example is not supported for $(DEVICE))
+endif
+ifeq ($(findstring nodma, $(DEVICE)), nodma)
 $(error This example is not supported for $(DEVICE))
 endif
 

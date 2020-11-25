@@ -6,66 +6,87 @@ two PCIe devices to directly transfer data between each other without
 using host RAM as a temporary storage. The latest version of Vitis PCIe
 platforms support P2P feature via PCIe Resizeable BAR Capability
 
-In this Example we highlight the Synchronous and Asynchronous data
-transfer between SSD and FPGA and capture the performance numbers for
-p2p transfer, Kernel and XDMA.
+In this Example we highlight the data transfer between SSD and FPGA 
+and capture the performance numbers for p2p transfer.
 
-By default synchronous flow is ran and following is the real log 
-reported while running the design on samsung platform:
+Following is the real log 
+reported while running the design on U50 platform:
 
 ::
 
-   ./p2p_bandwidth -x copy_kernel.xclbin -i /dev/nvme0n1
+   Found Platform
+   Platform Name: Xilinx
+   INFO: Reading /opt/xilinx/firmware/u50/gen3x16-xdma/base/test/bandwidth.xclbin
+   Loading: '/opt/xilinx/firmware/u50/gen3x16-xdma/base/test/bandwidth.xclbin'
+   Trying to program device[0]: xilinx_u50_gen3x16_xdma_base_4
+   Device[0]: program successful!
+   ############################################################
+                  Writing data to SSD                       
+   ############################################################
    INFO: Successfully opened NVME SSD /dev/nvme0n1
-   INFO: Preparing 1048576KB test data in 8 pipelines
+   
+   Map P2P device buffers to host access pointers
+   
+   Now start P2P Write from device buffers to SSD
+   
+   Now start P2P copy 1048576 Bytes from a device to another device
+   {"metric": "copy_latency", "buf_size_bytes": 1048576, "number_of_bufs": 128, "per_buffer_latency_sec": 0.000466641}
+   {"metric": "copy_throughput", "buf_size_bytes": 1048576, "number_of_bufs": 128, "throughput_gb_per_sec": 2.09275}
+   Now start P2P copy 2097152 Bytes from a device to another device
+   {"metric": "copy_latency", "buf_size_bytes": 2097152, "number_of_bufs": 64, "per_buffer_latency_sec": 0.000748203}
+   {"metric": "copy_throughput", "buf_size_bytes": 2097152, "number_of_bufs": 64, "throughput_gb_per_sec": 2.61042}
+   Now start P2P copy 4194304 Bytes from a device to another device
+   {"metric": "copy_latency", "buf_size_bytes": 4194304, "number_of_bufs": 32, "per_buffer_latency_sec": 0.00160703}
+   {"metric": "copy_throughput", "buf_size_bytes": 4194304, "number_of_bufs": 32, "throughput_gb_per_sec": 2.43072}
+   Now start P2P copy 8388608 Bytes from a device to another device
+   {"metric": "copy_latency", "buf_size_bytes": 8388608, "number_of_bufs": 16, "per_buffer_latency_sec": 0.00353706}
+   {"metric": "copy_throughput", "buf_size_bytes": 8388608, "number_of_bufs": 16, "throughput_gb_per_sec": 2.20875}
+   Now start P2P copy 16777216 Bytes from a device to another device
+   {"metric": "copy_latency", "buf_size_bytes": 16777216, "number_of_bufs": 8, "per_buffer_latency_sec": 0.00659838}
+   {"metric": "copy_throughput", "buf_size_bytes": 16777216, "number_of_bufs": 8, "throughput_gb_per_sec": 2.36801}
+   Now start P2P copy 33554432 Bytes from a device to another device
+   {"metric": "copy_latency", "buf_size_bytes": 33554432, "number_of_bufs": 4, "per_buffer_latency_sec": 0.0145725}
+   {"metric": "copy_throughput", "buf_size_bytes": 33554432, "number_of_bufs": 4, "throughput_gb_per_sec": 2.14445}
+   Now start P2P copy 67108864 Bytes from a device to another device
+   {"metric": "copy_latency", "buf_size_bytes": 67108864, "number_of_bufs": 2, "per_buffer_latency_sec": 0.0264645}
+   {"metric": "copy_throughput", "buf_size_bytes": 67108864, "number_of_bufs": 2, "throughput_gb_per_sec": 2.36165}
+   Now start P2P copy 134217728 Bytes from a device to another device
+   {"metric": "copy_latency", "buf_size_bytes": 134217728, "number_of_bufs": 1, "per_buffer_latency_sec": 0.058277}
+   {"metric": "copy_throughput", "buf_size_bytes": 134217728, "number_of_bufs": 1, "throughput_gb_per_sec": 2.14493}
+
    ############################################################
-                        Synchronous P2P                         
+                  Reading data from SSD                       
    ############################################################
-   INFO: Kick off test
-   HOST -> FPGA(host BO) -> FPGA(p2p BO) -> SSD
-    overall      556211ms    100.00%    1861.03MB/s    
-        p2p      359223ms     57.58%    3250.60MB/s    
-     kernel      199578ms     207.88%    871.83MB/s    
-       XDMA      313203ms     99.11%    1866.45MB/s    
-   INFO: Evaluating test result
-   INFO: Test passed
+   INFO: Successfully opened NVME SSD /dev/nvme0n1
+   
+   Map P2P device buffers to host access pointers
+   
+   Now start P2P Read from SSD to device buffers
+   
+   Now start P2P copy 1048576 Bytes from a device to another device
+   {"metric": "copy_latency", "buf_size_bytes": 1048576, "number_of_bufs": 128, "per_buffer_latency_sec": 0.000622}
+   {"metric": "copy_throughput", "buf_size_bytes": 1048576, "number_of_bufs": 128, "throughput_gb_per_sec": 1.57004}
+   Now start P2P copy 2097152 Bytes from a device to another device
+   {"metric": "copy_latency", "buf_size_bytes": 2097152, "number_of_bufs": 64, "per_buffer_latency_sec": 0.000747469}
+   {"metric": "copy_throughput", "buf_size_bytes": 2097152, "number_of_bufs": 64, "throughput_gb_per_sec": 2.61299}
+   Now start P2P copy 4194304 Bytes from a device to another device
+   {"metric": "copy_latency", "buf_size_bytes": 4194304, "number_of_bufs": 32, "per_buffer_latency_sec": 0.00137222}
+   {"metric": "copy_throughput", "buf_size_bytes": 4194304, "number_of_bufs": 32, "throughput_gb_per_sec": 2.84667}
+   Now start P2P copy 8388608 Bytes from a device to another device
+   {"metric": "copy_latency", "buf_size_bytes": 8388608, "number_of_bufs": 16, "per_buffer_latency_sec": 0.00263306}
+   {"metric": "copy_throughput", "buf_size_bytes": 8388608, "number_of_bufs": 16, "throughput_gb_per_sec": 2.96708}
+   Now start P2P copy 16777216 Bytes from a device to another device
+   {"metric": "copy_latency", "buf_size_bytes": 16777216, "number_of_bufs": 8, "per_buffer_latency_sec": 0.00512488}
+   {"metric": "copy_throughput", "buf_size_bytes": 16777216, "number_of_bufs": 8, "throughput_gb_per_sec": 3.04885}
+   Now start P2P copy 33554432 Bytes from a device to another device
+   {"metric": "copy_latency", "buf_size_bytes": 33554432, "number_of_bufs": 4, "per_buffer_latency_sec": 0.0102465}
+   {"metric": "copy_throughput", "buf_size_bytes": 33554432, "number_of_bufs": 4, "throughput_gb_per_sec": 3.04982}
+   Now start P2P copy 67108864 Bytes from a device to another device
+   {"metric": "copy_latency", "buf_size_bytes": 67108864, "number_of_bufs": 2, "per_buffer_latency_sec": 0.0206}
+   {"metric": "copy_throughput", "buf_size_bytes": 67108864, "number_of_bufs": 2, "throughput_gb_per_sec": 3.03398}
+   Now start P2P copy 134217728 Bytes from a device to another device
+   {"metric": "copy_latency", "buf_size_bytes": 134217728, "number_of_bufs": 1, "per_buffer_latency_sec": 0.040157}
+   {"metric": "copy_throughput", "buf_size_bytes": 134217728, "number_of_bufs": 1, "throughput_gb_per_sec": 3.11278}
 
-If we need to run the asynchronous flow, build the host with
-ENABLE_ASYNC_FLOW=yes : 
-
-.. code:: cpp
-
-   make host ENABLE_ASYNC_FLOW=yes
-
-Following is the real log reported while running the design
-on samsung platform for asynchronous flow:
-
-:: 
-
-    ./p2p_bandwidth -x copy_kernel.xclbin -i /dev/nvme0n1
-    INFO: Successfully opened NVME SSD /dev/nvme0n1
-    INFO: Preparing 1048576KB test data in 8 pipelines
-    ############################################################
-                         Synchronous P2P                         
-    ############################################################
-    INFO: Kick off test
-    HOST -> FPGA(host BO) -> FPGA(p2p BO) -> SSD
-    overall      551211ms    100.00%    1862.23MB/s    
-        p2p      357223ms     58.58%    3200.30MB/s    
-     kernel      192578ms     211.88%    879.89MB/s    
-       XDMA      315203ms     99.31%    1867.35MB/s    
-    INFO: Evaluating test result
-    INFO: Test passed
-    ############################################################
-                         Asynchronous P2P                         
-    ############################################################
-    INFO: Kick off test
-    HOST -> FPGA(host BO) -> FPGA(p2p BO) -> SSD
-    overall      556211ms    100.00%    1548.03MB/s    
-        p2p      359223ms     61.58%    3371.60MB/s    
-     kernel      199578ms     198.88%    697.83MB/s    
-       XDMA      313203ms     98.23%    1806.45MB/s    
-    INFO: Evaluating test result
-    INFO: Test passed
-
+    TEST PASSED
 

@@ -7,6 +7,15 @@ This example shows how to use array partitioning to improve performance of a ker
 
 **KEYWORDS:** xcl_array_partition, complete
 
+EXCLUDED PLATFORMS
+------------------
+
+Platforms containing following strings in their names are not supported for this example :
+
+::
+
+   nodma
+
 DESIGN FILES
 ------------
 

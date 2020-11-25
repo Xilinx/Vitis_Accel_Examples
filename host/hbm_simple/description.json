@@ -15,21 +15,25 @@
     ], 
     "ndevice": [  
         "_u25_",
+        "u30",
         "u200",
         "zc",
         "vck",
         "u250",
         "aws",
-        "samsung"
+        "samsung",
+        "nodma"
     ],
     "platform_blacklist": [
         "_u25_",
+        "u30",
         "u200",
         "zc",
         "vck",
         "u250",
         "aws",
-        "samsung"
+        "samsung",
+        "nodma"
     ],
     "os": [
         "Linux"

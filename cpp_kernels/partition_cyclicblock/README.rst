@@ -7,6 +7,15 @@ This example shows how to use array block and cyclic partitioning to improve per
 
 **KEYWORDS:** #pragma HLS ARRAY_PARTITION, cyclic, block, factor, dim
 
+EXCLUDED PLATFORMS
+------------------
+
+Platforms containing following strings in their names are not supported for this example :
+
+::
+
+   nodma
+
 DESIGN FILES
 ------------
 

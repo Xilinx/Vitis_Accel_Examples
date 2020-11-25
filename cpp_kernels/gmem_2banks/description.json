@@ -3,15 +3,19 @@
         "zc", 
         "zed",
         "vck",
+        "u30",
         "u50",
-        "samsung"
+        "samsung",
+        "nodma"
     ], 
     "platform_blacklist": [
         "zc", 
         "zed",
         "vck",
+        "u30",
         "u50",
-        "samsung"
+        "samsung",
+        "nodma"
     ], 
     "description": [
         "This example of 2ddr is to demonstrate how to use multiple ddr and create buffers in each DDR."
@@ -96,6 +100,7 @@
     ], 
     "testinfo": {
         "disable": false,
+        "profile": "no",
         "jobs": [
             {
                 "index": 0,

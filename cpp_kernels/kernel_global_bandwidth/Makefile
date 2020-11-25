@@ -139,6 +139,9 @@ $(EMCONFIG_DIR)/emconfig.json:
 
 ############################## Setting Essential Checks and Running Rules ##############################
 run: all
+ifeq ($(findstring u30, $(DEVICE)), u30)
+$(error This example is not supported for $(DEVICE))
+endif
 ifeq ($(findstring u50, $(DEVICE)), u50)
 $(error This example is not supported for $(DEVICE))
 endif

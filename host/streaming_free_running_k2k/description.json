@@ -19,14 +19,16 @@
         "qep",
         "aws",
         "samsung",
-        "zc702"
+        "zc702",
+        "nodma"
     ],
     "platform_blacklist": [
         "2018",
         "qep",
         "aws",
         "samsung",
-        "zc702"
+        "zc702",
+        "nodma"
     ],
     "os": [
         "Linux"

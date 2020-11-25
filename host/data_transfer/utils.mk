@@ -3,6 +3,13 @@
 # be overridden through the make command line
 #+-------------------------------------------------------------------------------
 
+PROFILE := no
+
+#Generates profile summary report
+ifeq ($(PROFILE), yes)
+LDCLFLAGS += --profile_kernel data:all:all:all
+endif
+
 DEBUG := no
 B_TEMP = `$(ABS_COMMON_REPO)/common/utility/parse_platform_list.py $(DEVICE)`
 PERL := 
@@ -80,10 +87,10 @@ endif
 gen_run_app:
 ifneq ($(HOST_ARCH), x86)
 	rm -rf run_app.sh
-	$(ECHO) 'export LD_LIBRARY_PATH=/mnt:/tmp:$(LD_LIBRARY_PATH)' >> run_app.sh
+	$(ECHO) 'export LD_LIBRARY_PATH=/mnt:/tmp:$$LD_LIBRARY_PATH' >> run_app.sh
 	$(ECHO) 'export XILINX_XRT=/usr' >> run_app.sh
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
-	$(ECHO) 'export XILINX_VITIS=/mnt' >> run_app.sh
+	$(ECHO) 'export XILINX_VITIS=$$PWD' >> run_app.sh
 	$(ECHO) 'export XCL_EMULATION_MODE=$(TARGET)' >> run_app.sh
 endif
 	$(ECHO) '$(EXECUTABLE) dummy_kernel.xclbin' >> run_app.sh

@@ -1,0 +1,18 @@
+{
+    "meminfo": [
+    {
+        "type": "DDR",
+        "banks": [
+        {
+            "name": "DDR[0]"
+        },
+        {
+            "name": "DDR[1]"
+        },
+        {
+            "name": "DDR[2]"
+        }
+        ]
+    }
+    ]
+}

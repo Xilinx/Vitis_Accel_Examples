@@ -1,7 +1,7 @@
 P2P bandwidth Example
 =====================
 
-This is simple example to test Synchronous and Asyncronous data transfer between SSD and FPGA.
+This is simple example to test data transfer between SSD and FPGA.
 
 **KEY CONCEPTS:** P2P, SmartSSD, XDMA
 
@@ -16,12 +16,11 @@ Platforms containing following strings in their names are not supported for this
 
    zc
    vck
-   _u25_
-   u200
-   u250
-   u50
-   u280
    aws
+   2018
+   201910
+   _u25_
+   u30
 
 DESIGN FILES
 ------------
@@ -30,7 +29,7 @@ Application code is located in the src directory. Accelerator binary files will 
 
 ::
 
-   src/copy_kernel.cpp
+   src/bandwidth.cpp
    src/host.cpp
    
 COMMAND LINE ARGUMENTS
@@ -40,5 +39,5 @@ Once the environment has been configured, the application can be executed by
 
 ::
 
-   ./p2p_bandwidth -x <copy_kernel XCLBIN> -i /dev/nvme0n1
+   ./p2p_bandwidth -x <bandwidth XCLBIN>
 

@@ -10,7 +10,13 @@
     "key_concepts": [
         "Kernel Optimization", 
         "Loop Pipelining"
-    ], 
+    ],
+    "ndevice": [
+        "nodma"
+     ],
+    "platform_blacklist": [
+        "nodma"
+     ],    
     "os": [
         "Linux"
     ], 

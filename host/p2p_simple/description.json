@@ -26,29 +26,29 @@
     "ndevice": [
         "zc",
         "_u25_",
-        "u200",
-        "u250",
-        "u280",
-        "u50",
+        "u30",
         "vck",
-        "aws"
+        "aws",
+        "2018",
+        "201910"
     ],
     "platform_blacklist": [
         "zc",
         "_u25_",
-        "u200",
-        "u250",
-        "u280",
-        "u50",
+        "u30",
         "vck",
-        "aws"
+        "aws",
+        "2018",
+        "201910"
     ],
      "runtime": [
         "OpenCL"
-    ], 
+    ],
+   "config_make": "config.mk",
+   "match_makefile": "false", 
     "launch": [
         {
-            "cmd_args": "-x BUILD/adder.xclbin -i /dev/nvme0n1", 
+            "cmd_args": "-x BUILD/adder.xclbin", 
             "name": "generic launch for all flows"
         }
     ], 
@@ -88,6 +88,7 @@
     ],
     "testinfo": {
         "disable": false,
+        "profile": "no",
         "jobs": [
             {
                 "index": 0,

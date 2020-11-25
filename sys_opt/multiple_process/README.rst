@@ -7,6 +7,15 @@ This example will demonstrate how to run multiple processes to utilize multiple 
 
 **KEYWORDS:** PID, fork, XCL_MULTIPROCESS_MODE, multiprocess
 
+EXCLUDED PLATFORMS
+------------------
+
+Platforms containing following strings in their names are not supported for this example :
+
+::
+
+   nodma
+
 DESIGN FILES
 ------------
 

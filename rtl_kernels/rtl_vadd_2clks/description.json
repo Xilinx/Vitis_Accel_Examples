@@ -10,6 +10,17 @@
     "key_concepts": [
         "RTL Kernel", 
         "Multiple Kernel Clocks"
+    ],
+    "platform_type": "pcie", 
+    "ndevice": [
+        "zc",
+        "vck",
+        "nodma"
+    ],
+    "platform_blacklist": [
+        "zc",
+        "vck",
+        "nodma"
     ], 
     "targets": [
         "hw", 

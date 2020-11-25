@@ -5,7 +5,7 @@ This is a simple vadd Kernel design in which multiple compute units of
 kernel are directly communicating with host using stream interfaces.
 
 For this examples, four compute units of a kernel is created.
-``krnl_stream_vadd.ini`` file specifies number of compute units along
+``krnl_stream_vadd.cfg`` file specifies number of compute units along
 with name of each compute unit as below:
 
 ::
@@ -17,7 +17,7 @@ This file is included to v++ command line using following statement:
 
 ::
 
-   --config krnl_stream_vadd.ini 
+   --config krnl_stream_vadd.cfg 
 
 Host is written configurable for number of compute units using top level
 const variable ``NCU``:
@@ -28,7 +28,7 @@ const variable ``NCU``:
 
 User just needs to change NCU to some other value to make the host code
 ready for other numbers. But user still needs to manually update the
-``krnl_stream_vadd.ini`` file for other configuration.
+``krnl_stream_vadd.cfg`` file for other configuration.
 
 For multiple compute units case, host codes needs to create kernel
 object using specific compute unit name as below:
@@ -46,7 +46,7 @@ object using specific compute unit name as below:
    }
 
 Here compute unit should match to name provided in
-``krnl_stream_vadd.ini`` file.
+``krnl_stream_vadd.cfg`` file.
 
 Once we have unique kernel object for each compute unit, host code can
 easily creates stream object for respective kernel object and transfer

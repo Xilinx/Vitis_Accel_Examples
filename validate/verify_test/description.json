@@ -1,0 +1,69 @@
+{
+    "name": "Verify Kernel (C)", 
+    "description": [
+        "This is a simple design to verify that the platform has basic functionality."
+    ],
+    "os": [
+        "Linux"
+    ], 
+    "runtime": [
+        "OpenCL"
+    ],
+    "platform_type": "pcie",
+    "ndevice": [
+        "zc",
+        "vck190",
+        "2019",
+        "2018"
+    ], 
+    "platform_blacklist": [
+        "zc",
+        "vck",
+        "2019",
+        "2018"
+    ],
+    "host": {
+        "compiler": {
+            "sources": [
+                "REPO_DIR/common/includes/xcl2/xcl2.cpp",
+                "REPO_DIR/common/includes/cmdparser/cmdlineparser.cpp",
+                "REPO_DIR/common/includes/logger/logger.cpp",
+                "./src/host.cpp"
+            ], 
+            "includepaths": [
+                "REPO_DIR/common/includes/xcl2",
+                "REPO_DIR/common/includes/cmdparser",
+                "REPO_DIR/common/includes/logger"
+            ]
+        }, 
+        "host_exe": "validate.exe"
+    },    
+    "match_makefile": "false",
+    "containers": [
+        {
+            "accelerators": [
+                {
+                    "name": "verify", 
+                    "location": "src/verify.cpp"
+                } 
+            ], 
+            "name": "verify"
+        }
+    ],
+    "config_make": "config.mk",        
+    "launch": [
+        {
+            "cmd_args": "platform_test_path", 
+            "name": "generic launch for all flows"
+        }
+    ], 
+    "contributors": [
+        {
+            "url": "http://www.xilinx.com", 
+            "group": "Xilinx"
+        }
+    ],
+    "testinfo": {
+        "profile": "no"
+    }
+}

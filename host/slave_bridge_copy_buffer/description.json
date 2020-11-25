@@ -1,0 +1,81 @@
+{
+    "name": "Slave Bridge Copy Buffer(C)", 
+    "description": [
+       "This is simple slave bridge example to describe how host-only memory can be copied to device-only memory and vice-versa." 
+    ],
+    "keywords": [
+        "XCL_MEM_EXT_HOST_ONLY",
+        "CL_MEM_HOST_NO_ACCESS",
+        "enqueueCopyBuffer"
+        ],
+    "key_concepts": [
+        "slave bridge"
+    ],
+   "platform_type": "pcie",
+   "ndevice": [
+        "_u25_",
+        "u30",
+        "zc",
+        "vck", 
+        "aws",
+        "2019",
+        "2018",  
+        "202010",  
+        "_u2_"
+    ], 
+   "platform_blacklist": [ 
+        "_u25_",
+        "u30",
+        "zc",
+        "vck", 
+        "aws",
+        "2019",
+        "2018",  
+        "202010",
+        "_u2_"
+    ], 
+    "os": [
+        "Linux"
+    ], 
+    "runtime": [
+        "OpenCL"
+    ], 
+    "host": {
+        "compiler": {
+            "sources": [
+                "REPO_DIR/common/includes/xcl2/xcl2.cpp",
+                "./src/host.cpp"
+            ], 
+            "includepaths": [
+                "REPO_DIR/common/includes/xcl2"
+            ]
+        }, 
+        "host_exe": "slave_bridge_copy_buffer.exe"
+    },
+    "containers": [
+        {
+            "accelerators": [
+                {
+                    "name": "krnl_vadd", 
+                    "location": "src/krnl_vadd.cpp"
+                } 
+            ], 
+            "name": "krnl_vadd"
+        }
+    ],
+    "launch": [
+        {
+            "cmd_args": "BUILD/krnl_vadd.xclbin", 
+            "name": "generic launch for all flows"
+        }
+    ], 
+    "contributors": [
+        {
+            "url": "http://www.xilinx.com", 
+            "group": "Xilinx"
+        }
+    ],
+    "testinfo": {
+        "profile": "no"
+    }  
+}

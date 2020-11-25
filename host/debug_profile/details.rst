@@ -40,3 +40,9 @@ are stalling at any point in time. This provides a factor of how much of
 the kernel is stalling at any point in the simulation and user can
 optimize the design to improve the utility of hardware based on these
 stall signals.
+
+If the user wants to record profiling information for arbitrary sections of his code, the following 2 features can be used - 
+
+1. user_range - Profiles and captures the data in the specified range
+
+2. user_event - Marks the event in the timeliene trace

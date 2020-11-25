@@ -7,6 +7,15 @@ This is simple example of vector addition to describe how to use HLS kernels in 
 
 **KEYWORDS:** gmem, bundle, #pragma HLS INTERFACE, m_axi, s_axilite
 
+EXCLUDED PLATFORMS
+------------------
+
+Platforms containing following strings in their names are not supported for this example :
+
+::
+
+   nodma
+
 DESIGN FILES
 ------------
 

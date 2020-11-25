@@ -12,6 +12,12 @@
     "key_concepts": [
         "OpenCL API", 
         "Error handling"
+    ],
+   "ndevice": [
+        "nodma"
+    ],
+    "platform_blacklist": [
+        "nodma"
     ], 
     "os": [
         "Linux"

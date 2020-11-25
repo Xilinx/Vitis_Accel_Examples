@@ -6,6 +6,12 @@
     "flow": "vitis",
     "key_concepts": [
         "Multiple RTL Kernels"
+    ],
+   "ndevice": [
+        "nodma"
+    ],
+    "platform_blacklist": [
+        "nodma"
     ], 
     "targets": [
         "hw", 
@@ -67,7 +73,6 @@
         }
     ],
     "testinfo": {
-        "profile": "no",
         "disable": false,
         "jobs": [
             {

@@ -12,16 +12,20 @@
         "Multiple Banks"
     ], 
     "ndevice": [
+        "u30",
         "u50",
         "vck",
         "zc", 
-        "samsung"
+        "samsung",
+        "nodma"
     ], 
     "platform_blacklist": [
+        "u30",
         "u50",
         "vck",
         "zc", 
-        "samsung"
+        "samsung",
+        "nodma"
     ], 
     "os": [
         "Linux"
@@ -94,6 +98,7 @@
     ],
     "testinfo": {
         "disable": false,
+        "profile": "no",
         "jobs": [
             {
                 "index": 0,

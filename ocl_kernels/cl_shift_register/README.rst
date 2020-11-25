@@ -7,6 +7,15 @@ This example demonstrates how to shift values in registers in each clock cycle
 
 **KEYWORDS:** xcl_array_partition, getProfilingInfo
 
+EXCLUDED PLATFORMS
+------------------
+
+Platforms containing following strings in their names are not supported for this example :
+
+::
+
+   nodma
+
 DESIGN FILES
 ------------
 

@@ -7,6 +7,17 @@ This is simple example to describe how user can provide various advanced options
 
 **KEYWORDS:** config, set_clock_uncertainity, kernel_frequency, hls_pre_tcl
 
+EXCLUDED PLATFORMS
+------------------
+
+Platforms containing following strings in their names are not supported for this example :
+
+::
+
+   zc
+   vck
+   nodma
+
 DESIGN FILES
 ------------
 

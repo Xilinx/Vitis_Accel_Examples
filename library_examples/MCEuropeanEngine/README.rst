@@ -10,12 +10,16 @@ Platforms containing following strings in their names are not supported for this
 
 ::
 
+   _u25_
+   u30
    u50
+   u200
    u280
    zc
    qdma
    vck
    samsung
+   nodma
 
 DESIGN FILES
 ------------

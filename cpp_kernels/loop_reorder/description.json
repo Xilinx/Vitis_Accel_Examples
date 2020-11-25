@@ -10,7 +10,13 @@
     "key_concepts": [
         "Kernel Optimization", 
         "Loop reorder to improve II"
-    ], 
+    ],
+    "ndevice": [
+        "nodma"
+     ],
+    "platform_blacklist": [
+        "nodma"
+     ],    
     "os": [
         "Linux"
     ], 

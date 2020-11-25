@@ -5,6 +5,15 @@ This example is a simple OpenCL application. It will highlight the basic flow of
 
 **KEY CONCEPTS:** OpenCL API
 
+EXCLUDED PLATFORMS
+------------------
+
+Platforms containing following strings in their names are not supported for this example :
+
+::
+
+   nodma
+
 DESIGN FILES
 ------------
 

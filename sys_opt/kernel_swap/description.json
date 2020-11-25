@@ -16,13 +16,15 @@
         "zcu102_base_20",
         "zcu104_base_20",
         "vck",
-        "zc7"
+        "zc7",
+        "nodma"
      ],
     "platform_blacklist": [
         "zcu102_base_20",
         "zcu104_base_20",
         "vck",
-        "zc7"
+        "zc7",
+        "nodma"
      ],
     "contributors": [
         {

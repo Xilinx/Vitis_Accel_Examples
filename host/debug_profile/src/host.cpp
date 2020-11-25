@@ -14,6 +14,7 @@
 * under the License.
 */
 #include "host.h"
+#include "experimental/xrt_profile.h"
 #include "xcl2.hpp"
 #include <vector>
 
@@ -22,6 +23,13 @@ int main(int argc, char *argv[]) {
     std::cout << "Usage: " << argv[0] << " <XCLBIN File>" << std::endl;
     return EXIT_FAILURE;
   }
+
+  // Create a user_range using the shortcut constructor.  This will
+  //  start measuring the time immediately
+  xrt::profile::user_range range("Phase 1",
+                                 "Start of execution to context creation");
+
+  xrt::profile::user_event events;
 
   std::string binaryFile = argv[1];
 
@@ -40,6 +48,11 @@ int main(int argc, char *argv[]) {
     result_sim[i] = source_a[4 * i] + source_a[4 * i + 1] +
                     source_a[4 * i + 2] + source_a[4 * i + 3];
   }
+  range.end();
+
+  events.mark("Test data created");
+
+  range.start("Phase 2", "Context creation and loading of xclbin");
 
   // OPENCL HOST CODE AREA START
   cl_int err;
@@ -74,12 +87,24 @@ int main(int argc, char *argv[]) {
     exit(EXIT_FAILURE);
   }
 
+  range.end();
+
+  events.mark("Context created and Xclbin loaded");
+
+  range.start("Phase 3", "Kernel and buffer creation");
+
   OCL_CHECK(err,
             cl::Buffer buffer_a(context, CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY,
                                 4 * vector_size_bytes, source_a.data(), &err));
   OCL_CHECK(
       err, cl::Buffer buffer_e(context, CL_MEM_USE_HOST_PTR | CL_MEM_WRITE_ONLY,
                                vector_size_bytes, result_krnl.data(), &err));
+
+  range.end();
+
+  events.mark("Beffers created");
+
+  range.start("Phase 4", "Setting up arguments and running kernel");
 
   // Set the kernel arguments
   int vector_length = LENGTH;
@@ -110,7 +135,11 @@ int main(int argc, char *argv[]) {
                                                   CL_MIGRATE_MEM_OBJECT_HOST));
   OCL_CHECK(err, err = q.finish());
 
-  // OPENCL HOST CODE AREA END
+  range.end();
+
+  events.mark("Kernels finished");
+
+  range.start("Phase 5", "Verification");
 
   // Compare the results of the kernel to the simulation
   int krnl_match = 0;
@@ -126,6 +155,9 @@ int main(int argc, char *argv[]) {
         // matched
     }
   }
+  range.end();
+
+  events.mark("Verification done");
 
   std::cout << "TEST " << (krnl_match ? "FAILED" : "PASSED") << std::endl;
   return (krnl_match ? EXIT_FAILURE : EXIT_SUCCESS);

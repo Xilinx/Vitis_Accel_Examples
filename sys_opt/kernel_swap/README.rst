@@ -18,6 +18,7 @@ Platforms containing following strings in their names are not supported for this
    zcu104_base_20
    vck
    zc7
+   nodma
 
 DESIGN FILES
 ------------

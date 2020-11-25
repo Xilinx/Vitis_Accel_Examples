@@ -19,6 +19,7 @@ Platforms containing following strings in their names are not supported for this
    aws
    samsung
    zc702
+   nodma
 
 DESIGN FILES
 ------------

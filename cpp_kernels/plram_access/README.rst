@@ -15,10 +15,12 @@ Platforms containing following strings in their names are not supported for this
 ::
 
    _u25_
+   u30
    zc
    vck
    u50
    samsung
+   nodma
 
 DESIGN FILES
 ------------

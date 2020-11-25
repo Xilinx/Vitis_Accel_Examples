@@ -89,7 +89,7 @@ endif
 
 
 # Adding config files to linker
-LDCLFLAGS_vadd += --config vadd.ini 
+LDCLFLAGS_vadd += --config vadd.cfg 
 EXECUTABLE = ./mult_compute_units
 CMD_ARGS = $(BUILD_DIR)/vadd.xclbin
 EMCONFIG_DIR = $(TEMP_DIR)
@@ -137,6 +137,10 @@ $(EMCONFIG_DIR)/emconfig.json:
 
 ############################## Setting Essential Checks and Running Rules ##############################
 run: all
+ifeq ($(findstring nodma, $(DEVICE)), nodma)
+$(error This example is not supported for $(DEVICE))
+endif
+
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 ifeq ($(HOST_ARCH), x86)
 	$(CP) $(EMCONFIG_DIR)/emconfig.json .

@@ -10,9 +10,12 @@ Platforms containing following strings in their names are not supported for this
 
 ::
 
+   u25
+   u30
    u50
    zc
    vck
+   nodma
    u250
 
 DESIGN FILES

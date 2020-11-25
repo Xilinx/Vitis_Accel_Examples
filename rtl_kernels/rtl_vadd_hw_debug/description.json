@@ -11,10 +11,12 @@
         "hw"
     ],
    "ndevice": [
-      	"vck"
+        "vck",
+        "nodma"
     ], 
     "platform_blacklist": [
-      	"vck"
+        "vck",
+        "nodma"
     ], 
     "os": [
         "Linux"
@@ -68,7 +70,6 @@
         "[Debug Core setup in the RTL kernel design and host design modifications to allow setup of debug triggers prior to running the kernel](https://github.com/Xilinx/Vitis_Accel_Examples/wiki/rtl_kernel_debug)"
     ],
     "testinfo": {
-        "profile": "no",
         "disable": false,
         "jobs": [
             {

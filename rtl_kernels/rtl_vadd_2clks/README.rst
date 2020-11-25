@@ -7,6 +7,17 @@ This example shows vector addition with 2 kernel clocks using RTL Kernel.
 
 **KEYWORDS:** kernel_frequency
 
+EXCLUDED PLATFORMS
+------------------
+
+Platforms containing following strings in their names are not supported for this example :
+
+::
+
+   zc
+   vck
+   nodma
+
 DESIGN FILES
 ------------
 

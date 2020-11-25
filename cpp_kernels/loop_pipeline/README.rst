@@ -7,6 +7,15 @@ This example demonstrates how loop pipelining can be used to improve the perform
 
 **KEYWORDS:** pragma HLS PIPELINE
 
+EXCLUDED PLATFORMS
+------------------
+
+Platforms containing following strings in their names are not supported for this example :
+
+::
+
+   nodma
+
 DESIGN FILES
 ------------
 

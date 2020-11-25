@@ -22,8 +22,8 @@
         "2018",
         "vck",
         "aws",
-        "u50",
-        "_u25_"
+        "_u25_",
+        "u30"
     ],
     "platform_blacklist": [
         "zc",
@@ -31,8 +31,8 @@
         "2018",
         "vck",
         "aws",
-        "u50",
-        "_u25_"
+        "_u25_",
+        "u30"
     ],
      "runtime": [
         "OpenCL"
@@ -76,5 +76,8 @@
             "url": "http://www.xilinx.com", 
             "group": "Xilinx"
         }
-    ] 
+    ],
+    "testinfo": {
+        "profile": "no"
+    }  
 }

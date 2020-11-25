@@ -8,6 +8,12 @@
     "runtime": [
         "OpenCL"
     ],
+    "ndevice": [
+        "nodma"
+    ],
+    "platform_blacklist": [
+        "nodma"
+    ],
     "launch" : [
         {
             "cmd_args" : "BUILD/krnl_vadd.xclbin"

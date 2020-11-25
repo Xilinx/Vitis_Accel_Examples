@@ -18,11 +18,13 @@
     "ndevice": [
         "zc",
         "vck",
+        "nodma",
         "samsung"
     ],	
     "platform_blacklist": [
         "zc",
         "vck",
+        "nodma",
         "samsung"
     ],	
     "runtime": [

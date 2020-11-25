@@ -12,6 +12,12 @@
         "Concurrent execution", 
         "Out of Order Command Queues", 
         "Multiple Command Queues"
+    ],
+    "ndevice": [
+        "nodma"
+    ],
+    "platform_blacklist": [
+        "nodma"
     ], 
     "os": [
         "Linux"

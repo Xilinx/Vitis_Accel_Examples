@@ -6,11 +6,13 @@
     "flow": "vitis",
     "ndevice": [
         "zcu104_base",
-        "zc702_base"
+        "zc702_base",
+        "nodma"
     ], 
     "platform_blacklist": [
         "zcu104_base",
-        "zc702_base"
+        "zc702_base",
+        "nodma"
     ], 
     "os": [
         "Linux"

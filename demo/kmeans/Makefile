@@ -148,6 +148,9 @@ endif
 ifeq ($(findstring vck, $(DEVICE)), vck)
 $(error This example is not supported for $(DEVICE))
 endif
+ifeq ($(findstring nodma, $(DEVICE)), nodma)
+$(error This example is not supported for $(DEVICE))
+endif
 ifeq ($(findstring samsung, $(DEVICE)), samsung)
 $(error This example is not supported for $(DEVICE))
 endif

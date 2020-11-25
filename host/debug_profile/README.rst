@@ -5,6 +5,15 @@ This is simple example of vector addition and printing profile data (wall clock 
 
 **KEY CONCEPTS:** Use of Profile API, Waveform Dumping and loading
 
+EXCLUDED PLATFORMS
+------------------
+
+Platforms containing following strings in their names are not supported for this example :
+
+::
+
+   nodma
+
 DESIGN FILES
 ------------
 

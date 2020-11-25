@@ -7,6 +7,15 @@ This is simple example of vector addition to demonstrate how to utilize both por
 
 **KEYWORDS:** #pragma HLS UNROLL FACTOR=2
 
+EXCLUDED PLATFORMS
+------------------
+
+Platforms containing following strings in their names are not supported for this example :
+
+::
+
+   nodma
+
 DESIGN FILES
 ------------
 

@@ -7,6 +7,15 @@ This example demonstrates how to shift values in registers in each clock cycle
 
 **KEYWORDS:** #pragma HLS ARRAY_PARTITION
 
+EXCLUDED PLATFORMS
+------------------
+
+Platforms containing following strings in their names are not supported for this example :
+
+::
+
+   nodma
+
 DESIGN FILES
 ------------
 

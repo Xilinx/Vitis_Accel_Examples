@@ -7,6 +7,15 @@ This example illustrates several ways to use the OpenCL API to transfer data to 
 
 **KEYWORDS:** enqueueWriteBuffer, enqueueReadBuffer, enqueueMapBuffer, enqueueUnmapMemObject, enqueueMigrateMemObjects
 
+EXCLUDED PLATFORMS
+------------------
+
+Platforms containing following strings in their names are not supported for this example :
+
+::
+
+   nodma
+
 DESIGN FILES
 ------------
 

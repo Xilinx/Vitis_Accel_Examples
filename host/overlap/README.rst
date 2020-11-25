@@ -7,6 +7,15 @@ This examples demonstrates techniques that allow user to overlap Host(CPU) and F
 
 **KEYWORDS:** cl_event, cl::CommandQueue, CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE, enqueueMigrateMemObjects
 
+EXCLUDED PLATFORMS
+------------------
+
+Platforms containing following strings in their names are not supported for this example :
+
+::
+
+   nodma
+
 DESIGN FILES
 ------------
 

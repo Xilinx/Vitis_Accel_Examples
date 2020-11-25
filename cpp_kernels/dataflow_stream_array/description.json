@@ -10,7 +10,13 @@
     ], 
     "key_concepts": [
         "Array of Stream"
-    ], 
+    ],
+    "ndevice": [
+        "nodma"
+     ],
+    "platform_blacklist": [
+        "nodma"
+     ],    
     "os": [
         "Linux"
     ], 

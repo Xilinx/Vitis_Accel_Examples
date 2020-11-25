@@ -10,6 +10,12 @@
     ], 
     "key_concepts": [
         "burst access"
+    ],
+   "ndevice": [
+        "nodma"
+    ],
+    "platform_blacklist": [
+        "nodma"
     ], 
     "os": [
         "Linux"

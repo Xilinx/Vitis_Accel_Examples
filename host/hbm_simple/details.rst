@@ -19,7 +19,7 @@ assignment is done by user.
                              sizeof(uint32_t) * size, &bufExt, &err));
 
 compute unit interfaces are associated to fixed HBM banks using
-``krnl_vadd.ini`` file:
+``krnl_vadd.cfg`` file:
 
 ::
 

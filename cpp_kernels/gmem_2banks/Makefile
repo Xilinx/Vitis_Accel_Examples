@@ -94,7 +94,7 @@ CLFLAGS_apply_watermark +=  --config ./bandwidth.ini
 
 
 # Adding config files to linker
-LDCLFLAGS_apply_watermark += --config apply_watermark.ini 
+LDCLFLAGS_apply_watermark += --config apply_watermark.cfg 
 EXECUTABLE = ./gmem_2banks
 CMD_ARGS = -x $(BUILD_DIR)/apply_watermark.xclbin -i ./data/input.bmp -c ./data/golden.bmp
 EMCONFIG_DIR = $(TEMP_DIR)
@@ -152,10 +152,16 @@ endif
 ifeq ($(findstring vck, $(DEVICE)), vck)
 $(error This example is not supported for $(DEVICE))
 endif
+ifeq ($(findstring u30, $(DEVICE)), u30)
+$(error This example is not supported for $(DEVICE))
+endif
 ifeq ($(findstring u50, $(DEVICE)), u50)
 $(error This example is not supported for $(DEVICE))
 endif
 ifeq ($(findstring samsung, $(DEVICE)), samsung)
+$(error This example is not supported for $(DEVICE))
+endif
+ifeq ($(findstring nodma, $(DEVICE)), nodma)
 $(error This example is not supported for $(DEVICE))
 endif
 

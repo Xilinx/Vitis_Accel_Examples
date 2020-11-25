@@ -31,7 +31,7 @@ explicitly:
 
 HBM memory must be associated to respective kernel I/O ports using
 ``sp`` option. We need to add mapping between HBM memory and I/O ports
-in ``krnl_vaddmul.ini`` file
+in ``krnl_vaddmul.cfg`` file
 
 ::
 

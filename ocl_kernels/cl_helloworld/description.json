@@ -6,6 +6,12 @@
     "flow": "vitis",
     "key_concepts": [
         "OpenCL API"
+    ],
+   "ndevice": [
+        "nodma"
+    ],
+    "platform_blacklist": [
+        "nodma"
     ], 
     "os": [
         "Linux"

@@ -5,6 +5,15 @@ This example has two RTL Kernels. Both Kernel_0 and Kernel_1 perform vector addi
 
 **KEY CONCEPTS:** Multiple RTL Kernels
 
+EXCLUDED PLATFORMS
+------------------
+
+Platforms containing following strings in their names are not supported for this example :
+
+::
+
+   nodma
+
 DESIGN FILES
 ------------
 

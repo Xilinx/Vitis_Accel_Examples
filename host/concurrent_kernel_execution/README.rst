@@ -7,6 +7,15 @@ This example will demonstrate how to use multiple and out of order command queue
 
 **KEYWORDS:** CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE, setCallback
 
+EXCLUDED PLATFORMS
+------------------
+
+Platforms containing following strings in their names are not supported for this example :
+
+::
+
+   nodma
+
 DESIGN FILES
 ------------
 

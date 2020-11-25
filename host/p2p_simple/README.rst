@@ -16,12 +16,11 @@ Platforms containing following strings in their names are not supported for this
 
    zc
    _u25_
-   u200
-   u250
-   u280
-   u50
+   u30
    vck
    aws
+   2018
+   201910
 
 DESIGN FILES
 ------------
@@ -40,5 +39,5 @@ Once the environment has been configured, the application can be executed by
 
 ::
 
-   ./p2p_simple -x <adder XCLBIN> -i /dev/nvme0n1
+   ./p2p_simple -x <adder XCLBIN>
 

@@ -9,6 +9,12 @@
     ], 
     "key_concepts": [
         "Multiple Compute Units"
+    ],
+   "ndevice": [
+        "nodma"
+    ],
+    "platform_blacklist": [
+        "nodma"
     ], 
     "os": [
         "Linux"

@@ -7,6 +7,12 @@
     "key_concepts": [
         "RTL Kernel", 
         "Multiple RTL Kernels"
+    ],
+    "ndevice": [
+        "nodma"
+    ],
+    "platform_blacklist": [
+        "nodma"
     ], 
     "targets": [
         "hw", 

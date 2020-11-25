@@ -5,7 +5,7 @@ This example demonstrates how multiple compute units can do parallel
 processing where the compute units are asymmetrical i.e. connected to
 different memory banks.
 
-Kernel can be connected to different banks using vadd.ini file as below:
+Kernel can be connected to different banks using vadd.cfg file as below:
 
 ::
 
@@ -30,11 +30,11 @@ compute unit are needed for ``vadd`` kernel. It also allows to give
 names of user choice. ``sp`` option can be used to provide connection of
 compute units to target memory (DDR, PLRAM).
 
-``vadd.ini`` file should be included in v++ command line as below:
+``vadd.cfg`` file should be included in v++ command line as below:
 
 ::
 
-   --config vadd.ini 
+   --config vadd.cfg
 
 As each compute unit are connected to diferrent DDR/PLRAM, so host
 program has to create kernel object specific to compute unit as below:

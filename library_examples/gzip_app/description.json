@@ -12,7 +12,8 @@
         "zc",
         "vck", 
         "u50", 
-        "u280"
+        "u280",
+        "nodma"
     ], 
      "runtime": [
         "OpenCL"

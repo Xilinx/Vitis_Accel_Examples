@@ -39,6 +39,7 @@ ABS_COMMON_REPO = $(shell readlink -f $(COMMON_REPO))
 TARGET := hw
 HOST_ARCH := x86
 SYSROOT := 
+EXTRA_HOST_ARGS :=
 
 include ./utils.mk
 
@@ -88,12 +89,12 @@ endif
 
 
 EXECUTABLE = ./p2p_bandwidth
-CMD_ARGS = -x $(BUILD_DIR)/copy_kernel.xclbin -i /dev/nvme0n1
+CMD_ARGS = -x $(BUILD_DIR)/bandwidth.xclbin $(EXTRA_HOST_ARGS)
 EMCONFIG_DIR = $(TEMP_DIR)
 
 ############################## Declaring Binary Containers ##############################
-BINARY_CONTAINERS += $(BUILD_DIR)/copy_kernel.xclbin
-BINARY_CONTAINER_copy_kernel_OBJS += $(TEMP_DIR)/copy.xo
+BINARY_CONTAINERS += $(BUILD_DIR)/bandwidth.xclbin
+BINARY_CONTAINER_bandwidth_OBJS += $(TEMP_DIR)/bandwidth.xo
 
 ############################## Setting Targets ##############################
 CP = cp -rf
@@ -111,16 +112,16 @@ build: check-vitis $(BINARY_CONTAINERS)
 xclbin: build
 
 ############################## Setting Rules for Binary Containers (Building Kernels) ##############################
-$(TEMP_DIR)/copy.xo: src/copy_kernel.cpp
+$(TEMP_DIR)/bandwidth.xo: src/bandwidth.cpp
 	mkdir -p $(TEMP_DIR)
-	$(VPP) -c -k copy $(CLFLAGS) --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
-$(BUILD_DIR)/copy_kernel.xclbin: $(BINARY_CONTAINER_copy_kernel_OBJS)
+	$(VPP) -c -k bandwidth $(CLFLAGS) --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
+$(BUILD_DIR)/bandwidth.xclbin: $(BINARY_CONTAINER_bandwidth_OBJS)
 	mkdir -p $(BUILD_DIR)
 ifeq ($(HOST_ARCH), x86)
-	$(VPP) -l $(LDCLFLAGS) $(CLFLAGS) --temp_dir $(BUILD_DIR)  -o'$(BUILD_DIR)/copy_kernel.link.xclbin' $(+)
-	$(VPP) -p $(BUILD_DIR)/copy_kernel.link.xclbin -t $(TARGET) --platform $(DEVICE) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/copy_kernel.xclbin
+	$(VPP) -l $(LDCLFLAGS) $(CLFLAGS) --temp_dir $(BUILD_DIR)  -o'$(BUILD_DIR)/bandwidth.link.xclbin' $(+)
+	$(VPP) -p $(BUILD_DIR)/bandwidth.link.xclbin -t $(TARGET) --platform $(DEVICE) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/bandwidth.xclbin
 else
-	$(VPP) -l $(LDCLFLAGS) $(CLFLAGS) --temp_dir $(BUILD_DIR) -o'$(BUILD_DIR)/copy_kernel.xclbin' $(+)
+	$(VPP) -l $(LDCLFLAGS) $(CLFLAGS) --temp_dir $(BUILD_DIR) -o'$(BUILD_DIR)/bandwidth.xclbin' $(+)
 endif
 
 ############################## Setting Rules for Host (Building Host Executable) ##############################
@@ -139,39 +140,36 @@ endif
 ifeq ($(findstring vck, $(DEVICE)), vck)
 $(error This example is not supported for $(DEVICE))
 endif
+ifeq ($(findstring aws, $(DEVICE)), aws)
+$(error This example is not supported for $(DEVICE))
+endif
+ifeq ($(findstring 2018, $(DEVICE)), 2018)
+$(error This example is not supported for $(DEVICE))
+endif
+ifeq ($(findstring 201910, $(DEVICE)), 201910)
+$(error This example is not supported for $(DEVICE))
+endif
 ifeq ($(findstring _u25_, $(DEVICE)), _u25_)
 $(error This example is not supported for $(DEVICE))
 endif
-ifeq ($(findstring u200, $(DEVICE)), u200)
-$(error This example is not supported for $(DEVICE))
-endif
-ifeq ($(findstring u250, $(DEVICE)), u250)
-$(error This example is not supported for $(DEVICE))
-endif
-ifeq ($(findstring u50, $(DEVICE)), u50)
-$(error This example is not supported for $(DEVICE))
-endif
-ifeq ($(findstring u280, $(DEVICE)), u280)
-$(error This example is not supported for $(DEVICE))
-endif
-ifeq ($(findstring aws, $(DEVICE)), aws)
+ifeq ($(findstring u30, $(DEVICE)), u30)
 $(error This example is not supported for $(DEVICE))
 endif
 
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 	$(CP) $(EMCONFIG_DIR)/emconfig.json .
-	XCL_EMULATION_MODE=$(TARGET) $(EXECUTABLE) -x $(BUILD_DIR)/copy_kernel.xclbin -i /dev/nvme0n1
+	XCL_EMULATION_MODE=$(TARGET) $(EXECUTABLE) $(CMD_ARGS)
 else
-	$(EXECUTABLE) -x $(BUILD_DIR)/copy_kernel.xclbin -i /dev/nvme0n1
+	$(EXECUTABLE) $(CMD_ARGS)
 endif
 
 
 .PHONY: test
 test: $(EXECUTABLE)
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
-	XCL_EMULATION_MODE=$(TARGET) $(EXECUTABLE) -x $(BUILD_DIR)/copy_kernel.xclbin -i /dev/nvme0n1
+	XCL_EMULATION_MODE=$(TARGET) $(EXECUTABLE) $(CMD_ARGS)
 else
-	$(EXECUTABLE) -x $(BUILD_DIR)/copy_kernel.xclbin -i /dev/nvme0n1
+	$(EXECUTABLE) $(CMD_ARGS)
 endif
 
 

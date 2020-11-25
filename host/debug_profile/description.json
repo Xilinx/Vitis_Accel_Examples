@@ -7,6 +7,12 @@
     "key_concepts": [
         "Use of Profile API", 
         "Waveform Dumping and loading"
+    ],
+   "ndevice": [
+        "nodma"
+    ],
+    "platform_blacklist": [
+        "nodma"
     ], 
     "os": [
         "Linux"
@@ -16,6 +22,11 @@
     ], 
     "host": {
         "host_exe": "debug_profile",
+        "linker": {
+            "options": [
+                "-lxrt_coreutil"
+            ]
+        }, 
         "compiler": {
             "sources": [
                 "REPO_DIR/common/includes/xcl2/xcl2.cpp",
@@ -57,7 +68,6 @@
                 "hw_emu": "1"
             }
         ],
-        "profile": "no",
         "disable": false,
         "jobs": [
             {

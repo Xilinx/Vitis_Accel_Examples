@@ -17,6 +17,7 @@ Platforms containing following strings in their names are not supported for this
    samsung
    vck
    zc
+   nodma
 
 DESIGN FILES
 ------------

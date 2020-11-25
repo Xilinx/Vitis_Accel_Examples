@@ -89,7 +89,7 @@ endif
 
 
 # Adding config files to linker
-LDCLFLAGS_krnl_host_global += --config krnl_host_global.ini 
+LDCLFLAGS_krnl_host_global += --config krnl_host_global.cfg 
 EXECUTABLE = ./host_global_bandwidth
 CMD_ARGS = $(BUILD_DIR)/krnl_host_global.xclbin
 EMCONFIG_DIR = $(TEMP_DIR)
@@ -138,6 +138,9 @@ $(EMCONFIG_DIR)/emconfig.json:
 ############################## Setting Essential Checks and Running Rules ##############################
 run: all
 ifeq ($(findstring _u25_, $(DEVICE)), _u25_)
+$(error This example is not supported for $(DEVICE))
+endif
+ifeq ($(findstring u30, $(DEVICE)), u30)
 $(error This example is not supported for $(DEVICE))
 endif
 ifeq ($(findstring u50, $(DEVICE)), u50)

@@ -7,6 +7,15 @@ This is simple example of using AXI4-master interface for burst read and write
 
 **KEYWORDS:** memcpy, max_read_burst_length, max_write_burst_length
 
+EXCLUDED PLATFORMS
+------------------
+
+Platforms containing following strings in their names are not supported for this example :
+
+::
+
+   nodma
+
 DESIGN FILES
 ------------
 

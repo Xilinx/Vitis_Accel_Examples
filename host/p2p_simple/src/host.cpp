@@ -142,21 +142,22 @@ int main(int argc, char **argv) {
   // Switches
   //**************//"<Full Arg>",  "<Short Arg>", "<Description>", "<Default>"
   parser.addSwitch("--xclbin_file", "-x", "input binary file string", "");
-  parser.addSwitch("--input_file", "-i", "input test data flie", "");
+  parser.addSwitch("--file_path", "-p", "file path string", "");
   parser.parse(argc, argv);
 
   // Read settings
   auto binaryFile = parser.value("xclbin_file");
-  auto filename = parser.value("input_file");
+  std::string filename = parser.value("file_path");
 
-  if (argc != 5) {
+  if (argc < 3) {
     parser.printHelp();
     return EXIT_FAILURE;
   }
-  int nvmeFd = -1;
-  if (xcl::is_emulation()) {
-    filename = "./sample.txt";
+
+  if(filename.empty()){
+      filename = "./sample.txt";
   }
+  int nvmeFd = -1;
 
   cl_int err;
   cl::Context context;

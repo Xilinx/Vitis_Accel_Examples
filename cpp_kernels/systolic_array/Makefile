@@ -141,6 +141,9 @@ endif
 ifeq ($(findstring zc702_base, $(DEVICE)), zc702_base)
 $(error This example is not supported for $(DEVICE))
 endif
+ifeq ($(findstring nodma, $(DEVICE)), nodma)
+$(error This example is not supported for $(DEVICE))
+endif
 
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 ifeq ($(HOST_ARCH), x86)

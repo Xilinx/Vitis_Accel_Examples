@@ -7,6 +7,15 @@ This is simple Example of Multiple Compute units to showcase how a single kernel
 
 **KEYWORDS:** nk
 
+EXCLUDED PLATFORMS
+------------------
+
+Platforms containing following strings in their names are not supported for this example :
+
+::
+
+   nodma
+
 DESIGN FILES
 ------------
 

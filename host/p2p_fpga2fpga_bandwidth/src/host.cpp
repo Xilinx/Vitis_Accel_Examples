@@ -28,20 +28,6 @@ decltype(&xclGetMemObjectFromFd) xcl::P2P::getMemObjectFromFd = nullptr;
 
 cl_program xcl_import_binary_file(cl_device_id device_id, cl_context context,
                                   const char *xclbin_file_name);
-//==================================================================================================
-
-/*void report_time(std::string label, cl_ulong totalTime, cl_ulong curTime) {
-  double total = LENGTH;
-
-  total *= 1000000;     // convert us to s
-  total /= 1024 * 1024; // convert to MB
-
-  std::cout << std::setw(8) << label << "\t" << std::fixed
-            << std::setprecision(2) << std::setw(8) << curTime << "ms\t"
-            << std::setw(8) << totalTime << "ms\t" << std::setw(8)
-            << float(curTime) * 100 / totalTime << "%\t" << std::setw(8)
-            << total / curTime << "MB/s\t" << std::endl;
-}*/
 
 int main(int argc, char *argv[]) {
 
@@ -65,7 +51,7 @@ int main(int argc, char *argv[]) {
   if (argc < 5) {
     std::cout << "Options: <exe> <-x1> <first xclbin> <-x2> <second xclbin> "
                  "<optional> <-d0> <device id0> <-d1> <device id1>"
-              << endl;
+              << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -75,19 +61,12 @@ int main(int argc, char *argv[]) {
     length = 4 * 1024;
     buffersize = 1024;
   }
-  std::ofstream handle_new("data_points.txt");
-  handle_new << "p2p_dev2dev\n";
-  handle_new << "latency,throughput\n";
 
   std::vector<data_t, aligned_allocator<data_t>> in1(length);
   std::vector<data_t, aligned_allocator<data_t>> out1(length);
-  std::vector<data_t, aligned_allocator<data_t>> sw_results(length);
-  std::vector<data_t, aligned_allocator<data_t>> hw_results(length);
   for (int i = 0; i < length; i++) {
     in1[i] = i;
     out1[i] = 0;
-    hw_results[i] = 0;
-    sw_results[i] = 0;
   }
 
   cl_platform_id platform_id;
@@ -130,12 +109,12 @@ int main(int argc, char *argv[]) {
   if (dev_id1 <= device_count)
     device1 = device_id[dev_id1];
   else
-    cout << "The device_id1 provided using -d0 flag is outside the range of "
+    std::cout << "The device_id1 provided using -d0 flag is outside the range of "
             "available devices\n";
   if (dev_id2 <= device_count)
     device2 = device_id[dev_id2];
   else
-    cout << "The device_id2 provided using -d1 flag is outside the range of "
+    std::cout << "The device_id2 provided using -d1 flag is outside the range of "
             "available devices\n";
   cl_context context[device_count];
   cl_command_queue queue[device_count];
@@ -266,23 +245,11 @@ int main(int argc, char *argv[]) {
     double dsduration = dnsduration / ((double)1000000);
     double gbpersec =
         (vector_size_bytes * iter / dsduration) / ((double)1024 * 1024 * 1024);
-    handle_new << "{\"metric\": \"copy_latency\", \"buf_size_bytes\": "
-               << bufsize << ", \"number_of_bufs\": " << burst
-               << ", \"per_buffer_latency_sec\": " << dsduration / burst
-               << "}\n";
-    handle_new << "{\"metric\": \"copy_throughput\", \"buf_size_bytes\": "
-               << bufsize << ", \"number_of_bufs\": " << burst
-               << ", \"throughput_gb_per_sec\": " << gbpersec << "}\n";
-    std::cout << "{\"metric\": \"copy_latency\", \"buf_size_bytes\": "
-              << bufsize << ", \"number_of_bufs\": " << burst
-              << ", \"per_buffer_latency_sec\": " << dsduration / burst
-              << "}\n";
     std::cout << "{\"metric\": \"copy_throughput\", \"buf_size_bytes\": "
-              << bufsize << ", \"number_of_bufs\": " << burst
+              << bufsize 
               << ", \"throughput_gb_per_sec\": " << gbpersec << "}\n";
   }
 
-  handle_new.close();
   clFinish(queue[0]);
   clReleaseMemObject(input_a);
   clReleaseMemObject(output_a);

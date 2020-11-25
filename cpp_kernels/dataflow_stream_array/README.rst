@@ -7,6 +7,15 @@ This is simple example of Multiple Stages Vector Addition to demonstrate Array o
 
 **KEYWORDS:** dataflow, hls::stream
 
+EXCLUDED PLATFORMS
+------------------
+
+Platforms containing following strings in their names are not supported for this example :
+
+::
+
+   nodma
+
 DESIGN FILES
 ------------
 

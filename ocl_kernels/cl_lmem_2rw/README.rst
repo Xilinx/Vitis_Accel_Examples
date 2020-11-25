@@ -7,6 +7,15 @@ This is simple example of vector addition to demonstrate how to utilized both po
 
 **KEYWORDS:** opencl_unroll_hint
 
+EXCLUDED PLATFORMS
+------------------
+
+Platforms containing following strings in their names are not supported for this example :
+
+::
+
+   nodma
+
 DESIGN FILES
 ------------
 

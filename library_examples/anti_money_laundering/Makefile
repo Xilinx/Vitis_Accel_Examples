@@ -87,7 +87,7 @@ endif
 
 
 # Adding config files to linker
-LDCLFLAGS_aml += --config aml.ini 
+LDCLFLAGS_aml += --config aml.cfg 
 EXECUTABLE = ./test_aml
 CMD_ARGS =  -xclbin $(BUILD_DIR)/aml.xclbin -d ./data -c 0
 EMCONFIG_DIR = $(TEMP_DIR)
@@ -144,7 +144,13 @@ run: all
 ifeq ($(findstring _u25_, $(DEVICE)), _u25_)
 $(error This example is not supported for $(DEVICE))
 endif
+ifeq ($(findstring u30, $(DEVICE)), u30)
+$(error This example is not supported for $(DEVICE))
+endif
 ifeq ($(findstring u50, $(DEVICE)), u50)
+$(error This example is not supported for $(DEVICE))
+endif
+ifeq ($(findstring u200, $(DEVICE)), u200)
 $(error This example is not supported for $(DEVICE))
 endif
 ifeq ($(findstring u280, $(DEVICE)), u280)
@@ -157,6 +163,9 @@ ifeq ($(findstring zc, $(DEVICE)), zc)
 $(error This example is not supported for $(DEVICE))
 endif
 ifeq ($(findstring vck, $(DEVICE)), vck)
+$(error This example is not supported for $(DEVICE))
+endif
+ifeq ($(findstring nodma, $(DEVICE)), nodma)
 $(error This example is not supported for $(DEVICE))
 endif
 

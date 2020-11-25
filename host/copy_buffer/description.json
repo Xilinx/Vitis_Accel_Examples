@@ -19,11 +19,13 @@
     ],
     "ndevice": [
         "xilinx_u200_xdma_201830",
-        "xilinx_u250_xdma_201830"
+        "xilinx_u250_xdma_201830",
+        "nodma"
     ],
     "platform_blacklist": [
         "xilinx_u200_xdma_201830",
-        "xilinx_u250_xdma_201830"
+        "xilinx_u250_xdma_201830",
+        "nodma"
     ],
     "os": [
         "Linux"

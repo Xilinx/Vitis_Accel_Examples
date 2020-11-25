@@ -7,6 +7,15 @@ This example shows how HLS introduces the capability of resizing the port width 
 
 **KEYWORDS:** m_axi_max_widen_bitwidth 
 
+EXCLUDED PLATFORMS
+------------------
+
+Platforms containing following strings in their names are not supported for this example :
+
+::
+
+   nodma
+
 DESIGN FILES
 ------------
 

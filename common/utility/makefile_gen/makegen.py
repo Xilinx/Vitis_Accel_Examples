@@ -174,7 +174,7 @@ def add_kernel_flags(target, data):
                                                 target.write("\n")
                                                 target.write("# Adding config files to linker\n")
                                                 target.write("LDCLFLAGS_"+con["name"]+" += ")
-                                                target.write("--config "+con["name"]+".ini ")
+                                                target.write("--config "+con["name"]+".cfg ")
                                                 config_add=1
     target.write("\n")
     target.write("EXECUTABLE = ./")
@@ -787,10 +787,10 @@ def util_checks(target):
         target.write("gen_run_app:\n")
         target.write("ifneq ($(HOST_ARCH), x86)\n")
         target.write("\trm -rf run_app.sh\n")
-        target.write("\t$(ECHO) 'export LD_LIBRARY_PATH=/mnt:/tmp:$(LD_LIBRARY_PATH)' >> run_app.sh\n")
+        target.write("\t$(ECHO) 'export LD_LIBRARY_PATH=/mnt:/tmp:$$LD_LIBRARY_PATH' >> run_app.sh\n")
         target.write("\t$(ECHO) 'export XILINX_XRT=/usr' >> run_app.sh\n")
         target.write("ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))\n")
-        target.write("\t$(ECHO) 'export XILINX_VITIS=/mnt' >> run_app.sh\n")
+        target.write("\t$(ECHO) 'export XILINX_VITIS=$$PWD' >> run_app.sh\n")
         target.write("\t$(ECHO) 'export XCL_EMULATION_MODE=$(TARGET)' >> run_app.sh\n")
         target.write("endif\n")
         target.write("\t$(ECHO) '$(EXECUTABLE)")
@@ -888,8 +888,8 @@ def create_config(data):
                 config_file = 0
                 for acc in con["accelerators"]:
                     if ("compute_units" in acc or "num_compute_units" in acc) and config_file == 0:
-                        print ("Creating "+con["name"]+".ini file for %s" %data["name"])
-                        target = open(con["name"] + ".ini","w")
+                        print ("Creating "+con["name"]+".cfg file for %s" %data["name"])
+                        target = open(con["name"] + ".cfg","w")
                         target.write("[connectivity]\n")
                         config_file = 1
                     if "compute_units" in acc:

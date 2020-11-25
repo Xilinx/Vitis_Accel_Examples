@@ -39,7 +39,7 @@ ABS_COMMON_REPO = $(shell readlink -f $(COMMON_REPO))
 TARGET := hw
 HOST_ARCH := x86
 SYSROOT := 
-
+EXTRA_HOST_ARGS :=
 include ./utils.mk
 
 XSA := 
@@ -59,6 +59,8 @@ RESULT_STRING = TEST PASSED
 VPP := v++
 
 include $(ABS_COMMON_REPO)/common/includes/opencl/opencl.mk
+include config.mk
+
 CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++11
 LDFLAGS += $(opencl_LDFLAGS)
 
@@ -88,7 +90,7 @@ endif
 LDCLFLAGS += --config ./adder.ini
 
 EXECUTABLE = ./p2p_simple
-CMD_ARGS = -x $(BUILD_DIR)/adder.xclbin -i /dev/nvme0n1
+CMD_ARGS = -x $(BUILD_DIR)/adder.xclbin $(EXTRA_HOST_ARGS)
 EMCONFIG_DIR = $(TEMP_DIR)
 
 ############################## Declaring Binary Containers ##############################
@@ -139,16 +141,7 @@ endif
 ifeq ($(findstring _u25_, $(DEVICE)), _u25_)
 $(error This example is not supported for $(DEVICE))
 endif
-ifeq ($(findstring u200, $(DEVICE)), u200)
-$(error This example is not supported for $(DEVICE))
-endif
-ifeq ($(findstring u250, $(DEVICE)), u250)
-$(error This example is not supported for $(DEVICE))
-endif
-ifeq ($(findstring u280, $(DEVICE)), u280)
-$(error This example is not supported for $(DEVICE))
-endif
-ifeq ($(findstring u50, $(DEVICE)), u50)
+ifeq ($(findstring u30, $(DEVICE)), u30)
 $(error This example is not supported for $(DEVICE))
 endif
 ifeq ($(findstring vck, $(DEVICE)), vck)
@@ -157,21 +150,27 @@ endif
 ifeq ($(findstring aws, $(DEVICE)), aws)
 $(error This example is not supported for $(DEVICE))
 endif
+ifeq ($(findstring 2018, $(DEVICE)), 2018)
+$(error This example is not supported for $(DEVICE))
+endif
+ifeq ($(findstring 201910, $(DEVICE)), 201910)
+$(error This example is not supported for $(DEVICE))
+endif
 
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
-	$(CP) $(EMCONFIG_DIR)/emconfig.json .
-	XCL_EMULATION_MODE=$(TARGET) $(EXECUTABLE) -x $(BUILD_DIR)/adder.xclbin -i /dev/nvme0n1
+	$(CP) $(EMCONFIG_DIR)/emconfig.json .	
+	XCL_EMULATION_MODE=$(TARGET) $(EXECUTABLE) $(CMD_ARGS)
 else
-	$(EXECUTABLE) -x $(BUILD_DIR)/adder.xclbin -i /dev/nvme0n1
+	$(EXECUTABLE) $(CMD_ARGS)
 endif
 
 
 .PHONY: test
 test: $(EXECUTABLE)
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
-	XCL_EMULATION_MODE=$(TARGET) $(EXECUTABLE) -x $(BUILD_DIR)/adder.xclbin -i /dev/nvme0n1
+	XCL_EMULATION_MODE=$(TARGET) $(EXECUTABLE) $(CMD_ARGS)
 else
-	$(EXECUTABLE) -x $(BUILD_DIR)/adder.xclbin -i /dev/nvme0n1
+	$(EXECUTABLE) $(CMD_ARGS)
 endif
 
 

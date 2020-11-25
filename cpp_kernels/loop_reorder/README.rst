@@ -7,6 +7,15 @@ This is a simple example of matrix multiplication (Row x Col) to demonstrate how
 
 **KEYWORDS:** #pragma HLS ARRAY_PARTITION
 
+EXCLUDED PLATFORMS
+------------------
+
+Platforms containing following strings in their names are not supported for this example :
+
+::
+
+   nodma
+
 DESIGN FILES
 ------------
 

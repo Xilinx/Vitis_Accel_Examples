@@ -10,9 +10,12 @@
         "aws"
     ], 
     "platform_blacklist": [
+        "u25",
+        "u30",
         "u50",
         "zc",
         "vck",
+        "nodma",
         "u250"
     ], 
     "runtime": [

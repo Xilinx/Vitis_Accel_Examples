@@ -246,7 +246,7 @@ int main(int argc, char **argv) {
   // Buffers are allocated using CL_MEM_USE_HOST_PTR for efficient memory and
   // Device-to-host communication
   {
-    cl::Buffer buffer_a(context, CL_MEM_READ_ONLY, 0, nullptr, &err);
+    cl::Buffer buffer_a(context, CL_MEM_READ_ONLY, (size_t)0, nullptr, &err);
     if (err) {
       std::cout << "Recoverable Error calling clCreateBuffer: "
                 << error_string(err) << std::endl

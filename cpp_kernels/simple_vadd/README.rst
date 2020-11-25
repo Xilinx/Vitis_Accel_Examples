@@ -3,6 +3,15 @@ Vector Addition
 
 This is a simple example of vector addition.The purpose of this code is to introduce the user to application development in the Vitis tools.
 
+EXCLUDED PLATFORMS
+------------------
+
+Platforms containing following strings in their names are not supported for this example :
+
+::
+
+   nodma
+
 DESIGN FILES
 ------------
 

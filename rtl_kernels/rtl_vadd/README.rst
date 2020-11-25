@@ -5,6 +5,15 @@ Simple example of vector addition using RTL Kernel
 
 **KEY CONCEPTS:** RTL Kernel
 
+EXCLUDED PLATFORMS
+------------------
+
+Platforms containing following strings in their names are not supported for this example :
+
+::
+
+   nodma
+
 DESIGN FILES
 ------------
 

@@ -9,17 +9,21 @@
     ], 
     "ndevice": [
         "_u25_",
+        "u30",
         "u50",
         "vck",
         "samsung",
-        "zc"
+        "zc",
+        "nodma"
     ], 
     "platform_blacklist": [
         "_u25_",
+        "u30",
         "u50",
         "vck",
         "samsung",
-        "zc"
+        "zc",
+        "nodma"
     ], 
     "os": [
         "Linux"
@@ -131,6 +135,7 @@
     ],
     "testinfo": {
         "disable": false,
+        "profile": "no",
         "jobs": [
             {
                 "index": 0,

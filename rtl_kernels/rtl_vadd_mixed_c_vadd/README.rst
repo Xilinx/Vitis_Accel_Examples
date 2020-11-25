@@ -5,6 +5,15 @@ This example has one RTL kernel and one C kernel. Both RTL kernel and C kernel p
 
 **KEY CONCEPTS:** Mixed Kernels
 
+EXCLUDED PLATFORMS
+------------------
+
+Platforms containing following strings in their names are not supported for this example :
+
+::
+
+   nodma
+
 DESIGN FILES
 ------------
 

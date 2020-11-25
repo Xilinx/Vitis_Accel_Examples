@@ -1,0 +1,79 @@
+{
+    "name": "IOPS Test", 
+    "description": [
+        "This is simple test design to measure Input/Output Operations per second. In this design, a simple kernel is enqueued many times and measuring overall IOPS."
+    ],
+    "flow": "vitis",
+    "keywords": [
+        "CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE"
+    ], 
+    "key_concepts": [
+        "Input/Output Operations per second"
+    ], 
+     "ndevice": [
+        "nodma"
+     ],
+    "platform_blacklist": [
+        "nodma"
+     ],
+    "os": [
+        "Linux"
+    ], 
+    "runtime": [
+        "OpenCL"
+    ], 
+    "host": {
+        "host_exe": "iops_test",
+        "compiler": {
+            "sources": [
+                "REPO_DIR/common/includes/xcl2/xcl2.cpp",
+                "./src/host.cpp"
+            ], 
+            "includepaths": [
+                "REPO_DIR/common/includes/xcl2"
+            ]
+        }
+    }, 
+    "containers": [
+        {
+            "accelerators": [
+                {
+                    "name": "krnl_cntr", 
+                    "location": "src/krnl_cntr.cpp"
+                }
+            ], 
+            "name": "krnl_cntr"
+        }
+    ],
+    "launch": [
+        {
+            "cmd_args": "BUILD/krnl_cntr.xclbin", 
+            "name": "generic launch for all flows"
+        }
+    ], 
+    "contributors": [
+        {
+            "url": "http://www.xilinx.com", 
+            "group": "Xilinx"
+        }
+    ],
+    "testinfo": {
+        "disable": false,
+        "jobs": [
+            {
+                "index": 0,
+                "dependency": [],
+                "env": "",
+                "cmd": "",
+                "max_memory_MB": 32768,
+                "max_time_min": 300
+            }
+        ],
+        "targets": [
+            "vitis_sw_emu",
+            "vitis_hw_emu",
+            "vitis_hw"
+        ],
+        "category": "canary"
+    }
+}

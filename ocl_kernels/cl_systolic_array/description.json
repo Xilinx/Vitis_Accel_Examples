@@ -5,10 +5,12 @@
     ],
     "flow": "vitis",
     "ndevice": [
-        "zc702_base"
+        "zc702_base",
+        "nodma"
     ],
     "platform_blacklist": [
-        "zc702_base"
+        "zc702_base",
+        "nodma"
     ],
     "os": [
         "Linux"

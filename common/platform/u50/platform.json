@@ -1,0 +1,15 @@
+{
+    "meminfo": [
+    {
+        "type": "HBM",
+        "banks": [
+        {
+            "name": "HBM[0]"
+        },
+        {
+            "name": "HBM[1]"
+        }
+        ]
+    }
+    ]
+}

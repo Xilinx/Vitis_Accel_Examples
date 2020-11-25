@@ -13,10 +13,12 @@
         "Inter Dependence"
     ], 
     "ndevice": [
-	"zc702"
+        "zc702",
+        "nodma"
     ],
     "platform_blacklist": [
-	"zc702"
+        "zc702",
+        "nodma"
     ],
     "os": [
         "Linux"

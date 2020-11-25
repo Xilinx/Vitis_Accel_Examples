@@ -14,6 +14,17 @@
         "Using custom Tcl", 
         "Setting Kernel Clock Frequency",
 	"Clock Uncertainity"
+    ],
+    "platform_type": "pcie", 
+    "ndevice": [
+        "zc",
+        "vck",
+        "nodma"
+    ],
+    "platform_blacklist": [
+        "zc",
+        "vck",
+        "nodma"
     ], 
     "os": [
         "Linux"

@@ -175,6 +175,9 @@ endif
 ifeq ($(findstring u280, $(DEVICE)), u280)
 $(error This example is not supported for $(DEVICE))
 endif
+ifeq ($(findstring nodma, $(DEVICE)), nodma)
+$(error This example is not supported for $(DEVICE))
+endif
 
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 ifeq ($(HOST_ARCH), x86)
