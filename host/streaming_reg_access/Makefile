@@ -61,6 +61,7 @@ LAUNCH_EMULATOR = $(PACKAGE_OUT)/launch_$(TARGET).sh
 RESULT_STRING = TEST PASSED
 
 VPP := v++
+CMD_ARGS = -x $(BUILD_DIR)/krnl_incr.xclbin -i 5
 SDCARD := sd_card
 
 include $(ABS_COMMON_REPO)/common/includes/opencl/opencl.mk
@@ -94,7 +95,6 @@ endif
 
 
 EXECUTABLE = ./streaming_reg_access
-CMD_ARGS = -x $(BUILD_DIR)/krnl_incr.xclbin -i 5
 EMCONFIG_DIR = $(TEMP_DIR)
 EMU_DIR = $(SDCARD)/data/emulation
 
@@ -171,13 +171,13 @@ endif
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 ifeq ($(HOST_ARCH), x86)
 	$(CP) $(EMCONFIG_DIR)/emconfig.json .
-	XCL_EMULATION_MODE=$(TARGET) $(EXECUTABLE) -x $(BUILD_DIR)/krnl_incr.xclbin -i 5
+	XCL_EMULATION_MODE=$(TARGET) $(EXECUTABLE) $(CMD_ARGS)
 else
 	$(LAUNCH_EMULATOR_CMD)
 endif
 else
 ifeq ($(HOST_ARCH), x86)
-	$(EXECUTABLE) -x $(BUILD_DIR)/krnl_incr.xclbin -i 5
+	$(EXECUTABLE) $(CMD_ARGS)
 endif
 endif
 ifneq ($(TARGET),$(findstring $(TARGET), hw hw_emu))
@@ -189,13 +189,13 @@ endif
 test: $(EXECUTABLE)
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 ifeq ($(HOST_ARCH), x86)
-	XCL_EMULATION_MODE=$(TARGET) $(EXECUTABLE) -x $(BUILD_DIR)/krnl_incr.xclbin -i 5
+	XCL_EMULATION_MODE=$(TARGET) $(EXECUTABLE) $(CMD_ARGS)
 else
 	$(LAUNCH_EMULATOR_CMD)
 endif
 else
 ifeq ($(HOST_ARCH), x86)
-	$(EXECUTABLE) -x $(BUILD_DIR)/krnl_incr.xclbin -i 5
+	$(EXECUTABLE) $(CMD_ARGS)
 else
 	$(ECHO) "Please copy the content of sd_card folder and data to an SD Card and run on the board"
 endif

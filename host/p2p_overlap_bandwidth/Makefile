@@ -38,8 +38,7 @@ ABS_COMMON_REPO = $(shell readlink -f $(COMMON_REPO))
 
 TARGET := hw
 HOST_ARCH := x86
-SYSROOT :=
-EXTRA_HOST_ARGS :=
+SYSROOT := 
 
 include ./utils.mk
 
@@ -58,6 +57,7 @@ LAUNCH_EMULATOR = $(PACKAGE_OUT)/launch_$(TARGET).sh
 RESULT_STRING = TEST PASSED
 
 VPP := v++
+CMD_ARGS = -x $(BUILD_DIR)/copy_kernel.xclbin
 
 include $(ABS_COMMON_REPO)/common/includes/opencl/opencl.mk
 include config.mk
@@ -89,7 +89,6 @@ endif
 
 
 EXECUTABLE = ./p2p_overlap_bandwidth
-CMD_ARGS = -x $(BUILD_DIR)/copy_kernel.xclbin $(EXTRA_HOST_ARGS)
 EMCONFIG_DIR = $(TEMP_DIR)
 
 ############################## Declaring Binary Containers ##############################

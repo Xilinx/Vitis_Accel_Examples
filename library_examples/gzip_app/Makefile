@@ -61,6 +61,7 @@ LAUNCH_EMULATOR = $(PACKAGE_OUT)/launch_$(TARGET).sh
 RESULT_STRING = TEST PASSED
 
 VPP := v++
+CMD_ARGS = -sx $(BUILD_DIR)/compress_decompress.xclbin -v ./sample.txt
 SDCARD := sd_card
 
 include $(ABS_COMMON_REPO)/common/includes/opencl/opencl.mk
@@ -95,7 +96,6 @@ CXXFLAGS += -DC_COMPUTE_UNIT=1 -DH_COMPUTE_UNIT=1 -DD_COMPUTE_UNIT=1 -DPARALLEL_
 LDCLFLAGS += --kernel_frequency 250 --config ./opts.ini
 
 EXECUTABLE = ./xil_gzip
-CMD_ARGS = -sx $(BUILD_DIR)/compress_decompress.xclbin -v ./sample.txt
 EMCONFIG_DIR = $(TEMP_DIR)
 EMU_DIR = $(SDCARD)/data/emulation
 
@@ -169,6 +169,9 @@ endif
 ifeq ($(findstring vck, $(DEVICE)), vck)
 $(error This example is not supported for $(DEVICE))
 endif
+ifeq ($(findstring u30, $(DEVICE)), u30)
+$(error This example is not supported for $(DEVICE))
+endif
 ifeq ($(findstring u50, $(DEVICE)), u50)
 $(error This example is not supported for $(DEVICE))
 endif
@@ -182,13 +185,13 @@ endif
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 ifeq ($(HOST_ARCH), x86)
 	$(CP) $(EMCONFIG_DIR)/emconfig.json .
-	XCL_EMULATION_MODE=$(TARGET) $(EXECUTABLE) -sx $(BUILD_DIR)/compress_decompress.xclbin -v ./sample.txt
+	XCL_EMULATION_MODE=$(TARGET) $(EXECUTABLE) $(CMD_ARGS)
 else
 	$(LAUNCH_EMULATOR_CMD)
 endif
 else
 ifeq ($(HOST_ARCH), x86)
-	$(EXECUTABLE) -sx $(BUILD_DIR)/compress_decompress.xclbin -v ./sample.txt
+	$(EXECUTABLE) $(CMD_ARGS)
 endif
 endif
 
@@ -197,13 +200,13 @@ endif
 test: $(EXECUTABLE)
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 ifeq ($(HOST_ARCH), x86)
-	XCL_EMULATION_MODE=$(TARGET) $(EXECUTABLE) -sx $(BUILD_DIR)/compress_decompress.xclbin -v ./sample.txt
+	XCL_EMULATION_MODE=$(TARGET) $(EXECUTABLE) $(CMD_ARGS)
 else
 	$(LAUNCH_EMULATOR_CMD)
 endif
 else
 ifeq ($(HOST_ARCH), x86)
-	$(EXECUTABLE) -sx $(BUILD_DIR)/compress_decompress.xclbin -v ./sample.txt
+	$(EXECUTABLE) $(CMD_ARGS)
 else
 	$(ECHO) "Please copy the content of sd_card folder and data to an SD Card and run on the board"
 endif

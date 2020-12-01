@@ -57,6 +57,7 @@ LAUNCH_EMULATOR = $(PACKAGE_OUT)/launch_$(TARGET).sh
 RESULT_STRING = TEST PASSED
 
 VPP := v++
+CMD_ARGS =  -xclbin $(BUILD_DIR)/aml.xclbin -d ./data -c 0
 
 include $(ABS_COMMON_REPO)/common/includes/opencl/opencl.mk
 include ./config.mk
@@ -89,7 +90,6 @@ endif
 # Adding config files to linker
 LDCLFLAGS_aml += --config aml.cfg 
 EXECUTABLE = ./test_aml
-CMD_ARGS =  -xclbin $(BUILD_DIR)/aml.xclbin -d ./data -c 0
 EMCONFIG_DIR = $(TEMP_DIR)
 
 VPP_FLAGS += -I./kernel
@@ -171,18 +171,18 @@ endif
 
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 	$(CP) $(EMCONFIG_DIR)/emconfig.json .
-	XCL_EMULATION_MODE=$(TARGET) $(EXECUTABLE)  -xclbin $(BUILD_DIR)/aml.xclbin -d ./data -c 0
+	XCL_EMULATION_MODE=$(TARGET) $(EXECUTABLE) $(CMD_ARGS)
 else
-	$(EXECUTABLE)  -xclbin $(BUILD_DIR)/aml.xclbin -d ./data -c 0
+	$(EXECUTABLE) $(CMD_ARGS)
 endif
 
 
 .PHONY: test
 test: $(EXECUTABLE)
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
-	XCL_EMULATION_MODE=$(TARGET) $(EXECUTABLE)  -xclbin $(BUILD_DIR)/aml.xclbin -d ./data -c 0
+	XCL_EMULATION_MODE=$(TARGET) $(EXECUTABLE) $(CMD_ARGS)
 else
-	$(EXECUTABLE)  -xclbin $(BUILD_DIR)/aml.xclbin -d ./data -c 0
+	$(EXECUTABLE) $(CMD_ARGS)
 endif
 
 

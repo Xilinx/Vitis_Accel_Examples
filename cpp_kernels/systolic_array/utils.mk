@@ -3,13 +3,6 @@
 # be overridden through the make command line
 #+-------------------------------------------------------------------------------
 
-PROFILE := no
-
-#Generates profile summary report
-ifeq ($(PROFILE), yes)
-LDCLFLAGS += --profile_kernel data:all:all:all
-endif
-
 DEBUG := no
 B_TEMP = `$(ABS_COMMON_REPO)/common/utility/parse_platform_list.py $(DEVICE)`
 PERL := 

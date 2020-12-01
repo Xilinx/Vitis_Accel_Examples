@@ -57,7 +57,7 @@ LAUNCH_EMULATOR = $(PACKAGE_OUT)/launch_$(TARGET).sh
 RESULT_STRING = TEST PASSED
 
 VPP := v++
-CMD_ARGS = -x $(BUILD_DIR)/bandwidth.xclbin 
+CMD_ARGS = -x $(BUILD_DIR)/bandwidth.xclbin
 
 include $(ABS_COMMON_REPO)/common/includes/opencl/opencl.mk
 include config.mk
@@ -85,6 +85,7 @@ CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps
 ifneq ($(TARGET), hw)
 	CLFLAGS += -g
 endif
+
 
 
 EXECUTABLE = ./p2p_bandwidth

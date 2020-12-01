@@ -18,12 +18,14 @@
     "ndevice": [
         "zc",
         "vck",
+        "u30",
         "nodma",
         "samsung"
     ],	
     "platform_blacklist": [
         "zc",
         "vck",
+        "u30",
         "nodma",
         "samsung"
     ],	

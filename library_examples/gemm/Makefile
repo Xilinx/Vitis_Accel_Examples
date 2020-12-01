@@ -57,6 +57,7 @@ LAUNCH_EMULATOR = $(PACKAGE_OUT)/launch_$(TARGET).sh
 RESULT_STRING = TEST PASSED
 
 VPP := v++
+CMD_ARGS = $(BUILD_DIR)/blas.xclbin 64 64 64 64 64 64 64 1 0
 
 include $(ABS_COMMON_REPO)/common/includes/opencl/opencl.mk
 CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++11
@@ -93,7 +94,6 @@ CXXFLAGS += -DBLAS_ddrWidth=16 -DBLAS_numKernels=1 -DBLAS_dataType=float -DBLAS_
 LDCLFLAGS += --config ./opts.ini --kernel_frequency 200
 
 EXECUTABLE = ./api_gemm.exe
-CMD_ARGS = $(BUILD_DIR)/blas.xclbin 64 64 64 64 64 64 64 1 0
 EMCONFIG_DIR = $(TEMP_DIR)
 
 VPP_FLAGS += -I./include/hw
@@ -170,18 +170,18 @@ endif
 
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 	$(CP) $(EMCONFIG_DIR)/emconfig.json .
-	XCL_EMULATION_MODE=$(TARGET) $(EXECUTABLE) $(BUILD_DIR)/blas.xclbin 64 64 64 64 64 64 64 1 0
+	XCL_EMULATION_MODE=$(TARGET) $(EXECUTABLE) $(CMD_ARGS)
 else
-	$(EXECUTABLE) $(BUILD_DIR)/blas.xclbin 64 64 64 64 64 64 64 1 0
+	$(EXECUTABLE) $(CMD_ARGS)
 endif
 
 
 .PHONY: test
 test: $(EXECUTABLE)
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
-	XCL_EMULATION_MODE=$(TARGET) $(EXECUTABLE) $(BUILD_DIR)/blas.xclbin 64 64 64 64 64 64 64 1 0
+	XCL_EMULATION_MODE=$(TARGET) $(EXECUTABLE) $(CMD_ARGS)
 else
-	$(EXECUTABLE) $(BUILD_DIR)/blas.xclbin 64 64 64 64 64 64 64 1 0
+	$(EXECUTABLE) $(CMD_ARGS)
 endif
 
 

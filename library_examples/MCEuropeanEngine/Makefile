@@ -57,6 +57,7 @@ LAUNCH_EMULATOR = $(PACKAGE_OUT)/launch_$(TARGET).sh
 RESULT_STRING = TEST PASSED
 
 VPP := v++
+CMD_ARGS =  -xclbin $(BUILD_DIR)/kernel_mc.xclbin
 
 include $(ABS_COMMON_REPO)/common/includes/opencl/opencl.mk
 CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++11
@@ -91,7 +92,6 @@ LDCLFLAGS += --config ./conn_vu9p.ini --kernel_frequency 300
 # Adding config files to linker
 LDCLFLAGS_kernel_mc += --config kernel_mc.cfg 
 EXECUTABLE = ./test.exe
-CMD_ARGS =  -xclbin $(BUILD_DIR)/kernel_mc.xclbin
 EMCONFIG_DIR = $(TEMP_DIR)
 
 VPP_FLAGS += -I./include
@@ -172,18 +172,18 @@ endif
 
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 	$(CP) $(EMCONFIG_DIR)/emconfig.json .
-	XCL_EMULATION_MODE=$(TARGET) $(EXECUTABLE)  -xclbin $(BUILD_DIR)/kernel_mc.xclbin
+	XCL_EMULATION_MODE=$(TARGET) $(EXECUTABLE) $(CMD_ARGS)
 else
-	$(EXECUTABLE)  -xclbin $(BUILD_DIR)/kernel_mc.xclbin
+	$(EXECUTABLE) $(CMD_ARGS)
 endif
 
 
 .PHONY: test
 test: $(EXECUTABLE)
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
-	XCL_EMULATION_MODE=$(TARGET) $(EXECUTABLE)  -xclbin $(BUILD_DIR)/kernel_mc.xclbin
+	XCL_EMULATION_MODE=$(TARGET) $(EXECUTABLE) $(CMD_ARGS)
 else
-	$(EXECUTABLE)  -xclbin $(BUILD_DIR)/kernel_mc.xclbin
+	$(EXECUTABLE) $(CMD_ARGS)
 endif
 
 
