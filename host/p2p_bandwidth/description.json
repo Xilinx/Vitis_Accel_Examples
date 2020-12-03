@@ -40,7 +40,6 @@
         "OpenCL"
     ],
    "config_make": "config.mk",
-   "match_makefile": "false", 
     "launch": [
         {
             "cmd_args": "-x BUILD/bandwidth.xclbin", 

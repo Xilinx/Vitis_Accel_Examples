@@ -11,6 +11,7 @@
     "platform_blacklist": [
         "zc",
         "vck", 
+        "u30",
         "u50", 
         "u280",
         "nodma"

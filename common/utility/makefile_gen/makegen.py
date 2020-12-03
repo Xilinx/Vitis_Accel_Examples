@@ -44,7 +44,17 @@ def create_params(target,data):
     target.write("RESULT_STRING = TEST PASSED\n")
     target.write("\n")
 
-    target.write("VPP := v++\n")
+    target.write("VPP := v++")
+    if "launch" in data:
+        target.write("\n")
+        target.write("CMD_ARGS =")
+        cmd_args = data["launch"][0]["cmd_args"].split(" ")
+        for cmdargs in cmd_args[0:]:
+            target.write(" ")
+            cmdargs = cmdargs.replace('BUILD', '$(BUILD_DIR)')
+            cmdargs = cmdargs.replace('PROJECT', '.')
+            target.write(cmdargs)
+    target.write("\n")
     if not ("platform_type" in data and data["platform_type"] == "pcie"):
         target.write("SDCARD := ")
         target.write("sd_card\n")
@@ -182,16 +192,6 @@ def add_kernel_flags(target, data):
         target.write(data["host"]["host_exe"])    
     else: 
         target.write("host")
-    if "launch" in data:
-        target.write("\n")
-        target.write("CMD_ARGS =")
-        cmd_args = data["launch"][0]["cmd_args"].split(" ")
-        for cmdargs in cmd_args[0:]:
-            target.write(" ")
-            cmdargs = cmdargs.replace('BUILD', '$(BUILD_DIR)')
-            cmdargs = cmdargs.replace('PROJECT', '.')
-            target.write(cmdargs)
-
     target.write("\n")
 
     target.write("EMCONFIG_DIR = $(TEMP_DIR)\n")
@@ -467,12 +467,7 @@ def mk_run(target, data):
     
     if "launch" in data:	
         if "cmd_args" in data["launch"][0]:
-            args = data["launch"][0]["cmd_args"].split(" ")    
-            for arg in args[0:]:
-                target.write(" ")
-                arg = arg.replace('BUILD', '$(BUILD_DIR)')
-                arg = arg.replace('PROJECT', '.')
-                target.write(arg)
+            target.write(" $(CMD_ARGS)")
     if not ("platform_type" in data and data["platform_type"] == "pcie"):
         target.write("\nelse\n")
         target.write("\t$(LAUNCH_EMULATOR_CMD)")
@@ -489,12 +484,7 @@ def mk_run(target, data):
 	
     if "launch" in data:
         if "cmd_args" in data["launch"][0]:
-            args = data["launch"][0]["cmd_args"].split(" ")    
-            for arg in args[0:]:
-                target.write(" ")
-                arg = arg.replace('BUILD', '$(BUILD_DIR)')
-                arg = arg.replace('PROJECT', '.')
-                target.write(arg)
+            target.write(" $(CMD_ARGS)")
     if "post_launch" in data:
         for post_launch in data["post_launch"]:
             if "launch_cmd" in post_launch:
@@ -532,12 +522,7 @@ def mk_run(target, data):
     
     if "launch" in data:	
         if "cmd_args" in data["launch"][0]:
-            args = data["launch"][0]["cmd_args"].split(" ")    
-            for arg in args[0:]:
-                target.write(" ")
-                arg = arg.replace('BUILD', '$(BUILD_DIR)')
-                arg = arg.replace('PROJECT', '.')
-                target.write(arg)
+            target.write(" $(CMD_ARGS)")
     if not ("platform_type" in data and data["platform_type"] == "pcie"):
         target.write("\nelse\n")
         target.write("\t$(LAUNCH_EMULATOR_CMD)")
@@ -554,12 +539,7 @@ def mk_run(target, data):
 	
     if "launch" in data:
         if "cmd_args" in data["launch"][0]:
-            args = data["launch"][0]["cmd_args"].split(" ")    
-            for arg in args[0:]:
-                target.write(" ")
-                arg = arg.replace('BUILD', '$(BUILD_DIR)')
-                arg = arg.replace('PROJECT', '.')
-                target.write(arg)
+            target.write(" $(CMD_ARGS)")
     if "post_launch" in data:
         for post_launch in data["post_launch"]:
             if "launch_cmd" in post_launch:

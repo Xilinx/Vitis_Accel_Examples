@@ -8,8 +8,8 @@ import re
 import sys
 import subprocess
 
-def create_ini_u2(data):    
-    target = open("platform_"+filename+".ini","w+")
+def create_cfg_u2(data):    
+    target = open("platform_"+filename+".cfg","w+")
     target.write("[connectivity]\n")
     target.write("sp=" + filename + "_" + str(1) + ".input:" + "bank0\n")
     target.write("sp=" + filename + "_" + str(1) + ".output:" + "bank0\n")
@@ -29,12 +29,12 @@ def create_json_u2(data):
     target.write("        ]\n")
     target.write("    }")
     target.write("\n    ],\n")
-    target.write("    \"total_banks\": \"" +  str(1) + "\",\n")
+    target.write("    \"total_ddr_banks\": \"" +  str(1) + "\",\n")
     target.write("    \"version\": \"" + str(1.0)  + "\"\n")
     target.write("}\n")
     return
 
-def create_ini(data):
+def create_cfg(data):
     Memory_list = [0, 0, 0]
     DDR_count = 0
     HOST_count = 0
@@ -55,7 +55,7 @@ def create_ini(data):
         Total_banks += 1
 
     if Total_banks:
-        target = open("platform_"+filename+".ini","w+")
+        target = open("platform_"+filename+".cfg","w+")
         target.write("[connectivity]\n")
         p = 0
         q = 0
@@ -152,8 +152,8 @@ desc.close()
 plat_name = data["uniqueName"]
 
 if "_u2_" in plat_name:
-    create_ini_u2(data)
+    create_cfg_u2(data)
     create_json_u2(data)
 else:    
-    create_ini(data)
+    create_cfg(data)
     create_json(data)

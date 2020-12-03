@@ -57,6 +57,7 @@ LAUNCH_EMULATOR = $(PACKAGE_OUT)/launch_$(TARGET).sh
 RESULT_STRING = TEST PASSED
 
 VPP := v++
+CMD_ARGS = -x1 $(BUILD_DIR)/krnl_mmult.xclbin -x2 $(BUILD_DIR)/krnl_madd.xclbin
 
 include $(ABS_COMMON_REPO)/common/includes/opencl/opencl.mk
 CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++11
@@ -87,7 +88,6 @@ endif
 
 
 EXECUTABLE = ./p2p_fpga2fpga
-CMD_ARGS = -x1 $(BUILD_DIR)/krnl_mmult.xclbin -x2 $(BUILD_DIR)/krnl_madd.xclbin
 EMCONFIG_DIR = $(TEMP_DIR)
 
 ############################## Declaring Binary Containers ##############################
@@ -169,18 +169,18 @@ endif
 
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 	$(CP) $(EMCONFIG_DIR)/emconfig.json .
-	XCL_EMULATION_MODE=$(TARGET) $(EXECUTABLE) -x1 $(BUILD_DIR)/krnl_mmult.xclbin -x2 $(BUILD_DIR)/krnl_madd.xclbin
+	XCL_EMULATION_MODE=$(TARGET) $(EXECUTABLE) $(CMD_ARGS)
 else
-	$(EXECUTABLE) -x1 $(BUILD_DIR)/krnl_mmult.xclbin -x2 $(BUILD_DIR)/krnl_madd.xclbin
+	$(EXECUTABLE) $(CMD_ARGS)
 endif
 
 
 .PHONY: test
 test: $(EXECUTABLE)
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
-	XCL_EMULATION_MODE=$(TARGET) $(EXECUTABLE) -x1 $(BUILD_DIR)/krnl_mmult.xclbin -x2 $(BUILD_DIR)/krnl_madd.xclbin
+	XCL_EMULATION_MODE=$(TARGET) $(EXECUTABLE) $(CMD_ARGS)
 else
-	$(EXECUTABLE) -x1 $(BUILD_DIR)/krnl_mmult.xclbin -x2 $(BUILD_DIR)/krnl_madd.xclbin
+	$(EXECUTABLE) $(CMD_ARGS)
 endif
 
 

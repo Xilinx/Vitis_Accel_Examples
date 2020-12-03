@@ -61,6 +61,7 @@ LAUNCH_EMULATOR = $(PACKAGE_OUT)/launch_$(TARGET).sh
 RESULT_STRING = TEST PASSED
 
 VPP := v++
+CMD_ARGS = -x $(BUILD_DIR)/krnl_kmeans.xclbin -i ./data/100 -c ./data/100.gold_c10 -n 10
 SDCARD := sd_card
 
 include $(ABS_COMMON_REPO)/common/includes/opencl/opencl.mk
@@ -95,7 +96,6 @@ endif
 LDCLFLAGS += --config krnl_kmeans.ini -O3
 
 EXECUTABLE = ./kmeans
-CMD_ARGS = -x $(BUILD_DIR)/krnl_kmeans.xclbin -i ./data/100 -c ./data/100.gold_c10 -n 10
 EMCONFIG_DIR = $(TEMP_DIR)
 EMU_DIR = $(SDCARD)/data/emulation
 
@@ -148,6 +148,9 @@ endif
 ifeq ($(findstring vck, $(DEVICE)), vck)
 $(error This example is not supported for $(DEVICE))
 endif
+ifeq ($(findstring u30, $(DEVICE)), u30)
+$(error This example is not supported for $(DEVICE))
+endif
 ifeq ($(findstring nodma, $(DEVICE)), nodma)
 $(error This example is not supported for $(DEVICE))
 endif
@@ -158,13 +161,13 @@ endif
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 ifeq ($(HOST_ARCH), x86)
 	$(CP) $(EMCONFIG_DIR)/emconfig.json .
-	XCL_EMULATION_MODE=$(TARGET) $(EXECUTABLE) -x $(BUILD_DIR)/krnl_kmeans.xclbin -i ./data/100 -c ./data/100.gold_c10 -n 10
+	XCL_EMULATION_MODE=$(TARGET) $(EXECUTABLE) $(CMD_ARGS)
 else
 	$(LAUNCH_EMULATOR_CMD)
 endif
 else
 ifeq ($(HOST_ARCH), x86)
-	$(EXECUTABLE) -x $(BUILD_DIR)/krnl_kmeans.xclbin -i ./data/100 -c ./data/100.gold_c10 -n 10
+	$(EXECUTABLE) $(CMD_ARGS)
 endif
 endif
 
@@ -173,13 +176,13 @@ endif
 test: $(EXECUTABLE)
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 ifeq ($(HOST_ARCH), x86)
-	XCL_EMULATION_MODE=$(TARGET) $(EXECUTABLE) -x $(BUILD_DIR)/krnl_kmeans.xclbin -i ./data/100 -c ./data/100.gold_c10 -n 10
+	XCL_EMULATION_MODE=$(TARGET) $(EXECUTABLE) $(CMD_ARGS)
 else
 	$(LAUNCH_EMULATOR_CMD)
 endif
 else
 ifeq ($(HOST_ARCH), x86)
-	$(EXECUTABLE) -x $(BUILD_DIR)/krnl_kmeans.xclbin -i ./data/100 -c ./data/100.gold_c10 -n 10
+	$(EXECUTABLE) $(CMD_ARGS)
 else
 	$(ECHO) "Please copy the content of sd_card folder and data to an SD Card and run on the board"
 endif

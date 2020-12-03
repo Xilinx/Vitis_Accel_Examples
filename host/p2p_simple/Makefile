@@ -39,7 +39,7 @@ ABS_COMMON_REPO = $(shell readlink -f $(COMMON_REPO))
 TARGET := hw
 HOST_ARCH := x86
 SYSROOT := 
-EXTRA_HOST_ARGS :=
+
 include ./utils.mk
 
 XSA := 
@@ -57,6 +57,7 @@ LAUNCH_EMULATOR = $(PACKAGE_OUT)/launch_$(TARGET).sh
 RESULT_STRING = TEST PASSED
 
 VPP := v++
+CMD_ARGS = -x $(BUILD_DIR)/adder.xclbin
 
 include $(ABS_COMMON_REPO)/common/includes/opencl/opencl.mk
 include config.mk
@@ -90,7 +91,6 @@ endif
 LDCLFLAGS += --config ./adder.ini
 
 EXECUTABLE = ./p2p_simple
-CMD_ARGS = -x $(BUILD_DIR)/adder.xclbin $(EXTRA_HOST_ARGS)
 EMCONFIG_DIR = $(TEMP_DIR)
 
 ############################## Declaring Binary Containers ##############################
@@ -158,7 +158,7 @@ $(error This example is not supported for $(DEVICE))
 endif
 
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
-	$(CP) $(EMCONFIG_DIR)/emconfig.json .	
+	$(CP) $(EMCONFIG_DIR)/emconfig.json .
 	XCL_EMULATION_MODE=$(TARGET) $(EXECUTABLE) $(CMD_ARGS)
 else
 	$(EXECUTABLE) $(CMD_ARGS)

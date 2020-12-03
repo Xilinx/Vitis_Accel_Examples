@@ -20,7 +20,7 @@ Platforms containing following strings in their names are not supported for this
    2019
    2018
    202010
-   samsung
+   _u2_
    _u25_
    u30
 

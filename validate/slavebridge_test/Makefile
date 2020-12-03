@@ -153,7 +153,7 @@ endif
 ifeq ($(findstring 202010, $(DEVICE)), 202010)
 $(error This example is not supported for $(DEVICE))
 endif
-ifeq ($(findstring samsung, $(DEVICE)), samsung)
+ifeq ($(findstring _u2_, $(DEVICE)), _u2_)
 $(error This example is not supported for $(DEVICE))
 endif
 ifeq ($(findstring _u25_, $(DEVICE)), _u25_)
