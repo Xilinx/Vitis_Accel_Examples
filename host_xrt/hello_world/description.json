@@ -1,0 +1,88 @@
+{
+    "name": "Hello World (XRT Native API's)", 
+    "description": [
+        "This is simple example of vector addition to describe the usage of XRT Native API's."
+    ],
+    "flow": "vitis",
+    "keywords": [
+        "xrt::device",
+        "load_xclbin", 
+        "xrt::bo",
+        "xrt::kernel", 
+        "map", 
+        "sync",
+        "XCL_BO_SYNC_BO_TO_DEVICE",
+        "XCL_BO_SYNC_BO_FROM_DEVICE"
+    ], 
+    "key_concepts": [
+        "XRT Native APIs"
+    ],
+    "os": [
+        "Linux"
+    ], 
+    "runtime": [
+        "OpenCL"
+    ], 
+    "host": {
+        "host_exe": "hello_world",
+        "compiler": {
+            "sources": [
+                "REPO_DIR/common/includes/cmdparser/cmdlineparser.cpp",
+                "REPO_DIR/common/includes/logger/logger.cpp",
+                "./src/host.cpp"
+            ], 
+            "includepaths": [
+                "REPO_DIR/common/includes/cmdparser",
+                "REPO_DIR/common/includes/logger"
+            ]
+        },
+        "linker" : {
+            "options" : ["-luuid",
+                         "-lxrt_coreutil"
+                ]
+        }
+    },
+   "targets": [
+        "hw" 
+    ],  
+    "containers": [
+        {
+            "accelerators": [
+                {
+                    "name": "vadd", 
+                    "location": "src/vadd.cpp"
+                }
+            ], 
+            "name": "vadd"
+        }
+    ],
+    "launch": [
+        {
+            "cmd_args": "-x BUILD/vadd.xclbin", 
+            "name": "generic launch for all flows"
+        }
+    ], 
+    "contributors": [
+        {
+            "url": "http://www.xilinx.com", 
+            "group": "Xilinx"
+        }
+    ],
+    "testinfo": {
+        "disable": false,
+        "jobs": [
+            {
+                "index": 0,
+                "dependency": [],
+                "env": "",
+                "cmd": "",
+                "max_memory_MB": 32768,
+                "max_time_min": 300
+            }
+        ],
+        "targets": [
+            "vitis_hw"
+        ],
+        "category": "canary"
+    }
+}
