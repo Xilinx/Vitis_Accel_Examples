@@ -159,28 +159,28 @@ int main(int argc, char *argv[]) {
   // -------------------------------------------
   cl_mem input_a;
   cl_mem_ext_ptr_t inA = {0, NULL, 0};
-  OCL_CHECK(err, input_a = clCreateBuffer(context[0], CL_MEM_READ_ONLY |
+  OCL_CHECK(err, input_a = clCreateBuffer(context[0], CL_MEM_READ_WRITE |
                                                           CL_MEM_EXT_PTR_XILINX,
                                           vector_size_bytes, &inA, &err));
 
   cl_mem output_a;
   cl_mem_ext_ptr_t mout = {XCL_MEM_EXT_P2P_BUFFER, NULL, 0};
   OCL_CHECK(err, output_a = clCreateBuffer(
-                     context[0], CL_MEM_WRITE_ONLY | CL_MEM_EXT_PTR_XILINX,
+                     context[0], CL_MEM_READ_WRITE | CL_MEM_EXT_PTR_XILINX,
                      vector_size_bytes, &mout, &err));
-
+  
   // ---------------------------- Buffer-2
   // -------------------------------------------
   cl_mem input_b;
   cl_mem_ext_ptr_t min = {0, NULL, 0};
-  OCL_CHECK(err, input_b = clCreateBuffer(context[1], CL_MEM_READ_ONLY |
+  OCL_CHECK(err, input_b = clCreateBuffer(context[1], CL_MEM_READ_WRITE |
                                                           CL_MEM_EXT_PTR_XILINX,
                                           vector_size_bytes, &min, &err));
-
+  
   cl_mem output_b;
   cl_mem_ext_ptr_t ot = {XCL_MEM_EXT_P2P_BUFFER, NULL, 0};
   OCL_CHECK(err, output_b = clCreateBuffer(
-                     context[1], CL_MEM_WRITE_ONLY | CL_MEM_EXT_PTR_XILINX,
+                     context[1], CL_MEM_READ_WRITE | CL_MEM_EXT_PTR_XILINX,
                      vector_size_bytes, &ot, &err));
 
   // ----------------------------Set Args
@@ -217,37 +217,106 @@ int main(int argc, char *argv[]) {
   cl_mem exported_buf;
   OCL_CHECK(err, err = xcl::P2P::getMemObjectFromFd(context[0], device1, 0, fd,
                                                     &exported_buf)); // Import
-  cl_event event;
+  std::cout << "Write data to FPGA-2" << std::endl;
+  OCL_CHECK(err, err = clEnqueueWriteBuffer(queue[1], input_b, CL_TRUE, 0,
+                                            vector_size_bytes, in1.data(), 0,
+                                            NULL, NULL));
+  std::cout << "Transferring from FPGA-2 to FPGA-1..." << std::endl;
+  int fd1 = -1;
+  OCL_CHECK(err,
+            err = xcl::P2P::getMemObjectFd(
+                output_a, &fd1)); // Export p2p buffer to file descriptor (fd)
+  if (fd1 > 0) {
+    printf("Export FD:%d\n", fd1);
+  }
 
+  cl_mem exported_buf1;
+  OCL_CHECK(err, err = xcl::P2P::getMemObjectFromFd(context[1], device2, 0, fd1,
+                                                    &exported_buf1)); // Import
+  
   for (size_t bufsize = buffersize; bufsize <= vector_size_bytes;
        bufsize *= 2) {
     std::cout << "Now start P2P copy " << bufsize
               << " Bytes from a device to another device" << std::endl;
     int burst = vector_size_bytes / bufsize;
-    std::chrono::high_resolution_clock::time_point p2pStart =
+    std::chrono::high_resolution_clock::time_point p2pWriteStart =
         std::chrono::high_resolution_clock::now();
     int iter = 1;
     for (int j = 0; j < iter; j++) {
       for (int i = 0; i < burst; i++) {
         OCL_CHECK(err, err = clEnqueueCopyBuffer(queue[0], input_a,
                                                  exported_buf, 0, 0, bufsize, 0,
-                                                 NULL, &event)); // transfer
-        clWaitForEvents(1, &event);
+                                                 NULL, NULL)); // transfer
       }
     }
-    std::chrono::high_resolution_clock::time_point p2pEnd =
+    clFinish(queue[0]);
+    std::chrono::high_resolution_clock::time_point p2pWriteEnd =
         std::chrono::high_resolution_clock::now();
-    cl_ulong p2pTime =
-        std::chrono::duration_cast<std::chrono::microseconds>(p2pEnd - p2pStart)
+    cl_ulong p2pWriteTime =
+        std::chrono::duration_cast<std::chrono::microseconds>(p2pWriteEnd - p2pWriteStart)
             .count();
     ;
-    double dnsduration = (double)p2pTime;
+    double dnsduration = (double)p2pWriteTime;
     double dsduration = dnsduration / ((double)1000000);
     double gbpersec =
         (vector_size_bytes * iter / dsduration) / ((double)1024 * 1024 * 1024);
-    std::cout << "{\"metric\": \"copy_throughput\", \"buf_size_bytes\": "
+    std::cout << "{\"metric\": \"p2p_write_throughput\", \"buf_size_bytes\": "
               << bufsize 
               << ", \"throughput_gb_per_sec\": " << gbpersec << "}\n";
+
+    //////////////////////// read throughput //////////////////////////
+    std::chrono::high_resolution_clock::time_point p2pReadStart =
+        std::chrono::high_resolution_clock::now();
+    for (int j = 0; j < iter; j++) {
+      for (int i = 0; i < burst; i++) {
+        OCL_CHECK(err, err = clEnqueueCopyBuffer(queue[1], input_b,
+                                                 exported_buf1, 0, 0, bufsize, 0,
+                                                 NULL, NULL)); // transfer
+      }
+    }
+    clFinish(queue[1]);
+    std::chrono::high_resolution_clock::time_point p2pReadEnd =
+        std::chrono::high_resolution_clock::now();
+    cl_ulong p2pReadTime =
+        std::chrono::duration_cast<std::chrono::microseconds>(p2pReadEnd - p2pReadStart)
+            .count();
+    ;
+    dnsduration = (double)p2pReadTime;
+    dsduration = dnsduration / ((double)1000000);
+    gbpersec =
+        (vector_size_bytes * iter / dsduration) / ((double)1024 * 1024 * 1024);
+    std::cout << "{\"metric\": \"p2p_read_throughput\", \"buf_size_bytes\": "
+              << bufsize 
+              << ", \"throughput_gb_per_sec\": " << gbpersec << "}\n";
+    //////////////////////// Bi-directional throughput /////////////////
+    std::chrono::high_resolution_clock::time_point p2pReadWriteStart =
+        std::chrono::high_resolution_clock::now();
+    for (int j = 0; j < iter; j++) {
+      for (int i = 0; i < burst; i++) {
+        OCL_CHECK(err, err = clEnqueueCopyBuffer(queue[0], input_a,
+                                                 exported_buf, 0, 0, bufsize, 0,
+                                                 NULL, NULL)); // transfer
+        OCL_CHECK(err, err = clEnqueueCopyBuffer(queue[1], input_b,
+                                                 exported_buf1, 0, 0, bufsize, 0,
+                                                 NULL, NULL)); // transfer
+      }
+    }
+    clFinish(queue[0]);
+    clFinish(queue[1]);
+    std::chrono::high_resolution_clock::time_point p2pReadWriteEnd =
+        std::chrono::high_resolution_clock::now();
+    cl_ulong p2pReadWriteTime =
+        std::chrono::duration_cast<std::chrono::microseconds>(p2pReadWriteEnd - p2pReadWriteStart)
+            .count();
+    ;
+    dnsduration = (double)p2pReadWriteTime;
+    dsduration = dnsduration / ((double)1000000);
+    gbpersec =
+        (2 * vector_size_bytes * iter / dsduration) / ((double)1024 * 1024 * 1024);
+    std::cout << "{\"metric\": \"p2p_read_write_throughput\", \"buf_size_bytes\": "
+              << bufsize 
+              << ", \"throughput_gb_per_sec\": " << gbpersec << "}\n";
+    
   }
 
   clFinish(queue[0]);
@@ -258,6 +327,7 @@ int main(int argc, char *argv[]) {
   clFinish(queue[1]);
   clReleaseMemObject(input_b);
   clReleaseMemObject(output_b);
+  clReleaseMemObject(exported_buf1);
   clReleaseKernel(krnl_dev0);
   clReleaseKernel(krnl_dev1);
   // ------------------------------------------------------------------------------------------------------------------------
