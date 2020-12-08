@@ -12,13 +12,6 @@
         "Handling Buffer sharing across multiple binaries", 
         "Multiple Kernel Binaries"
     ], 
-    "ndevice": [
-        "zcu102_base_20",
-        "zcu104_base_20",
-        "vck",
-        "zc7",
-        "nodma"
-     ],
     "platform_blacklist": [
         "zcu102_base_20",
         "zcu104_base_20",

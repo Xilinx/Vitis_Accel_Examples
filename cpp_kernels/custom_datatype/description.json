@@ -11,9 +11,6 @@
     "key_concepts": [
         "Custom Datatype"
     ], 
-    "ndevice": [
-        "nodma"
-     ],
     "platform_blacklist": [
         "nodma"
      ],    

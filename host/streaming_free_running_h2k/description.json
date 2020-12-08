@@ -15,17 +15,6 @@
     "platform_whitelist": [
         "u200_qdma"
     ],
-    "ndevice": [
-        "u30",
-        "u250",
-        "zc",
-        "vck",
-        "xdma",
-        "qep",	
-        "aws",
-        "samsung",
-        "nodma"
-    ], 
     "platform_blacklist": [
         "u30",
         "u250",

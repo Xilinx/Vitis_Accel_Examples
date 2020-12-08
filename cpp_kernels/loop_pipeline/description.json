@@ -11,9 +11,6 @@
         "Kernel Optimization", 
         "Loop Pipelining"
     ],
-    "ndevice": [
-        "nodma"
-     ],
     "platform_blacklist": [
         "nodma"
      ],    

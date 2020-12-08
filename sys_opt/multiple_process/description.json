@@ -15,9 +15,6 @@
         "Multiple HLS kernels", 
         "Multiple Process Support"
     ],
-    "ndevice": [
-        "nodma"
-    ],
     "platform_blacklist": [
         "nodma"
     ], 

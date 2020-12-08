@@ -12,9 +12,6 @@
         "Multi-FPGA Execution", 
         "Event Handling"
     ],
-    "ndevice": [
-        "nodma"
-    ],
     "platform_blacklist": [
         "nodma"
     ], 

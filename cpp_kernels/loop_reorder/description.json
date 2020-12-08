@@ -11,9 +11,6 @@
         "Kernel Optimization", 
         "Loop reorder to improve II"
     ],
-    "ndevice": [
-        "nodma"
-     ],
     "platform_blacklist": [
         "nodma"
      ],    

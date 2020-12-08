@@ -10,9 +10,6 @@
     "key_concepts": [
         "Interface port width auto widening"
     ],
-    "ndevice": [
-        "nodma"
-     ],
     "platform_blacklist": [
         "nodma"
      ],    

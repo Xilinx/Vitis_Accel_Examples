@@ -17,9 +17,6 @@
         "Block Partition", 
         "Cyclic Partition"
     ],
-    "ndevice": [
-        "nodma"
-     ],
     "platform_blacklist": [
         "nodma"
      ],    

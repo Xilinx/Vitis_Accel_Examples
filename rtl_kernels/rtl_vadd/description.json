@@ -7,9 +7,6 @@
     "key_concepts": [
         "RTL Kernel"
     ],
-    "ndevice": [
-        "nodma"
-    ],
     "platform_blacklist": [
         "nodma"
     ], 

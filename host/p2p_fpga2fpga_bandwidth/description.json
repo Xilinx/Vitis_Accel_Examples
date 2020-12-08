@@ -16,15 +16,6 @@
     "os": [
         "Linux"
     ],
-    "ndevice": [
-        "zc",
-        "201910",
-        "2018",
-        "vck",
-        "aws",
-        "_u25_",
-        "u30"
-    ],
     "platform_blacklist": [
         "zc",
         "201910",

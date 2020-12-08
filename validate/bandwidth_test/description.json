@@ -14,12 +14,6 @@
         "OpenCL"
     ],
     "platform_type": "pcie",
-    "ndevice": [
-        "zc",
-        "vck",
-        "2019",
-        "2018"
-    ],
     "platform_blacklist": [
         "zc",
         "vck",

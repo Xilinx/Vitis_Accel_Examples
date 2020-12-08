@@ -11,9 +11,6 @@
     "key_concepts": [
         "Task Level Parallelism"
     ],
-    "ndevice": [
-        "nodma"
-     ],
     "platform_blacklist": [
         "nodma"
      ],    

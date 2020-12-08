@@ -4,12 +4,6 @@
         "Bandwidth test of global to local memory."
     ], 
     "flow": "vitis",
-    "ndevice": [
-        "u30",
-        "u50",
-        "vck",
-        "zc"
-    ], 
     "platform_blacklist": [
         "u30",
         "u50",

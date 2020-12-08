@@ -12,11 +12,6 @@
         "Multiple Kernel Clocks"
     ],
     "platform_type": "pcie", 
-    "ndevice": [
-        "zc",
-        "vck",
-        "nodma"
-    ],
     "platform_blacklist": [
         "zc",
         "vck",

@@ -13,17 +13,6 @@
         "address translation unit" 
     ],
     "platform_type": "pcie",
-    "ndevice": [
-        "_u25_",
-        "u30",
-        "zc",
-        "vck", 
-        "aws",
-        "2019",
-        "2018",
-        "202010",
-        "samsung"
-    ], 
     "platform_blacklist": [ 
         "_u25_",
         "u30",

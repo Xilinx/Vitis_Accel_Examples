@@ -23,15 +23,6 @@
     "platform_whitelist": [
         "samsung_u2"
     ],
-    "ndevice": [
-        "zc",
-        "_u25_",
-        "u30",
-        "vck",
-        "aws",
-        "2018",
-        "201910"
-    ],
     "platform_blacklist": [
         "zc",
         "_u25_",

@@ -7,9 +7,6 @@
     "key_concepts": [
         "OpenCL API"
     ],
-   "ndevice": [
-        "nodma"
-    ],
     "platform_blacklist": [
         "nodma"
     ], 

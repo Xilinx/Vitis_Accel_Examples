@@ -16,11 +16,6 @@
         "BIND OP",
         "BIND STORAGE" 
     ], 
-    "ndevice": [
-        "zcu102",
-        "zc706",
-        "nodma"
-     ],
     "platform_blacklist": [
         "zcu102",
         "zc706",

@@ -4,17 +4,6 @@
         "This is a HBM bandwidth check design. Design contains 3 compute units of a kernel which has access to all HBM banks (0:31). Host application allocate buffer into all HBM banks and run these 3 compute units concurrently and measure the overall bandwidth between Kernel and HBM Memory."
     ],
     "flow": "vitis",
-    "ndevice": [
-        "_u25_",
-        "u30",
-        "u200", 
-        "zc",
-        "vck", 
-        "u250",
-        "aws",
-        "samsung",
-        "nodma"
-    ], 
     "platform_blacklist": [
         "_u25_",
         "u30",

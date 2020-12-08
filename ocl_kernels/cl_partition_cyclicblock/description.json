@@ -15,10 +15,6 @@
         "Block Partition", 
         "Cyclic Partition"
     ], 
-    "ndevice": [
-        "zc702",
-        "nodma"
-    ],
     "platform_blacklist": [
         "zc702",
         "nodma"

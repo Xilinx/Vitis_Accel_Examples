@@ -14,14 +14,6 @@
     "platform_whitelist": [
         "u200_qdma"
     ], 
-    "ndevice": [
-        "2018",
-        "qep",
-        "aws",
-        "samsung",
-        "zc702",
-        "nodma"
-    ],
     "platform_blacklist": [
         "2018",
         "qep",

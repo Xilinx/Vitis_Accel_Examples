@@ -15,17 +15,6 @@
         "Random Memory Access",
         "Linear Feedback Shift Register"
     ], 
-    "ndevice": [
-        "_u25_",
-        "u30",
-        "u200", 
-        "zc",
-        "vck", 
-        "u250",
-        "aws",
-        "samsung",
-        "nodma"
-    ], 
     "platform_blacklist": [
         "_u25_",
         "u30",

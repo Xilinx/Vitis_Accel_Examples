@@ -8,9 +8,6 @@
         "Use of Profile API", 
         "Waveform Dumping and loading"
     ],
-   "ndevice": [
-        "nodma"
-    ],
     "platform_blacklist": [
         "nodma"
     ], 

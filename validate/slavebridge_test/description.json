@@ -12,17 +12,6 @@
         "address translation unit" 
     ],
     "platform_type": "pcie",
-    "ndevice": [
-        "zc",
-        "vck", 
-        "aws",
-        "2019",
-        "2018",
-        "202010",
-        "_u2_",
-        "_u25_",
-        "u30"    
-    ], 
    "platform_blacklist": [ 
         "zc",
         "vck", 

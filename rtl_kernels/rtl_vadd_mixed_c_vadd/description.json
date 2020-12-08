@@ -7,9 +7,6 @@
     "key_concepts": [
         "Mixed Kernels"
     ],
-    "ndevice": [
-        "nodma"
-    ],
     "platform_blacklist": [
         "nodma"
     ], 
