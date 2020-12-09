@@ -36,7 +36,7 @@ help::
 ############################## Setting up Project Variables ##############################
 # Points to top directory of Git repository
 MK_PATH := $(abspath $(lastword $(MAKEFILE_LIST)))
-COMMON_REPO ?= $(shell bash -c 'export MK_PATH=$(MK_PATH); echo $${MK_PATH%host_xrt/hello_world/*}')
+COMMON_REPO ?= $(shell bash -c 'export MK_PATH=$(MK_PATH); echo $${MK_PATH%host_xrt/hello_world_xrt/*}')
 PWD = $(shell readlink -f .)
 ABS_COMMON_REPO = $(shell readlink -f $(COMMON_REPO))
 
@@ -65,7 +65,7 @@ CMD_ARGS = -x $(BUILD_DIR)/vadd.xclbin
 SDCARD := sd_card
 
 include $(ABS_COMMON_REPO)/common/includes/opencl/opencl.mk
-CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++11
+CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++1y
 LDFLAGS += $(opencl_LDFLAGS)
 
 ############################## Setting up Host Variables ##############################
@@ -149,8 +149,8 @@ ifeq ($(HOST_ARCH), x86)
 	$(EXECUTABLE) $(CMD_ARGS)
 endif
 endif
-ifneq ($(TARGET),$(findstring $(TARGET), hw))
-$(error Application supports only hw TARGET. Please use the target for running the application)
+ifneq ($(TARGET),$(findstring $(TARGET), hw_emu hw))
+$(error Application supports only hw_emu hw TARGET. Please use the target for running the application)
 endif
 
 
@@ -169,8 +169,8 @@ else
 	$(ECHO) "Please copy the content of sd_card folder and data to an SD Card and run on the board"
 endif
 endif
-ifneq ($(TARGET),$(findstring $(TARGET), hw))
-$(warning WARNING:Application supports only hw TARGET. Please use the target for running the application)
+ifneq ($(TARGET),$(findstring $(TARGET), hw_emu hw))
+$(warning WARNING:Application supports only hw_emu hw TARGET. Please use the target for running the application)
 endif
 
 

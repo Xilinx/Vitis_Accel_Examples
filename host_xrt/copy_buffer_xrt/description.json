@@ -1,21 +1,31 @@
 {
-    "name": "Hello World (XRT Native API's)", 
+    "name": "Copy Buffer XRT (XRT native API's)", 
     "description": [
-        "This is simple example of vector addition to describe the usage of XRT Native API's."
+        "This Copy Buffer example demonstrate how one buffer can be copied from another buffer."
     ],
     "flow": "vitis",
     "keywords": [
-        "xrt::device",
-        "load_xclbin", 
-        "xrt::bo",
-        "xrt::kernel", 
-        "map", 
-        "sync",
-        "XCL_BO_SYNC_BO_TO_DEVICE",
-        "XCL_BO_SYNC_BO_FROM_DEVICE"
+        "cl::CommandQueue",
+        "enqueueCopyBuffer",
+        "enqueueWriteBuffer", 
+        "enqueueReadBuffer",  
+        "enqueueMigrateMemObjects"
     ], 
     "key_concepts": [
-        "XRT Native APIs"
+        "Copy Buffer"
+    ], 
+    "platform_whitelist": [
+        "u280"
+    ],
+    "ndevice": [
+        "xilinx_u200_xdma_201830",
+        "xilinx_u250_xdma_201830",
+        "nodma"
+    ],
+    "platform_blacklist": [
+        "xilinx_u200_xdma_201830",
+        "xilinx_u250_xdma_201830",
+        "nodma"
     ],
     "os": [
         "Linux"
@@ -24,7 +34,7 @@
         "OpenCL"
     ], 
     "host": {
-        "host_exe": "hello_world",
+        "host_exe": "copy_buffer",
         "compiler": {
             "sources": [
                 "REPO_DIR/common/includes/cmdparser/cmdlineparser.cpp",
@@ -43,22 +53,23 @@
         }
     },
    "targets": [
-        "hw" 
+       "hw_emu",
+       "hw" 
     ],  
     "containers": [
         {
             "accelerators": [
                 {
-                    "name": "vadd", 
-                    "location": "src/vadd.cpp"
+                    "name": "vector_add", 
+                    "location": "src/vector_addition.cpp"
                 }
             ], 
-            "name": "vadd"
+            "name": "vector_addition"
         }
     ],
     "launch": [
         {
-            "cmd_args": "-x BUILD/vadd.xclbin", 
+            "cmd_args": "-x BUILD/vector_addition.xclbin", 
             "name": "generic launch for all flows"
         }
     ], 

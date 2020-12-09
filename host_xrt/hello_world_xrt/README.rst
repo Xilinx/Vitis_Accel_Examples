@@ -1,5 +1,5 @@
-Hello World (XRT Native API's)
-==============================
+Hello World XRT (XRT Native API's)
+==================================
 
 This is simple example of vector addition to describe the usage of XRT Native API's.
 
@@ -14,8 +14,8 @@ Application code is located in the src directory. Accelerator binary files will 
 
 ::
 
-    src/host.cpp
-    src/vadd.cpp
+   src/host.cpp
+   src/vadd.cpp
    
 COMMAND LINE ARGUMENTS
 ----------------------
