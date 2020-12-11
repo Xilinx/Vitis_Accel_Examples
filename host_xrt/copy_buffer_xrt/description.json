@@ -5,11 +5,7 @@
     ],
     "flow": "vitis",
     "keywords": [
-        "cl::CommandQueue",
-        "enqueueCopyBuffer",
-        "enqueueWriteBuffer", 
-        "enqueueReadBuffer",  
-        "enqueueMigrateMemObjects"
+        "copy"
     ], 
     "key_concepts": [
         "Copy Buffer"
@@ -27,11 +23,11 @@
         "xilinx_u250_xdma_201830",
         "nodma"
     ],
-    "os": [
-        "Linux"
-    ], 
     "runtime": [
         "OpenCL"
+    ],
+    "os": [
+        "Linux"
     ], 
     "host": {
         "host_exe": "copy_buffer",
@@ -47,8 +43,8 @@
             ]
         },
         "linker" : {
-            "options" : ["-luuid",
-                         "-lxrt_coreutil"
+            "libraries" : ["uuid",
+                         "xrt_coreutil"
                 ]
         }
     },

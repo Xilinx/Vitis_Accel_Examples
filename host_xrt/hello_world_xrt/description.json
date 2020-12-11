@@ -37,9 +37,9 @@
             ]
         },
         "linker" : {
-            "options" : ["-luuid",
-                         "-lxrt_coreutil"
-                ]
+            "libraries" : ["uuid",
+                           "xrt_coreutil"
+               ]
         }
     },
    "targets": [

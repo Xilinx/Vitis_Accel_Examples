@@ -5,7 +5,7 @@ This Copy Buffer example demonstrate how one buffer can be copied from another b
 
 **KEY CONCEPTS:** Copy Buffer
 
-**KEYWORDS:** cl::CommandQueue, enqueueCopyBuffer, enqueueWriteBuffer, enqueueReadBuffer, enqueueMigrateMemObjects
+**KEYWORDS:** copy
 
 EXCLUDED PLATFORMS
 ------------------
