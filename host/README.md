@@ -16,6 +16,7 @@ Example        | Description           | Key Concepts / Keywords
 [errors_cpp/][]|This example discuss the different reasons for errors in OpenCL C++ and how to handle them at runtime.|__Key__ __Concepts__<br> - OpenCL C++ API<br> - Error handling<br>__Keywords__<br> - CL_SUCCESS<br> - CL_DEVICE_NOT_FOUND<br> - CL_DEVICE_NOT_AVAILABLE<br> - CL_INVALID_VALUE<br> - CL_INVALID_KERNEL_NAME<br> - CL_INVALID_BUFFER_SIZE
 [hbm_bandwidth/][]|This is a HBM bandwidth check design. Design contains 3 compute units of a kernel which has access to all HBM banks (0:31). Host application allocate buffer into all HBM banks and run these 3 compute units concurrently and measure the overall bandwidth between Kernel and HBM Memory.|
 [hbm_bandwidth_pseudo_random/][]|This is a HBM bandwidth example using a pseudo random 1024 bit data access pattern to mimic Ethereum Ethash workloads. The design contains 3 compute units of a kernel, reading 1024 bits from a pseudo random address in each of 2 pseudo channels and writing the results of a simple mathematical operation to a pseudo random address in 2 other pseudo channels. To maximize bandwidth the pseudo channels are used in  P2P like configuration - See https://developer.xilinx.com/en/articles/maximizing-memory-bandwidth-with-vitis-and-xilinx-ultrascale-hbm-devices.html for more information on HBM memory access configurations. The host application allocates buffers in 12  HBM banks and runs the compute units concurrently to measure the overall bandwidth between kernel and HBM Memory.|__Key__ __Concepts__<br> - High Bandwidth Memory<br> - Multiple HBM Banks<br> - Random Memory Access<br> - Linear Feedback Shift Register<br>__Keywords__<br> - HBM<br> - XCL_MEM_TOPOLOGY<br> - cl_mem_ext_ptr_t
+[hbm_large_buffers/][]|This is a simple example of vector addition to describe how HBM banks can be grouped to handle buffers larger than 256 MB.|__Key__ __Concepts__<br> - High Bandwidth Memory<br> - Multiple HBM Bank Groups<br>__Keywords__<br> - HBM
 [hbm_simple/][]|This is a simple example of vector addition to describe how to use HLS kernels with HBM (High Bandwidth Memory) for achieving high throughput.|__Key__ __Concepts__<br> - High Bandwidth Memory<br> - Multiple HBM Banks<br>__Keywords__<br> - HBM<br> - XCL_MEM_TOPOLOGY<br> - cl_mem_ext_ptr_t
 [host_global_bandwidth/][]|Host to global memory bandwidth test|
 [iops_test/][]|This is simple test design to measure Input/Output Operations per second. In this design, a simple kernel is enqueued many times and measuring overall IOPS.|__Key__ __Concepts__<br> - Input/Output Operations per second<br>__Keywords__<br> - CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE
@@ -29,6 +30,7 @@ Example        | Description           | Key Concepts / Keywords
 [p2p_simple/][]|This is simple example of vector increment to describe P2P between FPGA and NVMe SSD.|__Key__ __Concepts__<br> - P2P<br> - NVMe SSD<br> - SmartSSD<br>__Keywords__<br> - XCL_MEM_EXT_P2P_BUFFER<br> - pread<br> - pwrite<br> - O_DIRECT<br> - O_RDWR
 [slave_bridge_bandwidth/][]|This is slave bridge bandwidth example to describe host memory and kernel bandwidth test.|__Key__ __Concepts__<br> - slave bridge<br> - bandwidth<br> - address translation unit<br>__Keywords__<br> - XCL_MEM_EXT_HOST_ONLY<br> - HOST[0]
 [slave_bridge_copy_buffer/][]|This is simple slave bridge example to describe how host-only memory can be copied to device-only memory and vice-versa.|__Key__ __Concepts__<br> - slave bridge<br>__Keywords__<br> - XCL_MEM_EXT_HOST_ONLY<br> - CL_MEM_HOST_NO_ACCESS<br> - enqueueCopyBuffer
+[slave_bridge_copy_kernel/][]|This is a Slave Bridge Example to describe how data can be copied between host-only buffer and device-only buffer using User Copy Kernel.|__Key__ __Concepts__<br> - slave bridge<br>__Keywords__<br> - XCL_MEM_EXT_HOST_ONLY<br> - CL_MEM_HOST_NO_ACCESS<br> - enqueueMapBuffer
 [slave_bridge_simple/][]|This is simple slave bridge example to describe how a user kernel can access the host memory.|__Key__ __Concepts__<br> - slave bridge<br> - address translation unit<br>__Keywords__<br> - XCL_MEM_EXT_HOST_ONLY<br> - HOST[0]
 [streaming_custom_datatype/][]|This is simple streaming example of RGB to HSV conversion to demonstrate how streams of custom DATA Types needs to be handled on the kernel side.|__Key__ __Concepts__<br> - Custom Datatype<br>__Keywords__<br> - struct<br> - #pragma HLS LOOP_TRIPCOUNT<br> - cl_stream<br> - CL_STREAM_EOT
 [streaming_free_running_h2k/][]|This is a simple streaming free running kernel that demonstrates how to interact with the host. In this design we showcase multiple stream requests in parallel.|__Key__ __Concepts__<br> - Free Running Kernel<br>__Keywords__<br> - cl_stream<br> - CL_STREAM_EOT<br> - CL_STREAM_NONBLOCKING
@@ -52,6 +54,7 @@ Example        | Description           | Key Concepts / Keywords
 [errors_cpp/]:errors_cpp/
 [hbm_bandwidth/]:hbm_bandwidth/
 [hbm_bandwidth_pseudo_random/]:hbm_bandwidth_pseudo_random/
+[hbm_large_buffers/]:hbm_large_buffers/
 [hbm_simple/]:hbm_simple/
 [host_global_bandwidth/]:host_global_bandwidth/
 [iops_test/]:iops_test/
@@ -65,6 +68,7 @@ Example        | Description           | Key Concepts / Keywords
 [p2p_simple/]:p2p_simple/
 [slave_bridge_bandwidth/]:slave_bridge_bandwidth/
 [slave_bridge_copy_buffer/]:slave_bridge_copy_buffer/
+[slave_bridge_copy_kernel/]:slave_bridge_copy_kernel/
 [slave_bridge_simple/]:slave_bridge_simple/
 [streaming_custom_datatype/]:streaming_custom_datatype/
 [streaming_free_running_h2k/]:streaming_free_running_h2k/
