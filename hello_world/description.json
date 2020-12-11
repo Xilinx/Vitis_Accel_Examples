@@ -15,9 +15,6 @@
         "HLS C Kernel", 
         "OpenCL Host APIs"
     ],
-   "ndevice": [
-        "nodma"
-    ],
     "platform_blacklist": [
         "nodma"
     ], 

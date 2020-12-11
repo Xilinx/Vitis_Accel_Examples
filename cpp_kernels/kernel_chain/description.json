@@ -8,12 +8,6 @@
         "ap_ctrl_chain", 
         "PLRAM"
     ], 
-    "ndevice": [
-        "samsung",
-        "vck",
-        "zc",
-        "nodma"
-    ], 
     "platform_blacklist": [
         "samsung",
         "vck",

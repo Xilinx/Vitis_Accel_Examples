@@ -11,15 +11,6 @@
         "Vitis Memory Hierarchy", 
         "PLRAMs"
     ], 
-    "ndevice": [
-        "_u25_",
-        "u30",
-        "zc",
-        "vck", 
-        "u50",
-        "samsung",
-        "nodma"    
-    ], 
     "platform_blacklist": [
         "_u25_",
         "u30",

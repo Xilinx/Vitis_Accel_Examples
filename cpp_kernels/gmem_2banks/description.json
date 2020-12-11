@@ -1,13 +1,4 @@
 {
-    "ndevice": [
-        "zc", 
-        "zed",
-        "vck",
-        "u30",
-        "u50",
-        "samsung",
-        "nodma"
-    ], 
     "platform_blacklist": [
         "zc", 
         "zed",

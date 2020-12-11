@@ -13,10 +13,6 @@
         "wide memory access", 
         "burst read and write"
     ], 
-    "ndevice": [
-	"zc702",
-    "nodma"
-    ],
     "platform_blacklist": [
 	"zc702",
     "nodma"

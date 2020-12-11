@@ -11,14 +11,6 @@
     "key_concepts": [
         "Multiple Banks"
     ], 
-    "ndevice": [
-        "u30",
-        "u50",
-        "vck",
-        "zc", 
-        "samsung",
-        "nodma"
-    ], 
     "platform_blacklist": [
         "u30",
         "u50",

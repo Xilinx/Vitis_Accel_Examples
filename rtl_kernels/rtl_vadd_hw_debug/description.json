@@ -10,10 +10,6 @@
     "targets": [
         "hw"
     ],
-   "ndevice": [
-        "vck",
-        "nodma"
-    ], 
     "platform_blacklist": [
         "vck",
         "nodma"

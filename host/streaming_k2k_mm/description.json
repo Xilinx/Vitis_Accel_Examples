@@ -15,12 +15,6 @@
     "platform_whitelist": [
         "u200_qdma"
     ],  
-    "ndevice": [
-        "samsung",
-        "vck",
-        "zc",
-        "nodma"
-    ], 
     "platform_blacklist": [
         "samsung",
         "vck",

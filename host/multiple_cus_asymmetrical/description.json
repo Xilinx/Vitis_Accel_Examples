@@ -7,15 +7,6 @@
     "key_concepts": [
         "Multiple Compute Units"
     ], 
-    "ndevice": [
-        "_u25_",
-        "u30",
-        "u50",
-        "vck",
-        "samsung",
-        "zc",
-        "nodma"
-    ], 
     "platform_blacklist": [
         "_u25_",
         "u30",

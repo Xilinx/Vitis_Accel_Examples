@@ -17,10 +17,8 @@ do
         echo "Ignoring README.md ::" $i
     else
         echo "Updating README for = $i"
-        rm README.md
     fi
     make docs
-    git add README.md
     cd $BASEDIR
 done
 
@@ -31,8 +29,6 @@ for i in "${summary_list[@]}"
 do
     cd $i
     echo "Updating README for = $i"
-    rm README.md
     make docs
-    git add README.md
     cd $BASEDIR
 done

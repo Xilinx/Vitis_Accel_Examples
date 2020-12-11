@@ -10,14 +10,6 @@
     "key_concepts": [
         "SLR Assignments"
     ], 
-    "ndevice": [
-        "_u25_",
-        "u30",
-        "zc",
-        "vck", 
-        "samsung",
-        "nodma"
-    ], 
     "platform_blacklist": [
         "_u25_",
         "u30",

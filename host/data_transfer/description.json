@@ -19,9 +19,6 @@
         "Map Buffers", 
         "Async Memcpy"
     ],
-   "ndevice": [
-        "nodma"
-    ],
     "platform_blacklist": [
         "nodma"
     ], 

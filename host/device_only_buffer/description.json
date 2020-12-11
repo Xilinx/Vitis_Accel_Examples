@@ -11,9 +11,6 @@
         "Device only buffer" 
                
     ],
-   "ndevice": [
-        "nodma"
-    ],
     "platform_blacklist": [
         "nodma"
     ], 

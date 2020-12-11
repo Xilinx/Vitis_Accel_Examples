@@ -12,10 +12,6 @@
     "key_concepts": [
         "Inter Dependence"
     ], 
-    "ndevice": [
-        "zc702",
-        "nodma"
-    ],
     "platform_blacklist": [
         "zc702",
         "nodma"

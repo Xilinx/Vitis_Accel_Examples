@@ -8,11 +8,6 @@
     "platform_whitelist": [
         "u200_qdma"
     ],  
-   "ndevice": [
-        "vck",
-        "zc706",
-        "nodma"
-       ], 
     "platform_blacklist": [
         "vck",
         "zc706",
