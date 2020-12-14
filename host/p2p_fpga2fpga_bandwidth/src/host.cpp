@@ -15,6 +15,7 @@
 */
 #include "cmdlineparser.h"
 #include "xcl2.hpp"
+#include <iomanip>
 #include <iostream>
 #include <stdio.h>
 #include <stdlib.h>
@@ -55,16 +56,15 @@ int main(int argc, char *argv[]) {
     return EXIT_FAILURE;
   }
 
-  int length = 32 * 1024 * 1024;
-  size_t buffersize = 1024 * 1024;
+  int max_buffer = 32 * 1024 * 1024;
+  size_t min_buffer = 4*1024;
   if (xcl::is_emulation()) {
-    length = 4 * 1024;
-    buffersize = 1024;
+    max_buffer = 4 * 1024;
   }
 
-  std::vector<data_t, aligned_allocator<data_t>> in1(length);
-  std::vector<data_t, aligned_allocator<data_t>> out1(length);
-  for (int i = 0; i < length; i++) {
+  std::vector<data_t, aligned_allocator<data_t>> in1(max_buffer);
+  std::vector<data_t, aligned_allocator<data_t>> out1(max_buffer);
+  for (int i = 0; i < max_buffer; i++) {
     in1[i] = i;
     out1[i] = 0;
   }
@@ -109,20 +109,21 @@ int main(int argc, char *argv[]) {
   if (dev_id1 <= device_count)
     device1 = device_id[dev_id1];
   else
-    std::cout << "The device_id1 provided using -d0 flag is outside the range of "
-            "available devices\n";
+    std::cout
+        << "The device_id1 provided using -d0 flag is outside the range of "
+           "available devices\n";
   if (dev_id2 <= device_count)
     device2 = device_id[dev_id2];
   else
-    std::cout << "The device_id2 provided using -d1 flag is outside the range of "
-            "available devices\n";
+    std::cout
+        << "The device_id2 provided using -d1 flag is outside the range of "
+           "available devices\n";
   cl_context context[device_count];
   cl_command_queue queue[device_count];
   cl_kernel krnl_dev0, krnl_dev1;
   cl_program program[device_count];
   int err;
 
-  std::cout << "Initializing OpenCL objects" << std::endl;
   OCL_CHECK(err,
             context[0] = clCreateContext(0, 1, &device1, NULL, NULL, &err));
   if (err != CL_SUCCESS)
@@ -145,12 +146,14 @@ int main(int argc, char *argv[]) {
     std::cout << "clCreateCommandQueue call: Failed to create commandqueue"
               << err << std::endl;
 
-  size_t vector_size_bytes = sizeof(data_t) * length;
+  size_t vector_size_bytes = sizeof(data_t) * max_buffer;
   //------------------------------- Program
   //-------------------------------------------
   program[0] = xcl_import_binary_file(device1, context[0], binaryFile1.c_str());
+  std::cout << "device1 program successful" << std::endl;
   OCL_CHECK(err, krnl_dev0 = clCreateKernel(program[0], "bandwidth", &err));
   program[1] = xcl_import_binary_file(device2, context[1], binaryFile2.c_str());
+  std::cout << "device2 program successful" << std::endl;
   OCL_CHECK(err, krnl_dev1 = clCreateKernel(program[1], "bandwidth", &err));
 
   xcl::P2P::init(platform_id);
@@ -159,7 +162,7 @@ int main(int argc, char *argv[]) {
   // -------------------------------------------
   cl_mem input_a;
   cl_mem_ext_ptr_t inA = {0, NULL, 0};
-  OCL_CHECK(err, input_a = clCreateBuffer(context[0], CL_MEM_READ_WRITE |
+  OCL_CHECK(err, input_a = clCreateBuffer(context[0], CL_MEM_READ_WRITE | 
                                                           CL_MEM_EXT_PTR_XILINX,
                                           vector_size_bytes, &inA, &err));
 
@@ -168,7 +171,7 @@ int main(int argc, char *argv[]) {
   OCL_CHECK(err, output_a = clCreateBuffer(
                      context[0], CL_MEM_READ_WRITE | CL_MEM_EXT_PTR_XILINX,
                      vector_size_bytes, &mout, &err));
-  
+
   // ---------------------------- Buffer-2
   // -------------------------------------------
   cl_mem input_b;
@@ -176,7 +179,7 @@ int main(int argc, char *argv[]) {
   OCL_CHECK(err, input_b = clCreateBuffer(context[1], CL_MEM_READ_WRITE |
                                                           CL_MEM_EXT_PTR_XILINX,
                                           vector_size_bytes, &min, &err));
-  
+
   cl_mem output_b;
   cl_mem_ext_ptr_t ot = {XCL_MEM_EXT_P2P_BUFFER, NULL, 0};
   OCL_CHECK(err, output_b = clCreateBuffer(
@@ -185,138 +188,123 @@ int main(int argc, char *argv[]) {
 
   // ----------------------------Set Args
   // -------------------------------------------
-  std::cout << "Set Args FPGA-1" << std::endl;
   OCL_CHECK(err, err = clSetKernelArg(krnl_dev0, 0, sizeof(cl_mem), &input_a));
   OCL_CHECK(err, err = clSetKernelArg(krnl_dev0, 1, sizeof(cl_mem), &output_a));
 
-  std::cout << "Set Args FPGA-2\n" << std::endl;
   OCL_CHECK(err, err = clSetKernelArg(krnl_dev1, 0, sizeof(cl_mem), &input_b));
   OCL_CHECK(err, err = clSetKernelArg(krnl_dev1, 1, sizeof(cl_mem), &output_b));
-
+  
+  
   // -----------------------------------------------------------------------
-  std::cout << "Write data to FPGA-1" << std::endl;
+  std::cout << "Write input data to device1 global memory" << std::endl;
   OCL_CHECK(err, err = clEnqueueWriteBuffer(queue[0], input_a, CL_TRUE, 0,
                                             vector_size_bytes, in1.data(), 0,
                                             NULL, NULL));
 
-  std::cout << "Launch FPGA-1" << std::endl;
-  OCL_CHECK(err, err = clEnqueueTask(queue[0], krnl_dev0, 0, NULL, NULL));
-  clFinish(queue[0]);
-
   //------------------------- P2P
   //-----------------------------------------------------------
-  std::cout << "Transferring from FPGA-1 to FPGA-2..." << std::endl;
   int fd = -1;
   OCL_CHECK(err,
             err = xcl::P2P::getMemObjectFd(
                 output_b, &fd)); // Export p2p buffer to file descriptor (fd)
-  if (fd > 0) {
-    printf("Export FD:%d\n", fd);
-  }
 
   cl_mem exported_buf;
   OCL_CHECK(err, err = xcl::P2P::getMemObjectFromFd(context[0], device1, 0, fd,
                                                     &exported_buf)); // Import
-  std::cout << "Write data to FPGA-2" << std::endl;
+  std::cout << "Write input data to device2 global memory" << std::endl;
   OCL_CHECK(err, err = clEnqueueWriteBuffer(queue[1], input_b, CL_TRUE, 0,
                                             vector_size_bytes, in1.data(), 0,
                                             NULL, NULL));
-  std::cout << "Transferring from FPGA-2 to FPGA-1..." << std::endl;
   int fd1 = -1;
   OCL_CHECK(err,
             err = xcl::P2P::getMemObjectFd(
                 output_a, &fd1)); // Export p2p buffer to file descriptor (fd)
-  if (fd1 > 0) {
-    printf("Export FD:%d\n", fd1);
-  }
 
   cl_mem exported_buf1;
   OCL_CHECK(err, err = xcl::P2P::getMemObjectFromFd(context[1], device2, 0, fd1,
                                                     &exported_buf1)); // Import
-  
-  for (size_t bufsize = buffersize; bufsize <= vector_size_bytes;
+
+  size_t max_size = 1024*1024*1024; // 1GB size
+    std::cout << "Start P2P copy of various Buffer sizes from device1 to device2 \n";
+  for (size_t bufsize = min_buffer; bufsize <= vector_size_bytes;
        bufsize *= 2) {
-    std::cout << "Now start P2P copy " << bufsize
-              << " Bytes from a device to another device" << std::endl;
-    int burst = vector_size_bytes / bufsize;
+
+    std::string size_str = xcl::convertSize(bufsize);
     std::chrono::high_resolution_clock::time_point p2pWriteStart =
         std::chrono::high_resolution_clock::now();
-    int iter = 1;
+    int iter = max_size / bufsize;
+    if (xcl::is_emulation()) {
+      iter = 2; // Reducing iteration to run faster in emulation flow.
+    }
     for (int j = 0; j < iter; j++) {
-      for (int i = 0; i < burst; i++) {
         OCL_CHECK(err, err = clEnqueueCopyBuffer(queue[0], input_a,
                                                  exported_buf, 0, 0, bufsize, 0,
                                                  NULL, NULL)); // transfer
-      }
     }
     clFinish(queue[0]);
     std::chrono::high_resolution_clock::time_point p2pWriteEnd =
         std::chrono::high_resolution_clock::now();
     cl_ulong p2pWriteTime =
-        std::chrono::duration_cast<std::chrono::microseconds>(p2pWriteEnd - p2pWriteStart)
+        std::chrono::duration_cast<std::chrono::microseconds>(p2pWriteEnd -
+                                                              p2pWriteStart)
             .count();
     ;
     double dnsduration = (double)p2pWriteTime;
     double dsduration = dnsduration / ((double)1000000);
     double gbpersec =
-        (vector_size_bytes * iter / dsduration) / ((double)1024 * 1024 * 1024);
-    std::cout << "{\"metric\": \"p2p_write_throughput\", \"buf_size_bytes\": "
-              << bufsize 
-              << ", \"throughput_gb_per_sec\": " << gbpersec << "}\n";
+        ((iter*bufsize) / dsduration) / ((double)1024 * 1024 * 1024);
+    std::cout << "Buffer = " << size_str << " Iterations = "<<iter
+              << " Write_only = " << std::setprecision(2) << std::fixed
+              << gbpersec << "GB/s";
 
     //////////////////////// read throughput //////////////////////////
     std::chrono::high_resolution_clock::time_point p2pReadStart =
         std::chrono::high_resolution_clock::now();
     for (int j = 0; j < iter; j++) {
-      for (int i = 0; i < burst; i++) {
         OCL_CHECK(err, err = clEnqueueCopyBuffer(queue[1], input_b,
-                                                 exported_buf1, 0, 0, bufsize, 0,
-                                                 NULL, NULL)); // transfer
-      }
+                                                 exported_buf1, 0, 0, bufsize,
+                                                 0, NULL, NULL)); // transfer
     }
     clFinish(queue[1]);
     std::chrono::high_resolution_clock::time_point p2pReadEnd =
         std::chrono::high_resolution_clock::now();
     cl_ulong p2pReadTime =
-        std::chrono::duration_cast<std::chrono::microseconds>(p2pReadEnd - p2pReadStart)
+        std::chrono::duration_cast<std::chrono::microseconds>(p2pReadEnd -
+                                                              p2pReadStart)
             .count();
     ;
     dnsduration = (double)p2pReadTime;
     dsduration = dnsduration / ((double)1000000);
     gbpersec =
-        (vector_size_bytes * iter / dsduration) / ((double)1024 * 1024 * 1024);
-    std::cout << "{\"metric\": \"p2p_read_throughput\", \"buf_size_bytes\": "
-              << bufsize 
-              << ", \"throughput_gb_per_sec\": " << gbpersec << "}\n";
+        ((iter * bufsize)/ dsduration) / ((double)1024 * 1024 * 1024);
+    std::cout << " Read_only = " << std::setprecision(2) << std::fixed
+              << gbpersec << "GB/s";
     //////////////////////// Bi-directional throughput /////////////////
     std::chrono::high_resolution_clock::time_point p2pReadWriteStart =
         std::chrono::high_resolution_clock::now();
     for (int j = 0; j < iter; j++) {
-      for (int i = 0; i < burst; i++) {
         OCL_CHECK(err, err = clEnqueueCopyBuffer(queue[0], input_a,
                                                  exported_buf, 0, 0, bufsize, 0,
                                                  NULL, NULL)); // transfer
         OCL_CHECK(err, err = clEnqueueCopyBuffer(queue[1], input_b,
-                                                 exported_buf1, 0, 0, bufsize, 0,
-                                                 NULL, NULL)); // transfer
-      }
+                                                 exported_buf1, 0, 0, bufsize,
+                                                 0, NULL, NULL)); // transfer
     }
     clFinish(queue[0]);
     clFinish(queue[1]);
     std::chrono::high_resolution_clock::time_point p2pReadWriteEnd =
         std::chrono::high_resolution_clock::now();
     cl_ulong p2pReadWriteTime =
-        std::chrono::duration_cast<std::chrono::microseconds>(p2pReadWriteEnd - p2pReadWriteStart)
+        std::chrono::duration_cast<std::chrono::microseconds>(p2pReadWriteEnd -
+                                                              p2pReadWriteStart)
             .count();
     ;
     dnsduration = (double)p2pReadWriteTime;
     dsduration = dnsduration / ((double)1000000);
-    gbpersec =
-        (2 * vector_size_bytes * iter / dsduration) / ((double)1024 * 1024 * 1024);
-    std::cout << "{\"metric\": \"p2p_read_write_throughput\", \"buf_size_bytes\": "
-              << bufsize 
-              << ", \"throughput_gb_per_sec\": " << gbpersec << "}\n";
-    
+    gbpersec = ((2 * iter * bufsize) / dsduration) /
+               ((double)1024 * 1024 * 1024);
+    std::cout << " Read_Write = " << std::setprecision(2) << std::fixed
+              << gbpersec << "GB/s\n";
   }
 
   clFinish(queue[0]);
@@ -349,8 +337,6 @@ cl_program xcl_import_binary_file(cl_device_id device_id, cl_context context,
                                   const char *xclbin_file_name) {
   int err;
 
-  printf("INFO: Importing %s\n", xclbin_file_name);
-
   if (access(xclbin_file_name, R_OK) != 0) {
     return NULL;
     printf("ERROR: %s xclbin not available please build\n", xclbin_file_name);
@@ -359,8 +345,7 @@ cl_program xcl_import_binary_file(cl_device_id device_id, cl_context context,
 
   char *krnl_bin;
   const size_t krnl_size = load_file_to_memory(xclbin_file_name, &krnl_bin);
-  printf("INFO: Loaded file\n");
-
+  
   cl_program program =
       clCreateProgramWithBinary(context, 1, &device_id, &krnl_size,
                                 (const unsigned char **)&krnl_bin, NULL, &err);
@@ -369,8 +354,7 @@ cl_program xcl_import_binary_file(cl_device_id device_id, cl_context context,
     printf("Test failed\n");
     exit(EXIT_FAILURE);
   }
-  printf("INFO: Created Binary\n");
-
+  
   err = clBuildProgram(program, 0, NULL, NULL, NULL, NULL);
   if (err != CL_SUCCESS) {
     size_t len;
@@ -382,8 +366,6 @@ cl_program xcl_import_binary_file(cl_device_id device_id, cl_context context,
     printf("Error: Failed to build program executable!\n");
     exit(EXIT_FAILURE);
   }
-
-  printf("INFO: Built Program\n");
 
   free(krnl_bin);
   return program;

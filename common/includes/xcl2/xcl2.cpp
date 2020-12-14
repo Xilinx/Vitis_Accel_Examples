@@ -17,6 +17,9 @@
 #include "xcl2.hpp"
 #include <climits>
 #include <sys/stat.h>
+#include <string>
+#include <iomanip>
+#include <sstream>
 #if defined(_WINDOWS)
 #include <io.h>
 #else
@@ -97,6 +100,33 @@ bool is_hw_emulation() {
     ret = true;
   }
   return ret;
+}
+double roundOff(double n) {
+    double d = n * 100.0;
+    int i = d + 0.5;
+    d = i / 100.0;
+    return d;
+}
+
+std::string convertSize(size_t size) {              
+  static const char *SIZES[] = { "B", "KB", "MB", "GB" };
+  uint32_t div = 0;
+  size_t rem = 0;
+
+  while (size >= 1024 && div < (sizeof SIZES / sizeof *SIZES)) {
+      rem = (size % 1024);
+      div++;
+      size /= 1024;
+  }
+  
+  double size_d = (float)size + (float)rem / 1024.0;
+  double size_val = roundOff(size_d);
+
+  std::stringstream stream;
+  stream << std::fixed << std::setprecision(2) << size_val;
+  std::string size_str = stream.str();
+  std::string result = size_str + " " + SIZES[div];
+  return result;
 }
 
 bool is_xpr_device(const char *device_name) {

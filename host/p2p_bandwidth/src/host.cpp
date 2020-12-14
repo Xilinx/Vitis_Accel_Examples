@@ -25,16 +25,16 @@
 #include <unistd.h>
 #include <vector>
 
-size_t DATA_SIZE = 32 * 1024 * 1024;
-size_t buffersize = 1024 * 1024;
+size_t max_buffer= 32 * 1024 * 1024;
+size_t min_buffer = 4 * 1024;
+size_t max_size= 1024 * 1024 * 1024; // 1GB
 
 void p2p_host_to_ssd(int &nvmeFd, cl::Context context, cl::CommandQueue q,
                      cl::Program program,
                      std::vector<int, aligned_allocator<int>> source_input_A) {
   int err;
   int ret = 0;
-  // int size = DATA_SIZE;
-  size_t vector_size_bytes = sizeof(int) * DATA_SIZE;
+  size_t vector_size_bytes = sizeof(int) * max_buffer;
 
   cl::Kernel krnl_adder;
   // Allocate Buffer in Global Memory
@@ -68,15 +68,18 @@ void p2p_host_to_ssd(int &nvmeFd, cl::Context context, cl::CommandQueue q,
       nullptr, nullptr,
       &err); // error code
 
-  std::cout << "Now start P2P Write from device buffers to SSD\n" << std::endl;
-  for (size_t bufsize = buffersize; bufsize <= vector_size_bytes;
+  std::cout << "Start P2P Write of various buffer sizes from device buffers to SSD\n" << std::endl;
+  for (size_t bufsize = min_buffer; bufsize <= vector_size_bytes;
        bufsize *= 2) {
-    std::cout << "Now start P2P copy " << bufsize
-              << " Bytes from a device to another device" << std::endl;
-    int burst = vector_size_bytes / bufsize;
+    std::string size_str = xcl::convertSize(bufsize);
+
+    int iter = max_size / bufsize;
+    if (xcl::is_emulation()) {
+      iter = 2; // Reducing iteration to run faster in emulation flow.
+    }
     std::chrono::high_resolution_clock::time_point p2pStart =
         std::chrono::high_resolution_clock::now();
-    for (int i = 0; i < burst; i++) {
+    for (int i = 0; i < iter; i++) {
       ret = pwrite(nvmeFd, (void *)p2pPtr, bufsize, 0);
       if (ret == -1)
         std::cout << "P2P: write() failed, err: " << ret
@@ -91,10 +94,10 @@ void p2p_host_to_ssd(int &nvmeFd, cl::Context context, cl::CommandQueue q,
     double dnsduration = (double)p2pTime;
     double dsduration = dnsduration / ((double)1000000);
     double gbpersec =
-        (vector_size_bytes / dsduration) / ((double)1024 * 1024 * 1024);
-    std::cout << "{\"metric\": \"copy_throughput\", \"buf_size_bytes\": "
-              << bufsize 
-              << ", \"throughput_gb_per_sec\": " << gbpersec << "}\n";
+        (iter * bufsize / dsduration) / ((double)1024 * 1024 * 1024);
+    std::cout << "Buffer = " << size_str << " Iterations = " << iter
+              << " Throughput = " << std::setprecision(2) << std::fixed
+              << gbpersec << "GB/s\n";
   }
 }
 
@@ -102,7 +105,7 @@ void p2p_ssd_to_host(int &nvmeFd, cl::Context context, cl::CommandQueue q,
                      cl::Program program,
                      std::vector<int, aligned_allocator<int>> *source_input_A) {
   int err;
-  size_t vector_size_bytes = sizeof(int) * DATA_SIZE;
+  size_t vector_size_bytes = sizeof(int) * max_buffer;
 
   cl::Kernel krnl_adder1;
   // Allocate Buffer in Global Memory
@@ -127,15 +130,18 @@ void p2p_ssd_to_host(int &nvmeFd, cl::Context context, cl::CommandQueue q,
                          nullptr, nullptr,
                          &err); // error code
 
-  std::cout << "Now start P2P Read from SSD to device buffers\n" << std::endl;
-  for (size_t bufsize = buffersize; bufsize <= vector_size_bytes;
+  std::cout << "Start P2P Read of various buffer sizes from SSD to device buffers\n" << std::endl;
+  for (size_t bufsize = min_buffer; bufsize <= vector_size_bytes;
        bufsize *= 2) {
-    std::cout << "Now start P2P copy " << bufsize
-              << " Bytes from a device to another device" << std::endl;
-    int burst = vector_size_bytes / bufsize;
+    std::string size_str = xcl::convertSize(bufsize);
+
+    int iter = max_size / bufsize;
+    if (xcl::is_emulation()) {
+      iter = 2; // Reducing iteration to run faster in emulation flow.
+    }
     std::chrono::high_resolution_clock::time_point p2pStart =
         std::chrono::high_resolution_clock::now();
-    for (int i = 0; i < burst; i++) {
+    for (int i = 0; i < iter; i++) {
       if (pread(nvmeFd, (void *)p2pPtr1, bufsize, 0) <= 0) {
         std::cerr << "ERR: pread failed: "
                   << " error: " << strerror(errno) << std::endl;
@@ -151,10 +157,10 @@ void p2p_ssd_to_host(int &nvmeFd, cl::Context context, cl::CommandQueue q,
     double dnsduration = (double)p2pTime;
     double dsduration = dnsduration / ((double)1000000);
     double gbpersec =
-        (vector_size_bytes / dsduration) / ((double)1024 * 1024 * 1024);
-    std::cout << "{\"metric\": \"copy_throughput\", \"buf_size_bytes\": "
-              << bufsize 
-              << ", \"throughput_gb_per_sec\": " << gbpersec << "}\n";
+        (iter * bufsize/ dsduration) / ((double)1024 * 1024 * 1024);
+    std::cout << "Buffer = " << size_str << " Iterations = " << iter
+              << " Throughput = " << std::setprecision(2) << std::fixed
+              << gbpersec << "GB/s\n";
   }
 }
 
@@ -176,19 +182,18 @@ int main(int argc, char **argv) {
     parser.printHelp();
     return EXIT_FAILURE;
   }
-  if(filename.empty()){
-      filename = "./sample.txt";
-   }
+  if (filename.empty()) {
+    filename = "./sample.txt";
+  }
   int nvmeFd = -1;
   if (xcl::is_emulation()) {
-    DATA_SIZE = 4 * 1024;
-    buffersize = 1024;
+    max_buffer = 16 * 1024;
   }
 
   cl_int err;
   cl::Context context;
   cl::CommandQueue q;
-  std::vector<int, aligned_allocator<int>> source_input_A(DATA_SIZE);
+  std::vector<int, aligned_allocator<int>> source_input_A(max_buffer);
 
   // OPENCL HOST CODE AREA START
   // get_xil_devices() is a utility API which will find the xilinx
