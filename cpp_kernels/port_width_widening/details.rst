@@ -21,8 +21,8 @@ Following is the content of ini file
 
 .. code:: cpp
 
-   [advanced]
-   prop=solution.hls_pre_tcl=hls_config.tcl
+   [hls]
+   pre_tcl=hls_config.tcl
 
 Below are the resource numbers while running the design on U200 platform
 :

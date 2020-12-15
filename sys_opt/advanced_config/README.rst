@@ -5,7 +5,7 @@ This is simple example to describe how user can provide various advanced options
 
 **KEY CONCEPTS:** Using custom Tcl, Setting Kernel Clock Frequency, Clock Uncertainity
 
-**KEYWORDS:** config, set_clock_uncertainity, kernel_frequency, hls_pre_tcl
+**KEYWORDS:** config, set_clock_uncertainity, kernel_frequency, hls.pre_tcl
 
 EXCLUDED PLATFORMS
 ------------------

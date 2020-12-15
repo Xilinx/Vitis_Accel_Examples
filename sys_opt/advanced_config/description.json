@@ -8,7 +8,7 @@
 	"config",
 	"set_clock_uncertainity",
 	"kernel_frequency",
-	"hls_pre_tcl"
+	"hls.pre_tcl"
     ], 
     "key_concepts": [
         "Using custom Tcl", 
