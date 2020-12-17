@@ -37,9 +37,7 @@
                 "PROJECT/include/sw", 
                 "PROJECT/include/sw/xcl2"
             ], 
-            "options": [
-                "-O3 -Wall -Wno-unknown-pragmas -Wno-unused-label -Wno-uninitialized -Wno-unused-value"
-            ],
+            "options": "-O3 -Wall -Wno-unknown-pragmas -Wno-unused-label -Wno-uninitialized -Wno-unused-value",
             "symbols":[
                 "BLAS_ddrWidth=16",
                 "BLAS_numKernels=1",

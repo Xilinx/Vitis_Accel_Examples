@@ -47,8 +47,9 @@
             ]
         },
         "linker" : {
-            "options" : ["-luuid"
-                ]
+            "libraries" : [
+                "uuid"
+            ]
         }
     },
    "gui": false,

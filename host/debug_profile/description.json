@@ -20,8 +20,8 @@
     "host": {
         "host_exe": "debug_profile",
         "linker": {
-            "options": [
-                "-lxrt_coreutil"
+            "libraries": [
+                "xrt_coreutil"
             ]
         }, 
         "compiler": {

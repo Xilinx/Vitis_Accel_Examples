@@ -42,9 +42,7 @@
                 "PROJECT/include", 
                 "PROJECT/src"
             ], 
-            "options": [
-                "-O3" 
-            ]
+            "options": "-O3" 
         }
     }, 
     "v++": {

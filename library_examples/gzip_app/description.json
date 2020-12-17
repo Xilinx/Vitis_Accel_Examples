@@ -41,9 +41,7 @@
             "includepaths": [
                 "PROJECT/include"
             ],
-            "options": [
-                "-O3"
-            ],
+            "options": "-O3",
             "symbols": [
                 "C_COMPUTE_UNIT=1", 
                 "H_COMPUTE_UNIT=1", 

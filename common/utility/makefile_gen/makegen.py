@@ -100,18 +100,26 @@ def add_host_flags(target, data):
         
     if "compiler" in data["host"]:
         if "options" in data["host"]["compiler"]:
-            for option in data["host"]["compiler"]["options"]:
+            option = data["host"]["compiler"]["options"].split(" ")
+            for opt in option[0:]:
                 target.write(" ")	
-                target.write(option)
+                target.write(opt)
     target.write("\n")	
     target.write("LDFLAGS += ")
     target.write("-lrt -lstdc++ ")
     if "linker" in data["host"]:
-            if "options" in data["host"]["linker"]:
-                    target.write("\nLDFLAGS +=")
-                    for option in data["host"]["linker"]["options"]:
-                            target.write(" ")	
-                            target.write(option)
+        if "libraries" in data["host"]["linker"]:
+            target.write("\nLDFLAGS +=")
+            for library in data["host"]["linker"]["libraries"]:
+                target.write(" -l")	
+                target.write(library)
+    if "linker" in data["host"]:
+        if "options" in data["host"]["linker"]:
+            target.write("\nLDFLAGS +=")
+            option = data["host"]["linker"]["options"].split(" ")
+            for opt in option[0:]:
+                target.write(" ")	
+                target.write(opt)
     target.write("\n\n")
     target.write("ifneq ($(HOST_ARCH), x86)\n")
     target.write("\tLDFLAGS += --sysroot=$(SYSROOT)\n")

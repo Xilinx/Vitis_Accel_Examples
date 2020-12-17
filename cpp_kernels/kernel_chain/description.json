@@ -22,9 +22,7 @@
     ], 
     "host": {
         "linker": {
-            "options": [
-                "-pthread"
-            ]
+            "options": "-pthread"
         }, 
         "host_exe": "kernel_chain",
         "compiler": {
