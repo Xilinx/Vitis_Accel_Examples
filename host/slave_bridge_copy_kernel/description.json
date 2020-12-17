@@ -3,6 +3,7 @@
     "description": [
        "This is a Slave Bridge Example to describe how data can be copied between host-only buffer and device-only buffer using User Copy Kernel." 
     ],
+    "flow": "vitis",
     "keywords": [
         "XCL_MEM_EXT_HOST_ONLY",
         "CL_MEM_HOST_NO_ACCESS",

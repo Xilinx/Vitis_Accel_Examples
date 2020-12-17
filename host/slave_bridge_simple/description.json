@@ -3,6 +3,7 @@
     "description": [
        "This is simple slave bridge example to describe how a user kernel can access the host memory." 
     ],
+    "flow": "vitis",
     "keywords": [
         "XCL_MEM_EXT_HOST_ONLY",
         "HOST[0]"

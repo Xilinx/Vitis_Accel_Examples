@@ -3,6 +3,7 @@
     "description": [
         "This slave bridge bandwidth design explains how direct host memory access can be done by the kernel."
     ],
+    "flow": "vitis",
     "keywords": [
         "XCL_MEM_EXT_HOST_ONLY",
         "HOST[0]"
@@ -12,7 +13,7 @@
         "address translation unit" 
     ],
     "platform_type": "pcie",
-   "platform_blacklist": [ 
+    "platform_blacklist": [ 
         "zc",
         "vck", 
         "aws",

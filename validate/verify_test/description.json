@@ -3,6 +3,7 @@
     "description": [
         "This is a simple design to verify that the platform has basic functionality."
     ],
+    "flow": "vitis",
     "os": [
         "Linux"
     ], 

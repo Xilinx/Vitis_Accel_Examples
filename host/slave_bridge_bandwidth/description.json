@@ -3,6 +3,7 @@
     "description": [
        "This is slave bridge bandwidth example to describe host memory and kernel bandwidth test." 
     ],
+    "flow": "vitis",
     "keywords": [
         "XCL_MEM_EXT_HOST_ONLY",
         "HOST[0]"
