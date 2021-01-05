@@ -53,7 +53,7 @@ int main(int argc, char **argv) {
 
   size_t vector_size_bytes = sizeof(int) * DATA_SIZE;
 
-  auto krnl = xrt::kernel(device, uuid.get(), "vadd");
+  auto krnl = xrt::kernel(device, uuid, "vadd");
 
   std::cout << "Allocate Buffer in Global Memory\n";
   auto bo0 = xrt::bo(device, vector_size_bytes, krnl.group_id(0));
@@ -78,8 +78,9 @@ int main(int argc, char **argv) {
 
   // Synchronize buffer content with device side
   std::cout << "synchronize input buffer data to device global memory\n";
-  bo0.sync(XCL_BO_SYNC_BO_TO_DEVICE, vector_size_bytes, 0);
-  bo1.sync(XCL_BO_SYNC_BO_TO_DEVICE, vector_size_bytes, 0);
+
+  bo0.sync(XCL_BO_SYNC_BO_TO_DEVICE);
+  bo1.sync(XCL_BO_SYNC_BO_TO_DEVICE);
 
   std::cout << "Execution of the kernel\n";
   auto run = krnl(bo0, bo1, bo_out, DATA_SIZE);
@@ -87,7 +88,7 @@ int main(int argc, char **argv) {
 
   // Get the output;
   std::cout << "Get the output data from the device" << std::endl;
-  bo_out.sync(XCL_BO_SYNC_BO_FROM_DEVICE, vector_size_bytes, 0);
+  bo_out.sync(XCL_BO_SYNC_BO_FROM_DEVICE);
 
   // Validate our results
   if (std::memcmp(bo_out_map, bufReference, DATA_SIZE))
