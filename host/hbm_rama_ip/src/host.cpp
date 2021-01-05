@@ -42,7 +42,7 @@ memory exceeds 256 MB (one HBM pseudo-channel).
 
 #include "xcl2.hpp"
 
-#define NUM_KERNEL 2
+#define NUM_KERNEL 4
 
 // Function for verifying results
 bool verify(
@@ -98,6 +98,7 @@ int main(int argc, char *argv[]) {
   cl::CommandQueue q;
   std::string krnl_name = "krnl_vaddmul";
   std::vector<cl::Kernel> krnls(NUM_KERNEL);
+  int NUM_BUFFER = NUM_KERNEL / 2;
   cl::Context context;
   std::vector<uint32_t, aligned_allocator<uint32_t>> source_in1(dataSize);
   std::vector<uint32_t, aligned_allocator<uint32_t>> source_in2(dataSize);
@@ -107,11 +108,11 @@ int main(int argc, char *argv[]) {
       dataSize);
 
   std::vector<uint32_t, aligned_allocator<uint32_t>>
-      source_hw_add_results[NUM_KERNEL];
+      source_hw_add_results[NUM_BUFFER];
   std::vector<uint32_t, aligned_allocator<uint32_t>>
-      source_hw_mul_results[NUM_KERNEL];
+      source_hw_mul_results[NUM_BUFFER];
 
-  for (int i = 0; i < NUM_KERNEL; i++) {
+  for (int i = 0; i < NUM_BUFFER; i++) {
     source_hw_add_results[i].resize(dataSize);
     source_hw_mul_results[i].resize(dataSize);
   }
@@ -178,15 +179,15 @@ int main(int argc, char *argv[]) {
     exit(EXIT_FAILURE);
   }
 
-  std::vector<cl::Buffer> buffer_input1(NUM_KERNEL);
-  std::vector<cl::Buffer> buffer_input2(NUM_KERNEL);
-  std::vector<cl::Buffer> buffer_output_add(NUM_KERNEL);
-  std::vector<cl::Buffer> buffer_output_mul(NUM_KERNEL);
+  std::vector<cl::Buffer> buffer_input1(NUM_BUFFER);
+  std::vector<cl::Buffer> buffer_input2(NUM_BUFFER);
+  std::vector<cl::Buffer> buffer_output_add(NUM_BUFFER);
+  std::vector<cl::Buffer> buffer_output_mul(NUM_BUFFER);
 
   // These commands will allocate memory on the FPGA. The cl::Buffer objects can
   // be used to reference the memory locations on the device.
   // Creating Buffers
-  for (int i = 0; i < NUM_KERNEL; i++) {
+  for (int i = 0; i < NUM_BUFFER; i++) {
     OCL_CHECK(err, buffer_input1[i] = cl::Buffer(
                        context, CL_MEM_READ_ONLY | CL_MEM_USE_HOST_PTR,
                        sizeof(uint32_t) * dataSize, source_in1.data(), &err));
@@ -207,51 +208,55 @@ int main(int argc, char *argv[]) {
   for (int i = 0; i < NUM_KERNEL; i++) {
 
     // Setting the k_vadd Arguments
-    OCL_CHECK(err, err = krnls[i].setArg(0, buffer_input1[i]));
-    OCL_CHECK(err, err = krnls[i].setArg(1, buffer_input2[i]));
-    OCL_CHECK(err, err = krnls[i].setArg(2, buffer_output_add[i]));
-    OCL_CHECK(err, err = krnls[i].setArg(3, buffer_output_mul[i]));
+    int j = i % NUM_BUFFER;
+    OCL_CHECK(err, err = krnls[i].setArg(0, buffer_input1[j]));
+    OCL_CHECK(err, err = krnls[i].setArg(1, buffer_input2[j]));
+    OCL_CHECK(err, err = krnls[i].setArg(2, buffer_output_add[j]));
+    OCL_CHECK(err, err = krnls[i].setArg(3, buffer_output_mul[j]));
     OCL_CHECK(err, err = krnls[i].setArg(4, dataSize));
     OCL_CHECK(err, err = krnls[i].setArg(5, num_times));
+  }
 
+  for (int i = 0; i < NUM_BUFFER; i++) {
     OCL_CHECK(err, err = q.enqueueMigrateMemObjects(
                        {buffer_input1[i], buffer_input2[i]},
                        0 /* 0 means from host*/));
   }
   q.finish();
 
-  double kernel_time_in_sec = 0, result = 0;
+  double kernel_time_in_sec_with_rama_ip = 0, result_with_rama_ip = 0;
 
-  std::chrono::duration<double> kernel_time(0);
+  std::chrono::duration<double> kernel_time_with_rama_ip(0);
 
-  auto kernel_start = std::chrono::high_resolution_clock::now();
-  for (int i = 0; i < NUM_KERNEL; i++) {
+  auto kernel_start_with_rama_ip = std::chrono::high_resolution_clock::now();
+  for (int i = 0; i < NUM_BUFFER; i++) {
     // Invoking the kernel
     OCL_CHECK(err, err = q.enqueueTask(krnls[i]));
   }
   q.finish();
-  auto kernel_end = std::chrono::high_resolution_clock::now();
+  auto kernel_end_with_rama_ip = std::chrono::high_resolution_clock::now();
 
-  kernel_time = std::chrono::duration<double>(kernel_end - kernel_start);
+  kernel_time_with_rama_ip = std::chrono::duration<double>(
+      kernel_end_with_rama_ip - kernel_start_with_rama_ip);
 
-  kernel_time_in_sec = kernel_time.count();
-  kernel_time_in_sec /= NUM_KERNEL;
+  kernel_time_in_sec_with_rama_ip = kernel_time_with_rama_ip.count();
+  kernel_time_in_sec_with_rama_ip /= NUM_BUFFER;
 
   // Copy Result from Device Global Memory to Host Local Memory
-  for (int i = 0; i < NUM_KERNEL; i++) {
+  for (int i = 0; i < NUM_BUFFER; i++) {
     OCL_CHECK(err, err = q.enqueueMigrateMemObjects(
                        {buffer_output_add[i], buffer_output_mul[i]},
                        CL_MIGRATE_MEM_OBJECT_HOST));
   }
   q.finish();
 
-  bool match = true;
+  bool match_with_rama_ip = true;
 
-  for (int i = 0; i < NUM_KERNEL; i++) {
-    match =
+  for (int i = 0; i < NUM_BUFFER; i++) {
+    match_with_rama_ip =
         verify(source_sw_add_results, source_sw_mul_results,
                source_hw_add_results[i], source_hw_mul_results[i], dataSize);
-    if (!match) {
+    if (!match_with_rama_ip) {
       std::cerr << "TEST FAILED" << std::endl;
       return EXIT_FAILURE;
     }
@@ -259,14 +264,69 @@ int main(int argc, char *argv[]) {
 
   // Multiplying the actual data size by 4 because four buffers are being
   // used.
-  result = 4 * (float)dataSize * num_times * sizeof(uint32_t);
-  result /= 1000;               // to KB
-  result /= 1000;               // to MB
-  result /= 1000;               // to GB
-  result /= kernel_time_in_sec; // to GBps
+  result_with_rama_ip = 4 * (float)dataSize * num_times * sizeof(uint32_t);
+  result_with_rama_ip /= 1000;                            // to KB
+  result_with_rama_ip /= 1000;                            // to MB
+  result_with_rama_ip /= 1000;                            // to GB
+  result_with_rama_ip /= kernel_time_in_sec_with_rama_ip; // to GBps
 
-  std::cout << "OVERALL THROUGHPUT = " << result << " GB/s" << std::endl;
-  std::cout << "CHANNEL THROUGHPUT = " << result / (NUM_KERNEL * 4) << " GB/s"
+  std::cout << "WITH RAMA IP -" << std::endl;
+  std::cout << "OVERALL THROUGHPUT = " << result_with_rama_ip << " GB/s"
+            << std::endl;
+  std::cout << "CHANNEL THROUGHPUT = " << result_with_rama_ip / (NUM_BUFFER * 4)
+            << " GB/s" << std::endl;
+
+  double kernel_time_in_sec_without_rama_ip = 0, result_without_rama_ip = 0;
+
+  std::chrono::duration<double> kernel_time_without_rama_ip(0);
+
+  auto kernel_start_without_rama_ip = std::chrono::high_resolution_clock::now();
+  for (int i = NUM_BUFFER; i < NUM_KERNEL; i++) {
+    // Invoking the kernel
+    OCL_CHECK(err, err = q.enqueueTask(krnls[i]));
+  }
+  q.finish();
+  auto kernel_end_without_rama_ip = std::chrono::high_resolution_clock::now();
+
+  kernel_time_without_rama_ip = std::chrono::duration<double>(
+      kernel_end_without_rama_ip - kernel_start_without_rama_ip);
+
+  kernel_time_in_sec_without_rama_ip = kernel_time_without_rama_ip.count();
+  kernel_time_in_sec_without_rama_ip /= NUM_BUFFER;
+
+  // Copy Result from Device Global Memory to Host Local Memory
+  for (int i = 0; i < NUM_BUFFER; i++) {
+    OCL_CHECK(err, err = q.enqueueMigrateMemObjects(
+                       {buffer_output_add[i], buffer_output_mul[i]},
+                       CL_MIGRATE_MEM_OBJECT_HOST));
+  }
+  q.finish();
+
+  bool match_without_rama_ip = true;
+
+  for (int i = 0; i < NUM_BUFFER; i++) {
+    match_without_rama_ip =
+        verify(source_sw_add_results, source_sw_mul_results,
+               source_hw_add_results[i], source_hw_mul_results[i], dataSize);
+    if (!match_without_rama_ip) {
+      std::cerr << "TEST FAILED" << std::endl;
+      return EXIT_FAILURE;
+    }
+  }
+
+  // Multiplying the actual data size by 4 because four buffers are being
+  // used.
+  result_without_rama_ip = 4 * (float)dataSize * num_times * sizeof(uint32_t);
+  result_without_rama_ip /= 1000;                               // to KB
+  result_without_rama_ip /= 1000;                               // to MB
+  result_without_rama_ip /= 1000;                               // to GB
+  result_without_rama_ip /= kernel_time_in_sec_without_rama_ip; // to GBps
+
+  std::cout << "WITHOUT RAMA IP -" << std::endl;
+  std::cout << "OVERALL THROUGHPUT = " << result_without_rama_ip << " GB/s"
+            << std::endl;
+  std::cout << "CHANNEL THROUGHPUT = "
+            << result_without_rama_ip / (NUM_BUFFER * 4) << " GB/s"
             << std::endl;
 
   std::cout << "TEST PASSED" << std::endl;
