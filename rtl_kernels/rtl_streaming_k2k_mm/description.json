@@ -28,9 +28,7 @@
     "gui": false, 
     "host": {
         "linker": {
-            "options": [
-                "-pthread"
-            ]
+            "options": "-pthread"
         }, 
         "host_exe": "rtl_streaming_k2k_mm",
         "compiler": {

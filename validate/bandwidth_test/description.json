@@ -3,6 +3,7 @@
     "description": [
         "This Bandwidth Example test the maximum possible bandwidth between Kernel and Global Memory."
     ],
+    "flow": "vitis",
     "key_concepts": [
         "Burst Read/Write", 
         "Bandwidth" 

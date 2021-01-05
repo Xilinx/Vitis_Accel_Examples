@@ -1,0 +1,181 @@
+{
+    "name": "HBM Bandwidth for large buffers using RAMA IP", 
+    "description": [
+        "This is host application to test HBM interface bandwidth for buffers > 256 MB with pseudo random 1024 bit data access pattern, mimicking Ethereum Ethash workloads. Design contains 4 compute units of Kernel, 2 with and 2 without RAMA IP. Each compute unit reads 1024 bits from a pseudo random address in each of 2 pseudo channel groups and writes the results of a simple mathematical operation to a pseudo random address in 2 other pseudo channel groups. Each buffer is 1 GB large requiring 4 HBM banks. Since the first 2 CUs requires 4 buffers each and are then used again by the other 2 CUs, the .cfg file is allocating the buffers to all the 32 HBM banks.  The host application runs the compute units concurrently to measure the overall bandwidth between kernel and HBM Memory."
+    ],
+    "flow": "vitis",
+    "keywords": [
+        "HBM",
+        "ra_master_interface" 
+    ], 
+    "key_concepts": [
+        "High Bandwidth Memory", 
+        "Multiple HBM Banks",
+        "Random Memory Access",
+        "Linear Feedback Shift Register",
+        "RAMA IP"
+    ], 
+    "platform_type": "pcie",
+    "platform_whitelist": [
+        "u50"
+    ], 
+    "platform_blacklist": [
+        "_u25_",
+        "u30",
+        "u200", 
+        "zc",
+        "vck", 
+        "u250",
+        "aws",
+        "_u2_",
+        "nodma"
+    ],
+    "runtime": [
+        "OpenCL"
+    ], 
+    "host": {
+        "host_exe": "hbm_rama_ip",
+        "compiler": {
+            "sources": [
+                "REPO_DIR/common/includes/xcl2/xcl2.cpp",
+                "./src/host.cpp"
+            ], 
+            "includepaths": [
+                "REPO_DIR/common/includes/xcl2"
+            ]
+        }
+    }, 
+    "v++": {
+        "build_datafiles" : [            
+            "PROJECT/postSysLink.tcl",
+            "PROJECT/rama_ip.ini"
+        ]
+     },
+    "containers": [
+        {
+            "accelerators": [
+                {
+                    "compute_units": [
+                        {
+                            "arguments": [
+                                {
+                                    "name": "in1", 
+                                    "memory": "HBM[0:3]"
+                                }, 
+                                {
+                                    "name": "in2", 
+                                    "memory": "HBM[4:7]"
+                                }, 
+                                {
+                                    "name": "out_add", 
+                                    "memory": "HBM[8:11]"
+                                }, 
+                                {
+                                    "name": "out_mul", 
+                                    "memory": "HBM[12:15]"
+                                }
+                            ]
+                        }, 
+                        {
+                            "arguments": [
+                                {
+                                    "name": "in1", 
+                                    "memory": "HBM[16:19]"
+                                }, 
+                                {
+                                    "name": "in2", 
+                                    "memory": "HBM[20:23]"
+                                }, 
+                                {
+                                    "name": "out_add", 
+                                    "memory": "HBM[24:27]"
+                                }, 
+                                {
+                                    "name": "out_mul", 
+                                    "memory": "HBM[28:31]"
+                                }
+                            ]
+                        },
+                        {
+                            "arguments": [
+                                {
+                                    "name": "in1", 
+                                    "memory": "HBM[0:3]"
+                                }, 
+                                {
+                                    "name": "in2", 
+                                    "memory": "HBM[4:7]"
+                                }, 
+                                {
+                                    "name": "out_add", 
+                                    "memory": "HBM[8:11]"
+                                }, 
+                                {
+                                    "name": "out_mul", 
+                                    "memory": "HBM[12:15]"
+                                }
+                            ]
+                        }, 
+                        {
+                            "arguments": [
+                                {
+                                    "name": "in1", 
+                                    "memory": "HBM[16:19]"
+                                }, 
+                                {
+                                    "name": "in2", 
+                                    "memory": "HBM[20:23]"
+                                }, 
+                                {
+                                    "name": "out_add", 
+                                    "memory": "HBM[24:27]"
+                                }, 
+                                {
+                                    "name": "out_mul", 
+                                    "memory": "HBM[28:31]"
+                                }
+                            ]
+                        }
+                    ], 
+                    "num_compute_units": "4", 
+                    "location": "src/krnl_vaddmul.cpp", 
+                    "name": "krnl_vaddmul"
+                }
+            ], 
+            "name": "krnl_vaddmul",
+            "ldclflags": "--advanced.param compiler.userPostSysLinkOverlayTcl=PROJECT/postSysLink.tcl"
+        }
+    ],
+    "launch": [
+        {
+            "cmd_args": "BUILD/krnl_vaddmul.xclbin", 
+            "name": "generic launch for all flows"
+        }
+    ], 
+    "contributors": [
+        {
+            "url": "http://www.xilinx.com", 
+            "group": "Xilinx"
+        }
+    ], 
+    "testinfo": {
+        "profile": "no",
+        "disable": false,
+        "jobs": [
+            {
+                "index": 0,
+                "dependency": [],
+                "env": "",
+                "cmd": "",
+                "max_memory_MB": 32768,
+                "max_time_min": 300
+            }
+        ],
+        "targets": [
+            "vitis_sw_emu",
+            "vitis_hw_emu",
+            "vitis_hw"
+        ],
+        "category": "canary"
+    }
+}

@@ -40,9 +40,7 @@
             "includepaths": [
                 "PROJECT/host"
             ],
-            "options": [
-                "-O3"
-            ]
+            "options": "-O3"
         }
     },
     "v++": {

@@ -34,9 +34,7 @@
     ], 
     "host": {
         "linker": {
-            "options": [
-                "-pthread"
-            ]
+            "options": "-pthread"
         }, 
         "host_exe": "streaming_mm_mixed",
         "compiler": {

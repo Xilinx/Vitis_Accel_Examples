@@ -29,9 +29,7 @@
     ], 
     "host": {
         "linker": {
-            "options": [
-                "-pthread"
-            ]
+            "options": "-pthread"
         }, 
         "host_exe": "streaming_k2k_mm",
         "compiler": {

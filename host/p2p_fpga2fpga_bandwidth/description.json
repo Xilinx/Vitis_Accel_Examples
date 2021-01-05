@@ -3,6 +3,7 @@
     "description": [
         "This is simple example to explain performance bandwidth for P2P transfer between two FPGA devices."
     ],
+    "flow": "vitis",
     "keywords": [
         "XCL_MEM_EXT_P2P_BUFFER"
     ],
