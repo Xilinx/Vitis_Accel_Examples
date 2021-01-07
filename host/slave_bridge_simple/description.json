@@ -40,7 +40,7 @@
                 "REPO_DIR/common/includes/xcl2"
             ]
         }, 
-        "host_exe": "slave_bridge.exe"
+        "host_exe": "slave_bridge_simple.exe"
     },
     "containers": [
         {

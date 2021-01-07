@@ -41,5 +41,5 @@ Once the environment has been configured, the application can be executed by
 
 ::
 
-   ./slave_bridge.exe <krnl_vadd XCLBIN>
+   ./slave_bridge_simple.exe <krnl_vadd XCLBIN>
 

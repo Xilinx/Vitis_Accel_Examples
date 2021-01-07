@@ -86,7 +86,7 @@ endif
 # Kernel linker flags
 LDCLFLAGS += --config ./krnl_vadd.ini
 
-EXECUTABLE = ./slave_bridge.exe
+EXECUTABLE = ./slave_bridge_simple.exe
 EMCONFIG_DIR = $(TEMP_DIR)
 
 ############################## Declaring Binary Containers ##############################
