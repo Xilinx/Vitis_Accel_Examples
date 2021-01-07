@@ -30,7 +30,7 @@
         "Linux"
     ], 
     "host": {
-        "host_exe": "copy_buffer",
+        "host_exe": "copy_buffer_xrt",
         "compiler": {
             "sources": [
                 "REPO_DIR/common/includes/cmdparser/cmdlineparser.cpp",

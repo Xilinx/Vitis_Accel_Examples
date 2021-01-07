@@ -1,22 +1,29 @@
 {
-    "name": "Hello World XRT (XRT Native API's)", 
+    "name": "Slave Bridge Simple XRT (XRT Native API's)", 
     "description": [
-        "This is simple example of vector addition to describe the usage of XRT Native API's."
+       "This is simple slave bridge example to describe how a user kernel can access the host memory using xrt native api's." 
     ],
     "flow": "vitis",
     "keywords": [
-        "xrt::device",
-        "load_xclbin", 
-        "xrt::bo",
-        "xrt::kernel", 
-        "map", 
-        "sync",
-        "XCL_BO_SYNC_BO_TO_DEVICE",
-        "XCL_BO_SYNC_BO_FROM_DEVICE"
-    ], 
+        "host_only",
+        "HOST[0]"
+        ],
     "key_concepts": [
-        "XRT Native APIs"
+        "slave bridge", 
+        "address translation unit" 
     ],
+    "platform_type": "pcie",
+    "platform_blacklist": [ 
+        "_u25_",
+        "u30",
+        "zc",
+        "vck", 
+        "aws",
+        "2019",
+        "2018",  
+        "202010",
+        "samsung"
+    ], 
     "os": [
         "Linux"
     ], 
@@ -24,7 +31,7 @@
         "OpenCL"
     ], 
     "host": {
-        "host_exe": "hello_world_xrt",
+        "host_exe": "slave_bridge_simple_xrt",
         "compiler": {
             "sources": [
                 "REPO_DIR/common/includes/cmdparser/cmdlineparser.cpp",
@@ -50,16 +57,17 @@
         {
             "accelerators": [
                 {
-                    "name": "vadd", 
-                    "location": "src/vadd.cpp"
-                }
+                    "name": "krnl_vadd", 
+                    "location": "src/kernel.cpp"
+                } 
             ], 
-            "name": "vadd"
+            "name": "krnl_vadd",
+            "ldclflags": "--config PROJECT/krnl_vadd.ini"
         }
     ],
     "launch": [
         {
-            "cmd_args": "-x BUILD/vadd.xclbin", 
+            "cmd_args": "-x BUILD/krnl_vadd.xclbin", 
             "name": "generic launch for all flows"
         }
     ], 
@@ -69,7 +77,8 @@
             "group": "Xilinx"
         }
     ],
-    "testinfo": {
+   "testinfo": {
+        "profile": "no",
         "disable": false,
         "jobs": [
             {
@@ -82,6 +91,8 @@
             }
         ],
         "targets": [
+            "vitis_sw_emu",
+            "vitis_hw_emu",
             "vitis_hw"
         ],
         "category": "canary"

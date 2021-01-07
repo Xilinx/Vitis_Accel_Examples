@@ -24,5 +24,5 @@ Once the environment has been configured, the application can be executed by
 
 ::
 
-   ./hello_world -x <vadd XCLBIN>
+   ./hello_world_xrt -x <vadd XCLBIN>
 

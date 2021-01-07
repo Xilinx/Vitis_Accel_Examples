@@ -15,17 +15,17 @@
 */
 
 #include "cmdlineparser.h"
-#include <iostream>
 #include <cstring>
+#include <iostream>
 
 // XRT includes
 #include "experimental/xrt_bo.h"
 #include "experimental/xrt_device.h"
 #include "experimental/xrt_kernel.h"
 
-#define DATA_SIZE 4096
+int DATA_SIZE = (4 * 1024) / sizeof(uint32_t);
 
-int main(int argc, char** argv) {
+int main(int argc, char* argv[]) {
     // Command Line Parser
     sda::utils::CmdLineParser parser;
 
@@ -49,49 +49,47 @@ int main(int argc, char** argv) {
     std::cout << "Load the xclbin " << binaryFile << std::endl;
     auto uuid = device.load_xclbin(binaryFile);
 
-    size_t vector_size_bytes = sizeof(int) * DATA_SIZE;
+    // Compute the size of array in bytes
+    uint32_t size_in_bytes = DATA_SIZE * sizeof(uint32_t);
 
-    auto krnl = xrt::kernel(device, uuid, "vadd");
+    auto krnl = xrt::kernel(device, uuid, "krnl_vadd");
 
-    std::cout << "Allocate Buffer in Global Memory\n";
-    auto bo0 = xrt::bo(device, vector_size_bytes, krnl.group_id(0));
-    auto bo1 = xrt::bo(device, vector_size_bytes, krnl.group_id(1));
-    auto bo_out = xrt::bo(device, vector_size_bytes, krnl.group_id(2));
+    xrt::bo::flags flags = xrt::bo::flags::host_only;
+    std::cout << "Creating Buffers ...\n";
+    auto hostonly_bo0 = xrt::bo(device, size_in_bytes, flags, krnl.group_id(0));
+    auto hostonly_bo1 = xrt::bo(device, size_in_bytes, flags, krnl.group_id(0));
+    auto hostonly_bo_out = xrt::bo(device, size_in_bytes, flags, krnl.group_id(0));
 
     // Map the contents of the buffer object into host memory
-    auto bo0_map = bo0.map<int*>();
-    auto bo1_map = bo1.map<int*>();
-    auto bo_out_map = bo_out.map<int*>();
+    auto bo0_map = hostonly_bo0.map<int*>();
+    auto bo1_map = hostonly_bo1.map<int*>();
+    auto bo_out_map = hostonly_bo_out.map<int*>();
+
     std::fill(bo0_map, bo0_map + DATA_SIZE, 0);
     std::fill(bo1_map, bo1_map + DATA_SIZE, 0);
     std::fill(bo_out_map, bo_out_map + DATA_SIZE, 0);
 
     // Create the test data
-    int bufReference[DATA_SIZE];
     for (int i = 0; i < DATA_SIZE; ++i) {
-        bo0_map[i] = i;
-        bo1_map[i] = i;
-        bufReference[i] = bo0_map[i] + bo1_map[i];
+        bo0_map[i] = i + 1;
+        bo1_map[i] = (i + 1) * 2;
     }
 
-    // Synchronize buffer content with device side
-    std::cout << "synchronize input buffer data to device global memory\n";
-
-    bo0.sync(XCL_BO_SYNC_BO_TO_DEVICE);
-    bo1.sync(XCL_BO_SYNC_BO_TO_DEVICE);
-
     std::cout << "Execution of the kernel\n";
-    auto run = krnl(bo0, bo1, bo_out, DATA_SIZE);
+    auto run = krnl(hostonly_bo0, hostonly_bo1, hostonly_bo_out, DATA_SIZE);
     run.wait();
 
-    // Get the output;
-    std::cout << "Get the output data from the device" << std::endl;
-    bo_out.sync(XCL_BO_SYNC_BO_FROM_DEVICE);
-
-    // Validate our results
-    if (std::memcmp(bo_out_map, bufReference, DATA_SIZE))
-        throw std::runtime_error("Value read back does not match reference");
-
-    std::cout << "TEST PASSED\n";
+    // Compare the results of the Device to the simulation
+    bool match = true;
+    for (int i = 0; i < DATA_SIZE; i++) {
+        if (bo_out_map[i] != (bo0_map[i] + bo1_map[i])) {
+            std::cout << "Error: Result mismatch" << std::endl;
+            std::cout << "i = " << i << " CPU result = " << bo0_map[i] + bo1_map[i]
+                      << " Device result = " << bo_out_map[i] << std::endl;
+            match = false;
+            break;
+        }
+    }
+    std::cout << "TEST " << (match ? "PASSED" : "FAILED") << std::endl;
     return 0;
 }

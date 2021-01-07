@@ -91,7 +91,7 @@ endif
 
 
 
-EXECUTABLE = ./copy_buffer
+EXECUTABLE = ./copy_buffer_xrt
 EMCONFIG_DIR = $(TEMP_DIR)
 EMU_DIR = $(SDCARD)/data/emulation
 

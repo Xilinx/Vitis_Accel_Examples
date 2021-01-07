@@ -1,11 +1,11 @@
-Copy Buffer XRT (XRT native API's)
-==================================
+Slave Bridge Simple XRT (XRT Native API's)
+==========================================
 
-This Copy Buffer example demonstrate how one buffer can be copied from another buffer.
+This is simple slave bridge example to describe how a user kernel can access the host memory using xrt native api's.
 
-**KEY CONCEPTS:** Copy Buffer
+**KEY CONCEPTS:** slave bridge, address translation unit
 
-**KEYWORDS:** copy
+**KEYWORDS:** host_only, HOST[0]
 
 EXCLUDED PLATFORMS
 ------------------
@@ -14,9 +14,15 @@ Platforms containing following strings in their names are not supported for this
 
 ::
 
-   xilinx_u200_xdma_201830
-   xilinx_u250_xdma_201830
-   nodma
+   _u25_
+   u30
+   zc
+   vck
+   aws
+   2019
+   2018
+   202010
+   samsung
 
 DESIGN FILES
 ------------
@@ -26,7 +32,7 @@ Application code is located in the src directory. Accelerator binary files will 
 ::
 
    src/host.cpp
-   src/vector_addition.cpp
+   src/kernel.cpp
    
 COMMAND LINE ARGUMENTS
 ----------------------
@@ -35,5 +41,5 @@ Once the environment has been configured, the application can be executed by
 
 ::
 
-   ./copy_buffer_xrt -x <vector_addition XCLBIN>
+   ./slave_bridge_simple_xrt -x <krnl_vadd XCLBIN>
 

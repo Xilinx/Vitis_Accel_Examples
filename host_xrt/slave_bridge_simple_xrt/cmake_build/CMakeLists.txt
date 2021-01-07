@@ -1,5 +1,5 @@
-set(EXECNAME "hello_world_xrt")
-set(XBIN_DIR "vadd.xclbin")
+set(EXECNAME "slave_bridge_simple_xrt")
+set(XBIN_DIR "krnl_vadd.xclbin")
 
 if (WIN32)
   set(OpenCL_INCLUDE_DIR ${OCL_ROOT}/include)
@@ -12,9 +12,9 @@ else()
   find_package(OpenCL)
 endif(WIN32)
 
-include_directories(${XILINX_XRT}/include ${XILINX_XRT}/ext/include ../src )
+include_directories(${XILINX_XRT}/include ${XILINX_XRT}/ext/include ../src ../../../common/includes/xcl2)
 
-add_executable(${EXECNAME} ../src/host.cpp)
+add_executable(${EXECNAME} ../../../common/includes/xcl2/xcl2.cpp ../src/host.cpp)
 
 target_link_libraries(${EXECNAME} PRIVATE ${OpenCL_LIBRARY})
 

@@ -1,4 +1,4 @@
-set(EXECNAME "copy_buffer")
+set(EXECNAME "copy_buffer_xrt")
 set(XBIN_DIR "vector_addition.xclbin")
 
 if (WIN32)
