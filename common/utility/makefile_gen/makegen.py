@@ -52,6 +52,7 @@ def create_params(target,data):
         for cmdargs in cmd_args[0:]:
             target.write(" ")
             cmdargs = cmdargs.replace('BUILD', '$(BUILD_DIR)')
+            cmdargs = cmdargs.replace('REPO_DIR','$(ABS_COMMON_REPO)')
             cmdargs = cmdargs.replace('PROJECT', '.')
             target.write(cmdargs)
     target.write("\n")
@@ -80,7 +81,7 @@ def add_host_flags(target, data):
                 for path in data["host"]["compiler"]["includepaths"]:
                     path = path.replace('BUILD', '$(BUILD_DIR)')
                     path = path.replace('PROJECT', '.')
-                    path = path.replace("REPO_DIR","$(ABS_COMMON_REPO)")
+                    path = path.replace('REPO_DIR','$(ABS_COMMON_REPO)')
                     target.write("CXXFLAGS += -I" + path + "\n")
 
     target.write("HOST_SRCS += ")
@@ -88,7 +89,7 @@ def add_host_flags(target, data):
     if "sources" in data["host"]["compiler"]:
         for src in data["host"]["compiler"]["sources"]:
             src = src.replace('PROJECT', '.')
-            src = src.replace("REPO_DIR","$(ABS_COMMON_REPO)")
+            src = src.replace('REPO_DIR','$(ABS_COMMON_REPO)')
             target.write(src + " ")
             source_flag+=1
     if not source_flag:
@@ -213,7 +214,7 @@ def add_kernel_flags(target, data):
                 for path in data["v++"]["compiler"]["includepaths"]:
                     path = path.replace('BUILD', '$(BUILD_DIR)')
                     path = path.replace('PROJECT', '.')
-                    path = path.replace("REPO_DIR","$(ABS_COMMON_REPO)")
+                    path = path.replace('REPO_DIR','$(ABS_COMMON_REPO)')
                     target.write("VPP_FLAGS += -I" + path + "\n")
                 target.write("\n")
 
@@ -225,7 +226,7 @@ def add_kernel_flags(target, data):
                 for path in clflags:
                     path = path.replace('BUILD', '$(BUILD_DIR)')
                     path = path.replace('PROJECT', '.')
-                    path = path.replace("REPO_DIR","$(ABS_COMMON_REPO)")
+                    path = path.replace('REPO_DIR','$(ABS_COMMON_REPO)')
                     target.write(" " + path)
                 target.write("\n\n")
 
@@ -499,7 +500,7 @@ def mk_run(target, data):
                 target.write("\n")
                 args = post_launch["launch_cmd"]
                 args = args.replace('BUILD', '$(BUILD_DIR)')
-                args = args.replace("REPO_DIR","$(ABS_COMMON_REPO)")
+                args = args.replace('REPO_DIR','$(ABS_COMMON_REPO)')
                 args = args.replace('HOST_EXE', '$(EXE_FILE)')
                 target.write("\t" + args)
     if not ("platform_type" in data and data["platform_type"] == "pcie"):
@@ -554,7 +555,7 @@ def mk_run(target, data):
                 target.write("\n")
                 args = post_launch["launch_cmd"]
                 args = args.replace('BUILD', '$(BUILD_DIR)')
-                args = args.replace("REPO_DIR","$(ABS_COMMON_REPO)")
+                args = args.replace('REPO_DIR','$(ABS_COMMON_REPO)')
                 args = args.replace('HOST_EXE', '$(EXE_FILE)')
                 target.write("\t" + args)
     if not ("platform_type" in data and data["platform_type"] == "pcie"):
@@ -588,6 +589,7 @@ def mk_sdcard(target, data):
             for arg in args:
                 if "xclbin" not in arg:
                     arg = arg.replace('BUILD', '$(BUILD_DIR)')
+                    arg = arg.replace('REPO_DIR','$(ABS_COMMON_REPO)')
                     arg = arg.replace('PROJECT', '.')
                     extra_file_list.append(arg)  
     target.write("ifneq ($(HOST_ARCH), x86)\n")

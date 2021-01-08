@@ -51,6 +51,9 @@
             ]
         }
     }, 
+    "data": [
+        "REPO_DIR/common/data/xilinx_logo.bmp"
+    ],
     "containers": [
         {
             "accelerators": [
@@ -64,7 +67,7 @@
     ], 
     "launch": [
         {
-            "cmd_args": "-x BUILD/rgb_to_hsv.xclbin -i PROJECT/data/input.bmp", 
+            "cmd_args": "-x BUILD/rgb_to_hsv.xclbin -i REPO_DIR/common/data/xilinx_logo.bmp", 
             "name": "generic launch for all flows"
         }
     ], 

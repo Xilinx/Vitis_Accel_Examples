@@ -29,7 +29,6 @@ Application code is located in the src directory. Accelerator binary files will 
 ::
 
    data/golden.bmp
-   data/input.bmp
    src/apply_watermark.cl
    src/host.cpp
    
@@ -40,5 +39,5 @@ Once the environment has been configured, the application can be executed by
 
 ::
 
-   ./cl_gmem_2banks -x <apply_watermark XCLBIN> -i ./data/input.bmp -c ./data/golden.bmp
+   ./cl_gmem_2banks -x <apply_watermark XCLBIN> -i $(ABS_COMMON_REPO)/common/data/xilinx_img.bmp -c ./data/golden.bmp
 

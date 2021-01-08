@@ -110,6 +110,7 @@ def commandargs(target,data):
                 arg = arg.replace('BUILD/', '<')
                 arg = arg.replace('PROJECT', '.')
                 arg = arg.replace('.xclbin', ' XCLBIN>') 
+                arg = arg.replace('REPO_DIR','$(ABS_COMMON_REPO)')
                 target.write(arg)
     else:
         target.write('./' + data["host"]["host_exe"])
