@@ -1,0 +1,95 @@
+{
+    "name": "Device Only Buffer XRT (XRT Native API's)", 
+    "description": [
+        "This example will demonstrate how to create buffers in global memory which are not mapped to host."
+    ],
+    "flow": "vitis",
+    "keywords": [
+        "xrt::bo::flags::device_only"
+    ], 
+    "key_concepts": [
+        "Device only buffer" 
+               
+    ],
+   "ndevice": [
+        "nodma"
+    ],
+    "platform_blacklist": [
+        "nodma"
+    ], 
+    "os": [
+        "Linux"
+    ], 
+    "runtime": [
+        "OpenCL"
+    ], 
+    "host": {
+        "compiler": {
+            "sources": [
+                "REPO_DIR/common/includes/cmdparser/cmdlineparser.cpp",
+                "REPO_DIR/common/includes/logger/logger.cpp",
+                "./src/host.cpp"
+            ], 
+            "includepaths": [
+                "REPO_DIR/common/includes/cmdparser",
+                "REPO_DIR/common/includes/logger"
+             ]
+        }, 
+        "host_exe": "device_only_buffer",
+        "linker" : {
+            "libraries" : ["uuid",
+                         "xrt_coreutil"
+                ]
+        }
+    },
+   "targets": [
+       "hw_emu",
+       "hw" 
+    ],  
+    "containers": [
+        {
+            "accelerators": [
+                {
+                    "name": "madd", 
+                    "location": "src/madd.cpp"
+                }, 
+                {
+                    "name": "mmult", 
+                    "location": "src/mmult.cpp"
+                }
+            ], 
+            "name": "device_only_buf"
+        }
+    ], 
+    "launch": [
+        {
+            "cmd_args": "-x BUILD/device_only_buf.xclbin", 
+            "name": "generic launch for all flows"
+        }
+    ], 
+    "contributors": [
+        {
+            "url": "http://www.xilinx.com", 
+            "group": "Xilinx"
+        }
+    ],
+    "testinfo": {
+        "disable": false,
+        "jobs": [
+            {
+                "index": 0,
+                "dependency": [],
+                "env": "",
+                "cmd": "",
+                "max_memory_MB": 32768,
+                "max_time_min": 300
+            }
+        ],
+        "targets": [
+            "vitis_sw_emu",
+            "vitis_hw_emu",
+            "vitis_hw"
+        ],
+        "category": "canary"
+    }
+}
