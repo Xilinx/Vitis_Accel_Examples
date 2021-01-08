@@ -70,6 +70,8 @@ int main(int argc, char *argv[]) {
     std::cout << "Failed to program any device found, exit!\n";
     exit(EXIT_FAILURE);
   }
+
+  // XRT OpenCL introduces a new buffer extension Flag XCL_MEM_EXT_HOST_ONLY that should be used to denote a Host-only buffer
   cl_mem_ext_ptr_t host_buffer_ext;
   host_buffer_ext.flags = XCL_MEM_EXT_HOST_ONLY;
   host_buffer_ext.obj = NULL;
@@ -89,6 +91,7 @@ int main(int argc, char *argv[]) {
   uint32_t *in_b;
   uint32_t *out;
 
+  // Buffers should be mapped to the user-space using enqueueMapBuffer for Read/Write
   OCL_CHECK(err, in_a = (uint32_t *)q.enqueueMapBuffer(
                      buffer_in_a, CL_TRUE, CL_MAP_WRITE, 0, size_in_bytes, NULL,
                      NULL, &err));
@@ -99,6 +102,7 @@ int main(int argc, char *argv[]) {
                      buffer_out, CL_TRUE, CL_MAP_READ, 0, size_in_bytes, NULL,
                      NULL, &err));
 
+  // Create the test data
   for (int i = 0; i < DATA_NUM; i++) {
     in_a[i] = i + 1;
     in_b[i] = (i + 1) * 2;
@@ -106,11 +110,13 @@ int main(int argc, char *argv[]) {
   }
   q.finish();
 
+  // Set kernel arguments
   krnl.setArg(0, buffer_in_a);
   krnl.setArg(1, buffer_in_b);
   krnl.setArg(2, buffer_out);
   krnl.setArg(3, DATA_NUM);
 
+  // Launch the Kernel
   q.enqueueTask(krnl);
   q.finish();
 
