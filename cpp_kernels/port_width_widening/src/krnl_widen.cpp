@@ -17,29 +17,28 @@
 #define size 512
 
 extern "C" {
-void krnl_widen(const int *a, const int *b, int *res) {
-
-  int X_accum = 0;
-  int Y_accum = 0;
-  int i, j;
-  int X_aux[size];
-  int y_aux[size];
+void krnl_widen(const int* a, const int* b, int* res) {
+    int X_accum = 0;
+    int Y_accum = 0;
+    int i, j;
+    int X_aux[size];
+    int y_aux[size];
 
 SUM_X:
-  for (i = 0; i < size; i++) {
-    X_accum += a[i];
-    X_aux[i] = X_accum;
-  }
+    for (i = 0; i < size; i++) {
+        X_accum += a[i];
+        X_aux[i] = X_accum;
+    }
 
 SUM_Y:
-  for (i = 0; i < size; i++) {
-    Y_accum += b[i];
-    y_aux[i] = Y_accum;
-  }
+    for (i = 0; i < size; i++) {
+        Y_accum += b[i];
+        y_aux[i] = Y_accum;
+    }
 
 MUL:
-  for (i = 0; i < size; i++) {
-    res[i] = X_aux[i] * y_aux[i];
-  }
+    for (i = 0; i < size; i++) {
+        res[i] = X_aux[i] * y_aux[i];
+    }
 }
 }

@@ -22,13 +22,13 @@
 //
 
 #define BUFFER_SIZE 256
-#define DATA_SIZE 4096 
-//TRIPCOUNT identifier
+#define DATA_SIZE 4096
+// TRIPCOUNT identifier
 const unsigned int c_len = DATA_SIZE / BUFFER_SIZE;
 const unsigned int c_size = BUFFER_SIZE;
 
 /*
-    Vector Addition Kernel Implementation 
+    Vector Addition Kernel Implementation
     Arguments:
         in1   (input)     --> Input Vector1
         in2   (input)     --> Input Vector2
@@ -37,35 +37,34 @@ const unsigned int c_size = BUFFER_SIZE;
 */
 
 extern "C" {
-void krnl_vadd(const unsigned int *in1, // Read-Only Vector 1
-          const unsigned int *in2, // Read-Only Vector 2
-          unsigned int *out_r,     // Output Result
-          int size                 // Size in integer
-) {
+void krnl_vadd(const unsigned int* in1, // Read-Only Vector 1
+               const unsigned int* in2, // Read-Only Vector 2
+               unsigned int* out_r,     // Output Result
+               int size                 // Size in integer
+               ) {
+    unsigned int v1_buffer[BUFFER_SIZE]; // Local memory to store vector1
 
-    unsigned int v1_buffer[BUFFER_SIZE];   // Local memory to store vector1
-
-    //Per iteration of this loop perform BUFFER_SIZE vector addition
+    // Per iteration of this loop perform BUFFER_SIZE vector addition
     for (int i = 0; i < size; i += BUFFER_SIZE) {
-       #pragma HLS LOOP_TRIPCOUNT min=c_len max=c_len
+#pragma HLS LOOP_TRIPCOUNT min = c_len max = c_len
         int chunk_size = BUFFER_SIZE;
-        //boundary checks
-        if ((i + BUFFER_SIZE) > size)
-            chunk_size = size - i;
+        // boundary checks
+        if ((i + BUFFER_SIZE) > size) chunk_size = size - i;
 
-        read1: for (int j = 0; j < chunk_size; j++) {
-           #pragma HLS LOOP_TRIPCOUNT min=c_size max=c_size
+    read1:
+        for (int j = 0; j < chunk_size; j++) {
+#pragma HLS LOOP_TRIPCOUNT min = c_size max = c_size
             v1_buffer[j] = in1[i + j];
         }
 
-        //Burst reading B and calculating C and Burst writing 
-        // to  Global memory
-        vadd_writeC: for (int j = 0; j < chunk_size; j++) {
-           #pragma HLS LOOP_TRIPCOUNT min=c_size max=c_size
-            //perform vector addition
-            out_r[i+j] = v1_buffer[j] + in2[i+j];
+    // Burst reading B and calculating C and Burst writing
+    // to  Global memory
+    vadd_writeC:
+        for (int j = 0; j < chunk_size; j++) {
+#pragma HLS LOOP_TRIPCOUNT min = c_size max = c_size
+            // perform vector addition
+            out_r[i + j] = v1_buffer[j] + in2[i + j];
         }
-
     }
 }
 }

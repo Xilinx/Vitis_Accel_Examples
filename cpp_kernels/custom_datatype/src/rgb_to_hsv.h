@@ -26,9 +26,9 @@ const unsigned int c_image_size = 16384;
 // global
 // memory access efficiently.
 typedef struct RGBcolor_struct {
-  unsigned char r;
-  unsigned char g;
-  unsigned char b;
+    unsigned char r;
+    unsigned char g;
+    unsigned char b;
 } __attribute__((packed, aligned(4))) RGBcolor;
 
 // Custom Data Type for HSV Image Pixel containing Hue(h), Saturation(s),
@@ -36,7 +36,7 @@ typedef struct RGBcolor_struct {
 // 32 bit to use global
 // memory access efficiently.
 typedef struct HSVcolor_struct {
-  unsigned char h;
-  unsigned char s;
-  unsigned char v;
+    unsigned char h;
+    unsigned char s;
+    unsigned char v;
 } __attribute__((packed, aligned(4))) HSVcolor;

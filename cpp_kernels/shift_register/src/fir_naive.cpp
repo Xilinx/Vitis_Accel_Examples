@@ -56,23 +56,22 @@
 #define min(x, y) ((x) < (y) ? (x) : (y))
 // A naive implementation of the Finite Impulse Response filter.
 extern "C" {
-void fir_naive(int *output_r, int *signal_r, int *coeff, int signal_length) {
-
-  int coeff_reg[N_COEFF];
+void fir_naive(int* output_r, int* signal_r, int* coeff, int signal_length) {
+    int coeff_reg[N_COEFF];
 read_coef:
-  for (int i = 0; i < N_COEFF; i++)
+    for (int i = 0; i < N_COEFF; i++)
 #pragma HLS PIPELINE II = 1
-    coeff_reg[i] = coeff[i];
+        coeff_reg[i] = coeff[i];
 
 outer_loop:
-  for (int j = 0; j < signal_length; j++) {
-    int acc = 0;
-  shift_loop:
-    for (int i = min(j, N_COEFF - 1); i >= 0; i--) {
+    for (int j = 0; j < signal_length; j++) {
+        int acc = 0;
+    shift_loop:
+        for (int i = min(j, N_COEFF - 1); i >= 0; i--) {
 #pragma HLS PIPELINE II = 1
-      acc += signal_r[j - i] * coeff_reg[i];
+            acc += signal_r[j - i] * coeff_reg[i];
+        }
+        output_r[j] = acc;
     }
-    output_r[j] = acc;
-  }
 }
 }

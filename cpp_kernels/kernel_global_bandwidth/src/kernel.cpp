@@ -24,24 +24,26 @@ auto constexpr c_min_size = (1024 * 1024) / 64;
 auto constexpr c_max_size = (1024 * 1024 * 1024) / 64;
 
 extern "C" {
-void bandwidth(TYPE *__restrict__ input0, TYPE *__restrict__ output0,
+void bandwidth(TYPE* __restrict__ input0,
+               TYPE* __restrict__ output0,
 #if NDDR_BANKS == 3
-               TYPE *__restrict__ output1,
+               TYPE* __restrict__ output1,
 #elif NDDR_BANKS > 3
-               TYPE *__restrict__ input1, TYPE *__restrict__ output1,
+               TYPE* __restrict__ input1,
+               TYPE* __restrict__ output1,
 #endif
                int64_t num_blocks) {
 
-  for (int64_t blockindex = 0; blockindex < num_blocks; blockindex++) {
+    for (int64_t blockindex = 0; blockindex < num_blocks; blockindex++) {
 #pragma HLS LOOP_TRIPCOUNT min = c_min_size max = c_max_size
-    TYPE temp0 = input0[blockindex];
-    output0[blockindex] = temp0;
+        TYPE temp0 = input0[blockindex];
+        output0[blockindex] = temp0;
 #if NDDR_BANKS == 3
-    output1[blockindex] = temp0;
+        output1[blockindex] = temp0;
 #elif NDDR_BANKS > 3
-    TYPE temp1 = input1[blockindex];
-    output1[blockindex] = temp1;
+        TYPE temp1 = input1[blockindex];
+        output1[blockindex] = temp1;
 #endif
-  }
+    }
 }
 }
