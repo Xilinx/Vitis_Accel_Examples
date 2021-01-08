@@ -17,14 +17,6 @@
 
 extern "C" {
 void krnl_vadd(int *a, int *b, int *out, const int n_elements) {
-#pragma HLS INTERFACE m_axi port = a offset = slave bundle = gmem
-#pragma HLS INTERFACE s_axilite port = a bundle = control
-#pragma HLS INTERFACE m_axi port = b offset = slave bundle = gmem
-#pragma HLS INTERFACE s_axilite port = b bundle = control
-#pragma HLS INTERFACE m_axi port = out offset = slave bundle = gmem
-#pragma HLS INTERFACE s_axilite port = out bundle = control
-#pragma HLS INTERFACE s_axilite port = n_elements bundle = control
-#pragma HLS INTERFACE s_axilite port = return bundle = control
 
   int arrayA[BUFFER_SIZE];
   for (int i = 0; i < n_elements; i += BUFFER_SIZE) {

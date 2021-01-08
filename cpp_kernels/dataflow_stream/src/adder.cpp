@@ -64,41 +64,37 @@ HLS
 const int c_size = DATA_SIZE;
 
 // Read Data from Global Memory and write into Stream inStream
-static void read_input(unsigned int *in, hls::stream<unsigned int> &inStream,
-                       int size) {
+static void read_input(unsigned int* in, hls::stream<unsigned int>& inStream, int size) {
 // Auto-pipeline is going to apply pipeline to this loop
 mem_rd:
-  for (int i = 0; i < size; i++) {
+    for (int i = 0; i < size; i++) {
 #pragma HLS LOOP_TRIPCOUNT min = c_size max = c_size
-    // Blocking write command to inStream
-    inStream << in[i];
-  }
+        // Blocking write command to inStream
+        inStream << in[i];
+    }
 }
 
 // Read Input data from inStream and write the result into outStream
-static void compute_add(hls::stream<unsigned int> &inStream,
-                        hls::stream<unsigned int> &outStream, int inc,
-                        int size) {
+static void compute_add(hls::stream<unsigned int>& inStream, hls::stream<unsigned int>& outStream, int inc, int size) {
 // Auto-pipeline is going to apply pipeline to this loop
 execute:
-  for (int i = 0; i < size; i++) {
+    for (int i = 0; i < size; i++) {
 #pragma HLS LOOP_TRIPCOUNT min = c_size max = c_size
-    // Blocking read command from inStream and Blocking write command
-    // to outStream
-    outStream << (inStream.read() + inc);
-  }
+        // Blocking read command from inStream and Blocking write command
+        // to outStream
+        outStream << (inStream.read() + inc);
+    }
 }
 
 // Read result from outStream and write the result to Global Memory
-static void write_result(unsigned int *out,
-                         hls::stream<unsigned int> &outStream, int size) {
+static void write_result(unsigned int* out, hls::stream<unsigned int>& outStream, int size) {
 // Auto-pipeline is going to apply pipeline to this loop
 mem_wr:
-  for (int i = 0; i < size; i++) {
+    for (int i = 0; i < size; i++) {
 #pragma HLS LOOP_TRIPCOUNT min = c_size max = c_size
-    // Blocking read command to inStream
-    out[i] = outStream.read();
-  }
+        // Blocking read command to inStream
+        out[i] = outStream.read();
+    }
 }
 
 extern "C" {
@@ -110,14 +106,13 @@ extern "C" {
         inc  (input)  --> Increment
         size (input)  --> Size of Vector in Integer
    */
-void adder(unsigned int *in, unsigned int *out, int inc, int size) {
-
-  // Adding names for the streams. It allows the name to be used in reporting.
-  // Vivado HLS
-  // automatically checks to ensure all elements from an input stream are read
-  // during sw emulation.
-  static hls::stream<unsigned int> inStream("input_stream");
-  static hls::stream<unsigned int> outStream("output_stream");
+void adder(unsigned int* in, unsigned int* out, int inc, int size) {
+    // Adding names for the streams. It allows the name to be used in reporting.
+    // Vivado HLS
+    // automatically checks to ensure all elements from an input stream are read
+    // during sw emulation.
+    static hls::stream<unsigned int> inStream("input_stream");
+    static hls::stream<unsigned int> outStream("output_stream");
 #pragma HLS STREAM variable = inStream depth = 32
 #pragma HLS STREAM variable = outStream depth = 32
 //  HLS STREAM variable=<name> depth=<size> pragma is used to define the Stream
@@ -134,9 +129,9 @@ void adder(unsigned int *in, unsigned int *out, int inc, int size) {
 //  producer to synchronize each other.
 
 #pragma HLS dataflow
-  // dataflow pragma instruct compiler to run following three APIs in parallel
-  read_input(in, inStream, size);
-  compute_add(inStream, outStream, inc, size);
-  write_result(out, outStream, size);
+    // dataflow pragma instruct compiler to run following three APIs in parallel
+    read_input(in, inStream, size);
+    compute_add(inStream, outStream, inc, size);
+    write_result(out, outStream, size);
 }
 }

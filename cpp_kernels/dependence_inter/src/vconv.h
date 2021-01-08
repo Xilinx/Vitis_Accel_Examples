@@ -22,5 +22,4 @@
 // TRIPCOUNT identifier
 const unsigned int c_size = TEST_WIDTH * TEST_HEIGHT;
 
-const unsigned int vcoeff[K] = {36,  111, 266, 498, 724, 821,
-                                724, 498, 266, 111, 36};
+const unsigned int vcoeff[K] = {36, 111, 266, 498, 724, 821, 724, 498, 266, 111, 36};
