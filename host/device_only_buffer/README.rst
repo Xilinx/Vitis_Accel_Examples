@@ -1,7 +1,7 @@
 Device Only Buffer (C)
 ======================
 
-This example will demonstrate how to create buffers in global memory which are not mapped to host.
+This example will demonstrate how to create buffers in global memory which are not mapped to host. The device only memory allocation is done through the host code. The kernel can read data from device memory and write result to device memory.
 
 **KEY CONCEPTS:** Device only buffer
 
