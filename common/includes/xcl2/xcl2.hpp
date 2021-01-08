@@ -89,6 +89,7 @@ template <typename T> struct aligned_allocator {
 namespace xcl {
 std::vector<cl::Device> get_xil_devices();
 std::vector<cl::Device> get_devices(const std::string &vendor_name);
+cl::Device find_device_bdf(const std::string & bdf);
 std::string convertSize(size_t size);
 std::vector<unsigned char>
 read_binary_file(const std::string &xclbin_file_name);

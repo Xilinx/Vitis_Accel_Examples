@@ -63,6 +63,28 @@ std::vector<cl::Device> get_devices(const std::string &vendor_name) {
 
 std::vector<cl::Device> get_xil_devices() { return get_devices("Xilinx"); }
 
+cl::Device find_device_bdf(const std::string & bdf)
+{
+    auto devices = xcl::get_xil_devices();
+    char device_bdf[20];
+    cl_int err;
+    cl::Device device;
+    int cnt = 0;
+    for (uint32_t i = 0; i < devices.size(); i++)
+    {
+        OCL_CHECK(err, err = devices[i].getInfo(CL_DEVICE_PCIE_BDF, &device_bdf));
+        if(bdf == device_bdf){
+            device = devices[i];
+            cnt++;
+            break;            
+        }
+    }
+    if(cnt == 0){
+        std::cout << "Invalid device bdf. Please check and provide valid bdf\n";
+        exit(EXIT_FAILURE);
+    }
+   return device;
+}
 std::vector<unsigned char>
 read_binary_file(const std::string &xclbin_file_name) {
   std::cout << "INFO: Reading " << xclbin_file_name << std::endl;
