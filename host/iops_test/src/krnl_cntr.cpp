@@ -15,16 +15,16 @@
 */
 
 extern "C" {
-void krnl_cntr(unsigned int *a, // Vector a
+void krnl_cntr(unsigned int* a, // Vector a
                int reset        // Restart integer
                ) {
-  static int cntr = 0;
-  // reset execution counter to 0
-  if (reset == 1) {
-    cntr = 0;
-  } else {
-    cntr += 1;
-    a[0] = cntr;
-  }
+    static int cntr = 0;
+    // reset execution counter to 0
+    if (reset == 1) {
+        cntr = 0;
+    } else {
+        cntr += 1;
+        a[0] = cntr;
+    }
 }
 }

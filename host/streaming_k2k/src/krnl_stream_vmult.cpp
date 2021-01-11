@@ -38,37 +38,36 @@ typedef qdma_axis<DWIDTH, 0, 0, 0> pkt;
 typedef ap_axiu<DWIDTH, 0, 0, 0> trans_pkt;
 
 extern "C" {
-void krnl_stream_vmult(hls::stream<pkt> &a, hls::stream<trans_pkt> &b,
-                       hls::stream<pkt> &output) {
-  bool eos = false;
+void krnl_stream_vmult(hls::stream<pkt>& a, hls::stream<trans_pkt>& b, hls::stream<pkt>& output) {
+    bool eos = false;
 vmult:
-  do {
+    do {
 #pragma HLS PIPELINE II = 1
-    // Reading a and b streaming into packets
-    pkt t1 = a.read();
-    trans_pkt t2 = b.read();
+        // Reading a and b streaming into packets
+        pkt t1 = a.read();
+        trans_pkt t2 = b.read();
 
-    // Packet for output
-    pkt t_out;
+        // Packet for output
+        pkt t_out;
 
-    // Reading data from input packet
-    ap_uint<DWIDTH> in1 = t1.get_data();
-    ap_uint<DWIDTH> in2 = t2.data;
+        // Reading data from input packet
+        ap_uint<DWIDTH> in1 = t1.get_data();
+        ap_uint<DWIDTH> in2 = t2.data;
 
-    // Vmult operation
-    ap_uint<DWIDTH> tmpOut = in1 * in2;
+        // Vmult operation
+        ap_uint<DWIDTH> tmpOut = in1 * in2;
 
-    // Setting data and configuration to output packet
-    t_out.set_data(tmpOut);
-    t_out.set_last(t1.get_last());
-    t_out.set_keep(-1); // Enabling all bytes
+        // Setting data and configuration to output packet
+        t_out.set_data(tmpOut);
+        t_out.set_last(t1.get_last());
+        t_out.set_keep(-1); // Enabling all bytes
 
-    // Writing packet to output stream
-    output.write(t_out);
+        // Writing packet to output stream
+        output.write(t_out);
 
-    if (t1.get_last() || t2.last) {
-      eos = true;
-    }
-  } while (eos == false);
+        if (t1.get_last() || t2.last) {
+            eos = true;
+        }
+    } while (eos == false);
 }
 }

@@ -20,19 +20,18 @@ auto constexpr DATAWIDTH = 512;
 using TYPE = ap_uint<DATAWIDTH>;
 
 extern "C" {
-void write_bandwidth(TYPE *output0, int64_t buf_size, int64_t iter) {
-
-#pragma HLS INTERFACE m_axi port = output0 offset = slave bundle =             \
-    gmem max_write_burst_length = 64 num_write_outstanding = 256
+void write_bandwidth(TYPE* output0, int64_t buf_size, int64_t iter) {
+#pragma HLS INTERFACE m_axi port = output0 offset = slave bundle = gmem max_write_burst_length = \
+    64 num_write_outstanding = 256
 #pragma HLS INTERFACE s_axilite port = output0
 #pragma HLS INTERFACE s_axilite port = buf_size
 #pragma HLS INTERFACE s_axilite port = iter
 #pragma HLS INTERFACE s_axilite port = return
 
-  for (int64_t i = 0; i < iter; i++) {
-    for (int64_t blockindex = 0; blockindex < buf_size; blockindex++) {
-      output0[blockindex] = 1;
+    for (int64_t i = 0; i < iter; i++) {
+        for (int64_t blockindex = 0; blockindex < buf_size; blockindex++) {
+            output0[blockindex] = 1;
+        }
     }
-  }
 }
 }

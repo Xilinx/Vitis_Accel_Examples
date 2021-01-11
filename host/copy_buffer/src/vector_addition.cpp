@@ -22,33 +22,31 @@ const unsigned int c_len = DATA_SIZE / BUFFER_SIZE;
 const unsigned int c_size = BUFFER_SIZE;
 
 extern "C" {
-void vector_add(int *c, int *a, int *b, const int n_elements) {
-
-  int arrayA[BUFFER_SIZE];
-  int arrayB[BUFFER_SIZE];
-  for (int i = 0; i < n_elements; i += BUFFER_SIZE) {
+void vector_add(int* c, int* a, int* b, const int n_elements) {
+    int arrayA[BUFFER_SIZE];
+    int arrayB[BUFFER_SIZE];
+    for (int i = 0; i < n_elements; i += BUFFER_SIZE) {
 #pragma HLS LOOP_TRIPCOUNT min = c_len max = c_len
-    int size = BUFFER_SIZE;
-    if (i + size > n_elements)
-      size = n_elements - i;
-// Auto-pipeline is going to apply pipeline to these loops
-  readA:
-    for (int j = 0; j < size; j++) {
+        int size = BUFFER_SIZE;
+        if (i + size > n_elements) size = n_elements - i;
+    // Auto-pipeline is going to apply pipeline to these loops
+    readA:
+        for (int j = 0; j < size; j++) {
 #pragma HLS LOOP_TRIPCOUNT min = c_size max = c_size
-      arrayA[j] = a[i + j];
-    }
+            arrayA[j] = a[i + j];
+        }
 
-  readB:
-    for (int j = 0; j < size; j++) {
+    readB:
+        for (int j = 0; j < size; j++) {
 #pragma HLS LOOP_TRIPCOUNT min = c_size max = c_size
-      arrayB[j] = b[i + j];
-    }
+            arrayB[j] = b[i + j];
+        }
 
-  vadd_writeC:
-    for (int j = 0; j < size; j++) {
+    vadd_writeC:
+        for (int j = 0; j < size; j++) {
 #pragma HLS LOOP_TRIPCOUNT min = c_size max = c_size
-      c[i + j] = arrayA[j] + arrayB[j];
+            c[i + j] = arrayA[j] + arrayB[j];
+        }
     }
-  }
 }
 }

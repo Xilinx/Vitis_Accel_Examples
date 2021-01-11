@@ -15,9 +15,8 @@
 */
 
 extern "C" {
-void bandwidth(unsigned int *buffer0) {
-
-  // Intentional empty kernel as this example doesn't require actual
-  // kernel to work.
+void bandwidth(unsigned int* buffer0) {
+    // Intentional empty kernel as this example doesn't require actual
+    // kernel to work.
 }
 }

@@ -20,23 +20,22 @@ auto constexpr DATAWIDTH = 512;
 using TYPE = ap_uint<DATAWIDTH>;
 
 extern "C" {
-void bandwidth(TYPE *input0, TYPE *output0, int64_t buf_size, int64_t iter) {
-
-#pragma HLS INTERFACE m_axi port = input0 offset = slave bundle =              \
-    gmem0 max_read_burst_length = 64 num_read_outstanding = 256
-#pragma HLS INTERFACE m_axi port = output0 offset = slave bundle =             \
-    gmem1 max_write_burst_length = 64 num_write_outstanding = 256
+void bandwidth(TYPE* input0, TYPE* output0, int64_t buf_size, int64_t iter) {
+#pragma HLS INTERFACE m_axi port = input0 offset = slave bundle = gmem0 max_read_burst_length = \
+    64 num_read_outstanding = 256
+#pragma HLS INTERFACE m_axi port = output0 offset = slave bundle = gmem1 max_write_burst_length = \
+    64 num_write_outstanding = 256
 #pragma HLS INTERFACE s_axilite port = input0
 #pragma HLS INTERFACE s_axilite port = output0
 #pragma HLS INTERFACE s_axilite port = buf_size
 #pragma HLS INTERFACE s_axilite port = iter
 #pragma HLS INTERFACE s_axilite port = return
 
-  for (int64_t i = 0; i < iter; i++) {
-    for (int64_t blockindex = 0; blockindex < buf_size; blockindex++) {
-      TYPE temp0 = input0[blockindex];
-      output0[blockindex] = temp0;
+    for (int64_t i = 0; i < iter; i++) {
+        for (int64_t blockindex = 0; blockindex < buf_size; blockindex++) {
+            TYPE temp0 = input0[blockindex];
+            output0[blockindex] = temp0;
+        }
     }
-  }
 }
 }

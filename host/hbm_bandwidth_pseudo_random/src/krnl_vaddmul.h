@@ -21,5 +21,5 @@
 const unsigned int c_dt_size = VDATA_SIZE;
 
 struct v_dt {
-  uint32_t data[VDATA_SIZE];
+    uint32_t data[VDATA_SIZE];
 } __attribute__((aligned(128)));

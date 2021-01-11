@@ -88,229 +88,218 @@
 #define MAX_HBM_BANKCOUNT 32
 #define BANK_NAME(n) n | XCL_MEM_TOPOLOGY
 const int bank[MAX_HBM_BANKCOUNT] = {
-    BANK_NAME(0),  BANK_NAME(1),  BANK_NAME(2),  BANK_NAME(3),  BANK_NAME(4),
-    BANK_NAME(5),  BANK_NAME(6),  BANK_NAME(7),  BANK_NAME(8),  BANK_NAME(9),
-    BANK_NAME(10), BANK_NAME(11), BANK_NAME(12), BANK_NAME(13), BANK_NAME(14),
-    BANK_NAME(15), BANK_NAME(16), BANK_NAME(17), BANK_NAME(18), BANK_NAME(19),
-    BANK_NAME(20), BANK_NAME(21), BANK_NAME(22), BANK_NAME(23), BANK_NAME(24),
-    BANK_NAME(25), BANK_NAME(26), BANK_NAME(27), BANK_NAME(28), BANK_NAME(29),
-    BANK_NAME(30), BANK_NAME(31)};
+    BANK_NAME(0),  BANK_NAME(1),  BANK_NAME(2),  BANK_NAME(3),  BANK_NAME(4),  BANK_NAME(5),  BANK_NAME(6),
+    BANK_NAME(7),  BANK_NAME(8),  BANK_NAME(9),  BANK_NAME(10), BANK_NAME(11), BANK_NAME(12), BANK_NAME(13),
+    BANK_NAME(14), BANK_NAME(15), BANK_NAME(16), BANK_NAME(17), BANK_NAME(18), BANK_NAME(19), BANK_NAME(20),
+    BANK_NAME(21), BANK_NAME(22), BANK_NAME(23), BANK_NAME(24), BANK_NAME(25), BANK_NAME(26), BANK_NAME(27),
+    BANK_NAME(28), BANK_NAME(29), BANK_NAME(30), BANK_NAME(31)};
 
 // Function for verifying results
-bool verify(std::vector<int, aligned_allocator<int>> &source_sw_results,
-            std::vector<int, aligned_allocator<int>> &source_hw_results,
+bool verify(std::vector<int, aligned_allocator<int> >& source_sw_results,
+            std::vector<int, aligned_allocator<int> >& source_hw_results,
             unsigned int size) {
-  bool check = true;
-  for (size_t i = 0; i < size; i++) {
-    if (source_hw_results[i] != source_sw_results[i]) {
-      std::cout << "Error: Result mismatch" << std::endl;
-      std::cout << "i = " << i << " CPU result = " << source_sw_results[i]
-                << " Device result = " << source_hw_results[i] << std::endl;
-      check = false;
-      break;
+    bool check = true;
+    for (size_t i = 0; i < size; i++) {
+        if (source_hw_results[i] != source_sw_results[i]) {
+            std::cout << "Error: Result mismatch" << std::endl;
+            std::cout << "i = " << i << " CPU result = " << source_sw_results[i]
+                      << " Device result = " << source_hw_results[i] << std::endl;
+            check = false;
+            break;
+        }
     }
-  }
-  return check;
+    return check;
 }
 
-double run_krnl(cl::Context &context, cl::CommandQueue &q, cl::Kernel &kernel,
-                std::vector<int, aligned_allocator<int>> &source_in1,
-                std::vector<int, aligned_allocator<int>> &source_in2,
-                std::vector<int, aligned_allocator<int>> &source_hw_results,
-                int *bank_assign, unsigned int size) {
-  cl_int err;
+double run_krnl(cl::Context& context,
+                cl::CommandQueue& q,
+                cl::Kernel& kernel,
+                std::vector<int, aligned_allocator<int> >& source_in1,
+                std::vector<int, aligned_allocator<int> >& source_in2,
+                std::vector<int, aligned_allocator<int> >& source_hw_results,
+                int* bank_assign,
+                unsigned int size) {
+    cl_int err;
 
-  // For Allocating Buffer to specific Global Memory Bank, user has to use
-  // cl_mem_ext_ptr_t
-  // and provide the Banks
-  cl_mem_ext_ptr_t inBufExt1, inBufExt2, outBufExt;
+    // For Allocating Buffer to specific Global Memory Bank, user has to use
+    // cl_mem_ext_ptr_t
+    // and provide the Banks
+    cl_mem_ext_ptr_t inBufExt1, inBufExt2, outBufExt;
 
-  inBufExt1.obj = source_in1.data();
-  inBufExt1.param = 0;
-  inBufExt1.flags = bank_assign[0];
+    inBufExt1.obj = source_in1.data();
+    inBufExt1.param = 0;
+    inBufExt1.flags = bank_assign[0];
 
-  inBufExt2.obj = source_in2.data();
-  inBufExt2.param = 0;
-  inBufExt2.flags = bank_assign[1];
+    inBufExt2.obj = source_in2.data();
+    inBufExt2.param = 0;
+    inBufExt2.flags = bank_assign[1];
 
-  outBufExt.obj = source_hw_results.data();
-  outBufExt.param = 0;
-  outBufExt.flags = bank_assign[2];
+    outBufExt.obj = source_hw_results.data();
+    outBufExt.param = 0;
+    outBufExt.flags = bank_assign[2];
 
-  // These commands will allocate memory on the FPGA. The cl::Buffer objects can
-  // be used to reference the memory locations on the device.
-  // Creating Buffers
-  OCL_CHECK(err, cl::Buffer buffer_input1(
-                     context, CL_MEM_READ_ONLY | CL_MEM_EXT_PTR_XILINX |
-                                  CL_MEM_USE_HOST_PTR,
-                     sizeof(uint32_t) * size, &inBufExt1, &err));
-  OCL_CHECK(err, cl::Buffer buffer_input2(
-                     context, CL_MEM_READ_ONLY | CL_MEM_EXT_PTR_XILINX |
-                                  CL_MEM_USE_HOST_PTR,
-                     sizeof(uint32_t) * size, &inBufExt2, &err));
-  OCL_CHECK(err, cl::Buffer buffer_output(
-                     context, CL_MEM_WRITE_ONLY | CL_MEM_EXT_PTR_XILINX |
-                                  CL_MEM_USE_HOST_PTR,
-                     sizeof(uint32_t) * size, &outBufExt, &err));
+    // These commands will allocate memory on the FPGA. The cl::Buffer objects can
+    // be used to reference the memory locations on the device.
+    // Creating Buffers
+    OCL_CHECK(err, cl::Buffer buffer_input1(context, CL_MEM_READ_ONLY | CL_MEM_EXT_PTR_XILINX | CL_MEM_USE_HOST_PTR,
+                                            sizeof(uint32_t) * size, &inBufExt1, &err));
+    OCL_CHECK(err, cl::Buffer buffer_input2(context, CL_MEM_READ_ONLY | CL_MEM_EXT_PTR_XILINX | CL_MEM_USE_HOST_PTR,
+                                            sizeof(uint32_t) * size, &inBufExt2, &err));
+    OCL_CHECK(err, cl::Buffer buffer_output(context, CL_MEM_WRITE_ONLY | CL_MEM_EXT_PTR_XILINX | CL_MEM_USE_HOST_PTR,
+                                            sizeof(uint32_t) * size, &outBufExt, &err));
 
-  // Setting the kernel Arguments
-  OCL_CHECK(err, err = (kernel).setArg(0, buffer_input1));
-  OCL_CHECK(err, err = (kernel).setArg(1, buffer_input2));
-  OCL_CHECK(err, err = (kernel).setArg(2, buffer_output));
-  OCL_CHECK(err, err = (kernel).setArg(3, size));
+    // Setting the kernel Arguments
+    OCL_CHECK(err, err = (kernel).setArg(0, buffer_input1));
+    OCL_CHECK(err, err = (kernel).setArg(1, buffer_input2));
+    OCL_CHECK(err, err = (kernel).setArg(2, buffer_output));
+    OCL_CHECK(err, err = (kernel).setArg(3, size));
 
-  // Copy input data to Device Global Memory
-  OCL_CHECK(err, err = q.enqueueMigrateMemObjects(
-                     {buffer_input1, buffer_input2}, 0 /* 0 means from host*/));
-  q.finish();
+    // Copy input data to Device Global Memory
+    OCL_CHECK(err, err = q.enqueueMigrateMemObjects({buffer_input1, buffer_input2}, 0 /* 0 means from host*/));
+    q.finish();
 
-  std::chrono::duration<double> kernel_time(0);
+    std::chrono::duration<double> kernel_time(0);
 
-  auto kernel_start = std::chrono::high_resolution_clock::now();
-  OCL_CHECK(err, err = q.enqueueTask(kernel));
-  q.finish();
-  auto kernel_end = std::chrono::high_resolution_clock::now();
+    auto kernel_start = std::chrono::high_resolution_clock::now();
+    OCL_CHECK(err, err = q.enqueueTask(kernel));
+    q.finish();
+    auto kernel_end = std::chrono::high_resolution_clock::now();
 
-  kernel_time = std::chrono::duration<double>(kernel_end - kernel_start);
+    kernel_time = std::chrono::duration<double>(kernel_end - kernel_start);
 
-  // Copy Result from Device Global Memory to Host Local Memory
-  OCL_CHECK(err, err = q.enqueueMigrateMemObjects({buffer_output},
-                                                  CL_MIGRATE_MEM_OBJECT_HOST));
-  q.finish();
+    // Copy Result from Device Global Memory to Host Local Memory
+    OCL_CHECK(err, err = q.enqueueMigrateMemObjects({buffer_output}, CL_MIGRATE_MEM_OBJECT_HOST));
+    q.finish();
 
-  return kernel_time.count();
+    return kernel_time.count();
 }
 
-int main(int argc, char *argv[]) {
-  if (argc != 2) {
-    printf("Usage: %s <XCLBIN> \n", argv[0]);
-    return -1;
-  }
-  cl_int err;
-  cl::Context context;
-  cl::CommandQueue q;
-  cl::Kernel kernel_vadd;
-  std::string binaryFile = argv[1];
-
-  // The get_xil_devices will return vector of Xilinx Devices
-  auto devices = xcl::get_xil_devices();
-
-  // read_binary_file() command will find the OpenCL binary file created using
-  // the
-  // V++ compiler load into OpenCL Binary and return pointer to file buffer.
-  auto fileBuf = xcl::read_binary_file(binaryFile);
-
-  cl::Program::Binaries bins{{fileBuf.data(), fileBuf.size()}};
-  bool valid_device = false;
-  for (unsigned int i = 0; i < devices.size(); i++) {
-    auto device = devices[i];
-    // Creating Context and Command Queue for selected Device
-    OCL_CHECK(err, context = cl::Context(device, NULL, NULL, NULL, &err));
-    OCL_CHECK(err, q = cl::CommandQueue(context, device,
-                                        CL_QUEUE_PROFILING_ENABLE, &err));
-
-    std::cout << "Trying to program device[" << i
-              << "]: " << device.getInfo<CL_DEVICE_NAME>() << std::endl;
-    cl::Program program(context, {device}, bins, NULL, &err);
-    if (err != CL_SUCCESS) {
-      std::cout << "Failed to program device[" << i << "] with xclbin file!\n";
-    } else {
-      std::cout << "Device[" << i << "]: program successful!\n";
-      OCL_CHECK(err, kernel_vadd = cl::Kernel(program, "krnl_vadd", &err));
-      valid_device = true;
-      break; // we break because we found a valid device
+int main(int argc, char* argv[]) {
+    if (argc != 2) {
+        printf("Usage: %s <XCLBIN> \n", argv[0]);
+        return -1;
     }
-  }
-  if (!valid_device) {
-    std::cout << "Failed to program any device found, exit!\n";
-    exit(EXIT_FAILURE);
-  }
+    cl_int err;
+    cl::Context context;
+    cl::CommandQueue q;
+    cl::Kernel kernel_vadd;
+    std::string binaryFile = argv[1];
 
-  unsigned int dataSize = 64 * 1024 * 1024;
-  if (xcl::is_emulation()) {
-    dataSize = 1024;
-    std::cout << "Original Dataset is reduced for faster execution on "
-                 "emulation flow. Data size="
-              << dataSize << std::endl;
-  }
+    // The get_xil_devices will return vector of Xilinx Devices
+    auto devices = xcl::get_xil_devices();
 
-  std::vector<int, aligned_allocator<int>> source_in1(dataSize);
-  std::vector<int, aligned_allocator<int>> source_in2(dataSize);
-  std::vector<int, aligned_allocator<int>> source_hw_results(dataSize);
-  std::vector<int, aligned_allocator<int>> source_sw_results(dataSize);
+    // read_binary_file() command will find the OpenCL binary file created using
+    // the
+    // V++ compiler load into OpenCL Binary and return pointer to file buffer.
+    auto fileBuf = xcl::read_binary_file(binaryFile);
 
-  // Create the test data
-  std::generate(source_in1.begin(), source_in1.end(), std::rand);
-  std::generate(source_in2.begin(), source_in2.end(), std::rand);
+    cl::Program::Binaries bins{{fileBuf.data(), fileBuf.size()}};
+    bool valid_device = false;
+    for (unsigned int i = 0; i < devices.size(); i++) {
+        auto device = devices[i];
+        // Creating Context and Command Queue for selected Device
+        OCL_CHECK(err, context = cl::Context(device, NULL, NULL, NULL, &err));
+        OCL_CHECK(err, q = cl::CommandQueue(context, device, CL_QUEUE_PROFILING_ENABLE, &err));
 
-  for (size_t i = 0; i < dataSize; i++) {
-    source_sw_results[i] = source_in1[i] + source_in2[i];
-    source_hw_results[i] = 0;
-  }
+        std::cout << "Trying to program device[" << i << "]: " << device.getInfo<CL_DEVICE_NAME>() << std::endl;
+        cl::Program program(context, {device}, bins, NULL, &err);
+        if (err != CL_SUCCESS) {
+            std::cout << "Failed to program device[" << i << "] with xclbin file!\n";
+        } else {
+            std::cout << "Device[" << i << "]: program successful!\n";
+            OCL_CHECK(err, kernel_vadd = cl::Kernel(program, "krnl_vadd", &err));
+            valid_device = true;
+            break; // we break because we found a valid device
+        }
+    }
+    if (!valid_device) {
+        std::cout << "Failed to program any device found, exit!\n";
+        exit(EXIT_FAILURE);
+    }
 
-  double kernel_time_in_sec = 0, result = 0;
-  bool match = true;
-  const int numBuf = 3; // Since three buffers are being used
-  int bank_assign[numBuf];
+    unsigned int dataSize = 64 * 1024 * 1024;
+    if (xcl::is_emulation()) {
+        dataSize = 1024;
+        std::cout << "Original Dataset is reduced for faster execution on "
+                     "emulation flow. Data size="
+                  << dataSize << std::endl;
+    }
 
-  std::cout << "Running CASE 1  : Single HBM for all three Buffers "
-            << std::endl;
-  if (!xcl::is_emulation()) {
-    dataSize = 16 * 1024 * 1024;
-    std::cout << "Picking Buffer size " << dataSize * sizeof(uint32_t)
-              << " so that all three buffer should fit into Single HBM "
-                 "(max 256MB)"
-              << std::endl;
-  }
+    std::vector<int, aligned_allocator<int> > source_in1(dataSize);
+    std::vector<int, aligned_allocator<int> > source_in2(dataSize);
+    std::vector<int, aligned_allocator<int> > source_hw_results(dataSize);
+    std::vector<int, aligned_allocator<int> > source_sw_results(dataSize);
 
-  std::cout << "Each buffer is allocated with same HBM bank." << std::endl;
-  std::cout << "input 1 -> bank 0 " << std::endl;
-  std::cout << "input 2 -> bank 0 " << std::endl;
-  std::cout << "output  -> bank 0 " << std::endl;
-  for (int j = 0; j < numBuf; j++) {
-    bank_assign[j] = bank[0];
-  }
+    // Create the test data
+    std::generate(source_in1.begin(), source_in1.end(), std::rand);
+    std::generate(source_in2.begin(), source_in2.end(), std::rand);
 
-  kernel_time_in_sec = run_krnl(context, q, kernel_vadd, source_in1, source_in2,
-                                source_hw_results, bank_assign, dataSize);
-  match = verify(source_sw_results, source_hw_results, dataSize);
+    for (size_t i = 0; i < dataSize; i++) {
+        source_sw_results[i] = source_in1[i] + source_in2[i];
+        source_hw_results[i] = 0;
+    }
 
-  // Multiplying the actual data size by 3 because three buffers are being used.
-  result = 3 * dataSize * sizeof(uint32_t);
-  result /= (1000 * 1000 * 1000); // to GB
-  result /= kernel_time_in_sec;   // to GBps
+    double kernel_time_in_sec = 0, result = 0;
+    bool match = true;
+    const int numBuf = 3; // Since three buffers are being used
+    int bank_assign[numBuf];
 
-  std::cout << "[CASE 1] THROUGHPUT = " << result << " GB/s" << std::endl;
+    std::cout << "Running CASE 1  : Single HBM for all three Buffers " << std::endl;
+    if (!xcl::is_emulation()) {
+        dataSize = 16 * 1024 * 1024;
+        std::cout << "Picking Buffer size " << dataSize * sizeof(uint32_t)
+                  << " so that all three buffer should fit into Single HBM "
+                     "(max 256MB)"
+                  << std::endl;
+    }
 
-  std::cout << "Running CASE 2: Three Separate Banks for Three Buffers"
-            << std::endl;
-  if (!xcl::is_emulation()) {
-    std::cout << "For This case each buffer will be having different HBM, "
-                 "so buffer size is picked to utilize full HBM"
-              << std::endl;
-    dataSize = 64 * 1024 * 1024;
-    std::cout << "vector size is " << dataSize * sizeof(uint32_t)
-              << " as maximum possible inside single HBM" << std::endl;
-  }
+    std::cout << "Each buffer is allocated with same HBM bank." << std::endl;
+    std::cout << "input 1 -> bank 0 " << std::endl;
+    std::cout << "input 2 -> bank 0 " << std::endl;
+    std::cout << "output  -> bank 0 " << std::endl;
+    for (int j = 0; j < numBuf; j++) {
+        bank_assign[j] = bank[0];
+    }
 
-  std::cout << "Each buffer is allocated with different HBM bank." << std::endl;
-  std::cout << "input 1 -> bank 1 " << std::endl;
-  std::cout << "input 2 -> bank 2 " << std::endl;
-  std::cout << "output  -> bank 3 " << std::endl;
-  for (int j = 0; j < numBuf; j++) {
-    bank_assign[j] = bank[j + 1];
-  }
+    kernel_time_in_sec =
+        run_krnl(context, q, kernel_vadd, source_in1, source_in2, source_hw_results, bank_assign, dataSize);
+    match = verify(source_sw_results, source_hw_results, dataSize);
 
-  kernel_time_in_sec = run_krnl(context, q, kernel_vadd, source_in1, source_in2,
-                                source_hw_results, bank_assign, dataSize);
-  match = verify(source_sw_results, source_hw_results, dataSize);
+    // Multiplying the actual data size by 3 because three buffers are being used.
+    result = 3 * dataSize * sizeof(uint32_t);
+    result /= (1000 * 1000 * 1000); // to GB
+    result /= kernel_time_in_sec;   // to GBps
 
-  result = 3 * dataSize * sizeof(uint32_t);
-  result /= (1000 * 1000 * 1000); // to GB
-  result /= kernel_time_in_sec;   // to GBps
+    std::cout << "[CASE 1] THROUGHPUT = " << result << " GB/s" << std::endl;
 
-  std::cout << "[CASE 2] THROUGHPUT = " << result << " GB/s " << std::endl;
+    std::cout << "Running CASE 2: Three Separate Banks for Three Buffers" << std::endl;
+    if (!xcl::is_emulation()) {
+        std::cout << "For This case each buffer will be having different HBM, "
+                     "so buffer size is picked to utilize full HBM"
+                  << std::endl;
+        dataSize = 64 * 1024 * 1024;
+        std::cout << "vector size is " << dataSize * sizeof(uint32_t) << " as maximum possible inside single HBM"
+                  << std::endl;
+    }
 
-  std::cout << (match ? "TEST PASSED" : "TEST FAILED") << std::endl;
-  return (match ? EXIT_SUCCESS : EXIT_FAILURE);
+    std::cout << "Each buffer is allocated with different HBM bank." << std::endl;
+    std::cout << "input 1 -> bank 1 " << std::endl;
+    std::cout << "input 2 -> bank 2 " << std::endl;
+    std::cout << "output  -> bank 3 " << std::endl;
+    for (int j = 0; j < numBuf; j++) {
+        bank_assign[j] = bank[j + 1];
+    }
+
+    kernel_time_in_sec =
+        run_krnl(context, q, kernel_vadd, source_in1, source_in2, source_hw_results, bank_assign, dataSize);
+    match = verify(source_sw_results, source_hw_results, dataSize);
+
+    result = 3 * dataSize * sizeof(uint32_t);
+    result /= (1000 * 1000 * 1000); // to GB
+    result /= kernel_time_in_sec;   // to GBps
+
+    std::cout << "[CASE 2] THROUGHPUT = " << result << " GB/s " << std::endl;
+
+    std::cout << (match ? "TEST PASSED" : "TEST FAILED") << std::endl;
+    return (match ? EXIT_SUCCESS : EXIT_FAILURE);
 }

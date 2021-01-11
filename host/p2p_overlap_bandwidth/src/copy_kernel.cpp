@@ -28,30 +28,30 @@ Description:
 
 typedef ap_uint<512> uintV_t;
 
-void read(uintV_t *in, uintV_t buffer_in[SIZE]) {
+void read(uintV_t* in, uintV_t buffer_in[SIZE]) {
 // Auto-pipeline is going to apply pipeline to these loops
 read:
-  for (int i = 0; i < SIZE; i++) {
-    buffer_in[i] = in[i];
-  }
+    for (int i = 0; i < SIZE; i++) {
+        buffer_in[i] = in[i];
+    }
 }
 
 void cpy(uintV_t buffer_in[SIZE], uintV_t buffer_out[SIZE]) {
 cpy:
-  for (int i = 0; i < SIZE; i++) {
-    buffer_out[i] = buffer_in[i];
-  }
+    for (int i = 0; i < SIZE; i++) {
+        buffer_out[i] = buffer_in[i];
+    }
 }
 
-void write(uintV_t buffer_out[SIZE], uintV_t *out) {
+void write(uintV_t buffer_out[SIZE], uintV_t* out) {
 write:
-  for (int i = 0; i < SIZE; i++) {
-    out[i] = buffer_out[i];
-  }
+    for (int i = 0; i < SIZE; i++) {
+        out[i] = buffer_out[i];
+    }
 }
 
 extern "C" {
-void copy(uintV_t *in, uintV_t *out, const int t_size) {
+void copy(uintV_t* in, uintV_t* out, const int t_size) {
 #pragma HLS INTERFACE m_axi port = in offset = slave bundle = gmem
 #pragma HLS INTERFACE m_axi port = out offset = slave bundle = gmem
 #pragma HLS INTERFACE s_axilite port = in
@@ -59,17 +59,17 @@ void copy(uintV_t *in, uintV_t *out, const int t_size) {
 #pragma HLS INTERFACE s_axilite port = t_size
 #pragma HLS INTERFACE s_axilite port = return
 
-  uintV_t buffer_in[SIZE];
-  uintV_t buffer_out[SIZE];
+    uintV_t buffer_in[SIZE];
+    uintV_t buffer_out[SIZE];
 
-  int n_loop = t_size / (16 * SIZE);
-  int offset = 0;
+    int n_loop = t_size / (16 * SIZE);
+    int offset = 0;
 
 #pragma HLS dataflow
-  for (int i = 0; i < n_loop; i++, offset += SIZE) {
-    read(in + offset, buffer_in);
-    cpy(buffer_in, buffer_out);
-    write(buffer_out, out + offset);
-  }
+    for (int i = 0; i < n_loop; i++, offset += SIZE) {
+        read(in + offset, buffer_in);
+        cpy(buffer_in, buffer_out);
+        write(buffer_out, out + offset);
+    }
 }
 }

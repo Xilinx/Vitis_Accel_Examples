@@ -22,19 +22,18 @@
 typedef ap_axiu<DWIDTH, 0, 0, 0> pkt;
 
 extern "C" {
-void krnl_stream_vadd(int *in1,              // Read-Only Vector 1
-                      int *in2,              // Read-Only Vector 2
-                      hls::stream<pkt> &out, // Internal Stream
+void krnl_stream_vadd(int* in1,              // Read-Only Vector 1
+                      int* in2,              // Read-Only Vector 2
+                      hls::stream<pkt>& out, // Internal Stream
                       int size               // Size in integer
                       ) {
-
 vadd:
-  for (int i = 0; i < size; i++) {
+    for (int i = 0; i < size; i++) {
 #pragma HLS PIPELINE II = 1
-    int res = in1[i] + in2[i];
-    pkt v;
-    v.data = res;
-    out.write(v);
-  }
+        int res = in1[i] + in2[i];
+        pkt v;
+        v.data = res;
+        out.write(v);
+    }
 }
 }

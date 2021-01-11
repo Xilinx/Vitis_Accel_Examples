@@ -27,17 +27,17 @@ const unsigned int c_max = 4 * 1024 * 1024;
 */
 
 extern "C" {
-void vadd(const unsigned int *in1, // Read-Only Vector 1
-          const unsigned int *in2, // Read-Only Vector 2
-          unsigned int *out_r,     // Output Result
+void vadd(const unsigned int* in1, // Read-Only Vector 1
+          const unsigned int* in2, // Read-Only Vector 2
+          unsigned int* out_r,     // Output Result
           int size                 // Size in integer
           ) {
-  // Unoptimized vector addition kernel to increase the kernel execution time
-  // Large execution time required to showcase parallel execution of multiple
-  // compute units in this example.
-  for (int i = 0; i < size; i++) {
+    // Unoptimized vector addition kernel to increase the kernel execution time
+    // Large execution time required to showcase parallel execution of multiple
+    // compute units in this example.
+    for (int i = 0; i < size; i++) {
 #pragma HLS LOOP_TRIPCOUNT min = c_min max = c_max
-    out_r[i] = in1[i] + in2[i];
-  }
+        out_r[i] = in1[i] + in2[i];
+    }
 }
 }

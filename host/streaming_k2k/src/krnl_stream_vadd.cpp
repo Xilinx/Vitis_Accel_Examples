@@ -38,37 +38,36 @@ typedef qdma_axis<DWIDTH, 0, 0, 0> pkt;
 typedef ap_axiu<DWIDTH, 0, 0, 0> trans_pkt;
 
 extern "C" {
-void krnl_stream_vadd(hls::stream<pkt> &a, hls::stream<pkt> &b,
-                      hls::stream<trans_pkt> &output) {
-  bool eos = false;
+void krnl_stream_vadd(hls::stream<pkt>& a, hls::stream<pkt>& b, hls::stream<trans_pkt>& output) {
+    bool eos = false;
 // Auto-pipeline is going to apply pipeline to this loop
 vadd:
-  do {
-    // Reading a and b streaming into packets
-    pkt t1 = a.read();
-    pkt t2 = b.read();
+    do {
+        // Reading a and b streaming into packets
+        pkt t1 = a.read();
+        pkt t2 = b.read();
 
-    // Packet for output
-    trans_pkt t_out;
+        // Packet for output
+        trans_pkt t_out;
 
-    // Reading data from input packet
-    ap_uint<DWIDTH> in1 = t1.get_data();
-    ap_uint<DWIDTH> in2 = t2.get_data();
+        // Reading data from input packet
+        ap_uint<DWIDTH> in1 = t1.get_data();
+        ap_uint<DWIDTH> in2 = t2.get_data();
 
-    // Vadd operation
-    ap_uint<DWIDTH> tmpOut = in1 + in2;
+        // Vadd operation
+        ap_uint<DWIDTH> tmpOut = in1 + in2;
 
-    // Setting data and configuration to output packet
-    t_out.data = tmpOut;
-    t_out.last = t1.get_last();
-    t_out.keep = -1; // Enabling all bytes
+        // Setting data and configuration to output packet
+        t_out.data = tmpOut;
+        t_out.last = t1.get_last();
+        t_out.keep = -1; // Enabling all bytes
 
-    // Writing packet to output stream
-    output.write(t_out);
+        // Writing packet to output stream
+        output.write(t_out);
 
-    if (t1.get_last() || t2.get_last()) {
-      eos = true;
-    }
-  } while (eos == false);
+        if (t1.get_last() || t2.get_last()) {
+            eos = true;
+        }
+    } while (eos == false);
 }
 }

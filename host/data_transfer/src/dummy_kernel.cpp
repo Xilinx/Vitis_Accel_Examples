@@ -15,16 +15,14 @@
 */
 
 extern "C" {
-void dummy_kernel(unsigned int *buffer0, unsigned int *buffer1,
-                  unsigned int size) {
-
+void dummy_kernel(unsigned int* buffer0, unsigned int* buffer1, unsigned int size) {
 // Intentional empty kernel as this example doesn't require actual
 // kernel to work.
 
 // Auto-pipeline is going to apply pipeline to this loop
 dummy:
-  for (unsigned int i = 0; i < size; i++) {
-    buffer0[i] = buffer1[i];
-  }
+    for (unsigned int i = 0; i < size; i++) {
+        buffer0[i] = buffer1[i];
+    }
 }
 }
