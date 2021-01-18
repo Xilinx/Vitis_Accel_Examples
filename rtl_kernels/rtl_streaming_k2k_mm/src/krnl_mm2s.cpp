@@ -27,8 +27,8 @@ and writes to a stream interface to another kernel */
 typedef ap_axiu<DWIDTH, 0, 0, 0> pkt;
 
 extern "C" {
-void krnl_mm2s(ap_uint<512> *in,      // Read-Only Vector 1
-               hls::stream<pkt> &out, // Internal Stream
+void krnl_mm2s(ap_uint<512>* in,      // Read-Only Vector 1
+               hls::stream<pkt>& out, // Internal Stream
                int size               // Size in integer
                ) {
 #pragma HLS INTERFACE m_axi port = in offset = slave bundle = gmem
@@ -39,22 +39,22 @@ void krnl_mm2s(ap_uint<512> *in,      // Read-Only Vector 1
 
 data_mover:
 
-  int chunk_size = (DWIDTH / (sizeof(int) * 8));
-  pkt v;
+    int chunk_size = (DWIDTH / (sizeof(int) * 8));
+    pkt v;
 
-  int i = 0;
-  // Auto-pipeline is going to apply pipeline to this loop
-  for (i = 0; i < (size / chunk_size) - 1; i++) {
+    int i = 0;
+    // Auto-pipeline is going to apply pipeline to this loop
+    for (i = 0; i < (size / chunk_size) - 1; i++) {
+        ap_uint<512> res = in[i];
+        v.data = res;
+        v.last = 0;
+        out.write(v);
+
+        // set stream last signals when last data
+    }
     ap_uint<512> res = in[i];
     v.data = res;
-    v.last = 0;
+    v.last = 1;
     out.write(v);
-
-    // set stream last signals when last data
-  }
-  ap_uint<512> res = in[i];
-  v.data = res;
-  v.last = 1;
-  out.write(v);
 }
 }

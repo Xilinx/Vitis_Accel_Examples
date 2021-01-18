@@ -23,7 +23,7 @@
 namespace sda {
 namespace utils {
 
-bool is_file(const std::string &name);
+bool is_file(const std::string& name);
 
 /*!
  * Synopsis:
@@ -33,72 +33,73 @@ bool is_file(const std::string &name);
  * 3.Stores options and provides a mechanism to read those options
  */
 class CmdLineParser {
-public:
-  class CmdSwitch {
+   public:
+    class CmdSwitch {
+       public:
+        std::string key;
+        std::string shortcut;
+        std::string default_value;
+        std::string value;
+        std::string desc;
+        bool istoggle;
+        bool isvalid;
+    };
 
-  public:
-    std::string key;
-    std::string shortcut;
-    std::string default_value;
-    std::string value;
-    std::string desc;
-    bool istoggle;
-    bool isvalid;
-  };
+   public:
+    CmdLineParser();
+    // CmdLineParser(int argc, char* argv[]);
+    virtual ~CmdLineParser();
 
-public:
-  CmdLineParser();
-  // CmdLineParser(int argc, char* argv[]);
-  virtual ~CmdLineParser();
+    bool addSwitch(const CmdSwitch& s);
+    bool addSwitch(const std::string& name,
+                   const std::string& shortcut,
+                   const std::string& desc,
+                   const std::string& default_value = "",
+                   bool istoggle = false);
 
-  bool addSwitch(const CmdSwitch &s);
-  bool addSwitch(const std::string &name, const std::string &shortcut,
-                 const std::string &desc, const std::string &default_value = "",
-                 bool istoggle = false);
+    /*!
+     * sets default key to be able to read a 2 argumented call
+     */
+    bool setDefaultKey(const char* key);
 
-  /*!
-   * sets default key to be able to read a 2 argumented call
-   */
-  bool setDefaultKey(const char *key);
+    /*!
+     * parse and store command line
+     */
+    int parse(int argc, char* argv[]);
 
-  /*!
-   * parse and store command line
-   */
-  int parse(int argc, char *argv[]);
+    /*!
+     * retrieve value using a key
+     */
+    std::string value(const char* key);
 
-  /*!
-   * retrieve value using a key
-   */
-  std::string value(const char *key);
+    int value_to_int(const char* key);
 
-  int value_to_int(const char *key);
+    double value_to_double(const char* key);
 
-  double value_to_double(const char *key);
+    /*!
+     * Returns true if a valid value is supplied by user
+     */
+    bool isValid(const char* key);
 
-  /*!
-   * Returns true if a valid value is supplied by user
-   */
-  bool isValid(const char *key);
+    /*!
+     * prints the help menu in case the options are not correct.
+     */
+    virtual void printHelp();
 
-  /*!
-   * prints the help menu in case the options are not correct.
-   */
-  virtual void printHelp();
+   protected:
+    /*!
+     * Retrieve command switch
+     */
+    CmdSwitch* getCmdSwitch(const char* key);
 
-protected:
-  /*!
-   * Retrieve command switch
-   */
-  CmdSwitch *getCmdSwitch(const char *key);
+    bool token_to_fullkeyname(const std::string& token, std::string& fullkey);
 
-  bool token_to_fullkeyname(const std::string &token, std::string &fullkey);
-
-private:
-  std::map<std::string, CmdSwitch *> m_mapKeySwitch;
-  std::map<std::string, std::string> m_mapShortcutKeys;
-  std::vector<CmdSwitch *> m_vSwitches;
-  std::string m_strDefaultKey;
-  std::string m_appname;
+   private:
+    std::map<std::string, CmdSwitch*> m_mapKeySwitch;
+    std::map<std::string, std::string> m_mapShortcutKeys;
+    std::vector<CmdSwitch*> m_vSwitches;
+    std::string m_strDefaultKey;
+    std::string m_appname;
 };
 
 // bool starts_with(const string& src, const string& sub);

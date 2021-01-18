@@ -26,7 +26,7 @@
 */
 
 extern "C" {
-void krnl_vsub(int *a, int *b, int *out_r, const int n_elements) {
+void krnl_vsub(int* a, int* b, int* out_r, const int n_elements) {
 #pragma HLS INTERFACE m_axi port = a offset = slave bundle = gmem
 #pragma HLS INTERFACE s_axilite port = a
 #pragma HLS INTERFACE m_axi port = b offset = slave bundle = gmem
@@ -36,31 +36,30 @@ void krnl_vsub(int *a, int *b, int *out_r, const int n_elements) {
 #pragma HLS INTERFACE s_axilite port = n_elements
 #pragma HLS INTERFACE s_axilite port = return
 
-  int arrayA[BUFFER_SIZE];
+    int arrayA[BUFFER_SIZE];
 
 vsub:
-  for (int i = 0; i < n_elements; i += BUFFER_SIZE) {
+    for (int i = 0; i < n_elements; i += BUFFER_SIZE) {
 #pragma HLS LOOP_TRIPCOUNT min = c_len max = c_len
-    int size = BUFFER_SIZE;
-    // boundary check
-    if (i + size > n_elements)
-      size = n_elements - i;
+        int size = BUFFER_SIZE;
+        // boundary check
+        if (i + size > n_elements) size = n_elements - i;
 
-  // Burst reading A
-  // Auto-pipeline is going to apply pipeline to these loops
-  readA:
-    for (int j = 0; j < size; j++) {
+    // Burst reading A
+    // Auto-pipeline is going to apply pipeline to these loops
+    readA:
+        for (int j = 0; j < size; j++) {
 #pragma HLS LOOP_TRIPCOUNT min = c_size max = c_size
-      arrayA[j] = a[i + j];
-    }
+            arrayA[j] = a[i + j];
+        }
 
-  // Burst reading B and calculating C and Burst writing
-  // to  Global memory
-  vsub_writeC:
-    for (int j = 0; j < size; j++) {
+    // Burst reading B and calculating C and Burst writing
+    // to  Global memory
+    vsub_writeC:
+        for (int j = 0; j < size; j++) {
 #pragma HLS LOOP_TRIPCOUNT min = c_size max = c_size
-      out_r[i + j] = arrayA[j] - b[i + j];
+            out_r[i + j] = arrayA[j] - b[i + j];
+        }
     }
-  }
 }
 }
