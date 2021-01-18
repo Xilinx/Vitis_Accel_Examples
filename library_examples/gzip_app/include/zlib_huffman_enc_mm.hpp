@@ -68,10 +68,14 @@ extern "C" {
  * @param input_size input data size
  *
  */
-void xilHuffmanKernel(xf::compression::uintMemWidth_t *in, uint32_t *lit_freq,
-                      uint32_t *dist_freq, xf::compression::uintMemWidth_t *out,
-                      uint32_t *in_block_size, uint32_t *compressd_size,
-                      uint32_t block_size_in_kb, uint32_t input_size);
+void xilHuffmanKernel(xf::compression::uintMemWidth_t* in,
+                      uint32_t* lit_freq,
+                      uint32_t* dist_freq,
+                      xf::compression::uintMemWidth_t* out,
+                      uint32_t* in_block_size,
+                      uint32_t* compressd_size,
+                      uint32_t block_size_in_kb,
+                      uint32_t input_size);
 }
 
 #endif // _XFCOMPRESSION_ZLIB_HUFFMAN_ENC_MM_HPP_

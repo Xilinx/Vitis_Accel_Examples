@@ -70,11 +70,14 @@ extern "C" {
  * @param input_size input data size
  *
  */
-void xilLz77Compress(const xf::compression::uintMemWidth_t *in,
-                     xf::compression::uintMemWidth_t *out,
-                     uint32_t *compressd_size, uint32_t *in_block_size,
-                     uint32_t *dyn_ltree_freq, uint32_t *dyn_dtree_freq,
-                     uint32_t block_size_in_kb, uint32_t input_size);
+void xilLz77Compress(const xf::compression::uintMemWidth_t* in,
+                     xf::compression::uintMemWidth_t* out,
+                     uint32_t* compressd_size,
+                     uint32_t* in_block_size,
+                     uint32_t* dyn_ltree_freq,
+                     uint32_t* dyn_dtree_freq,
+                     uint32_t block_size_in_kb,
+                     uint32_t input_size);
 }
 
 #endif // _XFCOMPRESSION_ZLIB_LZ77_COMPRESS_MM_HPP_
