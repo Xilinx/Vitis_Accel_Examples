@@ -12,9 +12,6 @@
         "Create/Release Stream",
         "AXIS FIFO depth"
     ], 
-    "platform_whitelist": [
-        "u200_qdma"
-    ],  
     "platform_blacklist": [
         "samsung",
         "vck",
