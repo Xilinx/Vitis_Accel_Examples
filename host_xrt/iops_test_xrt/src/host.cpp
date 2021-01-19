@@ -25,69 +25,7 @@
 #include "experimental/xrt_bo.h"
 #include "experimental/xrt_kernel.h"
 
-void usage() {
-    std::cout << "Usage: test -k <xclbin>\n";
-}
-
-double runTest(std::vector<xrt::run>& cmds, unsigned int total) {
-    uint32_t i = 0;
-    unsigned int issued = 0, completed = 0;
-    auto start = std::chrono::high_resolution_clock::now();
-
-    for (auto& cmd : cmds) {
-        cmd.start();
-        if (++issued == total) break;
-    }
-
-    while (completed < total) {
-        cmds[i].wait();
-
-        completed++;
-        if (issued < total) {
-            cmds[i].start();
-            issued++;
-        }
-
-        if (++i == cmds.size()) i = 0;
-    }
-
-    auto end = std::chrono::high_resolution_clock::now();
-    return (std::chrono::duration_cast<std::chrono::microseconds>(end - start)).count();
-}
-
-int testSingleThread(const xrt::device& device, const xrt::uuid& uuid) {
-    /* The command would incease */
-    std::vector<unsigned int> cmds_per_run = {10,   50,   100,   200,   500,    1000,   1500,   2000,
-                                              3000, 5000, 10000, 50000, 100000, 500000, 1000000};
-    int expected_cmds = 10000;
-
-    if (xcl::is_emulation()) {
-        cmds_per_run = {10, 50, 100};
-        expected_cmds = 100;
-        std::cout << "Number of operations is reduced for faster execution on "
-                     "emulation flow.\n";
-    }
-    auto hello = xrt::kernel(device, uuid.get(), "hello");
-
-    /* Create 'expected_cmds' commands if possible */
-    std::vector<xrt::run> cmds;
-    for (int i = 0; i < expected_cmds; i++) {
-        auto run = xrt::run(hello);
-        run.set_arg(0, xrt::bo(device, 20, hello.group_id(0)));
-        cmds.push_back(std::move(run));
-    }
-    std::cout << "Allocated commands, expect " << expected_cmds << ", created " << cmds.size() << std::endl;
-
-    for (auto num_cmds : cmds_per_run) {
-        double duration = runTest(cmds, num_cmds);
-        std::cout << "Commands: " << std::setw(7) << num_cmds << " iops: " << (num_cmds * 1000.0 * 1000.0 / duration)
-                  << std::endl;
-    }
-
-    return 0;
-}
-
-int _main(int argc, char* argv[]) {
+int main(int argc, char* argv[]) {
     // Command Line Parser
     sda::utils::CmdLineParser parser;
 
@@ -111,21 +49,54 @@ int _main(int argc, char* argv[]) {
     std::cout << "Load the xclbin " << binaryFile << std::endl;
     auto uuid = device.load_xclbin(binaryFile);
 
-    testSingleThread(device, uuid);
+    /* The command would incease */
+    std::vector<unsigned int> cmds_per_run = {10,   50,   100,   200,   500,    1000,   1500,   2000,
+                                              3000, 5000, 10000, 50000, 100000, 500000, 1000000};
+    int expected_cmds = 10000;
 
-    return 0;
-}
-
-int main(int argc, char* argv[]) {
-    try {
-        _main(argc, argv);
-        std::cout << "TEST PASSED" << std::endl;
-        return 0;
-    } catch (const std::exception& ex) {
-        std::cout << "TEST FAILED: " << ex.what() << std::endl;
-    } catch (...) {
-        std::cout << "TEST FAILED" << std::endl;
+    if (xcl::is_emulation()) {
+        cmds_per_run = {10, 50, 100};
+        std::cout << "Number of operations is reduced for faster execution on "
+                     "emulation flow.\n";
     }
+    auto hello = xrt::kernel(device, uuid.get(), "hello");
 
-    return 1;
+    /* Create 'expected_cmds' commands if possible */
+    std::vector<xrt::run> cmds;
+    for (int i = 0; i < expected_cmds; i++) {
+        auto run = xrt::run(hello);
+        run.set_arg(0, xrt::bo(device, 20, hello.group_id(0)));
+        cmds.push_back(std::move(run));
+    }
+    std::cout << "Allocated commands, expect " << expected_cmds << ", created " << cmds.size() << std::endl;
+
+    for (auto num_cmds : cmds_per_run) {
+        uint32_t i = 0;
+        unsigned int issued = 0, completed = 0;
+        auto start = std::chrono::high_resolution_clock::now();
+
+        for (auto& cmd : cmds) {
+            cmd.start();
+            if (++issued == num_cmds) break;
+        }
+
+        while (completed < num_cmds) {
+            cmds[i].wait();
+
+            completed++;
+            if (issued < num_cmds) {
+                cmds[i].start();
+                issued++;
+            }
+
+            if (++i == cmds.size()) i = 0;
+        }
+
+        auto end = std::chrono::high_resolution_clock::now();
+        double duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start).count();
+        std::cout << "Commands: " << std::setw(7) << num_cmds << " iops: " << (num_cmds * 1000.0 * 1000.0 / duration)
+                  << std::endl;
+    }
+    std::cout << "TEST PASSED\n";
+    return 0;
 }
