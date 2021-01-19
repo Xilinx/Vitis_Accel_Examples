@@ -37,254 +37,234 @@ decltype(&clPollStreams) xcl::Stream::pollStreams = nullptr;
 auto constexpr c_test_size = 32 * 1024 * 1024; // 32 MB data
 
 ////////////////////RESET FUNCTION//////////////////////////////////
-int reset(int *a, int *b, int *sw_results, int *hw_results, int size) {
-  // Fill the input vectors with data
-  std::generate(a, a + size, std::rand);
-  std::generate(b, b + size, std::rand);
-  for (int i = 0; i < size; i++) {
-    hw_results[i] = 0;
-    sw_results[i] = a[i] + b[i];
-  }
-  return 0;
+int reset(int* a, int* b, int* sw_results, int* hw_results, int size) {
+    // Fill the input vectors with data
+    std::generate(a, a + size, std::rand);
+    std::generate(b, b + size, std::rand);
+    for (int i = 0; i < size; i++) {
+        hw_results[i] = 0;
+        sw_results[i] = a[i] + b[i];
+    }
+    return 0;
 }
 ///////////////////VERIFY FUNCTION///////////////////////////////////
-bool verify(int *a, int *b, int *sw_results, int *hw_results, int size) {
-  bool match = true;
-  for (int i = 0; i < size; i++) {
-    if (sw_results[i] != hw_results[i]) {
-      match = false;
-      break;
+bool verify(int* a, int* b, int* sw_results, int* hw_results, int size) {
+    bool match = true;
+    for (int i = 0; i < size; i++) {
+        if (sw_results[i] != hw_results[i]) {
+            match = false;
+            break;
+        }
     }
-  }
-  std::cout << "TEST " << (match ? "PASSED" : "FAILED") << std::endl;
-  return match;
+    std::cout << "TEST " << (match ? "PASSED" : "FAILED") << std::endl;
+    return match;
 }
 ///////////////////////////Calculate Duration///////////////////////
-double calc_throput(cl::Event &wait_event, size_t vector_size_bytes) {
-  unsigned long start, stop;
-  cl_int err;
+double calc_throput(cl::Event& wait_event, size_t vector_size_bytes) {
+    unsigned long start, stop;
+    cl_int err;
 
-  OCL_CHECK(err, err = wait_event.getProfilingInfo<unsigned long>(
-                     CL_PROFILING_COMMAND_START, &start));
-  OCL_CHECK(err, err = wait_event.getProfilingInfo<unsigned long>(
-                     CL_PROFILING_COMMAND_END, &stop));
-  unsigned long duration = stop - start;
-  double throput = (double)vector_size_bytes / (double)duration * 1E3;
-  return throput;
+    OCL_CHECK(err, err = wait_event.getProfilingInfo<unsigned long>(CL_PROFILING_COMMAND_START, &start));
+    OCL_CHECK(err, err = wait_event.getProfilingInfo<unsigned long>(CL_PROFILING_COMMAND_END, &stop));
+    unsigned long duration = stop - start;
+    double throput = (double)vector_size_bytes / (double)duration * 1E3;
+    return throput;
 }
 ////////MAIN FUNCTION//////////
-int main(int argc, char **argv) {
-  size_t size = c_test_size;
-  if (xcl::is_hw_emulation()) {
-    size = 4096; // 4KB for HW emulation
-  } else if (xcl::is_emulation()) {
-    size = 2 * 1024 * 1024; // 4MB for sw emulation
-  }
-
-  // I/O Data Vectors
-  std::vector<int, aligned_allocator<int>> h_a(size);
-  std::vector<int, aligned_allocator<int>> h_b(size);
-  std::vector<int, aligned_allocator<int>> hw_results(size);
-  std::vector<int> sw_results(size);
-
-  if (argc != 2) {
-    std::cout << "Usage: " << argv[0] << " <XCLBIN File>" << std::endl;
-    return EXIT_FAILURE;
-  }
-
-  auto binaryFile = argv[1];
-  std::cout << "Vector Addition of elements 0x" << std::hex << size
-            << std::endl;
-
-  // Reset the data vectors
-  reset(h_a.data(), h_b.data(), sw_results.data(), hw_results.data(), size);
-
-  // OpenCL Setup
-  // OpenCL objects
-  cl::Device device;
-  cl::Context context;
-  cl::CommandQueue q;
-  cl::Program program;
-  cl::Kernel krnl_vadd;
-
-  // Error Status variable
-  cl_int err;
-
-  // get_xil_devices() is a utility API which will find the xilinx
-  // platforms and will return list of devices connected to Xilinx platform
-  auto devices = xcl::get_xil_devices();
-
-  // Selecting the first available Xilinx device
-  device = devices[0];
-  // read_binary_file() is a utility API which will load the binaryFile
-  // and will return the pointer to file buffer.
-  auto fileBuf = xcl::read_binary_file(binaryFile);
-
-  cl::Program::Binaries bins{{fileBuf.data(), fileBuf.size()}};
-  bool valid_device = false;
-  for (unsigned int i = 0; i < devices.size(); i++) {
-    device = devices[i];
-    // Creating Context and Command Queue for selected Device
-    OCL_CHECK(err, context = cl::Context(device, NULL, NULL, NULL, &err));
-    OCL_CHECK(err, q = cl::CommandQueue(context, device,
-                                        CL_QUEUE_PROFILING_ENABLE, &err));
-
-    std::cout << "Trying to program device[" << i
-              << "]: " << device.getInfo<CL_DEVICE_NAME>() << std::endl;
-    cl::Program program(context, {device}, bins, NULL, &err);
-    if (err != CL_SUCCESS) {
-      std::cout << "Failed to program device[" << i << "] with xclbin file!\n";
-    } else {
-      std::cout << "Device[" << i << "]: program successful!\n";
-      OCL_CHECK(err, krnl_vadd = cl::Kernel(program, "krnl_stream_vadd", &err));
-      valid_device = true;
-      break; // we break because we found a valid device
+int main(int argc, char** argv) {
+    size_t size = c_test_size;
+    if (xcl::is_hw_emulation()) {
+        size = 4096; // 4KB for HW emulation
+    } else if (xcl::is_emulation()) {
+        size = 2 * 1024 * 1024; // 4MB for sw emulation
     }
-  }
-  if (!valid_device) {
-    std::cout << "Failed to program any device found, exit!\n";
-    exit(EXIT_FAILURE);
-  }
 
-  auto platform_id = device.getInfo<CL_DEVICE_PLATFORM>(&err);
+    // I/O Data Vectors
+    std::vector<int, aligned_allocator<int> > h_a(size);
+    std::vector<int, aligned_allocator<int> > h_b(size);
+    std::vector<int, aligned_allocator<int> > hw_results(size);
+    std::vector<int> sw_results(size);
 
-  // Initialization of streaming class is needed before using it.
-  xcl::Stream::init(platform_id);
-  size_t vector_size_bytes = size * sizeof(int);
+    if (argc != 2) {
+        std::cout << "Usage: " << argv[0] << " <XCLBIN File>" << std::endl;
+        return EXIT_FAILURE;
+    }
 
-  // Streams
-  // Device Connection specification of the stream through extension pointer
-  cl_int ret;
-  cl_mem_ext_ptr_t ext;
-  ext.param = krnl_vadd.get();
-  ext.obj = NULL;
+    auto binaryFile = argv[1];
+    std::cout << "Vector Addition of elements 0x" << std::hex << size << std::endl;
 
-  // Create write stream for argument 0 and 1 of kernel
-  cl_stream h2c_stream_a, h2c_stream_b;
-  ext.flags = 0;
-  OCL_CHECK(ret,
-            h2c_stream_a = xcl::Stream::createStream(
-                device.get(), XCL_STREAM_READ_ONLY, CL_STREAM, &ext, &ret));
-  ext.flags = 1;
-  OCL_CHECK(ret,
-            h2c_stream_b = xcl::Stream::createStream(
-                device.get(), XCL_STREAM_READ_ONLY, CL_STREAM, &ext, &ret));
+    // Reset the data vectors
+    reset(h_a.data(), h_b.data(), sw_results.data(), hw_results.data(), size);
 
-  // Create read stream for argument 2 of kernel
-  cl_stream c2h_stream;
-  ext.flags = 2;
-  OCL_CHECK(ret, c2h_stream = xcl::Stream::createStream(device.get(),
-                                                        XCL_STREAM_WRITE_ONLY,
-                                                        CL_STREAM, &ext, &ret));
+    // OpenCL Setup
+    // OpenCL objects
+    cl::Device device;
+    cl::Context context;
+    cl::CommandQueue q;
+    cl::Program program;
+    cl::Kernel krnl_vadd;
 
-  // Running the Kernel with blocking Stream APIs
-  std::cout << "############################################################\n";
-  std::cout << "                     Blocking Stream                        \n";
-  std::cout << "############################################################\n";
+    // Error Status variable
+    cl_int err;
 
-  // Launch the Kernel
-  cl::Event b_wait_event;
-  OCL_CHECK(err, err = q.enqueueTask(krnl_vadd, NULL, &b_wait_event));
+    // get_xil_devices() is a utility API which will find the xilinx
+    // platforms and will return list of devices connected to Xilinx platform
+    auto devices = xcl::get_xil_devices();
 
-  // Initiating the WRITE transfer
-  cl_stream_xfer_req b_wr_req{0};
+    // Selecting the first available Xilinx device
+    device = devices[0];
+    // read_binary_file() is a utility API which will load the binaryFile
+    // and will return the pointer to file buffer.
+    auto fileBuf = xcl::read_binary_file(binaryFile);
 
-  b_wr_req.flags = CL_STREAM_EOT;
-  b_wr_req.priv_data = (void *)"b_write_a";
+    cl::Program::Binaries bins{{fileBuf.data(), fileBuf.size()}};
+    bool valid_device = false;
+    for (unsigned int i = 0; i < devices.size(); i++) {
+        device = devices[i];
+        // Creating Context and Command Queue for selected Device
+        OCL_CHECK(err, context = cl::Context(device, NULL, NULL, NULL, &err));
+        OCL_CHECK(err, q = cl::CommandQueue(context, device, CL_QUEUE_PROFILING_ENABLE, &err));
 
-  // Thread 1 for writing data to input stream 1 independently in case of
-  // default blocking transfers.
-  std::thread thr1(xcl::Stream::writeStream, h2c_stream_a, h_a.data(),
-                   vector_size_bytes, &b_wr_req, &ret);
+        std::cout << "Trying to program device[" << i << "]: " << device.getInfo<CL_DEVICE_NAME>() << std::endl;
+        cl::Program program(context, {device}, bins, NULL, &err);
+        if (err != CL_SUCCESS) {
+            std::cout << "Failed to program device[" << i << "] with xclbin file!\n";
+        } else {
+            std::cout << "Device[" << i << "]: program successful!\n";
+            OCL_CHECK(err, krnl_vadd = cl::Kernel(program, "krnl_stream_vadd", &err));
+            valid_device = true;
+            break; // we break because we found a valid device
+        }
+    }
+    if (!valid_device) {
+        std::cout << "Failed to program any device found, exit!\n";
+        exit(EXIT_FAILURE);
+    }
 
-  b_wr_req.priv_data = (void *)"b_write_b";
-  // Thread 2 for writing data to input stream 2 independently in case of
-  // default blocking transfers.
-  std::thread thr2(xcl::Stream::writeStream, h2c_stream_b, h_b.data(),
-                   vector_size_bytes, &b_wr_req, &ret);
+    auto platform_id = device.getInfo<CL_DEVICE_PLATFORM>(&err);
 
-  // Initiating the READ transfer
-  cl_stream_xfer_req b_rd_req{0};
-  b_rd_req.flags = CL_STREAM_EOT;
-  b_rd_req.priv_data = (void *)"b_read";
-  // Output thread to read the stream data independently in case of default
-  // blocking transfers.
-  std::thread thr3(xcl::Stream::readStream, c2h_stream, hw_results.data(),
-                   vector_size_bytes, &b_rd_req, &ret);
+    // Initialization of streaming class is needed before using it.
+    xcl::Stream::init(platform_id);
+    size_t vector_size_bytes = size * sizeof(int);
 
-  // Waiting for all the threads to complete their respective operations.
-  thr1.join();
-  thr2.join();
-  thr3.join();
+    // Streams
+    // Device Connection specification of the stream through extension pointer
+    cl_int ret;
+    cl_mem_ext_ptr_t ext;
+    ext.param = krnl_vadd.get();
+    ext.obj = NULL;
 
-  // Ensuring all OpenCL objects are released.
-  q.finish();
+    // Create write stream for argument 0 and 1 of kernel
+    cl_stream h2c_stream_a, h2c_stream_b;
+    ext.flags = 0;
+    OCL_CHECK(ret, h2c_stream_a = xcl::Stream::createStream(device.get(), XCL_STREAM_READ_ONLY, CL_STREAM, &ext, &ret));
+    ext.flags = 1;
+    OCL_CHECK(ret, h2c_stream_b = xcl::Stream::createStream(device.get(), XCL_STREAM_READ_ONLY, CL_STREAM, &ext, &ret));
 
-  double throput = calc_throput(b_wait_event, vector_size_bytes);
-  std::cout << "[ Case: 1 ] -> Throughput = " << throput << " MB/s\n";
+    // Create read stream for argument 2 of kernel
+    cl_stream c2h_stream;
+    ext.flags = 2;
+    OCL_CHECK(ret, c2h_stream = xcl::Stream::createStream(device.get(), XCL_STREAM_WRITE_ONLY, CL_STREAM, &ext, &ret));
 
-  // Compare the results
-  bool b_match = verify(h_a.data(), h_b.data(), sw_results.data(),
-                        hw_results.data(), size);
+    // Running the Kernel with blocking Stream APIs
+    std::cout << "############################################################\n";
+    std::cout << "                     Blocking Stream                        \n";
+    std::cout << "############################################################\n";
 
-  // Reset the data vectors
-  reset(h_a.data(), h_b.data(), sw_results.data(), hw_results.data(), size);
+    // Launch the Kernel
+    cl::Event b_wait_event;
+    OCL_CHECK(err, err = q.enqueueTask(krnl_vadd, NULL, &b_wait_event));
 
-  // Running the kernel with non-blocking Stream APIs
-  std::cout << "############################################################\n";
-  std::cout << "                  Non-Blocking Stream                       \n";
-  std::cout << "############################################################\n";
+    // Initiating the WRITE transfer
+    cl_stream_xfer_req b_wr_req{0};
 
-  // Launch the Kernel
-  cl::Event nb_wait_event;
-  OCL_CHECK(err, err = q.enqueueTask(krnl_vadd, NULL, &nb_wait_event));
+    b_wr_req.flags = CL_STREAM_EOT;
+    b_wr_req.priv_data = (void*)"b_write_a";
 
-  // Initiating the WRITE transfer
-  cl_stream_xfer_req nb_wr_req{0};
+    // Thread 1 for writing data to input stream 1 independently in case of
+    // default blocking transfers.
+    std::thread thr1(xcl::Stream::writeStream, h2c_stream_a, h_a.data(), vector_size_bytes, &b_wr_req, &ret);
 
-  nb_wr_req.flags = CL_STREAM_EOT | CL_STREAM_NONBLOCKING;
-  nb_wr_req.priv_data = (void *)"nb_write_a";
+    b_wr_req.priv_data = (void*)"b_write_b";
+    // Thread 2 for writing data to input stream 2 independently in case of
+    // default blocking transfers.
+    std::thread thr2(xcl::Stream::writeStream, h2c_stream_b, h_b.data(), vector_size_bytes, &b_wr_req, &ret);
 
-  // Writing data to input stream 1 independently in case of non-blocking
-  // transfers.
-  OCL_CHECK(ret, xcl::Stream::writeStream(h2c_stream_a, h_a.data(),
-                                          vector_size_bytes, &nb_wr_req, &ret));
+    // Initiating the READ transfer
+    cl_stream_xfer_req b_rd_req{0};
+    b_rd_req.flags = CL_STREAM_EOT;
+    b_rd_req.priv_data = (void*)"b_read";
+    // Output thread to read the stream data independently in case of default
+    // blocking transfers.
+    std::thread thr3(xcl::Stream::readStream, c2h_stream, hw_results.data(), vector_size_bytes, &b_rd_req, &ret);
 
-  nb_wr_req.priv_data = (void *)"nb_write_b";
-  // Writing data to input stream 2 independently in case of non-blocking
-  // transfers.
-  OCL_CHECK(ret, xcl::Stream::writeStream(h2c_stream_b, h_b.data(),
-                                          vector_size_bytes, &nb_wr_req, &ret));
+    // Waiting for all the threads to complete their respective operations.
+    thr1.join();
+    thr2.join();
+    thr3.join();
 
-  // Initiating the READ transfer
-  cl_stream_xfer_req nb_rd_req{0};
-  nb_rd_req.flags = CL_STREAM_EOT | CL_STREAM_NONBLOCKING;
-  nb_rd_req.priv_data = (void *)"nb_read";
-  // Reading the stream data independently in case of non-blocking transfers.
-  OCL_CHECK(ret, xcl::Stream::readStream(c2h_stream, hw_results.data(),
-                                         vector_size_bytes, &nb_rd_req, &ret));
+    // Ensuring all OpenCL objects are released.
+    q.finish();
 
-  // Checking the request completion
-  cl_streams_poll_req_completions poll_req[3]{0, 0, 0}; // 3 Requests
-  auto num_compl = 3;
-  OCL_CHECK(ret, xcl::Stream::pollStreams(device.get(), poll_req, 3, 3,
-                                          &num_compl, 50000, &ret));
-  // Blocking API, waits for 3 poll request completion or 50000ms, whichever
-  // occurs first.
+    double throput = calc_throput(b_wait_event, vector_size_bytes);
+    std::cout << "[ Case: 1 ] -> Throughput = " << throput << " MB/s\n";
 
-  // Ensuring all OpenCL objects are released.
-  q.finish();
+    // Compare the results
+    bool b_match = verify(h_a.data(), h_b.data(), sw_results.data(), hw_results.data(), size);
 
-  throput = calc_throput(nb_wait_event, vector_size_bytes);
-  std::cout << "[ Case: 2 ] -> Throughput = " << throput << " MB/s\n";
+    // Reset the data vectors
+    reset(h_a.data(), h_b.data(), sw_results.data(), hw_results.data(), size);
 
-  // Compare the device results with software results
-  bool nb_match = verify(h_a.data(), h_b.data(), sw_results.data(),
-                         hw_results.data(), size);
+    // Running the kernel with non-blocking Stream APIs
+    std::cout << "############################################################\n";
+    std::cout << "                  Non-Blocking Stream                       \n";
+    std::cout << "############################################################\n";
 
-  // Releasing Streams
-  xcl::Stream::releaseStream(c2h_stream);
-  xcl::Stream::releaseStream(h2c_stream_a);
-  xcl::Stream::releaseStream(h2c_stream_b);
-  return !b_match || !nb_match;
+    // Launch the Kernel
+    cl::Event nb_wait_event;
+    OCL_CHECK(err, err = q.enqueueTask(krnl_vadd, NULL, &nb_wait_event));
+
+    // Initiating the WRITE transfer
+    cl_stream_xfer_req nb_wr_req{0};
+
+    nb_wr_req.flags = CL_STREAM_EOT | CL_STREAM_NONBLOCKING;
+    nb_wr_req.priv_data = (void*)"nb_write_a";
+
+    // Writing data to input stream 1 independently in case of non-blocking
+    // transfers.
+    OCL_CHECK(ret, xcl::Stream::writeStream(h2c_stream_a, h_a.data(), vector_size_bytes, &nb_wr_req, &ret));
+
+    nb_wr_req.priv_data = (void*)"nb_write_b";
+    // Writing data to input stream 2 independently in case of non-blocking
+    // transfers.
+    OCL_CHECK(ret, xcl::Stream::writeStream(h2c_stream_b, h_b.data(), vector_size_bytes, &nb_wr_req, &ret));
+
+    // Initiating the READ transfer
+    cl_stream_xfer_req nb_rd_req{0};
+    nb_rd_req.flags = CL_STREAM_EOT | CL_STREAM_NONBLOCKING;
+    nb_rd_req.priv_data = (void*)"nb_read";
+    // Reading the stream data independently in case of non-blocking transfers.
+    OCL_CHECK(ret, xcl::Stream::readStream(c2h_stream, hw_results.data(), vector_size_bytes, &nb_rd_req, &ret));
+
+    // Checking the request completion
+    cl_streams_poll_req_completions poll_req[3]{0, 0, 0}; // 3 Requests
+    auto num_compl = 3;
+    OCL_CHECK(ret, xcl::Stream::pollStreams(device.get(), poll_req, 3, 3, &num_compl, 50000, &ret));
+    // Blocking API, waits for 3 poll request completion or 50000ms, whichever
+    // occurs first.
+
+    // Ensuring all OpenCL objects are released.
+    q.finish();
+
+    throput = calc_throput(nb_wait_event, vector_size_bytes);
+    std::cout << "[ Case: 2 ] -> Throughput = " << throput << " MB/s\n";
+
+    // Compare the device results with software results
+    bool nb_match = verify(h_a.data(), h_b.data(), sw_results.data(), hw_results.data(), size);
+
+    // Releasing Streams
+    xcl::Stream::releaseStream(c2h_stream);
+    xcl::Stream::releaseStream(h2c_stream_a);
+    xcl::Stream::releaseStream(h2c_stream_b);
+    return !b_match || !nb_match;
 }

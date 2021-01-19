@@ -14,7 +14,7 @@
 * under the License.
 */
 extern "C" {
-void copy_kernel(int *a, int *b, const int n_elements, const int direction) {
+void copy_kernel(int* a, int* b, const int n_elements, const int direction) {
 #pragma HLS INTERFACE m_axi port = a offset = slave bundle = gmem0
 #pragma HLS INTERFACE s_axilite port = a bundle = control
 #pragma HLS INTERFACE m_axi port = b offset = slave bundle = gmem1
@@ -22,16 +22,16 @@ void copy_kernel(int *a, int *b, const int n_elements, const int direction) {
 #pragma HLS INTERFACE s_axilite port = n_elements bundle = control
 #pragma HLS INTERFACE s_axilite port = return bundle = control
 
-  if (direction == 0) {
-  copy_h2d:
-    for (int i = 0; i < n_elements; i += 1) {
-      b[i] = a[i];
+    if (direction == 0) {
+    copy_h2d:
+        for (int i = 0; i < n_elements; i += 1) {
+            b[i] = a[i];
+        }
+    } else {
+    copy_d2h:
+        for (int i = 0; i < n_elements; i += 1) {
+            a[i] = b[i];
+        }
     }
-  } else {
-  copy_d2h:
-    for (int i = 0; i < n_elements; i += 1) {
-      a[i] = b[i];
-    }
-  }
 }
 }

@@ -16,18 +16,14 @@
 
 #define BUFFER_SIZE 65536
 extern "C" {
-void krnl_mmult(const unsigned int *input1, const unsigned int *input2,
-                unsigned int *out, unsigned int size) {
-
-  unsigned int v1_buffer[BUFFER_SIZE]; // Local memory to store vector1
+void krnl_mmult(const unsigned int* input1, const unsigned int* input2, unsigned int* out, unsigned int size) {
+    unsigned int v1_buffer[BUFFER_SIZE]; // Local memory to store vector1
 
 Loop1:
-  for (int i = 0; i < BUFFER_SIZE; i++)
-    v1_buffer[i] = input1[i];
+    for (int i = 0; i < BUFFER_SIZE; i++) v1_buffer[i] = input1[i];
 
 Loop_Mult:
-  for (int i = 0; i < size; i++)
-    out[i] = v1_buffer[i] * input2[i];
+    for (int i = 0; i < size; i++) out[i] = v1_buffer[i] * input2[i];
 }
 
 } // End of extern "C"

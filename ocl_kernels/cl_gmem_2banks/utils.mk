@@ -86,7 +86,7 @@ ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 	$(ECHO) 'export XILINX_VITIS=$$PWD' >> run_app.sh
 	$(ECHO) 'export XCL_EMULATION_MODE=$(TARGET)' >> run_app.sh
 endif
-	$(ECHO) '$(EXECUTABLE) -x apply_watermark.xclbin -i input.bmp -c golden.bmp' >> run_app.sh
+	$(ECHO) '$(EXECUTABLE) -x apply_watermark.xclbin -i xilinx_img.bmp -c golden.bmp' >> run_app.sh
 	$(ECHO) 'return_code=$$?' >> run_app.sh
 	$(ECHO) 'if [ $$return_code -ne 0 ]; then' >> run_app.sh
 	$(ECHO) 'echo "ERROR: host run failed, RC=$$return_code"' >> run_app.sh

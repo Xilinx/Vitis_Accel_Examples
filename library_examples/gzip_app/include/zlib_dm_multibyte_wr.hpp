@@ -50,7 +50,6 @@ extern "C" {
  *
  */
 
-void xilZlibDmWriter(uintMemWidth_t *in, uint32_t inputSize,
-                     hls::stream<ap_axiu<16, 0, 0, 0>> &instreamk);
+void xilZlibDmWriter(uintMemWidth_t* in, uint32_t inputSize, hls::stream<ap_axiu<16, 0, 0, 0> >& instreamk);
 }
 #endif // _XFCOMPRESSION_ZLIB_DM_WR_HPP_

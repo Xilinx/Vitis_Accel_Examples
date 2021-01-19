@@ -31,17 +31,17 @@ constexpr unsigned int c_image_size = 16384;
 // stream
 // efficiently.
 struct RGBcolor {
-  unsigned char r;
-  unsigned char g;
-  unsigned char b;
+    unsigned char r;
+    unsigned char g;
+    unsigned char b;
 
-  RGBcolor() = default;
+    RGBcolor() = default;
 
-  RGBcolor(ap_int<32> d) {
-    r = d.range(7, 0);
-    g = d.range(15, 8);
-    b = d.range(23, 16);
-  }
+    RGBcolor(ap_int<32> d) {
+        r = d.range(7, 0);
+        g = d.range(15, 8);
+        b = d.range(23, 16);
+    }
 
 } __attribute__((packed, aligned(4)));
 
@@ -50,10 +50,10 @@ struct RGBcolor {
 // 32 bit to use stream
 // efficiently.
 struct HSVcolor {
-  unsigned char h;
-  unsigned char s;
-  unsigned char v;
+    unsigned char h;
+    unsigned char s;
+    unsigned char v;
 
-  ap_int<32> packed() { return ap_int<8>(h), ap_int<8>(s), ap_int<8>(v); }
+    ap_int<32> packed() { return ap_int<8>(h), ap_int<8>(s), ap_int<8>(v); }
 
 } __attribute__((packed, aligned(4)));

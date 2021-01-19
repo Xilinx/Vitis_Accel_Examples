@@ -23,17 +23,16 @@
 typedef ap_axiu<DWIDTH, 0, 0, 0> pkt;
 
 extern "C" {
-void krnl_stream_vmult(int *in1,              // Read-Only Vector 1
-                       hls::stream<pkt> &in2, // Internal Stream
-                       int *out,              // Output Result
+void krnl_stream_vmult(int* in1,              // Read-Only Vector 1
+                       hls::stream<pkt>& in2, // Internal Stream
+                       int* out,              // Output Result
                        int size               // Size in integer
                        ) {
-
 vmult:
-  for (int i = 0; i < size; i++) {
+    for (int i = 0; i < size; i++) {
 #pragma HLS PIPELINE II = 1
-    pkt v2 = in2.read();
-    out[i] = in1[i] * v2.data;
-  }
+        pkt v2 = in2.read();
+        out[i] = in1[i] * v2.data;
+    }
 }
 }

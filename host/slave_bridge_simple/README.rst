@@ -1,7 +1,7 @@
 Slave Bridge Simple(C)
 ======================
 
-This is simple slave bridge example to describe how a user kernel can access the host memory.
+This is simple slave bridge example to describe how a user kernel can access the host memory. The host memory allocation is done through the host code. The kernel reads data from host memory and writes result to host memory.
 
 **KEY CONCEPTS:** slave bridge, address translation unit
 

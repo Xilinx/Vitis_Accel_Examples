@@ -61,7 +61,7 @@ LAUNCH_EMULATOR = $(PACKAGE_OUT)/launch_$(TARGET).sh
 RESULT_STRING = TEST PASSED
 
 VPP := v++
-CMD_ARGS = -x $(BUILD_DIR)/rgb_to_hsv.xclbin -i ./data/input.bmp
+CMD_ARGS = -x $(BUILD_DIR)/rgb_to_hsv.xclbin -i $(ABS_COMMON_REPO)/common/data/xilinx_logo.bmp
 SDCARD := sd_card
 
 include $(ABS_COMMON_REPO)/common/includes/opencl/opencl.mk
@@ -201,7 +201,7 @@ endif
 ############################## Preparing sdcard ##############################
 sd_card: $(BINARY_CONTAINERS) $(EXECUTABLE) gen_run_app
 ifneq ($(HOST_ARCH), x86)
-	$(VPP) -p $(BUILD_DIR)/rgb_to_hsv.xclbin -t $(TARGET) --platform $(DEVICE) --package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.sd_file $(SD_IMAGE_FILE) --package.sd_file xrt.ini --package.sd_file $(RUN_APP_SCRIPT) --package.sd_file $(EXECUTABLE) --package.sd_file ./data/input.bmp -o rgb_to_hsv.xclbin
+	$(VPP) -p $(BUILD_DIR)/rgb_to_hsv.xclbin -t $(TARGET) --platform $(DEVICE) --package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.sd_file $(SD_IMAGE_FILE) --package.sd_file xrt.ini --package.sd_file $(RUN_APP_SCRIPT) --package.sd_file $(EXECUTABLE) --package.sd_file $(ABS_COMMON_REPO)/common/data/xilinx_logo.bmp -o rgb_to_hsv.xclbin
 endif
 
 ############################## Cleaning Rules ##############################

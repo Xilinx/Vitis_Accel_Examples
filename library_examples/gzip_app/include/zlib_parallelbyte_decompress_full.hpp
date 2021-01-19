@@ -42,9 +42,9 @@
 #define LOW_OFFSET 10
 
 extern "C" {
-void xilDecompressFull(
-    uint32_t input_size, hls::stream<ap_axiu<16, 0, 0, 0>> &inaxistreamd,
-    hls::stream<ap_axiu<MULTIPLE_BYTES * 8, 0, 0, 0>> &outaxistreamd,
-    hls::stream<ap_axiu<64, 0, 0, 0>> &sizestreamd);
+void xilDecompressFull(uint32_t input_size,
+                       hls::stream<ap_axiu<16, 0, 0, 0> >& inaxistreamd,
+                       hls::stream<ap_axiu<MULTIPLE_BYTES * 8, 0, 0, 0> >& outaxistreamd,
+                       hls::stream<ap_axiu<64, 0, 0, 0> >& sizestreamd);
 }
 #endif // _XFCOMPRESSION_ZLIB_DECOMPRESS_STREAM_HPP_

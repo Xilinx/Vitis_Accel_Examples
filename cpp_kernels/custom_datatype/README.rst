@@ -23,7 +23,6 @@ Application code is located in the src directory. Accelerator binary files will 
 
 ::
 
-   data/input.bmp
    src/host.cpp
    src/rgb_to_hsv.cpp
    src/rgb_to_hsv.h
@@ -35,5 +34,5 @@ Once the environment has been configured, the application can be executed by
 
 ::
 
-   ./custom_datatype -x <rgb_to_hsv XCLBIN> -i ./data/input.bmp
+   ./custom_datatype -x <rgb_to_hsv XCLBIN> -i $(ABS_COMMON_REPO)/common/data/xilinx_logo.bmp
 

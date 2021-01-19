@@ -20,28 +20,27 @@
 const int c_size = MAX_DIM;
 
 extern "C" {
-void madd(int *c, int *a, int *b, const int dim0, const int dim1) {
-
-  int matA[MAX_DIM * MAX_DIM];
-  int matB[MAX_DIM * MAX_DIM];
+void madd(int* c, int* a, int* b, const int dim0, const int dim1) {
+    int matA[MAX_DIM * MAX_DIM];
+    int matB[MAX_DIM * MAX_DIM];
 
 // Auto-pipeline is going to apply pipeline to these loops
 madd_readA:
-  for (int i = 0; i < dim0 * dim1; ++i) {
-#pragma HLS LOOP_TRIPCOUNT min = c_size*c_size max = c_size*c_size
-    matA[i] = a[i];
-  }
+    for (int i = 0; i < dim0 * dim1; ++i) {
+#pragma HLS LOOP_TRIPCOUNT min = c_size* c_size max = c_size * c_size
+        matA[i] = a[i];
+    }
 
 madd_readB:
-  for (int i = 0; i < dim0 * dim1; ++i) {
-#pragma HLS LOOP_TRIPCOUNT min = c_size*c_size max = c_size*c_size
-    matB[i] = b[i];
-  }
+    for (int i = 0; i < dim0 * dim1; ++i) {
+#pragma HLS LOOP_TRIPCOUNT min = c_size* c_size max = c_size * c_size
+        matB[i] = b[i];
+    }
 
 madd_writeC:
-  for (int i = 0; i < dim0 * dim1; ++i) {
-#pragma HLS LOOP_TRIPCOUNT min = c_size*c_size max = c_size*c_size
-    c[i] = matA[i] + matB[i];
-  }
+    for (int i = 0; i < dim0 * dim1; ++i) {
+#pragma HLS LOOP_TRIPCOUNT min = c_size* c_size max = c_size * c_size
+        c[i] = matA[i] + matB[i];
+    }
 }
 }

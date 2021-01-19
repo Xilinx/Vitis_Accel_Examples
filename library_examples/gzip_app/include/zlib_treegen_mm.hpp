@@ -54,12 +54,18 @@ extern "C" {
                       hls::stream<ap_axiu<c_codeword_bits, 0, 0, 0> >
    &codeStream);
 */
-void xilTreegenKernel(uint32_t *dyn_ltree_freq, uint32_t *dyn_dtree_freq,
-                      uint32_t *dyn_bltree_freq, uint32_t *dyn_ltree_codes,
-                      uint32_t *dyn_dtree_codes, uint32_t *dyn_bltree_codes,
-                      uint32_t *dyn_ltree_blen, uint32_t *dyn_dtree_blen,
-                      uint32_t *dyn_bltree_blen, uint32_t *max_codes,
-                      uint32_t block_size_in_kb, uint32_t input_size,
+void xilTreegenKernel(uint32_t* dyn_ltree_freq,
+                      uint32_t* dyn_dtree_freq,
+                      uint32_t* dyn_bltree_freq,
+                      uint32_t* dyn_ltree_codes,
+                      uint32_t* dyn_dtree_codes,
+                      uint32_t* dyn_bltree_codes,
+                      uint32_t* dyn_ltree_blen,
+                      uint32_t* dyn_dtree_blen,
+                      uint32_t* dyn_bltree_blen,
+                      uint32_t* max_codes,
+                      uint32_t block_size_in_kb,
+                      uint32_t input_size,
                       uint32_t blocks_per_chunk);
 }
 

@@ -26,8 +26,8 @@ to global memory via memory mapped interface */
 typedef ap_axiu<DWIDTH, 0, 0, 0> pkt;
 
 extern "C" {
-void krnl_s2mm(ap_uint<512> *out,    // Write only memory mapped
-               hls::stream<pkt> &in, // Internal Stream
+void krnl_s2mm(ap_uint<512>* out,    // Write only memory mapped
+               hls::stream<pkt>& in, // Internal Stream
                int size              // Size in integer
                ) {
 #pragma HLS INTERFACE m_axi port = out offset = slave bundle = gmem
@@ -38,12 +38,12 @@ void krnl_s2mm(ap_uint<512> *out,    // Write only memory mapped
 
 data_mover:
 
-  int i = 0;
-  pkt v;
-  // Auto-pipeline is going to apply pipeline to this loop
-  for (int i = 0; i < (size * 32 / 512); i++) {
-    v = in.read();
-    out[i] = v.data;
-  }
+    int i = 0;
+    pkt v;
+    // Auto-pipeline is going to apply pipeline to this loop
+    for (int i = 0; i < (size * 32 / 512); i++) {
+        v = in.read();
+        out[i] = v.data;
+    }
 }
 }

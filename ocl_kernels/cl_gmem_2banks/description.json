@@ -43,6 +43,9 @@
             ]
         }
     }, 
+    "data": [
+        "REPO_DIR/common/data/xilinx_img.bmp"
+    ],
     "v++": {
         "build_datafiles" : [            
             "PROJECT/hls_config.tcl",
@@ -77,7 +80,7 @@
     ], 
     "launch": [
         {
-            "cmd_args": "-x BUILD/apply_watermark.xclbin -i PROJECT/data/input.bmp -c PROJECT/data/golden.bmp", 
+            "cmd_args": "-x BUILD/apply_watermark.xclbin -i REPO_DIR/common/data/xilinx_img.bmp -c PROJECT/data/golden.bmp", 
             "name": "generic launch for all flows"
         }
     ], 

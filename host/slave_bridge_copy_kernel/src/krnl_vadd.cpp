@@ -16,7 +16,7 @@
 #define BUFFER_SIZE 256
 
 extern "C" {
-void krnl_vadd(int *a, int *b, int *out, const int n_elements) {
+void krnl_vadd(int* a, int* b, int* out, const int n_elements) {
 #pragma HLS INTERFACE m_axi port = a offset = slave bundle = gmem
 #pragma HLS INTERFACE s_axilite port = a bundle = control
 #pragma HLS INTERFACE m_axi port = b offset = slave bundle = gmem
@@ -25,23 +25,20 @@ void krnl_vadd(int *a, int *b, int *out, const int n_elements) {
 #pragma HLS INTERFACE s_axilite port = out bundle = control
 #pragma HLS INTERFACE s_axilite port = n_elements bundle = control
 #pragma HLS INTERFACE s_axilite port = return bundle = control
-  int arrayA[BUFFER_SIZE];
-  for (int i = 0; i < n_elements; i += BUFFER_SIZE) {
-    int size = BUFFER_SIZE;
-    // boundary check
-    if (i + size > n_elements)
-      size = n_elements - i;
+    int arrayA[BUFFER_SIZE];
+    for (int i = 0; i < n_elements; i += BUFFER_SIZE) {
+        int size = BUFFER_SIZE;
+        // boundary check
+        if (i + size > n_elements) size = n_elements - i;
 
-  // Burst reading A
-  readA:
-    for (int j = 0; j < size; j++)
-      arrayA[j] = a[i + j];
+    // Burst reading A
+    readA:
+        for (int j = 0; j < size; j++) arrayA[j] = a[i + j];
 
-  // Burst reading B and calculating C and Burst writing
-  // to  Global memory
-  vadd_wrteC:
-    for (int j = 0; j < size; j++)
-      out[i + j] = arrayA[j] + b[i + j];
-  }
+    // Burst reading B and calculating C and Burst writing
+    // to  Global memory
+    vadd_wrteC:
+        for (int j = 0; j < size; j++) out[i + j] = arrayA[j] + b[i + j];
+    }
 }
 }

@@ -56,125 +56,113 @@ Kernel Description :
 // Tripcount identifiers
 __constant int c_size = MAX_SIZE;
 
-__kernel __attribute__((reqd_work_group_size(1, 1, 1))) void
-mmult(__global int *a, // Read-Only Matrix A
-      __global int *b, // Read-Only Matrix B
-      __global int *c, // Output Result
-      int a_row,       // Matrix A Row Size
-      int a_col,       // Matrix A Col Size
-      int b_col        // Matrix B Col Size
-      ) {
+__kernel __attribute__((reqd_work_group_size(1, 1, 1))) void mmult(__global int* a, // Read-Only Matrix A
+                                                                   __global int* b, // Read-Only Matrix B
+                                                                   __global int* c, // Output Result
+                                                                   int a_row,       // Matrix A Row Size
+                                                                   int a_col,       // Matrix A Col Size
+                                                                   int b_col        // Matrix B Col Size
+                                                                   ) {
+    int b_row = a_col;
+    int c_row = a_row;
+    int c_col = b_col;
 
-  int b_row = a_col;
-  int c_row = a_row;
-  int c_col = b_col;
+    // Local memory to store input and output matrices
 
-  // Local memory to store input and output matrices
+    int localA[MAX_SIZE][MAX_SIZE] __attribute__((xcl_array_partition(complete, 1)));
+    ;
+    int localB[MAX_SIZE][MAX_SIZE] __attribute__((xcl_array_partition(complete, 2)));
+    ;
+    int localC[MAX_SIZE][MAX_SIZE] __attribute__((xcl_array_partition(complete, 0)));
+    ;
 
-  int localA[MAX_SIZE][MAX_SIZE]
-      __attribute__((xcl_array_partition(complete, 1)));
-  ;
-  int localB[MAX_SIZE][MAX_SIZE]
-      __attribute__((xcl_array_partition(complete, 2)));
-  ;
-  int localC[MAX_SIZE][MAX_SIZE]
-      __attribute__((xcl_array_partition(complete, 0)));
-  ;
-
-  // Burst reads on input matrices from global memory
-  // Read Input A
-  __attribute__((xcl_pipeline_loop(1)))
-  __attribute__((xcl_loop_tripcount(c_size * c_size, c_size * c_size))) readA
-      : for (int loc = 0, i = 0, j = 0; loc < a_row * a_col; loc++, j++) {
-    if (j == a_col) {
-      i++;
-      j = 0;
+    // Burst reads on input matrices from global memory
+    // Read Input A
+    __attribute__((xcl_pipeline_loop(1))) __attribute__((xcl_loop_tripcount(c_size * c_size, c_size * c_size))) readA
+        : for (int loc = 0, i = 0, j = 0; loc < a_row * a_col; loc++, j++) {
+        if (j == a_col) {
+            i++;
+            j = 0;
+        }
+        localA[i][j] = a[loc];
     }
-    localA[i][j] = a[loc];
-  }
 
-  // Read Input B
-  __attribute__((xcl_pipeline_loop(1)))
-  __attribute__((xcl_loop_tripcount(c_size * c_size, c_size * c_size))) readB
-      : for (int loc = 0, i = 0, j = 0; loc < b_row * b_col; loc++, j++) {
-    if (j == b_col) {
-      i++;
-      j = 0;
+    // Read Input B
+    __attribute__((xcl_pipeline_loop(1))) __attribute__((xcl_loop_tripcount(c_size * c_size, c_size * c_size))) readB
+        : for (int loc = 0, i = 0, j = 0; loc < b_row * b_col; loc++, j++) {
+        if (j == b_col) {
+            i++;
+            j = 0;
+        }
+        localB[i][j] = b[loc];
     }
-    localB[i][j] = b[loc];
-  }
 
-  // Perform systolic matrix multiply
-  // local matrices localA and localB have been partitioned in dimensions
-  // 1 and 2 respectively. local matrix C has been partitioned completely
+    // Perform systolic matrix multiply
+    // local matrices localA and localB have been partitioned in dimensions
+    // 1 and 2 respectively. local matrix C has been partitioned completely
 
-  // This partitioning enables to access MAX_SIZE elements in parallel in
-  // the local matrices. Because of the mode of access of array elements,
-  // we are able to perform MAX_SIZE*MAX_SIZE operations in parallel.
+    // This partitioning enables to access MAX_SIZE elements in parallel in
+    // the local matrices. Because of the mode of access of array elements,
+    // we are able to perform MAX_SIZE*MAX_SIZE operations in parallel.
 
-  // Note : i, j and k loops are interchanged.
+    // Note : i, j and k loops are interchanged.
 
-  // The top loop systolic1 runs only for a_col iterations instead of
-  // MAX_SIZE like the inner loops. The inner loops have fixed loop
-  // iteration counts to enable complete unroll
+    // The top loop systolic1 runs only for a_col iterations instead of
+    // MAX_SIZE like the inner loops. The inner loops have fixed loop
+    // iteration counts to enable complete unroll
 
-  // The following diagram explains how the matrix multiply happens
-  //
-  //        B_0        B_1        B_2        B_3
-  //         |          |          |          |
-  //         v          v          v          v
-  //        ___        ___        ___        ___
-  //       |   |      |   |      |   |      |   |
-  //  A0_->|C00| ---- |C01| ---- |C02| ---- |C03|
-  //       |___|      |___|      |___|      |___|
-  //         |          |          |          |
-  //        ___        ___        ___        ___
-  //       |   |      |   |      |   |      |   |
-  //  A1_->|C10| ---- |C11| ---- |C12| ---- |C13|
-  //       |___|      |___|      |___|      |___|
-  //         |          |          |          |
-  //        ___        ___        ___        ___
-  //       |   |      |   |      |   |      |   |
-  //  A2_->|C20| ---- |C21| ---- |C22| ---- |C23|
-  //       |___|      |___|      |___|      |___|
-  //         |          |          |          |
-  //        ___        ___        ___        ___
-  //       |   |      |   |      |   |      |   |
-  //  A3_->|C30| ---- |C31| ---- |C32| ---- |C33|
-  //       |___|      |___|      |___|      |___|
+    // The following diagram explains how the matrix multiply happens
+    //
+    //        B_0        B_1        B_2        B_3
+    //         |          |          |          |
+    //         v          v          v          v
+    //        ___        ___        ___        ___
+    //       |   |      |   |      |   |      |   |
+    //  A0_->|C00| ---- |C01| ---- |C02| ---- |C03|
+    //       |___|      |___|      |___|      |___|
+    //         |          |          |          |
+    //        ___        ___        ___        ___
+    //       |   |      |   |      |   |      |   |
+    //  A1_->|C10| ---- |C11| ---- |C12| ---- |C13|
+    //       |___|      |___|      |___|      |___|
+    //         |          |          |          |
+    //        ___        ___        ___        ___
+    //       |   |      |   |      |   |      |   |
+    //  A2_->|C20| ---- |C21| ---- |C22| ---- |C23|
+    //       |___|      |___|      |___|      |___|
+    //         |          |          |          |
+    //        ___        ___        ___        ___
+    //       |   |      |   |      |   |      |   |
+    //  A3_->|C30| ---- |C31| ---- |C32| ---- |C33|
+    //       |___|      |___|      |___|      |___|
 
-  __attribute__((xcl_pipeline_loop(1)))
-  __attribute__((xcl_loop_tripcount(c_size, c_size))) systolic1
-      : for (int k = 0; k < a_col; k++) {
-    __attribute__((xcl_loop_tripcount(c_size, c_size))) systolic2
-        : for (int i = 0; i < MAX_SIZE; i++) {
-      __attribute__((xcl_loop_tripcount(c_size, c_size))) systolic3
-          : for (int j = 0; j < MAX_SIZE; j++) {
+    __attribute__((xcl_pipeline_loop(1))) __attribute__((xcl_loop_tripcount(c_size, c_size))) systolic1
+        : for (int k = 0; k < a_col; k++) {
+        __attribute__((xcl_loop_tripcount(c_size, c_size))) systolic2 : for (int i = 0; i < MAX_SIZE; i++) {
+            __attribute__((xcl_loop_tripcount(c_size, c_size))) systolic3 : for (int j = 0; j < MAX_SIZE; j++) {
+                // Get previous sum
+                int last = (k == 0) ? 0 : localC[i][j];
 
-        // Get previous sum
-        int last = (k == 0) ? 0 : localC[i][j];
+                // Update current sum
+                // Handle boundary conditions
+                int a_val = (i < a_row && k < a_col) ? localA[i][k] : 0;
+                int b_val = (k < b_row && j < b_col) ? localB[k][j] : 0;
+                int result = last + a_val * b_val;
 
-        // Update current sum
-        // Handle boundary conditions
-        int a_val = (i < a_row && k < a_col) ? localA[i][k] : 0;
-        int b_val = (k < b_row && j < b_col) ? localB[k][j] : 0;
-        int result = last + a_val * b_val;
-
-        // Write back results
-        localC[i][j] = result;
-      }
+                // Write back results
+                localC[i][j] = result;
+            }
+        }
     }
-  }
 
-  // Burst write from output matrices to global memory
-  // Burst write from matrix C
-  __attribute__((xcl_pipeline_loop(1)))
-  __attribute__((xcl_loop_tripcount(c_size * c_size, c_size * c_size))) writeC
-      : for (int loc = 0, i = 0, j = 0; loc < c_row * c_col; loc++, j++) {
-    if (j == c_col) {
-      i++;
-      j = 0;
+    // Burst write from output matrices to global memory
+    // Burst write from matrix C
+    __attribute__((xcl_pipeline_loop(1))) __attribute__((xcl_loop_tripcount(c_size * c_size, c_size * c_size))) writeC
+        : for (int loc = 0, i = 0, j = 0; loc < c_row * c_col; loc++, j++) {
+        if (j == c_col) {
+            i++;
+            j = 0;
+        }
+        c[loc] = localC[i][j];
     }
-    c[loc] = localC[i][j];
-  }
 }

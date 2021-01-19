@@ -20,7 +20,7 @@
 #define DWIDTH 512
 typedef qdma_axis<DWIDTH, 0, 0, 0> pkt;
 extern "C" {
-void increment(hls::stream<pkt> &input, hls::stream<pkt> &output) {
+void increment(hls::stream<pkt>& input, hls::stream<pkt>& output) {
 #pragma HLS interface axis port = input
 #pragma HLS interface axis port = output
 
@@ -30,27 +30,26 @@ void increment(hls::stream<pkt> &input, hls::stream<pkt> &output) {
 #pragma HLS interface ap_ctrl_none port = return
 
 increment1:
-  while (true) {
-    // Read the input data from the qdma
-    pkt t = input.read();
-    pkt t_out;
-    ap_uint<DWIDTH> tmp_out;
+    while (true) {
+        // Read the input data from the qdma
+        pkt t = input.read();
+        pkt t_out;
+        ap_uint<DWIDTH> tmp_out;
 
-    // Setup the output data
-    ap_uint<DWIDTH> tmp = t.data;
-    for (int i = 0; i < 16; i++) {
+        // Setup the output data
+        ap_uint<DWIDTH> tmp = t.data;
+        for (int i = 0; i < 16; i++) {
 #pragma HLS UNROLL
-      tmp_out.range((i + 1) * 32 - 1, i * 32) =
-          tmp.range((i + 1) * 32 - 1, i * 32) + 1;
-    }
-    t_out.data = tmp_out;
-    t_out.set_keep(-1);
-    t_out.set_last(0);
+            tmp_out.range((i + 1) * 32 - 1, i * 32) = tmp.range((i + 1) * 32 - 1, i * 32) + 1;
+        }
+        t_out.data = tmp_out;
+        t_out.set_keep(-1);
+        t_out.set_last(0);
 
-    if (t.get_last()) {
-      t_out.set_last(1);
+        if (t.get_last()) {
+            t_out.set_last(1);
+        }
+        output.write(t_out);
     }
-    output.write(t_out);
-  }
 }
 }
