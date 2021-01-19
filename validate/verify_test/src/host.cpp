@@ -77,9 +77,9 @@ int main(int argc, char** argv) {
     auto fileBuf = xcl::read_binary_file(binaryFile);
     cl::Program::Binaries bins{{fileBuf.data(), fileBuf.size()}};
 
-    int found = dev_id.find(":");
+    auto pos = dev_id.find(":");
     cl::Device device;
-    if (found == -1) {
+    if (pos == std::string::npos) {
         uint32_t device_index = stoi(dev_id);
         if (device_index >= devices.size()) {
             std::cout << "The device_index provided using -d flag is outside the range of "
@@ -92,7 +92,7 @@ int main(int argc, char** argv) {
             std::cout << "Device bdf is not supported for the emulation flow\n";
             return EXIT_FAILURE;
         }
-        device = xcl::find_device_bdf(dev_id);
+        device = xcl::find_device_bdf(devices, dev_id);
     }
 
     // Creating Context and Command Queue for selected Device

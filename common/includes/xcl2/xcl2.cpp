@@ -62,8 +62,7 @@ std::vector<cl::Device> get_xil_devices() {
     return get_devices("Xilinx");
 }
 
-cl::Device find_device_bdf(const std::string& bdf) {
-    auto devices = xcl::get_xil_devices();
+cl::Device find_device_bdf(const std::vector<cl::Device>& devices, const std::string& bdf) {
     char device_bdf[20];
     cl_int err;
     cl::Device device;
@@ -85,7 +84,7 @@ cl::Device find_device_bdf(const std::string& bdf) {
 std::vector<unsigned char> read_binary_file(const std::string& xclbin_file_name) {
     std::cout << "INFO: Reading " << xclbin_file_name << std::endl;
     FILE* fp;
-    if ((fp = fopen(xclbin_file_name.c_str(), "r")) == NULL) {
+    if ((fp = fopen(xclbin_file_name.c_str(), "r")) == nullptr) {
         printf("ERROR: %s xclbin not available please build\n", xclbin_file_name.c_str());
         exit(EXIT_FAILURE);
     }
@@ -104,7 +103,7 @@ std::vector<unsigned char> read_binary_file(const std::string& xclbin_file_name)
 bool is_emulation() {
     bool ret = false;
     char* xcl_mode = getenv("XCL_EMULATION_MODE");
-    if (xcl_mode != NULL) {
+    if (xcl_mode != nullptr) {
         ret = true;
     }
     return ret;
@@ -113,19 +112,19 @@ bool is_emulation() {
 bool is_hw_emulation() {
     bool ret = false;
     char* xcl_mode = getenv("XCL_EMULATION_MODE");
-    if ((xcl_mode != NULL) && !strcmp(xcl_mode, "hw_emu")) {
+    if ((xcl_mode != nullptr) && !strcmp(xcl_mode, "hw_emu")) {
         ret = true;
     }
     return ret;
 }
-double roundOff(double n) {
+double round_off(double n) {
     double d = n * 100.0;
     int i = d + 0.5;
     d = i / 100.0;
     return d;
 }
 
-std::string convertSize(size_t size) {
+std::string convert_size(size_t size) {
     static const char* SIZES[] = {"B", "KB", "MB", "GB"};
     uint32_t div = 0;
     size_t rem = 0;
@@ -137,7 +136,7 @@ std::string convertSize(size_t size) {
     }
 
     double size_d = (float)size + (float)rem / 1024.0;
-    double size_val = roundOff(size_d);
+    double size_val = round_off(size_d);
 
     std::stringstream stream;
     stream << std::fixed << std::setprecision(2) << size_val;
@@ -149,7 +148,7 @@ std::string convertSize(size_t size) {
 bool is_xpr_device(const char* device_name) {
     const char* output = strstr(device_name, "xpr");
 
-    if (output == NULL) {
+    if (output == nullptr) {
         return false;
     } else {
         return true;

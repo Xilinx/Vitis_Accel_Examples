@@ -194,7 +194,7 @@ int main(int argc, char* argv[]) {
     size_t max_size = 1024 * 1024 * 1024; // 1GB size
     std::cout << "Start P2P copy of various Buffer sizes from device1 to device2 \n";
     for (size_t bufsize = min_buffer; bufsize <= vector_size_bytes; bufsize *= 2) {
-        std::string size_str = xcl::convertSize(bufsize);
+        std::string size_str = xcl::convert_size(bufsize);
         std::chrono::high_resolution_clock::time_point p2pWriteStart = std::chrono::high_resolution_clock::now();
         int iter = max_size / bufsize;
         if (xcl::is_emulation()) {
