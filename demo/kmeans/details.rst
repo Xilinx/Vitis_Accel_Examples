@@ -3,7 +3,7 @@ Kmeans
 
 The application sets two compute units by default so that it will fit
 all Xilinx Devices. For bigger Xilinx Devices, user can increase the
-number of Compute units in krnl_kmeans.ini, kmeans_config.h and
+number of Compute units in krnl_kmeans.cfg, kmeans_config.h and
 config.mk files for achieving better performance. It is tested upto 8
 compute units for U200 device and got better results when compared to
 single compute units, which shows that application is more compute bound

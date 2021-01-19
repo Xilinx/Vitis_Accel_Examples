@@ -67,7 +67,7 @@
                 }
             ], 
             "name": "adder",
-            "ldclflags": "--config PROJECT/adder.ini"
+            "ldclflags": "--config PROJECT/adder.cfg"
         }
     ],
     "contributors": [

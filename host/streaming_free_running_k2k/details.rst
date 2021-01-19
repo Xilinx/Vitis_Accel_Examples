@@ -36,7 +36,7 @@ ports do not need ``clSetKernelArg`` from host code.
 
 Producer kernel ``mem_read`` streaming output port needs to be connected
 to consumer kernel ``increment`` stream input port during ``v++`` using
-``krnl_incr.ini`` file as below:
+``krnl_incr.cfg`` file as below:
 
 ::
 
@@ -51,4 +51,4 @@ connection. This connectivity file is provided to v++ command as below:
 
 ::
 
-    --config krnl_incr.ini
+    --config krnl_incr.cfg

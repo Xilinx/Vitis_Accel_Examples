@@ -39,7 +39,7 @@
     "v++": {
         "build_datafiles" : [            
             "PROJECT/hls_config.tcl",
-            "PROJECT/krnl_port_widen.ini"
+            "PROJECT/krnl_port_widen.cfg"
         ]
      },
     "containers": [
@@ -51,7 +51,7 @@
                 },
                 {
                     "name": "krnl_widen",
-                    "clflags": "--config krnl_port_widen.ini", 
+                    "clflags": "--config krnl_port_widen.cfg", 
                     "location": "src/krnl_widen.cpp"
                 }
             ], 

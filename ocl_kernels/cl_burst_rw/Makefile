@@ -87,7 +87,7 @@ CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps
 ifneq ($(TARGET), hw)
 	CLFLAGS += -g
 endif
-CLFLAGS_vadd +=  --config ./vadd_vadd.ini
+CLFLAGS_vadd +=  --config ./vadd_vadd.cfg
 
 
 

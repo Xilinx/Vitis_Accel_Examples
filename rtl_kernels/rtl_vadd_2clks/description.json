@@ -49,7 +49,7 @@
                 }
             ], 
             "name": "vadd",
-	    "ldclflags": "--config PROJECT/vadd.ini"
+	    "ldclflags": "--config PROJECT/vadd.cfg"
         }
     ], 
     "launch": [

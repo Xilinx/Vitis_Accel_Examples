@@ -31,7 +31,7 @@
     "v++": {
         "build_datafiles" : [            
             "PROJECT/hls_config.tcl",
-            "PROJECT/bandwidth.ini"
+            "PROJECT/bandwidth.cfg"
         ]
      },
     "containers": [
@@ -40,7 +40,7 @@
                 {
                     "name": "bandwidth", 
                     "location": "src/kernel.cpp",
-                    "clflags": "--config PROJECT/bandwidth.ini"
+                    "clflags": "--config PROJECT/bandwidth.cfg"
                 }
             ], 
             "name": "krnl_kernel_global"

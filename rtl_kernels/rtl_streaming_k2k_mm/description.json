@@ -80,7 +80,7 @@
                 } 
             ], 
             "name": "myadder",
-	    "ldclflags": "--config PROJECT/myadder.ini"
+	    "ldclflags": "--config PROJECT/myadder.cfg"
         }
     ], 
     "testinfo": {

@@ -47,8 +47,7 @@
     }, 
     "v++": {
         "build_datafiles" : [            
-            "PROJECT/postSysLink.tcl",
-            "PROJECT/rama_ip.ini"
+            "PROJECT/postSysLink.tcl"
         ]
      },
     "containers": [

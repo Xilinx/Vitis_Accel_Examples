@@ -13,11 +13,11 @@ hls_config.tcl file
    config_interface -m_axi_max_widen_bitwidth 256
 
 The interface size setting need to be specified in hls_config.tcl file.
-We include this tcl file in our krnl_port_widen.ini file and by using
+We include this tcl file in our krnl_port_widen.cfg file and by using
 the ``--config`` tag in the kernel compile stage we specify the m_axi
 interface size.
 
-Following is the content of ini file
+Following is the content of cfg file
 
 .. code:: cpp
 

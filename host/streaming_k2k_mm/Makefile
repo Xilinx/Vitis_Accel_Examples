@@ -90,7 +90,7 @@ endif
 
 
 # Kernel linker flags
-LDCLFLAGS += --config ./krnl_stream_vadd_vmult.ini
+LDCLFLAGS += --config ./krnl_stream_vadd_vmult.cfg
 
 EXECUTABLE = ./streaming_k2k_mm
 EMCONFIG_DIR = $(TEMP_DIR)

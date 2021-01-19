@@ -84,7 +84,7 @@ endif
 
 
 # Kernel linker flags
-LDCLFLAGS += --config ./krnl_vadd.ini
+LDCLFLAGS += --config ./krnl_vadd.cfg
 
 EXECUTABLE = ./slave_bridge_simple.exe
 EMCONFIG_DIR = $(TEMP_DIR)

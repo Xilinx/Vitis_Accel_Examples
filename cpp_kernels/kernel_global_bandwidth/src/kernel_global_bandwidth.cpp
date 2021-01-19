@@ -23,18 +23,18 @@
 *  ***************************************************************************************
 *  XSA  (2DDR):
 *
-*  1. Add a .ini file in the <Project>/src folder with the following entries:
+*  1. Add a .cfg file in the <Project>/src folder with the following entries:
 *  	    [Connecttivity]
 *  	    sp=bandwidth_1.m_axi_gmem0:DDR[0]
 *     	    sp=bandwidth_1.m_axi_gmem1:DDR[1]
 *
 *     For more number of DDR connections add more sp tags as shown above in the
-*ini file.
+*cfg file.
 *     Note : Replace DDR[0] with HP0, DDR[1] with HP1 for embedded platforms(zc)
 *  2.<Vitis Project> > Properties > C/C++ Build > Settings > Vitis V++ Kernel
 *Linker
 *                  > Miscellaneous > Other flags
-*     --config ../src/<config_file>.ini
+*     --config ../src/<config_file>.cfg
 *  3. Default number of banks for CLI flow is 2 banks, for GUI flow is 1 bank.
 *     For 3 or 4 DDR connections, "#define NDDR_BANKS <3 or 4>" at the top of
 *kernel.cpp

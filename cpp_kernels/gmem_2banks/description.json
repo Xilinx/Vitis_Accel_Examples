@@ -49,7 +49,7 @@
     "v++": {
         "build_datafiles" : [            
             "PROJECT/hls_config.tcl",
-            "PROJECT/bandwidth.ini"
+            "PROJECT/bandwidth.cfg"
         ]
      },
     "key_concepts": [
@@ -86,7 +86,7 @@
                     ], 
                     "name": "apply_watermark", 
                     "location": "src/apply_watermark.cpp",
-                    "clflags": "--config PROJECT/bandwidth.ini"
+                    "clflags": "--config PROJECT/bandwidth.cfg"
                 }
             ], 
             "name": "apply_watermark"

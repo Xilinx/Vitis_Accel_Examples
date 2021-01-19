@@ -87,7 +87,7 @@ CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps
 ifneq ($(TARGET), hw)
 	CLFLAGS += -g
 endif
-CLFLAGS_krnl_widen +=  --config krnl_port_widen.ini
+CLFLAGS_krnl_widen +=  --config krnl_port_widen.cfg
 
 
 

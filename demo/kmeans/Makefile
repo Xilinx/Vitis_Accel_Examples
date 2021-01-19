@@ -93,7 +93,7 @@ endif
 
 
 # Kernel linker flags
-LDCLFLAGS += --config krnl_kmeans.ini -O3
+LDCLFLAGS += --config krnl_kmeans.cfg -O3
 
 EXECUTABLE = ./kmeans
 EMCONFIG_DIR = $(TEMP_DIR)

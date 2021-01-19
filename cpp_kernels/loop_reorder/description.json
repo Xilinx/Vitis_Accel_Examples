@@ -35,7 +35,7 @@
     "v++": {
         "build_datafiles" : [            
             "PROJECT/hls_config.tcl",
-            "PROJECT/mmult_mmult.ini"
+            "PROJECT/mmult_mmult.cfg"
         ]
      },
     "containers": [
@@ -43,7 +43,7 @@
             "accelerators": [
                 {
                     "location": "src/mmult.cpp", 
-                    "clflags": "--config PROJECT/mmult_mmult.ini", 
+                    "clflags": "--config PROJECT/mmult_mmult.cfg", 
                     "name": "mmult"
                 }
             ], 

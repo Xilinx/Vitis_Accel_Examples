@@ -93,7 +93,7 @@ endif
 CXXFLAGS += -DC_COMPUTE_UNIT=1 -DH_COMPUTE_UNIT=1 -DD_COMPUTE_UNIT=1 -DPARALLEL_BLOCK=8 -DGZIP_MODE -DOVERLAP_HOST_DEVICE
 
 # Kernel linker flags
-LDCLFLAGS += --kernel_frequency 250 --config ./opts.ini
+LDCLFLAGS += --kernel_frequency 250 --config ./opts.cfg
 
 EXECUTABLE = ./xil_gzip
 EMCONFIG_DIR = $(TEMP_DIR)
@@ -101,7 +101,7 @@ EMU_DIR = $(SDCARD)/data/emulation
 
 VPP_FLAGS += -I./include
 
-VPP_FLAGS += --config ./advanced.ini
+VPP_FLAGS += --config ./advanced.cfg
 
 VPP_FLAGS += -DPARALLEL_BLOCK=8 -DMULTIPLE_BYTES=8 -DGZIP_MODE 
 
