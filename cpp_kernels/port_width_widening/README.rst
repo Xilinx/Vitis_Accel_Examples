@@ -23,9 +23,12 @@ Application code is located in the src directory. Accelerator binary files will 
 
 ::
 
+   src/dot_product_1.cpp
+   src/dot_product_2.cpp
+   src/dot_product_3.cpp
+   src/dot_product_4.cpp
+   src/dot_product_5.cpp
    src/host.cpp
-   src/krnl_base.cpp
-   src/krnl_widen.cpp
    
 COMMAND LINE ARGUMENTS
 ----------------------

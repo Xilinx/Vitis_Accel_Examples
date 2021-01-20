@@ -12,7 +12,7 @@
     ],
     "platform_blacklist": [
         "nodma"
-     ],    
+     ],
     "contributors": [
         {
             "group": "Xilinx"
@@ -25,7 +25,7 @@
         "OpenCL"
     ], 
     "host": {
-        "host_exe": "port_width_widening",
+        "host_exe": "port_width_widening", 
         "compiler": {
             "sources": [
                 "REPO_DIR/common/includes/xcl2/xcl2.cpp",
@@ -39,20 +39,32 @@
     "v++": {
         "build_datafiles" : [            
             "PROJECT/hls_config.tcl",
-            "PROJECT/krnl_port_widen.cfg"
+            "PROJECT/krnl_dot_product_4.cfg"
         ]
      },
     "containers": [
         {
             "accelerators": [
                 {
-                    "name": "krnl_base", 
-                    "location": "src/krnl_base.cpp"
+                    "name": "dot_product_1", 
+                    "location": "src/dot_product_1.cpp"
                 },
                 {
-                    "name": "krnl_widen",
-                    "clflags": "--config krnl_port_widen.cfg", 
-                    "location": "src/krnl_widen.cpp"
+                    "name": "dot_product_2",
+                    "location": "src/dot_product_2.cpp"
+                },
+                {
+                    "name": "dot_product_3",
+                    "location": "src/dot_product_3.cpp"
+                },
+                {
+                    "name": "dot_product_4",
+                    "clflags": "--config krnl_dot_product_4.cfg", 
+                    "location": "src/dot_product_4.cpp"
+                },
+                {
+                    "name": "dot_product_5",
+                    "location": "src/dot_product_5.cpp"
                 }
             ], 
             "name": "krnl_port_widen"

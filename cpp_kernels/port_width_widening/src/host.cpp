@@ -1,30 +1,49 @@
-/**
-* Copyright (C) 2020 Xilinx, Inc
-*
-* Licensed under the Apache License, Version 2.0 (the "License"). You may
-* not use this file except in compliance with the License. A copy of the
-* License is located at
-*
-*     http://www.apache.org/licenses/LICENSE-2.0
-*
-* Unless required by applicable law or agreed to in writing, software
-* distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
-* WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
-* License for the specific language governing permissions and limitations
-* under the License.
-*/
-#include "xcl2.hpp"
+/**********
+Copyright (c) 2020, Xilinx, Inc.
+All rights reserved.
 
+Redistribution and use in source and binary forms, with or without modification,
+are permitted provided that the following conditions are met:
+
+1. Redistributions of source code must retain the above copyright notice,
+this list of conditions and the following disclaimer.
+
+2. Redistributions in binary form must reproduce the above copyright notice,
+this list of conditions and the following disclaimer in the documentation
+and/or other materials provided with the distribution.
+
+3. Neither the name of the copyright holder nor the names of its contributors
+may be used to endorse or promote products derived from this software
+without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ARE DISCLAIMED.
+IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
+INDIRECT,
+INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+LIMITED TO,
+PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR
+BUSINESS INTERRUPTION)
+HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+LIABILITY,
+OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+THIS SOFTWARE,
+EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+**********/
+#include "xcl2.hpp"
 #include <algorithm>
 #include <iostream>
 #include <random>
+#include <stdint.h>
 #include <vector>
 
-constexpr int DATA_SIZE = 512;
+constexpr int DATA_SIZE = 1024;
 
 // Compare the results of the Device to the simulation
-void verify(const std::vector<int, aligned_allocator<int> >& gold,
-            const std::vector<int, aligned_allocator<int> >& out) {
+void verify(const std::vector<uint64_t, aligned_allocator<uint64_t> >& gold,
+            const std::vector<uint64_t, aligned_allocator<uint64_t> >& out) {
     bool match = true;
     for (int i = 0; i < DATA_SIZE; i++) {
         if (out[i] != gold[i]) {
@@ -40,27 +59,11 @@ void verify(const std::vector<int, aligned_allocator<int> >& gold,
     }
 }
 
-void loop_sequential_sw(const std::vector<int, aligned_allocator<int> >& A,
-                        const std::vector<int, aligned_allocator<int> >& B,
-                        std::vector<int, aligned_allocator<int> >& RES) {
-    int X_accum = 0;
-    int Y_accum = 0;
-    int i;
-    int X_aux[DATA_SIZE];
-    int y_aux[DATA_SIZE];
-
-    for (i = 0; i < DATA_SIZE; i++) {
-        X_accum += A[i];
-        X_aux[i] = X_accum;
-    }
-
-    for (i = 0; i < DATA_SIZE; i++) {
-        Y_accum += B[i];
-        y_aux[i] = Y_accum;
-    }
-
-    for (i = 0; i < DATA_SIZE; i++) {
-        RES[i] = X_aux[i] * y_aux[i];
+void loop_sequential_sw(const std::vector<uint32_t, aligned_allocator<uint32_t> >& A,
+                        const std::vector<uint32_t, aligned_allocator<uint32_t> >& B,
+                        std::vector<uint64_t, aligned_allocator<uint64_t> >& RES) {
+    for (int i = 0; i < DATA_SIZE; i++) {
+        RES[i] = A[i] * B[i];
     }
 }
 
@@ -73,21 +76,22 @@ int main(int argc, char** argv) {
     std::string binaryFile = argv[1];
 
     // compute the size of array in bytes
-    size_t size_in_bytes = DATA_SIZE * sizeof(int);
+    size_t input_size_in_bytes = DATA_SIZE * sizeof(uint32_t);
+    size_t output_size_in_bytes = DATA_SIZE * sizeof(uint64_t);
     cl_int err;
     cl::CommandQueue q;
     cl::Context context;
     cl::Program program;
 
-    /* less iteration for emulation mode */
-    int iteration = xcl::is_emulation() ? 2 : 1000;
+    /* less repeatitions for emulation mode */
+    int reps = xcl::is_emulation() ? 2 : 1000000;
 
-    std::vector<int, aligned_allocator<int> > source_a(DATA_SIZE);
-    std::vector<int, aligned_allocator<int> > source_b(DATA_SIZE);
-    std::vector<int, aligned_allocator<int> > source_sw_results(DATA_SIZE);
-    std::vector<int, aligned_allocator<int> > source_a_sw(DATA_SIZE);
-    std::vector<int, aligned_allocator<int> > source_b_sw(DATA_SIZE);
-    std::vector<int, aligned_allocator<int> > source_hw_results(DATA_SIZE);
+    std::vector<uint32_t, aligned_allocator<uint32_t> > source_a(DATA_SIZE);
+    std::vector<uint32_t, aligned_allocator<uint32_t> > source_b(DATA_SIZE);
+    std::vector<uint64_t, aligned_allocator<uint64_t> > source_sw_results(DATA_SIZE);
+    std::vector<uint32_t, aligned_allocator<uint32_t> > source_a_sw(DATA_SIZE);
+    std::vector<uint32_t, aligned_allocator<uint32_t> > source_b_sw(DATA_SIZE);
+    std::vector<uint64_t, aligned_allocator<uint64_t> > source_hw_results(DATA_SIZE);
 
     // Create the test data
     std::generate(source_a.begin(), source_a.end(), std::rand);
@@ -130,57 +134,116 @@ int main(int argc, char** argv) {
     loop_sequential_sw(source_a, source_b, source_sw_results);
 
     // Allocate Buffer in Global Memory
-    OCL_CHECK(err, cl::Buffer buffer_a(context, CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY, size_in_bytes, source_a.data(),
-                                       &err));
-    OCL_CHECK(err, cl::Buffer buffer_b(context, CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY, size_in_bytes, source_b.data(),
-                                       &err));
-    OCL_CHECK(err, cl::Buffer buffer_result(context, CL_MEM_USE_HOST_PTR | CL_MEM_WRITE_ONLY, size_in_bytes,
+    OCL_CHECK(err, cl::Buffer buffer_a(context, CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY, input_size_in_bytes,
+                                       source_a.data(), &err));
+    OCL_CHECK(err, cl::Buffer buffer_b(context, CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY, input_size_in_bytes,
+                                       source_b.data(), &err));
+    OCL_CHECK(err, cl::Buffer buffer_result(context, CL_MEM_USE_HOST_PTR | CL_MEM_WRITE_ONLY, output_size_in_bytes,
                                             source_hw_results.data(), &err));
 
-    OCL_CHECK(err, cl::Kernel kernel_base(program, "krnl_base", &err));
+    OCL_CHECK(err, cl::Kernel dot_product_1(program, "dot_product_1", &err));
 
-    OCL_CHECK(err, err = kernel_base.setArg(0, buffer_a));
-    OCL_CHECK(err, err = kernel_base.setArg(1, buffer_b));
-    OCL_CHECK(err, err = kernel_base.setArg(2, buffer_result));
+    OCL_CHECK(err, err = dot_product_1.setArg(0, buffer_a));
+    OCL_CHECK(err, err = dot_product_1.setArg(1, buffer_b));
+    OCL_CHECK(err, err = dot_product_1.setArg(2, buffer_result));
+    OCL_CHECK(err, err = dot_product_1.setArg(3, DATA_SIZE));
+    OCL_CHECK(err, err = dot_product_1.setArg(4, reps));
 
     // Copy input data to device global memory
     OCL_CHECK(err, err = q.enqueueMigrateMemObjects({buffer_a, buffer_b}, 0 /* 0 means from host*/));
     auto total_start = std::chrono::high_resolution_clock::now();
-    for (int i = 0; i < iteration; i++) {
-        OCL_CHECK(err, err = q.enqueueTask(kernel_base));
-    }
+    OCL_CHECK(err, err = q.enqueueTask(dot_product_1));
+    q.finish();
     auto total_end = std::chrono::high_resolution_clock::now();
-    auto krnl_base_time_ns = std::chrono::duration<double, std::nano>(total_end - total_start);
+    auto dot_product_1_time_ns = std::chrono::duration<double, std::nano>(total_end - total_start);
     // Copy Result from Device Global Memory to Host Local Memory
     OCL_CHECK(err, err = q.enqueueMigrateMemObjects({buffer_result}, CL_MIGRATE_MEM_OBJECT_HOST));
     q.finish();
     verify(source_sw_results, source_hw_results);
 
-    OCL_CHECK(err, cl::Kernel kernel_widen(program, "krnl_widen", &err));
+    OCL_CHECK(err, cl::Kernel dot_product_2(program, "dot_product_2", &err));
 
-    OCL_CHECK(err, err = kernel_widen.setArg(0, buffer_a));
-    OCL_CHECK(err, err = kernel_widen.setArg(1, buffer_b));
-    OCL_CHECK(err, err = kernel_widen.setArg(2, buffer_result));
+    OCL_CHECK(err, err = dot_product_2.setArg(0, buffer_a));
+    OCL_CHECK(err, err = dot_product_2.setArg(1, buffer_b));
+    OCL_CHECK(err, err = dot_product_2.setArg(2, buffer_result));
+    OCL_CHECK(err, err = dot_product_2.setArg(3, DATA_SIZE));
+    OCL_CHECK(err, err = dot_product_2.setArg(4, reps));
 
     total_start = std::chrono::high_resolution_clock::now();
-    for (int i = 0; i < iteration; i++) {
-        OCL_CHECK(err, err = q.enqueueTask(kernel_widen));
-    }
+    OCL_CHECK(err, err = q.enqueueTask(dot_product_2));
+    q.finish();
     total_end = std::chrono::high_resolution_clock::now();
-    auto krnl_widen_time_ns = std::chrono::duration<double, std::nano>(total_end - total_start);
+    auto dot_product_2_time_ns = std::chrono::duration<double, std::nano>(total_end - total_start);
+    // Copy Result from Device Global Memory to Host Local Memory
+    OCL_CHECK(err, err = q.enqueueMigrateMemObjects({buffer_result}, CL_MIGRATE_MEM_OBJECT_HOST));
+    q.finish();
+    verify(source_sw_results, source_hw_results);
+
+    OCL_CHECK(err, cl::Kernel dot_product_3(program, "dot_product_3", &err));
+
+    OCL_CHECK(err, err = dot_product_3.setArg(0, buffer_a));
+    OCL_CHECK(err, err = dot_product_3.setArg(1, buffer_b));
+    OCL_CHECK(err, err = dot_product_3.setArg(2, buffer_result));
+    OCL_CHECK(err, err = dot_product_3.setArg(3, DATA_SIZE));
+    OCL_CHECK(err, err = dot_product_3.setArg(4, reps));
+
+    total_start = std::chrono::high_resolution_clock::now();
+    OCL_CHECK(err, err = q.enqueueTask(dot_product_3));
+    q.finish();
+    total_end = std::chrono::high_resolution_clock::now();
+    auto dot_product_3_time_ns = std::chrono::duration<double, std::nano>(total_end - total_start);
+    // Copy Result from Device Global Memory to Host Local Memory
+    OCL_CHECK(err, err = q.enqueueMigrateMemObjects({buffer_result}, CL_MIGRATE_MEM_OBJECT_HOST));
+    q.finish();
+    verify(source_sw_results, source_hw_results);
+
+    OCL_CHECK(err, cl::Kernel dot_product_4(program, "dot_product_4", &err));
+
+    OCL_CHECK(err, err = dot_product_4.setArg(0, buffer_a));
+    OCL_CHECK(err, err = dot_product_4.setArg(1, buffer_b));
+    OCL_CHECK(err, err = dot_product_4.setArg(2, buffer_result));
+    OCL_CHECK(err, err = dot_product_4.setArg(3, DATA_SIZE));
+    OCL_CHECK(err, err = dot_product_4.setArg(4, reps));
+
+    total_start = std::chrono::high_resolution_clock::now();
+    OCL_CHECK(err, err = q.enqueueTask(dot_product_4));
+    q.finish();
+    total_end = std::chrono::high_resolution_clock::now();
+    auto dot_product_4_time_ns = std::chrono::duration<double, std::nano>(total_end - total_start);
+    // Copy Result from Device Global Memory to Host Local Memory
+    OCL_CHECK(err, err = q.enqueueMigrateMemObjects({buffer_result}, CL_MIGRATE_MEM_OBJECT_HOST));
+    q.finish();
+    verify(source_sw_results, source_hw_results);
+
+    OCL_CHECK(err, cl::Kernel dot_product_5(program, "dot_product_5", &err));
+
+    OCL_CHECK(err, err = dot_product_5.setArg(0, buffer_a));
+    OCL_CHECK(err, err = dot_product_5.setArg(1, buffer_b));
+    OCL_CHECK(err, err = dot_product_5.setArg(2, buffer_result));
+    OCL_CHECK(err, err = dot_product_5.setArg(3, DATA_SIZE));
+    OCL_CHECK(err, err = dot_product_5.setArg(4, reps));
+
+    total_start = std::chrono::high_resolution_clock::now();
+    OCL_CHECK(err, err = q.enqueueTask(dot_product_5));
+    q.finish();
+    total_end = std::chrono::high_resolution_clock::now();
+    auto dot_product_5_time_ns = std::chrono::duration<double, std::nano>(total_end - total_start);
     // Copy Result from Device Global Memory to Host Local Memory
     OCL_CHECK(err, err = q.enqueueMigrateMemObjects({buffer_result}, CL_MIGRATE_MEM_OBJECT_HOST));
     q.finish();
     verify(source_sw_results, source_hw_results);
 
     printf(
-        "|-------------------------+-------------------------|\n"
-        "| Kernel(%3d iterations)  |  Wall-Clock Time (ms) |\n"
-        "|-------------------------+-------------------------|\n",
-        iteration);
-    std::cout << "| krnl_base \t\t  |\t" << krnl_base_time_ns.count() / 1000000 << std::endl;
-    std::cout << "| krnl_widen\t\t  |\t" << krnl_widen_time_ns.count() / 1000000 << std::endl;
-    std::cout << "|-------------------------+-------------------------|" << std::endl;
+        "|-------------------------+-----------------------|\n"
+        "| Kernel(%3d repeatitions)|  Wall-Clock Time (sec) |\n"
+        "|-------------------------+-----------------------|\n",
+        reps);
+    std::cout << "| dot_product_1\t\t  |\t" << dot_product_1_time_ns.count() / 1000000000 << "\t  |" << std::endl;
+    std::cout << "| dot_product_2\t\t  |\t" << dot_product_2_time_ns.count() / 1000000000 << "\t  |" << std::endl;
+    std::cout << "| dot_product_3\t\t  |\t" << dot_product_3_time_ns.count() / 1000000000 << "\t  |" << std::endl;
+    std::cout << "| dot_product_4\t\t  |\t" << dot_product_4_time_ns.count() / 1000000000 << "\t  |" << std::endl;
+    std::cout << "| dot_product_5\t\t  |\t" << dot_product_5_time_ns.count() / 1000000000 << "\t  |" << std::endl;
+    std::cout << "|-------------------------+-----------------------|" << std::endl;
     std::cout << "Note: Wall Clock Time is meaningful for real hardware execution "
                  "only, not for emulation."
               << std::endl;

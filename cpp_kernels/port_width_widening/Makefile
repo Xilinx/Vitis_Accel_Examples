@@ -87,7 +87,7 @@ CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps
 ifneq ($(TARGET), hw)
 	CLFLAGS += -g
 endif
-CLFLAGS_krnl_widen +=  --config krnl_port_widen.cfg
+CLFLAGS_dot_product_4 +=  --config krnl_dot_product_4.cfg
 
 
 
@@ -97,8 +97,11 @@ EMU_DIR = $(SDCARD)/data/emulation
 
 ############################## Declaring Binary Containers ##############################
 BINARY_CONTAINERS += $(BUILD_DIR)/krnl_port_widen.xclbin
-BINARY_CONTAINER_krnl_port_widen_OBJS += $(TEMP_DIR)/krnl_base.xo
-BINARY_CONTAINER_krnl_port_widen_OBJS += $(TEMP_DIR)/krnl_widen.xo
+BINARY_CONTAINER_krnl_port_widen_OBJS += $(TEMP_DIR)/dot_product_1.xo
+BINARY_CONTAINER_krnl_port_widen_OBJS += $(TEMP_DIR)/dot_product_2.xo
+BINARY_CONTAINER_krnl_port_widen_OBJS += $(TEMP_DIR)/dot_product_3.xo
+BINARY_CONTAINER_krnl_port_widen_OBJS += $(TEMP_DIR)/dot_product_4.xo
+BINARY_CONTAINER_krnl_port_widen_OBJS += $(TEMP_DIR)/dot_product_5.xo
 
 ############################## Setting Targets ##############################
 CP = cp -rf
@@ -116,12 +119,21 @@ build: check-vitis $(BINARY_CONTAINERS)
 xclbin: build
 
 ############################## Setting Rules for Binary Containers (Building Kernels) ##############################
-$(TEMP_DIR)/krnl_base.xo: src/krnl_base.cpp
+$(TEMP_DIR)/dot_product_1.xo: src/dot_product_1.cpp
 	mkdir -p $(TEMP_DIR)
-	$(VPP) $(VPP_FLAGS) -c -k krnl_base $(CLFLAGS) --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
-$(TEMP_DIR)/krnl_widen.xo: src/krnl_widen.cpp
+	$(VPP) $(VPP_FLAGS) -c -k dot_product_1 $(CLFLAGS) --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
+$(TEMP_DIR)/dot_product_2.xo: src/dot_product_2.cpp
 	mkdir -p $(TEMP_DIR)
-	$(VPP) $(VPP_FLAGS) -c -k krnl_widen $(CLFLAGS) $(CLFLAGS_krnl_widen) --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
+	$(VPP) $(VPP_FLAGS) -c -k dot_product_2 $(CLFLAGS) --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
+$(TEMP_DIR)/dot_product_3.xo: src/dot_product_3.cpp
+	mkdir -p $(TEMP_DIR)
+	$(VPP) $(VPP_FLAGS) -c -k dot_product_3 $(CLFLAGS) --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
+$(TEMP_DIR)/dot_product_4.xo: src/dot_product_4.cpp
+	mkdir -p $(TEMP_DIR)
+	$(VPP) $(VPP_FLAGS) -c -k dot_product_4 $(CLFLAGS) $(CLFLAGS_dot_product_4) --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
+$(TEMP_DIR)/dot_product_5.xo: src/dot_product_5.cpp
+	mkdir -p $(TEMP_DIR)
+	$(VPP) $(VPP_FLAGS) -c -k dot_product_5 $(CLFLAGS) --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
 $(BUILD_DIR)/krnl_port_widen.xclbin: $(BINARY_CONTAINER_krnl_port_widen_OBJS)
 	mkdir -p $(BUILD_DIR)
 ifeq ($(HOST_ARCH), x86)

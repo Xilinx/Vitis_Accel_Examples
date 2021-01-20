@@ -5,47 +5,70 @@
             "meet_system_timing": "true", 
             "accelerators": [
                 {
-                    "name": "krnl_base", 
+                    "name": "dot_product_1", 
                     "check_timing": "true", 
                     "PipelineType": "none", 
                     "check_latency": "true", 
                     "check_warning": "true", 
                     "loops": [
                         {
-                            "name": "SUM_X", 
-                            "PipelineII": "1"
-                        }, 
-                        {
-                            "name": "SUM_Y", 
-                            "PipelineII": "1"
-                        }, 
-                        {
-                            "name": "MUL", 
+                            "name": "dot_product", 
                             "PipelineII": "1"
                         }
                     ]
                 }, 
                 {
-                    "name": "krnl_widen", 
+                    "name": "dot_product_2", 
                     "check_timing": "true", 
                     "PipelineType": "none", 
                     "check_latency": "true", 
-                    "check_warning": "false", 
+                    "check_warning": "true", 
                     "loops": [
                         {
-                            "name": "SUM_X", 
-                            "PipelineII": "1"
-                        }, 
-                        {
-                            "name": "SUM_Y", 
-                            "PipelineII": "1"
-                        },
-                        {
-                            "name": "MUL",
+                            "name": "dot_product_inner", 
                             "PipelineII": "1"
                         }
                     ]
-                } 
+                }, 
+                {
+                    "name": "dot_product_3", 
+                    "check_timing": "true", 
+                    "PipelineType": "none", 
+                    "check_latency": "true", 
+                    "check_warning": "true", 
+                    "loops": [
+                        {
+                            "name": "dot_product_inner", 
+                            "PipelineII": "1"
+                        }
+                    ]
+                }, 
+                {
+                    "name": "dot_product_4", 
+                    "check_timing": "true", 
+                    "PipelineType": "none", 
+                    "check_latency": "true", 
+                    "check_warning": "true", 
+                    "loops": [
+                        {
+                            "name": "dot_product_inner", 
+                            "PipelineII": "1"
+                        }
+                    ]
+                }, 
+                {
+                    "name": "dot_product_5", 
+                    "check_timing": "true", 
+                    "PipelineType": "none", 
+                    "check_latency": "true", 
+                    "check_warning": "true", 
+                    "loops": [
+                        {
+                            "name": "dot_product_inner", 
+                            "PipelineII": "1"
+                        }
+                    ]
+                }  
             ]
         }
     ]
