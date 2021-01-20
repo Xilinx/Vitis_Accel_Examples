@@ -86,7 +86,7 @@ CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps
 ifneq ($(TARGET), hw)
 	CLFLAGS += -g
 endif
-CLFLAGS_N_stage_Adders +=  --config ./N_stage_Adders_N_stage_Adders.ini
+CLFLAGS_N_stage_Adders +=  --config ./N_stage_Adders_N_stage_Adders.cfg
 
 
 

@@ -1,4 +1,4 @@
-set(EXECNAME "host")
+set(EXECNAME "port_width_widening")
 set(XBIN_DIR "krnl_port_widen.xclbin")
 
 if (WIN32)

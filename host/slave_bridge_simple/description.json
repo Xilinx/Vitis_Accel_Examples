@@ -51,7 +51,7 @@
                 } 
             ], 
             "name": "krnl_vadd",
-            "ldclflags": "--config PROJECT/krnl_vadd.ini"
+            "ldclflags": "--config PROJECT/krnl_vadd.cfg"
         }
     ],
     "launch": [

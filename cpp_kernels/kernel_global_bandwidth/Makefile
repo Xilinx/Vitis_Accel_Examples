@@ -89,7 +89,7 @@ CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps
 ifneq ($(TARGET), hw)
 	CLFLAGS += -g
 endif
-CLFLAGS_bandwidth +=  --config ./bandwidth.ini
+CLFLAGS_bandwidth +=  --config ./bandwidth.cfg
 
 
 

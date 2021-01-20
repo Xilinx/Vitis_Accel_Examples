@@ -89,7 +89,7 @@ endif
 
 
 # Kernel linker flags
-LDCLFLAGS += --config ./krnl_incr.ini
+LDCLFLAGS += --config ./krnl_incr.cfg
 
 EXECUTABLE = ./streaming_free_running_k2k
 EMCONFIG_DIR = $(TEMP_DIR)

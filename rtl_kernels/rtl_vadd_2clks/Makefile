@@ -86,7 +86,7 @@ endif
 
 
 # Kernel linker flags
-LDCLFLAGS += --config ./vadd.ini
+LDCLFLAGS += --config ./vadd.cfg
 
 EXECUTABLE = ./rtl_vadd_2clks
 EMCONFIG_DIR = $(TEMP_DIR)

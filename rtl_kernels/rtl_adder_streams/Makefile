@@ -91,7 +91,7 @@ endif
 
 
 # Kernel linker flags
-LDCLFLAGS += --config ./adder.ini
+LDCLFLAGS += --config ./adder.cfg
 
 EXECUTABLE = ./rtl_adder_streams
 EMCONFIG_DIR = $(TEMP_DIR)

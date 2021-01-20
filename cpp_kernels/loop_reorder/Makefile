@@ -87,7 +87,7 @@ CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps
 ifneq ($(TARGET), hw)
 	CLFLAGS += -g
 endif
-CLFLAGS_mmult +=  --config ./mmult_mmult.ini
+CLFLAGS_mmult +=  --config ./mmult_mmult.cfg
 
 
 

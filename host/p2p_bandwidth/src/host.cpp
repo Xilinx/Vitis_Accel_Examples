@@ -67,7 +67,7 @@ void p2p_host_to_ssd(int& nvmeFd,
 
     std::cout << "Start P2P Write of various buffer sizes from device buffers to SSD\n" << std::endl;
     for (size_t bufsize = min_buffer; bufsize <= vector_size_bytes; bufsize *= 2) {
-        std::string size_str = xcl::convertSize(bufsize);
+        std::string size_str = xcl::convert_size(bufsize);
 
         int iter = max_size / bufsize;
         if (xcl::is_emulation()) {
@@ -119,7 +119,7 @@ void p2p_ssd_to_host(int& nvmeFd,
 
     std::cout << "Start P2P Read of various buffer sizes from SSD to device buffers\n" << std::endl;
     for (size_t bufsize = min_buffer; bufsize <= vector_size_bytes; bufsize *= 2) {
-        std::string size_str = xcl::convertSize(bufsize);
+        std::string size_str = xcl::convert_size(bufsize);
 
         int iter = max_size / bufsize;
         if (xcl::is_emulation()) {

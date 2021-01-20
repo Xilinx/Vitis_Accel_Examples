@@ -87,7 +87,7 @@ CLFLAGS_kernel_mc +=   -D DPRAGMA
 
 
 # Kernel linker flags
-LDCLFLAGS += --config ./conn_vu9p.ini --kernel_frequency 300
+LDCLFLAGS += --config ./conn_vu9p.cfg --kernel_frequency 300
 
 # Adding config files to linker
 LDCLFLAGS_kernel_mc += --config kernel_mc.cfg 

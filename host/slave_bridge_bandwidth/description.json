@@ -62,7 +62,7 @@
 
             ], 
             "name": "bandwidth",
-            "ldclflags": "--config PROJECT/krnl_bandwidth.ini"
+            "ldclflags": "--config PROJECT/krnl_bandwidth.cfg"
         }
     ],
     "launch": [

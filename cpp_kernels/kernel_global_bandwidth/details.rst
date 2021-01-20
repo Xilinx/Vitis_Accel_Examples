@@ -46,7 +46,7 @@ By default this example supports 1DDR execution in GUI mode for all the
 XSAs. To make this example to work with multi DDR XSAs please follow
 steps mentioned below. XSA (2DDR):
 
-1. Add a .ini file in the /src folder with the following entries:
+1. Add a .cfg file in the /src folder with the following entries:
    [Connecttivity] sp=bandwidth_1.m_axi_gmem0:DDR[0]
    sp=bandwidth_1.m_axi_gmem1:DDR[1]
    2. > Properties > C/C++ Build > Settings > Vitis V++ Kernel Compiler
@@ -54,11 +54,11 @@ steps mentioned below. XSA (2DDR):
 
    a. –max_memory_ports all 4. > Properties > C/C++ Build > Settings >
       Vitis V++ Kernel Linker > Miscellaneous > Other flags –config
-      ../src/<config_file.ini>
+      ../src/<config_file.cfg>
 
 XSA (3DDR):
 
-1. Add a .ini file in the /src folder with the following entries:
+1. Add a .cfg file in the /src folder with the following entries:
    [Connecttivity] sp=bandwidth_1.m_axi_gmem0:DDR[0]
    sp=bandwidth_1.m_axi_gmem1:DDR[1]
    sp=bandwidth_1.m_axi_gmem2:DDR[2]
@@ -67,14 +67,14 @@ XSA (3DDR):
 
    a. –max_memory_ports all 4. > Properties > C/C++ Build > Settings >
       Vitis V++ Kernel Linker > Miscellaneous > Other flags –config
-      ../src/<config_file.ini> 5.Define NDDR_BANKS 3 in kernel “#define
+      ../src/<config_file.cfg> 5.Define NDDR_BANKS 3 in kernel “#define
       NDDR_BANKS 3” at the top of kernel.cl
 
 XSA (4DDR):
 
 Note: The selected platform must support 4DDR.
 
-1. Add a .ini file in the /src folder with the following entries:
+1. Add a .cfg file in the /src folder with the following entries:
    [Connecttivity] sp=bandwidth_1.m_axi_gmem0:DDR[0]
    sp=bandwidth_1.m_axi_gmem1:DDR[1]
    sp=bandwidth_1.m_axi_gmem2:DDR[2]
@@ -84,5 +84,5 @@ Note: The selected platform must support 4DDR.
 
    a. –max_memory_ports all 4. > Properties > C/C++ Build > Settings >
       Vitis V++ Kernel Linker > Miscellaneous > Other flags –config
-      ../src/<config_file.ini> 5.Define NDDR_BANKS 4 in kernel “#define
+      ../src/<config_file.cfg> 5.Define NDDR_BANKS 4 in kernel “#define
       NDDR_BANKS 4” at the top of kernel.cl

@@ -84,7 +84,7 @@ endif
 
 
 # Kernel linker flags
-LDCLFLAGS += --config ./krnl_bandwidth.ini
+LDCLFLAGS += --config ./krnl_bandwidth.cfg
 
 EXECUTABLE = ./slave_bridge_bw.exe
 EMCONFIG_DIR = $(TEMP_DIR)

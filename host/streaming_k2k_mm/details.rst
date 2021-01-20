@@ -27,9 +27,9 @@ stream input port during the ``v++`` linking stage.
 
 ::
 
-   --config krnl_stream_vadd_vmult.ini 
+   --config krnl_stream_vadd_vmult.cfg 
 
-Content of ``krnl_stream_vadd_vmult.ini`` file is below:
+Content of ``krnl_stream_vadd_vmult.cfg`` file is below:
 
 ::
 

@@ -57,7 +57,7 @@
                 }
             ], 
             "name": "krnl_incr",
-	    "ldclflags": "--config PROJECT/krnl_incr.ini"
+	    "ldclflags": "--config PROJECT/krnl_incr.cfg"
         }
     ],
     "launch": [

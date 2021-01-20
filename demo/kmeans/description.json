@@ -52,7 +52,7 @@
                 }
             ], 
             "name": "krnl_kmeans",
-	    "ldclflags": "--config krnl_kmeans.ini -O3"
+	    "ldclflags": "--config krnl_kmeans.cfg -O3"
         }
     ],
     "launch": [

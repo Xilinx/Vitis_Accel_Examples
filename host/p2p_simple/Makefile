@@ -88,7 +88,7 @@ endif
 
 
 # Kernel linker flags
-LDCLFLAGS += --config ./adder.ini
+LDCLFLAGS += --config ./adder.cfg
 
 EXECUTABLE = ./p2p_simple
 EMCONFIG_DIR = $(TEMP_DIR)

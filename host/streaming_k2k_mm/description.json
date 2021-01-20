@@ -12,9 +12,6 @@
         "Create/Release Stream",
         "AXIS FIFO depth"
     ], 
-    "platform_whitelist": [
-        "u200_qdma"
-    ],  
     "platform_blacklist": [
         "samsung",
         "vck",
@@ -55,7 +52,7 @@
                 }
             ], 
             "name": "krnl_stream_vadd_vmult",
-	    "ldclflags": "--config PROJECT/krnl_stream_vadd_vmult.ini" 
+	    "ldclflags": "--config PROJECT/krnl_stream_vadd_vmult.cfg" 
         }
     ],
     "launch": [
