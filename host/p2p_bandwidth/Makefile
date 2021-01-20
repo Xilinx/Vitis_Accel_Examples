@@ -62,7 +62,7 @@ CMD_ARGS = -x $(BUILD_DIR)/bandwidth.xclbin
 include $(ABS_COMMON_REPO)/common/includes/opencl/opencl.mk
 include config.mk
 
-CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++11
+CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++1y
 LDFLAGS += $(opencl_LDFLAGS)
 
 ############################## Setting up Host Variables ##############################

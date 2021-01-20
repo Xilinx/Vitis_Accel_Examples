@@ -37,6 +37,7 @@
                ]
         }
     },
+   "match_ini": "false",
    "targets": [
        "hw_emu",
        "hw" 
