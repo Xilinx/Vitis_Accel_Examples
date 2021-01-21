@@ -1,0 +1,115 @@
+{
+    "name": "HBM Simple XRT (XRT Native API's)", 
+    "description": [
+        "This is a simple example of vector addition to describe how to use HLS kernels with HBM (High Bandwidth Memory) for achieving high throughput using xrt native api's."
+    ],
+    "flow": "vitis",
+    "keywords": [
+        "HBM" 
+    ], 
+    "key_concepts": [
+        "High Bandwidth Memory", 
+        "Multiple HBM Banks"
+    ], 
+    "platform_blacklist": [
+        "_u25_",
+        "u30",
+        "u200",
+        "zc",
+        "vck",
+        "u250",
+        "aws",
+        "samsung",
+        "nodma"
+    ],
+    "platform_type": "pcie",
+    "os": [
+        "Linux"
+    ], 
+    "runtime": [
+        "OpenCL"
+    ], 
+    "host": {
+        "host_exe": "hbm_simple_xrt",
+        "compiler": {
+            "sources": [
+                "REPO_DIR/common/includes/cmdparser/cmdlineparser.cpp",
+                "REPO_DIR/common/includes/logger/logger.cpp",
+                "./src/host.cpp"
+            ], 
+            "includepaths": [
+                "REPO_DIR/common/includes/cmdparser",
+                "REPO_DIR/common/includes/logger"
+            ]
+        },
+        "linker" : {
+            "libraries" : ["uuid",
+                           "xrt_coreutil"
+               ]
+        }
+    },
+   "targets": [
+       "hw_emu",
+       "hw" 
+    ],
+   "containers": [
+        {
+            "accelerators": [
+                {
+                    "compute_units": [
+                        {
+                            "arguments": [
+                                {
+                                    "name": "in1", 
+                                    "memory": "HBM[0:3]"
+                                }, 
+                                {
+                                    "name": "in2", 
+                                    "memory": "HBM[0:3]"
+                                }, 
+                                {
+                                    "name": "out_r", 
+                                    "memory": "HBM[0:3]"
+                                }
+                            ]
+                        }
+                    ], 
+                    "name": "krnl_vadd", 
+                    "location": "src/krnl_vadd.cpp"
+                }
+            ], 
+            "name": "krnl_vadd"
+        }
+    ], 
+    "launch": [
+        {
+            "cmd_args": " -x BUILD/krnl_vadd.xclbin", 
+            "name": "generic launch for all flows"
+        }
+    ], 
+    "contributors": [
+        {
+            "url": "http://www.xilinx.com", 
+            "group": "Xilinx"
+        }
+    ],
+    "testinfo": {
+        "disable": false,
+        "jobs": [
+            {
+                "index": 0,
+                "dependency": [],
+                "env": "",
+                "cmd": "",
+                "max_memory_MB": 32768,
+                "max_time_min": 300
+            }
+        ],
+        "targets": [
+            "vitis_sw_emu",
+            "vitis_hw_emu",
+            "vitis_hw"
+        ],
+        "category": "canary"
+    }
+}

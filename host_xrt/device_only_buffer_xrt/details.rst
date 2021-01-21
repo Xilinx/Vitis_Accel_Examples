@@ -1,5 +1,5 @@
 Device Only Buffer XRT (XRT Native API's)
-===========
+=========================================
 
 This example illustrates the use of ``device_only`` Buffer which is
 meant to be used only by the kernel.In this example we create buffer
