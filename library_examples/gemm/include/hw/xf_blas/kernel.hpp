@@ -36,7 +36,6 @@ typedef xf::blas::GemmKernel<BLAS_dataType,
     GemmType;
 #endif
 
-
 typedef xf::blas::TimeStamp<BLAS_numInstr> TimeStampType;
 
 void blasKernel(DdrIntType* p_DdrRd, DdrIntType* p_DdrWr);

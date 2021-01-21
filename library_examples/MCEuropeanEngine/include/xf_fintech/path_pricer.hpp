@@ -121,7 +121,6 @@ class PathPricer<European, DT, StepFirst, SampNum, WithAntithetic> {
         }
     }
 };
-
 }
 } // namespace fintech
 } // namespace xf
