@@ -38,7 +38,7 @@ help::
 MK_PATH := $(abspath $(lastword $(MAKEFILE_LIST)))
 COMMON_REPO ?= $(shell bash -c 'export MK_PATH=$(MK_PATH); echo $${MK_PATH%hello_world/*}')
 PWD = $(shell readlink -f .)
-ABS_COMMON_REPO = $(shell readlink -f $(COMMON_REPO))
+XF_PROJ_ROOT = $(shell readlink -f $(COMMON_REPO))
 
 TARGET := hw
 HOST_ARCH := x86
@@ -64,14 +64,14 @@ VPP := v++
 CMD_ARGS = $(BUILD_DIR)/vadd.xclbin
 SDCARD := sd_card
 
-include $(ABS_COMMON_REPO)/common/includes/opencl/opencl.mk
-CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++1y
+include $(XF_PROJ_ROOT)/common/includes/opencl/opencl.mk
+CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++11
 LDFLAGS += $(opencl_LDFLAGS)
 
 ############################## Setting up Host Variables ##############################
 #Include Required Host Source Files
-CXXFLAGS += -I$(ABS_COMMON_REPO)/common/includes/xcl2
-HOST_SRCS += $(ABS_COMMON_REPO)/common/includes/xcl2/xcl2.cpp ./src/host.cpp 
+CXXFLAGS += -I$(XF_PROJ_ROOT)/common/includes/xcl2
+HOST_SRCS += $(XF_PROJ_ROOT)/common/includes/xcl2/xcl2.cpp ./src/host.cpp 
 # Host compiler global settings
 CXXFLAGS += -fmessage-length=0
 LDFLAGS += -lrt -lstdc++ 
@@ -82,9 +82,9 @@ endif
 
 ############################## Setting up Kernel Variables ##############################
 # Kernel compiler global settings
-CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps 
+VPP_FLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps 
 ifneq ($(TARGET), hw)
-	CLFLAGS += -g
+	VPP_FLAGS += -g
 endif
 
 
@@ -115,14 +115,14 @@ xclbin: build
 ############################## Setting Rules for Binary Containers (Building Kernels) ##############################
 $(TEMP_DIR)/vadd.xo: src/vadd.cpp
 	mkdir -p $(TEMP_DIR)
-	$(VPP) -c -k vadd $(CLFLAGS) --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
+	$(VPP) -c -k vadd $(VPP_FLAGS) --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
 $(BUILD_DIR)/vadd.xclbin: $(BINARY_CONTAINER_vadd_OBJS)
 	mkdir -p $(BUILD_DIR)
 ifeq ($(HOST_ARCH), x86)
-	$(VPP) -l $(LDCLFLAGS) $(CLFLAGS) --temp_dir $(BUILD_DIR)  -o'$(BUILD_DIR)/vadd.link.xclbin' $(+)
+	$(VPP) -l $(LDCLFLAGS) $(VPP_FLAGS) --temp_dir $(BUILD_DIR)  -o'$(BUILD_DIR)/vadd.link.xclbin' $(+)
 	$(VPP) -p $(BUILD_DIR)/vadd.link.xclbin -t $(TARGET) --platform $(DEVICE) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/vadd.xclbin
 else
-	$(VPP) -l $(LDCLFLAGS) $(CLFLAGS) --temp_dir $(BUILD_DIR) -o'$(BUILD_DIR)/vadd.xclbin' $(+)
+	$(VPP) -l $(LDCLFLAGS) $(VPP_FLAGS) --temp_dir $(BUILD_DIR) -o'$(BUILD_DIR)/vadd.xclbin' $(+)
 endif
 
 ############################## Setting Rules for Host (Building Host Executable) ##############################
