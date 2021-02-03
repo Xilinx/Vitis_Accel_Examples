@@ -23,6 +23,7 @@ typedef int pkt;
 template <int DUMMY = 0>
 void mm2s(int* a, hls::stream<pkt>& strm_a, hls::stream<int>& strm_ctrl_trans1, hls::stream<int>& strm_ctrl_trans2) {
     int dim = strm_ctrl_trans1.read();
+    strm_ctrl_trans2.write(dim);
     int size = dim * dim;
 
 // Auto-pipeline is going to apply pipeline to this loop
@@ -33,7 +34,6 @@ mm2s:
 
         strm_a.write(p1);
     }
-    strm_ctrl_trans2.write(dim);
 }
 
 // Template to avoid signature conflict in sw_em
@@ -44,6 +44,7 @@ void mmult(hls::stream<pkt>& strm_a,
            hls::stream<pkt>& strm_out,
            hls::stream<int>& strm_ctrl_trans3) {
     int dim = strm_ctrl_trans2.read();
+    strm_ctrl_trans3.write(dim);
     int size = dim * dim;
 
     int buf_a[MAT_DIM][MAT_DIM];
@@ -96,7 +97,6 @@ write_strm_out:
 
         strm_out.write(temp);
     }
-    strm_ctrl_trans3.write(dim);
 }
 
 // Template to avoid signature conflict in sw_em
