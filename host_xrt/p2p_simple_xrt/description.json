@@ -1,0 +1,106 @@
+{
+    "name": "P2P Simple Example XRT (XRT Native API's)", 
+    "description": [
+        "This is simple example of vector increment to describe P2P between FPGA and NVMe SSD using xrt native api's."
+    ],
+    "flow": "vitis",
+    "keywords": [
+        "xrt::bo::flags::p2p",
+        "pread",
+        "pwrite", 
+        "O_DIRECT",
+        "O_RDWR"
+    ],
+    "key_concepts": [
+        "P2P", 
+        "NVMe SSD",
+        "SmartSSD"
+    ],
+    "platform_type": "pcie",
+    "os": [
+        "Linux"
+    ],
+    "platform_whitelist": [
+        "samsung_u2"
+    ],
+    "platform_blacklist": [
+        "zc",
+        "_u25_",
+        "u30",
+        "vck",
+        "aws",
+        "2018",
+        "201910"
+    ],
+     "runtime": [
+        "OpenCL"
+    ],
+   "config_make": "config.mk",
+    "launch": [
+        {
+            "cmd_args": "-x BUILD/adder.xclbin", 
+            "name": "generic launch for all flows"
+        }
+    ], 
+    "host": {
+        "host_exe": "p2p_simple_xrt",
+        "compiler": {
+            "sources": [
+                "REPO_DIR/common/includes/cmdparser/cmdlineparser.cpp",
+                "REPO_DIR/common/includes/logger/logger.cpp",
+                "./src/host.cpp"
+            ], 
+            "includepaths": [
+                "REPO_DIR/common/includes/cmdparser",
+                "REPO_DIR/common/includes/logger"
+            ]
+        },
+        "linker" : {
+            "libraries" : ["uuid",
+                           "xrt_coreutil"
+               ]
+        }
+    },
+   "targets": [
+       "hw_emu",
+       "hw" 
+    ],  
+    "containers": [
+        {
+            "accelerators": [
+                {
+                    "name": "adder", 
+                    "location": "src/adder.cpp"                    
+                }
+            ], 
+            "name": "adder"
+        }
+    ],
+    "config_make": "config.mk",
+    "contributors": [
+        {
+            "url": "http://www.xilinx.com", 
+            "group": "Xilinx"
+        }
+    ],
+    "testinfo": {
+        "disable": false,
+        "profile": "no",
+        "jobs": [
+            {
+                "index": 0,
+                "dependency": [],
+                "env": "",
+                "cmd": "",
+                "max_memory_MB": 32768,
+                "max_time_min": 300
+            }
+        ],
+        "targets": [
+            "vitis_sw_emu",
+            "vitis_hw_emu",
+            "vitis_hw"
+        ],
+        "category": "canary"
+    }
+}
