@@ -124,7 +124,7 @@ RMDIR = rm -rf
 
 ECHO:= @echo
 
-docs: README.md
+docs: README.rst
 
-README.md: description.json
+README.rst: description.json
 	$(ABS_COMMON_REPO)/common/utility/readme_gen/readme_gen.py description.json

@@ -124,7 +124,7 @@ RMDIR = rm -rf
 
 ECHO:= @echo
 
-docs: README.md
+docs: README.rst
 
-README.md: description.json
+README.rst: description.json
 	$(XF_PROJ_ROOT)/common/utility/readme_gen/readme_gen.py description.json

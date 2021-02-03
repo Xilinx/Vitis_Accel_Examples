@@ -80,7 +80,7 @@ int main(int argc, char** argv) {
     auto fileBuf = xcl::read_binary_file(binaryFile);
     cl::Program::Binaries bins{{fileBuf.data(), fileBuf.size()}};
 
-    auto pos= dev_id.find(":");
+    auto pos = dev_id.find(":");
     cl::Device device;
     if (pos == std::string::npos) {
         uint32_t device_index = stoi(dev_id);
