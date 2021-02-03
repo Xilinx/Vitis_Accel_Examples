@@ -1,0 +1,98 @@
+{
+    "name": "Stream Kernel to Kernel Memory Mapped XRT (XRT Native API's)", 
+    "description": [
+        "This is a simple kernel to kernel streaming Vector Add and Vector Multiply C Kernel design with 2 memory mapped input to kernel 1, 1 Stream output from kernel 1 to input of kernel 2, 1 memory mapped input to kernel 2, and 1 memory mapped output that demonstrates on how to process a stream of data for computation between two kernels using XRT Native APIs. This design also illustrates how to set FIFO depth for AXIS connections i.e. for the stream connecting the two kernels"
+    ],
+    "flow": "vitis",
+    "keywords": [
+	"stream_connect"
+    ], 
+    "key_concepts": [
+        "Read/Write Stream", 
+        "Create/Release Stream",
+        "AXIS FIFO depth"
+    ], 
+    "platform_blacklist": [
+        "samsung",
+        "vck",
+        "zc",
+        "nodma"
+    ], 
+    "os": [
+        "Linux"
+    ], 
+    "runtime": [
+        "OpenCL"
+    ],
+    "platform_type": "pcie",
+    "host": {
+        "host_exe": "streaming_k2k_mm_xrt",
+        "compiler": {
+            "sources": [
+                "REPO_DIR/common/includes/cmdparser/cmdlineparser.cpp",
+                "REPO_DIR/common/includes/logger/logger.cpp",
+                "./src/host.cpp"
+            ], 
+            "includepaths": [
+                "REPO_DIR/common/includes/cmdparser",
+                "REPO_DIR/common/includes/logger"
+            ]
+        },
+        "linker" : {
+            "libraries" : ["uuid",
+                           "xrt_coreutil"
+               ]
+        }
+    },
+   "targets": [
+       "hw_emu",
+       "hw" 
+    ],  
+    "containers": [
+        {
+            "accelerators": [
+                {
+                    "name": "krnl_stream_vadd", 
+                    "location": "src/krnl_stream_vadd.cpp"
+                }, 
+                {
+                    "name": "krnl_stream_vmult", 
+                    "location": "src/krnl_stream_vmult.cpp"
+                }
+            ], 
+            "name": "krnl_stream_vadd_vmult",
+	    "ldclflags": "--config PROJECT/krnl_stream_vadd_vmult.cfg" 
+        }
+    ],
+    "launch": [
+        {
+            "cmd_args": "-x BUILD/krnl_stream_vadd_vmult.xclbin", 
+            "name": "generic launch for all flows"
+        }
+    ], 
+    "contributors": [
+        {
+            "url": "http://www.xilinx.com", 
+            "group": "Xilinx"
+        }
+    ],
+    "testinfo": {
+        "disable": false,
+        "jobs": [
+            {
+                "index": 0,
+                "dependency": [],
+                "env": "",
+                "cmd": "",
+                "max_memory_MB": 32768,
+                "max_time_min": 300
+            }
+        ],
+        "targets": [
+            "vitis_sw_emu",
+            "vitis_hw_emu",
+            "vitis_hw"
+        ],
+        "category": "canary"
+    }
+}
