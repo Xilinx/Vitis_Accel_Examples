@@ -43,22 +43,20 @@ real log reported while running on U280 platform:
 ::
 
    Platform Name: Xilinx
-   Found Device=xilinx_u280_xdma_201920_1
-   INFO: Reading ./build_dir.hw.xilinx_u280_xdma_201920_1/krnl_vadd.xclbin
-   Loading: './build_dir.hw.xilinx_u280_xdma_201920_1/krnl_vadd.xclbin'
+   INFO: Reading ./build_dir.hw.xilinx_u50_gen3x16_xdma_201920_3/krnl_vadd.xclbin
+   Loading: './build_dir.hw.xilinx_u50_gen3x16_xdma_201920_3/krnl_vadd.xclbin'
+   Trying to program device[0]: xilinx_u50_gen3x16_xdma_201920_3
+   Device[0]: program successful!
    Running CASE 1  : Single HBM for all three Buffers 
-   Picking Buffer size 67108864 so that all three buffer should fit into Single HBM (max 256MB)
    Each buffer is allocated with same HBM bank.
    input 1 -> bank 0 
    input 2 -> bank 0 
    output  -> bank 0 
-   [CASE 1] THROUGHPUT = 9.54234 GB/s
+   [CASE 1] THROUGHPUT = 8.0181 GB/s
    Running CASE 2: Three Separate Banks for Three Buffers
-   For This case each buffer will be having different HBM, so buffer size is picked to utilize full HBM
-   vector size is 268435456 as maximum possible inside single HBM
    Each buffer is allocated with different HBM bank.
    input 1 -> bank 1 
    input 2 -> bank 2 
    output  -> bank 3 
-   [CASE 2] THROUGHPUT = 38.7406 GB/s 
+   [CASE 2] THROUGHPUT = 24.4078 GB/s 
    TEST PASSED

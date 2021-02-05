@@ -217,13 +217,7 @@ int main(int argc, char* argv[]) {
         exit(EXIT_FAILURE);
     }
 
-    unsigned int dataSize = 64 * 1024 * 1024;
-    if (xcl::is_emulation()) {
-        dataSize = 1024;
-        std::cout << "Original Dataset is reduced for faster execution on "
-                     "emulation flow. Data size="
-                  << dataSize << std::endl;
-    }
+    unsigned int dataSize = 1024 * 1024;
 
     std::vector<int, aligned_allocator<int> > source_in1(dataSize);
     std::vector<int, aligned_allocator<int> > source_in2(dataSize);
@@ -245,13 +239,6 @@ int main(int argc, char* argv[]) {
     int bank_assign[numBuf];
 
     std::cout << "Running CASE 1  : Single HBM for all three Buffers " << std::endl;
-    if (!xcl::is_emulation()) {
-        dataSize = 16 * 1024 * 1024;
-        std::cout << "Picking Buffer size " << dataSize * sizeof(uint32_t)
-                  << " so that all three buffer should fit into Single HBM "
-                     "(max 256MB)"
-                  << std::endl;
-    }
 
     std::cout << "Each buffer is allocated with same HBM bank." << std::endl;
     std::cout << "input 1 -> bank 0 " << std::endl;
@@ -273,14 +260,6 @@ int main(int argc, char* argv[]) {
     std::cout << "[CASE 1] THROUGHPUT = " << result << " GB/s" << std::endl;
 
     std::cout << "Running CASE 2: Three Separate Banks for Three Buffers" << std::endl;
-    if (!xcl::is_emulation()) {
-        std::cout << "For This case each buffer will be having different HBM, "
-                     "so buffer size is picked to utilize full HBM"
-                  << std::endl;
-        dataSize = 64 * 1024 * 1024;
-        std::cout << "vector size is " << dataSize * sizeof(uint32_t) << " as maximum possible inside single HBM"
-                  << std::endl;
-    }
 
     std::cout << "Each buffer is allocated with different HBM bank." << std::endl;
     std::cout << "input 1 -> bank 1 " << std::endl;
