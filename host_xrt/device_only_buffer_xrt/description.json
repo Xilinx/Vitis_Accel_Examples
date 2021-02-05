@@ -11,9 +11,6 @@
         "Device only buffer" 
                
     ],
-   "ndevice": [
-        "nodma"
-    ],
     "platform_blacklist": [
         "nodma"
     ], 
@@ -33,7 +30,10 @@
             "includepaths": [
                 "REPO_DIR/common/includes/cmdparser",
                 "REPO_DIR/common/includes/logger"
-             ]
+            ],
+            "symbols": [
+                "_GLIBCXX_USE_CXX11_ABI=0"
+            ]
         }, 
         "host_exe": "device_only_buffer",
         "linker" : {
@@ -42,10 +42,11 @@
                 ]
         }
     },
-   "targets": [
+    "targets": [
        "hw_emu",
        "hw" 
-    ],  
+    ],
+    "match_ini": "false", 
     "containers": [
         {
             "accelerators": [

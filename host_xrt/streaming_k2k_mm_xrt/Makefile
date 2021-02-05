@@ -84,6 +84,7 @@ ifneq ($(TARGET), hw)
 	CLFLAGS += -g
 endif
 
+CXXFLAGS += -D_GLIBCXX_USE_CXX11_ABI=0
 
 # Kernel linker flags
 LDCLFLAGS += --config ./krnl_stream_vadd_vmult.cfg
@@ -156,9 +157,9 @@ ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 else
 	$(EXECUTABLE) $(CMD_ARGS)
 endif
-#ifneq ($(TARGET),$(findstring $(TARGET), hw_emu hw))
-#$(error Application supports only hw_emu hw TARGET. Please use the target for running the application)
-#endif
+ifneq ($(TARGET),$(findstring $(TARGET), hw_emu hw))
+$(error Application supports only hw_emu hw TARGET. Please use the target for running the application)
+endif
 
 
 .PHONY: test

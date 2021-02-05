@@ -29,6 +29,9 @@
                 "REPO_DIR/common/includes/cmdparser",
                 "REPO_DIR/common/includes/logger",
                 "REPO_DIR/common/includes/xcl2"
+            ],
+            "symbols": [
+                "_GLIBCXX_USE_CXX11_ABI=0"
             ]
         },
         "linker" : {
@@ -37,12 +40,12 @@
                ]
         }
     },
-   "match_ini": "false",
-   "targets": [
+    "match_ini": "false",
+    "targets": [
        "hw_emu",
        "hw" 
     ],
-   "containers": [
+    "containers": [
         {
             "accelerators": [
                 {

@@ -84,6 +84,7 @@ ifneq ($(TARGET), hw)
 	CLFLAGS += -g
 endif
 
+CXXFLAGS += -D_GLIBCXX_USE_CXX11_ABI=0
 
 # Kernel linker flags
 LDCLFLAGS += --config ./krnl_vadd.ini

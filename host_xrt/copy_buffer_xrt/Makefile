@@ -89,6 +89,7 @@ ifneq ($(TARGET), hw)
 	CLFLAGS += -g
 endif
 
+CXXFLAGS += -D_GLIBCXX_USE_CXX11_ABI=0
 
 
 EXECUTABLE = ./copy_buffer_xrt

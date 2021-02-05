@@ -10,14 +10,6 @@
     "key_concepts": [
         "Copy Buffer"
     ], 
-    "platform_whitelist": [
-        "u280"
-    ],
-    "ndevice": [
-        "xilinx_u200_xdma_201830",
-        "xilinx_u250_xdma_201830",
-        "nodma"
-    ],
     "platform_blacklist": [
         "xilinx_u200_xdma_201830",
         "xilinx_u250_xdma_201830",
@@ -40,6 +32,9 @@
             "includepaths": [
                 "REPO_DIR/common/includes/cmdparser",
                 "REPO_DIR/common/includes/logger"
+            ],
+            "symbols": [
+                "_GLIBCXX_USE_CXX11_ABI=0"
             ]
         },
         "linker" : {
@@ -48,10 +43,11 @@
                 ]
         }
     },
-   "targets": [
+    "targets": [
        "hw_emu",
        "hw" 
-    ],  
+    ],
+    "match_ini": "false", 
     "containers": [
         {
             "accelerators": [
