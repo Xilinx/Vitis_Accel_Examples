@@ -814,9 +814,9 @@ def clean_util(target):
     target.write("\n")
     
 def readme_gen(target):
-    target.write("docs: README.md\n")
+    target.write("docs: README.rst\n")
     target.write("\n")
-    target.write("README.md: description.json\n")
+    target.write("README.rst: description.json\n")
     target.write("\t$(ABS_COMMON_REPO)/common/utility/readme_gen/readme_gen.py description.json")
     target.write("\n")   
 
