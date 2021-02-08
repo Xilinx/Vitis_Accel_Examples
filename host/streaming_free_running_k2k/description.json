@@ -11,9 +11,6 @@
     "key_concepts": [
         "Free Running Kernel" 
     ], 
-    "platform_whitelist": [
-        "u200_qdma"
-    ], 
     "platform_blacklist": [
         "2018",
         "qep",
