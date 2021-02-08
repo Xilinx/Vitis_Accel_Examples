@@ -7,11 +7,11 @@ PROFILE := no
 
 #Generates profile summary report
 ifeq ($(PROFILE), yes)
-LDCLFLAGS += --profile_kernel data:all:all:all
+VPP_LDFLAGS += --profile_kernel data:all:all:all
 endif
 
 DEBUG := no
-B_TEMP = `$(ABS_COMMON_REPO)/common/utility/parse_platform_list.py $(DEVICE)`
+B_TEMP = `$(XF_PROJ_ROOT)/common/utility/parse_platform_list.py $(DEVICE)`
 PERL := 
 QEMU_IMODE := no
 LAUNCH_EMULATOR_CMD := 
@@ -23,12 +23,12 @@ endif
 ifeq ($(QEMU_IMODE), yes)
 	LAUNCH_EMULATOR_CMD = $(LAUNCH_EMULATOR)
 else
-	LAUNCH_EMULATOR_CMD = $(PERL) $(ABS_COMMON_REPO)/common/utility/run_emulation.pl "${LAUNCH_EMULATOR} | tee run_app.log" "${RUN_APP_SCRIPT} $(TARGET)" "${RESULT_STRING}" "7"
+	LAUNCH_EMULATOR_CMD = $(PERL) $(XF_PROJ_ROOT)/common/utility/run_emulation.pl "${LAUNCH_EMULATOR} | tee run_app.log" "${RUN_APP_SCRIPT} $(TARGET)" "${RESULT_STRING}" "7"
 endif
 
 #Generates debug summary report
 ifeq ($(DEBUG), yes)
-LDCLFLAGS += --dk list_ports
+VPP_LDFLAGS += --dk list_ports
 endif
 
 #Setting Platform Path
@@ -127,4 +127,4 @@ ECHO:= @echo
 docs: README.rst
 
 README.rst: description.json
-	$(ABS_COMMON_REPO)/common/utility/readme_gen/readme_gen.py description.json
+	$(XF_PROJ_ROOT)/common/utility/readme_gen/readme_gen.py description.json

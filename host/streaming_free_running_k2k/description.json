@@ -17,7 +17,7 @@
     "platform_blacklist": [
         "2018",
         "qep",
-        "aws",
+        "aws-vu9p-f1",
         "samsung",
         "zc702",
         "nodma"

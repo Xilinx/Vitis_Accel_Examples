@@ -21,7 +21,7 @@ Platforms containing following strings in their names are not supported for this
    vck
    u250
    u280
-   aws
+   aws-vu9p-f1
    _u2_
    nodma
 

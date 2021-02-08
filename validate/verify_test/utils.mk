@@ -4,11 +4,11 @@
 #+-------------------------------------------------------------------------------
 
 DEBUG := no
-B_TEMP = `$(ABS_COMMON_REPO)/common/utility/parse_platform_list.py $(DEVICE)`
+B_TEMP = `$(XF_PROJ_ROOT)/common/utility/parse_platform_list.py $(DEVICE)`
 
 #Generates debug summary report
 ifeq ($(DEBUG), yes)
-LDCLFLAGS += --dk list_ports
+VPP_LDFLAGS += --dk list_ports
 endif
 
 #Setting Platform Path
@@ -91,4 +91,4 @@ ECHO:= @echo
 docs: README.rst
 
 README.rst: description.json
-	$(ABS_COMMON_REPO)/common/utility/readme_gen/readme_gen.py description.json
+	$(XF_PROJ_ROOT)/common/utility/readme_gen/readme_gen.py description.json

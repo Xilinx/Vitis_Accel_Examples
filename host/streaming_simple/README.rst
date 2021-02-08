@@ -20,7 +20,7 @@ Platforms containing following strings in their names are not supported for this
    vck
    xdma
    qep
-   aws
+   aws-vu9p-f1
    samsung
    nodma
 

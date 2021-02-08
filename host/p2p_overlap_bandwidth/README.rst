@@ -22,7 +22,7 @@ Platforms containing following strings in their names are not supported for this
    u250
    u50
    u280
-   aws
+   aws-vu9p-f1
    nodma
 
 DESIGN FILES

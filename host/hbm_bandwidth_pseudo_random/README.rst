@@ -20,7 +20,7 @@ Platforms containing following strings in their names are not supported for this
    zc
    vck
    u250
-   aws
+   aws-vu9p-f1
    samsung
    nodma
 
