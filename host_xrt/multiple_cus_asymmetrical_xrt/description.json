@@ -1,0 +1,159 @@
+{
+    "name": "Multiple Compute Units (Asymmetrical) XRT (XRT Native API's)", 
+    "description": [
+        "This is simple example of vector addition to demonstrate how to connect each compute unit to different banks and how to use these compute units in host applications using xrt native api's."
+    ],
+    "flow": "vitis",
+    "key_concepts": [
+        "Multiple Compute Units"
+    ], 
+    "platform_blacklist": [
+        "_u25_",
+        "u30",
+        "u50",
+        "vck",
+        "samsung",
+        "zc",
+        "nodma"
+    ], 
+    "os": [
+        "Linux"
+    ], 
+    "runtime": [
+        "OpenCL"
+    ], 
+    "host": {
+        "host_exe": "multiple_cus_asymmetrical_xrt",
+        "compiler": {
+            "sources": [
+                "REPO_DIR/common/includes/cmdparser/cmdlineparser.cpp",
+                "REPO_DIR/common/includes/logger/logger.cpp",
+                "./src/host.cpp"
+            ], 
+            "includepaths": [
+                "REPO_DIR/common/includes/cmdparser",
+                "REPO_DIR/common/includes/logger"
+            ]
+        },
+        "linker" : {
+            "libraries" : ["uuid",
+                           "xrt_coreutil"
+               ]
+        }
+    },
+   "targets": [
+       "hw_emu",
+       "hw" 
+    ],
+   "match_ini" : "false", 
+    "containers": [
+        {
+            "accelerators": [
+                {
+                    "compute_units": [
+                        {
+                            "arguments": [
+                                {
+                                    "name": "in1", 
+                                    "memory": "DDR[0]"
+                                }, 
+                                {
+                                    "name": "in2", 
+                                    "memory": "DDR[0]"
+                                }, 
+                                {
+                                    "name": "out_r", 
+                                    "memory": "DDR[0]"
+                                }
+                            ]
+                        }, 
+                        {
+                            "arguments": [
+                                {
+                                    "name": "in1", 
+                                    "memory": "DDR[1]"
+                                }, 
+                                {
+                                    "name": "in2", 
+                                    "memory": "DDR[1]"
+                                }, 
+                                {
+                                    "name": "out_r", 
+                                    "memory": "DDR[1]"
+                                }
+                            ]
+                        }, 
+                        {
+                            "arguments": [
+                                {
+                                    "name": "in1", 
+                                    "memory": "PLRAM[0]"
+                                }, 
+                                {
+                                    "name": "in2", 
+                                    "memory": "PLRAM[0]"
+                                }, 
+                                {
+                                    "name": "out_r", 
+                                    "memory": "PLRAM[0]"
+                                }
+                            ]
+                        }, 
+                        {
+                            "arguments": [
+                                {
+                                    "name": "in1", 
+                                    "memory": "PLRAM[1]"
+                                }, 
+                                {
+                                    "name": "in2", 
+                                    "memory": "PLRAM[1]"
+                                }, 
+                                {
+                                    "name": "out_r", 
+                                    "memory": "PLRAM[1]"
+                                }
+                            ]
+                        }
+                    ], 
+                    "location": "src/vadd.cpp", 
+                    "name": "vadd", 
+                    "num_compute_units": "4"
+                }
+            ], 
+            "name": "vadd"
+        }
+    ],
+    "launch": [
+        {
+            "cmd_args": "-x BUILD/vadd.xclbin", 
+            "name": "generic launch for all flows"
+        }
+    ], 
+    "contributors": [
+        {
+            "url": "http://www.xilinx.com", 
+            "group": "Xilinx"
+        }
+    ],
+    "testinfo": {
+        "disable": false,
+        "profile": "no",
+        "jobs": [
+            {
+                "index": 0,
+                "dependency": [],
+                "env": "",
+                "cmd": "",
+                "max_memory_MB": 32768,
+                "max_time_min": 300
+            }
+        ],
+        "targets": [
+            "vitis_sw_emu",
+            "vitis_hw_emu",
+            "vitis_hw"
+        ],
+        "category": "canary"
+    }
+}
