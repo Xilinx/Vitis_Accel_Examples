@@ -45,16 +45,16 @@ void krnl_chain_mmult(int* a, int* b, int* c, int* d, int* output, int dim) {
     int tmp = dim;
     strm_ctrl_trans1.write(tmp);
 
-#pragma HLS STREAM variable = strm_ctrl_trans1 depth = 4
-#pragma HLS STREAM variable = strm_ctrl_trans2 depth = 4
-#pragma HLS STREAM variable = strm_ctrl_trans3 depth = 4
-#pragma HLS STREAM variable = strm_ctrl_trans4 depth = 4
-#pragma HLS STREAM variable = strm_ctrl_trans5 depth = 4
+#pragma HLS STREAM variable = strm_ctrl_trans1 depth = 1024
+#pragma HLS STREAM variable = strm_ctrl_trans2 depth = 1024
+#pragma HLS STREAM variable = strm_ctrl_trans3 depth = 1024
+#pragma HLS STREAM variable = strm_ctrl_trans4 depth = 1024
+#pragma HLS STREAM variable = strm_ctrl_trans5 depth = 1024
 
-#pragma HLS STREAM variable = strm_a depth = 4
-#pragma HLS STREAM variable = strm_b depth = 4
-#pragma HLS STREAM variable = strm_c depth = 4
-#pragma HLS STREAM variable = strm_d depth = 4
+#pragma HLS STREAM variable = strm_a depth = 4096
+#pragma HLS STREAM variable = strm_b depth = 4096
+#pragma HLS STREAM variable = strm_c depth = 4096
+#pragma HLS STREAM variable = strm_d depth = 4096
 
 #pragma HLS DATAFLOW
 

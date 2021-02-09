@@ -16,7 +16,7 @@
 #ifndef __KRNL_MMULT__
 #define __KRNL_MMULT__
 #define DWIDTH 32
-#define MAT_DIM 8
+#define MAT_DIM 32
 // typedef ap_axis<DWIDTH, 0, 0, 0> pkt;
 typedef int pkt;
 // Template to avoid signature conflict in sw_em
