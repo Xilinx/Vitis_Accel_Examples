@@ -128,6 +128,7 @@ def commandargs(target,data):
     else:
         target.write('./' + data["host"]["host_exe"])
     target.write("\n\n")
+    return
 
 # Get the argument from the description
 script, desc_file, name = argv
