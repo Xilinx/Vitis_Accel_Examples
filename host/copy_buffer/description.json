@@ -14,9 +14,6 @@
     "key_concepts": [
         "Copy Buffer"
     ], 
-    "platform_whitelist": [
-        "u280"
-    ],
     "platform_blacklist": [
         "xilinx_u200_xdma_201830",
         "xilinx_u250_xdma_201830",

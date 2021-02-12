@@ -7,8 +7,7 @@
     "flow": "vitis", 
     "platform_type": "pcie", 
     "platform_whitelist": [
-        "aws-vu9p-f1",
-        "u250"
+        "aws-vu9p-f1"
     ], 
     "platform_blacklist": [
         "_u25_",
