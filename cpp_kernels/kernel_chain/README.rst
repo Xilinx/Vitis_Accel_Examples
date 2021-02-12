@@ -67,4 +67,21 @@ and simple kernel.
    #pragma HLS INTERFACE s_axilite port = return bundle = control
    #pragma HLS INTERFACE ap_ctrl_chain port = return bundle = control
 
+Following is the real log reported while running the design on U200
+platform with 10 iterations:
+
+::
+
+    --------------------------------------------------
+                    Performance Summary                  
+    --------------------------------------------------
+    -------------------------+-------------------------
+     Kernel(10 iterations)   |    Wall-Clock Time (s)  
+    -------------------------+-------------------------
+     krnl_chain_mmult        | 0.00305935              
+     krnl_simple_mmult       | 0.00534336              
+    -------------------------+-------------------------
+     Speedup:                | 1.74657	                
+    -------------------------+-------------------------
+
 For more comprehensive documentation, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.

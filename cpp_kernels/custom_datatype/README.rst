@@ -34,7 +34,7 @@ Once the environment has been configured, the application can be executed by
 
 ::
 
-   ./custom_datatype -x <rgb_to_hsv XCLBIN> -i $(ABS_COMMON_REPO)/common/data/xilinx_logo.bmp
+   ./custom_datatype -x <rgb_to_hsv XCLBIN> -i $(XF_PROJ_ROOT)/common/data/xilinx_logo.bmp
 
 DETAILS
 -------

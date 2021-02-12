@@ -40,7 +40,7 @@ Once the environment has been configured, the application can be executed by
 
 ::
 
-   ./gmem_2banks -x <apply_watermark XCLBIN> -i $(ABS_COMMON_REPO)/common/data/xilinx_img.bmp -c ./data/golden.bmp
+   ./gmem_2banks -x <apply_watermark XCLBIN> -i $(XF_PROJ_ROOT)/common/data/xilinx_img.bmp -c ./data/golden.bmp
 
 DETAILS
 -------

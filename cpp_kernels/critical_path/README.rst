@@ -32,7 +32,7 @@ Once the environment has been configured, the application can be executed by
 
 ::
 
-   ./critical_path -x <apply_watermark_GOOD XCLBIN> -i $(ABS_COMMON_REPO)/common/data/xilinx_img.bmp -c ./data/golden.bmp
+   ./critical_path -x <apply_watermark_GOOD XCLBIN> -i $(XF_PROJ_ROOT)/common/data/xilinx_img.bmp -c ./data/golden.bmp
 
 DETAILS
 -------
