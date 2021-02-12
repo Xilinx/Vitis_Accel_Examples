@@ -46,3 +46,4 @@ Once the environment has been configured, the application can be executed by
 
    ./xil_gzip -sx <compress_decompress XCLBIN> -v ./sample.txt
 
+For more comprehensive documentation, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.

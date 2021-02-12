@@ -7,7 +7,7 @@ PROFILE := no
 
 #Generates profile summary report
 ifeq ($(PROFILE), yes)
-LDCLFLAGS += --profile_kernel data:all:all:all
+VPP_LDFLAGS += --profile_kernel data:all:all:all
 endif
 
 DEBUG := no
@@ -28,7 +28,7 @@ endif
 
 #Generates debug summary report
 ifeq ($(DEBUG), yes)
-LDCLFLAGS += --dk list_ports
+VPP_LDFLAGS += --dk list_ports
 endif
 
 #Setting Platform Path

@@ -9,15 +9,15 @@ ddr_banks := 1
 endif
 
 ifeq ($(findstring zc, $(DEVICE)), zc)
-LDCLFLAGS+= --config $(ddr_banks)bank_zc.cfg
+VPP_LDFLAGS+= --config $(ddr_banks)bank_zc.cfg
 else
 ifeq ($(findstring samsung, $(DEVICE)), samsung)
-LDCLFLAGS+= --config samsung.cfg
+VPP_LDFLAGS+= --config samsung.cfg
 else
-LDCLFLAGS+= --config $(ddr_banks)bank.cfg
+VPP_LDFLAGS+= --config $(ddr_banks)bank.cfg
 endif
 endif
 
-CLFLAGS += -DNDDR_BANKS=$(ddr_banks)
+VPP_FLAGS += -DNDDR_BANKS=$(ddr_banks)
 
 CXXFLAGS += -DNDDR_BANKS=$(ddr_banks)

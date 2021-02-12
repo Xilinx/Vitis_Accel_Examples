@@ -34,3 +34,4 @@ Once the environment has been configured, the application can be executed by
 
    ./host.exe <transp XCLBIN> transp 256 512 A0 B0
 
+For more comprehensive documentation, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.

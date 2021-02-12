@@ -35,3 +35,19 @@ Once the environment has been configured, the application can be executed by
 
    ./mult_compute_units_xrt  -x <vadd XCLBIN>
 
+DETAILS
+-------
+
+This example explains how to create multiple instances of a kernel and
+execute them concurrently using xrt native api's.
+
+For the same kernel to be instantiated into multiple compute units,
+``nk`` flag is used to specify the number of compute units in a ``.cfg``
+config file as shown below:
+
+::
+
+   [connectivity]
+   nk=vadd:4
+
+For more comprehensive documentation, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.

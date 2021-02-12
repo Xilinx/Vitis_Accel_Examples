@@ -45,3 +45,4 @@ Once the environment has been configured, the application can be executed by
 
    ./api_gemm.exe <blas XCLBIN> 64 64 64 64 64 64 64 1 0
 
+For more comprehensive documentation, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.

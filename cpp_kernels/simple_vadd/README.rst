@@ -32,3 +32,4 @@ Once the environment has been configured, the application can be executed by
 
    ./simple_vadd <krnl_vadd XCLBIN>
 
+For more comprehensive documentation, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.

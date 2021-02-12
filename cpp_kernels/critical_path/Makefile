@@ -1,3 +1,20 @@
+#
+# Copyright 2019-2020 Xilinx, Inc.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# makefile-generator v1.0.3
+#
+
 ############################## Help Section ##############################
 .PHONY: help
 
@@ -38,7 +55,7 @@ help::
 MK_PATH := $(abspath $(lastword $(MAKEFILE_LIST)))
 COMMON_REPO ?= $(shell bash -c 'export MK_PATH=$(MK_PATH); echo $${MK_PATH%cpp_kernels/critical_path/*}')
 PWD = $(shell readlink -f .)
-ABS_COMMON_REPO = $(shell readlink -f $(COMMON_REPO))
+XF_PROJ_ROOT = $(shell readlink -f $(COMMON_REPO))
 
 TARGET := hw
 HOST_ARCH := x86
@@ -61,20 +78,20 @@ LAUNCH_EMULATOR = $(PACKAGE_OUT)/launch_$(TARGET).sh
 RESULT_STRING = TEST PASSED
 
 VPP := v++
-CMD_ARGS = -x $(BUILD_DIR)/apply_watermark_GOOD.xclbin -i $(ABS_COMMON_REPO)/common/data/xilinx_img.bmp -c ./data/golden.bmp
+CMD_ARGS = -x $(BUILD_DIR)/apply_watermark_GOOD.xclbin -i $(XF_PROJ_ROOT)/common/data/xilinx_img.bmp -c ./data/golden.bmp
 SDCARD := sd_card
 
-include $(ABS_COMMON_REPO)/common/includes/opencl/opencl.mk
+include $(XF_PROJ_ROOT)/common/includes/opencl/opencl.mk
 CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++1y
 LDFLAGS += $(opencl_LDFLAGS)
 
 ############################## Setting up Host Variables ##############################
 #Include Required Host Source Files
-CXXFLAGS += -I$(ABS_COMMON_REPO)/common/includes/xcl2
-CXXFLAGS += -I$(ABS_COMMON_REPO)/common/includes/cmdparser
-CXXFLAGS += -I$(ABS_COMMON_REPO)/common/includes/logger
-CXXFLAGS += -I$(ABS_COMMON_REPO)/common/includes/bitmap
-HOST_SRCS += $(ABS_COMMON_REPO)/common/includes/xcl2/xcl2.cpp $(ABS_COMMON_REPO)/common/includes/cmdparser/cmdlineparser.cpp $(ABS_COMMON_REPO)/common/includes/logger/logger.cpp $(ABS_COMMON_REPO)/common/includes/bitmap/bitmap.cpp ./src/host.cpp 
+CXXFLAGS += -I$(XF_PROJ_ROOT)/common/includes/xcl2
+CXXFLAGS += -I$(XF_PROJ_ROOT)/common/includes/cmdparser
+CXXFLAGS += -I$(XF_PROJ_ROOT)/common/includes/logger
+CXXFLAGS += -I$(XF_PROJ_ROOT)/common/includes/bitmap
+HOST_SRCS += $(XF_PROJ_ROOT)/common/includes/xcl2/xcl2.cpp $(XF_PROJ_ROOT)/common/includes/cmdparser/cmdlineparser.cpp $(XF_PROJ_ROOT)/common/includes/logger/logger.cpp $(XF_PROJ_ROOT)/common/includes/bitmap/bitmap.cpp ./src/host.cpp 
 # Host compiler global settings
 CXXFLAGS += -fmessage-length=0
 LDFLAGS += -lrt -lstdc++ 
@@ -85,11 +102,11 @@ endif
 
 ############################## Setting up Kernel Variables ##############################
 # Kernel compiler global settings
-CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps 
+VPP_FLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps 
 ifneq ($(TARGET), hw)
-	CLFLAGS += -g
+	VPP_FLAGS += -g
 endif
-CLFLAGS_apply_watermark +=  -DBAD_DESIGN=0
+VPP_FLAGS_apply_watermark +=  -DBAD_DESIGN=0
 
 
 
@@ -120,14 +137,14 @@ xclbin: build
 ############################## Setting Rules for Binary Containers (Building Kernels) ##############################
 $(TEMP_DIR)/apply_watermark.xo: src/apply_watermark.cpp
 	mkdir -p $(TEMP_DIR)
-	$(VPP) -c -k apply_watermark $(CLFLAGS) $(CLFLAGS_apply_watermark) --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
+	$(VPP) $(VPP_FLAGS) $(VPP_FLAGS_apply_watermark) -c -k apply_watermark --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
 $(BUILD_DIR)/apply_watermark_GOOD.xclbin: $(BINARY_CONTAINER_apply_watermark_GOOD_OBJS)
 	mkdir -p $(BUILD_DIR)
 ifeq ($(HOST_ARCH), x86)
-	$(VPP) -l $(LDCLFLAGS) $(CLFLAGS) --temp_dir $(BUILD_DIR)  -o'$(BUILD_DIR)/apply_watermark_GOOD.link.xclbin' $(+)
+	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(BUILD_DIR)  -o'$(BUILD_DIR)/apply_watermark_GOOD.link.xclbin' $(+)
 	$(VPP) -p $(BUILD_DIR)/apply_watermark_GOOD.link.xclbin -t $(TARGET) --platform $(DEVICE) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/apply_watermark_GOOD.xclbin
 else
-	$(VPP) -l $(LDCLFLAGS) $(CLFLAGS) --temp_dir $(BUILD_DIR) -o'$(BUILD_DIR)/apply_watermark_GOOD.xclbin' $(+)
+	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(BUILD_DIR) -o'$(BUILD_DIR)/apply_watermark_GOOD.xclbin' $(+)
 endif
 
 ############################## Setting Rules for Host (Building Host Executable) ##############################
@@ -178,7 +195,7 @@ endif
 ############################## Preparing sdcard ##############################
 sd_card: $(BINARY_CONTAINERS) $(EXECUTABLE) gen_run_app
 ifneq ($(HOST_ARCH), x86)
-	$(VPP) -p $(BUILD_DIR)/apply_watermark_GOOD.xclbin -t $(TARGET) --platform $(DEVICE) --package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.sd_file $(SD_IMAGE_FILE) --package.sd_file xrt.ini --package.sd_file $(RUN_APP_SCRIPT) --package.sd_file $(EXECUTABLE) --package.sd_file $(ABS_COMMON_REPO)/common/data/xilinx_img.bmp --package.sd_file ./data/golden.bmp -o apply_watermark_GOOD.xclbin
+	$(VPP) -p $(BUILD_DIR)/apply_watermark_GOOD.xclbin -t $(TARGET) --platform $(DEVICE) --package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.sd_file $(SD_IMAGE_FILE) --package.sd_file xrt.ini --package.sd_file $(RUN_APP_SCRIPT) --package.sd_file $(EXECUTABLE) --package.sd_file $(XF_PROJ_ROOT)/common/data/xilinx_img.bmp --package.sd_file ./data/golden.bmp -o apply_watermark_GOOD.xclbin
 endif
 
 ############################## Cleaning Rules ##############################

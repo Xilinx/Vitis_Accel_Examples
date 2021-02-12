@@ -1,3 +1,20 @@
+#
+# Copyright 2019-2020 Xilinx, Inc.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# makefile-generator v1.0.3
+#
+
 ############################## Help Section ##############################
 .PHONY: help
 
@@ -34,7 +51,7 @@ help::
 MK_PATH := $(abspath $(lastword $(MAKEFILE_LIST)))
 COMMON_REPO ?= $(shell bash -c 'export MK_PATH=$(MK_PATH); echo $${MK_PATH%host_xrt/streaming_k2k_mm_xrt/*}')
 PWD = $(shell readlink -f .)
-ABS_COMMON_REPO = $(shell readlink -f $(COMMON_REPO))
+XF_PROJ_ROOT = $(shell readlink -f $(COMMON_REPO))
 
 TARGET := hw
 HOST_ARCH := x86
@@ -59,15 +76,15 @@ RESULT_STRING = TEST PASSED
 VPP := v++
 CMD_ARGS = -x $(BUILD_DIR)/krnl_stream_vadd_vmult.xclbin
 
-include $(ABS_COMMON_REPO)/common/includes/opencl/opencl.mk
+include $(XF_PROJ_ROOT)/common/includes/opencl/opencl.mk
 CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++1y
 LDFLAGS += $(opencl_LDFLAGS)
 
 ############################## Setting up Host Variables ##############################
 #Include Required Host Source Files
-CXXFLAGS += -I$(ABS_COMMON_REPO)/common/includes/cmdparser
-CXXFLAGS += -I$(ABS_COMMON_REPO)/common/includes/logger
-HOST_SRCS += $(ABS_COMMON_REPO)/common/includes/cmdparser/cmdlineparser.cpp $(ABS_COMMON_REPO)/common/includes/logger/logger.cpp ./src/host.cpp 
+CXXFLAGS += -I$(XF_PROJ_ROOT)/common/includes/cmdparser
+CXXFLAGS += -I$(XF_PROJ_ROOT)/common/includes/logger
+HOST_SRCS += $(XF_PROJ_ROOT)/common/includes/cmdparser/cmdlineparser.cpp $(XF_PROJ_ROOT)/common/includes/logger/logger.cpp ./src/host.cpp 
 # Host compiler global settings
 CXXFLAGS += -fmessage-length=0
 LDFLAGS += -lrt -lstdc++ 
@@ -79,15 +96,15 @@ endif
 
 ############################## Setting up Kernel Variables ##############################
 # Kernel compiler global settings
-CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps 
+VPP_FLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps 
 ifneq ($(TARGET), hw)
-	CLFLAGS += -g
+	VPP_FLAGS += -g
 endif
 
 CXXFLAGS += -D_GLIBCXX_USE_CXX11_ABI=0
 
 # Kernel linker flags
-LDCLFLAGS += --config ./krnl_stream_vadd_vmult.cfg
+VPP_LDFLAGS += --config ./krnl_stream_vadd_vmult.cfg
 
 EXECUTABLE = ./streaming_k2k_mm_xrt
 EMCONFIG_DIR = $(TEMP_DIR)
@@ -115,17 +132,17 @@ xclbin: build
 ############################## Setting Rules for Binary Containers (Building Kernels) ##############################
 $(TEMP_DIR)/krnl_stream_vadd.xo: src/krnl_stream_vadd.cpp
 	mkdir -p $(TEMP_DIR)
-	$(VPP) -c -k krnl_stream_vadd $(CLFLAGS) --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
+	$(VPP) $(VPP_FLAGS) -c -k krnl_stream_vadd --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
 $(TEMP_DIR)/krnl_stream_vmult.xo: src/krnl_stream_vmult.cpp
 	mkdir -p $(TEMP_DIR)
-	$(VPP) -c -k krnl_stream_vmult $(CLFLAGS) --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
+	$(VPP) $(VPP_FLAGS) -c -k krnl_stream_vmult --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
 $(BUILD_DIR)/krnl_stream_vadd_vmult.xclbin: $(BINARY_CONTAINER_krnl_stream_vadd_vmult_OBJS)
 	mkdir -p $(BUILD_DIR)
 ifeq ($(HOST_ARCH), x86)
-	$(VPP) -l $(LDCLFLAGS) $(CLFLAGS) --temp_dir $(BUILD_DIR)  -o'$(BUILD_DIR)/krnl_stream_vadd_vmult.link.xclbin' $(+)
+	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(BUILD_DIR)  -o'$(BUILD_DIR)/krnl_stream_vadd_vmult.link.xclbin' $(+)
 	$(VPP) -p $(BUILD_DIR)/krnl_stream_vadd_vmult.link.xclbin -t $(TARGET) --platform $(DEVICE) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/krnl_stream_vadd_vmult.xclbin
 else
-	$(VPP) -l $(LDCLFLAGS) $(CLFLAGS) --temp_dir $(BUILD_DIR) -o'$(BUILD_DIR)/krnl_stream_vadd_vmult.xclbin' $(+)
+	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(BUILD_DIR) -o'$(BUILD_DIR)/krnl_stream_vadd_vmult.xclbin' $(+)
 endif
 
 ############################## Setting Rules for Host (Building Host Executable) ##############################

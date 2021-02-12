@@ -1,3 +1,20 @@
+#
+# Copyright 2019-2020 Xilinx, Inc.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# makefile-generator v1.0.3
+#
+
 ############################## Help Section ##############################
 .PHONY: help
 
@@ -38,7 +55,7 @@ help::
 MK_PATH := $(abspath $(lastword $(MAKEFILE_LIST)))
 COMMON_REPO ?= $(shell bash -c 'export MK_PATH=$(MK_PATH); echo $${MK_PATH%demo/kmeans/*}')
 PWD = $(shell readlink -f .)
-ABS_COMMON_REPO = $(shell readlink -f $(COMMON_REPO))
+XF_PROJ_ROOT = $(shell readlink -f $(COMMON_REPO))
 
 TARGET := hw
 HOST_ARCH := x86
@@ -64,7 +81,7 @@ VPP := v++
 CMD_ARGS = -x $(BUILD_DIR)/krnl_kmeans.xclbin -i ./data/100 -c ./data/100.gold_c10 -n 10
 SDCARD := sd_card
 
-include $(ABS_COMMON_REPO)/common/includes/opencl/opencl.mk
+include $(XF_PROJ_ROOT)/common/includes/opencl/opencl.mk
 include config.mk
 
 CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++1y
@@ -72,10 +89,10 @@ LDFLAGS += $(opencl_LDFLAGS)
 
 ############################## Setting up Host Variables ##############################
 #Include Required Host Source Files
-CXXFLAGS += -I$(ABS_COMMON_REPO)/common/includes/xcl2
-CXXFLAGS += -I$(ABS_COMMON_REPO)/common/includes/cmdparser
-CXXFLAGS += -I$(ABS_COMMON_REPO)/common/includes/logger
-HOST_SRCS += $(ABS_COMMON_REPO)/common/includes/xcl2/xcl2.cpp $(ABS_COMMON_REPO)/common/includes/cmdparser/cmdlineparser.cpp $(ABS_COMMON_REPO)/common/includes/logger/logger.cpp src/host.cpp src/fpga_kmeans.cpp src/kmeans_clustering_cmodel.c 
+CXXFLAGS += -I$(XF_PROJ_ROOT)/common/includes/xcl2
+CXXFLAGS += -I$(XF_PROJ_ROOT)/common/includes/cmdparser
+CXXFLAGS += -I$(XF_PROJ_ROOT)/common/includes/logger
+HOST_SRCS += $(XF_PROJ_ROOT)/common/includes/xcl2/xcl2.cpp $(XF_PROJ_ROOT)/common/includes/cmdparser/cmdlineparser.cpp $(XF_PROJ_ROOT)/common/includes/logger/logger.cpp src/host.cpp src/fpga_kmeans.cpp src/kmeans_clustering_cmodel.c 
 # Host compiler global settings
 CXXFLAGS += -fmessage-length=0
 LDFLAGS += -lrt -lstdc++ 
@@ -86,14 +103,14 @@ endif
 
 ############################## Setting up Kernel Variables ##############################
 # Kernel compiler global settings
-CLFLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps 
+VPP_FLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps 
 ifneq ($(TARGET), hw)
-	CLFLAGS += -g
+	VPP_FLAGS += -g
 endif
 
 
 # Kernel linker flags
-LDCLFLAGS += --config krnl_kmeans.cfg -O3
+VPP_LDFLAGS += --config krnl_kmeans.cfg -O3
 
 EXECUTABLE = ./kmeans
 EMCONFIG_DIR = $(TEMP_DIR)
@@ -122,14 +139,14 @@ xclbin: build
 ############################## Setting Rules for Binary Containers (Building Kernels) ##############################
 $(TEMP_DIR)/kmeans.xo: src/krnl_kmeans.cpp
 	mkdir -p $(TEMP_DIR)
-	$(VPP) -c -k kmeans $(CLFLAGS) --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
+	$(VPP) $(VPP_FLAGS) -c -k kmeans --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
 $(BUILD_DIR)/krnl_kmeans.xclbin: $(BINARY_CONTAINER_krnl_kmeans_OBJS)
 	mkdir -p $(BUILD_DIR)
 ifeq ($(HOST_ARCH), x86)
-	$(VPP) -l $(LDCLFLAGS) $(CLFLAGS) --temp_dir $(BUILD_DIR)  -o'$(BUILD_DIR)/krnl_kmeans.link.xclbin' $(+)
+	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(BUILD_DIR)  -o'$(BUILD_DIR)/krnl_kmeans.link.xclbin' $(+)
 	$(VPP) -p $(BUILD_DIR)/krnl_kmeans.link.xclbin -t $(TARGET) --platform $(DEVICE) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/krnl_kmeans.xclbin
 else
-	$(VPP) -l $(LDCLFLAGS) $(CLFLAGS) --temp_dir $(BUILD_DIR) -o'$(BUILD_DIR)/krnl_kmeans.xclbin' $(+)
+	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(BUILD_DIR) -o'$(BUILD_DIR)/krnl_kmeans.xclbin' $(+)
 endif
 
 ############################## Setting Rules for Host (Building Host Executable) ##############################

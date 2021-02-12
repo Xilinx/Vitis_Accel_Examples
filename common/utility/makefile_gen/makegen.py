@@ -9,6 +9,26 @@ import subprocess
 #ini flags
 config_file = 0
 
+def mk_copyright(target):
+    target.write("""#
+# Copyright 2019-2020 Xilinx, Inc.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# makefile-generator v1.0.3
+#
+""")
+    return
+
 def create_params(target,data): 
     target.write("############################## Setting up Project Variables ##############################\n")      
     target.write("# Points to top directory of Git repository\n")
@@ -20,7 +40,7 @@ def create_params(target,data):
     target.write("$(shell bash -c '%s')" %MK_PATH)
     target.write("\n")
     target.write("PWD = $(shell readlink -f .)\n")
-    target.write("ABS_COMMON_REPO = $(shell readlink -f $(COMMON_REPO))\n")
+    target.write("XF_PROJ_ROOT = $(shell readlink -f $(COMMON_REPO))\n")
     target.write("\n")
     target.write("TARGET := hw\n")
     target.write("HOST_ARCH := x86\n")
@@ -52,7 +72,7 @@ def create_params(target,data):
         for cmdargs in cmd_args[0:]:
             target.write(" ")
             cmdargs = cmdargs.replace('BUILD', '$(BUILD_DIR)')
-            cmdargs = cmdargs.replace('REPO_DIR','$(ABS_COMMON_REPO)')
+            cmdargs = cmdargs.replace('REPO_DIR','$(XF_PROJ_ROOT)')
             cmdargs = cmdargs.replace('PROJECT', '.')
             target.write(cmdargs)
     target.write("\n")
@@ -60,7 +80,7 @@ def create_params(target,data):
         target.write("SDCARD := ")
         target.write("sd_card\n")
     target.write("\n")
-    target.write("include $(ABS_COMMON_REPO)/common/includes/opencl/opencl.mk\n")
+    target.write("include $(XF_PROJ_ROOT)/common/includes/opencl/opencl.mk\n")
     if "config_make" in data:
         target.write("include ")
         target.write(data["config_make"])
@@ -81,7 +101,7 @@ def add_host_flags(target, data):
                 for path in data["host"]["compiler"]["includepaths"]:
                     path = path.replace('BUILD', '$(BUILD_DIR)')
                     path = path.replace('PROJECT', '.')
-                    path = path.replace('REPO_DIR','$(ABS_COMMON_REPO)')
+                    path = path.replace('REPO_DIR','$(XF_PROJ_ROOT)')
                     target.write("CXXFLAGS += -I" + path + "\n")
 
     target.write("HOST_SRCS += ")
@@ -89,7 +109,7 @@ def add_host_flags(target, data):
     if "sources" in data["host"]["compiler"]:
         for src in data["host"]["compiler"]["sources"]:
             src = src.replace('PROJECT', '.')
-            src = src.replace('REPO_DIR','$(ABS_COMMON_REPO)')
+            src = src.replace('REPO_DIR','$(XF_PROJ_ROOT)')
             target.write(src + " ")
             source_flag+=1
     if not source_flag:
@@ -134,16 +154,16 @@ def add_kernel_flags(target, data):
 
     if "v++" in data:
         target.write("VPP_FLAGS += \n")
-    target.write("CLFLAGS += ")
+    target.write("VPP_FLAGS += ")
     target.write("-t $(TARGET) --platform $(DEVICE) --save-temps \n")   
     target.write("ifneq ($(TARGET), hw)\n")
-    target.write("\tCLFLAGS += -g\n")
+    target.write("\tVPP_FLAGS += -g\n")
     target.write("endif\n")
     if "containers" in data:
         for con in data["containers"]:
             for acc in con["accelerators"]:
                 if "max_memory_ports" in acc:
-                    target.write("CLFLAGS += ")
+                    target.write("VPP_FLAGS += ")
                     target.write(" --max_memory_ports ")
                     target.write(acc["name"])
                     target.write("\n")
@@ -152,7 +172,7 @@ def add_kernel_flags(target, data):
         for con in data["containers"]:
             for acc in con["accelerators"]:
                 if "clflags" in acc:
-                    target.write("CLFLAGS_"+acc["name"]+" += ")
+                    target.write("VPP_FLAGS_"+acc["name"]+" += ")
                     flags = acc["clflags"].split(" ")
                     for flg in flags[0:]:
                         target.write(" ")
@@ -174,7 +194,7 @@ def add_kernel_flags(target, data):
             if  "ldclflags" in con:
                 target.write("\n")
                 target.write("# Kernel linker flags\n")
-                target.write("LDCLFLAGS +=")
+                target.write("VPP_LDFLAGS +=")
                 ldclflags = con["ldclflags"].split(" ")
                 for flg in ldclflags[0:]:
                     target.write(" ")
@@ -192,7 +212,7 @@ def add_kernel_flags(target, data):
                                         if not config_add:			
                                                 target.write("\n")
                                                 target.write("# Adding config files to linker\n")
-                                                target.write("LDCLFLAGS_"+con["name"]+" += ")
+                                                target.write("VPP_LDFLAGS_"+con["name"]+" += ")
                                                 target.write("--config "+con["name"]+".cfg ")
                                                 config_add=1
     target.write("\n")
@@ -214,7 +234,7 @@ def add_kernel_flags(target, data):
                 for path in data["v++"]["compiler"]["includepaths"]:
                     path = path.replace('BUILD', '$(BUILD_DIR)')
                     path = path.replace('PROJECT', '.')
-                    path = path.replace('REPO_DIR','$(ABS_COMMON_REPO)')
+                    path = path.replace('REPO_DIR','$(XF_PROJ_ROOT)')
                     target.write("VPP_FLAGS += -I" + path + "\n")
                 target.write("\n")
 
@@ -226,7 +246,7 @@ def add_kernel_flags(target, data):
                 for path in clflags:
                     path = path.replace('BUILD', '$(BUILD_DIR)')
                     path = path.replace('PROJECT', '.')
-                    path = path.replace('REPO_DIR','$(ABS_COMMON_REPO)')
+                    path = path.replace('REPO_DIR','$(XF_PROJ_ROOT)')
                     target.write(" " + path)
                 target.write("\n\n")
 
@@ -272,14 +292,12 @@ def building_kernel(target, data):
                     target.write("\n")
                     target.write("\tmkdir -p $(TEMP_DIR)\n")
                     target.write("\t$(VPP) ")
-                    if "v++" in data:
-                        target.write("$(VPP_FLAGS) ")
+                    target.write("$(VPP_FLAGS) ")
+                    if "clflags" in acc:
+                        target.write("$(VPP_FLAGS_"+acc["name"]+") ")
                     target.write("-c -k ")
                     target.write(acc["name"])
-                    target.write(" $(CLFLAGS) ")
-                    if "clflags" in acc:
-                        target.write("$(CLFLAGS_"+acc["name"]+") ")
-                    target.write("--temp_dir ")
+                    target.write(" --temp_dir ")
                     target.write("$(TEMP_DIR) ")
                     target.write(" -I'$(<D)'")
                     target.write(" -o'$@' '$<'\n")
@@ -292,23 +310,21 @@ def building_kernel(target, data):
             target.write("_OBJS)\n")
             target.write("\tmkdir -p $(BUILD_DIR)\n")
             target.write("ifeq ($(HOST_ARCH), x86)\n")
-            target.write("\t$(VPP) ")
-            if "v++" in data:
-                target.write("$(VPP_FLAGS) ")
-            target.write("-l $(LDCLFLAGS) $(CLFLAGS) --temp_dir ")
+            target.write("\t$(VPP) $(VPP_FLAGS) ")
+            target.write("-l $(VPP_LDFLAGS) --temp_dir ")
             target.write("$(BUILD_DIR) ")
 
             if "accelerators" in con:
                 for acc in con["accelerators"]:
                     if "compute_units" in acc or "num_compute_units" in acc:
-                        target.write(" $(LDCLFLAGS_"+con["name"]+")")
+                        target.write(" $(VPP_LDFLAGS_"+con["name"]+")")
                         break
             target.write(" -o'$(BUILD_DIR)/" + con["name"] + ".link.xclbin' $(+)\n")
 
             target.write("\t$(VPP) -p $(BUILD_DIR)/" + con["name"] + ".link.xclbin -t $(TARGET) --platform $(DEVICE) ")
             target.write("--package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/" + con["name"] + ".xclbin\n")
             target.write("else\n")
-            target.write("\t$(VPP) -l $(LDCLFLAGS) $(CLFLAGS) --temp_dir $(BUILD_DIR) ")
+            target.write("\t$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(BUILD_DIR) ")
             target.write("-o'$(BUILD_DIR)/" + con["name"] + ".xclbin' $(+)\n")
             target.write("endif\n")
     target.write("\n")
@@ -326,22 +342,20 @@ def building_kernel_rtl(target, data):
             target.write("_OBJS)\n")
             target.write("\tmkdir -p $(BUILD_DIR)\n")
             target.write("ifeq ($(HOST_ARCH), x86)\n")
-            target.write("\t$(VPP) ")
-            if "v++" in data:
-                target.write("$(VPP_FLAGS) ")
-            target.write("-l $(LDCLFLAGS) $(CLFLAGS) --temp_dir ")
+            target.write("\t$(VPP) $(VPP_FLAGS) ")
+            target.write("-l $(VPP_LDFLAGS) --temp_dir ")
             target.write("$(BUILD_DIR) ")
 
             if "accelerators" in con:
                 for acc in con["accelerators"]:
                     if "compute_units" in acc or "num_compute_units" in acc:
-                        target.write(" $(LDCLFLAGS_"+con["name"]+")")
+                        target.write(" $(VPP_LDFLAGS_"+con["name"]+")")
             target.write(" -o'$(BUILD_DIR)/" + con["name"] + ".link.xclbin' $(+)\n")
 
             target.write("\t$(VPP) -p $(BUILD_DIR)/" + con["name"] + ".link.xclbin -t $(TARGET) --platform $(DEVICE) ")
             target.write("--package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/" + con["name"] + ".xclbin\n")
             target.write("else\n")
-            target.write("\t$(VPP) -l $(LDCLFLAGS) $(CLFLAGS) --temp_dir $(BUILD_DIR) ")
+            target.write("\t$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(BUILD_DIR) ")
             target.write("-o'$(BUILD_DIR)/" + con["name"] + ".xclbin' $(+)\n")
             target.write("endif\n")
     return
@@ -500,7 +514,7 @@ def mk_run(target, data):
                 target.write("\n")
                 args = post_launch["launch_cmd"]
                 args = args.replace('BUILD', '$(BUILD_DIR)')
-                args = args.replace('REPO_DIR','$(ABS_COMMON_REPO)')
+                args = args.replace('REPO_DIR','$(XF_PROJ_ROOT)')
                 args = args.replace('HOST_EXE', '$(EXE_FILE)')
                 target.write("\t" + args)
     if not ("platform_type" in data and data["platform_type"] == "pcie"):
@@ -555,7 +569,7 @@ def mk_run(target, data):
                 target.write("\n")
                 args = post_launch["launch_cmd"]
                 args = args.replace('BUILD', '$(BUILD_DIR)')
-                args = args.replace('REPO_DIR','$(ABS_COMMON_REPO)')
+                args = args.replace('REPO_DIR','$(XF_PROJ_ROOT)')
                 args = args.replace('HOST_EXE', '$(EXE_FILE)')
                 target.write("\t" + args)
     if not ("platform_type" in data and data["platform_type"] == "pcie"):
@@ -589,7 +603,7 @@ def mk_sdcard(target, data):
             for arg in args:
                 if "xclbin" not in arg:
                     arg = arg.replace('BUILD', '$(BUILD_DIR)')
-                    arg = arg.replace('REPO_DIR','$(ABS_COMMON_REPO)')
+                    arg = arg.replace('REPO_DIR','$(XF_PROJ_ROOT)')
                     arg = arg.replace('PROJECT', '.')
                     extra_file_list.append(arg)  
     target.write("ifneq ($(HOST_ARCH), x86)\n")
@@ -622,7 +636,7 @@ def aws_build(target):
     target.write("\t$(COMMON_REPO)/common/utility/aws/run_aws.py $(BINARY_CONTAINERS)\n\n")
 
 def mk_help(target):
-    target.write("############################## Help Section ##############################\n")   
+    target.write("\n############################## Help Section ##############################\n")   
 
     target.write(".PHONY: help\n")
     target.write("\n")
@@ -681,12 +695,12 @@ def report_gen(target, data):
         target.write("\n")
         target.write("#Generates profile summary report\n")
         target.write("ifeq ($(PROFILE), yes)\n")
-        target.write("LDCLFLAGS += --profile_kernel data:all:all:all\n")
+        target.write("VPP_LDFLAGS += --profile_kernel data:all:all:all\n")
         target.write("endif\n")
         target.write("\n")
     
     target.write("DEBUG := no\n")
-    target.write("B_TEMP = `$(ABS_COMMON_REPO)/common/utility/parse_platform_list.py $(DEVICE)`\n")
+    target.write("B_TEMP = `$(XF_PROJ_ROOT)/common/utility/parse_platform_list.py $(DEVICE)`\n")
     if not ("platform_type" in data and data["platform_type"] == "pcie"):
         target.write("PERL := \n")
         target.write("QEMU_IMODE := no\n")
@@ -699,12 +713,12 @@ def report_gen(target, data):
         target.write("ifeq ($(QEMU_IMODE), yes)\n")
         target.write("\tLAUNCH_EMULATOR_CMD = $(LAUNCH_EMULATOR)\n")
         target.write("else\n")
-        target.write("\tLAUNCH_EMULATOR_CMD = $(PERL) $(ABS_COMMON_REPO)/common/utility/run_emulation.pl \"${LAUNCH_EMULATOR} | tee run_app.log\" \"${RUN_APP_SCRIPT} $(TARGET)\" \"${RESULT_STRING}\" \"7\"\n")
+        target.write("\tLAUNCH_EMULATOR_CMD = $(PERL) $(XF_PROJ_ROOT)/common/utility/run_emulation.pl \"${LAUNCH_EMULATOR} | tee run_app.log\" \"${RUN_APP_SCRIPT} $(TARGET)\" \"${RESULT_STRING}\" \"7\"\n")
         target.write("endif\n")
     target.write("\n")
     target.write("#Generates debug summary report\n")
     target.write("ifeq ($(DEBUG), yes)\n")
-    target.write("LDCLFLAGS += --dk list_ports\n")
+    target.write("VPP_LDFLAGS += --dk list_ports\n")
     target.write("endif\n")
     target.write("\n")
 
@@ -817,11 +831,12 @@ def readme_gen(target):
     target.write("docs: README.rst\n")
     target.write("\n")
     target.write("README.rst: description.json\n")
-    target.write("\t$(ABS_COMMON_REPO)/common/utility/readme_gen/readme_gen.py description.json")
+    target.write("\t$(XF_PROJ_ROOT)/common/utility/readme_gen/readme_gen.py description.json")
     target.write("\n")   
 
     
 def create_mk(target, data):
+    mk_copyright(target)
     mk_help(target)
     create_params(target,data)
     add_host_flags(target, data)

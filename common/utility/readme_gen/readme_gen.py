@@ -110,12 +110,26 @@ def commandargs(target,data):
                 arg = arg.replace('BUILD/', '<')
                 arg = arg.replace('PROJECT', '.')
                 arg = arg.replace('.xclbin', ' XCLBIN>') 
-                arg = arg.replace('REPO_DIR','$(ABS_COMMON_REPO)')
+                arg = arg.replace('REPO_DIR','$(XF_PROJ_ROOT)')
                 target.write(arg)
     else:
         target.write('./' + data["host"]["host_exe"])
     target.write("\n\n")
+    return
 
+def details(target):
+    listfiles = os.listdir('./')
+    if 'details.rst' in listfiles:
+        target.write("DETAILS\n")
+        target.write("-" * len("DETAILS"))
+        target.write("\n")
+        with open('details.rst', 'r') as fin:
+            for i, x in enumerate(fin):
+                if 2 <= i :
+                    target.write(x)
+        target.write("\n")
+    target.write("For more comprehensive documentation, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.")
+    return
 
 # Get the argument from the description
 script, desc_file = argv
@@ -139,5 +153,6 @@ else:
     requirements(target,data)
     hierarchy(target)
     commandargs(target,data)
+    details(target)
 
 target.close
