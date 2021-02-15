@@ -1,0 +1,87 @@
+{
+    "name": "Register access (XRT Native API's)", 
+    "description": [
+        "This is simple example which demonstrate register read & write using native xrt api's."
+    ],
+    "flow": "vitis",
+    "keywords": [
+        "read_register",
+        "write_register",
+        "cu_access_mode",
+        "exclusive" 
+    ], 
+    "os": [
+        "Linux"
+    ], 
+    "runtime": [
+        "OpenCL"
+    ], 
+    "host": {
+        "host_exe": "register_access_xrt",
+        "compiler": {
+            "sources": [
+                "REPO_DIR/common/includes/cmdparser/cmdlineparser.cpp",
+                "REPO_DIR/common/includes/logger/logger.cpp",
+                "./src/host.cpp"
+            ], 
+            "includepaths": [
+                "REPO_DIR/common/includes/cmdparser",
+                "REPO_DIR/common/includes/logger"
+            ],
+            "symbols": [
+                "_GLIBCXX_USE_CXX11_ABI=0"
+            ]
+        },
+        "linker" : {
+            "libraries" : ["uuid",
+                           "xrt_coreutil"
+               ]
+        }
+    },
+    "targets": [
+       "hw_emu",
+       "hw" 
+    ],
+    "match_ini": "false", 
+    "containers": [
+        {
+            "accelerators": [
+                {
+                    "name": "increment", 
+                    "location": "src/increment.cpp"
+                }
+            ], 
+            "name": "increment"
+        }
+    ],
+    "launch": [
+        {
+            "cmd_args": "-x BUILD/increment.xclbin", 
+            "name": "generic launch for all flows"
+        }
+    ], 
+    "contributors": [
+        {
+            "url": "http://www.xilinx.com", 
+            "group": "Xilinx"
+        }
+    ],
+    "testinfo": {
+        "disable": false,
+        "jobs": [
+            {
+                "index": 0,
+                "dependency": [],
+                "env": "",
+                "cmd": "",
+                "max_memory_MB": 32768,
+                "max_time_min": 300
+            }
+        ],
+        "targets": [
+            "vitis_hw_emu",
+            "vitis_hw"
+        ],
+        "category": "canary"
+    }
+}
