@@ -87,7 +87,7 @@
     ], 
     "launch": [
         {
-            "cmd_args": " -x BUILD/krnl_vadd.xclbin", 
+            "cmd_args": "-x BUILD/krnl_vadd.xclbin", 
             "name": "generic launch for all flows"
         }
     ], 

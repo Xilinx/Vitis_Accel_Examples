@@ -60,7 +60,7 @@
     ],
     "launch": [
         {
-            "cmd_args": " -x BUILD/vadd.xclbin", 
+            "cmd_args": "-x BUILD/vadd.xclbin", 
             "name": "generic launch for all flows"
         }
     ], 

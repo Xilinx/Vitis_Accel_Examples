@@ -74,7 +74,7 @@ LAUNCH_EMULATOR = $(PACKAGE_OUT)/launch_$(TARGET).sh
 RESULT_STRING = TEST PASSED
 
 VPP := v++
-CMD_ARGS =  -x $(BUILD_DIR)/krnl_vadd.xclbin
+CMD_ARGS = -x $(BUILD_DIR)/krnl_vadd.xclbin
 
 include $(XF_PROJ_ROOT)/common/includes/opencl/opencl.mk
 CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++1y
