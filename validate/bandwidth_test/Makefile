@@ -81,6 +81,19 @@ include config.mk
 CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++11
 LDFLAGS += $(opencl_LDFLAGS)
 
+ifeq ($(findstring zc, $(DEVICE)), zc)
+$(error This example is not supported for $(DEVICE))
+endif
+ifeq ($(findstring vck, $(DEVICE)), vck)
+$(error This example is not supported for $(DEVICE))
+endif
+ifeq ($(findstring 2019, $(DEVICE)), 2019)
+$(error This example is not supported for $(DEVICE))
+endif
+ifeq ($(findstring 2018, $(DEVICE)), 2018)
+$(error This example is not supported for $(DEVICE))
+endif
+
 ############################## Setting up Host Variables ##############################
 #Include Required Host Source Files
 CXXFLAGS += -I$(XF_PROJ_ROOT)/common/includes/xcl2
@@ -152,19 +165,6 @@ $(EMCONFIG_DIR)/emconfig.json:
 
 ############################## Setting Essential Checks and Running Rules ##############################
 run: all
-ifeq ($(findstring zc, $(DEVICE)), zc)
-$(error This example is not supported for $(DEVICE))
-endif
-ifeq ($(findstring vck, $(DEVICE)), vck)
-$(error This example is not supported for $(DEVICE))
-endif
-ifeq ($(findstring 2019, $(DEVICE)), 2019)
-$(error This example is not supported for $(DEVICE))
-endif
-ifeq ($(findstring 2018, $(DEVICE)), 2018)
-$(error This example is not supported for $(DEVICE))
-endif
-
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 	$(CP) $(EMCONFIG_DIR)/emconfig.json .
 	XCL_EMULATION_MODE=$(TARGET) $(EXECUTABLE) $(GEN_DIR)
