@@ -19,6 +19,7 @@
         "qdma",
         "vck",
         "samsung",
+        "_u2_",
         "nodma"
     ],  
     "runtime": [

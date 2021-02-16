@@ -20,6 +20,7 @@ Platforms containing following strings in their names are not supported for this
    u30
    u50
    samsung
+   _u2_
    nodma
 
 DESIGN FILES

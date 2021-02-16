@@ -82,6 +82,9 @@ include ./config.mk
 CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++11
 LDFLAGS += $(opencl_LDFLAGS)
 
+ifeq ($(findstring _u2_, $(DEVICE)), _u2_)
+$(error [ERROR]: This example is not supported for $(DEVICE).)
+endif
 ifeq ($(findstring _u25_, $(DEVICE)), _u25_)
 $(error [ERROR]: This example is not supported for $(DEVICE).)
 endif

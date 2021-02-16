@@ -5,6 +5,7 @@
     ], 
     "flow": "vitis",
     "platform_blacklist": [
+        "_u2_",
         "u30",
         "u50",
         "vck",
