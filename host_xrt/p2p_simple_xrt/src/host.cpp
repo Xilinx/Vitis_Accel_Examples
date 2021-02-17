@@ -32,52 +32,47 @@
 #define DATA_SIZE 4096
 #define INCR_VALUE 10
 
-void p2p_host_to_ssd(int &nvmeFd, xrtDeviceHandle device, xrt::kernel& krnl)
- {
-  //int err;
-  int ret = 0, inc = INCR_VALUE;
-  int size = DATA_SIZE;
-  size_t vector_size_bytes = sizeof(int) * DATA_SIZE;
+void p2p_host_to_ssd(int& nvmeFd, xrtDeviceHandle device, xrt::kernel& krnl) {
+    // int err;
+    int ret = 0, inc = INCR_VALUE;
+    int size = DATA_SIZE;
+    size_t vector_size_bytes = sizeof(int) * DATA_SIZE;
 
-  xrt::bo::flags flags = xrt::bo::flags::p2p;
-  auto bo0 = xrt::bo(device, vector_size_bytes, krnl.group_id(0));
-  auto p2p_bo1 = xrt::bo(device, vector_size_bytes, flags, krnl.group_id(1));
+    xrt::bo::flags flags = xrt::bo::flags::p2p;
+    auto bo0 = xrt::bo(device, vector_size_bytes, krnl.group_id(0));
+    auto p2p_bo1 = xrt::bo(device, vector_size_bytes, flags, krnl.group_id(1));
 
-  // Map the contents of the buffer object into host memory
-  auto bo0_map = bo0.map<int*>();
-  auto p2p_bo1_map = p2p_bo1.map<int*>();
-  std::fill(bo0_map, bo0_map + size, 0);
-  std::fill(p2p_bo1_map, p2p_bo1_map + size, 0);
+    // Map the contents of the buffer object into host memory
+    auto bo0_map = bo0.map<int*>();
+    auto p2p_bo1_map = p2p_bo1.map<int*>();
+    std::fill(bo0_map, bo0_map + size, 0);
+    std::fill(p2p_bo1_map, p2p_bo1_map + size, 0);
 
-  // Create the test data
-  for (int i = 0; i < size; ++i) {
-      bo0_map[i] = 15;
-  }
+    // Create the test data
+    for (int i = 0; i < size; ++i) {
+        bo0_map[i] = 15;
+    }
 
-  // Synchronize buffer content with device side
-  std::cout << "synchronize input buffer data to device global memory\n";
-  bo0.sync(XCL_BO_SYNC_BO_TO_DEVICE);
+    // Synchronize buffer content with device side
+    std::cout << "synchronize input buffer data to device global memory\n";
+    bo0.sync(XCL_BO_SYNC_BO_TO_DEVICE);
 
-  std::cout << "Execution of the kernel\n";
-  auto run = krnl(bo0, p2p_bo1, inc, size);
-  run.wait();
+    std::cout << "Execution of the kernel\n";
+    auto run = krnl(bo0, p2p_bo1, inc, size);
+    run.wait();
 
-  std::cout << "Now start P2P Write from device buffers to SSD\n" << std::endl;
-  ret = pwrite(nvmeFd, (void *)p2p_bo1_map, vector_size_bytes, 0);
-  if (ret == -1)
-    std::cout << "P2P: write() failed, err: " << ret << ", line: " << __LINE__
-              << std::endl;
-
+    std::cout << "Now start P2P Write from device buffers to SSD\n" << std::endl;
+    ret = pwrite(nvmeFd, (void*)p2p_bo1_map, vector_size_bytes, 0);
+    if (ret == -1) std::cout << "P2P: write() failed, err: " << ret << ", line: " << __LINE__ << std::endl;
 }
 
-void p2p_ssd_to_host(
-    int &nvmeFd, xrtDeviceHandle device, xrt::kernel& krnl ) {
-  int inc = INCR_VALUE;
-  int size = DATA_SIZE;
-  size_t vector_size_bytes = sizeof(int) * DATA_SIZE;
+void p2p_ssd_to_host(int& nvmeFd, xrtDeviceHandle device, xrt::kernel& krnl) {
+    int inc = INCR_VALUE;
+    int size = DATA_SIZE;
+    size_t vector_size_bytes = sizeof(int) * DATA_SIZE;
 
-  xrt::bo::flags flags = xrt::bo::flags::p2p;
-  std::cout << "Allocate Buffer in Global Memory\n";
+    xrt::bo::flags flags = xrt::bo::flags::p2p;
+    std::cout << "Allocate Buffer in Global Memory\n";
     auto p2p_bo0 = xrt::bo(device, vector_size_bytes, flags, krnl.group_id(0));
     auto bo_out = xrt::bo(device, vector_size_bytes, krnl.group_id(1));
 
@@ -94,91 +89,88 @@ void p2p_ssd_to_host(
         bo_out_map[i] = 0;
         bufReference[i] = 15 + 2 * inc;
     }
-  std::cout << "Now start P2P Read from SSD to device buffers\n" << std::endl;
-  if (pread(nvmeFd, (void *)p2p_bo0_map, vector_size_bytes, 0) <= 0) {
-    std::cerr << "ERR: pread failed: "
-              << " error: " << strerror(errno) << std::endl;
-    exit(EXIT_FAILURE);
-  }
+    std::cout << "Now start P2P Read from SSD to device buffers\n" << std::endl;
+    if (pread(nvmeFd, (void*)p2p_bo0_map, vector_size_bytes, 0) <= 0) {
+        std::cerr << "ERR: pread failed: "
+                  << " error: " << strerror(errno) << std::endl;
+        exit(EXIT_FAILURE);
+    }
 
-  std::cout << "Execution of the kernel\n";
-  auto run1 = krnl(p2p_bo0, bo_out, inc, size);
-  run1.wait();
+    std::cout << "Execution of the kernel\n";
+    auto run1 = krnl(p2p_bo0, bo_out, inc, size);
+    run1.wait();
 
-  // Get the output;
-  std::cout << "Get the output data from the device" << std::endl;
-  bo_out.sync(XCL_BO_SYNC_BO_FROM_DEVICE);
+    // Get the output;
+    std::cout << "Get the output data from the device" << std::endl;
+    bo_out.sync(XCL_BO_SYNC_BO_FROM_DEVICE);
 
-
-// Validate our results
+    // Validate our results
     if (std::memcmp(bo_out_map, bufReference, size))
         throw std::runtime_error("Value read back does not match reference");
 }
 
-int main(int argc, char **argv) {
- 
-  // Command Line Parser
-  sda::utils::CmdLineParser parser;
+int main(int argc, char** argv) {
+    // Command Line Parser
+    sda::utils::CmdLineParser parser;
 
-  // Switches
-  //**************//"<Full Arg>",  "<Short Arg>", "<Description>", "<Default>"
-  parser.addSwitch("--xclbin_file", "-x", "input binary file string", "");
-  parser.addSwitch("--device_id", "-d", "device index", "0");
-  parser.addSwitch("--file_path", "-p", "file path string", "");
-  parser.parse(argc, argv);
+    // Switches
+    //**************//"<Full Arg>",  "<Short Arg>", "<Description>", "<Default>"
+    parser.addSwitch("--xclbin_file", "-x", "input binary file string", "");
+    parser.addSwitch("--device_id", "-d", "device index", "0");
+    parser.addSwitch("--file_path", "-p", "file path string", "");
+    parser.parse(argc, argv);
 
-  // Read settings
-  std::string binaryFile = parser.value("xclbin_file");
-  int device_index = stoi(parser.value("device_id"));
-  std::string filename = parser.value("file_path");
+    // Read settings
+    std::string binaryFile = parser.value("xclbin_file");
+    int device_index = stoi(parser.value("device_id"));
+    std::string filename = parser.value("file_path");
 
-  if (argc < 3) {
-      parser.printHelp();
-      return EXIT_FAILURE;
-  }
+    if (argc < 3) {
+        parser.printHelp();
+        return EXIT_FAILURE;
+    }
 
-  std::cout << "Open the device" << device_index << std::endl;
-  auto device = xrt::device(device_index);
-  std::cout << "Load the xclbin " << binaryFile << std::endl;
-  auto uuid = device.load_xclbin(binaryFile);
+    std::cout << "Open the device" << device_index << std::endl;
+    auto device = xrt::device(device_index);
+    std::cout << "Load the xclbin " << binaryFile << std::endl;
+    auto uuid = device.load_xclbin(binaryFile);
 
-  auto krnl = xrt::kernel(device, uuid, "adder");
+    auto krnl = xrt::kernel(device, uuid, "adder");
 
-  if(filename.empty()){
-      filename = "./sample.txt";
-  }
-  int nvmeFd = -1;
-  // P2P transfer from host to SSD
-  std::cout << "############################################################\n";
-  std::cout << "                  Writing data to SSD                       \n";
-  std::cout << "############################################################\n";
-  // Get access to the NVMe SSD.
-  nvmeFd = open(filename.c_str(), O_RDWR | O_DIRECT);
-  if (nvmeFd < 0) {
-    std::cerr << "ERROR: open " << filename << "failed: " << std::endl;
-    return EXIT_FAILURE;
-  }
-  std::cout << "INFO: Successfully opened NVME SSD " << filename << std::endl;
-  p2p_host_to_ssd(nvmeFd, device, krnl);
-  (void)close(nvmeFd);
+    if (filename.empty()) {
+        filename = "./sample.txt";
+    }
+    int nvmeFd = -1;
+    // P2P transfer from host to SSD
+    std::cout << "############################################################\n";
+    std::cout << "                  Writing data to SSD                       \n";
+    std::cout << "############################################################\n";
+    // Get access to the NVMe SSD.
+    nvmeFd = open(filename.c_str(), O_RDWR | O_DIRECT);
+    if (nvmeFd < 0) {
+        std::cerr << "ERROR: open " << filename << "failed: " << std::endl;
+        return EXIT_FAILURE;
+    }
+    std::cout << "INFO: Successfully opened NVME SSD " << filename << std::endl;
+    p2p_host_to_ssd(nvmeFd, device, krnl);
+    (void)close(nvmeFd);
 
-  // P2P transfer from SSD to host
-  std::cout << "############################################################\n";
-  std::cout
-      << "                  Reading data from SSD                       \n";
-  std::cout << "############################################################\n";
+    // P2P transfer from SSD to host
+    std::cout << "############################################################\n";
+    std::cout << "                  Reading data from SSD                       \n";
+    std::cout << "############################################################\n";
 
-  nvmeFd = open(filename.c_str(), O_RDWR | O_DIRECT);
-  if (nvmeFd < 0) {
-    std::cerr << "ERROR: open " << filename << "failed: " << std::endl;
-    return EXIT_FAILURE;
-  }
-  std::cout << "INFO: Successfully opened NVME SSD " << filename << std::endl;
+    nvmeFd = open(filename.c_str(), O_RDWR | O_DIRECT);
+    if (nvmeFd < 0) {
+        std::cerr << "ERROR: open " << filename << "failed: " << std::endl;
+        return EXIT_FAILURE;
+    }
+    std::cout << "INFO: Successfully opened NVME SSD " << filename << std::endl;
 
-  p2p_ssd_to_host(nvmeFd, device, krnl);
+    p2p_ssd_to_host(nvmeFd, device, krnl);
 
-  (void)close(nvmeFd);
+    (void)close(nvmeFd);
 
-  std::cout << "TEST PASSED\n";
-  return 0;
+    std::cout << "TEST PASSED\n";
+    return 0;
 }
