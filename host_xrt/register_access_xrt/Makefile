@@ -82,6 +82,8 @@ CMD_ARGS = -x $(BUILD_DIR)/increment.xclbin
 SDCARD := sd_card
 
 include $(XF_PROJ_ROOT)/common/includes/opencl/opencl.mk
+include config.mk
+
 CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++1y
 LDFLAGS += $(opencl_LDFLAGS)
 
@@ -106,7 +108,6 @@ ifneq ($(TARGET), hw)
 	VPP_FLAGS += -g
 endif
 
-CXXFLAGS += -D_GLIBCXX_USE_CXX11_ABI=0
 
 
 EXECUTABLE = ./register_access_xrt

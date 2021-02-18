@@ -53,9 +53,6 @@
             "includepaths": [
                 "REPO_DIR/common/includes/cmdparser",
                 "REPO_DIR/common/includes/logger"
-            ],
-            "symbols": [
-                "_GLIBCXX_USE_CXX11_ABI=0"
             ]
         },
         "linker" : {
@@ -68,7 +65,8 @@
        "hw_emu",
        "hw" 
     ],
-    "match_ini": "false", 
+    "match_ini": "false",
+    "config_make": "config.mk", 
     "containers": [
         {
             "accelerators": [

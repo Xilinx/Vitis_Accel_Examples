@@ -1,3 +1,6 @@
+ifeq ($(HOST_ARCH), x86)
+CXXFLAGS += -D_GLIBCXX_USE_CXX11_ABI=0
+endif
 DRIVE_PATH:=
 ifneq ($(DRIVE_PATH), )
 	EXTRA_HOST_ARGS := -p $(DRIVE_PATH)
