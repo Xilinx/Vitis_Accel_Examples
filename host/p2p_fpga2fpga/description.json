@@ -18,6 +18,7 @@
         "Linux"
     ],
     "platform_blacklist": [
+        "flat",
         "zc",
         "201910",
         "2018",

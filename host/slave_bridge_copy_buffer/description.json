@@ -16,6 +16,7 @@
    "platform_blacklist": [ 
         "_u25_",
         "u30",
+        "u50c",
         "zc",
         "vck", 
         "aws-vu9p-f1",
