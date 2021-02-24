@@ -52,7 +52,7 @@ Platforms containing following strings in their names are not supported for this
    _u25_
    u30
    vck
-   aws
+   aws-vu9p-f1
    2018
    201910
 
@@ -73,5 +73,5 @@ Once the environment has been configured, the application can be executed by
 
 ::
 
-   ./p2p_simple -x <adder XCLBIN> -i /dev/nvme0n1
+   ./p2p_simple -x <adder XCLBIN>
 

@@ -351,6 +351,8 @@
 <li class="toctree-l2"><a class="reference internal" href="hbm_bandwidth.html">HBM Bandwidth</a></li>
 <li class="toctree-l2"><a class="reference internal" href="hbm_bandwidth_pseudo_random.html">HBM Bandwidth - Pseudo Random Ethash</a></li>
 <li class="toctree-l2"><a class="reference internal" href="hbm_simple.html">HBM Simple</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hbm_large_buffers.html">HBM Large Buffers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hbm_rama_ip.html">HBM Bandwidth for large buffers using RAMA IP</a></li>
 <li class="toctree-l2"><a class="reference internal" href="host_global_bandwidth.html">Host Global Bandwidth</a></li>
 <li class="toctree-l2"><a class="reference internal" href="iops_test.html">IOPS Test</a></li>
 <li class="toctree-l2"><a class="reference internal" href="multiple_cus_asymmetrical.html">Multiple Compute Units (Asymmetrical)</a></li>
@@ -362,6 +364,8 @@
 <li class="toctree-l2"><a class="reference internal" href="p2p_fpga2fpga.html">P2P FPGA to FPGA Example</a></li>
 <li class="toctree-l2"><a class="reference internal" href="p2p_fpga2fpga_bandwidth.html">P2P FPGA to FPGA Bandwidth Example</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Slave Bridge Simple</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#kernel-compilation">Kernel Compilation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#host-code-guidelines">Host code Guidelines</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#excluded-platforms">EXCLUDED PLATFORMS</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#design-files">DESIGN FILES</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#command-line-arguments">COMMAND LINE ARGUMENTS</a></li>
@@ -370,18 +374,10 @@
 <li class="toctree-l2"><a class="reference internal" href="slave_bridge_bandwidth.html">Slave Bridge Bandwidth</a></li>
 <li class="toctree-l2"><a class="reference internal" href="slave_bridge_copy_buffer.html">Slave Bridge Copy Buffer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="slave_bridge_copy_kernel.html">Slave Bridge Copy Kernel</a></li>
-<li class="toctree-l2"><a class="reference internal" href="streaming_chain.html">Stream Chain Matrix Multiplication</a></li>
-<li class="toctree-l2"><a class="reference internal" href="streaming_custom_datatype.html">Streaming Custom Data Type</a></li>
-<li class="toctree-l2"><a class="reference internal" href="streaming_host_bandwidth.html">Streaming Host to Kernel Bandwidth</a></li>
-<li class="toctree-l2"><a class="reference internal" href="streaming_free_running_h2k.html">Stream Free Running Host to Kernel(HLS C/C++)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="streaming_free_running_k2k.html">Stream Free Running Kernel (HLS C/C++)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="streaming_reg_access.html">Control and Status Register access continuously streaming kernel (HLS C/C++)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="device_only_buffer.html">Device Only Buffer</a></li>
-<li class="toctree-l2"><a class="reference internal" href="streaming_k2k.html">Stream Kernel to Kernel</a></li>
 <li class="toctree-l2"><a class="reference internal" href="streaming_k2k_mm.html">Stream Kernel to Kernel Memory Mapped</a></li>
-<li class="toctree-l2"><a class="reference internal" href="streaming_mm_mixed.html">Stream Memory Map Mixed</a></li>
-<li class="toctree-l2"><a class="reference internal" href="streaming_multi_cus.html">Stream Multiple Compute Units</a></li>
-<li class="toctree-l2"><a class="reference internal" href="streaming_simple.html">Stream Simple</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="cpp.html">C++ Kernels</a></li>
@@ -474,9 +470,34 @@
             
   <div class="section" id="slave-bridge-simple">
 <h1>Slave Bridge Simple<a class="headerlink" href="#slave-bridge-simple" title="Permalink to this headline">¶</a></h1>
-<p>This is simple slave bridge example to describe how a user kernel can access the host memory.</p>
+<p>This is simple slave bridge example to describe how a user kernel can access the host memory. The host memory allocation is done through the host code. The kernel reads data from host memory and writes result to host memory.</p>
 <p><strong>KEY CONCEPTS:</strong> slave bridge, address translation unit</p>
 <p><strong>KEYWORDS:</strong> XCL_MEM_EXT_HOST_ONLY, HOST[0]</p>
+<p>Slave Bridge IP is used by the kernels to read and write data directly from/to the Host Memory. Unlike the XDMA data transfer, this data transfer mechanism does not utlize global memories (DDR, HBM, PLRAM ,etc) on the card. Slave-Bridge provides DMA bypass capability that is primarily used for data transfer on a No-DMA platform.</p>
+<div class="section" id="kernel-compilation">
+<h2>Kernel Compilation<a class="headerlink" href="#kernel-compilation" title="Permalink to this headline">¶</a></h2>
+<p>Use the following V++ configuration option to connect a kernel AXI-Master Port to Slave-Bridge IP.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="o">[</span>connectivity<span class="o">]</span>
+<span class="nv">sp</span><span class="o">=</span>krnl_vadd_1.m_axi_gmem:HOST<span class="o">[</span><span class="m">0</span><span class="o">]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="host-code-guidelines">
+<h2>Host code Guidelines<a class="headerlink" href="#host-code-guidelines" title="Permalink to this headline">¶</a></h2>
+<p>XRT OpenCL introduces a new buffer extension Flag <code class="docutils literal notranslate"><span class="pre">XCL_MEM_EXT_HOST_ONLY</span></code> that should be used to denote a Host-only buffer</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">cl_mem_ext_ptr_t</span> <span class="n">host_buffer_ext</span><span class="p">;</span>
+<span class="n">host_buffer_ext</span><span class="p">.</span><span class="n">flags</span> <span class="o">=</span> <span class="n">XCL_MEM_EXT_HOST_ONLY</span><span class="p">;</span>
+<span class="n">host_buffer_ext</span><span class="p">.</span><span class="n">obj</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+<span class="n">host_buffer_ext</span><span class="p">.</span><span class="n">param</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+<span class="n">OCL_CHECK</span><span class="p">(</span><span class="n">err</span><span class="p">,</span> <span class="n">cl</span><span class="o">::</span><span class="n">Buffer</span> <span class="n">buffer_in_a</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">CL_MEM_READ_ONLY</span> <span class="o">|</span>
+                                                 <span class="n">CL_MEM_EXT_PTR_XILINX</span><span class="p">,</span>
+                                    <span class="n">size_in_bytes</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">host_buffer_ext</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">err</span><span class="p">));</span>
+</pre></div>
+</div>
+<p>For more information about slave bridge feature, please refer following XRT
+<a class="reference external" href="https://xilinx.github.io/XRT/master/html/sb.html">document</a>.</p>
+</div>
 <div class="section" id="excluded-platforms">
 <h2>EXCLUDED PLATFORMS<a class="headerlink" href="#excluded-platforms" title="Permalink to this headline">¶</a></h2>
 <p>Platforms containing following strings in their names are not supported for this example :</p>
@@ -484,11 +505,12 @@
 <span class="n">u30</span>
 <span class="n">zc</span>
 <span class="n">vck</span>
-<span class="n">aws</span>
+<span class="n">aws</span><span class="o">-</span><span class="n">vu9p</span><span class="o">-</span><span class="n">f1</span>
 <span class="mi">2019</span>
 <span class="mi">2018</span>
 <span class="mi">202010</span>
 <span class="n">samsung</span>
+<span class="n">_u2_</span>
 </pre></div>
 </div>
 </div>
@@ -503,7 +525,7 @@
 <div class="section" id="command-line-arguments">
 <h2>COMMAND LINE ARGUMENTS<a class="headerlink" href="#command-line-arguments" title="Permalink to this headline">¶</a></h2>
 <p>Once the environment has been configured, the application can be executed by</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">slave_bridge</span><span class="o">.</span><span class="n">exe</span> <span class="o">&lt;</span><span class="n">krnl_vadd</span> <span class="n">XCLBIN</span><span class="o">&gt;</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">slave_bridge_simple</span><span class="o">.</span><span class="n">exe</span> <span class="o">&lt;</span><span class="n">krnl_vadd</span> <span class="n">XCLBIN</span><span class="o">&gt;</span>
 </pre></div>
 </div>
 </div>

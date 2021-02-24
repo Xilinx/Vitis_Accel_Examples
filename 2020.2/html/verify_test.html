@@ -442,6 +442,7 @@
   <div class="section" id="verify-kernel">
 <h1>Verify Kernel<a class="headerlink" href="#verify-kernel" title="Permalink to this headline">¶</a></h1>
 <p>This is a simple design to verify that the platform has basic functionality.</p>
+<p>This is an extremely simple HLS C Kernel and accompanying host code to verify that the platform has basic functionality. It will make a call to the kernel with an empty global buffer. The kernel will then write the string of characters “Hello Worldn0” into the buffer and return. The host will copy this buffer locally and then print out the resulting buffer contents.</p>
 <div class="section" id="excluded-platforms">
 <h2>EXCLUDED PLATFORMS<a class="headerlink" href="#excluded-platforms" title="Permalink to this headline">¶</a></h2>
 <p>Platforms containing following strings in their names are not supported for this example :</p>

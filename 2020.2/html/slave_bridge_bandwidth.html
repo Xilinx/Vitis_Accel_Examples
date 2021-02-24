@@ -351,6 +351,8 @@
 <li class="toctree-l2"><a class="reference internal" href="hbm_bandwidth.html">HBM Bandwidth</a></li>
 <li class="toctree-l2"><a class="reference internal" href="hbm_bandwidth_pseudo_random.html">HBM Bandwidth - Pseudo Random Ethash</a></li>
 <li class="toctree-l2"><a class="reference internal" href="hbm_simple.html">HBM Simple</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hbm_large_buffers.html">HBM Large Buffers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hbm_rama_ip.html">HBM Bandwidth for large buffers using RAMA IP</a></li>
 <li class="toctree-l2"><a class="reference internal" href="host_global_bandwidth.html">Host Global Bandwidth</a></li>
 <li class="toctree-l2"><a class="reference internal" href="iops_test.html">IOPS Test</a></li>
 <li class="toctree-l2"><a class="reference internal" href="multiple_cus_asymmetrical.html">Multiple Compute Units (Asymmetrical)</a></li>
@@ -370,18 +372,10 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="slave_bridge_copy_buffer.html">Slave Bridge Copy Buffer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="slave_bridge_copy_kernel.html">Slave Bridge Copy Kernel</a></li>
-<li class="toctree-l2"><a class="reference internal" href="streaming_chain.html">Stream Chain Matrix Multiplication</a></li>
-<li class="toctree-l2"><a class="reference internal" href="streaming_custom_datatype.html">Streaming Custom Data Type</a></li>
-<li class="toctree-l2"><a class="reference internal" href="streaming_host_bandwidth.html">Streaming Host to Kernel Bandwidth</a></li>
-<li class="toctree-l2"><a class="reference internal" href="streaming_free_running_h2k.html">Stream Free Running Host to Kernel(HLS C/C++)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="streaming_free_running_k2k.html">Stream Free Running Kernel (HLS C/C++)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="streaming_reg_access.html">Control and Status Register access continuously streaming kernel (HLS C/C++)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="device_only_buffer.html">Device Only Buffer</a></li>
-<li class="toctree-l2"><a class="reference internal" href="streaming_k2k.html">Stream Kernel to Kernel</a></li>
 <li class="toctree-l2"><a class="reference internal" href="streaming_k2k_mm.html">Stream Kernel to Kernel Memory Mapped</a></li>
-<li class="toctree-l2"><a class="reference internal" href="streaming_mm_mixed.html">Stream Memory Map Mixed</a></li>
-<li class="toctree-l2"><a class="reference internal" href="streaming_multi_cus.html">Stream Multiple Compute Units</a></li>
-<li class="toctree-l2"><a class="reference internal" href="streaming_simple.html">Stream Simple</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="cpp.html">C++ Kernels</a></li>
@@ -477,6 +471,105 @@
 <p>This is slave bridge bandwidth example to describe host memory and kernel bandwidth test.</p>
 <p><strong>KEY CONCEPTS:</strong> slave bridge, bandwidth, address translation unit</p>
 <p><strong>KEYWORDS:</strong> XCL_MEM_EXT_HOST_ONLY, HOST[0]</p>
+<p>This is a host application to test Slavebridge bandwidth. It contains 3 kernels namely read_bandwidth, write_bandwidth and bandwidth (for concurrent read and write).The host application runs all 3 kernels with variable buffer sizes and measures the bandwidth for each case. Finally the design reports the maximum bandwidth achieved for each case.</p>
+<p>The host allocates a buffer into specific host-only buffer using <code class="docutils literal notranslate"><span class="pre">XCL_MEM_EXT_HOST_ONLY</span></code>. The <code class="docutils literal notranslate"><span class="pre">cl_mem_ext_ptr</span></code> object needs to be used in cases where memory assignment is done by user explicitly:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">cl_mem_ext_ptr_t</span> <span class="n">input_buffer_ext</span><span class="p">;</span>
+<span class="n">input_buffer_ext</span><span class="p">.</span><span class="n">flags</span> <span class="o">=</span> <span class="n">XCL_MEM_EXT_HOST_ONLY</span><span class="p">;</span>
+<span class="n">input_buffer_ext</span><span class="p">.</span><span class="n">obj</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+<span class="n">input_buffer_ext</span><span class="p">.</span><span class="n">param</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+<span class="n">OCL_CHECK</span><span class="p">(</span><span class="n">err</span><span class="p">,</span> <span class="n">buffer</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="k">new</span> <span class="n">cl</span><span class="o">::</span><span class="n">Buffer</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">CL_MEM_READ_WRITE</span> <span class="o">|</span> <span class="n">CL_MEM_EXT_PTR_XILINX</span><span class="p">,</span> <span class="n">bufsize</span><span class="p">,</span>
+                                          <span class="o">&amp;</span><span class="n">input_buffer_ext</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">err</span><span class="p">));</span>
+</pre></div>
+</div>
+<p>Using the <code class="docutils literal notranslate"><span class="pre">sp</span></code> option  in the krnl_bandwidth.cfg file, AXI-Master Port is connected to the Slave-Bridge IP:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sp</span><span class="o">=</span><span class="n">bandwidth_1</span><span class="o">.</span><span class="n">input0</span><span class="p">:</span><span class="n">HOST</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">sp</span><span class="o">=</span><span class="n">bandwidth_1</span><span class="o">.</span><span class="n">output0</span><span class="p">:</span><span class="n">HOST</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">sp</span><span class="o">=</span><span class="n">read_bandwidth_1</span><span class="o">.</span><span class="n">input0</span><span class="p">:</span><span class="n">HOST</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">sp</span><span class="o">=</span><span class="n">write_bandwidth_1</span><span class="o">.</span><span class="n">output0</span><span class="p">:</span><span class="n">HOST</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Following is the real log reported while running the design on U250 platform:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>INFO: Reading ./build_dir.hw.xilinx_u250_gen3x16_xdma_1_1_202010_1/bandwidth.xclbin
+Loading: &#39;./build_dir.hw.xilinx_u250_gen3x16_xdma_1_1_202010_1/bandwidth.xclbin&#39;
+Trying to program device[0]: xilinx_u250_gen3x16_xdma_shell_1_1
+Device[0]: program successful!
+Concurrent Read and Write Throughput = 2.65555 (GB/sec) for buffer size 0.00390625 MB
+Read Throughput = 2.31054 (GB/sec) for buffer size 0.00390625 MB
+Write Throughput = 2.34751 (GB/sec) for buffer size 0.00390625 MB
+
+Concurrent Read and Write Throughput = 4.73728 (GB/sec) for buffer size 0.0078125 MB
+Read Throughput = 3.94692 (GB/sec) for buffer size 0.0078125 MB
+Write Throughput = 3.85908 (GB/sec) for buffer size 0.0078125 MB
+
+Concurrent Read and Write Throughput = 7.91636 (GB/sec) for buffer size 0.015625 MB
+Read Throughput = 5.77328 (GB/sec) for buffer size 0.015625 MB
+Write Throughput = 5.87328 (GB/sec) for buffer size 0.015625 MB
+
+Concurrent Read and Write Throughput = 11.8423 (GB/sec) for buffer size 0.03125 MB
+Read Throughput = 7.79106 (GB/sec) for buffer size 0.03125 MB
+Write Throughput = 7.83305 (GB/sec) for buffer size 0.03125 MB
+
+Concurrent Read and Write Throughput = 15.6581 (GB/sec) for buffer size 0.0625 MB
+Read Throughput = 9.32546 (GB/sec) for buffer size 0.0625 MB
+Write Throughput = 9.48782 (GB/sec) for buffer size 0.0625 MB
+
+Concurrent Read and Write Throughput = 18.5828 (GB/sec) for buffer size 0.125 MB
+Read Throughput = 10.3222 (GB/sec) for buffer size 0.125 MB
+Write Throughput = 10.5661 (GB/sec) for buffer size 0.125 MB
+
+Concurrent Read and Write Throughput = 20.5549 (GB/sec) for buffer size 0.25 MB
+Read Throughput = 10.8991 (GB/sec) for buffer size 0.25 MB
+Write Throughput = 11.1812 (GB/sec) for buffer size 0.25 MB
+
+Concurrent Read and Write Throughput = 21.6408 (GB/sec) for buffer size 0.5 MB
+Read Throughput = 11.1996 (GB/sec) for buffer size 0.5 MB
+Write Throughput = 11.5278 (GB/sec) for buffer size 0.5 MB
+
+Concurrent Read and Write Throughput = 22.0769 (GB/sec) for buffer size 1 MB
+Read Throughput = 11.3371 (GB/sec) for buffer size 1 MB
+Write Throughput = 11.7182 (GB/sec) for buffer size 1 MB
+
+Concurrent Read and Write Throughput = 21.9922 (GB/sec) for buffer size 2 MB
+Read Throughput = 11.2091 (GB/sec) for buffer size 2 MB
+Write Throughput = 11.8187 (GB/sec) for buffer size 2 MB
+
+Concurrent Read and Write Throughput = 20.8569 (GB/sec) for buffer size 4 MB
+Read Throughput = 11.2285 (GB/sec) for buffer size 4 MB
+Write Throughput = 11.8662 (GB/sec) for buffer size 4 MB
+
+Concurrent Read and Write Throughput = 19.6829 (GB/sec) for buffer size 8 MB
+Read Throughput = 10.9834 (GB/sec) for buffer size 8 MB
+Write Throughput = 11.8879 (GB/sec) for buffer size 8 MB
+
+Concurrent Read and Write Throughput = 14.6202 (GB/sec) for buffer size 16 MB
+Read Throughput = 11.0069 (GB/sec) for buffer size 16 MB
+Write Throughput = 11.2662 (GB/sec) for buffer size 16 MB
+
+Concurrent Read and Write Throughput = 13.4051 (GB/sec) for buffer size 32 MB
+Read Throughput = 10.9978 (GB/sec) for buffer size 32 MB
+Write Throughput = 11.1839 (GB/sec) for buffer size 32 MB
+
+Concurrent Read and Write Throughput = 13.0062 (GB/sec) for buffer size 64 MB
+Read Throughput = 10.9995 (GB/sec) for buffer size 64 MB
+Write Throughput = 11.1202 (GB/sec) for buffer size 64 MB
+
+Concurrent Read and Write Throughput = 12.7202 (GB/sec) for buffer size 128 MB
+Read Throughput = 10.9816 (GB/sec) for buffer size 128 MB
+Write Throughput = 10.5749 (GB/sec) for buffer size 128 MB
+
+Concurrent Read and Write Throughput = 12.4748 (GB/sec) for buffer size 256 MB
+Read Throughput = 10.9845 (GB/sec) for buffer size 256 MB
+Write Throughput = 10.5827 (GB/sec) for buffer size 256 MB
+
+Maximum bandwidth achieved :
+Concurrent Read and Write Throughput = 22.0769 (GB/sec) for buffer size 1 MB
+Read Throughput = 11.3371 (GB/sec) for buffer size 1 MB
+Write Throughput = 11.8879 (GB/sec) for buffer size 8 MB
+
+TEST PASSED
+</pre></div>
+</div>
 <div class="section" id="excluded-platforms">
 <h2>EXCLUDED PLATFORMS<a class="headerlink" href="#excluded-platforms" title="Permalink to this headline">¶</a></h2>
 <p>Platforms containing following strings in their names are not supported for this example :</p>
@@ -484,11 +577,12 @@
 <span class="n">u30</span>
 <span class="n">zc</span>
 <span class="n">vck</span>
-<span class="n">aws</span>
+<span class="n">aws</span><span class="o">-</span><span class="n">vu9p</span><span class="o">-</span><span class="n">f1</span>
 <span class="mi">2019</span>
 <span class="mi">2018</span>
 <span class="mi">202010</span>
 <span class="n">samsung</span>
+<span class="n">_u2_</span>
 </pre></div>
 </div>
 </div>

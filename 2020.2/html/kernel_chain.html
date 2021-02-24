@@ -482,6 +482,21 @@ and simple kernel.</p>
 <span class="cp">#pragma HLS INTERFACE ap_ctrl_chain port = return bundle = control</span>
 </pre></div>
 </div>
+<p>Following is the real log reported while running the design on U200
+platform with 10 iterations:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">--------------------------------------------------</span>
+                <span class="n">Performance</span> <span class="n">Summary</span>
+<span class="o">--------------------------------------------------</span>
+<span class="o">-------------------------+-------------------------</span>
+ <span class="n">Kernel</span><span class="p">(</span><span class="mi">10</span> <span class="n">iterations</span><span class="p">)</span>   <span class="o">|</span>    <span class="n">Wall</span><span class="o">-</span><span class="n">Clock</span> <span class="n">Time</span> <span class="p">(</span><span class="n">s</span><span class="p">)</span>
+<span class="o">-------------------------+-------------------------</span>
+ <span class="n">krnl_chain_mmult</span>        <span class="o">|</span> <span class="mf">0.00305935</span>
+ <span class="n">krnl_simple_mmult</span>       <span class="o">|</span> <span class="mf">0.00534336</span>
+<span class="o">-------------------------+-------------------------</span>
+ <span class="n">Speedup</span><span class="p">:</span>                <span class="o">|</span> <span class="mf">1.74657</span>
+<span class="o">-------------------------+-------------------------</span>
+</pre></div>
+</div>
 <div class="section" id="excluded-platforms">
 <h2>EXCLUDED PLATFORMS<a class="headerlink" href="#excluded-platforms" title="Permalink to this headline">¶</a></h2>
 <p>Platforms containing following strings in their names are not supported for this example :</p>

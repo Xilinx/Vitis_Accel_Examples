@@ -17,6 +17,8 @@ OpenCL host code for optimized interfacing with Xilinx Devices.
    hbm_bandwidth.rst
    hbm_bandwidth_pseudo_random.rst
    hbm_simple.rst
+   hbm_large_buffers.rst
+   hbm_rama_ip.rst
    host_global_bandwidth.rst
    iops_test.rst
    multiple_cus_asymmetrical.rst
@@ -31,15 +33,7 @@ OpenCL host code for optimized interfacing with Xilinx Devices.
    slave_bridge_bandwidth.rst
    slave_bridge_copy_buffer.rst
    slave_bridge_copy_kernel.rst
-   streaming_chain.rst
-   streaming_custom_datatype.rst
-   streaming_host_bandwidth.rst
-   streaming_free_running_h2k.rst
    streaming_free_running_k2k.rst
    streaming_reg_access.rst
    device_only_buffer.rst
-   streaming_k2k.rst
    streaming_k2k_mm.rst
-   streaming_mm_mixed.rst
-   streaming_multi_cus.rst
-   streaming_simple.rst

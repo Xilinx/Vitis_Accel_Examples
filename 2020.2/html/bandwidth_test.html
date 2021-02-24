@@ -443,6 +443,26 @@
 <h1>Bandwidth Kernel<a class="headerlink" href="#bandwidth-kernel" title="Permalink to this headline">¶</a></h1>
 <p>This Bandwidth Example test the maximum possible bandwidth between Kernel and Global Memory.</p>
 <p><strong>KEY CONCEPTS:</strong> Burst Read/Write, Bandwidth</p>
+<p>This example contains bandwidth test kernels to validate FPGA DDR.</p>
+<p>Extracting Memory Information and generate cfg file:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Platforminfo -j (path to xpfm) &gt; platform_info.json</p></li>
+<li><p>From the platform_info.json file we pick the memory info</p></li>
+<li><p>Generate the meta data related to Memory Banks(DDR/HBM/HOST) to platform_bandwidth.cfg file</p></li>
+</ul>
+</div></blockquote>
+<p>Using the <code class="docutils literal notranslate"><span class="pre">sp</span></code> option  in the platform_bandwidth.cfg file AXI-Master Port is connected to the IP:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sp</span><span class="o">=</span><span class="n">bandwidth_1</span><span class="o">.</span><span class="n">input</span><span class="p">:</span><span class="n">DDR</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">sp</span><span class="o">=</span><span class="n">bandwidth_1</span><span class="o">.</span><span class="n">output</span><span class="p">:</span><span class="n">DDR</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">sp</span><span class="o">=</span><span class="n">bandwidth_2</span><span class="o">.</span><span class="n">input</span><span class="p">:</span><span class="n">DDR</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">sp</span><span class="o">=</span><span class="n">bandwidth_2</span><span class="o">.</span><span class="n">output</span><span class="p">:</span><span class="n">DDR</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">sp</span><span class="o">=</span><span class="n">bandwidth_3</span><span class="o">.</span><span class="n">input</span><span class="p">:</span><span class="n">DDR</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+<span class="n">sp</span><span class="o">=</span><span class="n">bandwidth_3</span><span class="o">.</span><span class="n">output</span><span class="p">:</span><span class="n">DDR</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+<span class="n">sp</span><span class="o">=</span><span class="n">bandwidth_4</span><span class="o">.</span><span class="n">input</span><span class="p">:</span><span class="n">DDR</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+<span class="n">sp</span><span class="o">=</span><span class="n">bandwidth_4</span><span class="o">.</span><span class="n">output</span><span class="p">:</span><span class="n">DDR</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+</pre></div>
+</div>
 <div class="section" id="excluded-platforms">
 <h2>EXCLUDED PLATFORMS<a class="headerlink" href="#excluded-platforms" title="Permalink to this headline">¶</a></h2>
 <p>Platforms containing following strings in their names are not supported for this example :</p>

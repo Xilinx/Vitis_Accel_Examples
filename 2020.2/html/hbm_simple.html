@@ -57,7 +57,7 @@
   <link rel="stylesheet" href="_static/css/pro.min.css" media="all" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Host Global Bandwidth" href="host_global_bandwidth.html" />
+    <link rel="next" title="HBM Large Buffers" href="hbm_large_buffers.html" />
     <link rel="prev" title="HBM Bandwidth - Pseudo Random Ethash" href="hbm_bandwidth_pseudo_random.html" /> 
 	</head>
 	<body>
@@ -356,6 +356,8 @@
 <li class="toctree-l3"><a class="reference internal" href="#command-line-arguments">COMMAND LINE ARGUMENTS</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="hbm_large_buffers.html">HBM Large Buffers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hbm_rama_ip.html">HBM Bandwidth for large buffers using RAMA IP</a></li>
 <li class="toctree-l2"><a class="reference internal" href="host_global_bandwidth.html">Host Global Bandwidth</a></li>
 <li class="toctree-l2"><a class="reference internal" href="iops_test.html">IOPS Test</a></li>
 <li class="toctree-l2"><a class="reference internal" href="multiple_cus_asymmetrical.html">Multiple Compute Units (Asymmetrical)</a></li>
@@ -370,18 +372,10 @@
 <li class="toctree-l2"><a class="reference internal" href="slave_bridge_bandwidth.html">Slave Bridge Bandwidth</a></li>
 <li class="toctree-l2"><a class="reference internal" href="slave_bridge_copy_buffer.html">Slave Bridge Copy Buffer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="slave_bridge_copy_kernel.html">Slave Bridge Copy Kernel</a></li>
-<li class="toctree-l2"><a class="reference internal" href="streaming_chain.html">Stream Chain Matrix Multiplication</a></li>
-<li class="toctree-l2"><a class="reference internal" href="streaming_custom_datatype.html">Streaming Custom Data Type</a></li>
-<li class="toctree-l2"><a class="reference internal" href="streaming_host_bandwidth.html">Streaming Host to Kernel Bandwidth</a></li>
-<li class="toctree-l2"><a class="reference internal" href="streaming_free_running_h2k.html">Stream Free Running Host to Kernel(HLS C/C++)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="streaming_free_running_k2k.html">Stream Free Running Kernel (HLS C/C++)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="streaming_reg_access.html">Control and Status Register access continuously streaming kernel (HLS C/C++)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="device_only_buffer.html">Device Only Buffer</a></li>
-<li class="toctree-l2"><a class="reference internal" href="streaming_k2k.html">Stream Kernel to Kernel</a></li>
 <li class="toctree-l2"><a class="reference internal" href="streaming_k2k_mm.html">Stream Kernel to Kernel Memory Mapped</a></li>
-<li class="toctree-l2"><a class="reference internal" href="streaming_mm_mixed.html">Stream Memory Map Mixed</a></li>
-<li class="toctree-l2"><a class="reference internal" href="streaming_multi_cus.html">Stream Multiple Compute Units</a></li>
-<li class="toctree-l2"><a class="reference internal" href="streaming_simple.html">Stream Simple</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="cpp.html">C++ Kernels</a></li>
@@ -509,26 +503,24 @@ application will run and performance will be reported. For Case2, three
 different banks will give higher DDR bandwidth compare to case1, so
 performance of Case2 will be better compare to case1. Following is the
 real log reported while running on U280 platform:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Platform</span> <span class="n">Name</span><span class="p">:</span> <span class="n">Xilinx</span>
-<span class="n">Found</span> <span class="n">Device</span><span class="o">=</span><span class="n">xilinx_u280_xdma_201920_1</span>
-<span class="n">INFO</span><span class="p">:</span> <span class="n">Reading</span> <span class="o">./</span><span class="n">build_dir</span><span class="o">.</span><span class="n">hw</span><span class="o">.</span><span class="n">xilinx_u280_xdma_201920_1</span><span class="o">/</span><span class="n">krnl_vadd</span><span class="o">.</span><span class="n">xclbin</span>
-<span class="n">Loading</span><span class="p">:</span> <span class="s1">&#39;./build_dir.hw.xilinx_u280_xdma_201920_1/krnl_vadd.xclbin&#39;</span>
-<span class="n">Running</span> <span class="n">CASE</span> <span class="mi">1</span>  <span class="p">:</span> <span class="n">Single</span> <span class="n">HBM</span> <span class="k">for</span> <span class="nb">all</span> <span class="n">three</span> <span class="n">Buffers</span>
-<span class="n">Picking</span> <span class="n">Buffer</span> <span class="n">size</span> <span class="mi">67108864</span> <span class="n">so</span> <span class="n">that</span> <span class="nb">all</span> <span class="n">three</span> <span class="n">buffer</span> <span class="n">should</span> <span class="n">fit</span> <span class="n">into</span> <span class="n">Single</span> <span class="n">HBM</span> <span class="p">(</span><span class="nb">max</span> <span class="mi">256</span><span class="n">MB</span><span class="p">)</span>
-<span class="n">Each</span> <span class="n">buffer</span> <span class="ow">is</span> <span class="n">allocated</span> <span class="k">with</span> <span class="n">same</span> <span class="n">HBM</span> <span class="n">bank</span><span class="o">.</span>
-<span class="nb">input</span> <span class="mi">1</span> <span class="o">-&gt;</span> <span class="n">bank</span> <span class="mi">0</span>
-<span class="nb">input</span> <span class="mi">2</span> <span class="o">-&gt;</span> <span class="n">bank</span> <span class="mi">0</span>
-<span class="n">output</span>  <span class="o">-&gt;</span> <span class="n">bank</span> <span class="mi">0</span>
-<span class="p">[</span><span class="n">CASE</span> <span class="mi">1</span><span class="p">]</span> <span class="n">THROUGHPUT</span> <span class="o">=</span> <span class="mf">9.54234</span> <span class="n">GB</span><span class="o">/</span><span class="n">s</span>
-<span class="n">Running</span> <span class="n">CASE</span> <span class="mi">2</span><span class="p">:</span> <span class="n">Three</span> <span class="n">Separate</span> <span class="n">Banks</span> <span class="k">for</span> <span class="n">Three</span> <span class="n">Buffers</span>
-<span class="n">For</span> <span class="n">This</span> <span class="n">case</span> <span class="n">each</span> <span class="n">buffer</span> <span class="n">will</span> <span class="n">be</span> <span class="n">having</span> <span class="n">different</span> <span class="n">HBM</span><span class="p">,</span> <span class="n">so</span> <span class="n">buffer</span> <span class="n">size</span> <span class="ow">is</span> <span class="n">picked</span> <span class="n">to</span> <span class="n">utilize</span> <span class="n">full</span> <span class="n">HBM</span>
-<span class="n">vector</span> <span class="n">size</span> <span class="ow">is</span> <span class="mi">268435456</span> <span class="k">as</span> <span class="n">maximum</span> <span class="n">possible</span> <span class="n">inside</span> <span class="n">single</span> <span class="n">HBM</span>
-<span class="n">Each</span> <span class="n">buffer</span> <span class="ow">is</span> <span class="n">allocated</span> <span class="k">with</span> <span class="n">different</span> <span class="n">HBM</span> <span class="n">bank</span><span class="o">.</span>
-<span class="nb">input</span> <span class="mi">1</span> <span class="o">-&gt;</span> <span class="n">bank</span> <span class="mi">1</span>
-<span class="nb">input</span> <span class="mi">2</span> <span class="o">-&gt;</span> <span class="n">bank</span> <span class="mi">2</span>
-<span class="n">output</span>  <span class="o">-&gt;</span> <span class="n">bank</span> <span class="mi">3</span>
-<span class="p">[</span><span class="n">CASE</span> <span class="mi">2</span><span class="p">]</span> <span class="n">THROUGHPUT</span> <span class="o">=</span> <span class="mf">38.7406</span> <span class="n">GB</span><span class="o">/</span><span class="n">s</span>
-<span class="n">TEST</span> <span class="n">PASSED</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Platform Name: Xilinx
+INFO: Reading ./build_dir.hw.xilinx_u50_gen3x16_xdma_201920_3/krnl_vadd.xclbin
+Loading: &#39;./build_dir.hw.xilinx_u50_gen3x16_xdma_201920_3/krnl_vadd.xclbin&#39;
+Trying to program device[0]: xilinx_u50_gen3x16_xdma_201920_3
+Device[0]: program successful!
+Running CASE 1  : Single HBM for all three Buffers
+Each buffer is allocated with same HBM bank.
+input 1 -&gt; bank 0
+input 2 -&gt; bank 0
+output  -&gt; bank 0
+[CASE 1] THROUGHPUT = 8.0181 GB/s
+Running CASE 2: Three Separate Banks for Three Buffers
+Each buffer is allocated with different HBM bank.
+input 1 -&gt; bank 1
+input 2 -&gt; bank 2
+output  -&gt; bank 3
+[CASE 2] THROUGHPUT = 24.4078 GB/s
+TEST PASSED
 </pre></div>
 </div>
 <div class="section" id="excluded-platforms">
@@ -540,8 +532,9 @@ real log reported while running on U280 platform:</p>
 <span class="n">zc</span>
 <span class="n">vck</span>
 <span class="n">u250</span>
-<span class="n">aws</span>
+<span class="n">aws</span><span class="o">-</span><span class="n">vu9p</span><span class="o">-</span><span class="n">f1</span>
 <span class="n">samsung</span>
+<span class="n">_u2_</span>
 <span class="n">nodma</span>
 </pre></div>
 </div>
@@ -579,7 +572,7 @@ real log reported while running on U280 platform:</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="host_global_bandwidth.html" class="btn btn-neutral float-right" title="Host Global Bandwidth" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="hbm_large_buffers.html" class="btn btn-neutral float-right" title="HBM Large Buffers" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="hbm_bandwidth_pseudo_random.html" class="btn btn-neutral float-left" title="HBM Bandwidth - Pseudo Random Ethash" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

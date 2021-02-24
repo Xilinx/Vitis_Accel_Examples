@@ -444,16 +444,32 @@
 <p>This slave bridge bandwidth design explains how direct host memory access can be done by the kernel.</p>
 <p><strong>KEY CONCEPTS:</strong> slave bridge, address translation unit</p>
 <p><strong>KEYWORDS:</strong> XCL_MEM_EXT_HOST_ONLY, HOST[0]</p>
+<p>This design is created to validate direct host memory access from kernel using slave bridge.</p>
+<p>The host allocates a buffer into specific host-only buffer using <code class="docutils literal notranslate"><span class="pre">XCL_MEM_EXT_HOST_ONLY</span></code>. The <code class="docutils literal notranslate"><span class="pre">cl_mem_ext_ptr</span></code> object needs to be used in cases where memory assignment is done by user explicitly:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">cl_mem_ext_ptr_t</span> <span class="n">input_buffer_ext</span><span class="p">;</span>
+<span class="n">input_buffer_ext</span><span class="p">.</span><span class="n">flags</span> <span class="o">=</span> <span class="n">XCL_MEM_EXT_HOST_ONLY</span><span class="p">;</span>
+<span class="n">input_buffer_ext</span><span class="p">.</span><span class="n">obj</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+<span class="n">input_buffer_ext</span><span class="p">.</span><span class="n">param</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+<span class="n">OCL_CHECK</span><span class="p">(</span><span class="n">err</span><span class="p">,</span> <span class="n">input_buffer</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="k">new</span> <span class="n">cl</span><span class="o">::</span><span class="n">Buffer</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">CL_MEM_READ_WRITE</span> <span class="o">|</span> <span class="n">CL_MEM_EXT_PTR_XILINX</span><span class="p">,</span> <span class="n">vector_size_bytes</span><span class="p">,</span>
+                                          <span class="o">&amp;</span><span class="n">input_buffer_ext</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">err</span><span class="p">));</span>
+</pre></div>
+</div>
+<p>Using the <code class="docutils literal notranslate"><span class="pre">sp</span></code> option  in the platform_slavebridge.cfg file, AXI-Master Port is connected to the Slave-Bridge IP:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sp</span><span class="o">=</span><span class="n">slavebridge_1</span><span class="o">.</span><span class="n">input</span><span class="p">:</span><span class="n">HOST</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">sp</span><span class="o">=</span><span class="n">slavebridge_1</span><span class="o">.</span><span class="n">output</span><span class="p">:</span><span class="n">HOST</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
 <div class="section" id="excluded-platforms">
 <h2>EXCLUDED PLATFORMS<a class="headerlink" href="#excluded-platforms" title="Permalink to this headline">¶</a></h2>
 <p>Platforms containing following strings in their names are not supported for this example :</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">zc</span>
 <span class="n">vck</span>
-<span class="n">aws</span>
+<span class="n">aws</span><span class="o">-</span><span class="n">vu9p</span><span class="o">-</span><span class="n">f1</span>
 <span class="mi">2019</span>
 <span class="mi">2018</span>
 <span class="mi">202010</span>
-<span class="n">samsung</span>
+<span class="n">_u2_</span>
 <span class="n">_u25_</span>
 <span class="n">u30</span>
 </pre></div>

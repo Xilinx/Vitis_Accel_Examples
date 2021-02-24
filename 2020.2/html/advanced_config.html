@@ -445,7 +445,19 @@
 <h1>Advanced Configuration<a class="headerlink" href="#advanced-configuration" title="Permalink to this headline">¶</a></h1>
 <p>This is simple example to describe how user can provide various advanced options in Vitis flow.</p>
 <p><strong>KEY CONCEPTS:</strong> Using custom Tcl, Setting Kernel Clock Frequency, Clock Uncertainity</p>
-<p><strong>KEYWORDS:</strong> config, set_clock_uncertainity, kernel_frequency, hls_pre_tcl</p>
+<p><strong>KEYWORDS:</strong> config, set_clock_uncertainity, kernel_frequency, hls.pre_tcl</p>
+<p>This is a simple example to describe how user can provide various advanced options in Vitis flow. The same can be achieved by the inclusion of cfg or tcl files.</p>
+<p>User can customize the clock_uncertainity using ‘set_clock_uncertainty’. Following is the content of my_directives.tcl file</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">set_clock_uncertainty</span> <span class="mf">0.370</span>
+</pre></div>
+</div>
+<p>The clock uncertainty setting needs to be specified in my_directives.tcl file. We include this tcl file in our vadd_vadd.cfg file and specify the kernel_frequency and clock uncertainity.</p>
+<p>Following is the content of cfg file</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">kernel_frequency</span><span class="o">=</span><span class="mi">0</span><span class="o">:</span><span class="mi">280</span>
+<span class="p">[</span><span class="n">hls</span><span class="p">]</span>
+<span class="n">pre_tcl</span><span class="o">=</span><span class="n">my_directives</span><span class="p">.</span><span class="n">tcl</span>
+</pre></div>
+</div>
 <div class="section" id="excluded-platforms">
 <h2>EXCLUDED PLATFORMS<a class="headerlink" href="#excluded-platforms" title="Permalink to this headline">¶</a></h2>
 <p>Platforms containing following strings in their names are not supported for this example :</p>

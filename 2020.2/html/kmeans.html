@@ -462,7 +462,7 @@
 <p><strong>KEYWORDS:</strong> DATAFLOW, ARRAY PARTITION</p>
 <p>The application sets two compute units by default so that it will fit
 all Xilinx Devices. For bigger Xilinx Devices, user can increase the
-number of Compute units in krnl_kmeans.ini, kmeans_config.h and
+number of Compute units in krnl_kmeans.cfg, kmeans_config.h and
 config.mk files for achieving better performance. It is tested upto 8
 compute units for U200 device and got better results when compared to
 single compute units, which shows that application is more compute bound
@@ -488,6 +488,7 @@ platform with 8 compute units:</p>
 <p>Platforms containing following strings in their names are not supported for this example :</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">zc</span>
 <span class="n">vck</span>
+<span class="n">u30</span>
 <span class="n">nodma</span>
 <span class="n">samsung</span>
 </pre></div>

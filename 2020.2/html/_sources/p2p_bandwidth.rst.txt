@@ -107,7 +107,7 @@ Platforms containing following strings in their names are not supported for this
 
    zc
    vck
-   aws
+   aws-vu9p-f1
    2018
    201910
    _u25_
@@ -130,5 +130,5 @@ Once the environment has been configured, the application can be executed by
 
 ::
 
-   ./p2p_bandwidth -x <bandwidth XCLBIN> -i /dev/nvme0n1
+   ./p2p_bandwidth -x <bandwidth XCLBIN>
 

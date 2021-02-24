@@ -57,7 +57,7 @@
   <link rel="stylesheet" href="_static/css/pro.min.css" media="all" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Stream Kernel to Kernel" href="streaming_k2k.html" />
+    <link rel="next" title="Stream Kernel to Kernel Memory Mapped" href="streaming_k2k_mm.html" />
     <link rel="prev" title="Control and Status Register access continuously streaming kernel (HLS C/C++)" href="streaming_reg_access.html" /> 
 	</head>
 	<body>
@@ -351,6 +351,8 @@
 <li class="toctree-l2"><a class="reference internal" href="hbm_bandwidth.html">HBM Bandwidth</a></li>
 <li class="toctree-l2"><a class="reference internal" href="hbm_bandwidth_pseudo_random.html">HBM Bandwidth - Pseudo Random Ethash</a></li>
 <li class="toctree-l2"><a class="reference internal" href="hbm_simple.html">HBM Simple</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hbm_large_buffers.html">HBM Large Buffers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hbm_rama_ip.html">HBM Bandwidth for large buffers using RAMA IP</a></li>
 <li class="toctree-l2"><a class="reference internal" href="host_global_bandwidth.html">Host Global Bandwidth</a></li>
 <li class="toctree-l2"><a class="reference internal" href="iops_test.html">IOPS Test</a></li>
 <li class="toctree-l2"><a class="reference internal" href="multiple_cus_asymmetrical.html">Multiple Compute Units (Asymmetrical)</a></li>
@@ -365,23 +367,16 @@
 <li class="toctree-l2"><a class="reference internal" href="slave_bridge_bandwidth.html">Slave Bridge Bandwidth</a></li>
 <li class="toctree-l2"><a class="reference internal" href="slave_bridge_copy_buffer.html">Slave Bridge Copy Buffer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="slave_bridge_copy_kernel.html">Slave Bridge Copy Kernel</a></li>
-<li class="toctree-l2"><a class="reference internal" href="streaming_chain.html">Stream Chain Matrix Multiplication</a></li>
-<li class="toctree-l2"><a class="reference internal" href="streaming_custom_datatype.html">Streaming Custom Data Type</a></li>
-<li class="toctree-l2"><a class="reference internal" href="streaming_host_bandwidth.html">Streaming Host to Kernel Bandwidth</a></li>
-<li class="toctree-l2"><a class="reference internal" href="streaming_free_running_h2k.html">Stream Free Running Host to Kernel(HLS C/C++)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="streaming_free_running_k2k.html">Stream Free Running Kernel (HLS C/C++)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="streaming_reg_access.html">Control and Status Register access continuously streaming kernel (HLS C/C++)</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Device Only Buffer</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#host-code-guidelines">Host code Guidelines</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#excluded-platforms">EXCLUDED PLATFORMS</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#design-files">DESIGN FILES</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#command-line-arguments">COMMAND LINE ARGUMENTS</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="streaming_k2k.html">Stream Kernel to Kernel</a></li>
 <li class="toctree-l2"><a class="reference internal" href="streaming_k2k_mm.html">Stream Kernel to Kernel Memory Mapped</a></li>
-<li class="toctree-l2"><a class="reference internal" href="streaming_mm_mixed.html">Stream Memory Map Mixed</a></li>
-<li class="toctree-l2"><a class="reference internal" href="streaming_multi_cus.html">Stream Multiple Compute Units</a></li>
-<li class="toctree-l2"><a class="reference internal" href="streaming_simple.html">Stream Simple</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="cpp.html">C++ Kernels</a></li>
@@ -474,9 +469,19 @@
             
   <div class="section" id="device-only-buffer">
 <h1>Device Only Buffer<a class="headerlink" href="#device-only-buffer" title="Permalink to this headline">¶</a></h1>
-<p>This example will demonstrate how to create buffers in global memory which are not mapped to host.</p>
+<p>This example will demonstrate how to create buffers in global memory which are not mapped to host. The device only memory allocation is done through the host code. The kernel can read data from device memory and write result to device memory.</p>
 <p><strong>KEY CONCEPTS:</strong> Device only buffer</p>
 <p><strong>KEYWORDS:</strong> CL_MEM_HOST_NO_ACCESS</p>
+<p>Device only buffers are used by the kernels to read and write data directly from/to the Device Memory. When xrt allocates memory on the device for a buffer object, it tries to determine which bank to allocate the buffer. Bank assignment can be done explicitly in the host application through the use of cl_mem_ext_ptr or can be automatically inferred based on device CU connectivity.</p>
+<div class="section" id="host-code-guidelines">
+<h2>Host code Guidelines<a class="headerlink" href="#host-code-guidelines" title="Permalink to this headline">¶</a></h2>
+<p>XRT OpenCL introduces a new buffer extension Flag <code class="docutils literal notranslate"><span class="pre">CL_MEM_HOST_NO_ACCESS</span></code> that should be used to denote a Device-only buffer</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">OCL_CHECK</span><span class="p">(</span><span class="n">err</span><span class="p">,</span> <span class="n">cl</span><span class="o">::</span><span class="n">Buffer</span> <span class="n">dev_only_buf</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">CL_MEM_READ_WRITE</span> <span class="o">|</span>
+                                                  <span class="n">CL_MEM_HOST_NO_ACCESS</span><span class="p">,</span>
+                                     <span class="n">size_in_bytes</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">err</span><span class="p">));</span>
+</pre></div>
+</div>
+</div>
 <div class="section" id="excluded-platforms">
 <h2>EXCLUDED PLATFORMS<a class="headerlink" href="#excluded-platforms" title="Permalink to this headline">¶</a></h2>
 <p>Platforms containing following strings in their names are not supported for this example :</p>
@@ -518,7 +523,7 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="streaming_k2k.html" class="btn btn-neutral float-right" title="Stream Kernel to Kernel" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="streaming_k2k_mm.html" class="btn btn-neutral float-right" title="Stream Kernel to Kernel Memory Mapped" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="streaming_reg_access.html" class="btn btn-neutral float-left" title="Control and Status Register access continuously streaming kernel (HLS C/C++)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

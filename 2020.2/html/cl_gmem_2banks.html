@@ -476,6 +476,7 @@ stage along with the <code class="docutils literal notranslate"><span class="pre
 <span class="n">vck</span>
 <span class="n">zc</span>
 <span class="n">samsung</span>
+<span class="n">_u2_</span>
 <span class="n">nodma</span>
 </pre></div>
 </div>
@@ -484,7 +485,6 @@ stage along with the <code class="docutils literal notranslate"><span class="pre
 <h2>DESIGN FILES<a class="headerlink" href="#design-files" title="Permalink to this headline">¶</a></h2>
 <p>Application code is located in the src directory. Accelerator binary files will be compiled to the xclbin directory. The xclbin directory is required by the Makefile and its contents will be filled during compilation. A listing of all the files in this example is shown below</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">data</span><span class="o">/</span><span class="n">golden</span><span class="o">.</span><span class="n">bmp</span>
-<span class="n">data</span><span class="o">/</span><span class="nb">input</span><span class="o">.</span><span class="n">bmp</span>
 <span class="n">src</span><span class="o">/</span><span class="n">apply_watermark</span><span class="o">.</span><span class="n">cl</span>
 <span class="n">src</span><span class="o">/</span><span class="n">host</span><span class="o">.</span><span class="n">cpp</span>
 </pre></div>
@@ -493,7 +493,7 @@ stage along with the <code class="docutils literal notranslate"><span class="pre
 <div class="section" id="command-line-arguments">
 <h2>COMMAND LINE ARGUMENTS<a class="headerlink" href="#command-line-arguments" title="Permalink to this headline">¶</a></h2>
 <p>Once the environment has been configured, the application can be executed by</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">cl_gmem_2banks</span> <span class="o">-</span><span class="n">x</span> <span class="o">&lt;</span><span class="n">apply_watermark</span> <span class="n">XCLBIN</span><span class="o">&gt;</span> <span class="o">-</span><span class="n">i</span> <span class="o">./</span><span class="n">data</span><span class="o">/</span><span class="nb">input</span><span class="o">.</span><span class="n">bmp</span> <span class="o">-</span><span class="n">c</span> <span class="o">./</span><span class="n">data</span><span class="o">/</span><span class="n">golden</span><span class="o">.</span><span class="n">bmp</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">cl_gmem_2banks</span> <span class="o">-</span><span class="n">x</span> <span class="o">&lt;</span><span class="n">apply_watermark</span> <span class="n">XCLBIN</span><span class="o">&gt;</span> <span class="o">-</span><span class="n">i</span> <span class="n">REPO_DIR</span><span class="o">/</span><span class="n">common</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">xilinx_img</span><span class="o">.</span><span class="n">bmp</span> <span class="o">-</span><span class="n">c</span> <span class="o">./</span><span class="n">data</span><span class="o">/</span><span class="n">golden</span><span class="o">.</span><span class="n">bmp</span>
 </pre></div>
 </div>
 </div>

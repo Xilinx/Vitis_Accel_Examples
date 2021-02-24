@@ -58,7 +58,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Control and Status Register access continuously streaming kernel (HLS C/C++)" href="streaming_reg_access.html" />
-    <link rel="prev" title="Stream Free Running Host to Kernel(HLS C/C++)" href="streaming_free_running_h2k.html" /> 
+    <link rel="prev" title="Slave Bridge Copy Kernel" href="slave_bridge_copy_kernel.html" /> 
 	</head>
 	<body>
 		<div class="xilinx-bs3"/>
@@ -351,6 +351,8 @@
 <li class="toctree-l2"><a class="reference internal" href="hbm_bandwidth.html">HBM Bandwidth</a></li>
 <li class="toctree-l2"><a class="reference internal" href="hbm_bandwidth_pseudo_random.html">HBM Bandwidth - Pseudo Random Ethash</a></li>
 <li class="toctree-l2"><a class="reference internal" href="hbm_simple.html">HBM Simple</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hbm_large_buffers.html">HBM Large Buffers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hbm_rama_ip.html">HBM Bandwidth for large buffers using RAMA IP</a></li>
 <li class="toctree-l2"><a class="reference internal" href="host_global_bandwidth.html">Host Global Bandwidth</a></li>
 <li class="toctree-l2"><a class="reference internal" href="iops_test.html">IOPS Test</a></li>
 <li class="toctree-l2"><a class="reference internal" href="multiple_cus_asymmetrical.html">Multiple Compute Units (Asymmetrical)</a></li>
@@ -365,10 +367,6 @@
 <li class="toctree-l2"><a class="reference internal" href="slave_bridge_bandwidth.html">Slave Bridge Bandwidth</a></li>
 <li class="toctree-l2"><a class="reference internal" href="slave_bridge_copy_buffer.html">Slave Bridge Copy Buffer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="slave_bridge_copy_kernel.html">Slave Bridge Copy Kernel</a></li>
-<li class="toctree-l2"><a class="reference internal" href="streaming_chain.html">Stream Chain Matrix Multiplication</a></li>
-<li class="toctree-l2"><a class="reference internal" href="streaming_custom_datatype.html">Streaming Custom Data Type</a></li>
-<li class="toctree-l2"><a class="reference internal" href="streaming_host_bandwidth.html">Streaming Host to Kernel Bandwidth</a></li>
-<li class="toctree-l2"><a class="reference internal" href="streaming_free_running_h2k.html">Stream Free Running Host to Kernel(HLS C/C++)</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Stream Free Running Kernel (HLS C/C++)</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#excluded-platforms">EXCLUDED PLATFORMS</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#design-files">DESIGN FILES</a></li>
@@ -377,11 +375,7 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="streaming_reg_access.html">Control and Status Register access continuously streaming kernel (HLS C/C++)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="device_only_buffer.html">Device Only Buffer</a></li>
-<li class="toctree-l2"><a class="reference internal" href="streaming_k2k.html">Stream Kernel to Kernel</a></li>
 <li class="toctree-l2"><a class="reference internal" href="streaming_k2k_mm.html">Stream Kernel to Kernel Memory Mapped</a></li>
-<li class="toctree-l2"><a class="reference internal" href="streaming_mm_mixed.html">Stream Memory Map Mixed</a></li>
-<li class="toctree-l2"><a class="reference internal" href="streaming_multi_cus.html">Stream Multiple Compute Units</a></li>
-<li class="toctree-l2"><a class="reference internal" href="streaming_simple.html">Stream Simple</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="cpp.html">C++ Kernels</a></li>
@@ -510,7 +504,7 @@ control port).</p></li>
 ports do not need <code class="docutils literal notranslate"><span class="pre">clSetKernelArg</span></code> from host code.</p>
 <p>Producer kernel <code class="docutils literal notranslate"><span class="pre">mem_read</span></code> streaming output port needs to be connected
 to consumer kernel <code class="docutils literal notranslate"><span class="pre">increment</span></code> stream input port during <code class="docutils literal notranslate"><span class="pre">v++</span></code> using
-<code class="docutils literal notranslate"><span class="pre">krnl_incr.ini</span></code> file as below:</p>
+<code class="docutils literal notranslate"><span class="pre">krnl_incr.cfg</span></code> file as below:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">connectivity</span><span class="p">]</span>
 <span class="n">stream_connect</span><span class="o">=</span><span class="n">mem_read_1</span><span class="o">.</span><span class="n">stream</span><span class="p">:</span><span class="n">increment_1</span><span class="o">.</span><span class="n">input</span>
 <span class="n">stream_connect</span><span class="o">=</span><span class="n">increment_1</span><span class="o">.</span><span class="n">output</span><span class="p">:</span><span class="n">mem_write_1</span><span class="o">.</span><span class="n">stream</span>
@@ -520,7 +514,7 @@ to consumer kernel <code class="docutils literal notranslate"><span class="pre">
 <code class="docutils literal notranslate"><span class="pre">mem_read</span></code> will be connected to <code class="docutils literal notranslate"><span class="pre">input</span></code> streaming port of
 <code class="docutils literal notranslate"><span class="pre">increment</span></code> during system linker run and same for the second stream
 connection. This connectivity file is provided to v++ command as below:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">--</span><span class="n">config</span> <span class="n">krnl_incr</span><span class="o">.</span><span class="n">ini</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">--</span><span class="n">config</span> <span class="n">krnl_incr</span><span class="o">.</span><span class="n">cfg</span>
 </pre></div>
 </div>
 <div class="section" id="excluded-platforms">
@@ -528,7 +522,7 @@ connection. This connectivity file is provided to v++ command as below:</p>
 <p>Platforms containing following strings in their names are not supported for this example :</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">2018</span>
 <span class="n">qep</span>
-<span class="n">aws</span>
+<span class="n">aws</span><span class="o">-</span><span class="n">vu9p</span><span class="o">-</span><span class="n">f1</span>
 <span class="n">samsung</span>
 <span class="n">zc702</span>
 <span class="n">nodma</span>
@@ -573,7 +567,7 @@ connection. This connectivity file is provided to v++ command as below:</p>
         <a href="streaming_reg_access.html" class="btn btn-neutral float-right" title="Control and Status Register access continuously streaming kernel (HLS C/C++)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="streaming_free_running_h2k.html" class="btn btn-neutral float-left" title="Stream Free Running Host to Kernel(HLS C/C++)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="slave_bridge_copy_kernel.html" class="btn btn-neutral float-left" title="Slave Bridge Copy Kernel" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
