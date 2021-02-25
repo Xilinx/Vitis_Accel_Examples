@@ -20,6 +20,7 @@ do
         rm README.rst
     fi
     make docs
+    git add README.rst
     cd $BASEDIR
 done
 
@@ -32,5 +33,6 @@ do
     echo "Updating README for = $i"
     rm README.md
     make docs -f summary.mk
+    git add README.md
     cd $BASEDIR
 done
