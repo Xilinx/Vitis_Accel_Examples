@@ -15,16 +15,19 @@
 */
 
 extern "C" {
-void krnl_cntr(unsigned int* a, // Vector a
-               int reset        // Restart integer
-               ) {
-    static int cntr = 0;
-    // reset execution counter to 0
-    if (reset == 1) {
-        cntr = 0;
-    } else {
-        cntr += 1;
-        a[0] = cntr;
-    }
+void hello(char* buf) {
+    buf[0] = 'H';
+    buf[1] = 'e';
+    buf[2] = 'l';
+    buf[3] = 'l';
+    buf[4] = 'o';
+    buf[5] = ' ';
+    buf[6] = 'W';
+    buf[7] = 'o';
+    buf[8] = 'r';
+    buf[9] = 'l';
+    buf[10] = 'd';
+    buf[11] = '\n';
+    buf[12] = '\0';
 }
 }

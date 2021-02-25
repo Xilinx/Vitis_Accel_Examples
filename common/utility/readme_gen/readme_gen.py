@@ -145,7 +145,7 @@ desc.close()
 assert("OpenCL" in data['runtime'])
 
 if "match_readme" in data and data["match_readme"] == "false":
-    print ("ERROR:: README Manually Edited:: README Generator Failed\n")
+    print ("Info:: README Manually Edited:: README Generator Skipped\n")
 else:
     print ("Generating the README for %s" % data["name"])
     target = open("README.rst","w")
