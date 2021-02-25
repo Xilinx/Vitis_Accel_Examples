@@ -113,10 +113,6 @@ ifeq ($(findstring nodma, $(DEVICE)), nodma)
 $(error [ERROR]: This example is not supported for $(DEVICE).)
 endif
 
-ifneq ($(findstring samsung_u2, $(DEVICE)), samsung_u2)
-$(warning [WARNING]: This example has not been tested for $(DEVICE). It may or may not work.)
-endif
-
 ############################## Setting up Host Variables ##############################
 #Include Required Host Source Files
 CXXFLAGS += -I$(XF_PROJ_ROOT)/common/includes/xcl2
