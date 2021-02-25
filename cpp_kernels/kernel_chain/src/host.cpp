@@ -18,7 +18,7 @@
 #include <array>
 #include <iostream>
 
-#define MAT_DIM 8
+#define MAT_DIM 32
 #define MAT_SIZE MAT_DIM* MAT_DIM
 #define NUM_TIMES 10
 ////////////////////UTILITY FUNCTION///////////////

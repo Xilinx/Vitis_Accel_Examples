@@ -4,7 +4,7 @@ USR_VPP_LDFLAGS:=
 
 platform_test:
 	platforminfo -j $(DEVICE) > platform_info.json
-	$(ABS_COMMON_REPO)/common/utility/platform_gen.py platform_info.json bandwidth
+	$(XF_PROJ_ROOT)/common/utility/platform_gen.py platform_info.json bandwidth
 
 VPP_LDFLAGS+= --config platform_bandwidth.cfg
 ifneq ($(USR_VPP_FLAGS), )      

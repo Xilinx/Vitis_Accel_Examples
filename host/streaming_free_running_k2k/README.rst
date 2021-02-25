@@ -16,7 +16,7 @@ Platforms containing following strings in their names are not supported for this
 
    2018
    qep
-   aws
+   aws-vu9p-f1
    samsung
    zc702
    nodma

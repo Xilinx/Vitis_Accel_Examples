@@ -4,7 +4,7 @@ USR_VPP_LDFLAGS:=
 
 platform_test:
 	platforminfo -j $(DEVICE) > platform_info.json
-	$(ABS_COMMON_REPO)/common/utility/platform_gen.py platform_info.json verify
+	$(XF_PROJ_ROOT)/common/utility/platform_gen.py platform_info.json verify
 
 VPP_LDFLAGS+= --config platform_verify.cfg
 ifneq ($(USR_VPP_FLAGS), )      

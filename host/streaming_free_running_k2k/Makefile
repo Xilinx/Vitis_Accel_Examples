@@ -168,7 +168,7 @@ endif
 ifeq ($(findstring qep, $(DEVICE)), qep)
 $(error This example is not supported for $(DEVICE))
 endif
-ifeq ($(findstring aws, $(DEVICE)), aws)
+ifeq ($(findstring aws-vu9p-f1, $(DEVICE)), aws-vu9p-f1)
 $(error This example is not supported for $(DEVICE))
 endif
 ifeq ($(findstring samsung, $(DEVICE)), samsung)

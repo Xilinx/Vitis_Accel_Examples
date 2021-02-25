@@ -16,21 +16,44 @@
 #include <ap_int.h>
 #include <iostream>
 
-auto constexpr DATAWIDTH = 512;
-using TYPE = ap_uint<DATAWIDTH>;
+auto constexpr DATA_WIDTH = 512;
+auto constexpr c_widthInBytes = DATA_WIDTH / 8;
+auto constexpr c_maxBurstSize = 4 * 1024; // 4KB
+auto constexpr c_burstLength = c_maxBurstSize / c_widthInBytes;
+
+using TYPE = ap_uint<DATA_WIDTH>;
 
 extern "C" {
 void write_bandwidth(TYPE* output0, int64_t buf_size, int64_t iter) {
 #pragma HLS INTERFACE m_axi port = output0 offset = slave bundle = gmem max_write_burst_length = \
-    64 num_write_outstanding = 256
+    64 num_write_outstanding = 16
 #pragma HLS INTERFACE s_axilite port = output0
 #pragma HLS INTERFACE s_axilite port = buf_size
 #pragma HLS INTERFACE s_axilite port = iter
 #pragma HLS INTERFACE s_axilite port = return
 
-    for (int64_t i = 0; i < iter; i++) {
-        for (int64_t blockindex = 0; blockindex < buf_size; blockindex++) {
-            output0[blockindex] = 1;
+    TYPE temp = 0;
+
+    uint32_t factor = buf_size / c_maxBurstSize;
+    uint32_t Indx = 0;
+    uint32_t baseAddr = 0;
+
+    if (buf_size <= 8 * 1024) {
+        for (int itr = 0; itr < iter * factor; itr++) {
+#pragma HLS PIPELINE II = 1
+            for (int i = 0; i < c_burstLength; i++) {
+#pragma HLS PIPELINE II = 1
+                output0[baseAddr + i] = 1;
+            }
+            Indx = itr % factor;
+            baseAddr = c_burstLength * Indx;
+        }
+    } else {
+        buf_size = buf_size / c_widthInBytes;
+        for (int64_t i = 0; i < iter; i++) {
+            for (int64_t blockindex = 0; blockindex < buf_size; blockindex++) {
+                output0[blockindex] = 1;
+            }
         }
     }
 }

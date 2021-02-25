@@ -8,7 +8,6 @@ Example        | Description           | Key Concepts / Keywords
 ---------------|-----------------------|-------------------------
 [rtl_adder_streams/][]|This example shows an adder with streams using 3 RTL kernels.|__Key__ __Concepts__<br> - RTL Kernel<br> - Multiple RTL Kernels<br>
 [rtl_streaming_free_running/][]|This is a simple Vector Increment RTL Kernel design with 1 Stream input and 1 Stream output that demonstrates on how to process an input stream of data for computation in an application.|__Key__ __Concepts__<br> - Read/Write Stream<br> - Create/Release Stream<br> - RTL Kernel<br>__Keywords__<br> - cl_stream<br> - CL_STREAM_EOT
-[rtl_streaming_k2k/][]|This is a simple Vector Increment RTL Kernel to Kernel design with 1 Stream input and 1 Stream output that demonstrates on how to process an input stream of data for computation in an application.|__Key__ __Concepts__<br> - Read/Write Stream<br> - Create/Release Stream<br> - RTL Kernel<br>__Keywords__<br> - cl_stream<br> - CL_STREAM_EOT
 [rtl_streaming_k2k_mm/][]|This example uses two simple increment RTL kernels connected to each other via stream interface and connected to host via memory mapped C++ data mover kernels|__Key__ __Concepts__<br> - Read/Write Stream<br> - RTL Kernel<br>__Keywords__<br> - ap_axiu<br> - hls::stream
 [rtl_vadd/][]|Simple example of vector addition using RTL Kernel|__Key__ __Concepts__<br> - RTL Kernel<br>
 [rtl_vadd_2clks/][]|This example shows vector addition with 2 kernel clocks using RTL Kernel.|__Key__ __Concepts__<br> - RTL Kernel<br> - Multiple Kernel Clocks<br>__Keywords__<br> - kernel_frequency
@@ -19,7 +18,6 @@ Example        | Description           | Key Concepts / Keywords
 [.]:.
 [rtl_adder_streams/]:rtl_adder_streams/
 [rtl_streaming_free_running/]:rtl_streaming_free_running/
-[rtl_streaming_k2k/]:rtl_streaming_k2k/
 [rtl_streaming_k2k_mm/]:rtl_streaming_k2k_mm/
 [rtl_vadd/]:rtl_vadd/
 [rtl_vadd_2clks/]:rtl_vadd_2clks/

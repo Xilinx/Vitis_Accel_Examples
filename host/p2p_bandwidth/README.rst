@@ -16,7 +16,7 @@ Platforms containing following strings in their names are not supported for this
 
    zc
    vck
-   aws
+   aws-vu9p-f1
    2018
    201910
    _u25_

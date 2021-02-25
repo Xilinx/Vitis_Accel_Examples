@@ -33,16 +33,9 @@ Example        | Description           | Key Concepts / Keywords
 [slave_bridge_copy_buffer/][]|This is simple slave bridge example to describe how host-only memory can be copied to device-only memory and vice-versa.|__Key__ __Concepts__<br> - slave bridge<br>__Keywords__<br> - XCL_MEM_EXT_HOST_ONLY<br> - CL_MEM_HOST_NO_ACCESS<br> - enqueueCopyBuffer
 [slave_bridge_copy_kernel/][]|This is a Slave Bridge Example to describe how data can be copied between host-only buffer and device-only buffer using User Copy Kernel.|__Key__ __Concepts__<br> - slave bridge<br>__Keywords__<br> - XCL_MEM_EXT_HOST_ONLY<br> - CL_MEM_HOST_NO_ACCESS<br> - enqueueMapBuffer
 [slave_bridge_simple/][]|This is simple slave bridge example to describe how a user kernel can access the host memory. The host memory allocation is done through the host code. The kernel reads data from host memory and writes result to host memory.|__Key__ __Concepts__<br> - slave bridge<br> - address translation unit<br>__Keywords__<br> - XCL_MEM_EXT_HOST_ONLY<br> - HOST[0]
-[streaming_custom_datatype/][]|This is simple streaming example of RGB to HSV conversion to demonstrate how streams of custom DATA Types needs to be handled on the kernel side.|__Key__ __Concepts__<br> - Custom Datatype<br>__Keywords__<br> - struct<br> - #pragma HLS LOOP_TRIPCOUNT<br> - cl_stream<br> - CL_STREAM_EOT
-[streaming_free_running_h2k/][]|This is a simple streaming free running kernel that demonstrates how to interact with the host. In this design we showcase multiple stream requests in parallel.|__Key__ __Concepts__<br> - Free Running Kernel<br>__Keywords__<br> - cl_stream<br> - CL_STREAM_EOT<br> - CL_STREAM_NONBLOCKING
 [streaming_free_running_k2k/][]|This is simple example which demonstrate how to use and configure a free running kernel.|__Key__ __Concepts__<br> - Free Running Kernel<br>__Keywords__<br> - ap_ctrl_none<br> - stream_connect
-[streaming_host_bandwidth/][]|This is a simple Vector Increment C Kernel design with 1 Stream input and 1 Stream output that demonstrates on how to process an input stream of data for computation in an application and the Host to Device streaming bandwidth test.|__Key__ __Concepts__<br> - Read/Write Stream<br> - Create/Release Stream<br>__Keywords__<br> - cl_stream<br> - CL_STREAM_EOT<br> - CL_STREAM_NONBLOCKING
-[streaming_k2k/][]|This is a simple kernel to kernel streaming Vector Add and Vector Multiply C Kernel that demonstrates on how to process a stream of data for computation between two kernels.|__Key__ __Concepts__<br> - Read/Write Stream<br> - Create/Release Stream<br>__Keywords__<br> - cl_stream<br> - CL_STREAM_EOT<br> - CL_STREAM_NONBLOCKING
 [streaming_k2k_mm/][]|This is a simple kernel to kernel streaming Vector Add and Vector Multiply C Kernel design with 2 memory mapped input to kernel 1, 1 Stream output from kernel 1 to input of kernel 2, 1 memory mapped input to kernel 2, and 1 memory mapped output that demonstrates on how to process a stream of data for computation between two kernels. This design also illustrates how to set FIFO depth for AXIS connections i.e. for the stream connecting the two kernels|__Key__ __Concepts__<br> - Read/Write Stream<br> - Create/Release Stream<br> - AXIS FIFO depth<br>__Keywords__<br> - stream_connect
-[streaming_mm_mixed/][]|This is a simple streaming Vector Addition C Kernel design with 1 Stream input, 1 memory mapped input to the kernel, and 1 stream output that demonstrates on how to process a stream of data along with memory mapped interface.|__Key__ __Concepts__<br> - Read/Write Stream<br> - Create/Release Stream<br>__Keywords__<br> - cl_stream<br> - CL_STREAM_EOT
-[streaming_multi_cus/][]|This is a simple vadd Kernel design in which multiple compute units of kernel are directly communicating with host using stream interfaces.|__Key__ __Concepts__<br> - Read/Write Stream<br> - Create/Release Stream<br>__Keywords__<br> - cl_stream<br> - CL_STREAM_EOT<br> - nk
 [streaming_reg_access/][]|This is simple example which demonstrate streaming free-running kernel with scalar input and output.|__Key__ __Concepts__<br> - Free Running Kernel<br>__Keywords__<br> - xclRegRead<br> - xclRegWrite
-[streaming_simple/][]|This is a simple Vector Add C Kernel design with 2 Stream inputs and 1 Stream output that demonstrates on how streaming kernel can be implemented and how host can directly send data to kernel without global memory.|__Key__ __Concepts__<br> - Read/Write Stream<br> - Create/Release Stream<br>__Keywords__<br> - cl_stream<br> - CL_STREAM_EOT<br> - CL_STREAM_NONBLOCKING
 
 [.]:.
 [concurrent_kernel_execution/]:concurrent_kernel_execution/
@@ -72,13 +65,6 @@ Example        | Description           | Key Concepts / Keywords
 [slave_bridge_copy_buffer/]:slave_bridge_copy_buffer/
 [slave_bridge_copy_kernel/]:slave_bridge_copy_kernel/
 [slave_bridge_simple/]:slave_bridge_simple/
-[streaming_custom_datatype/]:streaming_custom_datatype/
-[streaming_free_running_h2k/]:streaming_free_running_h2k/
 [streaming_free_running_k2k/]:streaming_free_running_k2k/
-[streaming_host_bandwidth/]:streaming_host_bandwidth/
-[streaming_k2k/]:streaming_k2k/
 [streaming_k2k_mm/]:streaming_k2k_mm/
-[streaming_mm_mixed/]:streaming_mm_mixed/
-[streaming_multi_cus/]:streaming_multi_cus/
 [streaming_reg_access/]:streaming_reg_access/
-[streaming_simple/]:streaming_simple/

@@ -5,8 +5,7 @@
     ], 
     "flow": "vitis", 
     "platform_whitelist": [
-        "u200",
-        "aws"
+        "aws-vu9p-f1"
     ], 
     "platform_blacklist": [
         "zc",

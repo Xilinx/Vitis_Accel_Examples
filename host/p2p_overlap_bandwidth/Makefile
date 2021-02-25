@@ -174,7 +174,7 @@ endif
 ifeq ($(findstring u280, $(DEVICE)), u280)
 $(error This example is not supported for $(DEVICE))
 endif
-ifeq ($(findstring aws, $(DEVICE)), aws)
+ifeq ($(findstring aws-vu9p-f1, $(DEVICE)), aws-vu9p-f1)
 $(error This example is not supported for $(DEVICE))
 endif
 ifeq ($(findstring nodma, $(DEVICE)), nodma)

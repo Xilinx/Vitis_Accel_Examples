@@ -61,9 +61,9 @@ int main(int argc, char* argv[]) {
         exit(EXIT_FAILURE);
     }
 
-    double concurrent_max[2] = {0};
-    double read_max[2] = {0};
-    double write_max[2] = {0};
+    double concurrent_max = 0;
+    double read_max = 0;
+    double write_max = 0;
 
     for (size_t i = 4 * 1024; i <= 256 * 1024 * 1024; i *= 2) {
         size_t iter = 1024;
@@ -73,8 +73,6 @@ int main(int argc, char* argv[]) {
             iter = 2;
             if (bufsize > 8 * 1024) break;
         }
-
-        cl_ulong num_blocks = bufsize / 64;
 
         /* Input buffer */
         unsigned char* input_host = ((unsigned char*)malloc(bufsize));
@@ -107,11 +105,11 @@ int main(int argc, char* argv[]) {
 
         OCL_CHECK(err, err = krnl.setArg(0, *(buffer[0])));
         OCL_CHECK(err, err = krnl.setArg(1, *(buffer[1])));
-        OCL_CHECK(err, err = krnl.setArg(2, num_blocks));
+        OCL_CHECK(err, err = krnl.setArg(2, bufsize));
         OCL_CHECK(err, err = krnl.setArg(3, iter));
 
         double dbytes = bufsize;
-        double dmbytes = dbytes / (((double)1024) * ((double)1024));
+        std::string size_str = xcl::convert_size(bufsize);
 
         /* Write input buffer */
         /* Map input buffer for PCIe write */
@@ -160,16 +158,15 @@ int main(int argc, char* argv[]) {
         double bpersec = (dbytes / dsduration);
         double gbpersec = (2 * bpersec) / ((double)1024 * 1024 * 1024); // For Concurrent Read and Write
 
-        std::cout << "Concurrent Read and Write Throughput = " << gbpersec << " (GB/sec) for buffer size " << dmbytes
-                  << " MB\n";
+        std::cout << "Concurrent Read and Write Throughput = " << gbpersec << " (GB/sec) for buffer size " << size_str
+                  << std::endl;
 
-        if (gbpersec > concurrent_max[0]) {
-            concurrent_max[0] = gbpersec;
-            concurrent_max[1] = dmbytes;
+        if (gbpersec > concurrent_max) {
+            concurrent_max = gbpersec;
         }
 
         OCL_CHECK(err, err = krnl_read.setArg(0, *(buffer[0])));
-        OCL_CHECK(err, err = krnl_read.setArg(1, num_blocks));
+        OCL_CHECK(err, err = krnl_read.setArg(1, bufsize));
         OCL_CHECK(err, err = krnl_read.setArg(2, iter));
 
         /* Execute Kernel */
@@ -186,15 +183,14 @@ int main(int argc, char* argv[]) {
         bpersec = (dbytes / dsduration);
         gbpersec = bpersec / ((double)1024 * 1024 * 1024);
 
-        std::cout << "Read Throughput = " << gbpersec << " (GB/sec) for buffer size " << dmbytes << " MB\n";
+        std::cout << "Read Throughput = " << gbpersec << " (GB/sec) for buffer size " << size_str << std::endl;
 
-        if (gbpersec > read_max[0]) {
-            read_max[0] = gbpersec;
-            read_max[1] = dmbytes;
+        if (gbpersec > read_max) {
+            read_max = gbpersec;
         }
 
         OCL_CHECK(err, err = krnl_write.setArg(0, *(buffer[1])));
-        OCL_CHECK(err, err = krnl_write.setArg(1, num_blocks));
+        OCL_CHECK(err, err = krnl_write.setArg(1, bufsize));
         OCL_CHECK(err, err = krnl_write.setArg(2, iter));
 
         /* Execute Kernel */
@@ -211,11 +207,10 @@ int main(int argc, char* argv[]) {
         bpersec = (dbytes / dsduration);
         gbpersec = bpersec / ((double)1024 * 1024 * 1024);
 
-        std::cout << "Write Throughput = " << gbpersec << " (GB/sec) for buffer size " << dmbytes << " MB\n\n";
+        std::cout << "Write Throughput = " << gbpersec << " (GB/sec) for buffer size " << size_str << "\n\n";
 
-        if (gbpersec > write_max[0]) {
-            write_max[0] = gbpersec;
-            write_max[1] = dmbytes;
+        if (gbpersec > write_max) {
+            write_max = gbpersec;
         }
 
         delete (buffer[0]);
@@ -223,10 +218,9 @@ int main(int argc, char* argv[]) {
     }
 
     std::cout << "Maximum bandwidth achieved :\n";
-    std::cout << "Concurrent Read and Write Throughput = " << concurrent_max[0] << " (GB/sec) for buffer size "
-              << concurrent_max[1] << " MB\n";
-    std::cout << "Read Throughput = " << read_max[0] << " (GB/sec) for buffer size " << read_max[1] << " MB\n";
-    std::cout << "Write Throughput = " << write_max[0] << " (GB/sec) for buffer size " << write_max[1] << " MB\n\n";
+    std::cout << "Concurrent Read and Write Throughput = " << concurrent_max << " (GB/sec) \n";
+    std::cout << "Read Throughput = " << read_max << " (GB/sec) \n";
+    std::cout << "Write Throughput = " << write_max << " (GB/sec) \n\n";
     std::cout << "TEST PASSED\n";
     return EXIT_SUCCESS;
 }

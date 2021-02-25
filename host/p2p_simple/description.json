@@ -20,15 +20,12 @@
     "os": [
         "Linux"
     ],
-    "platform_whitelist": [
-        "samsung_u2"
-    ],
     "platform_blacklist": [
         "zc",
         "_u25_",
         "u30",
         "vck",
-        "aws",
+        "aws-vu9p-f1",
         "2018",
         "201910"
     ],
