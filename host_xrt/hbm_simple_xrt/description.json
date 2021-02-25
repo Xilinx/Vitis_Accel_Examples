@@ -40,9 +40,6 @@
             "includepaths": [
                 "REPO_DIR/common/includes/cmdparser",
                 "REPO_DIR/common/includes/logger"
-            ],
-            "symbols": [
-               "_GLIBCXX_USE_CXX11_ABI=0"
             ]
         },
         "linker" : {
@@ -56,6 +53,7 @@
        "hw" 
     ],
     "match_ini": "false",
+    "config_make": "config.mk",
     "containers": [
         {
             "accelerators": [
@@ -87,7 +85,7 @@
     ], 
     "launch": [
         {
-            "cmd_args": " -x BUILD/krnl_vadd.xclbin", 
+            "cmd_args": "-x BUILD/krnl_vadd.xclbin", 
             "name": "generic launch for all flows"
         }
     ], 

@@ -33,7 +33,7 @@
             "includepaths": [
                 "REPO_DIR/common/includes/cmdparser",
                 "REPO_DIR/common/includes/logger"
-            ]
+            ]	            
         },
         "linker" : {
             "libraries" : ["uuid",
@@ -45,7 +45,8 @@
        "hw_emu",
        "hw" 
     ],
-   "match_ini" : "false", 
+   "match_ini" : "false",
+   "config_make": "config.mk", 
     "containers": [
         {
             "accelerators": [

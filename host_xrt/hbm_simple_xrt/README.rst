@@ -41,7 +41,7 @@ Once the environment has been configured, the application can be executed by
 
 ::
 
-   ./hbm_simple_xrt  -x <krnl_vadd XCLBIN>
+   ./hbm_simple_xrt -x <krnl_vadd XCLBIN>
 
 DETAILS
 -------

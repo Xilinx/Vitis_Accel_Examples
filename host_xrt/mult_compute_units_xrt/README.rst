@@ -33,7 +33,7 @@ Once the environment has been configured, the application can be executed by
 
 ::
 
-   ./mult_compute_units_xrt  -x <vadd XCLBIN>
+   ./mult_compute_units_xrt -x <vadd XCLBIN>
 
 DETAILS
 -------

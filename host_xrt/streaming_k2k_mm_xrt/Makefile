@@ -101,7 +101,6 @@ ifneq ($(TARGET), hw)
 	VPP_FLAGS += -g
 endif
 
-CXXFLAGS += -D_GLIBCXX_USE_CXX11_ABI=0
 
 # Kernel linker flags
 VPP_LDFLAGS += --config ./krnl_stream_vadd_vmult.cfg
