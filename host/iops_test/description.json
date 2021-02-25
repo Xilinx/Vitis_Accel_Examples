@@ -35,16 +35,16 @@
         {
             "accelerators": [
                 {
-                    "name": "krnl_cntr", 
-                    "location": "src/krnl_cntr.cpp"
+                    "name": "hello", 
+                    "location": "src/hello.cpp"
                 }
             ], 
-            "name": "krnl_cntr"
+            "name": "hello"
         }
     ],
     "launch": [
         {
-            "cmd_args": "BUILD/krnl_cntr.xclbin", 
+            "cmd_args": "BUILD/hello.xclbin", 
             "name": "generic launch for all flows"
         }
     ], 

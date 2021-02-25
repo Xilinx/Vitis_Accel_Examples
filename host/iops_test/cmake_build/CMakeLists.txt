@@ -1,5 +1,5 @@
 set(EXECNAME "iops_test")
-set(XBIN_DIR "krnl_cntr.xclbin")
+set(XBIN_DIR "hello.xclbin")
 
 if (WIN32)
   set(OpenCL_INCLUDE_DIR ${OCL_ROOT}/include)
