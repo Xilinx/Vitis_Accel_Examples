@@ -19,6 +19,7 @@ Platforms containing following strings in their names are not supported for this
    qdma
    vck
    samsung
+   _u2_
    nodma
 
 DESIGN FILES

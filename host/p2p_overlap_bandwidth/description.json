@@ -18,9 +18,6 @@
     "os": [
         "Linux"
     ],
-    "platform_whitelist": [
-        "samsung_u2"
-    ],
     "platform_blacklist": [
         "zc",
         "vck",
@@ -78,6 +75,9 @@
     ],
     "testinfo": {
         "disable": false,
+        "features": [
+            "p2p"
+        ],
         "jobs": [
             {
                 "index": 0,

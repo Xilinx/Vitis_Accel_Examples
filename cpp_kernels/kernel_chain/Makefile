@@ -85,6 +85,19 @@ include $(XF_PROJ_ROOT)/common/includes/opencl/opencl.mk
 CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++1y
 LDFLAGS += $(opencl_LDFLAGS)
 
+ifeq ($(findstring samsung, $(DEVICE)), samsung)
+$(error [ERROR]: This example is not supported for $(DEVICE).)
+endif
+ifeq ($(findstring vck, $(DEVICE)), vck)
+$(error [ERROR]: This example is not supported for $(DEVICE).)
+endif
+ifeq ($(findstring zc, $(DEVICE)), zc)
+$(error [ERROR]: This example is not supported for $(DEVICE).)
+endif
+ifeq ($(findstring nodma, $(DEVICE)), nodma)
+$(error [ERROR]: This example is not supported for $(DEVICE).)
+endif
+
 ############################## Setting up Host Variables ##############################
 #Include Required Host Source Files
 CXXFLAGS += -I$(XF_PROJ_ROOT)/common/includes/xcl2
@@ -157,19 +170,6 @@ $(EMCONFIG_DIR)/emconfig.json:
 
 ############################## Setting Essential Checks and Running Rules ##############################
 run: all
-ifeq ($(findstring samsung, $(DEVICE)), samsung)
-$(error This example is not supported for $(DEVICE))
-endif
-ifeq ($(findstring vck, $(DEVICE)), vck)
-$(error This example is not supported for $(DEVICE))
-endif
-ifeq ($(findstring zc, $(DEVICE)), zc)
-$(error This example is not supported for $(DEVICE))
-endif
-ifeq ($(findstring nodma, $(DEVICE)), nodma)
-$(error This example is not supported for $(DEVICE))
-endif
-
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 ifeq ($(HOST_ARCH), x86)
 	$(CP) $(EMCONFIG_DIR)/emconfig.json .

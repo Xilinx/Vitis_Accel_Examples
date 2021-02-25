@@ -22,6 +22,7 @@ Platforms containing following strings in their names are not supported for this
    u250
    aws-vu9p-f1
    samsung
+   _u2_
    nodma
 
 DESIGN FILES

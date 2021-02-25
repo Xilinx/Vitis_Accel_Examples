@@ -13,6 +13,7 @@
         "Multiple Kernel Binaries"
     ], 
     "platform_blacklist": [
+        "flat",
         "zcu102_base_20",
         "zcu104_base_20",
         "vck",

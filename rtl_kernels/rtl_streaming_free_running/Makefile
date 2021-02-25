@@ -87,6 +87,38 @@ include config.mk
 CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++1y
 LDFLAGS += $(opencl_LDFLAGS)
 
+ifeq ($(findstring u30, $(DEVICE)), u30)
+$(error [ERROR]: This example is not supported for $(DEVICE).)
+endif
+ifeq ($(findstring u250, $(DEVICE)), u250)
+$(error [ERROR]: This example is not supported for $(DEVICE).)
+endif
+ifeq ($(findstring zc, $(DEVICE)), zc)
+$(error [ERROR]: This example is not supported for $(DEVICE).)
+endif
+ifeq ($(findstring vck, $(DEVICE)), vck)
+$(error [ERROR]: This example is not supported for $(DEVICE).)
+endif
+ifeq ($(findstring xdma, $(DEVICE)), xdma)
+$(error [ERROR]: This example is not supported for $(DEVICE).)
+endif
+ifeq ($(findstring qep, $(DEVICE)), qep)
+$(error [ERROR]: This example is not supported for $(DEVICE).)
+endif
+ifeq ($(findstring aws-vu9p-f1, $(DEVICE)), aws-vu9p-f1)
+$(error [ERROR]: This example is not supported for $(DEVICE).)
+endif
+ifeq ($(findstring samsung, $(DEVICE)), samsung)
+$(error [ERROR]: This example is not supported for $(DEVICE).)
+endif
+ifeq ($(findstring nodma, $(DEVICE)), nodma)
+$(error [ERROR]: This example is not supported for $(DEVICE).)
+endif
+
+ifneq ($(findstring u200_qdma, $(DEVICE)), u200_qdma)
+$(warning [WARNING]: This example has not been tested for $(DEVICE). It may or may not work.)
+endif
+
 ############################## Setting up Host Variables ##############################
 #Include Required Host Source Files
 CXXFLAGS += -I$(XF_PROJ_ROOT)/common/includes/xcl2
@@ -151,34 +183,6 @@ $(EMCONFIG_DIR)/emconfig.json:
 
 ############################## Setting Essential Checks and Running Rules ##############################
 run: all
-ifeq ($(findstring u30, $(DEVICE)), u30)
-$(error This example is not supported for $(DEVICE))
-endif
-ifeq ($(findstring u250, $(DEVICE)), u250)
-$(error This example is not supported for $(DEVICE))
-endif
-ifeq ($(findstring zc, $(DEVICE)), zc)
-$(error This example is not supported for $(DEVICE))
-endif
-ifeq ($(findstring vck, $(DEVICE)), vck)
-$(error This example is not supported for $(DEVICE))
-endif
-ifeq ($(findstring xdma, $(DEVICE)), xdma)
-$(error This example is not supported for $(DEVICE))
-endif
-ifeq ($(findstring qep, $(DEVICE)), qep)
-$(error This example is not supported for $(DEVICE))
-endif
-ifeq ($(findstring aws-vu9p-f1, $(DEVICE)), aws-vu9p-f1)
-$(error This example is not supported for $(DEVICE))
-endif
-ifeq ($(findstring samsung, $(DEVICE)), samsung)
-$(error This example is not supported for $(DEVICE))
-endif
-ifeq ($(findstring nodma, $(DEVICE)), nodma)
-$(error This example is not supported for $(DEVICE))
-endif
-
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 ifeq ($(HOST_ARCH), x86)
 	$(CP) $(EMCONFIG_DIR)/emconfig.json .

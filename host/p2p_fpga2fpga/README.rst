@@ -14,6 +14,7 @@ Platforms containing following strings in their names are not supported for this
 
 ::
 
+   flat
    zc
    201910
    2018

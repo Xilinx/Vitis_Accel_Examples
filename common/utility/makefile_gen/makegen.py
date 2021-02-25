@@ -88,6 +88,37 @@ def create_params(target,data):
     target.write("CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++1y\n")
     target.write("LDFLAGS += $(opencl_LDFLAGS)\n")
     target.write("\n")
+
+    blacklist = [board for board in data.get("platform_blacklist", [])]
+    forbid_others = False
+    if blacklist:
+        for board in blacklist:
+            if board != "others":
+                target.write("ifeq ($(findstring ")
+                target.write(board)
+                target.write(", $(DEVICE)), ")
+                target.write(board)
+                target.write(")\n")
+                target.write("$(error [ERROR]: This example is not supported for $(DEVICE).)\n")
+                target.write("endif\n")
+            else:
+                forbid_others = True
+        target.write("\n")
+    whitelist = [board for board in data.get("platform_whitelist", [])]
+    if whitelist:
+        for board in whitelist:
+            target.write("ifneq ($(findstring ")
+            target.write(board)
+            target.write(", $(DEVICE)), ")
+            target.write(board)
+            target.write(")\n")
+        if forbid_others:
+            target.write("$(error [ERROR]: This example is not supported for $(DEVICE).)\n")
+        else:
+            target.write("$(warning [WARNING]: This example has not been tested for $(DEVICE). It may or may not work.)\n")
+        for board in whitelist:
+            target.write("endif\n")
+        target.write("\n")
     return
 
 def add_host_flags(target, data):
@@ -472,16 +503,6 @@ def mk_run(target, data):
     target.write("############################## Setting Essential Checks and Running Rules ##############################\n")
 
     target.write("run: all\n")
-    if "platform_blacklist" in data:
-        for board in data["platform_blacklist"]:
-            target.write("ifeq ($(findstring ")
-            target.write(board)
-            target.write(", $(DEVICE)), ")
-            target.write(board)
-            target.write(")\n")                   
-            target.write("$(error This example is not supported for $(DEVICE))\n")
-            target.write("endif\n")
-        target.write("\n")
     target.write("ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))\n")
     if not ("platform_type" in data and data["platform_type"] == "pcie"):
         target.write("ifeq ($(HOST_ARCH), x86)\n")

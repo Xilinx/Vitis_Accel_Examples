@@ -23,6 +23,7 @@ Platforms containing following strings in their names are not supported for this
    2018
    202010
    samsung
+   _u2_
 
 DESIGN FILES
 ------------

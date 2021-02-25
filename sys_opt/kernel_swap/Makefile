@@ -87,6 +87,25 @@ include ./config.mk
 CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++1y
 LDFLAGS += $(opencl_LDFLAGS)
 
+ifeq ($(findstring flat, $(DEVICE)), flat)
+$(error This example is not supported for $(DEVICE))
+endif
+ifeq ($(findstring zcu102_base_20, $(DEVICE)), zcu102_base_20)
+$(error This example is not supported for $(DEVICE))
+endif
+ifeq ($(findstring zcu104_base_20, $(DEVICE)), zcu104_base_20)
+$(error This example is not supported for $(DEVICE))
+endif
+ifeq ($(findstring vck, $(DEVICE)), vck)
+$(error This example is not supported for $(DEVICE))
+endif
+ifeq ($(findstring zc7, $(DEVICE)), zc7)
+$(error This example is not supported for $(DEVICE))
+endif
+ifeq ($(findstring nodma, $(DEVICE)), nodma)
+$(error This example is not supported for $(DEVICE))
+endif
+
 ############################## Setting up Host Variables ##############################
 #Include Required Host Source Files
 CXXFLAGS += -I$(XF_PROJ_ROOT)/common/includes/xcl2
@@ -184,21 +203,6 @@ $(EMCONFIG_DIR)/emconfig.json:
 
 ############################## Setting Essential Checks and Running Rules ##############################
 run: all
-ifeq ($(findstring zcu102_base_20, $(DEVICE)), zcu102_base_20)
-$(error This example is not supported for $(DEVICE))
-endif
-ifeq ($(findstring zcu104_base_20, $(DEVICE)), zcu104_base_20)
-$(error This example is not supported for $(DEVICE))
-endif
-ifeq ($(findstring vck, $(DEVICE)), vck)
-$(error This example is not supported for $(DEVICE))
-endif
-ifeq ($(findstring zc7, $(DEVICE)), zc7)
-$(error This example is not supported for $(DEVICE))
-endif
-ifeq ($(findstring nodma, $(DEVICE)), nodma)
-$(error This example is not supported for $(DEVICE))
-endif
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 ifeq ($(HOST_ARCH), x86)
 	$(CP) $(EMCONFIG_DIR)/emconfig.json .

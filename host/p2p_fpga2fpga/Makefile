@@ -80,6 +80,31 @@ include $(XF_PROJ_ROOT)/common/includes/opencl/opencl.mk
 CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++1y
 LDFLAGS += $(opencl_LDFLAGS)
 
+ifeq ($(findstring flat, $(DEVICE)), flat)
+$(error [ERROR]: This example is not supported for $(DEVICE).)
+endif
+ifeq ($(findstring zc, $(DEVICE)), zc)
+$(error [ERROR]: This example is not supported for $(DEVICE).)
+endif
+ifeq ($(findstring 201910, $(DEVICE)), 201910)
+$(error [ERROR]: This example is not supported for $(DEVICE).)
+endif
+ifeq ($(findstring 2018, $(DEVICE)), 2018)
+$(error [ERROR]: This example is not supported for $(DEVICE).)
+endif
+ifeq ($(findstring vck, $(DEVICE)), vck)
+$(error [ERROR]: This example is not supported for $(DEVICE).)
+endif
+ifeq ($(findstring aws-vu9p-f1, $(DEVICE)), aws-vu9p-f1)
+$(error [ERROR]: This example is not supported for $(DEVICE).)
+endif
+ifeq ($(findstring _u25_, $(DEVICE)), _u25_)
+$(error [ERROR]: This example is not supported for $(DEVICE).)
+endif
+ifeq ($(findstring u30, $(DEVICE)), u30)
+$(error [ERROR]: This example is not supported for $(DEVICE).)
+endif
+
 ############################## Setting up Host Variables ##############################
 #Include Required Host Source Files
 CXXFLAGS += -I$(XF_PROJ_ROOT)/common/includes/xcl2
@@ -162,28 +187,6 @@ $(EMCONFIG_DIR)/emconfig.json:
 
 ############################## Setting Essential Checks and Running Rules ##############################
 run: all
-ifeq ($(findstring zc, $(DEVICE)), zc)
-$(error This example is not supported for $(DEVICE))
-endif
-ifeq ($(findstring 201910, $(DEVICE)), 201910)
-$(error This example is not supported for $(DEVICE))
-endif
-ifeq ($(findstring 2018, $(DEVICE)), 2018)
-$(error This example is not supported for $(DEVICE))
-endif
-ifeq ($(findstring vck, $(DEVICE)), vck)
-$(error This example is not supported for $(DEVICE))
-endif
-ifeq ($(findstring aws-vu9p-f1, $(DEVICE)), aws-vu9p-f1)
-$(error This example is not supported for $(DEVICE))
-endif
-ifeq ($(findstring _u25_, $(DEVICE)), _u25_)
-$(error This example is not supported for $(DEVICE))
-endif
-ifeq ($(findstring u30, $(DEVICE)), u30)
-$(error This example is not supported for $(DEVICE))
-endif
-
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 	$(CP) $(EMCONFIG_DIR)/emconfig.json .
 	XCL_EMULATION_MODE=$(TARGET) $(EXECUTABLE) $(CMD_ARGS)

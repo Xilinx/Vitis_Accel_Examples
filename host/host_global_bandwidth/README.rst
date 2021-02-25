@@ -16,6 +16,7 @@ Platforms containing following strings in their names are not supported for this
    u280
    vck
    samsung
+   _u2_
    zc
 
 DESIGN FILES
