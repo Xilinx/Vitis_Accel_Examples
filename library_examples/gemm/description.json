@@ -9,6 +9,7 @@
         "aws-vu9p-f1"
     ], 
     "platform_blacklist": [
+        "_u2_",
         "u25",
         "u30",
         "u50",
