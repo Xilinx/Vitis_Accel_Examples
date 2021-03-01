@@ -49,7 +49,7 @@ DETAILS
 
 This is a simple example of vector addition to describe how HBM banks can be grouped to handle buffers larger than 256 MB.
 
-compute unit interfaces are associated to fixed HBM banks using
+Compute unit interfaces are associated to fixed HBM banks using
 ``krnl_vadd.cfg`` file:
 
 ::
@@ -59,9 +59,7 @@ compute unit interfaces are associated to fixed HBM banks using
    sp=krnl_vadd_1.in2:HBM[0:31]
    sp=krnl_vadd_1.out_r:HBM[0:31]
 
-Here, All three buffers will be created into different bank groups and
- the application will run and performance will be reported. Following is the
-real log reported while running on U50 platform:
+Here, All three buffers will be created into different bank groups and the application will run and performance will be reported. Following is the real log reported while running on U50 platform :
 
 ::
 
