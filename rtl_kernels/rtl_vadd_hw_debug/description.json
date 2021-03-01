@@ -11,6 +11,7 @@
         "hw"
     ],
     "platform_blacklist": [
+        "flat",
         "vck",
         "nodma"
     ], 

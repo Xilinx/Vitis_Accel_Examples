@@ -18,6 +18,7 @@
     "platform_blacklist": [
         "zc",
         "vck",
+        "u200_gen3x16",
         "u30",
         "nodma",
         "samsung"
