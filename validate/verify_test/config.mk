@@ -6,7 +6,6 @@ platform_test:
 	platforminfo -j $(DEVICE) > platform_info.json
 	$(XF_PROJ_ROOT)/common/utility/platform_gen.py platform_info.json verify
 
-VPP_LDFLAGS+= --config platform_verify.cfg
 ifneq ($(USR_VPP_FLAGS), )      
 VPP_FLAGS += $(USR_VPP_FLAGS)
 endif
