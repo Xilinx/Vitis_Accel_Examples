@@ -6,7 +6,6 @@
     "flow": "vitis",
     "keywords": [
         "gmem", 
-        "bundle", 
         "#pragma HLS INTERFACE", 
         "m_axi", 
         "s_axilite"

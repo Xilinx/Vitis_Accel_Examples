@@ -5,16 +5,6 @@ This example tests global memory access bandwidth of kernel. Kernel
 increase the bandwidth by accessing multiple DDR banks through different
 interfaces.
 
-User can customize these connections to global memory by explicitly
-specifying the memory banks for different inputs/outputs. Seperate
-bundle names need to be specified for each buffer to be placed in
-different bank.
-
-.. code:: cpp
-
-   #pragma HLS INTERFACE m_axi port = input offset = slave bundle = gmem0
-   #pragma HLS INTERFACE m_axi port = output offset = slave bundle = gmem1
-
 Banks need to be specified using the ``--sp`` tags in the kernel linking
 stage along with the ``m_axi`` interface name and kernel name.
 
