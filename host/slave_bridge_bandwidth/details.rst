@@ -28,81 +28,83 @@ Following is the real log reported while running the design on U250 platform:
 
 ::
 
-   INFO: Reading ./build_dir.hw.xilinx_u250_gen3x16_xdma_1_1_202010_1/bandwidth.xclbin
-   Loading: './build_dir.hw.xilinx_u250_gen3x16_xdma_1_1_202010_1/bandwidth.xclbin'
-   Trying to program device[0]: xilinx_u250_gen3x16_xdma_shell_1_1
+   Found Platform
+   Platform Name: Xilinx
+   INFO: Reading ./build_dir.hw.xilinx_u250_gen3x16_xdma_3_1_202020_1/bandwidth.xclbin
+   Loading: './build_dir.hw.xilinx_u250_gen3x16_xdma_3_1_202020_1/bandwidth.xclbin'
+   Trying to program device[0]: xilinx_u250_gen3x16_xdma_shell_3_1
    Device[0]: program successful!
-   Concurrent Read and Write Throughput = 2.65555 (GB/sec) for buffer size 0.00390625 MB
-   Read Throughput = 2.31054 (GB/sec) for buffer size 0.00390625 MB
-   Write Throughput = 2.34751 (GB/sec) for buffer size 0.00390625 MB
-    
-   Concurrent Read and Write Throughput = 4.73728 (GB/sec) for buffer size 0.0078125 MB
-   Read Throughput = 3.94692 (GB/sec) for buffer size 0.0078125 MB
-   Write Throughput = 3.85908 (GB/sec) for buffer size 0.0078125 MB
-    
-   Concurrent Read and Write Throughput = 7.91636 (GB/sec) for buffer size 0.015625 MB
-   Read Throughput = 5.77328 (GB/sec) for buffer size 0.015625 MB
-   Write Throughput = 5.87328 (GB/sec) for buffer size 0.015625 MB
-    
-   Concurrent Read and Write Throughput = 11.8423 (GB/sec) for buffer size 0.03125 MB
-   Read Throughput = 7.79106 (GB/sec) for buffer size 0.03125 MB
-   Write Throughput = 7.83305 (GB/sec) for buffer size 0.03125 MB
-    
-   Concurrent Read and Write Throughput = 15.6581 (GB/sec) for buffer size 0.0625 MB
-   Read Throughput = 9.32546 (GB/sec) for buffer size 0.0625 MB
-   Write Throughput = 9.48782 (GB/sec) for buffer size 0.0625 MB
-    
-   Concurrent Read and Write Throughput = 18.5828 (GB/sec) for buffer size 0.125 MB
-   Read Throughput = 10.3222 (GB/sec) for buffer size 0.125 MB
-   Write Throughput = 10.5661 (GB/sec) for buffer size 0.125 MB
-    
-   Concurrent Read and Write Throughput = 20.5549 (GB/sec) for buffer size 0.25 MB
-   Read Throughput = 10.8991 (GB/sec) for buffer size 0.25 MB
-   Write Throughput = 11.1812 (GB/sec) for buffer size 0.25 MB
-    
-   Concurrent Read and Write Throughput = 21.6408 (GB/sec) for buffer size 0.5 MB
-   Read Throughput = 11.1996 (GB/sec) for buffer size 0.5 MB
-   Write Throughput = 11.5278 (GB/sec) for buffer size 0.5 MB
-    
-   Concurrent Read and Write Throughput = 22.0769 (GB/sec) for buffer size 1 MB
-   Read Throughput = 11.3371 (GB/sec) for buffer size 1 MB
-   Write Throughput = 11.7182 (GB/sec) for buffer size 1 MB
-    
-   Concurrent Read and Write Throughput = 21.9922 (GB/sec) for buffer size 2 MB
-   Read Throughput = 11.2091 (GB/sec) for buffer size 2 MB
-   Write Throughput = 11.8187 (GB/sec) for buffer size 2 MB
-    
-   Concurrent Read and Write Throughput = 20.8569 (GB/sec) for buffer size 4 MB
-   Read Throughput = 11.2285 (GB/sec) for buffer size 4 MB
-   Write Throughput = 11.8662 (GB/sec) for buffer size 4 MB
-    
-   Concurrent Read and Write Throughput = 19.6829 (GB/sec) for buffer size 8 MB
-   Read Throughput = 10.9834 (GB/sec) for buffer size 8 MB
-   Write Throughput = 11.8879 (GB/sec) for buffer size 8 MB
-    
-   Concurrent Read and Write Throughput = 14.6202 (GB/sec) for buffer size 16 MB
-   Read Throughput = 11.0069 (GB/sec) for buffer size 16 MB
-   Write Throughput = 11.2662 (GB/sec) for buffer size 16 MB
-    
-   Concurrent Read and Write Throughput = 13.4051 (GB/sec) for buffer size 32 MB
-   Read Throughput = 10.9978 (GB/sec) for buffer size 32 MB
-   Write Throughput = 11.1839 (GB/sec) for buffer size 32 MB
-    
-   Concurrent Read and Write Throughput = 13.0062 (GB/sec) for buffer size 64 MB
-   Read Throughput = 10.9995 (GB/sec) for buffer size 64 MB
-   Write Throughput = 11.1202 (GB/sec) for buffer size 64 MB
+   Concurrent Read and Write Throughput = 6.96748 (GB/sec) for buffer size 4.00 KB
+   Read Throughput = 4.87813 (GB/sec) for buffer size 4.00 KB
+   Write Throughput = 4.69212 (GB/sec) for buffer size 4.00 KB
+
+   Concurrent Read and Write Throughput = 7.25228 (GB/sec) for buffer size 8.00 KB
+   Read Throughput = 4.95737 (GB/sec) for buffer size 8.00 KB
+   Write Throughput = 5.155 (GB/sec) for buffer size 8.00 KB
+
+   Concurrent Read and Write Throughput = 8.31089 (GB/sec) for buffer size 16.00 KB
+   Read Throughput = 6.0383 (GB/sec) for buffer size 16.00 KB
+   Write Throughput = 6.16268 (GB/sec) for buffer size 16.00 KB
    
-   Concurrent Read and Write Throughput = 12.7202 (GB/sec) for buffer size 128 MB
-   Read Throughput = 10.9816 (GB/sec) for buffer size 128 MB
-   Write Throughput = 10.5749 (GB/sec) for buffer size 128 MB
-    
-   Concurrent Read and Write Throughput = 12.4748 (GB/sec) for buffer size 256 MB
-   Read Throughput = 10.9845 (GB/sec) for buffer size 256 MB
-   Write Throughput = 10.5827 (GB/sec) for buffer size 256 MB
-    
+   Concurrent Read and Write Throughput = 12.1802 (GB/sec) for buffer size 32.00 KB
+   Read Throughput = 8.17289 (GB/sec) for buffer size 32.00 KB
+   Write Throughput = 8.26587 (GB/sec) for buffer size 32.00 KB
+
+   Concurrent Read and Write Throughput = 15.9402 (GB/sec) for buffer size 64.00 KB
+   Read Throughput = 9.62244 (GB/sec) for buffer size 64.00 KB
+   Write Throughput = 9.59521 (GB/sec) for buffer size 64.00 KB
+   
+   Concurrent Read and Write Throughput = 19.0601 (GB/sec) for buffer size 128.00 KB
+   Read Throughput = 10.6148 (GB/sec) for buffer size 128.00 KB
+   Write Throughput = 10.7014 (GB/sec) for buffer size 128.00 KB
+   
+   Concurrent Read and Write Throughput = 20.8453 (GB/sec) for buffer size 256.00 KB
+   Read Throughput = 10.4822 (GB/sec) for buffer size 256.00 KB
+   Write Throughput = 11.2627 (GB/sec) for buffer size 256.00 KB
+
+   Concurrent Read and Write Throughput = 21.8754 (GB/sec) for buffer size 512.00 KB
+   Read Throughput = 10.3349 (GB/sec) for buffer size 512.00 KB
+   Write Throughput = 11.5728 (GB/sec) for buffer size 512.00 KB
+
+   Concurrent Read and Write Throughput = 22.9009 (GB/sec) for buffer size 1.00 MB
+   Read Throughput = 11.4337 (GB/sec) for buffer size 1.00 MB
+   Write Throughput = 11.7316 (GB/sec) for buffer size 1.00 MB
+
+   Concurrent Read and Write Throughput = 23.3553 (GB/sec) for buffer size 2.00 MB
+   Read Throughput = 11.6192 (GB/sec) for buffer size 2.00 MB
+   Write Throughput = 11.8272 (GB/sec) for buffer size 2.00 MB
+
+   Concurrent Read and Write Throughput = 21.2646 (GB/sec) for buffer size 4.00 MB
+   Read Throughput = 11.6355 (GB/sec) for buffer size 4.00 MB
+   Write Throughput = 11.8706 (GB/sec) for buffer size 4.00 MB
+
+   Concurrent Read and Write Throughput = 19.8527 (GB/sec) for buffer size 8.00 MB
+   Read Throughput = 11.0061 (GB/sec) for buffer size 8.00 MB
+   Write Throughput = 11.8895 (GB/sec) for buffer size 8.00 MB
+
+   Concurrent Read and Write Throughput = 14.4411 (GB/sec) for buffer size 16.00 MB
+   Read Throughput = 10.688 (GB/sec) for buffer size 16.00 MB
+   Write Throughput = 11.6946 (GB/sec) for buffer size 16.00 MB
+
+   Concurrent Read and Write Throughput = 13.0544 (GB/sec) for buffer size 32.00 MB
+   Read Throughput = 10.6945 (GB/sec) for buffer size 32.00 MB
+   Write Throughput = 11.4721 (GB/sec) for buffer size 32.00 MB
+   
+   Concurrent Read and Write Throughput = 11.4484 (GB/sec) for buffer size 64.00 MB
+   Read Throughput = 10.6969 (GB/sec) for buffer size 64.00 MB
+   Write Throughput = 10.6954 (GB/sec) for buffer size 64.00 MB
+   
+   Concurrent Read and Write Throughput = 11.7352 (GB/sec) for buffer size 128.00 MB
+   Read Throughput = 10.6941 (GB/sec) for buffer size 128.00 MB
+   Write Throughput = 10.5788 (GB/sec) for buffer size 128.00 MB
+
+   Concurrent Read and Write Throughput = 11.59 (GB/sec) for buffer size 256.00 MB
+   Read Throughput = 10.7008 (GB/sec) for buffer size 256.00 MB
+   Write Throughput = 10.5752 (GB/sec) for buffer size 256.00 MB
+
    Maximum bandwidth achieved :
-   Concurrent Read and Write Throughput = 22.0769 (GB/sec) for buffer size 1 MB
-   Read Throughput = 11.3371 (GB/sec) for buffer size 1 MB
-   Write Throughput = 11.8879 (GB/sec) for buffer size 8 MB
-    
+   Concurrent Read and Write Throughput = 23.3553 (GB/sec) 
+   Read Throughput = 11.6355 (GB/sec) 
+   Write Throughput = 11.8895 (GB/sec) 
+
    TEST PASSED
