@@ -51,8 +51,8 @@ int main(int argc, char* argv[]) {
     // Compute the size of array in bytes
     uint32_t size_in_bytes = DATA_SIZE * sizeof(uint32_t);
 
-     auto compute_krnl = xrt::kernel(device, uuid, "krnl_vadd");
-     auto copy_krnl = xrt::kernel(device, uuid, "copy_kernel");
+    auto compute_krnl = xrt::kernel(device, uuid, "krnl_vadd");
+    auto copy_krnl = xrt::kernel(device, uuid, "copy_kernel");
 
     xrt::bo::flags host_flags = xrt::bo::flags::host_only;
     xrt::bo::flags device_flags = xrt::bo::flags::device_only;
