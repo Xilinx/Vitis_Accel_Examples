@@ -58,14 +58,6 @@ multiple DDR memory banks which allows us to customize the connections
 among the kernel memory interfaces and the DDR memory bank of a device
 by altering the default connection.
 
-Seperate bundle names need to be specified for each buffer to be placed
-in different bank.
-
-.. code:: cpp
-
-   #pragma HLS INTERFACE m_axi port = input offset = slave bundle = gmem0
-   #pragma HLS INTERFACE m_axi port = output offset = slave bundle = gmem1
-
 This example uses watermark application to demonstrate the utilization
 of multiple DDRs for full bandwidth. Input image is placed into
 ``Bank0`` and kernel will read the input Image and write the output

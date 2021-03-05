@@ -126,15 +126,13 @@ int main(int argc, char* argv[]) {
 
         OCL_CHECK(err, err = q.finish());
 
-        unsigned long start, end, nsduration;
-        cl::Event event, read_event, write_event;
-
         /* Execute Kernel */
-        OCL_CHECK(err, err = q.enqueueTask(krnl, NULL, &event));
-        OCL_CHECK(err, err = event.wait());
-        end = OCL_CHECK(err, event.getProfilingInfo<CL_PROFILING_COMMAND_END>(&err));
-        start = OCL_CHECK(err, event.getProfilingInfo<CL_PROFILING_COMMAND_START>(&err));
-        nsduration = (end - start) / iter;
+        auto start = std::chrono::high_resolution_clock::now();
+        q.enqueueTask(krnl);
+        q.finish();
+        auto end = std::chrono::high_resolution_clock::now();
+        double duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start).count();
+        double msduration = duration / iter;
 
         /* Copy results back from OpenCL buffer */
         unsigned char* map_output_buffer0;
@@ -152,8 +150,7 @@ int main(int argc, char* argv[]) {
         }
 
         /* Profiling information */
-        double dnsduration = ((double)nsduration);
-        double dsduration = dnsduration / ((double)1000000000);
+        double dsduration = msduration / ((double)1000000);
 
         double bpersec = (dbytes / dsduration);
         double gbpersec = (2 * bpersec) / ((double)1024 * 1024 * 1024); // For Concurrent Read and Write
@@ -170,15 +167,15 @@ int main(int argc, char* argv[]) {
         OCL_CHECK(err, err = krnl_read.setArg(2, iter));
 
         /* Execute Kernel */
-        OCL_CHECK(err, err = q.enqueueTask(krnl_read, NULL, &read_event));
-        OCL_CHECK(err, err = read_event.wait());
-        end = OCL_CHECK(err, read_event.getProfilingInfo<CL_PROFILING_COMMAND_END>(&err));
-        start = OCL_CHECK(err, read_event.getProfilingInfo<CL_PROFILING_COMMAND_START>(&err));
-        nsduration = (end - start) / iter;
+        auto read_start = std::chrono::high_resolution_clock::now();
+        q.enqueueTask(krnl_read);
+        q.finish();
+        auto read_end = std::chrono::high_resolution_clock::now();
+        duration = std::chrono::duration_cast<std::chrono::microseconds>(read_end - read_start).count();
+        msduration = duration / iter;
 
         /* Profiling information */
-        dnsduration = ((double)nsduration);
-        dsduration = dnsduration / ((double)1000000000);
+        dsduration = msduration / ((double)1000000);
 
         bpersec = (dbytes / dsduration);
         gbpersec = bpersec / ((double)1024 * 1024 * 1024);
@@ -194,15 +191,15 @@ int main(int argc, char* argv[]) {
         OCL_CHECK(err, err = krnl_write.setArg(2, iter));
 
         /* Execute Kernel */
-        OCL_CHECK(err, err = q.enqueueTask(krnl_write, NULL, &write_event));
-        OCL_CHECK(err, err = write_event.wait());
-        end = OCL_CHECK(err, write_event.getProfilingInfo<CL_PROFILING_COMMAND_END>(&err));
-        start = OCL_CHECK(err, write_event.getProfilingInfo<CL_PROFILING_COMMAND_START>(&err));
-        nsduration = (end - start) / iter;
+        auto write_start = std::chrono::high_resolution_clock::now();
+        q.enqueueTask(krnl_write);
+        q.finish();
+        auto write_end = std::chrono::high_resolution_clock::now();
+        duration = std::chrono::duration_cast<std::chrono::microseconds>(write_end - write_start).count();
+        msduration = duration / iter;
 
         /* Profiling information */
-        dnsduration = ((double)nsduration);
-        dsduration = dnsduration / ((double)1000000000);
+        dsduration = msduration / ((double)1000000);
 
         bpersec = (dbytes / dsduration);
         gbpersec = bpersec / ((double)1024 * 1024 * 1024);

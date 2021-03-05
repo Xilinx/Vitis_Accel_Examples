@@ -18,6 +18,9 @@
     "os": [
         "Linux"
     ],
+    "platform_whitelist": [	
+        "samsung_u2"	
+    ],
     "platform_blacklist": [
         "zc",
         "vck",
