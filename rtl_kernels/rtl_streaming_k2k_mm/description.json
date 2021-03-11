@@ -9,7 +9,7 @@
         "vck",
         "zc706",
         "nodma"
-       ], 
+    ],
     "contributors": [
         {
             "url": "http://www.xilinx.com", 
@@ -22,6 +22,7 @@
             "name": "generic launch for all flows"
         }
     ], 
+    "match_ini": "false", 
     "gui": false, 
     "host": {
         "linker": {
@@ -81,6 +82,7 @@
         }
     ], 
     "testinfo": {
+        "profile": "no",
         "disable": false,
         "jobs": [
             {

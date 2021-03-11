@@ -3,13 +3,6 @@
 # be overridden through the make command line
 #+-------------------------------------------------------------------------------
 
-PROFILE := no
-
-#Generates profile summary report
-ifeq ($(PROFILE), yes)
-VPP_LDFLAGS += --profile_kernel data:all:all:all
-endif
-
 DEBUG := no
 B_TEMP = `$(XF_PROJ_ROOT)/common/utility/parse_platform_list.py $(DEVICE)`
 PERL := 
