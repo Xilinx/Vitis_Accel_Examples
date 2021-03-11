@@ -408,8 +408,8 @@ def building_host(target, data):
 
 def profile_report(target):
     target.write("[Debug]\n")
-    target.write("profile=true\n")
-
+    target.write("opencl_summary=true\n")
+    target.write("opencl_device_counter=true\n")
     return
 
 def mk_clean(target, data):
