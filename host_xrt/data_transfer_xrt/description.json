@@ -42,6 +42,7 @@
                ]
         }
     },
+    "config_make" : "config.mk",
     "targets": [
        "hw_emu",
        "hw" 
