@@ -22,7 +22,6 @@
             "name": "generic launch for all flows"
         }
     ], 
-    "match_ini": "false", 
     "gui": false, 
     "host": {
         "linker": {
@@ -82,7 +81,6 @@
         }
     ], 
     "testinfo": {
-        "profile": "no",
         "disable": false,
         "jobs": [
             {
