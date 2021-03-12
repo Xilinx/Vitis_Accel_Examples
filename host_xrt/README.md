@@ -16,7 +16,9 @@ Example        | Description           | Key Concepts / Keywords
 [multiple_cus_asymmetrical_xrt/][]|This is simple example of vector addition to demonstrate how to connect each compute unit to different banks and how to use these compute units in host applications using xrt native api's.|__Key__ __Concepts__<br> - Multiple Compute Units<br>
 [p2p_simple_xrt/][]|This is simple example of vector increment to describe P2P between FPGA and NVMe SSD using xrt native api's.|__Key__ __Concepts__<br> - P2P<br> - NVMe SSD<br> - SmartSSD<br>__Keywords__<br> - xrt::bo::flags::p2p<br> - pread<br> - pwrite<br> - O_DIRECT<br> - O_RDWR
 [register_access_xrt/][]|This is simple example which demonstrate register read & write using native xrt api's.|__Keywords__<br> - read_register<br> - write_register<br> - cu_access_mode<br> - exclusive
+[slave_bridge_bandwidth_xrt/][]|This is slave bridge bandwidth example to describe host memory and kernel bandwidth test using native xrt api's.|__Key__ __Concepts__<br> - slave bridge<br> - bandwidth<br> - address translation unit<br>__Keywords__<br> - host_only<br> - HOST[0]
 [slave_bridge_copy_buffer_xrt/][]|This is simple slave bridge example to describe how host-only memory can be copied to device-only memory and vice-versa using XRT Native API's.|__Key__ __Concepts__<br> - slave bridge<br>__Keywords__<br> - host_only<br> - device_only<br> - HOST[0]
+[slave_bridge_copy_kernel_xrt/][]|This is a Slave Bridge Example to describe how data can be copied using xrt native api's between host-only buffer and device-only buffer using User Copy Kernel.|__Key__ __Concepts__<br> - slave bridge<br>__Keywords__<br> - host_only<br> - device_only
 [slave_bridge_simple_xrt/][]|This is simple slave bridge example to describe how a user kernel can access the host memory using xrt native api's.|__Key__ __Concepts__<br> - slave bridge<br> - address translation unit<br>__Keywords__<br> - host_only<br> - HOST[0]
 [streaming_k2k_mm_xrt/][]|This is a simple kernel to kernel streaming Vector Add and Vector Multiply C Kernel design with 2 memory mapped input to kernel 1, 1 Stream output from kernel 1 to input of kernel 2, 1 memory mapped input to kernel 2, and 1 memory mapped output that demonstrates on how to process a stream of data for computation between two kernels using XRT Native APIs. This design also illustrates how to set FIFO depth for AXIS connections i.e. for the stream connecting the two kernels|__Key__ __Concepts__<br> - Read/Write Stream<br> - Create/Release Stream<br> - AXIS FIFO depth<br>__Keywords__<br> - stream_connect
 
@@ -31,6 +33,8 @@ Example        | Description           | Key Concepts / Keywords
 [multiple_cus_asymmetrical_xrt/]:multiple_cus_asymmetrical_xrt/
 [p2p_simple_xrt/]:p2p_simple_xrt/
 [register_access_xrt/]:register_access_xrt/
+[slave_bridge_bandwidth_xrt/]:slave_bridge_bandwidth_xrt/
 [slave_bridge_copy_buffer_xrt/]:slave_bridge_copy_buffer_xrt/
+[slave_bridge_copy_kernel_xrt/]:slave_bridge_copy_kernel_xrt/
 [slave_bridge_simple_xrt/]:slave_bridge_simple_xrt/
 [streaming_k2k_mm_xrt/]:streaming_k2k_mm_xrt/
