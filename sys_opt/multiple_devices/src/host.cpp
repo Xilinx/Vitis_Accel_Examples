@@ -46,7 +46,7 @@ int main(int argc, char** argv) {
     auto devices = xcl::get_xil_devices();
     auto device_count = devices.size();
 
-    static const int elements_per_device = 1 << 10;
+    static const int elements_per_device = xcl::is_hw_emulation() ? (1 << 10) : (1 << 20);
     static const int elements = elements_per_device * device_count;
 
     vector<int, aligned_allocator<int> > A(elements, 32);
@@ -69,6 +69,10 @@ int main(int argc, char** argv) {
     OCL_CHECK(err, err = cl::Platform::get(&platform));
 
     size_t size_per_device = elements_per_device * sizeof(int);
+    static const int iter = xcl::is_hw_emulation() ? 2 : 10 * 1024;
+    size_t total_size = iter * size_per_device * device_count * 3;
+    std::string size_str = xcl::convert_size(total_size);
+
     cl_context_properties props[3] = {CL_CONTEXT_PLATFORM, (cl_context_properties)(platform[0])(), 0};
     std::cout << "Initializing OpenCL objects" << std::endl;
     for (int d = 0; d < (int)device_count; d++) {
@@ -98,12 +102,13 @@ int main(int argc, char** argv) {
                                                      size_per_device, &C[offset], &err));
     }
 
-    vector<cl::Event> events(device_count);
+    std::chrono::high_resolution_clock::time_point TimeStart = std::chrono::high_resolution_clock::now();
     for (int d = 0; d < (int)device_count; d++) {
         OCL_CHECK(err, err = kernels[d].setArg(0, buffer_result[d]));
         OCL_CHECK(err, err = kernels[d].setArg(1, buffer_a[d]));
         OCL_CHECK(err, err = kernels[d].setArg(2, buffer_b[d]));
         OCL_CHECK(err, err = kernels[d].setArg(3, elements_per_device));
+        OCL_CHECK(err, err = kernels[d].setArg(4, iter));
 
         // Copy input data to device global memory
         std::cout << "Copying data..." << std::endl;
@@ -111,7 +116,7 @@ int main(int argc, char** argv) {
 
         // Launch the Kernel
         std::cout << "Launching Kernel..." << std::endl;
-        OCL_CHECK(err, err = queues[d].enqueueTask(kernels[d], NULL, &events[d]));
+        OCL_CHECK(err, err = queues[d].enqueueTask(kernels[d]));
 
         // Copy Result from Device Global Memory to Host Local Memory
         std::cout << "Getting Results..." << std::endl;
@@ -125,6 +130,9 @@ int main(int argc, char** argv) {
         OCL_CHECK(err, err = queue.finish());
     }
 
+    std::chrono::high_resolution_clock::time_point TimeEnd = std::chrono::high_resolution_clock::now();
+    double duration_in_ms = std::chrono::duration_cast<std::chrono::microseconds>(TimeEnd - TimeStart).count();
+
     // OPENCL HOST CODE AREA ENDS
     bool match = true;
     for (int i = 0; i < elements; i++) {
@@ -136,6 +144,8 @@ int main(int argc, char** argv) {
             break;
         }
     }
+    std::cout << "Total Size : " << size_str << std::endl;
+    std::cout << "Time Taken : " << duration_in_ms / 1000000 << "sec" << std::endl;
     std::cout << "TEST " << (match ? "PASSED" : "FAILED") << std::endl;
     return (match ? EXIT_SUCCESS : EXIT_FAILURE);
 }

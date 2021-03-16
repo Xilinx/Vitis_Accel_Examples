@@ -64,11 +64,14 @@ Buffers are also created for each FPGA seperately.
 
    buffer_a[d] = cl::Buffer(contexts[d], CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY, size_per_device, &A[offset], &err);
 
-Kernels are enqueued into queues for each FPGA and ``cl_events`` can be
-used to synchronize the kernel operations across devices.
+Following table summarizes the observations while running the design on 1 and 2 U50 platforms:
 
-.. code:: cpp
-
-   err = queues[d].enqueueTask(kernels[d], NULL, &events[d]);
+============ =============
+Device Count Time Taken(s) 
+============ ============= 
+1            47.41
+2            23.71
+Speedup      1.99
+============ =============
 
 For more comprehensive documentation, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.
