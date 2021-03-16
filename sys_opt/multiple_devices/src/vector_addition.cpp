@@ -22,17 +22,7 @@ const unsigned int c_len = DATA_SIZE / BUFFER_SIZE;
 const unsigned int c_size = BUFFER_SIZE;
 
 extern "C" {
-void vadd(int* c, int* a, int* b, const int len) {
-#pragma HLS INTERFACE m_axi port = c offset = slave bundle = gmem
-#pragma HLS INTERFACE m_axi port = a offset = slave bundle = gmem
-#pragma HLS INTERFACE m_axi port = b offset = slave bundle = gmem
-
-#pragma HLS INTERFACE s_axilite port = c
-#pragma HLS INTERFACE s_axilite port = a
-#pragma HLS INTERFACE s_axilite port = b
-#pragma HLS INTERFACE s_axilite port = len
-#pragma HLS INTERFACE s_axilite port = return
-
+void vadd(int* c, int* a, int* b, const int len, const int iter) {
     int arrayA[BUFFER_SIZE];
     int arrayB[BUFFER_SIZE];
     for (int i = 0; i < len; i += BUFFER_SIZE) {
@@ -51,11 +41,13 @@ void vadd(int* c, int* a, int* b, const int len) {
 #pragma HLS LOOP_TRIPCOUNT min = c_size max = c_size
             arrayB[j] = b[i + j];
         }
-
-    vadd_writeC:
-        for (int j = 0; j < size; j++) {
+    iterations:
+        for (int itr = 0; itr < iter; itr++) {
+        vadd_writeC:
+            for (int j = 0; j < size; j++) {
 #pragma HLS LOOP_TRIPCOUNT min = c_size max = c_size
-            c[i + j] = arrayA[j] + arrayB[j];
+                c[i + j] = arrayA[j] + arrayB[j];
+            }
         }
     }
 }
