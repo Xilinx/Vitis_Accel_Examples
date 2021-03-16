@@ -343,7 +343,7 @@ def building_kernel(target, data):
             target.write("ifeq ($(HOST_ARCH), x86)\n")
             target.write("\t$(VPP) $(VPP_FLAGS) ")
             target.write("-l $(VPP_LDFLAGS) --temp_dir ")
-            target.write("$(BUILD_DIR) ")
+            target.write("$(TEMP_DIR) ")
 
             if "accelerators" in con:
                 for acc in con["accelerators"]:
@@ -355,7 +355,7 @@ def building_kernel(target, data):
             target.write("\t$(VPP) -p $(BUILD_DIR)/" + con["name"] + ".link.xclbin -t $(TARGET) --platform $(DEVICE) ")
             target.write("--package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/" + con["name"] + ".xclbin\n")
             target.write("else\n")
-            target.write("\t$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(BUILD_DIR) ")
+            target.write("\t$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) ")
             target.write("-o'$(BUILD_DIR)/" + con["name"] + ".xclbin' $(+)\n")
             target.write("endif\n")
     target.write("\n")
@@ -375,7 +375,7 @@ def building_kernel_rtl(target, data):
             target.write("ifeq ($(HOST_ARCH), x86)\n")
             target.write("\t$(VPP) $(VPP_FLAGS) ")
             target.write("-l $(VPP_LDFLAGS) --temp_dir ")
-            target.write("$(BUILD_DIR) ")
+            target.write("$(TEMP_DIR) ")
 
             if "accelerators" in con:
                 for acc in con["accelerators"]:
@@ -386,7 +386,7 @@ def building_kernel_rtl(target, data):
             target.write("\t$(VPP) -p $(BUILD_DIR)/" + con["name"] + ".link.xclbin -t $(TARGET) --platform $(DEVICE) ")
             target.write("--package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/" + con["name"] + ".xclbin\n")
             target.write("else\n")
-            target.write("\t$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(BUILD_DIR) ")
+            target.write("\t$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) ")
             target.write("-o'$(BUILD_DIR)/" + con["name"] + ".xclbin' $(+)\n")
             target.write("endif\n")
     return

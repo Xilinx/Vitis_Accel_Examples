@@ -178,10 +178,10 @@ $(TEMP_DIR)/kernel_mc.xo: ./src/kernel_mc.cpp
 $(BUILD_DIR)/kernel_mc.xclbin: $(BINARY_CONTAINER_kernel_mc_OBJS)
 	mkdir -p $(BUILD_DIR)
 ifeq ($(HOST_ARCH), x86)
-	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(BUILD_DIR)  $(VPP_LDFLAGS_kernel_mc) -o'$(BUILD_DIR)/kernel_mc.link.xclbin' $(+)
+	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR)  $(VPP_LDFLAGS_kernel_mc) -o'$(BUILD_DIR)/kernel_mc.link.xclbin' $(+)
 	$(VPP) -p $(BUILD_DIR)/kernel_mc.link.xclbin -t $(TARGET) --platform $(DEVICE) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/kernel_mc.xclbin
 else
-	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(BUILD_DIR) -o'$(BUILD_DIR)/kernel_mc.xclbin' $(+)
+	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) -o'$(BUILD_DIR)/kernel_mc.xclbin' $(+)
 endif
 
 ############################## Setting Rules for Host (Building Host Executable) ##############################
