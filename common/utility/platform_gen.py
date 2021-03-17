@@ -30,7 +30,7 @@ def create_json_u2(data):
     target.write("    }")
     target.write("\n    ],\n")
     target.write("    \"total_ddr_banks\": \"" +  str(1) + "\",\n")
-    target.write("    \"version\": \"" + str(1.0)  + "\"\n")
+    target.write("    \"version\": \"" + str(1.1)  + "\"\n")
     target.write("}\n")
     return
 
@@ -70,8 +70,12 @@ def create_cfg(data):
                     Memory_type = 1                   
                 for i in range(Memory_type):
                     q += 1
-                    target.write("sp=" + filename + "_" + str(q) + ".input:" + Memory_name + "[" + str(i) + "]\n")
-                    target.write("sp=" + filename + "_" + str(q) + ".output:" + Memory_name + "[" + str(i)+ "]\n")
+                    if p == 2:
+                        target.write("sp=" + filename + "_" + str(q) + ".input:" + Memory_name + "[" + "0:31" + "]\n")
+                        target.write("sp=" + filename + "_" + str(q) + ".output:" + Memory_name + "[" + "0:31" + "]\n")
+                    else : 
+                        target.write("sp=" + filename + "_" + str(q) + ".input:" + Memory_name + "[" + str(i) + "]\n")
+                        target.write("sp=" + filename + "_" + str(q) + ".output:" + Memory_name + "[" + str(i)+ "]\n")
             p += 1
         target.write("nk=" + filename + ":" + str(Total_banks) + "\n")
     else :        
@@ -123,7 +127,10 @@ def create_json(data):
                 target.write("        \"banks\": [\n")                    
                 for i in range(Memory_type):
                     target.write("            {\n")
-                    target.write("                \"name\": \"" + Memory_name + "[" + str(i) + "]\"\n")
+                    if p == 2:                        
+                        target.write("                \"name\": \"" + Memory_name + "[" + "0:31" + "]\"\n")
+                    else : 
+                        target.write("                \"name\": \"" + Memory_name + "[" + str(i) + "]\"\n")
                     target.write("            }")
                     if i != Memory_type - 1:
                         target.write(",")
@@ -136,7 +143,7 @@ def create_json(data):
         target.write("    \"total_ddr_banks\": \"" +  str(Total_ddr_banks) + "\",\n")
         if Total_host_banks:
             target.write("    \"total_host_banks\": \"" +  str(Total_host_banks) + "\",\n")
-        target.write("    \"version\": \"" + str(1.0)  + "\"\n")
+        target.write("    \"version\": \"" + str(1.1)  + "\"\n")
         target.write("}\n")
     else :        
         print("Error: This example is not supported for targeted device")

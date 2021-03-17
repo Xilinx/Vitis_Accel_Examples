@@ -177,10 +177,10 @@ $(TEMP_DIR)/fuzzy_kernel_2.xo: ./kernel/fuzzy_kernel_2.cpp
 $(BUILD_DIR)/aml.xclbin: $(BINARY_CONTAINER_aml_OBJS)
 	mkdir -p $(BUILD_DIR)
 ifeq ($(HOST_ARCH), x86)
-	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(BUILD_DIR)  $(VPP_LDFLAGS_aml) -o'$(BUILD_DIR)/aml.link.xclbin' $(+)
+	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR)  $(VPP_LDFLAGS_aml) -o'$(BUILD_DIR)/aml.link.xclbin' $(+)
 	$(VPP) -p $(BUILD_DIR)/aml.link.xclbin -t $(TARGET) --platform $(DEVICE) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/aml.xclbin
 else
-	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(BUILD_DIR) -o'$(BUILD_DIR)/aml.xclbin' $(+)
+	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) -o'$(BUILD_DIR)/aml.xclbin' $(+)
 endif
 
 ############################## Setting Rules for Host (Building Host Executable) ##############################
