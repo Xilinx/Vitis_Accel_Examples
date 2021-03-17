@@ -30,7 +30,7 @@
  * capacity of storing 256MB of data.
  *
  * This example showcases two use cases to differentiate how efficiently one can
- * use HBM banks.
+ * use HBM pseudo_channels(PC).
  *
  * CASE 1:
  *          +-----------+                   +-----------+
@@ -41,7 +41,7 @@
  *          |           | <---- Output ---- |           |
  *          +-----------+                   +-----------+
  *
- *  In this case only one HBM Bank, i.e. HBM0, has been used for both the input
+ *  In this case only one HBM PC, i.e. HBM0, has been used for both the input
  *  vectors and the processed output vector.
  *
  *  CASE 2:
@@ -63,15 +63,15 @@
  *          |           |                   |           |
  *          +-----------+                   +-----------+
  *
- *  In this case three different HBM Banks, i.e. HBM1, HBM2 and HBM3, have been
+ *  In this case three different HBM PCs, i.e. HBM1, HBM2 and HBM3, have been
  * used for input
  *  vectors and the processed output vector.
- *  The banks HBM1 & HBM2 are used for input vectors whereas HBM3 is used for
+ *  The PCs HBM1 & HBM2 are used for input vectors whereas HBM3 is used for
  *  processed output vector.
  *
  *  The use case highlights significant change in the data transfer throughput
  * (in terms of
- *  Gigabytes per second) when a single and multiple HBM banks are used for the
+ *  Gigabytes per second) when a single and multiple HBM PCs are used for the
  *  same application.
  *
  *  *****************************************************************************************/
@@ -84,15 +84,14 @@
 #include <string.h>
 #include <vector>
 
-// Number of HBM Banks required
-#define MAX_HBM_BANKCOUNT 32
-#define BANK_NAME(n) n | XCL_MEM_TOPOLOGY
-const int bank[MAX_HBM_BANKCOUNT] = {
-    BANK_NAME(0),  BANK_NAME(1),  BANK_NAME(2),  BANK_NAME(3),  BANK_NAME(4),  BANK_NAME(5),  BANK_NAME(6),
-    BANK_NAME(7),  BANK_NAME(8),  BANK_NAME(9),  BANK_NAME(10), BANK_NAME(11), BANK_NAME(12), BANK_NAME(13),
-    BANK_NAME(14), BANK_NAME(15), BANK_NAME(16), BANK_NAME(17), BANK_NAME(18), BANK_NAME(19), BANK_NAME(20),
-    BANK_NAME(21), BANK_NAME(22), BANK_NAME(23), BANK_NAME(24), BANK_NAME(25), BANK_NAME(26), BANK_NAME(27),
-    BANK_NAME(28), BANK_NAME(29), BANK_NAME(30), BANK_NAME(31)};
+// Number of HBM PCs required
+#define MAX_HBM_PC_COUNT 32
+#define PC_NAME(n) n | XCL_MEM_TOPOLOGY
+const int pc[MAX_HBM_PC_COUNT] = {
+    PC_NAME(0),  PC_NAME(1),  PC_NAME(2),  PC_NAME(3),  PC_NAME(4),  PC_NAME(5),  PC_NAME(6),  PC_NAME(7),
+    PC_NAME(8),  PC_NAME(9),  PC_NAME(10), PC_NAME(11), PC_NAME(12), PC_NAME(13), PC_NAME(14), PC_NAME(15),
+    PC_NAME(16), PC_NAME(17), PC_NAME(18), PC_NAME(19), PC_NAME(20), PC_NAME(21), PC_NAME(22), PC_NAME(23),
+    PC_NAME(24), PC_NAME(25), PC_NAME(26), PC_NAME(27), PC_NAME(28), PC_NAME(29), PC_NAME(30), PC_NAME(31)};
 
 // Function for verifying results
 bool verify(std::vector<int, aligned_allocator<int> >& source_sw_results,
@@ -117,26 +116,26 @@ double run_krnl(cl::Context& context,
                 std::vector<int, aligned_allocator<int> >& source_in1,
                 std::vector<int, aligned_allocator<int> >& source_in2,
                 std::vector<int, aligned_allocator<int> >& source_hw_results,
-                int* bank_assign,
+                int* pc_assign,
                 unsigned int size) {
     cl_int err;
 
-    // For Allocating Buffer to specific Global Memory Bank, user has to use
+    // For Allocating Buffer to specific Global Memory PC, user has to use
     // cl_mem_ext_ptr_t
-    // and provide the Banks
+    // and provide the PCs
     cl_mem_ext_ptr_t inBufExt1, inBufExt2, outBufExt;
 
     inBufExt1.obj = source_in1.data();
     inBufExt1.param = 0;
-    inBufExt1.flags = bank_assign[0];
+    inBufExt1.flags = pc_assign[0];
 
     inBufExt2.obj = source_in2.data();
     inBufExt2.param = 0;
-    inBufExt2.flags = bank_assign[1];
+    inBufExt2.flags = pc_assign[1];
 
     outBufExt.obj = source_hw_results.data();
     outBufExt.param = 0;
-    outBufExt.flags = bank_assign[2];
+    outBufExt.flags = pc_assign[2];
 
     // These commands will allocate memory on the FPGA. The cl::Buffer objects can
     // be used to reference the memory locations on the device.
@@ -236,20 +235,20 @@ int main(int argc, char* argv[]) {
     double kernel_time_in_sec = 0, result = 0;
     bool match = true;
     const int numBuf = 3; // Since three buffers are being used
-    int bank_assign[numBuf];
+    int pc_assign[numBuf];
 
     std::cout << "Running CASE 1  : Single HBM for all three Buffers " << std::endl;
 
-    std::cout << "Each buffer is allocated with same HBM bank." << std::endl;
-    std::cout << "input 1 -> bank 0 " << std::endl;
-    std::cout << "input 2 -> bank 0 " << std::endl;
-    std::cout << "output  -> bank 0 " << std::endl;
+    std::cout << "Each buffer is allocated with same HBM PC." << std::endl;
+    std::cout << "input 1 -> PC 0 " << std::endl;
+    std::cout << "input 2 -> PC 0 " << std::endl;
+    std::cout << "output  -> PC 0 " << std::endl;
     for (int j = 0; j < numBuf; j++) {
-        bank_assign[j] = bank[0];
+        pc_assign[j] = pc[0];
     }
 
     kernel_time_in_sec =
-        run_krnl(context, q, kernel_vadd, source_in1, source_in2, source_hw_results, bank_assign, dataSize);
+        run_krnl(context, q, kernel_vadd, source_in1, source_in2, source_hw_results, pc_assign, dataSize);
     match = verify(source_sw_results, source_hw_results, dataSize);
 
     // Multiplying the actual data size by 3 because three buffers are being used.
@@ -259,18 +258,18 @@ int main(int argc, char* argv[]) {
 
     std::cout << "[CASE 1] THROUGHPUT = " << result << " GB/s" << std::endl;
 
-    std::cout << "Running CASE 2: Three Separate Banks for Three Buffers" << std::endl;
+    std::cout << "Running CASE 2: Three Separate PCs for Three Buffers" << std::endl;
 
-    std::cout << "Each buffer is allocated with different HBM bank." << std::endl;
-    std::cout << "input 1 -> bank 1 " << std::endl;
-    std::cout << "input 2 -> bank 2 " << std::endl;
-    std::cout << "output  -> bank 3 " << std::endl;
+    std::cout << "Each buffer is allocated with different HBM PCs." << std::endl;
+    std::cout << "input 1 -> PC 1 " << std::endl;
+    std::cout << "input 2 -> PC 2 " << std::endl;
+    std::cout << "output  -> PC 3 " << std::endl;
     for (int j = 0; j < numBuf; j++) {
-        bank_assign[j] = bank[j + 1];
+        pc_assign[j] = pc[j + 1];
     }
 
     kernel_time_in_sec =
-        run_krnl(context, q, kernel_vadd, source_in1, source_in2, source_hw_results, bank_assign, dataSize);
+        run_krnl(context, q, kernel_vadd, source_in1, source_in2, source_hw_results, pc_assign, dataSize);
     match = verify(source_sw_results, source_hw_results, dataSize);
 
     result = 3 * dataSize * sizeof(uint32_t);

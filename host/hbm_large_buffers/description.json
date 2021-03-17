@@ -1,7 +1,7 @@
 {
     "name": "HBM Large Buffers", 
     "description": [
-        "This is a simple example of vector addition to describe how HBM banks can be grouped to handle buffers larger than 256 MB."
+        "This is a simple example of vector addition to describe how HBM pseudo-channels can be grouped to handle buffers larger than 256 MB."
     ],
     "flow": "vitis",
     "keywords": [
@@ -9,7 +9,7 @@
     ], 
     "key_concepts": [
         "High Bandwidth Memory", 
-        "Multiple HBM Bank Groups"
+        "Multiple HBM Pseudo-channel Groups"
     ], 
     "platform_type": "pcie",
     "platform_whitelist": [

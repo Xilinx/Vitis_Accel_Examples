@@ -1,9 +1,9 @@
 HBM Large Buffers
 =================
 
-This is a simple example of vector addition to describe how HBM banks can be grouped to handle buffers larger than 256 MB.
+This is a simple example of vector addition to describe how HBM pseudo-channels can be grouped to handle buffers larger than 256 MB.
 
-**KEY CONCEPTS:** High Bandwidth Memory, Multiple HBM Bank Groups
+**KEY CONCEPTS:** High Bandwidth Memory, Multiple HBM Pseudo-channel Groups
 
 **KEYWORDS:** HBM
 
@@ -47,9 +47,9 @@ Once the environment has been configured, the application can be executed by
 DETAILS
 -------
 
-This is a simple example of vector addition to describe how HBM banks can be grouped to handle buffers larger than 256 MB.
+This is a simple example of vector addition to describe how HBM pseudo-channels(PC) can be grouped to handle buffers larger than 256 MB.
 
-Compute unit interfaces are associated to fixed HBM banks using
+Compute unit interfaces are associated to fixed HBM PC groups using
 ``krnl_vadd.cfg`` file:
 
 ::

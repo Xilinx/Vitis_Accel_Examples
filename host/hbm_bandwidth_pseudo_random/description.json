@@ -11,7 +11,7 @@
     ], 
     "key_concepts": [
         "High Bandwidth Memory", 
-        "Multiple HBM Banks",
+        "Multiple HBM Pseudo-channels",
         "Random Memory Access",
         "Linear Feedback Shift Register"
     ], 
