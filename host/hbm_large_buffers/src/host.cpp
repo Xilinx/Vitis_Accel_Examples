@@ -27,7 +27,7 @@
  * capacity of storing 256MB of data.
  *
  * This example showcases how to use buffers larger than 256MB (e.g. 1GB) using
- * bank grouping.
+ * pseudo-channel(PC) grouping.
  *
  *          +-----------+                   +-----------+
  *          |           |                   |           |
@@ -192,9 +192,9 @@ int main(int argc, char* argv[]) {
     std::cout << "Running Three Separate Groups for Three Buffers" << std::endl;
 
     std::cout << "Each buffer is allocated with different HBM Group." << std::endl;
-    std::cout << "input 1 -> bank 0 : 31 " << std::endl;
-    std::cout << "input 2 -> bank 0 : 31 " << std::endl;
-    std::cout << "output  -> bank 0 : 31 " << std::endl;
+    std::cout << "input 1 -> PC 0 : 31 " << std::endl;
+    std::cout << "input 2 -> PC 0 : 31 " << std::endl;
+    std::cout << "output  -> PC 0 : 31 " << std::endl;
 
     kernel_time_in_sec = run_krnl(context, q, kernel_vadd, source_in1, source_in2, source_hw_results, num_elements);
     match = verify(source_sw_results, source_hw_results, num_elements);

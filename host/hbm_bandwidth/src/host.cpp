@@ -38,15 +38,14 @@
 
 #define NUM_KERNEL 3
 
-// HBM Banks requirements
-#define MAX_HBM_BANKCOUNT 32
-#define BANK_NAME(n) n | XCL_MEM_TOPOLOGY
-const int bank[MAX_HBM_BANKCOUNT] = {
-    BANK_NAME(0),  BANK_NAME(1),  BANK_NAME(2),  BANK_NAME(3),  BANK_NAME(4),  BANK_NAME(5),  BANK_NAME(6),
-    BANK_NAME(7),  BANK_NAME(8),  BANK_NAME(9),  BANK_NAME(10), BANK_NAME(11), BANK_NAME(12), BANK_NAME(13),
-    BANK_NAME(14), BANK_NAME(15), BANK_NAME(16), BANK_NAME(17), BANK_NAME(18), BANK_NAME(19), BANK_NAME(20),
-    BANK_NAME(21), BANK_NAME(22), BANK_NAME(23), BANK_NAME(24), BANK_NAME(25), BANK_NAME(26), BANK_NAME(27),
-    BANK_NAME(28), BANK_NAME(29), BANK_NAME(30), BANK_NAME(31)};
+// HBM Pseudo-channel(PC) requirements
+#define MAX_HBM_PC_COUNT 32
+#define PC_NAME(n) n | XCL_MEM_TOPOLOGY
+const int pc[MAX_HBM_PC_COUNT] = {
+    PC_NAME(0),  PC_NAME(1),  PC_NAME(2),  PC_NAME(3),  PC_NAME(4),  PC_NAME(5),  PC_NAME(6),  PC_NAME(7),
+    PC_NAME(8),  PC_NAME(9),  PC_NAME(10), PC_NAME(11), PC_NAME(12), PC_NAME(13), PC_NAME(14), PC_NAME(15),
+    PC_NAME(16), PC_NAME(17), PC_NAME(18), PC_NAME(19), PC_NAME(20), PC_NAME(21), PC_NAME(22), PC_NAME(23),
+    PC_NAME(24), PC_NAME(25), PC_NAME(26), PC_NAME(27), PC_NAME(28), PC_NAME(29), PC_NAME(30), PC_NAME(31)};
 
 // Function for verifying results
 bool verify(std::vector<int, aligned_allocator<int> >& source_sw_add_results,
@@ -184,25 +183,25 @@ int main(int argc, char* argv[]) {
     std::vector<cl::Buffer> buffer_output_add(NUM_KERNEL);
     std::vector<cl::Buffer> buffer_output_mul(NUM_KERNEL);
 
-    // For Allocating Buffer to specific Global Memory Bank, user has to use
+    // For Allocating Buffer to specific Global Memory PC, user has to use
     // cl_mem_ext_ptr_t
-    // and provide the Banks
+    // and provide the PCs
     for (int i = 0; i < NUM_KERNEL; i++) {
         inBufExt1[i].obj = source_in1.data();
         inBufExt1[i].param = 0;
-        inBufExt1[i].flags = bank[i * 4];
+        inBufExt1[i].flags = pc[i * 4];
 
         inBufExt2[i].obj = source_in2.data();
         inBufExt2[i].param = 0;
-        inBufExt2[i].flags = bank[(i * 4) + 1];
+        inBufExt2[i].flags = pc[(i * 4) + 1];
 
         outAddBufExt[i].obj = source_hw_add_results[i].data();
         outAddBufExt[i].param = 0;
-        outAddBufExt[i].flags = bank[(i * 4) + 2];
+        outAddBufExt[i].flags = pc[(i * 4) + 2];
 
         outMulBufExt[i].obj = source_hw_mul_results[i].data();
         outMulBufExt[i].param = 0;
-        outMulBufExt[i].flags = bank[(i * 4) + 3];
+        outMulBufExt[i].flags = pc[(i * 4) + 3];
     }
 
     // These commands will allocate memory on the FPGA. The cl::Buffer objects can
