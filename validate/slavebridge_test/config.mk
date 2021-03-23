@@ -3,7 +3,7 @@ USR_VPP_FLAGS:=
 USR_VPP_LDFLAGS:=
 
 platform_test:
-	platforminfo -j $(DEVICE) > platform_info.json
+	platforminfo -j -d $(DEVICE) > platform_info.json
 	$(XF_PROJ_ROOT)/common/utility/platform_gen.py platform_info.json slavebridge
 
 VPP_LDFLAGS+= --config platform_slavebridge.cfg
