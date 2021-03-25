@@ -71,9 +71,9 @@ Here, All three buffers will be created into different bank groups and the appli
    Device[0]: program successful!
    Running Three Separate Groups for Three Buffers
    Each buffer is allocated with different HBM Group.
-   input 1 -> bank 0 : 31 
-   input 2 -> bank 0 : 31 
-   output  -> bank 0 : 31 
+   input 1 -> PC 0 : 31 
+   input 2 -> PC 0 : 31 
+   output  -> PC 0 : 31 
    THROUGHPUT = 39.2318 GB/s 
    TEST PASSED
 
