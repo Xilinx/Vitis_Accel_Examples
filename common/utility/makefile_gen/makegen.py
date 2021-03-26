@@ -303,7 +303,11 @@ def add_containers(target, data):
                 for acc in con["accelerators"]:
                     target.write("BINARY_CONTAINER_")
                     target.write(con["name"])
-                    target.write("_OBJS += $(TEMP_DIR)/") 
+                    if "kernel_type" in acc:
+                        if acc["kernel_type"] == "SystemC":
+                            target.write("_OBJS += ")
+                    else:
+                        target.write("_OBJS += $(TEMP_DIR)/") 
                     target.write(acc["name"])
                     target.write(".xo\n")       	
     target.write("\n")
@@ -391,6 +395,51 @@ def building_kernel_rtl(target, data):
             target.write("endif\n")
     return
 
+def building_kernel_systemc(target, data):
+    if "containers" in data:
+        target.write("############################## Setting Rules for Binary Containers (Building Kernels) ##############################\n")
+        for con in data["containers"]:
+            if "accelerators" in con:
+                for acc in con["accelerators"]:
+                    target.write(acc["name"])
+                    target.write(".xo: ")
+                    location = acc["location"]
+                    location = location.replace('PROJECT', '.')
+                    target.write(location)
+                    target.write("\n")
+                    target.write("\tmkdir -p $(TEMP_DIR)\n")
+                    target.write("\tcreate_sc_xo ")
+                    target.write(location)
+                    target.write("\n")
+        for con in data["containers"]:
+            target.write("$(BUILD_DIR)/")
+            target.write(con["name"])
+            target.write(".xclbin:")
+            target.write(" $(BINARY_CONTAINER_")
+            target.write(con["name"])
+            target.write("_OBJS)\n")
+            target.write("\tmkdir -p $(BUILD_DIR)\n")
+            target.write("ifeq ($(HOST_ARCH), x86)\n")
+            target.write("\t$(VPP) $(VPP_FLAGS) ")
+            target.write("-l $(VPP_LDFLAGS) --temp_dir ")
+            target.write("$(TEMP_DIR) ")
+
+            if "accelerators" in con:
+                for acc in con["accelerators"]:
+                    if "compute_units" in acc or "num_compute_units" in acc:
+                        target.write(" $(VPP_LDFLAGS_"+con["name"]+")")
+                        break
+            target.write(" -o'$(BUILD_DIR)/" + con["name"] + ".link.xclbin' $(+)\n")
+
+            target.write("\t$(VPP) -p $(BUILD_DIR)/" + con["name"] + ".link.xclbin -t $(TARGET) --platform $(DEVICE) ")
+            target.write("--package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/" + con["name"] + ".xclbin\n")
+            target.write("else\n")
+            target.write("\t$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) ")
+            target.write("-o'$(BUILD_DIR)/" + con["name"] + ".xclbin' $(+)\n")
+            target.write("endif\n")
+    target.write("\n")
+    return
+
 def building_host(target, data):
     target.write("############################## Setting Rules for Host (Building Host Executable) ##############################\n")
 
@@ -471,16 +520,22 @@ def mk_build_all(target, data):
     target.write("xclbin: build\n")
     target.write("\n")
     
-    counter = 0
+    rtl_counter = 0
+    systemc_counter = 0
     if "containers" in data:
         for con in data["containers"]:
             if "accelerators" in con:
                 for acc in con["accelerators"]:
                     if "kernel_type" in acc:
                     	if acc["kernel_type"] == "RTL":
-     	                    counter = 1
-    if counter == 1:
+     	                    rtl_counter = 1
+                        elif acc["kernel_type"] == "SystemC":
+                            systemc_counter = 1
+                        
+    if rtl_counter == 1:
         building_kernel_rtl(target, data)
+    elif systemc_counter == 1:
+        building_kernel_systemc(target, data)
     else:
     	building_kernel(target, data)
     building_host(target, data)
