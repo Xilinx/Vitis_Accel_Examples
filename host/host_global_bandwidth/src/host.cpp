@@ -187,8 +187,7 @@ int main(int argc, char** argv) {
             bufExt[i].flags = XCL_MEM_DDR_BANK1;
             bufExt[i].obj = NULL;
             bufExt[i].param = 0;
-            OCL_CHECK(err, mems[i] = cl::Buffer(context, (cl_mem_flags)(CL_MEM_ALLOC_HOST_PTR | CL_MEM_READ_WRITE |
-                                                                        CL_MEM_EXT_PTR_XILINX),
+            OCL_CHECK(err, mems[i] = cl::Buffer(context, (cl_mem_flags)(CL_MEM_READ_WRITE | CL_MEM_EXT_PTR_XILINX),
                                                 nxtcnt, &bufExt[i], &err));
             OCL_CHECK(err, err = command_queue.enqueueFillBuffer<int>((cl::Buffer&)mems[i], i, 0, nxtcnt, 0, 0));
         }
@@ -228,12 +227,10 @@ int main(int argc, char** argv) {
             bufExt2[i].obj = NULL;
             bufExt2[i].param = 0;
 
-            OCL_CHECK(err, mems1[i] = cl::Buffer(context, (cl_mem_flags)(CL_MEM_ALLOC_HOST_PTR | CL_MEM_READ_WRITE |
-                                                                         CL_MEM_EXT_PTR_XILINX),
+            OCL_CHECK(err, mems1[i] = cl::Buffer(context, (cl_mem_flags)(CL_MEM_READ_WRITE | CL_MEM_EXT_PTR_XILINX),
                                                  nxtcnt, &bufExt1[i], &err));
             OCL_CHECK(err, err = command_queue.enqueueFillBuffer<int>((cl::Buffer&)mems1[i], i, 0, nxtcnt, 0, 0));
-            OCL_CHECK(err, mems2[i] = cl::Buffer(context, (cl_mem_flags)(CL_MEM_ALLOC_HOST_PTR | CL_MEM_READ_WRITE |
-                                                                         CL_MEM_EXT_PTR_XILINX),
+            OCL_CHECK(err, mems2[i] = cl::Buffer(context, (cl_mem_flags)(CL_MEM_READ_WRITE | CL_MEM_EXT_PTR_XILINX),
                                                  nxtcnt, &bufExt2[i], &err));
             OCL_CHECK(err, err = command_queue.enqueueFillBuffer<int>((cl::Buffer&)mems2[i], i, 0, nxtcnt, 0, 0));
         }

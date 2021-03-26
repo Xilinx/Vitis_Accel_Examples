@@ -406,10 +406,10 @@ int main(int argc, char** argv) {
     OCL_CHECK(err,
               cl::Buffer buffer_a(context, CL_MEM_USE_HOST_PTR | CL_MEM_READ_WRITE, size_in_bytes, A.data(), &err));
     OCL_CHECK(err, cl::Buffer buffer_b(context, CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY, size_in_bytes, B.data(), &err));
-    OCL_CHECK(err, cl::Buffer buffer_c(context, CL_MEM_ALLOC_HOST_PTR | CL_MEM_WRITE_ONLY, size_in_bytes, NULL, &err));
+    OCL_CHECK(err, cl::Buffer buffer_c(context, CL_MEM_WRITE_ONLY, size_in_bytes, NULL, &err));
     OCL_CHECK(err, cl::Buffer buffer_d(context, CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY, size_in_bytes, D.data(), &err));
     OCL_CHECK(err, cl::Buffer buffer_e(context, CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY, size_in_bytes, E.data(), &err));
-    OCL_CHECK(err, cl::Buffer buffer_f(context, CL_MEM_ALLOC_HOST_PTR | CL_MEM_WRITE_ONLY, size_in_bytes, NULL, &err));
+    OCL_CHECK(err, cl::Buffer buffer_f(context, CL_MEM_WRITE_ONLY, size_in_bytes, NULL, &err));
 
     // Use multiple command queues to execute the kernels
     multiple_command_queues(context, device, kernel_mscale, kernel_madd, kernel_mmult, buffer_a, buffer_b, buffer_c,

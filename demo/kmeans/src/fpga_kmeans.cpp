@@ -423,16 +423,12 @@ int FPGA_KMEANS::fpga_kmeans_allocate(int n_points, int n_features, int n_cluste
 
 #ifdef __USE_OPENCL__
     cl_int err;
-    OCL_CHECK(err, m_buf_feature =
-                       cl::Buffer(m_context, CL_MEM_ALLOC_HOST_PTR | CL_MEM_READ_ONLY, m_buf_feature_sz, NULL, &err));
-    OCL_CHECK(err, m_buf_cluster =
-                       cl::Buffer(m_context, CL_MEM_ALLOC_HOST_PTR | CL_MEM_READ_ONLY, m_buf_cluster_sz, NULL, &err));
-    OCL_CHECK(err, m_buf_members =
-                       cl::Buffer(m_context, CL_MEM_ALLOC_HOST_PTR | CL_MEM_WRITE_ONLY, m_buf_members_sz, NULL, &err));
+    OCL_CHECK(err, m_buf_feature = cl::Buffer(m_context, CL_MEM_READ_ONLY, m_buf_feature_sz, NULL, &err));
+    OCL_CHECK(err, m_buf_cluster = cl::Buffer(m_context, CL_MEM_READ_ONLY, m_buf_cluster_sz, NULL, &err));
+    OCL_CHECK(err, m_buf_members = cl::Buffer(m_context, CL_MEM_WRITE_ONLY, m_buf_members_sz, NULL, &err));
 
     for (int i = 0; i < NUM_CU; i++) {
-        OCL_CHECK(err, m_buf_centers[i] = cl::Buffer(m_context, CL_MEM_ALLOC_HOST_PTR | CL_MEM_WRITE_ONLY,
-                                                     m_buf_centers_sz, NULL, &err));
+        OCL_CHECK(err, m_buf_centers[i] = cl::Buffer(m_context, CL_MEM_WRITE_ONLY, m_buf_centers_sz, NULL, &err));
     }
 #endif
 

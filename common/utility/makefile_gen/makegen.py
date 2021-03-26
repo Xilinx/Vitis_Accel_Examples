@@ -1039,4 +1039,5 @@ else:
         target = open("cmake_build/CMakeLists.txt", "w+")
         create_cmakelist(target, data)
 
-target.close
+if target:
+    target.close

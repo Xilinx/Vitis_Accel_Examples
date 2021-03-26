@@ -102,6 +102,12 @@ ifeq ($(findstring _u2_, $(DEVICE)), _u2_)
 $(error [ERROR]: This example is not supported for $(DEVICE).)
 endif
 
+ifneq ($(findstring vck190, $(DEVICE)), vck190)
+ifneq ($(findstring zc, $(DEVICE)), zc)
+$(warning [WARNING]: This example has not been tested for $(DEVICE). It may or may not work.)
+endif
+endif
+
 ############################## Setting up Host Variables ##############################
 #Include Required Host Source Files
 CXXFLAGS += -I$(XF_PROJ_ROOT)/common/includes/xcl2
