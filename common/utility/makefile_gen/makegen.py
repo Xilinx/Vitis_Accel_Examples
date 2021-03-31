@@ -303,8 +303,7 @@ def add_containers(target, data):
                 for acc in con["accelerators"]:
                     target.write("BINARY_CONTAINER_")
                     target.write(con["name"])
-                    if "kernel_type" in acc:
-                        if acc["kernel_type"] == "SystemC":
+                    if "kernel_type" in acc and acc["kernel_type"] == "SystemC":
                             target.write("_OBJS += ")
                     else:
                         target.write("_OBJS += $(TEMP_DIR)/") 

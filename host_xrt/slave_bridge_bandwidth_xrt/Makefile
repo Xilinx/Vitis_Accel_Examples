@@ -80,6 +80,37 @@ include $(XF_PROJ_ROOT)/common/includes/opencl/opencl.mk
 CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++1y
 LDFLAGS += $(opencl_LDFLAGS)
 
+ifeq ($(findstring _u25_, $(DEVICE)), _u25_)
+$(error [ERROR]: This example is not supported for $(DEVICE).)
+endif
+ifeq ($(findstring u30, $(DEVICE)), u30)
+$(error [ERROR]: This example is not supported for $(DEVICE).)
+endif
+ifeq ($(findstring zc, $(DEVICE)), zc)
+$(error [ERROR]: This example is not supported for $(DEVICE).)
+endif
+ifeq ($(findstring vck, $(DEVICE)), vck)
+$(error [ERROR]: This example is not supported for $(DEVICE).)
+endif
+ifeq ($(findstring aws, $(DEVICE)), aws)
+$(error [ERROR]: This example is not supported for $(DEVICE).)
+endif
+ifeq ($(findstring 2019, $(DEVICE)), 2019)
+$(error [ERROR]: This example is not supported for $(DEVICE).)
+endif
+ifeq ($(findstring 2018, $(DEVICE)), 2018)
+$(error [ERROR]: This example is not supported for $(DEVICE).)
+endif
+ifeq ($(findstring 202010, $(DEVICE)), 202010)
+$(error [ERROR]: This example is not supported for $(DEVICE).)
+endif
+ifeq ($(findstring samsung, $(DEVICE)), samsung)
+$(error [ERROR]: This example is not supported for $(DEVICE).)
+endif
+ifeq ($(findstring _u2_, $(DEVICE)), _u2_)
+$(error [ERROR]: This example is not supported for $(DEVICE).)
+endif
+
 ############################## Setting up Host Variables ##############################
 #Include Required Host Source Files
 CXXFLAGS += -I$(XF_PROJ_ROOT)/common/includes/cmdparser
@@ -144,10 +175,10 @@ $(TEMP_DIR)/write_bandwidth.xo: src/write_bandwidth.cpp
 $(BUILD_DIR)/bandwidth.xclbin: $(BINARY_CONTAINER_bandwidth_OBJS)
 	mkdir -p $(BUILD_DIR)
 ifeq ($(HOST_ARCH), x86)
-	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(BUILD_DIR)  -o'$(BUILD_DIR)/bandwidth.link.xclbin' $(+)
+	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR)  -o'$(BUILD_DIR)/bandwidth.link.xclbin' $(+)
 	$(VPP) -p $(BUILD_DIR)/bandwidth.link.xclbin -t $(TARGET) --platform $(DEVICE) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/bandwidth.xclbin
 else
-	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(BUILD_DIR) -o'$(BUILD_DIR)/bandwidth.xclbin' $(+)
+	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) -o'$(BUILD_DIR)/bandwidth.xclbin' $(+)
 endif
 
 ############################## Setting Rules for Host (Building Host Executable) ##############################
@@ -160,37 +191,6 @@ $(EMCONFIG_DIR)/emconfig.json:
 
 ############################## Setting Essential Checks and Running Rules ##############################
 run: all
-ifeq ($(findstring _u25_, $(DEVICE)), _u25_)
-$(error This example is not supported for $(DEVICE))
-endif
-ifeq ($(findstring u30, $(DEVICE)), u30)
-$(error This example is not supported for $(DEVICE))
-endif
-ifeq ($(findstring zc, $(DEVICE)), zc)
-$(error This example is not supported for $(DEVICE))
-endif
-ifeq ($(findstring vck, $(DEVICE)), vck)
-$(error This example is not supported for $(DEVICE))
-endif
-ifeq ($(findstring aws, $(DEVICE)), aws)
-$(error This example is not supported for $(DEVICE))
-endif
-ifeq ($(findstring 2019, $(DEVICE)), 2019)
-$(error This example is not supported for $(DEVICE))
-endif
-ifeq ($(findstring 2018, $(DEVICE)), 2018)
-$(error This example is not supported for $(DEVICE))
-endif
-ifeq ($(findstring 202010, $(DEVICE)), 202010)
-$(error This example is not supported for $(DEVICE))
-endif
-ifeq ($(findstring samsung, $(DEVICE)), samsung)
-$(error This example is not supported for $(DEVICE))
-endif
-ifeq ($(findstring _u2_, $(DEVICE)), _u2_)
-$(error This example is not supported for $(DEVICE))
-endif
-
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 	$(CP) $(EMCONFIG_DIR)/emconfig.json .
 	XCL_EMULATION_MODE=$(TARGET) $(EXECUTABLE) $(CMD_ARGS)
