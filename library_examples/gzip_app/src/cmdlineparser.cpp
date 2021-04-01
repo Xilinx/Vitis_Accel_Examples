@@ -63,7 +63,7 @@ CmdLineParser::~CmdLineParser() {
     // TODO Auto-generated destructor stub
     for (size_t i = 0; i < m_vSwitches.size(); i++) {
         delete m_vSwitches[i];
-        m_vSwitches[i] = NULL;
+        m_vSwitches[i] = nullptr;
     }
 
     m_vSwitches.resize(0);
@@ -139,7 +139,7 @@ bool CmdLineParser::setDefaultKey(const char* key) {
 
     if (m_mapKeySwitch.find(strKey) != m_mapKeySwitch.end()) {
         CmdSwitch* pcmd = m_mapKeySwitch[m_strDefaultKey];
-        if (pcmd != NULL) {
+        if (pcmd != nullptr) {
             if (pcmd->istoggle) {
                 LogError("Boolean command line options can not be used as default keys");
                 return false;
@@ -358,7 +358,7 @@ CmdLineParser::CmdSwitch* CmdLineParser::getCmdSwitch(const char* key) {
     if (m_mapKeySwitch.find(strKey) != m_mapKeySwitch.end())
         return m_mapKeySwitch[strKey];
     else
-        return NULL;
+        return nullptr;
 }
 }
 }

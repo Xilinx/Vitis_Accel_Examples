@@ -72,7 +72,7 @@ bool run_kernel(std::string& binaryFile, int krnl_id) {
     auto devices = xcl::get_xil_devices();
     auto device = devices[0];
 
-    OCL_CHECK(err, cl::Context context(device, NULL, NULL, NULL, &err));
+    OCL_CHECK(err, cl::Context context(device, nullptr, nullptr, nullptr, &err));
     OCL_CHECK(err, cl::CommandQueue q(context, device, CL_QUEUE_PROFILING_ENABLE, &err));
     std::string device_name = device.getInfo<CL_DEVICE_NAME>();
 
@@ -84,7 +84,7 @@ bool run_kernel(std::string& binaryFile, int krnl_id) {
     devices.resize(1);
 
     printf("[PID: %d] Create a Program and a [ %s ] Kernel\n", pid, krnl_names[krnl_id]);
-    OCL_CHECK(err, cl::Program program(context, devices, bins, NULL, &err));
+    OCL_CHECK(err, cl::Program program(context, devices, bins, nullptr, &err));
     OCL_CHECK(err, cl::Kernel krnl(program, krnl_names[krnl_id], &err));
 
     OCL_CHECK(err, cl::Buffer buffer_a(context, CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY, vector_size_bytes,

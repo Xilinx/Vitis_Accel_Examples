@@ -106,7 +106,7 @@ int main(int argc, char* argv[]) {
     }
 
     cl_uint device_count;
-    clGetDeviceIDs(platform_id, CL_DEVICE_TYPE_ACCELERATOR, 0, NULL, &device_count);
+    clGetDeviceIDs(platform_id, CL_DEVICE_TYPE_ACCELERATOR, 0, nullptr, &device_count);
     std::cout << "Device count - " << device_count << std::endl;
 
     if (device_count < 2) {
@@ -117,7 +117,7 @@ int main(int argc, char* argv[]) {
     }
 
     cl_device_id* device_id = (cl_device_id*)malloc(sizeof(cl_device_id) * device_count);
-    clGetDeviceIDs(platform_id, CL_DEVICE_TYPE_ACCELERATOR, device_count, device_id, NULL);
+    clGetDeviceIDs(platform_id, CL_DEVICE_TYPE_ACCELERATOR, device_count, device_id, nullptr);
 
     cl_context context[device_count];
     cl_command_queue queue[device_count];
@@ -130,7 +130,7 @@ int main(int argc, char* argv[]) {
 
     std::cout << "Initializing OpenCL objects" << std::endl;
     for (uint8_t i = 0; i < device_count; i++) {
-        context[i] = clCreateContext(0, 1, &device_id[i], NULL, NULL, &err);
+        context[i] = clCreateContext(0, 1, &device_id[i], nullptr, nullptr, &err);
         if (err != CL_SUCCESS)
             std::cout << "clCreateContext call: Failed to create a compute context" << err << std::endl;
         queue[i] = clCreateCommandQueue(context[i], device_id[i], CL_QUEUE_PROFILING_ENABLE, &err);
@@ -162,7 +162,7 @@ int main(int argc, char* argv[]) {
     // ---------------------------- Buffer-2
     // -------------------------------------------
     cl_mem madd_in;
-    cl_mem_ext_ptr_t min = {XCL_MEM_EXT_P2P_BUFFER, NULL, 0};
+    cl_mem_ext_ptr_t min = {XCL_MEM_EXT_P2P_BUFFER, nullptr, 0};
     OCL_CHECK(err,
               madd_in = clCreateBuffer(context[1], CL_MEM_READ_ONLY | CL_MEM_EXT_PTR_XILINX, buffersize, &min, &err));
 
@@ -189,16 +189,16 @@ int main(int argc, char* argv[]) {
     // -----------------------------------------------------------------------
     std::cout << "Write data to FPGA-1 \n" << std::endl;
     OCL_CHECK(err,
-              err = clEnqueueWriteBuffer(queue[0], input_a, CL_TRUE, 0, sizeof(data_t) * LENGTH, in1, 0, NULL, NULL));
+              err = clEnqueueWriteBuffer(queue[0], input_a, CL_TRUE, 0, sizeof(data_t) * LENGTH, in1, 0, nullptr, nullptr));
     OCL_CHECK(err,
-              err = clEnqueueWriteBuffer(queue[0], input_b, CL_TRUE, 0, sizeof(data_t) * LENGTH, in2, 0, NULL, NULL));
+              err = clEnqueueWriteBuffer(queue[0], input_b, CL_TRUE, 0, sizeof(data_t) * LENGTH, in2, 0, nullptr, nullptr));
 
     std::cout << "Write data to FPGA-2 \n" << std::endl;
     OCL_CHECK(err,
-              err = clEnqueueWriteBuffer(queue[1], input_c, CL_TRUE, 0, sizeof(data_t) * LENGTH, in3, 0, NULL, NULL));
+              err = clEnqueueWriteBuffer(queue[1], input_c, CL_TRUE, 0, sizeof(data_t) * LENGTH, in3, 0, nullptr, nullptr));
 
     std::cout << "Launch FPGA-1\n" << std::endl;
-    OCL_CHECK(err, err = clEnqueueTask(queue[0], krnl_mmult_dev0, 0, NULL, NULL));
+    OCL_CHECK(err, err = clEnqueueTask(queue[0], krnl_mmult_dev0, 0, nullptr, nullptr));
     clFinish(queue[0]);
     //------------------------- P2P
     //-----------------------------------------------------------
@@ -213,18 +213,18 @@ int main(int argc, char* argv[]) {
     cl_mem exported_buf;
     OCL_CHECK(err, err = xcl::P2P::getMemObjectFromFd(context[0], device_id[0], 0, fd, &exported_buf)); // Import
     cl_event event;
-    OCL_CHECK(err, err = clEnqueueCopyBuffer(queue[0], mmult_out, exported_buf, 0, 0, sizeof(data_t) * LENGTH, 0, NULL,
+    OCL_CHECK(err, err = clEnqueueCopyBuffer(queue[0], mmult_out, exported_buf, 0, 0, sizeof(data_t) * LENGTH, 0, nullptr,
                                              &event)); // transfer
     clWaitForEvents(1, &event);
     p2pEnd = std::chrono::high_resolution_clock::now();
     clReleaseMemObject(exported_buf);
     // -----------------------------------------------------------------------
     std::cout << "Launch FPGA-2\n" << std::endl;
-    OCL_CHECK(err, err = clEnqueueTask(queue[1], krnl_madd_dev1, 0, NULL, NULL));
+    OCL_CHECK(err, err = clEnqueueTask(queue[1], krnl_madd_dev1, 0, nullptr, nullptr));
     clFinish(queue[1]);
     std::cout << "Read data back from FPGA-2 \n" << std::endl;
     OCL_CHECK(err,
-              err = clEnqueueReadBuffer(queue[1], out, CL_TRUE, 0, sizeof(data_t) * LENGTH, hw_results, 0, NULL, NULL));
+              err = clEnqueueReadBuffer(queue[1], out, CL_TRUE, 0, sizeof(data_t) * LENGTH, hw_results, 0, nullptr, nullptr));
     std::chrono::high_resolution_clock::time_point end = std::chrono::high_resolution_clock::now();
 
     clFinish(queue[0]);
@@ -278,7 +278,7 @@ cl_program xcl_import_binary_file(cl_device_id device_id, cl_context context, co
     std::cout << "INFO: Importing " << xclbin_file_name << std::endl;
 
     if (access(xclbin_file_name, R_OK) != 0) {
-        return NULL;
+        return nullptr;
         std::cerr << "ERROR: " << xclbin_file_name << "xclbin not available please build\n";
         exit(EXIT_FAILURE);
     }
@@ -288,7 +288,7 @@ cl_program xcl_import_binary_file(cl_device_id device_id, cl_context context, co
     std::cout << "INFO: Loaded file\n";
 
     cl_program program =
-        clCreateProgramWithBinary(context, 1, &device_id, &krnl_size, (const unsigned char**)&krnl_bin, NULL, &err);
+        clCreateProgramWithBinary(context, 1, &device_id, &krnl_size, (const unsigned char**)&krnl_bin, nullptr, &err);
     if ((!program) || (err != CL_SUCCESS)) {
         std::cout << "Error: Failed to create compute program from binary " << err << std::endl;
         std::cerr << "Test failed\n";
@@ -297,7 +297,7 @@ cl_program xcl_import_binary_file(cl_device_id device_id, cl_context context, co
 
     std::cout << "INFO: Created Binary\n";
 
-    err = clBuildProgram(program, 0, NULL, NULL, NULL, NULL);
+    err = clBuildProgram(program, 0, nullptr, nullptr, nullptr, nullptr);
     if (err != CL_SUCCESS) {
         size_t len;
         char buffer[2048];
@@ -320,7 +320,7 @@ static void* smalloc(size_t size) {
 
     ptr = malloc(size);
 
-    if (ptr == NULL) {
+    if (ptr == nullptr) {
         std::cerr << "Error: Cannot allocate memory\n";
         exit(EXIT_FAILURE);
     }
@@ -330,8 +330,8 @@ static int load_file_to_memory(const char* filename, char** result) {
     unsigned int size;
 
     FILE* f = fopen(filename, "rb");
-    if (f == NULL) {
-        *result = NULL;
+    if (f == nullptr) {
+        *result = nullptr;
         std::cerr << "Error: Could not read file" << filename << std::endl;
         exit(EXIT_FAILURE);
     }

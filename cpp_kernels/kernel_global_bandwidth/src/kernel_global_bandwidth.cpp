@@ -82,11 +82,11 @@ int main(int argc, char** argv) {
     for (unsigned int i = 0; i < devices.size(); i++) {
         auto device = devices[i];
         // Creating Context and Command Queue for selected Device
-        OCL_CHECK(err, context = cl::Context(device, NULL, NULL, NULL, &err));
+        OCL_CHECK(err, context = cl::Context(device, nullptr, nullptr, nullptr, &err));
         OCL_CHECK(err, q = cl::CommandQueue(context, device, CL_QUEUE_PROFILING_ENABLE, &err));
 
         std::cout << "Trying to program device[" << i << "]: " << device.getInfo<CL_DEVICE_NAME>() << std::endl;
-        cl::Program program(context, {device}, bins, NULL, &err);
+        cl::Program program(context, {device}, bins, nullptr, &err);
         if (err != CL_SUCCESS) {
             std::cout << "Failed to program device[" << i << "] with xclbin file!\n";
         } else {
@@ -105,13 +105,13 @@ int main(int argc, char** argv) {
 
     /* Reducing the data size for emulation mode */
     char* xcl_mode = getenv("XCL_EMULATION_MODE");
-    if (xcl_mode != NULL) {
+    if (xcl_mode != nullptr) {
         globalbuffersize = 1024 * 1024; /* 1MB */
     }
 
     /* Input buffer */
     unsigned char* input_host = ((unsigned char*)malloc(globalbuffersize));
-    if (input_host == NULL) {
+    if (input_host == nullptr) {
         printf(
             "Error: Failed to allocate host side copy of OpenCL source "
             "buffer of size %zu\n",
@@ -138,15 +138,15 @@ int main(int argc, char** argv) {
 #if NDDR_BANKS > 1
 
     for (int i = 0; i < ddr_banks; i++) {
-        buffer[i] = new cl::Buffer(context, CL_MEM_READ_WRITE, globalbuffersize, NULL, &err);
+        buffer[i] = new cl::Buffer(context, CL_MEM_READ_WRITE, globalbuffersize, nullptr, &err);
         if (err != CL_SUCCESS) {
             printf("Error: Failed to allocate buffer in DDR bank %zu\n", globalbuffersize);
             return EXIT_FAILURE;
         }
     } /* End for (i < ddr_banks) */
 #else
-    OCL_CHECK(err, buffer[0] = new cl::Buffer(context, CL_MEM_READ_WRITE, globalbuffersize, NULL, &err));
-    OCL_CHECK(err, buffer[1] = new cl::Buffer(context, CL_MEM_READ_WRITE, globalbuffersize, NULL, &err));
+    OCL_CHECK(err, buffer[0] = new cl::Buffer(context, CL_MEM_READ_WRITE, globalbuffersize, nullptr, &err));
+    OCL_CHECK(err, buffer[1] = new cl::Buffer(context, CL_MEM_READ_WRITE, globalbuffersize, nullptr, &err));
 #endif
 
     /*
@@ -182,7 +182,7 @@ int main(int argc, char** argv) {
     /* Map input buffer for PCIe write */
     unsigned char* map_input_buffer0;
     OCL_CHECK(err, map_input_buffer0 = (unsigned char*)q.enqueueMapBuffer(
-                       *(buffer[0]), CL_FALSE, CL_MAP_WRITE_INVALIDATE_REGION, 0, globalbuffersize, NULL, NULL, &err));
+                       *(buffer[0]), CL_FALSE, CL_MAP_WRITE_INVALIDATE_REGION, 0, globalbuffersize, nullptr, nullptr, &err));
     OCL_CHECK(err, err = q.finish());
 
     /* prepare data to be written to the device */
@@ -196,7 +196,7 @@ int main(int argc, char** argv) {
 #if NDDR_BANKS > 3
     unsigned char* map_input_buffer1;
     OCL_CHECK(err, map_input_buffer1 = (unsigned char*)q.enqueueMapBuffer(
-                       *(buffer[2]), CL_FALSE, CL_MAP_WRITE_INVALIDATE_REGION, 0, globalbuffersize, NULL, NULL, &err));
+                       *(buffer[2]), CL_FALSE, CL_MAP_WRITE_INVALIDATE_REGION, 0, globalbuffersize, nullptr, nullptr, &err));
     OCL_CHECK(err, err = q.finish());
 
     /* Prepare data to be written to the device */
@@ -212,7 +212,7 @@ int main(int argc, char** argv) {
     cl::Event event;
 
     /* Execute Kernel */
-    OCL_CHECK(err, err = q.enqueueTask(krnl_global_bandwidth, NULL, &event));
+    OCL_CHECK(err, err = q.enqueueTask(krnl_global_bandwidth, nullptr, &event));
     OCL_CHECK(err, err = event.wait());
     end = OCL_CHECK(err, event.getProfilingInfo<CL_PROFILING_COMMAND_END>(&err));
     start = OCL_CHECK(err, event.getProfilingInfo<CL_PROFILING_COMMAND_START>(&err));
@@ -221,7 +221,7 @@ int main(int argc, char** argv) {
     /* Copy results back from OpenCL buffer */
     unsigned char* map_output_buffer0;
     OCL_CHECK(err, map_output_buffer0 = (unsigned char*)q.enqueueMapBuffer(*(buffer[1]), CL_FALSE, CL_MAP_READ, 0,
-                                                                           globalbuffersize, NULL, NULL, &err));
+                                                                           globalbuffersize, nullptr, nullptr, &err));
     OCL_CHECK(err, err = q.finish());
 
     std::cout << "Kernel Duration..." << nsduration << " ns" << std::endl;
@@ -237,7 +237,7 @@ int main(int argc, char** argv) {
 #if NDDR_BANKS == 3
     unsigned char* map_output_buffer1;
     OCL_CHECK(err, map_output_buffer1 = (unsigned char*)q.enqueueMapBuffer(*(buffer[2]), CL_FALSE, CL_MAP_READ, 0,
-                                                                           globalbuffersize, NULL, NULL, &err));
+                                                                           globalbuffersize, nullptr, nullptr, &err));
     OCL_CHECK(err, err = q.finish());
 
     /* Check the results of output1 */
@@ -253,7 +253,7 @@ int main(int argc, char** argv) {
 #if NDDR_BANKS > 3
     unsigned char* map_output_buffer1;
     OCL_CHECK(err, map_output_buffer1 = (unsigned char*)q.enqueueMapBuffer(*(buffer[3]), CL_FALSE, CL_MAP_READ, 0,
-                                                                           globalbuffersize, NULL, NULL, &err));
+                                                                           globalbuffersize, nullptr, nullptr, &err));
     OCL_CHECK(err, err = q.finish());
 
     /* Check the results of output1 */

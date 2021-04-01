@@ -54,7 +54,7 @@ Error while creating Program with Binary:
 
 .. code:: cpp
 
-   cl_program program = clCreateProgramWithBinary(context,1,&device_id,&binary_size,&incorrect_binary_data,NULL,&err);
+   cl_program program = clCreateProgramWithBinary(context,1,&device_id,&binary_size,&incorrect_binary_data,nullptr,&err);
 
 Errors caused during program creation are usually due to invalid
 binaries. The binary may be targeting a different platform. It may also

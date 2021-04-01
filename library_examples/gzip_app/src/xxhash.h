@@ -118,7 +118,7 @@ include xxHash,
 
 you can use XXH_NAMESPACE, to automatically prefix any public symbol from xxhash
 library
-with the value of XXH_NAMESPACE (therefore, avoid NULL and numeric values).
+with the value of XXH_NAMESPACE (therefore, avoid nullptr and numeric values).
 
 Note that no change is required within the calling program as long as it
 includes `xxhash.h` :

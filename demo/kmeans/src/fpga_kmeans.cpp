@@ -110,9 +110,9 @@ void FPGA_KMEANS::fpga_kmeans_compute(float** feature, // in: [npoints][nfeature
 
     // Write features to the device
     OCL_CHECK(err,
-              err = m_q.enqueueWriteBuffer(m_buf_feature, CL_TRUE, 0, m_buf_feature_sz, m_scaled_feature, NULL, NULL));
+              err = m_q.enqueueWriteBuffer(m_buf_feature, CL_TRUE, 0, m_buf_feature_sz, m_scaled_feature, nullptr, nullptr));
 
-    OCL_CHECK(err, err = m_q.enqueueMigrateMemObjects({m_buf_feature}, 0, NULL, NULL));
+    OCL_CHECK(err, err = m_q.enqueueMigrateMemObjects({m_buf_feature}, 0, nullptr, nullptr));
     m_q.enqueueBarrier();
 #endif
 
@@ -131,23 +131,23 @@ void FPGA_KMEANS::fpga_kmeans_compute(float** feature, // in: [npoints][nfeature
 
         // Schedule the writing of updated clusters values to the device
         OCL_CHECK(err, err = m_q.enqueueWriteBuffer(m_buf_cluster, CL_TRUE, 0, m_buf_cluster_sz, m_scaled_clusters,
-                                                    NULL, NULL));
+                                                    nullptr, nullptr));
 
         // Schedule kernel execution
         for (unsigned i = 0; i < m_num_cu_calls; i++) {
-            OCL_CHECK(err, err = m_q.enqueueTask(m_kernel_kmeans[i], NULL, NULL));
+            OCL_CHECK(err, err = m_q.enqueueTask(m_kernel_kmeans[i], nullptr, nullptr));
         }
 
         // Ensure enqueueReadBuffer happens after all the enqueueTask have completed
         m_q.enqueueBarrier();
 
         // Schedule the reading of new memberships values back to the host
-        OCL_CHECK(err, err = m_q.enqueueReadBuffer(m_buf_members, CL_TRUE, 0, m_buf_members_sz, m_new_memberships, NULL,
-                                                   NULL));
+        OCL_CHECK(err, err = m_q.enqueueReadBuffer(m_buf_members, CL_TRUE, 0, m_buf_members_sz, m_new_memberships, nullptr,
+                                                   nullptr));
 
         for (unsigned i = 0; i < m_num_cu_calls; i++) {
             OCL_CHECK(err, err = m_q.enqueueReadBuffer(m_buf_centers[i], CL_TRUE, 0, m_buf_centers_sz, m_new_centers[i],
-                                                       NULL, NULL));
+                                                       nullptr, nullptr));
         }
 
 // enqueueReadBuffer is blocking (CL_TRUE), so no need for m_q.finish();
@@ -241,12 +241,12 @@ float** FPGA_KMEANS::fpga_kmeans_clustering(float** feature, // in: [npoints][nf
 
     /* allocate space for and initialize returning variable clusters[] */
     clusters = (float**)malloc(nclusters * sizeof(float*));
-    if (clusters == NULL) {
+    if (clusters == nullptr) {
         fprintf(stderr, "Error: Failed to allocate memory for clusters\n");
         exit(EXIT_FAILURE);
     }
     clusters[0] = (float*)malloc(nclusters * nfeatures * sizeof(float));
-    if (clusters[0] == NULL) {
+    if (clusters[0] == nullptr) {
         fprintf(stderr, "Error: Failed to allocate memory for clusters[0]\n");
         exit(EXIT_FAILURE);
     }
@@ -254,7 +254,7 @@ float** FPGA_KMEANS::fpga_kmeans_clustering(float** feature, // in: [npoints][nf
 
     /* initialize the random clusters */
     initial = (int*)malloc(npoints * sizeof(int));
-    if (initial == NULL) {
+    if (initial == nullptr) {
         fprintf(stderr, "Error: Failed to allocate memory for initial\n");
         exit(EXIT_FAILURE);
     }
@@ -281,18 +281,18 @@ float** FPGA_KMEANS::fpga_kmeans_clustering(float** feature, // in: [npoints][nf
 
     /* allocate space for and initialize new_centers_len and new_centers */
     new_centers_len = (int*)calloc(nclusters, sizeof(int));
-    if (new_centers_len == NULL) {
+    if (new_centers_len == nullptr) {
         fprintf(stderr, "Error: Failed to allocate memory for new_centers_len\n");
         exit(EXIT_FAILURE);
     }
 
     new_centers = (unsigned int**)malloc(nclusters * sizeof(unsigned int*));
-    if (new_centers == NULL) {
+    if (new_centers == nullptr) {
         fprintf(stderr, "Error: Failed to allocate memory for new_centers\n");
         exit(EXIT_FAILURE);
     }
     new_centers[0] = (unsigned int*)calloc(nclusters * nfeatures, sizeof(unsigned int));
-    if (new_centers[0] == NULL) {
+    if (new_centers[0] == nullptr) {
         fprintf(stderr, "Error: Failed to allocate memory for new_centers[0]\n");
         exit(EXIT_FAILURE);
     }
@@ -336,13 +336,13 @@ int FPGA_KMEANS::fpga_kmeans_init(std::string& binaryFile) {
     for (unsigned int i = 0; i < devices.size(); i++) {
         auto device = devices[i];
         // Creating Context and Command Queue for selected Device
-        OCL_CHECK(err, m_context = cl::Context(device, NULL, NULL, NULL, &err));
+        OCL_CHECK(err, m_context = cl::Context(device, nullptr, nullptr, nullptr, &err));
         OCL_CHECK(err,
                   m_q = cl::CommandQueue(m_context, device,
                                          CL_QUEUE_PROFILING_ENABLE | CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE, &err));
 
         std::cout << "Trying to program device[" << i << "]: " << device.getInfo<CL_DEVICE_NAME>() << std::endl;
-        m_prog = cl::Program(m_context, {device}, bins, NULL, &err);
+        m_prog = cl::Program(m_context, {device}, bins, nullptr, &err);
         if (err != CL_SUCCESS) {
             std::cout << "Failed to program device[" << i << "] with xclbin file!\n";
         } else {
@@ -396,39 +396,39 @@ int FPGA_KMEANS::fpga_kmeans_allocate(int n_points, int n_features, int n_cluste
     m_buf_feature_sz = sizeof(unsigned int) * m_buf_members_sz * n_features;
 
     m_new_memberships = (int*)malloc(m_buf_members_sz);
-    if (m_new_memberships == NULL) {
+    if (m_new_memberships == nullptr) {
         fprintf(stderr, "Error: Failed to allocate memory for m_new_memberships\n");
         exit(EXIT_FAILURE);
     }
 
     for (int i = 0; i < NUM_CU; i++) {
         m_new_centers[i] = (unsigned int*)malloc(m_buf_centers_sz);
-        if (m_new_centers[i] == NULL) {
+        if (m_new_centers[i] == nullptr) {
             fprintf(stderr, "Error: Failed to allocate memory for m_new_centers\n");
             exit(EXIT_FAILURE);
         }
     }
 
     m_scaled_clusters = (unsigned int*)malloc(m_buf_cluster_sz);
-    if (m_scaled_clusters == NULL) {
+    if (m_scaled_clusters == nullptr) {
         fprintf(stderr, "Error: Failed to allocate memory for m_scaled_clusters\n");
         exit(EXIT_FAILURE);
     }
 
     m_scaled_feature = (unsigned int*)malloc(m_buf_feature_sz);
-    if (m_scaled_feature == NULL) {
+    if (m_scaled_feature == nullptr) {
         fprintf(stderr, "Error: Failed to allocate memory for m_scaled_feature\n");
         exit(EXIT_FAILURE);
     }
 
 #ifdef __USE_OPENCL__
     cl_int err;
-    OCL_CHECK(err, m_buf_feature = cl::Buffer(m_context, CL_MEM_READ_ONLY, m_buf_feature_sz, NULL, &err));
-    OCL_CHECK(err, m_buf_cluster = cl::Buffer(m_context, CL_MEM_READ_ONLY, m_buf_cluster_sz, NULL, &err));
-    OCL_CHECK(err, m_buf_members = cl::Buffer(m_context, CL_MEM_WRITE_ONLY, m_buf_members_sz, NULL, &err));
+    OCL_CHECK(err, m_buf_feature = cl::Buffer(m_context, CL_MEM_READ_ONLY, m_buf_feature_sz, nullptr, &err));
+    OCL_CHECK(err, m_buf_cluster = cl::Buffer(m_context, CL_MEM_READ_ONLY, m_buf_cluster_sz, nullptr, &err));
+    OCL_CHECK(err, m_buf_members = cl::Buffer(m_context, CL_MEM_WRITE_ONLY, m_buf_members_sz, nullptr, &err));
 
     for (int i = 0; i < NUM_CU; i++) {
-        OCL_CHECK(err, m_buf_centers[i] = cl::Buffer(m_context, CL_MEM_WRITE_ONLY, m_buf_centers_sz, NULL, &err));
+        OCL_CHECK(err, m_buf_centers[i] = cl::Buffer(m_context, CL_MEM_WRITE_ONLY, m_buf_centers_sz, nullptr, &err));
     }
 #endif
 

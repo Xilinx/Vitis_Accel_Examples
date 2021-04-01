@@ -82,11 +82,11 @@ int main(int argc, char** argv) {
     for (unsigned int i = 0; i < devices.size(); i++) {
         auto device = devices[i];
         // Creating Context and Command Queue for selected Device
-        OCL_CHECK(err, context = cl::Context(device, NULL, NULL, NULL, &err));
+        OCL_CHECK(err, context = cl::Context(device, nullptr, nullptr, nullptr, &err));
         OCL_CHECK(err, q = cl::CommandQueue(context, device, CL_QUEUE_PROFILING_ENABLE, &err));
 
         std::cout << "Trying to program device[" << i << "]: " << device.getInfo<CL_DEVICE_NAME>() << std::endl;
-        program = cl::Program(context, {device}, bins, NULL, &err);
+        program = cl::Program(context, {device}, bins, nullptr, &err);
         if (err != CL_SUCCESS) {
             std::cout << "Failed to program device[" << i << "] with xclbin file!\n";
         } else {
@@ -124,7 +124,7 @@ int main(int argc, char** argv) {
     uint64_t fir_naive_time = 0;
     // Running naive kernel iterations times
     for (int i = 0; i < iterations; i++) {
-        OCL_CHECK(err, err = q.enqueueTask(fir_naive_kernel, NULL, &event));
+        OCL_CHECK(err, err = q.enqueueTask(fir_naive_kernel, nullptr, &event));
         OCL_CHECK(err, err = q.enqueueMigrateMemObjects({buffer_output}, CL_MIGRATE_MEM_OBJECT_HOST));
         q.finish();
         fir_naive_time += get_duration_ns(event);
@@ -142,7 +142,7 @@ int main(int argc, char** argv) {
     uint64_t fir_sr_time = 0;
     // Running Shift Register FIR iterations times
     for (int i = 0; i < iterations; i++) {
-        OCL_CHECK(err, err = q.enqueueTask(fir_sr_kernel, NULL, &event));
+        OCL_CHECK(err, err = q.enqueueTask(fir_sr_kernel, nullptr, &event));
         OCL_CHECK(err, err = q.enqueueMigrateMemObjects({buffer_output}, CL_MIGRATE_MEM_OBJECT_HOST));
         q.finish();
         fir_sr_time += get_duration_ns(event);

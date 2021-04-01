@@ -83,6 +83,6 @@ void cluster(FPGA_KMEANS* fpga,
              float***,
              int,
              std::string& binaryFile,
-             const char* goldenFile = NULL);
+             const char* goldenFile = nullptr);
 
 #endif // _H_FPGA_KMEANS_

@@ -41,7 +41,7 @@ void p2p_host_to_ssd(int& nvmeFd,
     cl::Kernel krnl_adder;
     // Allocate Buffer in Global Memory
     cl_mem_ext_ptr_t outExt;
-    outExt = {XCL_MEM_EXT_P2P_BUFFER, NULL, 0};
+    outExt = {XCL_MEM_EXT_P2P_BUFFER, nullptr, 0};
 
     OCL_CHECK(err, cl::Buffer input_a(context, CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY, vector_size_bytes,
                                       source_input_A.data(), &err));
@@ -88,7 +88,7 @@ void p2p_ssd_to_host(int& nvmeFd,
     cl::Kernel krnl_adder1;
     // Allocate Buffer in Global Memory
     cl_mem_ext_ptr_t inExt;
-    inExt = {XCL_MEM_EXT_P2P_BUFFER, NULL, 0};
+    inExt = {XCL_MEM_EXT_P2P_BUFFER, nullptr, 0};
 
     OCL_CHECK(err, cl::Buffer buffer_input(context, CL_MEM_READ_ONLY | CL_MEM_EXT_PTR_XILINX, vector_size_bytes, &inExt,
                                            &err));
@@ -177,10 +177,10 @@ int main(int argc, char** argv) {
     for (unsigned int i = 0; i < devices.size(); i++) {
         auto device = devices[i];
         // Creating Context and Command Queue for selected Device
-        OCL_CHECK(err, context = cl::Context(device, NULL, NULL, NULL, &err));
+        OCL_CHECK(err, context = cl::Context(device, nullptr, nullptr, nullptr, &err));
         OCL_CHECK(err, q = cl::CommandQueue(context, device, CL_QUEUE_PROFILING_ENABLE, &err));
         std::cout << "Trying to program device[" << i << "]: " << device.getInfo<CL_DEVICE_NAME>() << std::endl;
-        program = cl::Program(context, {device}, bins, NULL, &err);
+        program = cl::Program(context, {device}, bins, nullptr, &err);
         if (err != CL_SUCCESS) {
             std::cout << "Failed to program device[" << i << "] with xclbin file!\n";
         } else {

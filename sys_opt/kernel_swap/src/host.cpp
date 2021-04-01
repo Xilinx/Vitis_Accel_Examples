@@ -64,7 +64,7 @@ int main(int argc, char** argv) {
     auto device = devices[0];
 
     // Creating Context and Command Queue for selected Device
-    OCL_CHECK(err, cl::Context context(device, NULL, NULL, NULL, &err));
+    OCL_CHECK(err, cl::Context context(device, nullptr, nullptr, nullptr, &err));
     OCL_CHECK(err, cl::CommandQueue q(context, device, CL_QUEUE_PROFILING_ENABLE, &err));
     std::string device_name = device.getInfo<CL_DEVICE_NAME>();
     std::cout << "Found Device=" << device_name.c_str() << std::endl;
@@ -84,7 +84,7 @@ int main(int argc, char** argv) {
         auto fileBuf = xcl::read_binary_file(vmulBinaryFile);
         cl::Program::Binaries vmul_bins{{fileBuf.data(), fileBuf.size()}};
         devices.resize(1);
-        OCL_CHECK(err, cl::Program program(context, devices, vmul_bins, NULL, &err));
+        OCL_CHECK(err, cl::Program program(context, devices, vmul_bins, nullptr, &err));
         OCL_CHECK(err, cl::Kernel krnl_vmul(program, "krnl_vmul", &err));
 
         OCL_CHECK(err, cl::Buffer d_a(context, CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY, sizeof(int) * LENGTH, h_a.data(),

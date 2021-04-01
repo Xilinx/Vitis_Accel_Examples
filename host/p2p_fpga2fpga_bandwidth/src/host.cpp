@@ -86,7 +86,7 @@ int main(int argc, char* argv[]) {
         }
     }
     cl_uint device_count;
-    clGetDeviceIDs(platform_id, CL_DEVICE_TYPE_ACCELERATOR, 0, NULL, &device_count);
+    clGetDeviceIDs(platform_id, CL_DEVICE_TYPE_ACCELERATOR, 0, nullptr, &device_count);
     std::cout << "Device count - " << device_count << std::endl;
 
     if (device_count < 2) {
@@ -97,7 +97,7 @@ int main(int argc, char* argv[]) {
     }
 
     cl_device_id* device_id = (cl_device_id*)malloc(sizeof(cl_device_id) * device_count);
-    clGetDeviceIDs(platform_id, CL_DEVICE_TYPE_ACCELERATOR, device_count, device_id, NULL);
+    clGetDeviceIDs(platform_id, CL_DEVICE_TYPE_ACCELERATOR, device_count, device_id, nullptr);
 
     cl_device_id device1, device2;
     if (dev_id1 <= device_count)
@@ -116,12 +116,12 @@ int main(int argc, char* argv[]) {
     cl_program program[device_count];
     int err;
 
-    OCL_CHECK(err, context[0] = clCreateContext(0, 1, &device1, NULL, NULL, &err));
+    OCL_CHECK(err, context[0] = clCreateContext(0, 1, &device1, nullptr, nullptr, &err));
     if (err != CL_SUCCESS) std::cout << "clCreateContext call: Failed to create a compute context" << err << std::endl;
     OCL_CHECK(err, queue[0] = clCreateCommandQueue(context[0], device1, CL_QUEUE_PROFILING_ENABLE, &err));
     if (err != CL_SUCCESS) std::cout << "clCreateCommandQueue call: Failed to create commandqueue" << err << std::endl;
 
-    OCL_CHECK(err, context[1] = clCreateContext(0, 1, &device2, NULL, NULL, &err));
+    OCL_CHECK(err, context[1] = clCreateContext(0, 1, &device2, nullptr, nullptr, &err));
     if (err != CL_SUCCESS) std::cout << "clCreateContext call: Failed to create a compute context" << err << std::endl;
     OCL_CHECK(err, queue[1] = clCreateCommandQueue(context[1], device2, CL_QUEUE_PROFILING_ENABLE, &err));
     if (err != CL_SUCCESS) std::cout << "clCreateCommandQueue call: Failed to create commandqueue" << err << std::endl;
@@ -141,24 +141,24 @@ int main(int argc, char* argv[]) {
     // ---------------------------- Buffer-1
     // -------------------------------------------
     cl_mem input_a;
-    cl_mem_ext_ptr_t inA = {0, NULL, 0};
+    cl_mem_ext_ptr_t inA = {0, nullptr, 0};
     OCL_CHECK(err, input_a = clCreateBuffer(context[0], CL_MEM_READ_WRITE | CL_MEM_EXT_PTR_XILINX, vector_size_bytes,
                                             &inA, &err));
 
     cl_mem output_a;
-    cl_mem_ext_ptr_t mout = {XCL_MEM_EXT_P2P_BUFFER, NULL, 0};
+    cl_mem_ext_ptr_t mout = {XCL_MEM_EXT_P2P_BUFFER, nullptr, 0};
     OCL_CHECK(err, output_a = clCreateBuffer(context[0], CL_MEM_READ_WRITE | CL_MEM_EXT_PTR_XILINX, vector_size_bytes,
                                              &mout, &err));
 
     // ---------------------------- Buffer-2
     // -------------------------------------------
     cl_mem input_b;
-    cl_mem_ext_ptr_t min = {0, NULL, 0};
+    cl_mem_ext_ptr_t min = {0, nullptr, 0};
     OCL_CHECK(err, input_b = clCreateBuffer(context[1], CL_MEM_READ_WRITE | CL_MEM_EXT_PTR_XILINX, vector_size_bytes,
                                             &min, &err));
 
     cl_mem output_b;
-    cl_mem_ext_ptr_t ot = {XCL_MEM_EXT_P2P_BUFFER, NULL, 0};
+    cl_mem_ext_ptr_t ot = {XCL_MEM_EXT_P2P_BUFFER, nullptr, 0};
     OCL_CHECK(err, output_b = clCreateBuffer(context[1], CL_MEM_READ_WRITE | CL_MEM_EXT_PTR_XILINX, vector_size_bytes,
                                              &ot, &err));
 
@@ -173,7 +173,7 @@ int main(int argc, char* argv[]) {
     // -----------------------------------------------------------------------
     std::cout << "Write input data to device1 global memory" << std::endl;
     OCL_CHECK(err,
-              err = clEnqueueWriteBuffer(queue[0], input_a, CL_TRUE, 0, vector_size_bytes, in1.data(), 0, NULL, NULL));
+              err = clEnqueueWriteBuffer(queue[0], input_a, CL_TRUE, 0, vector_size_bytes, in1.data(), 0, nullptr, nullptr));
 
     //------------------------- P2P
     //-----------------------------------------------------------
@@ -184,7 +184,7 @@ int main(int argc, char* argv[]) {
     OCL_CHECK(err, err = xcl::P2P::getMemObjectFromFd(context[0], device1, 0, fd, &exported_buf)); // Import
     std::cout << "Write input data to device2 global memory" << std::endl;
     OCL_CHECK(err,
-              err = clEnqueueWriteBuffer(queue[1], input_b, CL_TRUE, 0, vector_size_bytes, in1.data(), 0, NULL, NULL));
+              err = clEnqueueWriteBuffer(queue[1], input_b, CL_TRUE, 0, vector_size_bytes, in1.data(), 0, nullptr, nullptr));
     int fd1 = -1;
     OCL_CHECK(err, err = xcl::P2P::getMemObjectFd(output_a, &fd1)); // Export p2p buffer to file descriptor (fd)
 
@@ -201,8 +201,8 @@ int main(int argc, char* argv[]) {
             iter = 2; // Reducing iteration to run faster in emulation flow.
         }
         for (int j = 0; j < iter; j++) {
-            OCL_CHECK(err, err = clEnqueueCopyBuffer(queue[0], input_a, exported_buf, 0, 0, bufsize, 0, NULL,
-                                                     NULL)); // transfer
+            OCL_CHECK(err, err = clEnqueueCopyBuffer(queue[0], input_a, exported_buf, 0, 0, bufsize, 0, nullptr,
+                                                     nullptr)); // transfer
         }
         clFinish(queue[0]);
         std::chrono::high_resolution_clock::time_point p2pWriteEnd = std::chrono::high_resolution_clock::now();
@@ -218,8 +218,8 @@ int main(int argc, char* argv[]) {
         //////////////////////// read throughput //////////////////////////
         std::chrono::high_resolution_clock::time_point p2pReadStart = std::chrono::high_resolution_clock::now();
         for (int j = 0; j < iter; j++) {
-            OCL_CHECK(err, err = clEnqueueCopyBuffer(queue[1], input_b, exported_buf1, 0, 0, bufsize, 0, NULL,
-                                                     NULL)); // transfer
+            OCL_CHECK(err, err = clEnqueueCopyBuffer(queue[1], input_b, exported_buf1, 0, 0, bufsize, 0, nullptr,
+                                                     nullptr)); // transfer
         }
         clFinish(queue[1]);
         std::chrono::high_resolution_clock::time_point p2pReadEnd = std::chrono::high_resolution_clock::now();
@@ -232,10 +232,10 @@ int main(int argc, char* argv[]) {
         //////////////////////// Bi-directional throughput /////////////////
         std::chrono::high_resolution_clock::time_point p2pReadWriteStart = std::chrono::high_resolution_clock::now();
         for (int j = 0; j < iter; j++) {
-            OCL_CHECK(err, err = clEnqueueCopyBuffer(queue[0], input_a, exported_buf, 0, 0, bufsize, 0, NULL,
-                                                     NULL)); // transfer
-            OCL_CHECK(err, err = clEnqueueCopyBuffer(queue[1], input_b, exported_buf1, 0, 0, bufsize, 0, NULL,
-                                                     NULL)); // transfer
+            OCL_CHECK(err, err = clEnqueueCopyBuffer(queue[0], input_a, exported_buf, 0, 0, bufsize, 0, nullptr,
+                                                     nullptr)); // transfer
+            OCL_CHECK(err, err = clEnqueueCopyBuffer(queue[1], input_b, exported_buf1, 0, 0, bufsize, 0, nullptr,
+                                                     nullptr)); // transfer
         }
         clFinish(queue[0]);
         clFinish(queue[1]);
@@ -279,7 +279,7 @@ cl_program xcl_import_binary_file(cl_device_id device_id, cl_context context, co
     int err;
 
     if (access(xclbin_file_name, R_OK) != 0) {
-        return NULL;
+        return nullptr;
         printf("ERROR: %s xclbin not available please build\n", xclbin_file_name);
         exit(EXIT_FAILURE);
     }
@@ -288,14 +288,14 @@ cl_program xcl_import_binary_file(cl_device_id device_id, cl_context context, co
     const size_t krnl_size = load_file_to_memory(xclbin_file_name, &krnl_bin);
 
     cl_program program =
-        clCreateProgramWithBinary(context, 1, &device_id, &krnl_size, (const unsigned char**)&krnl_bin, NULL, &err);
+        clCreateProgramWithBinary(context, 1, &device_id, &krnl_size, (const unsigned char**)&krnl_bin, nullptr, &err);
     if ((!program) || (err != CL_SUCCESS)) {
         printf("Error: Failed to create compute program from binary %d!\n", err);
         printf("Test failed\n");
         exit(EXIT_FAILURE);
     }
 
-    err = clBuildProgram(program, 0, NULL, NULL, NULL, NULL);
+    err = clBuildProgram(program, 0, nullptr, nullptr, nullptr, nullptr);
     if (err != CL_SUCCESS) {
         size_t len;
         char buffer[2048];
@@ -315,8 +315,8 @@ static int load_file_to_memory(const char* filename, char** result) {
     unsigned int size;
 
     FILE* f = fopen(filename, "rb");
-    if (f == NULL) {
-        *result = NULL;
+    if (f == nullptr) {
+        *result = nullptr;
         printf("Error: Could not read file %s\n", filename);
         exit(EXIT_FAILURE);
     }
@@ -344,7 +344,7 @@ static void* smalloc(size_t size) {
 
     ptr = malloc(size);
 
-    if (ptr == NULL) {
+    if (ptr == nullptr) {
         printf("Error: Cannot allocate memory\n");
         exit(EXIT_FAILURE);
     }

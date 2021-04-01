@@ -75,7 +75,7 @@ class Chunk {
         if (kernelEvt) OCL_CHECK(err, err = clReleaseEvent(kernelEvt));
         if (xdmaEvt) OCL_CHECK(err, err = clReleaseEvent(xdmaEvt));
         if (memsetEvt) OCL_CHECK(err, err = clReleaseEvent(memsetEvt));
-        OCL_CHECK(err, err = clEnqueueUnmapMemObject(command_queue, p2pBo, p2pPtr, 0, NULL, NULL));
+        OCL_CHECK(err, err = clEnqueueUnmapMemObject(command_queue, p2pBo, p2pPtr, 0, nullptr, nullptr));
         clFinish(command_queue);
         OCL_CHECK(err, err = clReleaseMemObject(p2pBo));
         OCL_CHECK(err, err = clReleaseMemObject(hostBo));
@@ -86,19 +86,19 @@ class Chunk {
         id = idx;
 
         // Adjust buffer allocation flags based on idx.
-        cl_mem_ext_ptr_t p2pBoExt = {XCL_MEM_EXT_P2P_BUFFER, NULL, 0};
+        cl_mem_ext_ptr_t p2pBoExt = {XCL_MEM_EXT_P2P_BUFFER, nullptr, 0};
         cl_mem_ext_ptr_t hostBoExt = {0};
         hostPtr = (char*)aligned_alloc(4096, chunk_size);
         hostBoExt.obj = hostPtr;
 
         // Allocate BOs.
-        p2pBo = clCreateBuffer(context, CL_MEM_READ_ONLY | CL_MEM_EXT_PTR_XILINX, chunk_size, &p2pBoExt, NULL);
+        p2pBo = clCreateBuffer(context, CL_MEM_READ_ONLY | CL_MEM_EXT_PTR_XILINX, chunk_size, &p2pBoExt, nullptr);
         hostBo = clCreateBuffer(context, CL_MEM_WRITE_ONLY | CL_MEM_USE_HOST_PTR | CL_MEM_EXT_PTR_XILINX, chunk_size,
-                                &hostBoExt, NULL);
+                                &hostBoExt, nullptr);
 
         // Map P2P device buffers to host access pointers
         p2pPtr = (char*)clEnqueueMapBuffer(command_queue, p2pBo, CL_TRUE, CL_MAP_WRITE | CL_MAP_READ, 0, chunk_size, 0,
-                                           NULL, NULL, NULL);
+                                           nullptr, nullptr, nullptr);
 
         // Make sure data on disk is different than in memory.
         memset((void*)hostPtr, 'y', chunk_size);
@@ -107,10 +107,10 @@ class Chunk {
         }
         memset((void*)hostPtr, 'n', chunk_size);
 
-        p2pEvt = clCreateUserEvent(context, NULL);
-        memsetEvt = clCreateUserEvent(context, NULL);
-        kernelEvt = xdmaEvt = NULL;
-        kernel = NULL;
+        p2pEvt = clCreateUserEvent(context, nullptr);
+        memsetEvt = clCreateUserEvent(context, nullptr);
+        kernelEvt = xdmaEvt = nullptr;
+        kernel = nullptr;
     }
 
     bool verify(void) {
@@ -137,8 +137,8 @@ class Chunk {
         cl_int err;
         cl_ulong s, e;
 
-        OCL_CHECK(err, err = clGetEventProfilingInfo(kernelEvt, CL_PROFILING_COMMAND_START, sizeof(s), &s, NULL));
-        OCL_CHECK(err, err = clGetEventProfilingInfo(kernelEvt, CL_PROFILING_COMMAND_END, sizeof(e), &e, NULL));
+        OCL_CHECK(err, err = clGetEventProfilingInfo(kernelEvt, CL_PROFILING_COMMAND_START, sizeof(s), &s, nullptr));
+        OCL_CHECK(err, err = clGetEventProfilingInfo(kernelEvt, CL_PROFILING_COMMAND_END, sizeof(e), &e, nullptr));
         return (e - s) / 1000;
     }
 
@@ -146,8 +146,8 @@ class Chunk {
         cl_int err;
         cl_ulong s, e;
 
-        OCL_CHECK(err, err = clGetEventProfilingInfo(xdmaEvt, CL_PROFILING_COMMAND_START, sizeof(s), &s, NULL));
-        OCL_CHECK(err, err = clGetEventProfilingInfo(xdmaEvt, CL_PROFILING_COMMAND_END, sizeof(e), &e, NULL));
+        OCL_CHECK(err, err = clGetEventProfilingInfo(xdmaEvt, CL_PROFILING_COMMAND_START, sizeof(s), &s, nullptr));
+        OCL_CHECK(err, err = clGetEventProfilingInfo(xdmaEvt, CL_PROFILING_COMMAND_END, sizeof(e), &e, nullptr));
         return (e - s) / 1000;
     }
 
@@ -274,7 +274,7 @@ void exec_async_read_test(Chunk** chunks) {
     int* temp;
     int no_of_loop = 0;
     while (no_of_loop < num_chunks) {
-        io_completion = io_getevents(myctx, 1, 1, events, NULL);
+        io_completion = io_getevents(myctx, 1, 1, events, nullptr);
         temp = (int*)events->data;
         Chunk* c = chunks[*temp];
         c->p2pEnd = chrono::high_resolution_clock::now();
@@ -426,7 +426,7 @@ int main(int argc, char** argv) {
     std::vector<unsigned char> binary = readBinary(binaryFile);
     size_t binary_size = binary.size();
     const unsigned char* binary_data = binary.data();
-    cl_program program = clCreateProgramWithBinary(context, 1, &device, &binary_size, &binary_data, NULL, &err);
+    cl_program program = clCreateProgramWithBinary(context, 1, &device, &binary_size, &binary_data, nullptr, &err);
 
 #ifdef ASYNC_READ
     io_context_t ctx;

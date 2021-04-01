@@ -293,7 +293,7 @@ XXH32_endian_align(const void* input, size_t len, U32 seed, XXH_endianess endian
 #define XXH_get32bits(p) XXH_readLE32_align(p, endian, align)
 
 #ifdef XXH_ACCEPT_NULL_INPUT_POINTER
-    if (p == NULL) {
+    if (p == nullptr) {
         len = 0;
         bEnd = p = (const BYTE*)(size_t)16;
     }
@@ -405,7 +405,7 @@ XXH_FORCE_INLINE XXH_errorcode XXH32_update_endian(XXH32_state_t* state,
     const BYTE* const bEnd = p + len;
 
 #ifdef XXH_ACCEPT_NULL_INPUT_POINTER
-    if (input == NULL) return XXH_ERROR;
+    if (input == nullptr) return XXH_ERROR;
 #endif
 
     state->total_len_32 += (unsigned)len;
@@ -654,7 +654,7 @@ XXH64_endian_align(const void* input, size_t len, U64 seed, XXH_endianess endian
 #define XXH_get64bits(p) XXH_readLE64_align(p, endian, align)
 
 #ifdef XXH_ACCEPT_NULL_INPUT_POINTER
-    if (p == NULL) {
+    if (p == nullptr) {
         len = 0;
         bEnd = p = (const BYTE*)(size_t)32;
     }
@@ -778,7 +778,7 @@ XXH_FORCE_INLINE XXH_errorcode XXH64_update_endian(XXH64_state_t* state,
     const BYTE* const bEnd = p + len;
 
 #ifdef XXH_ACCEPT_NULL_INPUT_POINTER
-    if (input == NULL) return XXH_ERROR;
+    if (input == nullptr) return XXH_ERROR;
 #endif
 
     state->total_len += len;

@@ -22,7 +22,7 @@ int writebmp(char* filename, struct bmp_t* bitmap) {
     // 24 bpp uncompressed
 
     FILE* fp = fopen(filename, "w+b");
-    if (fp == NULL) return -1;
+    if (fp == nullptr) return -1;
 
     // compute dib entries
     bitmap->header.dibheadersize = 40;
@@ -80,7 +80,7 @@ int readbmp(char* filename, struct bmp_t* bitmap) {
     //-2 invalid BMP
     //-3 memory allocation error
     FILE* fp = fopen(filename, "r+b");
-    if (fp == NULL) return -1;
+    if (fp == nullptr) return -1;
 
     // read header
     fread(&(bitmap->header.headerB), 1, 1, fp);
@@ -128,7 +128,7 @@ int readbmp(char* filename, struct bmp_t* bitmap) {
 
     // read pixels
     bitmap->pixels = (uint32_t*)malloc(bitmap->header.dibsize);
-    if (bitmap->pixels == NULL) return -3;
+    if (bitmap->pixels == nullptr) return -3;
     fread(bitmap->pixels, bitmap->header.dibsize, 1, fp);
 
     if (ferror(fp)) return -1;

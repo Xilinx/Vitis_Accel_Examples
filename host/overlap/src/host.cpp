@@ -175,13 +175,13 @@ int main(int argc, char** argv) {
     for (unsigned int i = 0; i < devices.size(); i++) {
         auto device = devices[i];
         // Creating Context and Command Queue for selected Device
-        OCL_CHECK(err, context = cl::Context(device, NULL, NULL, NULL, &err));
+        OCL_CHECK(err, context = cl::Context(device, nullptr, nullptr, nullptr, &err));
         // This example will use an out of order command queue. The default command
         // queue created by cl::CommandQueue is an inorder command queue.
         OCL_CHECK(err, q = cl::CommandQueue(context, device, CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE, &err));
 
         std::cout << "Trying to program device[" << i << "]: " << device.getInfo<CL_DEVICE_NAME>() << std::endl;
-        cl::Program program(context, {device}, bins, NULL, &err);
+        cl::Program program(context, {device}, bins, nullptr, &err);
         if (err != CL_SUCCESS) {
             std::cout << "Failed to program device[" << i << "] with xclbin file!\n";
         } else {
@@ -247,7 +247,7 @@ int main(int argc, char** argv) {
         // Because we are passing the write_event, it returns an event object
         // that identifies this particular command and can be used to query
         // or queue a wait for this particular command to complete.
-        OCL_CHECK(err, err = q.enqueueMigrateMemObjects({buffer_a[flag], buffer_b[flag]}, 0 /*0 means from host*/, NULL,
+        OCL_CHECK(err, err = q.enqueueMigrateMemObjects({buffer_a[flag], buffer_b[flag]}, 0 /*0 means from host*/, nullptr,
                                                         &write_event[0]));
         set_callback(write_event[0], "ooo_queue");
 

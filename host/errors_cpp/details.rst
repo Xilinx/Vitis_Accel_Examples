@@ -42,7 +42,7 @@ Error while creating Context
 
 .. code:: cpp
 
-   cl::Context context(0, props, NULL, NULL, &err);
+   cl::Context context(0, props, nullptr, nullptr, &err);
 
 Most ``clCreate*`` calls accept error codes as their last parameter
 instead of returning the error value. This error occurred because we
@@ -52,7 +52,7 @@ Error while creating Program with Binary:
 
 .. code:: cpp
 
-   cl::Program program(context, devices, invalid_bin, NULL, &err);
+   cl::Program program(context, devices, invalid_bin, nullptr, &err);
 
 Errors caused during program creation are usually due to invalid
 binaries. The binary may be targeting a different platform. It may also

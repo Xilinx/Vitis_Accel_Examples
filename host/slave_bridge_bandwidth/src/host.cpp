@@ -39,12 +39,12 @@ int main(int argc, char* argv[]) {
     for (unsigned int i = 0; i < devices.size(); i++) {
         auto device = devices[i];
         // Creating Context and Command Queue for selected Device
-        OCL_CHECK(err, context = cl::Context(device, NULL, NULL, NULL, &err));
+        OCL_CHECK(err, context = cl::Context(device, nullptr, nullptr, nullptr, &err));
         OCL_CHECK(err, q = cl::CommandQueue(context, device,
                                             CL_QUEUE_PROFILING_ENABLE | CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE, &err));
 
         std::cout << "Trying to program device[" << i << "]: " << device.getInfo<CL_DEVICE_NAME>() << std::endl;
-        cl::Program program(context, {device}, bins, NULL, &err);
+        cl::Program program(context, {device}, bins, nullptr, &err);
         if (err != CL_SUCCESS) {
             std::cout << "Failed to program device[" << i << "] with xclbin file!\n";
         } else {
@@ -76,7 +76,7 @@ int main(int argc, char* argv[]) {
 
         /* Input buffer */
         unsigned char* input_host = ((unsigned char*)malloc(bufsize));
-        if (input_host == NULL) {
+        if (input_host == nullptr) {
             std::cout << "Error: Failed to allocate host side copy of OpenCL source "
                       << "buffer of size " << bufsize << std::endl;
             return EXIT_FAILURE;
@@ -90,12 +90,12 @@ int main(int argc, char* argv[]) {
         /* Host mem flags */
         cl_mem_ext_ptr_t input_buffer_ext;
         input_buffer_ext.flags = XCL_MEM_EXT_HOST_ONLY;
-        input_buffer_ext.obj = NULL;
+        input_buffer_ext.obj = nullptr;
         input_buffer_ext.param = 0;
 
         cl_mem_ext_ptr_t output_buffer_ext;
         output_buffer_ext.flags = XCL_MEM_EXT_HOST_ONLY;
-        output_buffer_ext.obj = NULL;
+        output_buffer_ext.obj = nullptr;
         output_buffer_ext.param = 0;
 
         OCL_CHECK(err, buffer[0] = new cl::Buffer(context, CL_MEM_READ_WRITE | CL_MEM_EXT_PTR_XILINX, bufsize,
@@ -115,7 +115,7 @@ int main(int argc, char* argv[]) {
         /* Map input buffer for PCIe write */
         unsigned char* map_input_buffer0;
         OCL_CHECK(err, map_input_buffer0 = (unsigned char*)q.enqueueMapBuffer(
-                           *(buffer[0]), CL_FALSE, CL_MAP_WRITE_INVALIDATE_REGION, 0, bufsize, NULL, NULL, &err));
+                           *(buffer[0]), CL_FALSE, CL_MAP_WRITE_INVALIDATE_REGION, 0, bufsize, nullptr, nullptr, &err));
         OCL_CHECK(err, err = q.finish());
 
         /* prepare data to be written to the device */
@@ -137,7 +137,7 @@ int main(int argc, char* argv[]) {
         /* Copy results back from OpenCL buffer */
         unsigned char* map_output_buffer0;
         OCL_CHECK(err, map_output_buffer0 = (unsigned char*)q.enqueueMapBuffer(*(buffer[1]), CL_FALSE, CL_MAP_READ, 0,
-                                                                               bufsize, NULL, NULL, &err));
+                                                                               bufsize, nullptr, nullptr, &err));
         OCL_CHECK(err, err = q.finish());
 
         /* Check the results of output0 */

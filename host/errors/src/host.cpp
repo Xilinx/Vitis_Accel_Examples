@@ -241,7 +241,7 @@ int main(int argc, char** argv) {
     size_t binary_size = incorrect_binary.size();
     const unsigned char* incorrect_binary_data = incorrect_binary.data();
     cl_program program =
-        clCreateProgramWithBinary(context, 1, &device_id, &binary_size, &incorrect_binary_data, NULL, &err);
+        clCreateProgramWithBinary(context, 1, &device_id, &binary_size, &incorrect_binary_data, nullptr, &err);
     if (err) {
         printf(
             "Received Expected Error calling clCreateProgramWithBinary: %s\n"
@@ -257,7 +257,7 @@ int main(int argc, char** argv) {
     binary_size = binary.size();
     const unsigned char* binary_data = binary.data();
 
-    program = clCreateProgramWithBinary(context, 1, &device_id, &binary_size, &binary_data, NULL, &err);
+    program = clCreateProgramWithBinary(context, 1, &device_id, &binary_size, &binary_data, nullptr, &err);
     if (err) {
         printf(
             "Fatal Error calling clCreateProgramWithBinary: %s\n"

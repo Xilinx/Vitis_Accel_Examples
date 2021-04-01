@@ -78,7 +78,7 @@ int main(int argc, char** argv) {
     for (int d = 0; d < (int)device_count; d++) {
         // In this example. We will create a context for each of the devices
         std::cout << "Creating Context[" << d << "]..." << std::endl;
-        OCL_CHECK(err, contexts[d] = cl::Context(devices[d], props, NULL, NULL, &err));
+        OCL_CHECK(err, contexts[d] = cl::Context(devices[d], props, nullptr, nullptr, &err));
         OCL_CHECK(err, queues[d] = cl::CommandQueue(contexts[d], devices[d], CL_QUEUE_PROFILING_ENABLE, &err));
         OCL_CHECK(err, device_name[d] = devices[d].getInfo<CL_DEVICE_NAME>(&err));
 
@@ -153,6 +153,6 @@ int main(int argc, char** argv) {
 cl::Program load_cl2_binary(cl::Program::Binaries bins, cl::Device device, cl::Context context) {
     cl_int err;
     std::vector<cl::Device> devices(1, device);
-    OCL_CHECK(err, cl::Program program(context, devices, bins, NULL, &err));
+    OCL_CHECK(err, cl::Program program(context, devices, bins, nullptr, &err));
     return program;
 }

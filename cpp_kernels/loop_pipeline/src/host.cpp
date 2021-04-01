@@ -73,11 +73,11 @@ int main(int argc, char** argv) {
     for (unsigned int i = 0; i < devices.size(); i++) {
         auto device = devices[i];
         // Creating Context and Command Queue for selected Device
-        OCL_CHECK(err, context = cl::Context(device, NULL, NULL, NULL, &err));
+        OCL_CHECK(err, context = cl::Context(device, nullptr, nullptr, nullptr, &err));
         OCL_CHECK(err, q = cl::CommandQueue(context, device, CL_QUEUE_PROFILING_ENABLE, &err));
 
         std::cout << "Trying to program device[" << i << "]: " << device.getInfo<CL_DEVICE_NAME>() << std::endl;
-        program = cl::Program(context, {device}, bins, NULL, &err);
+        program = cl::Program(context, {device}, bins, nullptr, &err);
         if (err != CL_SUCCESS) {
             std::cout << "Failed to program device[" << i << "] with xclbin file!\n";
         } else {
@@ -118,7 +118,7 @@ int main(int argc, char** argv) {
 
     cl::Event event;
     uint64_t nstimestart, nstimeend;
-    OCL_CHECK(err, err = q.enqueueTask(kernel_vadd, NULL, &event));
+    OCL_CHECK(err, err = q.enqueueTask(kernel_vadd, nullptr, &event));
     q.finish();
     OCL_CHECK(err, err = event.getProfilingInfo<uint64_t>(CL_PROFILING_COMMAND_START, &nstimestart));
     OCL_CHECK(err, err = event.getProfilingInfo<uint64_t>(CL_PROFILING_COMMAND_END, &nstimeend));
@@ -138,7 +138,7 @@ int main(int argc, char** argv) {
     OCL_CHECK(err, err = kernel_pipelined.setArg(2, buffer_b));
     OCL_CHECK(err, err = kernel_pipelined.setArg(3, DATA_SIZE));
 
-    OCL_CHECK(err, err = q.enqueueTask(kernel_pipelined, NULL, &event));
+    OCL_CHECK(err, err = q.enqueueTask(kernel_pipelined, nullptr, &event));
     q.finish();
 
     OCL_CHECK(err, err = event.getProfilingInfo<uint64_t>(CL_PROFILING_COMMAND_START, &nstimestart));
