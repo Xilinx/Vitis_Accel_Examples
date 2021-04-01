@@ -180,7 +180,7 @@ int getOclSoftware(oclSoftware& software, const oclHardware& hardware) {
         return -3;
     }
 
-    software.mKernel = clCreateKernel(software.mProgram, software.mKernelName, NULL);
+    software.mKernel = clCreateKernel(software.mProgram, software.mKernelName, nullptr);
     if (software.mKernel == 0) {
         std::cout << oclErrorCode(err) << "\n";
         return -4;

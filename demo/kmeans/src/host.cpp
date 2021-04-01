@@ -86,7 +86,7 @@ void cluster(FPGA_KMEANS* fpga,
     // Allocate memory for membership
     membership = (int*)malloc(npoints * sizeof(int));
     cmodel_membership = (int*)malloc(npoints * sizeof(int));
-    if ((membership == NULL) | (cmodel_membership == NULL)) {
+    if ((membership == nullptr) | (cmodel_membership == nullptr)) {
         fprintf(stderr, "Error: Failed to run malloc\n");
         exit(1);
     }
@@ -157,7 +157,7 @@ void cluster(FPGA_KMEANS* fpga,
             int mismatch = 0;
             // Compare the result with expected golden file
             FILE* inFile;
-            if ((inFile = fopen(goldenFile, "r")) == NULL) {
+            if ((inFile = fopen(goldenFile, "r")) == nullptr) {
                 fprintf(stderr, "Error: no such file (%s)\n", goldenFile);
                 exit(1);
             }
@@ -208,7 +208,7 @@ int main(int argc, char** argv) {
     int nfeatures = 0;
     int npoints = 0;
     float** features;
-    float** cluster_centres = NULL;
+    float** cluster_centres = nullptr;
     int i, j;
     int nloops = 1; // Default value
     int isOutput = 0;
@@ -267,17 +267,17 @@ int main(int argc, char** argv) {
         close(infile);
     } else {
         FILE* infile;
-        if ((infile = fopen(filename.c_str(), "r")) == NULL) {
+        if ((infile = fopen(filename.c_str(), "r")) == nullptr) {
             fprintf(stderr, "Error: no such file (%s)\n", filename.c_str());
             exit(EXIT_FAILURE);
         }
-        while (fgets(line, 1024, infile) != NULL)
+        while (fgets(line, 1024, infile) != nullptr)
             if (strtok(line, " \t\n") != 0) npoints++;
         rewind(infile);
-        while (fgets(line, 1024, infile) != NULL) {
+        while (fgets(line, 1024, infile) != nullptr) {
             if (strtok(line, " \t\n") != 0) {
                 // Ignore the id (first attribute): nfeatures = 1;
-                while (strtok(NULL, " ,\t\n") != NULL) nfeatures++;
+                while (strtok(nullptr, " ,\t\n") != nullptr) nfeatures++;
                 break;
             }
         }
@@ -289,10 +289,10 @@ int main(int argc, char** argv) {
         for (i = 1; i < npoints; i++) features[i] = features[i - 1] + nfeatures;
         rewind(infile);
         i = 0;
-        while (fgets(line, 1024, infile) != NULL) {
-            if (strtok(line, " \t\n") == NULL) continue;
+        while (fgets(line, 1024, infile) != nullptr) {
+            if (strtok(line, " \t\n") == nullptr) continue;
             for (j = 0; j < nfeatures; j++) {
-                buf[i] = atof(strtok(NULL, " ,\t\n"));
+                buf[i] = atof(strtok(nullptr, " ,\t\n"));
                 i++;
             }
         }
@@ -328,7 +328,7 @@ int main(int argc, char** argv) {
 
   *****************************************************************/
     // FPGA Based cluster
-    cluster_centres = NULL;
+    cluster_centres = nullptr;
     cluster(fpga, npoints,    /* number of data points */
             nfeatures,        /* number of features for each point */
             features,         /* array: [npoints][nfeatures] */

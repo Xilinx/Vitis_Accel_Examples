@@ -381,9 +381,9 @@ int main(int argc, char** argv) {
     for (unsigned int i = 0; i < devices.size(); i++) {
         device = devices[i];
         // Creating Context and Command Queue for selected Device
-        OCL_CHECK(err, context = cl::Context(device, NULL, NULL, NULL, &err));
+        OCL_CHECK(err, context = cl::Context(device, nullptr, nullptr, nullptr, &err));
         std::cout << "Trying to program device[" << i << "]: " << device.getInfo<CL_DEVICE_NAME>() << std::endl;
-        cl::Program program(context, {device}, bins, NULL, &err);
+        cl::Program program(context, {device}, bins, nullptr, &err);
         if (err != CL_SUCCESS) {
             std::cout << "Failed to program device[" << i << "] with xclbin file!\n";
         } else {
@@ -406,10 +406,10 @@ int main(int argc, char** argv) {
     OCL_CHECK(err,
               cl::Buffer buffer_a(context, CL_MEM_USE_HOST_PTR | CL_MEM_READ_WRITE, size_in_bytes, A.data(), &err));
     OCL_CHECK(err, cl::Buffer buffer_b(context, CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY, size_in_bytes, B.data(), &err));
-    OCL_CHECK(err, cl::Buffer buffer_c(context, CL_MEM_WRITE_ONLY, size_in_bytes, NULL, &err));
+    OCL_CHECK(err, cl::Buffer buffer_c(context, CL_MEM_WRITE_ONLY, size_in_bytes, nullptr, &err));
     OCL_CHECK(err, cl::Buffer buffer_d(context, CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY, size_in_bytes, D.data(), &err));
     OCL_CHECK(err, cl::Buffer buffer_e(context, CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY, size_in_bytes, E.data(), &err));
-    OCL_CHECK(err, cl::Buffer buffer_f(context, CL_MEM_WRITE_ONLY, size_in_bytes, NULL, &err));
+    OCL_CHECK(err, cl::Buffer buffer_f(context, CL_MEM_WRITE_ONLY, size_in_bytes, nullptr, &err));
 
     // Use multiple command queues to execute the kernels
     multiple_command_queues(context, device, kernel_mscale, kernel_madd, kernel_mmult, buffer_a, buffer_b, buffer_c,

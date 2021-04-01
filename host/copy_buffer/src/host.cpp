@@ -48,11 +48,11 @@ int main(int argc, char** argv) {
     for (unsigned int i = 0; i < devices.size(); i++) {
         auto device = devices[i];
         // Creating Context and Command Queue for selected Device
-        OCL_CHECK(err, context = cl::Context(device, NULL, NULL, NULL, &err));
+        OCL_CHECK(err, context = cl::Context(device, nullptr, nullptr, nullptr, &err));
         OCL_CHECK(err, q = cl::CommandQueue(context, device, CL_QUEUE_PROFILING_ENABLE, &err));
 
         std::cout << "Trying to program device[" << i << "]: " << device.getInfo<CL_DEVICE_NAME>() << std::endl;
-        cl::Program program(context, {device}, bins, NULL, &err);
+        cl::Program program(context, {device}, bins, nullptr, &err);
         if (err != CL_SUCCESS) {
             std::cout << "Failed to program device[" << i << "] with xclbin file!\n";
         } else {
@@ -69,7 +69,7 @@ int main(int argc, char** argv) {
 
     OCL_CHECK(err, cl::Buffer buffer_a(context, CL_MEM_READ_ONLY, size_in_bytes, nullptr, &err));
     OCL_CHECK(err, cl::Buffer buffer_result(context, CL_MEM_WRITE_ONLY, size_in_bytes, nullptr, &err));
-    OCL_CHECK(err, cl::Buffer buffer_b(context, CL_MEM_READ_ONLY, size_in_bytes, NULL, &err));
+    OCL_CHECK(err, cl::Buffer buffer_b(context, CL_MEM_READ_ONLY, size_in_bytes, nullptr, &err));
 
     OCL_CHECK(err, err = kernel.setArg(0, buffer_result));
     OCL_CHECK(err, err = kernel.setArg(1, buffer_a));
@@ -85,7 +85,7 @@ int main(int argc, char** argv) {
     OCL_CHECK(err, err = q.enqueueCopyBuffer(buffer_a, buffer_b, 0, 0, size_in_bytes));
 
     // This function will execute the kernel on the FPGA
-    OCL_CHECK(err, err = q.enqueueNDRangeKernel(kernel, 0, 1, 1, NULL, NULL));
+    OCL_CHECK(err, err = q.enqueueNDRangeKernel(kernel, 0, 1, 1, nullptr, nullptr));
 
     OCL_CHECK(err, err = q.enqueueReadBuffer(buffer_result, CL_TRUE, 0, size_in_bytes, source_results.data(), nullptr,
                                              nullptr));

@@ -62,7 +62,7 @@ int main(int argc, char** argv) {
     auto device = devices[0];
 
     int size = DATA_SIZE;
-    OCL_CHECK(err, cl::Context context(device, NULL, NULL, NULL, &err));
+    OCL_CHECK(err, cl::Context context(device, nullptr, nullptr, nullptr, &err));
     OCL_CHECK(err, cl::CommandQueue q(context, device, CL_QUEUE_PROFILING_ENABLE, &err));
     OCL_CHECK(err, std::string device_name = device.getInfo<CL_DEVICE_NAME>(&err));
 
@@ -77,7 +77,7 @@ int main(int argc, char** argv) {
         auto fileBuf = xcl::read_binary_file(binaryFile);
         cl::Program::Binaries bins{{fileBuf.data(), fileBuf.size()}};
         devices.resize(1);
-        OCL_CHECK(err, cl::Program program(context, devices, bins, NULL, &err));
+        OCL_CHECK(err, cl::Program program(context, devices, bins, nullptr, &err));
         OCL_CHECK(err, cl::Kernel vector_mult(program, "vmult", &err));
 
         OCL_CHECK(err, cl::Buffer buffer_in1(context, CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY, vector_size_bytes,
@@ -106,7 +106,7 @@ int main(int argc, char** argv) {
         auto fileBuf = xcl::read_binary_file(binaryFile);
         cl::Program::Binaries bins{{fileBuf.data(), fileBuf.size()}};
         devices.resize(1);
-        OCL_CHECK(err, cl::Program program(context, devices, bins, NULL, &err));
+        OCL_CHECK(err, cl::Program program(context, devices, bins, nullptr, &err));
         OCL_CHECK(err, cl::Kernel vector_add(program, "vadd", &err));
 
         OCL_CHECK(err, cl::Buffer d_temp(context, CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY, vector_size_bytes,

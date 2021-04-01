@@ -101,7 +101,7 @@ class Fpga {
         assert(p_kernelId < BLAS_numKernels);
         cl::Event l_event;
         // Send the input data to the accelerator
-        m_CommandQueue.enqueueMigrateMemObjects(m_Buffers[p_kernelId], 0 /* 0 means from host*/, NULL, &l_event);
+        m_CommandQueue.enqueueMigrateMemObjects(m_Buffers[p_kernelId], 0 /* 0 means from host*/, nullptr, &l_event);
         m_Mem2FpgaEvents[p_kernelId].push_back(l_event);
         ok = true;
         return (ok);

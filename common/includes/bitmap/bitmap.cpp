@@ -23,9 +23,9 @@
 #include "bitmap.h"
 
 BitmapInterface::BitmapInterface(const char* f) : filename(f) {
-    core = NULL;
-    dib = NULL;
-    image = NULL;
+    core = nullptr;
+    dib = nullptr;
+    image = nullptr;
 
     magicNumber = 0;
     fileSize = 0;
@@ -39,9 +39,9 @@ BitmapInterface::BitmapInterface(const char* f) : filename(f) {
 }
 
 BitmapInterface::~BitmapInterface() {
-    if (core != NULL) delete[] core;
-    if (dib != NULL) delete[] dib;
-    if (image != NULL) delete[] image;
+    if (core != nullptr) delete[] core;
+    if (dib != nullptr) delete[] dib;
+    if (image != nullptr) delete[] image;
 }
 
 bool BitmapInterface::readBitmapFile() {
@@ -98,7 +98,7 @@ bool BitmapInterface::writeBitmapFile(int* otherImage) {
 
     int numPixels = sizeOfImage / 3;
 
-    int* outputImage = otherImage != NULL ? otherImage : image;
+    int* outputImage = otherImage != nullptr ? otherImage : image;
 
     for (int i = 0; i < numPixels; ++i) {
         write(fd, &(outputImage[i]), 3);

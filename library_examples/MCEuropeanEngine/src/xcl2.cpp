@@ -76,13 +76,13 @@ std::string find_binary_file(const std::string& _device_name, const std::string&
     std::string mode;
 
     /* Fall back mode if XCL_EMULATION_MODE is not set is "hw" */
-    if (xcl_mode == NULL) {
+    if (xcl_mode == nullptr) {
         mode = "hw";
     } else {
         /* if xcl_mode is set then check if it's equal to true*/
         if (strcmp(xcl_mode, "true") == 0) {
             /* if it's true, then check if xcl_target is set */
-            if (xcl_target == NULL) {
+            if (xcl_target == nullptr) {
                 /* default if emulation but not specified is software emulation */
                 mode = "sw_emu";
             } else {
@@ -102,14 +102,14 @@ std::string find_binary_file(const std::string& _device_name, const std::string&
                           "xclbin",   // command line build
                           "..",       // gui build + run
                           ".",        // gui build, run in build directory
-                          NULL};
+                          nullptr};
     const char** search_dirs = dirs;
-    if (xcl_bindir == NULL) {
+    if (xcl_bindir == nullptr) {
         search_dirs++;
     }
 
     char* device_name = strdup(_device_name.c_str());
-    if (device_name == NULL) {
+    if (device_name == nullptr) {
         printf("Error: Out of Memory\n");
         exit(EXIT_FAILURE);
     }
@@ -123,7 +123,7 @@ std::string find_binary_file(const std::string& _device_name, const std::string&
     }
 
     char* device_name_versionless = strdup(_device_name.c_str());
-    if (device_name_versionless == NULL) {
+    if (device_name_versionless == nullptr) {
         printf("Error: Out of Memory\n");
         exit(EXIT_FAILURE);
     }
@@ -153,27 +153,27 @@ std::string find_binary_file(const std::string& _device_name, const std::string&
         "%1$s/%2$s.%3$s.%5$s.awsxclbin",     // <kernel>.<target>.<device_versionless>.awsxclbin
         "%1$s/binary_container_1.awsxclbin", // default for gui projects
         "%1$s/%2$s.awsxclbin",               // <kernel>.awsxclbin
-        NULL};
+        nullptr};
 
     const char* file_patterns[] = {"%1$s/%2$s.%3$s.%4$s.xclbin",     // <kernel>.<target>.<device>.xclbin
                                    "%1$s/%2$s.%3$s.%5$s.xclbin",     // <kernel>.<target>.<device_versionless>.xclbin
                                    "%1$s/binary_container_1.xclbin", // default for gui projects
                                    "%1$s/%2$s.xclbin",               // <kernel>.xclbin
-                                   NULL};
+                                   nullptr};
     char xclbin_file_name[PATH_MAX];
     memset(xclbin_file_name, 0, PATH_MAX);
     ino_t aws_ino = 0; // used to avoid errors if an xclbin found via multiple/repeated paths
-    for (const char** dir = search_dirs; *dir != NULL; dir++) {
+    for (const char** dir = search_dirs; *dir != nullptr; dir++) {
         struct stat sb;
         if (stat(*dir, &sb) == 0 && S_ISDIR(sb.st_mode)) {
-            for (const char** pattern = aws_file_patterns; *pattern != NULL; pattern++) {
+            for (const char** pattern = aws_file_patterns; *pattern != nullptr; pattern++) {
                 char file_name[PATH_MAX];
                 memset(file_name, 0, PATH_MAX);
                 snprintf(file_name, PATH_MAX, *pattern, *dir, xclbin_name.c_str(), mode.c_str(), device_name,
                          device_name_versionless);
                 if (stat(file_name, &sb) == 0 && S_ISREG(sb.st_mode)) {
                     char* bindir = strdup(*dir);
-                    if (bindir == NULL) {
+                    if (bindir == nullptr) {
                         printf("Error: Out of Memory\n");
                         exit(EXIT_FAILURE);
                     }
@@ -190,17 +190,17 @@ std::string find_binary_file(const std::string& _device_name, const std::string&
     ino_t ino = 0; // used to avoid errors if an xclbin found via multiple/repeated paths
     // if no awsxclbin found, check for xclbin
     if (*xclbin_file_name == '\0') {
-        for (const char** dir = search_dirs; *dir != NULL; dir++) {
+        for (const char** dir = search_dirs; *dir != nullptr; dir++) {
             struct stat sb;
             if (stat(*dir, &sb) == 0 && S_ISDIR(sb.st_mode)) {
-                for (const char** pattern = file_patterns; *pattern != NULL; pattern++) {
+                for (const char** pattern = file_patterns; *pattern != nullptr; pattern++) {
                     char file_name[PATH_MAX];
                     memset(file_name, 0, PATH_MAX);
                     snprintf(file_name, PATH_MAX, *pattern, *dir, xclbin_name.c_str(), mode.c_str(), device_name,
                              device_name_versionless);
                     if (stat(file_name, &sb) == 0 && S_ISREG(sb.st_mode)) {
                         char* bindir = strdup(*dir);
-                        if (bindir == NULL) {
+                        if (bindir == nullptr) {
                             printf("Error: Out of Memory\n");
                             exit(EXIT_FAILURE);
                         }
@@ -227,7 +227,7 @@ std::string find_binary_file(const std::string& _device_name, const std::string&
 bool is_emulation() {
     bool ret = false;
     char* xcl_mode = getenv("XCL_EMULATION_MODE");
-    if (xcl_mode != NULL) {
+    if (xcl_mode != nullptr) {
         ret = true;
     }
     return ret;
@@ -236,7 +236,7 @@ bool is_emulation() {
 bool is_hw_emulation() {
     bool ret = false;
     char* xcl_mode = getenv("XCL_EMULATION_MODE");
-    if ((xcl_mode != NULL) && !strcmp(xcl_mode, "hw_emu")) {
+    if ((xcl_mode != nullptr) && !strcmp(xcl_mode, "hw_emu")) {
         ret = true;
     }
     return ret;
@@ -245,7 +245,7 @@ bool is_hw_emulation() {
 bool is_xpr_device(const char* device_name) {
     const char* output = strstr(device_name, "xpr");
 
-    if (output == NULL) {
+    if (output == nullptr) {
         return false;
     } else {
         return true;

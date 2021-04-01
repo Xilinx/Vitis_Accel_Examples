@@ -84,11 +84,11 @@ int main(int argc, char** argv) {
     for (unsigned int i = 0; i < devices.size(); i++) {
         device = devices[i];
         // Creating Context and Command Queue for selected Device
-        OCL_CHECK(err, context = cl::Context({device}, NULL, NULL, NULL, &err));
+        OCL_CHECK(err, context = cl::Context({device}, nullptr, nullptr, nullptr, &err));
         OCL_CHECK(err, q = cl::CommandQueue(context, {device}, CL_QUEUE_PROFILING_ENABLE, &err));
 
         std::cout << "Trying to program device[" << i << "]: " << device.getInfo<CL_DEVICE_NAME>() << std::endl;
-        cl::Program program(context, {device}, bins, NULL, &err);
+        cl::Program program(context, {device}, bins, nullptr, &err);
         if (err != CL_SUCCESS) {
             std::cout << "Failed to program device[" << i << "] with xclbin file!\n";
         } else {
@@ -105,7 +105,7 @@ int main(int argc, char** argv) {
 
     // Launch the Kernel
     cl::Event b_wait_event;
-    OCL_CHECK(err, err = q.enqueueTask(increment, NULL, &b_wait_event));
+    OCL_CHECK(err, err = q.enqueueTask(increment, nullptr, &b_wait_event));
     q.finish();
 
     while (1)

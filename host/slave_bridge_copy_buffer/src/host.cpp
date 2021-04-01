@@ -46,11 +46,11 @@ int main(int argc, char* argv[]) {
     for (unsigned int i = 0; i < devices.size(); i++) {
         auto device = devices[i];
         // Creating Context and Command Queue for selected Device
-        OCL_CHECK(err, context = cl::Context(device, NULL, NULL, NULL, &err));
+        OCL_CHECK(err, context = cl::Context(device, nullptr, nullptr, nullptr, &err));
         OCL_CHECK(err, q = cl::CommandQueue(context, device, CL_QUEUE_PROFILING_ENABLE, &err));
 
         std::cout << "Trying to program device[" << i << "]: " << device.getInfo<CL_DEVICE_NAME>() << std::endl;
-        cl::Program program(context, {device}, bins, NULL, &err);
+        cl::Program program(context, {device}, bins, nullptr, &err);
         if (err != CL_SUCCESS) {
             std::cout << "Failed to program device[" << i << "] with xclbin file!\n";
         } else {
@@ -66,7 +66,7 @@ int main(int argc, char* argv[]) {
     }
     cl_mem_ext_ptr_t host_buffer_ext;
     host_buffer_ext.flags = XCL_MEM_EXT_HOST_ONLY;
-    host_buffer_ext.obj = NULL;
+    host_buffer_ext.obj = nullptr;
     host_buffer_ext.param = 0;
 
     OCL_CHECK(err, cl::Buffer buffer_in_host_a(context, CL_MEM_READ_ONLY | CL_MEM_EXT_PTR_XILINX, size_in_bytes,
@@ -91,12 +91,12 @@ int main(int argc, char* argv[]) {
     krnl.setArg(2, buffer_out_dev);
     krnl.setArg(3, dataSize);
 
-    OCL_CHECK(err, in_a = (uint32_t*)q.enqueueMapBuffer(buffer_in_host_a, CL_TRUE, CL_MAP_WRITE, 0, size_in_bytes, NULL,
-                                                        NULL, &err));
-    OCL_CHECK(err, in_b = (uint32_t*)q.enqueueMapBuffer(buffer_in_host_b, CL_TRUE, CL_MAP_WRITE, 0, size_in_bytes, NULL,
-                                                        NULL, &err));
-    OCL_CHECK(err, out = (uint32_t*)q.enqueueMapBuffer(buffer_out_host, CL_TRUE, CL_MAP_READ, 0, size_in_bytes, NULL,
-                                                       NULL, &err));
+    OCL_CHECK(err, in_a = (uint32_t*)q.enqueueMapBuffer(buffer_in_host_a, CL_TRUE, CL_MAP_WRITE, 0, size_in_bytes, nullptr,
+                                                        nullptr, &err));
+    OCL_CHECK(err, in_b = (uint32_t*)q.enqueueMapBuffer(buffer_in_host_b, CL_TRUE, CL_MAP_WRITE, 0, size_in_bytes, nullptr,
+                                                        nullptr, &err));
+    OCL_CHECK(err, out = (uint32_t*)q.enqueueMapBuffer(buffer_out_host, CL_TRUE, CL_MAP_READ, 0, size_in_bytes, nullptr,
+                                                       nullptr, &err));
     q.finish();
 
     for (int i = 0; i < dataSize; i++) {
@@ -106,16 +106,16 @@ int main(int argc, char* argv[]) {
     }
 
     OCL_CHECK(err,
-              err = q.enqueueCopyBuffer(buffer_in_host_a, buffer_in_dev_a, 0, 0, size_in_bytes, 0, NULL)); // transfer
+              err = q.enqueueCopyBuffer(buffer_in_host_a, buffer_in_dev_a, 0, 0, size_in_bytes, 0, nullptr)); // transfer
     OCL_CHECK(err,
-              err = q.enqueueCopyBuffer(buffer_in_host_b, buffer_in_dev_b, 0, 0, size_in_bytes, 0, NULL)); // transfer
+              err = q.enqueueCopyBuffer(buffer_in_host_b, buffer_in_dev_b, 0, 0, size_in_bytes, 0, nullptr)); // transfer
     q.finish();
 
     q.enqueueTask(krnl);
     q.finish();
 
     OCL_CHECK(err,
-              err = q.enqueueCopyBuffer(buffer_out_dev, buffer_out_host, 0, 0, size_in_bytes, 0, NULL)); // transfer
+              err = q.enqueueCopyBuffer(buffer_out_dev, buffer_out_host, 0, 0, size_in_bytes, 0, nullptr)); // transfer
     q.finish();
 
     // Compare the results of the Device to the simulation

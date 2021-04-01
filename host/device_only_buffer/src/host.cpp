@@ -72,11 +72,11 @@ int main(int argc, char** argv) {
     for (unsigned int i = 0; i < devices.size(); i++) {
         auto device = devices[i];
         // Creating Context and Command Queue for selected Device
-        OCL_CHECK(err, context = cl::Context(device, NULL, NULL, NULL, &err));
+        OCL_CHECK(err, context = cl::Context(device, nullptr, nullptr, nullptr, &err));
         OCL_CHECK(err, q = cl::CommandQueue(context, device, CL_QUEUE_PROFILING_ENABLE, &err));
 
         std::cout << "Trying to program device[" << i << "]: " << device.getInfo<CL_DEVICE_NAME>() << std::endl;
-        cl::Program program(context, {device}, bins, NULL, &err);
+        cl::Program program(context, {device}, bins, nullptr, &err);
         if (err != CL_SUCCESS) {
             std::cout << "Failed to program device[" << i << "] with xclbin file!\n";
         } else {
@@ -106,7 +106,7 @@ int main(int argc, char** argv) {
     // CL_MEM_HOST_NO_ACCESS flag specifies that host machine will not read/write
     // the memory object.
     OCL_CHECK(err,
-              cl::Buffer dev_only_buf(context, CL_MEM_READ_WRITE | CL_MEM_HOST_NO_ACCESS, size_in_bytes, NULL, &err));
+              cl::Buffer dev_only_buf(context, CL_MEM_READ_WRITE | CL_MEM_HOST_NO_ACCESS, size_in_bytes, nullptr, &err));
 
     // set kernel arguments for 1st kernel :   output to device only buffer
     OCL_CHECK(err, err = kernel_mmult.setArg(0, buffer_a));

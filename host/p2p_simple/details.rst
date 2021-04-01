@@ -14,7 +14,7 @@ migrating the data via host memory space
 
    // Creating P2P Buffer
      cl_mem_ext_ptr_t outExt;
-     outExt = {XCL_MEM_EXT_P2P_BUFFER, NULL, 0};
+     outExt = {XCL_MEM_EXT_P2P_BUFFER, nullptr, 0};
 
      cl_mem p2pBo =
          clCreateBuffer(context, CL_MEM_WRITE_ONLY | CL_MEM_EXT_PTR_XILINX,
@@ -23,7 +23,7 @@ migrating the data via host memory space
 
    // Map P2P buffer to host access pointers
      p2pPtr = (uint32_t *)clEnqueueMapBuffer(
-           q, p2pBo, CL_TRUE, CL_MAP_WRITE | CL_MAP_READ, 0, vector_size_bytes, 0, NULL, NULL, NULL);
+           q, p2pBo, CL_TRUE, CL_MAP_WRITE | CL_MAP_READ, 0, vector_size_bytes, 0, nullptr, nullptr, nullptr);
 
      filename = <full path to SSD>
      fd = open(filename, O_RDWR | O_DIRECT);

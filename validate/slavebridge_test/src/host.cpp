@@ -148,11 +148,11 @@ int main(int argc, char** argv) {
         std::vector<cl_mem_ext_ptr_t> output_buffer_ext(NUM_KERNEL);
         for (int i = 0; i < NUM_KERNEL; i++) {
             input_buffer_ext[i].flags = XCL_MEM_EXT_HOST_ONLY;
-            input_buffer_ext[i].obj = NULL;
+            input_buffer_ext[i].obj = nullptr;
             input_buffer_ext[i].param = 0;
 
             output_buffer_ext[i].flags = XCL_MEM_EXT_HOST_ONLY;
-            output_buffer_ext[i].obj = NULL;
+            output_buffer_ext[i].obj = nullptr;
             output_buffer_ext[i].param = 0;
         }
 
@@ -175,7 +175,7 @@ int main(int argc, char** argv) {
 
         for (int i = 0; i < NUM_KERNEL; i++) {
             OCL_CHECK(err, map_input_buffer[i] = (unsigned char*)q.enqueueMapBuffer(
-                               (input_buffer[i]), CL_FALSE, CL_MAP_WRITE, 0, vector_size_bytes, NULL, NULL, &err));
+                               (input_buffer[i]), CL_FALSE, CL_MAP_WRITE, 0, vector_size_bytes, nullptr, nullptr, &err));
             OCL_CHECK(err, err = q.finish());
         }
 
@@ -197,7 +197,7 @@ int main(int argc, char** argv) {
 
         for (int i = 0; i < NUM_KERNEL; i++) {
             OCL_CHECK(err, map_output_buffer[i] = (unsigned char*)q.enqueueMapBuffer(
-                               (output_buffer[i]), CL_FALSE, CL_MAP_READ, 0, vector_size_bytes, NULL, NULL, &err));
+                               (output_buffer[i]), CL_FALSE, CL_MAP_READ, 0, vector_size_bytes, nullptr, nullptr, &err));
             OCL_CHECK(err, err = q.finish());
         }
 

@@ -62,7 +62,7 @@ int main(int argc, char** argv) {
     auto device = devices[0];
 
     // Creating Context and Command Queue for selected Device
-    OCL_CHECK(err, cl::Context context(device, NULL, NULL, NULL, &err));
+    OCL_CHECK(err, cl::Context context(device, nullptr, nullptr, nullptr, &err));
     OCL_CHECK(err, cl::CommandQueue q(context, device, CL_QUEUE_PROFILING_ENABLE, &err));
     std::string device_name = device.getInfo<CL_DEVICE_NAME>();
     printf("Allocating and transferring data to %s\n", device_name.c_str());
@@ -70,7 +70,7 @@ int main(int argc, char** argv) {
     auto fileBuf = xcl::read_binary_file(binaryFile);
     cl::Program::Binaries bins{{fileBuf.data(), fileBuf.size()}};
     devices.resize(1);
-    OCL_CHECK(err, cl::Program program(context, devices, bins, NULL, &err));
+    OCL_CHECK(err, cl::Program program(context, devices, bins, nullptr, &err));
 
     // There are several ways to transfer data to the FPGA. The most
     // straightforward way is to transfer the data during the creation of the

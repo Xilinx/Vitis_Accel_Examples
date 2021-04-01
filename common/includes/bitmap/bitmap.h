@@ -41,7 +41,7 @@ class BitmapInterface {
     ~BitmapInterface();
 
     bool readBitmapFile();
-    bool writeBitmapFile(int* otherImage = NULL);
+    bool writeBitmapFile(int* otherImage = nullptr);
 
     inline int* bitmap() { return image; }
     unsigned int numPixels() { return sizeOfImage / 3; }

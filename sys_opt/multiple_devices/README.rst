@@ -45,7 +45,7 @@ OpenCL context and queues are initialized for each FPGA.
 
 .. code:: cpp
 
-   contexts[d] =cl::Context(devices[d], props, NULL, NULL, &err);
+   contexts[d] =cl::Context(devices[d], props, nullptr, nullptr, &err);
    queues[d] = cl::CommandQueue(contexts[d], devices[d], CL_QUEUE_PROFILING_ENABLE, &err);
 
 Each FPGA device needs to be loaded and programmed with binary file and

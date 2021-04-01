@@ -230,7 +230,7 @@ int xfZlib::init(const std::string& binaryFileName, uint8_t kidx) {
     // OpenCL Setup Start
     // Creating Context and Command Queue for selected Device
     cl_context_properties props[3] = {CL_CONTEXT_PLATFORM, (cl_context_properties)(platforms[0])(), 0};
-    OCL_CHECK(err, m_context = new cl::Context(m_device, props, NULL, NULL, &err));
+    OCL_CHECK(err, m_context = new cl::Context(m_device, props, nullptr, nullptr, &err));
     if (err) {
         std::cerr << "Context creation Failed " << std::endl;
         m_err_code = 1;
@@ -270,7 +270,7 @@ int xfZlib::init(const std::string& binaryFileName, uint8_t kidx) {
     bin_file.read(reinterpret_cast<char*>(buf.data()), nb);
 
     cl::Program::Binaries bins{{buf.data(), buf.size()}};
-    ZOCL_CHECK_2(err, m_program = new cl::Program(*m_context, {m_device}, bins, NULL, &err), m_err_code, c_clinvalidbin,
+    ZOCL_CHECK_2(err, m_program = new cl::Program(*m_context, {m_device}, bins, nullptr, &err), m_err_code, c_clinvalidbin,
                  c_clinvalidvalue);
     if (error_code()) {
         std::cerr << "Failed to program the device " << std::endl;
@@ -430,7 +430,7 @@ xfZlib::xfZlib(const std::string& binaryFileName,
 
                 OCL_CHECK(err,
                           buffer_lz77_output[i][j] = new cl::Buffer(
-                              *m_context, CL_MEM_READ_WRITE | CL_MEM_HOST_NO_ACCESS, host_buffer_size * 4, NULL, &err));
+                              *m_context, CL_MEM_READ_WRITE | CL_MEM_HOST_NO_ACCESS, host_buffer_size * 4, nullptr, &err));
 
                 OCL_CHECK(err, buffer_compress_size[i][j] =
                                    new cl::Buffer(*m_context, CL_MEM_USE_HOST_PTR | CL_MEM_READ_WRITE,
@@ -446,11 +446,11 @@ xfZlib::xfZlib(const std::string& binaryFileName,
 
                 OCL_CHECK(err, buffer_dyn_ltree_freq[i][j] =
                                    new cl::Buffer(*m_context, CL_MEM_READ_WRITE | CL_MEM_HOST_NO_ACCESS,
-                                                  PARALLEL_ENGINES * sizeof(uint32_t) * c_ltree_size, NULL, &err));
+                                                  PARALLEL_ENGINES * sizeof(uint32_t) * c_ltree_size, nullptr, &err));
 
                 OCL_CHECK(err, buffer_dyn_dtree_freq[i][j] =
                                    new cl::Buffer(*m_context, CL_MEM_READ_WRITE | CL_MEM_HOST_NO_ACCESS,
-                                                  PARALLEL_ENGINES * sizeof(uint32_t) * c_dtree_size, NULL, &err));
+                                                  PARALLEL_ENGINES * sizeof(uint32_t) * c_dtree_size, nullptr, &err));
             }
         }
     }
@@ -722,7 +722,7 @@ void xfZlib::_enqueue_reads(uint32_t bufSize, uint8_t* out, uint32_t* decompSize
             OCL_CHECK(err, err = data_reader_kernel[cu]->setArg(1, *(buffer_size[cbf_idx])));
 
             // enqueue reader kernel
-            OCL_CHECK(err, err = m_q_rd[cu]->enqueueTask(*data_reader_kernel[cu], NULL, &(kernelReadEvent[cbf_idx])));
+            OCL_CHECK(err, err = m_q_rd[cu]->enqueueTask(*data_reader_kernel[cu], nullptr, &(kernelReadEvent[cbf_idx])));
             kernelReadWait[cbf_idx].push_back(kernelReadEvent[cbf_idx]); // event to wait for
 
             OCL_CHECK(err, err = m_q_rdd[cu]->enqueueMigrateMemObjects(
@@ -779,9 +779,9 @@ void xfZlib::_enqueue_writes(uint32_t bufSize, uint8_t* in, uint32_t inputSize, 
         OCL_CHECK(err, err = data_writer_kernel[cu]->setArg(1, cBufSize));
 
         // enqueue data migration to kernel
-        OCL_CHECK(err, err = m_q_wr[cu]->enqueueMigrateMemObjects({*(buffer_dec_input[cbf_idx])}, 0, NULL, NULL));
+        OCL_CHECK(err, err = m_q_wr[cu]->enqueueMigrateMemObjects({*(buffer_dec_input[cbf_idx])}, 0, nullptr, nullptr));
         // enqueue the writer kernel dependent on corresponding bufffer migration
-        OCL_CHECK(err, err = m_q_wr[cu]->enqueueTask(*data_writer_kernel[cu], NULL, &(kernelWriteEvent[cbf_idx])));
+        OCL_CHECK(err, err = m_q_wr[cu]->enqueueTask(*data_writer_kernel[cu], nullptr, &(kernelWriteEvent[cbf_idx])));
     }
     // wait for enqueued writer kernels to finish
     OCL_CHECK(err, err = m_q_wr[cu]->finish());

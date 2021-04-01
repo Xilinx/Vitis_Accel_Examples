@@ -65,7 +65,7 @@ struct aligned_allocator {
 #if defined(_WINDOWS)
         {
             ptr = _aligned_malloc(num * sizeof(T), 4096);
-            if (ptr == NULL) {
+            if (ptr == nullptr) {
                 std::cout << "Failed to allocate memory" << std::endl;
                 exit(EXIT_FAILURE);
             }

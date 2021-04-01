@@ -101,11 +101,11 @@ int main(int argc, char** argv) {
     for (unsigned int i = 0; i < devices.size(); i++) {
         device = devices[i];
         // Creating Context and Command Queue for selected Device
-        OCL_CHECK(err, context = cl::Context(device, NULL, NULL, NULL, &err));
+        OCL_CHECK(err, context = cl::Context(device, nullptr, nullptr, nullptr, &err));
         OCL_CHECK(err, q = cl::CommandQueue(context, device, CL_QUEUE_PROFILING_ENABLE, &err));
 
         std::cout << "Trying to program device[" << i << "]: " << device.getInfo<CL_DEVICE_NAME>() << std::endl;
-        program = cl::Program(context, {device}, bins, NULL, &err);
+        program = cl::Program(context, {device}, bins, nullptr, &err);
         if (err != CL_SUCCESS) {
             std::cout << "Failed to program device[" << i << "] with xclbin file!\n";
         } else {
@@ -138,7 +138,7 @@ int main(int argc, char** argv) {
     cl_int ret;
     cl_mem_ext_ptr_t ext;
     ext.param = krnl_adder1.get();
-    ext.obj = NULL;
+    ext.obj = nullptr;
 
     // Create write stream for argument 0 and 1 of kernel
     cl_stream write_stream_a;

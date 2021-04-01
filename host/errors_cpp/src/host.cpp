@@ -174,7 +174,7 @@ int main(int argc, char** argv) {
     // codes
     // using pointers to cl_int as their last parameters
     {
-        cl::Context context(0, props, NULL, NULL, &err);
+        cl::Context context(0, props, nullptr, nullptr, &err);
         if (err) {
             std::cout << "Recoverable Error calling cl::Context::Context(): " << error_string(err) << std::endl
                       << "\tMost cl::Context* calls accept error codes as "
@@ -189,7 +189,7 @@ int main(int argc, char** argv) {
     }
 
     std::cout << "Creating Context..." << std::endl;
-    OCL_CHECK(err, cl::Context context(device, props, NULL, NULL, &err));
+    OCL_CHECK(err, cl::Context context(device, props, nullptr, nullptr, &err));
     OCL_CHECK(err, cl::CommandQueue q(context, device, CL_QUEUE_PROFILING_ENABLE, &err));
     OCL_CHECK(err, std::string device_name = device.getInfo<CL_DEVICE_NAME>(&err));
 
@@ -201,7 +201,7 @@ int main(int argc, char** argv) {
     devices.resize(1);
 
     {
-        cl::Program program(context, devices, invalid_bin, NULL, &err);
+        cl::Program program(context, devices, invalid_bin, nullptr, &err);
         if (err) {
             std::cout << "\nRecoverable Error calling cl::Program::Program(): " << error_string(err) << std::endl
                       << "\tMost cl::Program* calls accept error codes as "
@@ -215,7 +215,7 @@ int main(int argc, char** argv) {
         }
     }
 
-    OCL_CHECK(err, cl::Program program(context, devices, bins, NULL, &err));
+    OCL_CHECK(err, cl::Program program(context, devices, bins, nullptr, &err));
 
     {
         cl::Kernel kernel(program, "InvalidKernelName", &err);

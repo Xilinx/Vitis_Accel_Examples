@@ -933,34 +933,6 @@ def create_utils(target, data):
     readme_gen(target)
     return
 
-def create_cmakelist(target, data):
-    if "host_exe" in data["host"]:
-        target.write("set(EXECNAME \""+data["host"]["host_exe"]+"\")\n")
-    if "containers" in data:
-        for con in data["containers"]:
-            target.write("set(XBIN_DIR \""+con["name"]+".xclbin\")\n")
-    target.write("\n")
-    target.write("if (WIN32)\n")
-    target.write("  set(OpenCL_INCLUDE_DIR ${OCL_ROOT}/include)\n")
-    target.write("  find_library(OpenCL_LIBRARY\n")
-    target.write("    NAMES OpenCL\n")
-    target.write("    HINTS \"${OCL_ROOT}/lib\")\n")
-    target.write("\n")
-    target.write("  include_directories(${OpenCL_INCLUDE_DIR})\n")
-    target.write("else()\n")
-    target.write("  find_package(OpenCL)\n")
-    target.write("endif(WIN32)\n")
-    target.write("\n")
-    target.write("include_directories(${XILINX_XRT}/include ${XILINX_XRT}/ext/include ../src ../../../common/includes/xcl2)\n")
-    target.write("\n")
-    target.write("add_executable(${EXECNAME} ../../../common/includes/xcl2/xcl2.cpp ../src/host.cpp)\n")
-    target.write("\n")
-    target.write("target_link_libraries(${EXECNAME} PRIVATE ${OpenCL_LIBRARY})\n")
-    target.write("\n")
-    target.write("install(TARGETS ${EXECNAME}\n")
-    target.write("  RUNTIME DESTINATION ${INSTALL_DIR}/${EXECNAME})\n")
-
-
 def create_config(data):
     if "containers" in data:
         for con in data["containers"]:
@@ -1029,14 +1001,6 @@ else:
     print("Generating utils.mk file for %s" %data["name"])
     target = open("utils.mk", "w+")    
     create_utils(target, data)
-    temp_path = os.getcwd();
-    path = os.path.join(temp_path, "cmake_build")
-    folder_exist = os.path.isdir(path)
-    if folder_exist == False :
-        print("Generating CMakeLists.txt file for %s" %data["name"])
-        os.mkdir(path, 0o777)
-        target = open("cmake_build/CMakeLists.txt", "w+")
-        create_cmakelist(target, data)
 
 if target:
     target.close
