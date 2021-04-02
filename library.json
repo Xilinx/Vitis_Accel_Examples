@@ -1,0 +1,5 @@
+{
+    "id": "Vitis_Accel_Examples",
+    "name": "Vitis Accel Examples",
+    "description": "This repository contains examples to showcase various features of the Vitis tools and platforms. It illustrates specific scenarios related to host code and kernel programming through small working examples. The intention is for users to be able to use these working examples as a reference while developing their own accelerator application based on Xilinx platforms."
+}
