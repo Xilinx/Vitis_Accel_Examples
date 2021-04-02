@@ -29,7 +29,7 @@ XRT OpenCL introduces a new buffer extension Flag ``XCL_MEM_EXT_HOST_ONLY`` that
 
     cl_mem_ext_ptr_t host_buffer_ext;
     host_buffer_ext.flags = XCL_MEM_EXT_HOST_ONLY;
-    host_buffer_ext.obj = NULL;
+    host_buffer_ext.obj = nullptr;
     host_buffer_ext.param = 0;
 
     OCL_CHECK(err, cl::Buffer buffer_in_a(context, CL_MEM_READ_ONLY |

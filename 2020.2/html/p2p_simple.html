@@ -306,7 +306,7 @@
             
             
               <div class="version">
-                2020.1
+                2020.2
               </div>
             
           
@@ -340,6 +340,7 @@
 <p class="caption"><span class="caption-text">Category of Examples</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="hello_world.html">Hello World</a></li>
+<li class="toctree-l1"><a class="reference internal" href="aie_kernels.html">AIE Examples</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="host.html">Host</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="concurrent_kernel_execution.html">Concurrent Kernel Execution</a></li>
 <li class="toctree-l2"><a class="reference internal" href="copy_buffer.html">Copy Buffer</a></li>
@@ -380,6 +381,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="cpp.html">C++ Kernels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="demo.html">Demos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="emulation.html">Emulation Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="library_examples.html">Library Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sys_opt.html">System Optimization Kernels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="rtl.html">RTL Kernels</a></li>
@@ -480,7 +482,7 @@ FPGA device and another NVMe Device, such as SMART SSD, without
 migrating the data via host memory space</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Creating P2P Buffer</span>
   <span class="n">cl_mem_ext_ptr_t</span> <span class="n">outExt</span><span class="p">;</span>
-  <span class="n">outExt</span> <span class="o">=</span> <span class="p">{</span><span class="n">XCL_MEM_EXT_P2P_BUFFER</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="mi">0</span><span class="p">};</span>
+  <span class="n">outExt</span> <span class="o">=</span> <span class="p">{</span><span class="n">XCL_MEM_EXT_P2P_BUFFER</span><span class="p">,</span> <span class="k">nullptr</span><span class="p">,</span> <span class="mi">0</span><span class="p">};</span>
 
   <span class="n">cl_mem</span> <span class="n">p2pBo</span> <span class="o">=</span>
       <span class="n">clCreateBuffer</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">CL_MEM_WRITE_ONLY</span> <span class="o">|</span> <span class="n">CL_MEM_EXT_PTR_XILINX</span><span class="p">,</span>
@@ -489,7 +491,7 @@ migrating the data via host memory space</p>
 
 <span class="c1">// Map P2P buffer to host access pointers</span>
   <span class="n">p2pPtr</span> <span class="o">=</span> <span class="p">(</span><span class="kt">uint32_t</span> <span class="o">*</span><span class="p">)</span><span class="n">clEnqueueMapBuffer</span><span class="p">(</span>
-        <span class="n">q</span><span class="p">,</span> <span class="n">p2pBo</span><span class="p">,</span> <span class="n">CL_TRUE</span><span class="p">,</span> <span class="n">CL_MAP_WRITE</span> <span class="o">|</span> <span class="n">CL_MAP_READ</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">vector_size_bytes</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+        <span class="n">q</span><span class="p">,</span> <span class="n">p2pBo</span><span class="p">,</span> <span class="n">CL_TRUE</span><span class="p">,</span> <span class="n">CL_MAP_WRITE</span> <span class="o">|</span> <span class="n">CL_MAP_READ</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">vector_size_bytes</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="k">nullptr</span><span class="p">,</span> <span class="k">nullptr</span><span class="p">,</span> <span class="k">nullptr</span><span class="p">);</span>
 
   <span class="n">filename</span> <span class="o">=</span> <span class="o">&lt;</span><span class="n">full</span> <span class="n">path</span> <span class="n">to</span> <span class="n">SSD</span><span class="o">&gt;</span>
   <span class="n">fd</span> <span class="o">=</span> <span class="n">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">O_RDWR</span> <span class="o">|</span> <span class="n">O_DIRECT</span><span class="p">);</span>

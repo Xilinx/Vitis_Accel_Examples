@@ -306,7 +306,7 @@
             
             
               <div class="version">
-                2020.1
+                2020.2
               </div>
             
           
@@ -340,6 +340,7 @@
 <p class="caption"><span class="caption-text">Category of Examples</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="hello_world.html">Hello World</a></li>
+<li class="toctree-l1"><a class="reference internal" href="aie_kernels.html">AIE Examples</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="host.html">Host</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="concurrent_kernel_execution.html">Concurrent Kernel Execution</a></li>
 <li class="toctree-l2"><a class="reference internal" href="copy_buffer.html">Copy Buffer</a></li>
@@ -380,6 +381,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="cpp.html">C++ Kernels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="demo.html">Demos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="emulation.html">Emulation Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="library_examples.html">Library Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sys_opt.html">System Optimization Kernels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="rtl.html">RTL Kernels</a></li>
@@ -475,8 +477,8 @@
 <p>For measuring the IOPS we do kernel enqueue 1 Million times and capture the time it takes to complete -</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="n">chrono</span><span class="o">::</span><span class="n">high_resolution_clock</span><span class="o">::</span><span class="n">time_point</span> <span class="n">TimeStart</span> <span class="o">=</span>
     <span class="n">std</span><span class="o">::</span><span class="n">chrono</span><span class="o">::</span><span class="n">high_resolution_clock</span><span class="o">::</span><span class="n">now</span><span class="p">();</span>
-<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">iter</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-  <span class="n">OCL_CHECK</span><span class="p">(</span><span class="n">err</span><span class="p">,</span> <span class="n">err</span> <span class="o">=</span> <span class="n">q</span><span class="p">.</span><span class="n">enqueueTask</span><span class="p">(</span><span class="n">iops_test</span><span class="p">));</span>
+<span class="k">for</span> <span class="p">(</span><span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">iter</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">OCL_CHECK</span><span class="p">(</span><span class="n">err</span><span class="p">,</span> <span class="n">err</span> <span class="o">=</span> <span class="n">q</span><span class="p">.</span><span class="n">enqueueTask</span><span class="p">(</span><span class="n">hello</span><span class="p">));</span>
 <span class="p">}</span>
 <span class="n">q</span><span class="p">.</span><span class="n">finish</span><span class="p">();</span>
 <span class="n">std</span><span class="o">::</span><span class="n">chrono</span><span class="o">::</span><span class="n">high_resolution_clock</span><span class="o">::</span><span class="n">time_point</span> <span class="n">TimeEnd</span> <span class="o">=</span>
@@ -486,11 +488,27 @@
        <span class="p">.</span><span class="n">count</span><span class="p">();</span>
 </pre></div>
 </div>
-<p>Following is the real log reported while running the design on U200
+<p>Following is the real log reported while running the design on U250
 platform:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Time</span> <span class="k">for</span> <span class="mi">1000000</span> <span class="n">enqueues</span><span class="p">:</span> <span class="mf">18.62</span> <span class="n">sec</span>
-<span class="n">Performance</span> <span class="p">:</span> <span class="mf">53705.7</span> <span class="n">IOPS</span>
-<span class="n">TEST</span> <span class="n">PASSED</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Loading: &#39;./build_dir.hw.xilinx_u250_gen3x16_xdma_3_1_202020_1/hello.xclbin&#39;
+Trying to program device[0]: xilinx_u250_gen3x16_xdma_shell_3_1
+Device[0]: program successful!
+Commands:      10 iops: 42553.2
+Commands:      50 iops: 62972.3
+Commands:     100 iops: 66093.9
+Commands:     200 iops: 65104.2
+Commands:     500 iops: 65634
+Commands:    1000 iops: 68832.6
+Commands:    1500 iops: 70297.1
+Commands:    2000 iops: 71495
+Commands:    3000 iops: 72982
+Commands:    5000 iops: 75482
+Commands:   10000 iops: 75937.6
+Commands:   50000 iops: 86605
+Commands:  100000 iops: 90265.6
+Commands:  500000 iops: 89432
+Commands: 1000000 iops: 89306.1
+TEST PASSED
 </pre></div>
 </div>
 <div class="section" id="excluded-platforms">
@@ -503,15 +521,15 @@ platform:</p>
 <div class="section" id="design-files">
 <h2>DESIGN FILES<a class="headerlink" href="#design-files" title="Permalink to this headline">¶</a></h2>
 <p>Application code is located in the src directory. Accelerator binary files will be compiled to the xclbin directory. The xclbin directory is required by the Makefile and its contents will be filled during compilation. A listing of all the files in this example is shown below</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">src</span><span class="o">/</span><span class="n">host</span><span class="o">.</span><span class="n">cpp</span>
-<span class="n">src</span><span class="o">/</span><span class="n">krnl_cntr</span><span class="o">.</span><span class="n">cpp</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">src</span><span class="o">/</span><span class="n">hello</span><span class="o">.</span><span class="n">cpp</span>
+<span class="n">src</span><span class="o">/</span><span class="n">host</span><span class="o">.</span><span class="n">cpp</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="command-line-arguments">
 <h2>COMMAND LINE ARGUMENTS<a class="headerlink" href="#command-line-arguments" title="Permalink to this headline">¶</a></h2>
 <p>Once the environment has been configured, the application can be executed by</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">iops_test</span> <span class="o">&lt;</span><span class="n">krnl_cntr</span> <span class="n">XCLBIN</span><span class="o">&gt;</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">iops_test</span> <span class="o">&lt;</span><span class="n">hello</span> <span class="n">XCLBIN</span><span class="o">&gt;</span>
 </pre></div>
 </div>
 </div>

@@ -306,7 +306,7 @@
             
             
               <div class="version">
-                2020.1
+                2020.2
               </div>
             
           
@@ -340,6 +340,7 @@
 <p class="caption"><span class="caption-text">Category of Examples</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="hello_world.html">Hello World</a></li>
+<li class="toctree-l1"><a class="reference internal" href="aie_kernels.html">AIE Examples</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="host.html">Host</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="concurrent_kernel_execution.html">Concurrent Kernel Execution</a></li>
 <li class="toctree-l2"><a class="reference internal" href="copy_buffer.html">Copy Buffer</a></li>
@@ -381,6 +382,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="cpp.html">C++ Kernels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="demo.html">Demos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="emulation.html">Emulation Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="library_examples.html">Library Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sys_opt.html">System Optimization Kernels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="rtl.html">RTL Kernels</a></li>
@@ -478,7 +480,7 @@
 <p>XRT OpenCL introduces a new buffer extension Flag <code class="docutils literal notranslate"><span class="pre">CL_MEM_HOST_NO_ACCESS</span></code> that should be used to denote a Device-only buffer</p>
 <div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">OCL_CHECK</span><span class="p">(</span><span class="n">err</span><span class="p">,</span> <span class="n">cl</span><span class="o">::</span><span class="n">Buffer</span> <span class="n">dev_only_buf</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">CL_MEM_READ_WRITE</span> <span class="o">|</span>
                                                   <span class="n">CL_MEM_HOST_NO_ACCESS</span><span class="p">,</span>
-                                     <span class="n">size_in_bytes</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">err</span><span class="p">));</span>
+                                     <span class="n">size_in_bytes</span><span class="p">,</span> <span class="k">nullptr</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">err</span><span class="p">));</span>
 </pre></div>
 </div>
 </div>

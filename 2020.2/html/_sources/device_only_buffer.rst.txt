@@ -19,7 +19,7 @@ XRT OpenCL introduces a new buffer extension Flag ``CL_MEM_HOST_NO_ACCESS`` that
 
     OCL_CHECK(err, cl::Buffer dev_only_buf(context, CL_MEM_READ_WRITE |
                                                       CL_MEM_HOST_NO_ACCESS,
-                                         size_in_bytes, NULL, &err));
+                                         size_in_bytes, nullptr, &err));
 
 
 

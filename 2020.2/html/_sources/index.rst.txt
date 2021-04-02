@@ -18,9 +18,11 @@ ready to be compiled and executed on Vitis supported boards and accelerated clou
    :caption: Category of Examples
 
    hello_world.rst
+   aie_kernels.rst
    host.rst
    cpp.rst
    demo.rst
+   emulation.rst
    library_examples.rst
    sys_opt.rst
    rtl.rst

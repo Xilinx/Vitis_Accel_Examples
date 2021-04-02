@@ -88,19 +88,3 @@ For SoC platforms:
 By default, HOST_ARCH=x86. HOST_ARCH and SYSROOT are required for SoC shells 
 
 **NOTE:** Compilation for hardware generates custom logic to implement the functionality of the kernels in an application. It is typical for hardware compile times to range from 30 minutes to a couple of hours.
-
-COMMANDS FOR WINDOWS FLOW
--------------------------
-
-Once the environment has been configured, run the following commands :
-
-::
-
-   cd <PATH TO SAMPLE APPLICATION>/cmake_build
-   cmake -G "Visual Studio 15 2017 Win64" -DCMAKE_BUILD_TYPE=Debug -DXILINX_XRT=<set xilinx xrt path> -DOCL_ROOT=<set ocl root path>
-   cmake --build . --verbose --config Debug --target install
-
-   For Example : 
-   cd hello_world/cmake_build
-   cmake -G "Visual Studio 15 2017 Win64" -DCMAKE_BUILD_TYPE=Debug -DXILINX_XRT=C:\Xilinx\XRT -DOCL_ROOT=C:\Xilinx\XRT\ext
-   cmake --build . --verbose --config Debug --target install

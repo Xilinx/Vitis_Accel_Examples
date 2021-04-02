@@ -18,10 +18,10 @@ Host only buffer is created using ``XCL_MEM_EXT_HOST_ONLY`` flag whereas device 
 
   OCL_CHECK(err,
             err = q.enqueueCopyBuffer(buffer_in_host_a, buffer_in_dev_a, 0, 0,
-                                      size_in_bytes, 0, NULL)); // transfer
+                                      size_in_bytes, 0, nullptr)); // transfer
   OCL_CHECK(err,
             err = q.enqueueCopyBuffer(buffer_in_host_b, buffer_in_dev_b, 0, 0,
-                                      size_in_bytes, 0, NULL)); // transfer
+                                      size_in_bytes, 0, nullptr)); // transfer
 
 2. Enqueue kernel to do computations on DEVICE_ONLY input buffer ``buffer_in_dev`` and put output in DEVICE_ONLY output buffer ``buffer_out_dev``.
 
@@ -35,7 +35,7 @@ Host only buffer is created using ``XCL_MEM_EXT_HOST_ONLY`` flag whereas device 
 
   OCL_CHECK(err,
             err = q.enqueueCopyBuffer(buffer_out_dev, buffer_out_host, 0, 0,
-                                      size_in_bytes, 0, NULL)); // transfer
+                                      size_in_bytes, 0, nullptr)); // transfer
 
 
 EXCLUDED PLATFORMS

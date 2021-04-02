@@ -57,7 +57,7 @@
   <link rel="stylesheet" href="_static/css/pro.min.css" media="all" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Host" href="host.html" />
+    <link rel="next" title="AIE Examples" href="aie_kernels.html" />
     <link rel="prev" title="Compilation and Execution" href="compile_execute.html" /> 
 	</head>
 	<body>
@@ -306,7 +306,7 @@
             
             
               <div class="version">
-                2020.1
+                2020.2
               </div>
             
           
@@ -345,9 +345,11 @@
 <li class="toctree-l2"><a class="reference internal" href="#command-line-arguments">COMMAND LINE ARGUMENTS</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="aie_kernels.html">AIE Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="host.html">Host</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cpp.html">C++ Kernels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="demo.html">Demos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="emulation.html">Emulation Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="library_examples.html">Library Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sys_opt.html">System Optimization Kernels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="rtl.html">RTL Kernels</a></li>
@@ -436,37 +438,13 @@
 <h1>Hello World<a class="headerlink" href="#hello-world" title="Permalink to this headline">¶</a></h1>
 <p>This is simple example of vector addition to describe how to use HLS kernels in Vitis Environment.</p>
 <p><strong>KEY CONCEPTS:</strong> HLS C Kernel, OpenCL Host APIs</p>
-<p><strong>KEYWORDS:</strong> gmem, bundle, #pragma HLS INTERFACE, m_axi, s_axilite</p>
+<p><strong>KEYWORDS:</strong> gmem, #pragma HLS INTERFACE, m_axi, s_axilite</p>
 <p>This example a simple hello world example to explain the Host and Kernel
 code structure. Here a simple <code class="docutils literal notranslate"><span class="pre">vadd</span></code> kernel is used to explain the
 same.</p>
 <p>Vitis kernel can have one s_axilite interface which will be used by host
-application to configure the kernel. Here <code class="docutils literal notranslate"><span class="pre">bundle=control</span></code> is defined
-which is s_axilite interface and associated with all the arguments (in1,
-in2, out_r and size). control interface must also be associated with
-<code class="docutils literal notranslate"><span class="pre">return</span></code>.</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span> <span class="n">vadd</span><span class="p">(</span><span class="k">const</span> <span class="kt">unsigned</span> <span class="kt">int</span> <span class="o">*</span><span class="n">in1</span><span class="p">,</span>
-          <span class="k">const</span> <span class="kt">unsigned</span> <span class="kt">int</span> <span class="o">*</span><span class="n">in2</span><span class="p">,</span>
-          <span class="kt">unsigned</span> <span class="kt">int</span> <span class="o">*</span><span class="n">out_r</span><span class="p">,</span>
-          <span class="kt">int</span> <span class="n">size</span><span class="p">)</span>
-<span class="cp">#pragma HLS INTERFACE s_axilite port = in1 bundle = control</span>
-<span class="cp">#pragma HLS INTERFACE s_axilite port = in2 bundle = control</span>
-<span class="cp">#pragma HLS INTERFACE s_axilite port = out_r bundle = control</span>
-<span class="cp">#pragma HLS INTERFACE s_axilite port = size bundle = control</span>
-<span class="cp">#pragma HLS INTERFACE s_axilite port = return bundle = control</span>
-</pre></div>
-</div>
-<p>All the global memory access arguments are associated to m_axi(AXI
-Master Interface) as below:</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#pragma HLS INTERFACE m_axi port=in1  offset=slave bundle=gmem</span>
-<span class="cp">#pragma HLS INTERFACE m_axi port=in2  offset=slave bundle=gmem</span>
-<span class="cp">#pragma HLS INTERFACE m_axi port=out_r  offset=slave bundle=gmem</span>
-</pre></div>
-</div>
-<p>Here all three arguments <code class="docutils literal notranslate"><span class="pre">in1</span></code>, <code class="docutils literal notranslate"><span class="pre">in2</span></code>, <code class="docutils literal notranslate"><span class="pre">out_r</span></code> are associated to
-bundle <code class="docutils literal notranslate"><span class="pre">gmem</span></code> which means that one AXI master interface named <code class="docutils literal notranslate"><span class="pre">gmem</span></code>
-will be created in Kernel and all these variables will be accessing
-global memory through this interface. Multiple interfaces can also be
+application to configure the kernel. All the global memory access arguments are associated to m_axi(AXI
+Master Interface). All these settings are automatically done by Vitis. Multiple interfaces can be
 created based on the requirements. For example when multiple memory
 accessing arguments need access to global memory simultaneously, user
 can create multiple master interfaces and can connect to different
@@ -534,7 +512,7 @@ contiguous.</p></li>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="host.html" class="btn btn-neutral float-right" title="Host" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="aie_kernels.html" class="btn btn-neutral float-right" title="AIE Examples" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="compile_execute.html" class="btn btn-neutral float-left" title="Compilation and Execution" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

@@ -306,7 +306,7 @@
             
             
               <div class="version">
-                2020.1
+                2020.2
               </div>
             
           
@@ -340,6 +340,7 @@
 <p class="caption"><span class="caption-text">Category of Examples</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="hello_world.html">Hello World</a></li>
+<li class="toctree-l1"><a class="reference internal" href="aie_kernels.html">AIE Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="host.html">Host</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="cpp.html">C++ Kernels</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="array_partition.html">Array Partition</a></li>
@@ -371,6 +372,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="demo.html">Demos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="emulation.html">Emulation Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="library_examples.html">Library Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sys_opt.html">System Optimization Kernels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="rtl.html">RTL Kernels</a></li>
@@ -463,14 +465,6 @@
 <p>This example tests global memory access bandwidth of kernel. Kernel
 increase the bandwidth by accessing multiple DDR banks through different
 interfaces.</p>
-<p>User can customize these connections to global memory by explicitly
-specifying the memory banks for different inputs/outputs. Seperate
-bundle names need to be specified for each buffer to be placed in
-different bank.</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#pragma HLS INTERFACE m_axi port = input offset = slave bundle = gmem0</span>
-<span class="cp">#pragma HLS INTERFACE m_axi port = output offset = slave bundle = gmem1</span>
-</pre></div>
-</div>
 <p>Banks need to be specified using the <code class="docutils literal notranslate"><span class="pre">--sp</span></code> tags in the kernel linking
 stage along with the <code class="docutils literal notranslate"><span class="pre">m_axi</span></code> interface name and kernel name.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">--</span><span class="n">sp</span> <span class="n">apply_watermark_1</span><span class="o">.</span><span class="n">m_axi_gmem0</span><span class="p">:</span><span class="n">DDR</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">--</span><span class="n">sp</span> <span class="n">apply_watermark_1</span><span class="o">.</span><span class="n">m_axi_gmem1</span><span class="p">:</span><span class="n">DDR</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>

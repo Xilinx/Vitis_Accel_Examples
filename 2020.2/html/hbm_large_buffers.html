@@ -306,7 +306,7 @@
             
             
               <div class="version">
-                2020.1
+                2020.2
               </div>
             
           
@@ -340,6 +340,7 @@
 <p class="caption"><span class="caption-text">Category of Examples</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="hello_world.html">Hello World</a></li>
+<li class="toctree-l1"><a class="reference internal" href="aie_kernels.html">AIE Examples</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="host.html">Host</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="concurrent_kernel_execution.html">Concurrent Kernel Execution</a></li>
 <li class="toctree-l2"><a class="reference internal" href="copy_buffer.html">Copy Buffer</a></li>
@@ -380,6 +381,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="cpp.html">C++ Kernels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="demo.html">Demos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="emulation.html">Emulation Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="library_examples.html">Library Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sys_opt.html">System Optimization Kernels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="rtl.html">RTL Kernels</a></li>
@@ -468,11 +470,11 @@
             
   <div class="section" id="hbm-large-buffers">
 <h1>HBM Large Buffers<a class="headerlink" href="#hbm-large-buffers" title="Permalink to this headline">¶</a></h1>
-<p>This is a simple example of vector addition to describe how HBM banks can be grouped to handle buffers larger than 256 MB.</p>
-<p><strong>KEY CONCEPTS:</strong> High Bandwidth Memory, Multiple HBM Bank Groups</p>
+<p>This is a simple example of vector addition to describe how HBM pseudo-channels can be grouped to handle buffers larger than 256 MB.</p>
+<p><strong>KEY CONCEPTS:</strong> High Bandwidth Memory, Multiple HBM Pseudo-channel Groups</p>
 <p><strong>KEYWORDS:</strong> HBM</p>
-<p>This is a simple example of vector addition to describe how HBM banks can be grouped to handle buffers larger than 256 MB.</p>
-<p>compute unit interfaces are associated to fixed HBM banks using
+<p>This is a simple example of vector addition to describe how HBM pseudo-channels(PC) can be grouped to handle buffers larger than 256 MB.</p>
+<p>Compute unit interfaces are associated to fixed HBM PC groups using
 <code class="docutils literal notranslate"><span class="pre">krnl_vadd.cfg</span></code> file:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">connectivity</span><span class="p">]</span>
 <span class="n">sp</span><span class="o">=</span><span class="n">krnl_vadd_1</span><span class="o">.</span><span class="n">in1</span><span class="p">:</span><span class="n">HBM</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">31</span><span class="p">]</span>
@@ -480,9 +482,7 @@
 <span class="n">sp</span><span class="o">=</span><span class="n">krnl_vadd_1</span><span class="o">.</span><span class="n">out_r</span><span class="p">:</span><span class="n">HBM</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">31</span><span class="p">]</span>
 </pre></div>
 </div>
-<p>Here, All three buffers will be created into different bank groups and
-the application will run and performance will be reported. Following is the
-real log reported while running on U50 platform :</p>
+<p>Here, All three buffers will be created into different bank groups and the application will run and performance will be reported. Following is the real log reported while running on U50 platform :</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Found Platform
 Platform Name: Xilinx
 INFO: Reading ./build_dir.hw.xilinx_u50_gen3x16_xdma_201920_3/krnl_vadd.xclbin
@@ -491,9 +491,9 @@ Trying to program device[0]: xilinx_u50_gen3x16_xdma_201920_3
 Device[0]: program successful!
 Running Three Separate Groups for Three Buffers
 Each buffer is allocated with different HBM Group.
-input 1 -&gt; bank 0 : 31
-input 2 -&gt; bank 0 : 31
-output  -&gt; bank 0 : 31
+input 1 -&gt; PC 0 : 31
+input 2 -&gt; PC 0 : 31
+output  -&gt; PC 0 : 31
 THROUGHPUT = 39.2318 GB/s
 TEST PASSED
 </pre></div>

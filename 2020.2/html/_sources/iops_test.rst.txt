@@ -16,8 +16,8 @@ For measuring the IOPS we do kernel enqueue 1 Million times and capture the time
 
    std::chrono::high_resolution_clock::time_point TimeStart =
        std::chrono::high_resolution_clock::now();
-   for (int i = 0; i < iter; i++) {
-     OCL_CHECK(err, err = q.enqueueTask(iops_test));
+   for (unsigned int i = 0; i < iter; i++) {
+     OCL_CHECK(err, err = q.enqueueTask(hello));
    }
    q.finish();
    std::chrono::high_resolution_clock::time_point TimeEnd =
@@ -26,13 +26,29 @@ For measuring the IOPS we do kernel enqueue 1 Million times and capture the time
        std::chrono::duration_cast<std::chrono::microseconds>(TimeEnd - TimeStart)
           .count();
 
-Following is the real log reported while running the design on U200
+Following is the real log reported while running the design on U250
 platform:
 
 ::
 
-   Time for 1000000 enqueues: 18.62 sec
-   Performance : 53705.7 IOPS
+   Loading: './build_dir.hw.xilinx_u250_gen3x16_xdma_3_1_202020_1/hello.xclbin'
+   Trying to program device[0]: xilinx_u250_gen3x16_xdma_shell_3_1
+   Device[0]: program successful!
+   Commands:      10 iops: 42553.2
+   Commands:      50 iops: 62972.3
+   Commands:     100 iops: 66093.9
+   Commands:     200 iops: 65104.2
+   Commands:     500 iops: 65634
+   Commands:    1000 iops: 68832.6
+   Commands:    1500 iops: 70297.1
+   Commands:    2000 iops: 71495
+   Commands:    3000 iops: 72982
+   Commands:    5000 iops: 75482
+   Commands:   10000 iops: 75937.6
+   Commands:   50000 iops: 86605
+   Commands:  100000 iops: 90265.6
+   Commands:  500000 iops: 89432
+   Commands: 1000000 iops: 89306.1
    TEST PASSED
 
 
@@ -52,8 +68,8 @@ Application code is located in the src directory. Accelerator binary files will 
 
 ::
 
+   src/hello.cpp
    src/host.cpp
-   src/krnl_cntr.cpp
    
 COMMAND LINE ARGUMENTS
 ----------------------
@@ -62,5 +78,5 @@ Once the environment has been configured, the application can be executed by
 
 ::
 
-   ./iops_test <krnl_cntr XCLBIN>
+   ./iops_test <hello XCLBIN>
 
