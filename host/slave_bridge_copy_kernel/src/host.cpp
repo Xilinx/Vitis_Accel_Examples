@@ -96,8 +96,8 @@ int main(int argc, char* argv[]) {
     copy_krnl.setArg(2, dataSize);
     copy_krnl.setArg(3, direction);
 
-    OCL_CHECK(err, in_a = (uint32_t*)q.enqueueMapBuffer(buffer_in_host_a, CL_TRUE, CL_MAP_WRITE, 0, size_in_bytes, nullptr,
-                                                        nullptr, &err));
+    OCL_CHECK(err, in_a = (uint32_t*)q.enqueueMapBuffer(buffer_in_host_a, CL_TRUE, CL_MAP_WRITE, 0, size_in_bytes,
+                                                        nullptr, nullptr, &err));
     q.finish();
 
     for (int i = 0; i < dataSize; i++) {
@@ -111,8 +111,8 @@ int main(int argc, char* argv[]) {
     copy_krnl.setArg(0, buffer_in_host_b);
     copy_krnl.setArg(1, buffer_in_dev_b);
 
-    OCL_CHECK(err, in_b = (uint32_t*)q.enqueueMapBuffer(buffer_in_host_b, CL_TRUE, CL_MAP_WRITE, 0, size_in_bytes, nullptr,
-                                                        nullptr, &err));
+    OCL_CHECK(err, in_b = (uint32_t*)q.enqueueMapBuffer(buffer_in_host_b, CL_TRUE, CL_MAP_WRITE, 0, size_in_bytes,
+                                                        nullptr, nullptr, &err));
 
     q.finish();
 

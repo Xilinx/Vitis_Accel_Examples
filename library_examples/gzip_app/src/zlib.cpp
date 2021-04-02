@@ -270,8 +270,8 @@ int xfZlib::init(const std::string& binaryFileName, uint8_t kidx) {
     bin_file.read(reinterpret_cast<char*>(buf.data()), nb);
 
     cl::Program::Binaries bins{{buf.data(), buf.size()}};
-    ZOCL_CHECK_2(err, m_program = new cl::Program(*m_context, {m_device}, bins, nullptr, &err), m_err_code, c_clinvalidbin,
-                 c_clinvalidvalue);
+    ZOCL_CHECK_2(err, m_program = new cl::Program(*m_context, {m_device}, bins, nullptr, &err), m_err_code,
+                 c_clinvalidbin, c_clinvalidvalue);
     if (error_code()) {
         std::cerr << "Failed to program the device " << std::endl;
         return m_err_code;
@@ -428,9 +428,9 @@ xfZlib::xfZlib(const std::string& binaryFileName,
                 OCL_CHECK(err, buffer_input[i][j] = new cl::Buffer(*m_context, CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY,
                                                                    host_buffer_size, h_buf_in[i][j].data(), &err));
 
-                OCL_CHECK(err,
-                          buffer_lz77_output[i][j] = new cl::Buffer(
-                              *m_context, CL_MEM_READ_WRITE | CL_MEM_HOST_NO_ACCESS, host_buffer_size * 4, nullptr, &err));
+                OCL_CHECK(err, buffer_lz77_output[i][j] =
+                                   new cl::Buffer(*m_context, CL_MEM_READ_WRITE | CL_MEM_HOST_NO_ACCESS,
+                                                  host_buffer_size * 4, nullptr, &err));
 
                 OCL_CHECK(err, buffer_compress_size[i][j] =
                                    new cl::Buffer(*m_context, CL_MEM_USE_HOST_PTR | CL_MEM_READ_WRITE,
@@ -722,7 +722,8 @@ void xfZlib::_enqueue_reads(uint32_t bufSize, uint8_t* out, uint32_t* decompSize
             OCL_CHECK(err, err = data_reader_kernel[cu]->setArg(1, *(buffer_size[cbf_idx])));
 
             // enqueue reader kernel
-            OCL_CHECK(err, err = m_q_rd[cu]->enqueueTask(*data_reader_kernel[cu], nullptr, &(kernelReadEvent[cbf_idx])));
+            OCL_CHECK(err,
+                      err = m_q_rd[cu]->enqueueTask(*data_reader_kernel[cu], nullptr, &(kernelReadEvent[cbf_idx])));
             kernelReadWait[cbf_idx].push_back(kernelReadEvent[cbf_idx]); // event to wait for
 
             OCL_CHECK(err, err = m_q_rdd[cu]->enqueueMigrateMemObjects(

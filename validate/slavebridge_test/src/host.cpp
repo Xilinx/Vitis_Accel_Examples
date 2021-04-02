@@ -174,8 +174,9 @@ int main(int argc, char** argv) {
         }
 
         for (int i = 0; i < NUM_KERNEL; i++) {
-            OCL_CHECK(err, map_input_buffer[i] = (unsigned char*)q.enqueueMapBuffer(
-                               (input_buffer[i]), CL_FALSE, CL_MAP_WRITE, 0, vector_size_bytes, nullptr, nullptr, &err));
+            OCL_CHECK(err,
+                      map_input_buffer[i] = (unsigned char*)q.enqueueMapBuffer(
+                          (input_buffer[i]), CL_FALSE, CL_MAP_WRITE, 0, vector_size_bytes, nullptr, nullptr, &err));
             OCL_CHECK(err, err = q.finish());
         }
 
@@ -196,8 +197,9 @@ int main(int argc, char** argv) {
         timeEnd = std::chrono::high_resolution_clock::now();
 
         for (int i = 0; i < NUM_KERNEL; i++) {
-            OCL_CHECK(err, map_output_buffer[i] = (unsigned char*)q.enqueueMapBuffer(
-                               (output_buffer[i]), CL_FALSE, CL_MAP_READ, 0, vector_size_bytes, nullptr, nullptr, &err));
+            OCL_CHECK(err,
+                      map_output_buffer[i] = (unsigned char*)q.enqueueMapBuffer(
+                          (output_buffer[i]), CL_FALSE, CL_MAP_READ, 0, vector_size_bytes, nullptr, nullptr, &err));
             OCL_CHECK(err, err = q.finish());
         }
 

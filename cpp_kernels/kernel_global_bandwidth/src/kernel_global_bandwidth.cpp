@@ -181,8 +181,9 @@ int main(int argc, char** argv) {
     /* Write input buffer */
     /* Map input buffer for PCIe write */
     unsigned char* map_input_buffer0;
-    OCL_CHECK(err, map_input_buffer0 = (unsigned char*)q.enqueueMapBuffer(
-                       *(buffer[0]), CL_FALSE, CL_MAP_WRITE_INVALIDATE_REGION, 0, globalbuffersize, nullptr, nullptr, &err));
+    OCL_CHECK(err,
+              map_input_buffer0 = (unsigned char*)q.enqueueMapBuffer(
+                  *(buffer[0]), CL_FALSE, CL_MAP_WRITE_INVALIDATE_REGION, 0, globalbuffersize, nullptr, nullptr, &err));
     OCL_CHECK(err, err = q.finish());
 
     /* prepare data to be written to the device */
@@ -195,8 +196,9 @@ int main(int argc, char** argv) {
 
 #if NDDR_BANKS > 3
     unsigned char* map_input_buffer1;
-    OCL_CHECK(err, map_input_buffer1 = (unsigned char*)q.enqueueMapBuffer(
-                       *(buffer[2]), CL_FALSE, CL_MAP_WRITE_INVALIDATE_REGION, 0, globalbuffersize, nullptr, nullptr, &err));
+    OCL_CHECK(err,
+              map_input_buffer1 = (unsigned char*)q.enqueueMapBuffer(
+                  *(buffer[2]), CL_FALSE, CL_MAP_WRITE_INVALIDATE_REGION, 0, globalbuffersize, nullptr, nullptr, &err));
     OCL_CHECK(err, err = q.finish());
 
     /* Prepare data to be written to the device */

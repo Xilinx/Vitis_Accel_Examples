@@ -109,8 +109,8 @@ void FPGA_KMEANS::fpga_kmeans_compute(float** feature, // in: [npoints][nfeature
     }
 
     // Write features to the device
-    OCL_CHECK(err,
-              err = m_q.enqueueWriteBuffer(m_buf_feature, CL_TRUE, 0, m_buf_feature_sz, m_scaled_feature, nullptr, nullptr));
+    OCL_CHECK(err, err = m_q.enqueueWriteBuffer(m_buf_feature, CL_TRUE, 0, m_buf_feature_sz, m_scaled_feature, nullptr,
+                                                nullptr));
 
     OCL_CHECK(err, err = m_q.enqueueMigrateMemObjects({m_buf_feature}, 0, nullptr, nullptr));
     m_q.enqueueBarrier();
@@ -142,8 +142,8 @@ void FPGA_KMEANS::fpga_kmeans_compute(float** feature, // in: [npoints][nfeature
         m_q.enqueueBarrier();
 
         // Schedule the reading of new memberships values back to the host
-        OCL_CHECK(err, err = m_q.enqueueReadBuffer(m_buf_members, CL_TRUE, 0, m_buf_members_sz, m_new_memberships, nullptr,
-                                                   nullptr));
+        OCL_CHECK(err, err = m_q.enqueueReadBuffer(m_buf_members, CL_TRUE, 0, m_buf_members_sz, m_new_memberships,
+                                                   nullptr, nullptr));
 
         for (unsigned i = 0; i < m_num_cu_calls; i++) {
             OCL_CHECK(err, err = m_q.enqueueReadBuffer(m_buf_centers[i], CL_TRUE, 0, m_buf_centers_sz, m_new_centers[i],

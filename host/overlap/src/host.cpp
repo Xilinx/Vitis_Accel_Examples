@@ -247,8 +247,8 @@ int main(int argc, char** argv) {
         // Because we are passing the write_event, it returns an event object
         // that identifies this particular command and can be used to query
         // or queue a wait for this particular command to complete.
-        OCL_CHECK(err, err = q.enqueueMigrateMemObjects({buffer_a[flag], buffer_b[flag]}, 0 /*0 means from host*/, nullptr,
-                                                        &write_event[0]));
+        OCL_CHECK(err, err = q.enqueueMigrateMemObjects({buffer_a[flag], buffer_b[flag]}, 0 /*0 means from host*/,
+                                                        nullptr, &write_event[0]));
         set_callback(write_event[0], "ooo_queue");
 
         printf("Enqueueing NDRange kernel.\n");

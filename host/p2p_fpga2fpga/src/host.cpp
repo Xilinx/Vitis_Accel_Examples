@@ -188,14 +188,14 @@ int main(int argc, char* argv[]) {
 
     // -----------------------------------------------------------------------
     std::cout << "Write data to FPGA-1 \n" << std::endl;
-    OCL_CHECK(err,
-              err = clEnqueueWriteBuffer(queue[0], input_a, CL_TRUE, 0, sizeof(data_t) * LENGTH, in1, 0, nullptr, nullptr));
-    OCL_CHECK(err,
-              err = clEnqueueWriteBuffer(queue[0], input_b, CL_TRUE, 0, sizeof(data_t) * LENGTH, in2, 0, nullptr, nullptr));
+    OCL_CHECK(err, err = clEnqueueWriteBuffer(queue[0], input_a, CL_TRUE, 0, sizeof(data_t) * LENGTH, in1, 0, nullptr,
+                                              nullptr));
+    OCL_CHECK(err, err = clEnqueueWriteBuffer(queue[0], input_b, CL_TRUE, 0, sizeof(data_t) * LENGTH, in2, 0, nullptr,
+                                              nullptr));
 
     std::cout << "Write data to FPGA-2 \n" << std::endl;
-    OCL_CHECK(err,
-              err = clEnqueueWriteBuffer(queue[1], input_c, CL_TRUE, 0, sizeof(data_t) * LENGTH, in3, 0, nullptr, nullptr));
+    OCL_CHECK(err, err = clEnqueueWriteBuffer(queue[1], input_c, CL_TRUE, 0, sizeof(data_t) * LENGTH, in3, 0, nullptr,
+                                              nullptr));
 
     std::cout << "Launch FPGA-1\n" << std::endl;
     OCL_CHECK(err, err = clEnqueueTask(queue[0], krnl_mmult_dev0, 0, nullptr, nullptr));
@@ -213,8 +213,9 @@ int main(int argc, char* argv[]) {
     cl_mem exported_buf;
     OCL_CHECK(err, err = xcl::P2P::getMemObjectFromFd(context[0], device_id[0], 0, fd, &exported_buf)); // Import
     cl_event event;
-    OCL_CHECK(err, err = clEnqueueCopyBuffer(queue[0], mmult_out, exported_buf, 0, 0, sizeof(data_t) * LENGTH, 0, nullptr,
-                                             &event)); // transfer
+    OCL_CHECK(err,
+              err = clEnqueueCopyBuffer(queue[0], mmult_out, exported_buf, 0, 0, sizeof(data_t) * LENGTH, 0, nullptr,
+                                        &event)); // transfer
     clWaitForEvents(1, &event);
     p2pEnd = std::chrono::high_resolution_clock::now();
     clReleaseMemObject(exported_buf);
@@ -223,8 +224,8 @@ int main(int argc, char* argv[]) {
     OCL_CHECK(err, err = clEnqueueTask(queue[1], krnl_madd_dev1, 0, nullptr, nullptr));
     clFinish(queue[1]);
     std::cout << "Read data back from FPGA-2 \n" << std::endl;
-    OCL_CHECK(err,
-              err = clEnqueueReadBuffer(queue[1], out, CL_TRUE, 0, sizeof(data_t) * LENGTH, hw_results, 0, nullptr, nullptr));
+    OCL_CHECK(err, err = clEnqueueReadBuffer(queue[1], out, CL_TRUE, 0, sizeof(data_t) * LENGTH, hw_results, 0, nullptr,
+                                             nullptr));
     std::chrono::high_resolution_clock::time_point end = std::chrono::high_resolution_clock::now();
 
     clFinish(queue[0]);
