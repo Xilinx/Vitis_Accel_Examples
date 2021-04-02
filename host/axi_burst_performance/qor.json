@@ -1,0 +1,136 @@
+{
+    "containers": [
+        {
+            "name": "testKernel", 
+            "meet_system_timing": "true", 
+            "accelerators": [
+                {
+                    "name": "testKernel_1", 
+                    "check_timing": "true", 
+                    "PipelineType": "none", 
+                    "check_latency": "false", 
+                    "check_warning": "true", 
+                    "loops": [
+                        {
+                            "name": "write_buffer_1", 
+                            "PipelineII": "1"
+                        },
+                        {
+                            "name": "read_buffer_1", 
+                            "PipelineII": "1"
+                        },
+                        {
+                            "name": "count_1", 
+                            "PipelineII": "1"
+                        }
+                    ]
+                },
+                {
+                    "name": "testKernel_2", 
+                    "check_timing": "true", 
+                    "PipelineType": "none", 
+                    "check_latency": "false", 
+                    "check_warning": "true", 
+                    "loops": [
+                        {
+                            "name": "write_buffer_2", 
+                            "PipelineII": "1"
+                        },
+                        {
+                            "name": "read_buffer_2", 
+                            "PipelineII": "1"
+                        },
+                        {
+                            "name": "count_2", 
+                            "PipelineII": "1"
+                        }
+                    ]
+                },
+                {
+                    "name": "testKernel_3", 
+                    "check_timing": "true", 
+                    "PipelineType": "none", 
+                    "check_latency": "false", 
+                    "check_warning": "true", 
+                    "loops": [
+                        {
+                            "name": "write_buffer_3", 
+                            "PipelineII": "1"
+                        },
+                        {
+                            "name": "read_buffer_3", 
+                            "PipelineII": "1"
+                        },
+                        {
+                            "name": "count_3", 
+                            "PipelineII": "1"
+                        }
+                    ]
+                },
+                {
+                    "name": "testKernel_4", 
+                    "check_timing": "true", 
+                    "PipelineType": "none", 
+                    "check_latency": "false", 
+                    "check_warning": "true", 
+                    "loops": [
+                        {
+                            "name": "write_buffer_4", 
+                            "PipelineII": "1"
+                        },
+                        {
+                            "name": "read_buffer_4", 
+                            "PipelineII": "1"
+                        },
+                        {
+                            "name": "count_4", 
+                            "PipelineII": "1"
+                        }
+                    ]
+                },
+                {
+                    "name": "testKernel_5", 
+                    "check_timing": "true", 
+                    "PipelineType": "none", 
+                    "check_latency": "false", 
+                    "check_warning": "true", 
+                    "loops": [
+                        {
+                            "name": "write_buffer_5", 
+                            "PipelineII": "1"
+                        },
+                        {
+                            "name": "read_buffer_5", 
+                            "PipelineII": "1"
+                        },
+                        {
+                            "name": "count_5", 
+                            "PipelineII": "1"
+                        }
+                    ]
+                },
+                {
+                    "name": "testKernel_6", 
+                    "check_timing": "true", 
+                    "PipelineType": "none", 
+                    "check_latency": "false", 
+                    "check_warning": "true", 
+                    "loops": [
+                        {
+                            "name": "write_buffer_6", 
+                            "PipelineII": "1"
+                        },
+                        {
+                            "name": "read_buffer_6", 
+                            "PipelineII": "1"
+                        },
+                        {
+                            "name": "count_6", 
+                            "PipelineII": "1"
+                        }
+                    ]
+                }
+            ]
+        } 
+    ]
+}
