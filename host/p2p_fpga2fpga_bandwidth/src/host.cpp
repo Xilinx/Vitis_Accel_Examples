@@ -172,8 +172,8 @@ int main(int argc, char* argv[]) {
 
     // -----------------------------------------------------------------------
     std::cout << "Write input data to device1 global memory" << std::endl;
-    OCL_CHECK(err,
-              err = clEnqueueWriteBuffer(queue[0], input_a, CL_TRUE, 0, vector_size_bytes, in1.data(), 0, nullptr, nullptr));
+    OCL_CHECK(err, err = clEnqueueWriteBuffer(queue[0], input_a, CL_TRUE, 0, vector_size_bytes, in1.data(), 0, nullptr,
+                                              nullptr));
 
     //------------------------- P2P
     //-----------------------------------------------------------
@@ -183,8 +183,8 @@ int main(int argc, char* argv[]) {
     cl_mem exported_buf;
     OCL_CHECK(err, err = xcl::P2P::getMemObjectFromFd(context[0], device1, 0, fd, &exported_buf)); // Import
     std::cout << "Write input data to device2 global memory" << std::endl;
-    OCL_CHECK(err,
-              err = clEnqueueWriteBuffer(queue[1], input_b, CL_TRUE, 0, vector_size_bytes, in1.data(), 0, nullptr, nullptr));
+    OCL_CHECK(err, err = clEnqueueWriteBuffer(queue[1], input_b, CL_TRUE, 0, vector_size_bytes, in1.data(), 0, nullptr,
+                                              nullptr));
     int fd1 = -1;
     OCL_CHECK(err, err = xcl::P2P::getMemObjectFd(output_a, &fd1)); // Export p2p buffer to file descriptor (fd)
 

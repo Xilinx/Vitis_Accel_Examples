@@ -105,8 +105,8 @@ int main(int argc, char** argv) {
     // accessed by the kernels.
     // CL_MEM_HOST_NO_ACCESS flag specifies that host machine will not read/write
     // the memory object.
-    OCL_CHECK(err,
-              cl::Buffer dev_only_buf(context, CL_MEM_READ_WRITE | CL_MEM_HOST_NO_ACCESS, size_in_bytes, nullptr, &err));
+    OCL_CHECK(
+        err, cl::Buffer dev_only_buf(context, CL_MEM_READ_WRITE | CL_MEM_HOST_NO_ACCESS, size_in_bytes, nullptr, &err));
 
     // set kernel arguments for 1st kernel :   output to device only buffer
     OCL_CHECK(err, err = kernel_mmult.setArg(0, buffer_a));

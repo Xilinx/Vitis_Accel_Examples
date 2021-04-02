@@ -85,8 +85,8 @@ int main(int argc, char* argv[]) {
                                                         nullptr, &err));
     OCL_CHECK(err, in_b = (uint32_t*)q.enqueueMapBuffer(buffer_in_b, CL_TRUE, CL_MAP_WRITE, 0, size_in_bytes, nullptr,
                                                         nullptr, &err));
-    OCL_CHECK(
-        err, out = (uint32_t*)q.enqueueMapBuffer(buffer_out, CL_TRUE, CL_MAP_READ, 0, size_in_bytes, nullptr, nullptr, &err));
+    OCL_CHECK(err, out = (uint32_t*)q.enqueueMapBuffer(buffer_out, CL_TRUE, CL_MAP_READ, 0, size_in_bytes, nullptr,
+                                                       nullptr, &err));
 
     for (int i = 0; i < DATA_NUM; i++) {
         in_a[i] = i + 1;

@@ -91,10 +91,10 @@ int main(int argc, char* argv[]) {
     krnl.setArg(2, buffer_out_dev);
     krnl.setArg(3, dataSize);
 
-    OCL_CHECK(err, in_a = (uint32_t*)q.enqueueMapBuffer(buffer_in_host_a, CL_TRUE, CL_MAP_WRITE, 0, size_in_bytes, nullptr,
-                                                        nullptr, &err));
-    OCL_CHECK(err, in_b = (uint32_t*)q.enqueueMapBuffer(buffer_in_host_b, CL_TRUE, CL_MAP_WRITE, 0, size_in_bytes, nullptr,
-                                                        nullptr, &err));
+    OCL_CHECK(err, in_a = (uint32_t*)q.enqueueMapBuffer(buffer_in_host_a, CL_TRUE, CL_MAP_WRITE, 0, size_in_bytes,
+                                                        nullptr, nullptr, &err));
+    OCL_CHECK(err, in_b = (uint32_t*)q.enqueueMapBuffer(buffer_in_host_b, CL_TRUE, CL_MAP_WRITE, 0, size_in_bytes,
+                                                        nullptr, nullptr, &err));
     OCL_CHECK(err, out = (uint32_t*)q.enqueueMapBuffer(buffer_out_host, CL_TRUE, CL_MAP_READ, 0, size_in_bytes, nullptr,
                                                        nullptr, &err));
     q.finish();
@@ -105,10 +105,10 @@ int main(int argc, char* argv[]) {
         out[i] = 0;
     }
 
-    OCL_CHECK(err,
-              err = q.enqueueCopyBuffer(buffer_in_host_a, buffer_in_dev_a, 0, 0, size_in_bytes, 0, nullptr)); // transfer
-    OCL_CHECK(err,
-              err = q.enqueueCopyBuffer(buffer_in_host_b, buffer_in_dev_b, 0, 0, size_in_bytes, 0, nullptr)); // transfer
+    OCL_CHECK(
+        err, err = q.enqueueCopyBuffer(buffer_in_host_a, buffer_in_dev_a, 0, 0, size_in_bytes, 0, nullptr)); // transfer
+    OCL_CHECK(
+        err, err = q.enqueueCopyBuffer(buffer_in_host_b, buffer_in_dev_b, 0, 0, size_in_bytes, 0, nullptr)); // transfer
     q.finish();
 
     q.enqueueTask(krnl);
