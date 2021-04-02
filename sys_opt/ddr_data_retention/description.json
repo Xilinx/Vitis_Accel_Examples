@@ -13,6 +13,7 @@
     ], 
     "platform_blacklist": [
         "2018",
+        "2019",
         "flat",
         "vck",
         "zc",

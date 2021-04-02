@@ -15,6 +15,7 @@ Platforms containing following strings in their names are not supported for this
 ::
 
    2018
+   2019
    flat
    vck
    zc

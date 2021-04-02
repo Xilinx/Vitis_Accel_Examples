@@ -7,6 +7,7 @@ System Optimization examples focussed towards hardware optimization using HLS C/
 Example        | Description           | Key Concepts / Keywords 
 ---------------|-----------------------|-------------------------
 [advanced_config/][]|This is simple example to describe how user can provide various advanced options in Vitis flow.|__Key__ __Concepts__<br> - Using custom Tcl<br> - Setting Kernel Clock Frequency<br> - Clock Uncertainity<br>__Keywords__<br> - config<br> - set_clock_uncertainity<br> - kernel_frequency<br> - hls.pre_tcl
+[ddr_data_retention/][]|This example demonstrates how DDR can hold the data between successive XCLBIN load. The first xclbin dumps the DDR data at the end of the run. The second xclbin  loads the dumped data and starts executing.|__Key__ __Concepts__<br> - Handling Buffer sharing across multiple binaries<br> - Multiple Kernel Binaries<br>__Keywords__<br> - enable_memory_persistence
 [kernel_swap/][]|This example shows how host can swap the kernels and share same buffer between two kernels which are exist in separate binary containers. Dynamic platforms does not persist the buffer data so host has to migrate data from device to host memory before swapping the next kernel. After kernel swap, host has to migrate the buffer back to device.|__Key__ __Concepts__<br> - Handling Buffer sharing across multiple binaries<br> - Multiple Kernel Binaries<br>__Keywords__<br> - enqueueMigrateMemObjects<br> - CL_MIGRATE_MEM_OBJECT_HOST
 [multiple_devices/][]|This example show how to take advantage of multiple FPGAs on a system. It will show how to initialized an OpenCL context, allocate memory on the two devices and execute a kernel on each FPGA.|__Key__ __Concepts__<br> - OpenCL API<br> - Multi-FPGA Execution<br> - Event Handling<br>__Keywords__<br> - xcl::get_xil_devices
 [multiple_process/][]|This example will demonstrate how to run multiple processes to utilize multiple kernels simultaneously on an FPGA device. Multiple processes can share access to the same device provided each process uses the same xclbin. Processes share access to all device resources but there is no support for exclusive access to resources by any process.|__Key__ __Concepts__<br> - Concurrent execution<br> - Multiple HLS kernels<br> - Multiple Process Support<br>__Keywords__<br> - PID<br> - fork<br> - XCL_MULTIPROCESS_MODE<br> - multiprocess
@@ -14,6 +15,7 @@ Example        | Description           | Key Concepts / Keywords
 
 [.]:.
 [advanced_config/]:advanced_config/
+[ddr_data_retention/]:ddr_data_retention/
 [kernel_swap/]:kernel_swap/
 [multiple_devices/]:multiple_devices/
 [multiple_process/]:multiple_process/

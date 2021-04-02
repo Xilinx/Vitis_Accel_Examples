@@ -25,7 +25,6 @@ update_file() {
 		pushd . > /dev/null 
 		cd $(dirname $1)
 		$appDir/utility/makefile_gen/makegen.py description.json #> /dev/null 2>&1
-        git add Makefile utils.mk
 		popd >/dev/null
 	fi
 }
