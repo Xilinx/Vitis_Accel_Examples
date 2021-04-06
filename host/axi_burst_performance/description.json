@@ -1,0 +1,94 @@
+{
+    "name": "AXI Burst Performance", 
+    "description": [
+        "This is a AXI Burst Performance check design. It measures the time it takes to write a buffer into DDR or read a buffer from DDR. The example contains 6 kernels, each with different burst_length and num_outstanding parameters to compare the impact of these parameters on effective throughput."
+    ],
+    "flow": "vitis",
+    "platform_blacklist": [
+        "aws-vu9p-f1",
+        "samsung",
+        "nodma"
+    ], 
+    "runtime": [
+        "OpenCL"
+    ], 
+    "host": {
+        "host_exe": "axi_burst_performance",
+        "compiler": {
+            "sources": [
+                "REPO_DIR/common/includes/xcl2/xcl2.cpp",
+                "REPO_DIR/common/includes/cmdparser/cmdlineparser.cpp",
+                "REPO_DIR/common/includes/logger/logger.cpp",
+                "./src/host.cpp"
+            ], 
+            "includepaths": [
+                "REPO_DIR/common/includes/xcl2",
+                "REPO_DIR/common/includes/cmdparser",
+                "REPO_DIR/common/includes/logger"
+            ]
+        }
+    }, 
+    "containers": [
+        {
+            "accelerators": [
+                {
+                    "location": "src/testKernel_1.cpp", 
+                    "name": "testKernel_1"
+                },
+                {
+                    "location": "src/testKernel_2.cpp", 
+                    "name": "testKernel_2"
+                },
+                {
+                    "location": "src/testKernel_3.cpp", 
+                    "name": "testKernel_3"
+                },
+                {
+                    "location": "src/testKernel_4.cpp", 
+                    "name": "testKernel_4"
+                },
+                {
+                    "location": "src/testKernel_5.cpp", 
+                    "name": "testKernel_5"
+                },
+                {
+                    "location": "src/testKernel_6.cpp", 
+                    "name": "testKernel_6"
+                }
+            ], 
+            "name": "testKernel"
+        }
+    ],
+    "launch": [
+        {
+            "cmd_args": "-x BUILD/testKernel.xclbin", 
+            "name": "generic launch for all flows"
+        }
+    ], 
+    "contributors": [
+        {
+            "url": "http://www.xilinx.com", 
+            "group": "Xilinx"
+        }
+    ], 
+    "testinfo": {
+        "profile": "no",
+        "disable": false,
+        "jobs": [
+            {
+                "index": 0,
+                "dependency": [],
+                "env": "",
+                "cmd": "",
+                "max_memory_MB": 32768,
+                "max_time_min": 300
+            }
+        ],
+        "targets": [
+            "vitis_sw_emu",
+            "vitis_hw_emu",
+            "vitis_hw"
+        ],
+        "category": "canary"
+    }
+}
