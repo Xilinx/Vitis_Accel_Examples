@@ -5,19 +5,6 @@
 
 DEBUG := no
 B_TEMP = `$(XF_PROJ_ROOT)/common/utility/parse_platform_list.py $(DEVICE)`
-PERL := 
-QEMU_IMODE := no
-LAUNCH_EMULATOR_CMD := 
-
-ifneq ($(PERL), /tools/xgs/perl/5.8.5/bin/perl)
-	QEMU_IMODE = yes
-endif
-
-ifeq ($(QEMU_IMODE), yes)
-	LAUNCH_EMULATOR_CMD = $(LAUNCH_EMULATOR)
-else
-	LAUNCH_EMULATOR_CMD = $(PERL) $(XF_PROJ_ROOT)/common/utility/run_emulation.pl "${LAUNCH_EMULATOR} | tee run_app.log" "${RUN_APP_SCRIPT} $(TARGET)" "${RESULT_STRING}" "7"
-endif
 
 #Generates debug summary report
 ifeq ($(DEBUG), yes)

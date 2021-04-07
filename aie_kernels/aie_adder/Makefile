@@ -208,7 +208,7 @@ endif
 # running on a board farm system.
 run: all 
 ifeq (${TARGET},hw_emu)
-	$(LAUNCH_EMULATOR_CMD)
+	$(LAUNCH_EMULATOR) -run-app $(RUN_APP_SCRIPT) | tee run_app.log; exit $${PIPESTATUS[0]}
 else
 	@echo "Hardware build, no emulation executed."
 endif
