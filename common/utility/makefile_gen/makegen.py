@@ -65,6 +65,7 @@ def create_params(target,data):
     target.write("\n")
 
     target.write("VPP := v++")
+    target.write("\nVPP_PFLAGS := ")
     if "launch" in data:
         target.write("\n")
         target.write("CMD_ARGS =")
@@ -684,7 +685,7 @@ def mk_sdcard(target, data):
     target.write("ifneq ($(HOST_ARCH), x86)\n")
     if "containers" in data:
         for con in data["containers"]:
-            target.write("\t$(VPP) -p $(BUILD_DIR)/")
+            target.write("\t$(VPP) $(VPP_PFLAGS) -p $(BUILD_DIR)/")
             target.write(con["name"])
             target.write(".xclbin -t $(TARGET) --platform $(DEVICE) ")
             target.write("--package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.sd_file $(SD_IMAGE_FILE) --package.sd_file xrt.ini --package.sd_file $(RUN_APP_SCRIPT) --package.sd_file $(EXECUTABLE)")
@@ -858,6 +859,20 @@ def util_checks(target):
         target.write("\t$(ECHO) 'export XILINX_VITIS=$$PWD' >> run_app.sh\n")
         target.write("\t$(ECHO) 'export XCL_EMULATION_MODE=$(TARGET)' >> run_app.sh\n")
         target.write("endif\n")
+        target.write("\t$(ECHO) 'if [ -d xrt/aarch64-xilinx-linux/ ]' >> run_app.sh\n")
+        target.write("\t$(ECHO) 'then' >> run_app.sh\n")
+        target.write("\t$(ECHO) 'cd xrt/aarch64-xilinx-linux/' >> run_app.sh\n")
+        target.write("\t$(ECHO) 'elif [ -d xrt/versal ]' >> run_app.sh\n")
+        target.write("\t$(ECHO) 'then' >> run_app.sh\n")
+        target.write("\t$(ECHO) 'cd xrt/versal' >> run_app.sh\n")
+        target.write("\t$(ECHO) 'elif [ xrt/cortexa9t2hf-neon-xilinx-linux-gnueabi  ]' >> run_app.sh\n")
+        target.write("\t$(ECHO) 'then' >> run_app.sh\n")
+        target.write("\t$(ECHO) 'cd xrt/cortexa9t2hf-neon-xilinx-linux-gnueabi/' >> run_app.sh\n")
+        target.write("\t$(ECHO) 'else' >> run_app.sh\n")
+        target.write("\t$(ECHO) 'echo \"unable to find xrt folder sub directories\"' >> run_app.sh\n")
+        target.write("\t$(ECHO) 'fi' >> run_app.sh\n")
+        target.write("\t$(ECHO) './reinstall_xrt.sh' >> run_app.sh\n")
+        target.write("\t$(ECHO) 'cd -' >> run_app.sh\n")
         target.write("\t$(ECHO) '$(EXECUTABLE)")
         if "launch" in data:	
             if "cmd_args" in data["launch"][0]:

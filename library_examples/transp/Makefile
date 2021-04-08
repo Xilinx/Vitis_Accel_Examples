@@ -74,6 +74,7 @@ LAUNCH_EMULATOR = $(PACKAGE_OUT)/launch_$(TARGET).sh
 RESULT_STRING = TEST PASSED
 
 VPP := v++
+VPP_PFLAGS := 
 CMD_ARGS = $(BUILD_DIR)/transp.xclbin transp 256 512 A0 B0
 
 include $(XF_PROJ_ROOT)/common/includes/opencl/opencl.mk

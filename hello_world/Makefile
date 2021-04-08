@@ -78,7 +78,7 @@ LAUNCH_EMULATOR = $(PACKAGE_OUT)/launch_$(TARGET).sh
 RESULT_STRING = TEST PASSED
 
 VPP := v++
-VPP_PFLAGS :=
+VPP_PFLAGS := 
 CMD_ARGS = $(BUILD_DIR)/vadd.xclbin
 SDCARD := sd_card
 

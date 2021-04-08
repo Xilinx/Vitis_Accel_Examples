@@ -5,19 +5,6 @@
 
 DEBUG := no
 B_TEMP = `$(XF_PROJ_ROOT)/common/utility/parse_platform_list.py $(DEVICE)`
-PERL := 
-QEMU_IMODE := no
-LAUNCH_EMULATOR_CMD := 
-
-ifneq ($(PERL), /tools/xgs/perl/5.8.5/bin/perl)
-	QEMU_IMODE = yes
-endif
-
-ifeq ($(QEMU_IMODE), yes)
-	LAUNCH_EMULATOR_CMD = $(LAUNCH_EMULATOR)
-else
-	LAUNCH_EMULATOR_CMD = $(PERL) $(XF_PROJ_ROOT)/common/utility/run_emulation.pl "${LAUNCH_EMULATOR} | tee run_app.log" "${RUN_APP_SCRIPT} $(TARGET)" "${RESULT_STRING}" "7"
-endif
 
 #Generates debug summary report
 ifeq ($(DEBUG), yes)
@@ -86,6 +73,20 @@ ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 	$(ECHO) 'export XILINX_VITIS=$$PWD' >> run_app.sh
 	$(ECHO) 'export XCL_EMULATION_MODE=$(TARGET)' >> run_app.sh
 endif
+	$(ECHO) 'if [ -d xrt/aarch64-xilinx-linux/ ]' >> run_app.sh
+	$(ECHO) 'then' >> run_app.sh
+	$(ECHO) 'cd xrt/aarch64-xilinx-linux/' >> run_app.sh
+	$(ECHO) 'elif [ -d xrt/versal ]' >> run_app.sh
+	$(ECHO) 'then' >> run_app.sh
+	$(ECHO) 'cd xrt/versal' >> run_app.sh
+	$(ECHO) 'elif [ xrt/cortexa9t2hf-neon-xilinx-linux-gnueabi  ]' >> run_app.sh
+	$(ECHO) 'then' >> run_app.sh
+	$(ECHO) 'cd xrt/cortexa9t2hf-neon-xilinx-linux-gnueabi/' >> run_app.sh
+	$(ECHO) 'else' >> run_app.sh
+	$(ECHO) 'echo "unable to find xrt folder sub directories"' >> run_app.sh
+	$(ECHO) 'fi' >> run_app.sh
+	$(ECHO) './reinstall_xrt.sh' >> run_app.sh
+	$(ECHO) 'cd -' >> run_app.sh
 	$(ECHO) '$(EXECUTABLE) -x testKernel.xclbin' >> run_app.sh
 	$(ECHO) 'return_code=$$?' >> run_app.sh
 	$(ECHO) 'if [ $$return_code -ne 0 ]; then' >> run_app.sh

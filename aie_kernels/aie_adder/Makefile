@@ -105,6 +105,7 @@ endif
 
 # Command-line options
 VPP := v++
+VPP_PFLAGS := 
 AIECC := aiecompiler
 AIESIM := aiesimulator
 CXX := aarch64-linux-gnu-g++
@@ -178,7 +179,7 @@ host:
 # Depending on the TARGET, it'll either generate the PDI for hw_emu or hw.
 sd_card: $(GRAPH_O) $(KERNEL_XO) host gen_run_app 
 ifeq (${TARGET},hw_emu)
-	v++ -p -t hw_emu \
+	v++ $(VPP_PFLAGS) -p -t hw_emu \
 		--platform $(DEVICE) \
 		--package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 \
 		--package.image_format=ext4 \
@@ -189,7 +190,7 @@ ifeq (${TARGET},hw_emu)
 		--package.sd_file aie_adder $(XCLBIN) $(GRAPH_O) -o krnl_adder.xclbin
 	@echo "COMPLETE: hw_emu package created."
 else
-	v++ -p -t hw \
+	v++ $(VPP_PFLAGS) -p -t hw \
 		--platform $(DEVICE) \
 		--package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 \
 		--package.image_format=ext4 \
