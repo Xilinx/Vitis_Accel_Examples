@@ -62,7 +62,12 @@
     ], 
     "match_ini": "false", 
     "config_make": "config.mk", 
-    "output_files": "tmp_kernel_pack* packaged_kernel* _x* *.xo", 
+    "output_files": [
+        "tmp_kernel_pack*",
+        "packaged_kernel*",
+        "_x*",
+        "*.xo"
+    ], 
     "contributors": [
         {
             "url": "http://www.xilinx.com", 

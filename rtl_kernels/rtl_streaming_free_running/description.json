@@ -71,7 +71,14 @@
         }
     ], 
     "config_make": "config.mk", 
-    "output_files": "tmp_kernel_pack* packaged_kernel* _x* *_ex project* pinfo.json",
+    "output_files": [
+        "tmp_kernel_pack*",
+        "packaged_kernel*",
+        "_x*",
+        "*_ex",
+        "project*",
+        "pinfo.json"
+    ],
     "contributors": [
         {
             "url": "http://www.xilinx.com", 

@@ -25,7 +25,9 @@
             "name": "generic launch for all flows"
         }
     ], 
-    "output_files": "output.bmp", 
+    "output_files": [
+        "output.bmp"
+    ], 
     "host": {
         "host_exe": "gmem_2banks",
         "compiler": {

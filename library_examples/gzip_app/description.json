@@ -99,7 +99,9 @@
             ]
         }
     ], 
-    "output_files": "sample.txt.*", 
+    "output_files": [
+        "sample.txt.*"
+    ], 
     "testinfo": {
         "disable": false, 
         "jobs": [

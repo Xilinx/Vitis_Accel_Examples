@@ -58,7 +58,9 @@
             "name": "generic launch for all flows"
         }
     ], 
-    "output_files": "output.png", 
+    "output_files": [
+        "output.png"
+    ], 
     "contributors": [
         {
             "url": "http://www.xilinx.com", 
