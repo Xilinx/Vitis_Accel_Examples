@@ -480,10 +480,9 @@ def mk_clean(target, data):
     target.write("\t-$(RMDIR) _x* *xclbin.run_summary qemu-memory-_* emulation _vimage pl* start_simulation.sh *.xclbin\n")
     if "output_files" in data:         
         target.write("\t-$(RMDIR) ")
-        args = data["output_files"].split(" ")
-        for arg in args[0:]:
-            target.write("./")
-            target.write(arg)
+        for files in data["output_files"]:
+            target.write("./")       
+            target.write(files)
             target.write(" ")       
     target.write("\n")
 

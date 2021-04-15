@@ -27,6 +27,7 @@
     "runtime": [
         "OpenCL"
     ], 
+    "platform_type": "pcie",
     "host": {
         "host_exe": "plram_access",
         "compiler": {

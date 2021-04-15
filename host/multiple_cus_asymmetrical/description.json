@@ -23,6 +23,7 @@
     "runtime": [
         "OpenCL"
     ], 
+    "platform_type": "pcie",
     "host": {
         "host_exe": "multiple_cus_asymmetrical",
         "compiler": {

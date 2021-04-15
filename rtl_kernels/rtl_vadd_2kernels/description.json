@@ -55,7 +55,10 @@
         }
     ], 
     "config_make": "config.mk", 
-    "output_files": "tmp_kernel_pack* packaged_kernel*",
+    "output_files": [
+        "tmp_kernel_pack*",
+        "packaged_kernel*"
+    ],
     "contributors": [
         {
             "url": "http://www.xilinx.com", 

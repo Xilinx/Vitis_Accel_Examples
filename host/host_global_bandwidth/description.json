@@ -20,6 +20,7 @@
     "runtime": [
         "OpenCL"
     ], 
+    "platform_type": "pcie",
     "host": {
         "host_exe": "host_global_bandwidth",
         "compiler": {
@@ -64,7 +65,9 @@
         }
     ], 
     "match_ini": "false", 
-    "output_files": "metric1.csv", 
+    "output_files": [
+        "metric1.csv"
+    ], 
     "contributors": [
         {
             "url": "http://www.xilinx.com", 

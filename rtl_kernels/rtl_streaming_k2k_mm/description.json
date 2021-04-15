@@ -98,5 +98,13 @@
         ],
         "category": "canary"
     },
-    "output_files": "tmp_kernel_pack* packaged_kernel* _x* *_ex project* pinfo.json *.xo"
+    "output_files": [
+        "tmp_kernel_pack*",
+        "packaged_kernel*",
+        "_x*",
+        "*_ex",
+        "project*", 
+        "pinfo.json",
+        "*.xo"
+    ]
 }

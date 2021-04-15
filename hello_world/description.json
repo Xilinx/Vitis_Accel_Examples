@@ -1,18 +1,20 @@
 {
     "name": "Hello World (HLS C/C++ Kernel)", 
     "description": [
-        "This is simple example of vector addition to describe how to use HLS kernels in Vitis Environment."
+        "This is simple example of vector addition to describe how to use HLS kernels in Vitis Environment. The kernel uses HLS Dataflow which allows the user to schedule multiple task together to achieve higher throughput."
     ],
     "flow": "vitis",
     "keywords": [
-        "gmem", 
-        "#pragma HLS INTERFACE", 
+        "gmem",
+        "#pragma HLS INTERFACE",  
         "m_axi", 
-        "s_axilite"
+        "dataflow",
+        "hls::stream"
     ], 
     "key_concepts": [
         "HLS C Kernel", 
-        "OpenCL Host APIs"
+        "OpenCL Host APIs",
+        "Task Level Parallelism"
     ],
     "platform_blacklist": [
         "nodma"

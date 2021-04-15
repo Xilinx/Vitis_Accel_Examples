@@ -30,6 +30,7 @@
     "runtime": [
         "OpenCL"
     ], 
+    "platform_type": "pcie",
     "host": {
         "host_exe": "hbm_bandwidth_pseudo_random",
         "compiler": {
