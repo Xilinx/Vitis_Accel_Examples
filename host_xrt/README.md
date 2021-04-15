@@ -11,6 +11,7 @@ Example        | Description           | Key Concepts / Keywords
 [device_only_buffer_xrt/][]|This example will demonstrate how to create buffers in global memory which are not mapped to host.|__Key__ __Concepts__<br> - Device only buffer<br>__Keywords__<br> - xrt::bo::flags::device_only
 [hbm_simple_xrt/][]|This is a simple example of vector addition to describe how to use HLS kernels with HBM (High Bandwidth Memory) for achieving high throughput using xrt native api's.|__Key__ __Concepts__<br> - High Bandwidth Memory<br> - Multiple HBM Banks<br>__Keywords__<br> - HBM
 [hello_world_xrt/][]|This is simple example of vector addition to describe the usage of XRT Native API's.|__Key__ __Concepts__<br> - XRT Native APIs<br>__Keywords__<br> - xrt::device<br> - load_xclbin<br> - xrt::bo<br> - xrt::kernel<br> - map<br> - sync<br> - XCL_BO_SYNC_BO_TO_DEVICE<br> - XCL_BO_SYNC_BO_FROM_DEVICE
+[iops_fast_adapter_xrt/][]|This is simple test design to measure Input/Output Operations per second using Fast Adapter. In this design, a simple kernel is enqueued many times and measuring overall IOPS using XRT native api's.|__Key__ __Concepts__<br> - Input/Output Operations per second<br> - Fast Adapter<br>__Keywords__<br> - nextDescriptorAddr
 [iops_test_xrt/][]|This is simple test design to measure Input/Output Operations per second. In this design, a simple kernel is enqueued many times and measuring overall IOPS using XRT native api's.|__Key__ __Concepts__<br> - Input/Output Operations per second<br>
 [mult_compute_units_xrt/][]|This is simple Example of Multiple Compute units to showcase how a single kernel can be instantiated into Multiple compute units. Host code will show how to use multiple compute units and run them concurrently using XRT Native api's.|__Key__ __Concepts__<br> - Multiple Compute Units<br>__Keywords__<br> - nk
 [multiple_cus_asymmetrical_xrt/][]|This is simple example of vector addition to demonstrate how to connect each compute unit to different banks and how to use these compute units in host applications using xrt native api's.|__Key__ __Concepts__<br> - Multiple Compute Units<br>
@@ -28,6 +29,7 @@ Example        | Description           | Key Concepts / Keywords
 [device_only_buffer_xrt/]:device_only_buffer_xrt/
 [hbm_simple_xrt/]:hbm_simple_xrt/
 [hello_world_xrt/]:hello_world_xrt/
+[iops_fast_adapter_xrt/]:iops_fast_adapter_xrt/
 [iops_test_xrt/]:iops_test_xrt/
 [mult_compute_units_xrt/]:mult_compute_units_xrt/
 [multiple_cus_asymmetrical_xrt/]:multiple_cus_asymmetrical_xrt/
