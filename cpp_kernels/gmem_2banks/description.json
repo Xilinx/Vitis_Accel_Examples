@@ -65,7 +65,8 @@
     ], 
     "runtime": [
         "OpenCL"
-    ], 
+    ],
+    "platform_type": "pcie", 
     "os": [
         "Linux"
     ], 

@@ -25,6 +25,7 @@
     "runtime": [
         "OpenCL"
     ], 
+    "platform_type": "pcie",
     "host": {
         "host_exe": "slr_assign",
         "compiler": {

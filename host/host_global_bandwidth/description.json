@@ -20,6 +20,7 @@
     "runtime": [
         "OpenCL"
     ], 
+    "platform_type": "pcie",
     "host": {
         "host_exe": "host_global_bandwidth",
         "compiler": {

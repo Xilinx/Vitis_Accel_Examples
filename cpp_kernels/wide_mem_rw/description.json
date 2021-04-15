@@ -14,8 +14,8 @@
         "burst read and write"
     ], 
     "platform_blacklist": [
-	"zc702",
-    "nodma"
+        "zc702",
+        "nodma"
     ],
     "os": [
         "Linux"

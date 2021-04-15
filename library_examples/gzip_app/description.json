@@ -19,6 +19,7 @@
      "runtime": [
         "OpenCL"
     ], 
+    "platform_type": "pcie",
     "launch": [
         {
             "cmd_args": "-sx BUILD/compress_decompress.xclbin -v PROJECT/sample.txt", 

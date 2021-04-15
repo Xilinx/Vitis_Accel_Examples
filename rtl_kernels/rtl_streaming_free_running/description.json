@@ -37,6 +37,7 @@
     "runtime": [
         "OpenCL"
     ], 
+    "platform_type": "pcie",
     "gui": false, 
     "host": {
         "linker": {

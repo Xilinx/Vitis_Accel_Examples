@@ -33,10 +33,6 @@ help::
 	$(ECHO)  "  make test DEVICE=<FPGA platform>"
 	$(ECHO)  "     Command to run the application. This is same as 'run' target but does not have any makefile dependency."
 	$(ECHO)  ""
-	$(ECHO) "  make sd_card TARGET=<sw_emu/hw_emu/hw> DEVICE=<FPGA platform> HOST_ARCH=<aarch32/aarch64/x86> EDGE_COMMON_SW=<rootfs and kernel image path>"
-	$(ECHO) "      Command to prepare sd_card files."
-	$(ECHO) "      By default, HOST_ARCH=x86. HOST_ARCH and EDGE_COMMON_SW is required for SoC shells"
-	$(ECHO) ""
 	$(ECHO) "  make run TARGET=<sw_emu/hw_emu/hw> DEVICE=<FPGA platform> HOST_ARCH=<aarch32/aarch64/x86> EDGE_COMMON_SW=<rootfs and kernel image path>"
 	$(ECHO) "      Command to run application in emulation."
 	$(ECHO) "      By default, HOST_ARCH=x86. HOST_ARCH and EDGE_COMMON_SW is required for SoC shells"
@@ -79,7 +75,6 @@ RESULT_STRING = TEST PASSED
 
 VPP := v++
 CMD_ARGS = -x $(BUILD_DIR)/krnl_incr.xclbin -i 5
-SDCARD := sd_card
 
 include $(XF_PROJ_ROOT)/common/includes/opencl/opencl.mk
 include config.mk
@@ -145,7 +140,6 @@ endif
 
 EXECUTABLE = ./streaming_reg_access
 EMCONFIG_DIR = $(TEMP_DIR)
-EMU_DIR = $(SDCARD)/data/emulation
 
 ############################## Declaring Binary Containers ##############################
 BINARY_CONTAINERS += $(BUILD_DIR)/krnl_incr.xclbin
@@ -155,7 +149,7 @@ BINARY_CONTAINER_krnl_incr_OBJS += $(TEMP_DIR)/increment.xo
 CP = cp -rf
 
 .PHONY: all clean cleanall docs emconfig
-all: check-devices $(EXECUTABLE) $(BINARY_CONTAINERS) emconfig sd_card
+all: check-devices $(EXECUTABLE) $(BINARY_CONTAINERS) emconfig
 
 .PHONY: host
 host: $(EXECUTABLE)
@@ -190,16 +184,10 @@ $(EMCONFIG_DIR)/emconfig.json:
 ############################## Setting Essential Checks and Running Rules ##############################
 run: all
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
-ifeq ($(HOST_ARCH), x86)
 	$(CP) $(EMCONFIG_DIR)/emconfig.json .
 	XCL_EMULATION_MODE=$(TARGET) $(EXECUTABLE) $(CMD_ARGS)
 else
-	$(LAUNCH_EMULATOR_CMD)
-endif
-else
-ifeq ($(HOST_ARCH), x86)
 	$(EXECUTABLE) $(CMD_ARGS)
-endif
 endif
 ifneq ($(TARGET),$(findstring $(TARGET), hw hw_emu))
 $(error Application supports only hw hw_emu TARGET. Please use the target for running the application)
@@ -209,29 +197,15 @@ endif
 .PHONY: test
 test: $(EXECUTABLE)
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
-ifeq ($(HOST_ARCH), x86)
 	XCL_EMULATION_MODE=$(TARGET) $(EXECUTABLE) $(CMD_ARGS)
 else
-	$(LAUNCH_EMULATOR_CMD)
-endif
-else
-ifeq ($(HOST_ARCH), x86)
 	$(EXECUTABLE) $(CMD_ARGS)
-else
-	$(ECHO) "Please copy the content of sd_card folder and data to an SD Card and run on the board"
-endif
 endif
 ifneq ($(TARGET),$(findstring $(TARGET), hw hw_emu))
 $(warning WARNING:Application supports only hw hw_emu TARGET. Please use the target for running the application)
 endif
 
 
-
-############################## Preparing sdcard ##############################
-sd_card: $(BINARY_CONTAINERS) $(EXECUTABLE) gen_run_app
-ifneq ($(HOST_ARCH), x86)
-	$(VPP) -p $(BUILD_DIR)/krnl_incr.xclbin -t $(TARGET) --platform $(DEVICE) --package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.sd_file $(SD_IMAGE_FILE) --package.sd_file xrt.ini --package.sd_file $(RUN_APP_SCRIPT) --package.sd_file $(EXECUTABLE) --package.sd_file 5 -o krnl_incr.xclbin
-endif
 
 ############################## Cleaning Rules ##############################
 # Cleaning stuff
@@ -241,7 +215,7 @@ clean:
 	-$(RMDIR) src/*.ll *v++* .Xil emconfig.json dltmp* xmltmp* *.log *.jou *.wcfg *.wdb
 
 cleanall: clean
-	-$(RMDIR) build_dir* sd_card*
+	-$(RMDIR) build_dir*
 	-$(RMDIR) package.*
 	-$(RMDIR) _x* *xclbin.run_summary qemu-memory-_* emulation _vimage pl* start_simulation.sh *.xclbin
 
