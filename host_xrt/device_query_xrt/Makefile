@@ -49,7 +49,7 @@ help::
 ############################## Setting up Project Variables ##############################
 # Points to top directory of Git repository
 MK_PATH := $(abspath $(lastword $(MAKEFILE_LIST)))
-COMMON_REPO ?= $(shell bash -c 'export MK_PATH=$(MK_PATH); echo $${MK_PATH%host_xrt/multiple_cus_asymmetrical_xrt/*}')
+COMMON_REPO ?= $(shell bash -c 'export MK_PATH=$(MK_PATH); echo $${MK_PATH%host_xrt/device_query_xrt/*}')
 PWD = $(shell readlink -f .)
 XF_PROJ_ROOT = $(shell readlink -f $(COMMON_REPO))
 
@@ -75,7 +75,6 @@ RESULT_STRING = TEST PASSED
 
 VPP := v++
 VPP_PFLAGS := 
-CMD_ARGS = -x $(BUILD_DIR)/vadd.xclbin
 
 include $(XF_PROJ_ROOT)/common/includes/opencl/opencl.mk
 include config.mk
@@ -83,25 +82,10 @@ include config.mk
 CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++1y
 LDFLAGS += $(opencl_LDFLAGS)
 
-ifeq ($(findstring _u25_, $(DEVICE)), _u25_)
-$(error [ERROR]: This example is not supported for $(DEVICE).)
-endif
-ifeq ($(findstring u30, $(DEVICE)), u30)
-$(error [ERROR]: This example is not supported for $(DEVICE).)
-endif
-ifeq ($(findstring u50, $(DEVICE)), u50)
-$(error [ERROR]: This example is not supported for $(DEVICE).)
-endif
-ifeq ($(findstring vck, $(DEVICE)), vck)
-$(error [ERROR]: This example is not supported for $(DEVICE).)
-endif
-ifeq ($(findstring samsung, $(DEVICE)), samsung)
-$(error [ERROR]: This example is not supported for $(DEVICE).)
-endif
 ifeq ($(findstring zc, $(DEVICE)), zc)
 $(error [ERROR]: This example is not supported for $(DEVICE).)
 endif
-ifeq ($(findstring nodma, $(DEVICE)), nodma)
+ifeq ($(findstring vck, $(DEVICE)), vck)
 $(error [ERROR]: This example is not supported for $(DEVICE).)
 endif
 
@@ -127,15 +111,10 @@ ifneq ($(TARGET), hw)
 endif
 
 
-
-# Adding config files to linker
-VPP_LDFLAGS_vadd += --config vadd.cfg 
-EXECUTABLE = ./multiple_cus_asymmetrical_xrt
+EXECUTABLE = ./device_query_xrt
 EMCONFIG_DIR = $(TEMP_DIR)
 
 ############################## Declaring Binary Containers ##############################
-BINARY_CONTAINERS += $(BUILD_DIR)/vadd.xclbin
-BINARY_CONTAINER_vadd_OBJS += $(TEMP_DIR)/vadd.xo
 
 ############################## Setting Targets ##############################
 CP = cp -rf
@@ -152,18 +131,6 @@ build: check-vitis $(BINARY_CONTAINERS)
 .PHONY: xclbin
 xclbin: build
 
-############################## Setting Rules for Binary Containers (Building Kernels) ##############################
-$(TEMP_DIR)/vadd.xo: src/vadd.cpp
-	mkdir -p $(TEMP_DIR)
-	$(VPP) $(VPP_FLAGS) -c -k vadd --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
-$(BUILD_DIR)/vadd.xclbin: $(BINARY_CONTAINER_vadd_OBJS)
-	mkdir -p $(BUILD_DIR)
-ifeq ($(HOST_ARCH), x86)
-	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR)  $(VPP_LDFLAGS_vadd) -o'$(BUILD_DIR)/vadd.link.xclbin' $(+)
-	$(VPP) -p $(BUILD_DIR)/vadd.link.xclbin -t $(TARGET) --platform $(DEVICE) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/vadd.xclbin
-else
-	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) -o'$(BUILD_DIR)/vadd.xclbin' $(+)
-endif
 
 ############################## Setting Rules for Host (Building Host Executable) ##############################
 $(EXECUTABLE): $(HOST_SRCS) | check-xrt
@@ -177,9 +144,9 @@ $(EMCONFIG_DIR)/emconfig.json:
 run: all
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 	$(CP) $(EMCONFIG_DIR)/emconfig.json .
-	XCL_EMULATION_MODE=$(TARGET) $(EXECUTABLE) $(CMD_ARGS)
+	XCL_EMULATION_MODE=$(TARGET) $(EXECUTABLE)
 else
-	$(EXECUTABLE) $(CMD_ARGS)
+	$(EXECUTABLE)
 endif
 ifneq ($(TARGET),$(findstring $(TARGET), hw_emu hw))
 $(error Application supports only hw_emu hw TARGET. Please use the target for running the application)
@@ -189,9 +156,9 @@ endif
 .PHONY: test
 test: $(EXECUTABLE)
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
-	XCL_EMULATION_MODE=$(TARGET) $(EXECUTABLE) $(CMD_ARGS)
+	XCL_EMULATION_MODE=$(TARGET) $(EXECUTABLE)
 else
-	$(EXECUTABLE) $(CMD_ARGS)
+	$(EXECUTABLE)
 endif
 ifneq ($(TARGET),$(findstring $(TARGET), hw_emu hw))
 $(warning WARNING:Application supports only hw_emu hw TARGET. Please use the target for running the application)

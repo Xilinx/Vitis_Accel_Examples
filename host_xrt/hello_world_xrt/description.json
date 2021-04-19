@@ -84,6 +84,7 @@
             }
         ],
         "targets": [
+            "vitis_hw_emu",
             "vitis_hw"
         ],
         "category": "canary"

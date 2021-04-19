@@ -35,7 +35,7 @@
      "runtime": [
         "OpenCL"
     ],
-   "config_make": "config.mk",
+    "config_make": "config.mk",
     "launch": [
         {
             "cmd_args": "-x BUILD/adder.xclbin", 
@@ -99,7 +99,6 @@
             }
         ],
         "targets": [
-            "vitis_sw_emu",
             "vitis_hw_emu",
             "vitis_hw"
         ],

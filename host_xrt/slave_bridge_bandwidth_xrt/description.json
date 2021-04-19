@@ -94,7 +94,7 @@
             "group": "Xilinx"
         }
     ],
-   "testinfo": {
+    "testinfo": {
         "profile": "no",
         "disable": false,
         "jobs": [
@@ -108,7 +108,6 @@
             }
         ],
         "targets": [
-            "vitis_sw_emu",
             "vitis_hw_emu",
             "vitis_hw"
         ],

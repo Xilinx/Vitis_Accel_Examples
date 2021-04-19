@@ -9,6 +9,7 @@ Example        | Description           | Key Concepts / Keywords
 [copy_buffer_xrt/][]|This Copy Buffer example demonstrate how one buffer can be copied from another buffer.|__Key__ __Concepts__<br> - Copy Buffer<br>__Keywords__<br> - copy
 [data_transfer_xrt/][]|This example illustrates transferring of data to and from the FPGA using xrt native api's|__Key__ __Concepts__<br> - XRT Native API<br> - Data Transfer<br> - Write Buffers<br> - Read Buffers<br>__Keywords__<br> - xrt::bo::write<br> - xrt::bo::read
 [device_only_buffer_xrt/][]|This example will demonstrate how to create buffers in global memory which are not mapped to host.|__Key__ __Concepts__<br> - Device only buffer<br>__Keywords__<br> - xrt::bo::flags::device_only
+[device_query_xrt/][]|This Example prints device properties using XRT Native APIs. It also displays the limits and capabilities of the hardware.|__Key__ __Concepts__<br> - Querying device properties<br>__Keywords__<br> - xrt::device
 [hbm_simple_xrt/][]|This is a simple example of vector addition to describe how to use HLS kernels with HBM (High Bandwidth Memory) for achieving high throughput using xrt native api's.|__Key__ __Concepts__<br> - High Bandwidth Memory<br> - Multiple HBM Banks<br>__Keywords__<br> - HBM
 [hello_world_xrt/][]|This is simple example of vector addition to describe the usage of XRT Native API's.|__Key__ __Concepts__<br> - XRT Native APIs<br>__Keywords__<br> - xrt::device<br> - load_xclbin<br> - xrt::bo<br> - xrt::kernel<br> - map<br> - sync<br> - XCL_BO_SYNC_BO_TO_DEVICE<br> - XCL_BO_SYNC_BO_FROM_DEVICE
 [iops_fast_adapter_xrt/][]|This is simple test design to measure Input/Output Operations per second using Fast Adapter. In this design, a simple kernel is enqueued many times and measuring overall IOPS using XRT native api's.|__Key__ __Concepts__<br> - Input/Output Operations per second<br> - Fast Adapter<br>__Keywords__<br> - nextDescriptorAddr
@@ -27,6 +28,7 @@ Example        | Description           | Key Concepts / Keywords
 [copy_buffer_xrt/]:copy_buffer_xrt/
 [data_transfer_xrt/]:data_transfer_xrt/
 [device_only_buffer_xrt/]:device_only_buffer_xrt/
+[device_query_xrt/]:device_query_xrt/
 [hbm_simple_xrt/]:hbm_simple_xrt/
 [hello_world_xrt/]:hello_world_xrt/
 [iops_fast_adapter_xrt/]:iops_fast_adapter_xrt/
