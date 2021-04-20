@@ -86,6 +86,7 @@ endif
 	$(ECHO) 'echo "unable to find xrt folder sub directories"' >> run_app.sh
 	$(ECHO) 'fi' >> run_app.sh
 	$(ECHO) './reinstall_xrt.sh' >> run_app.sh
+	$(ECHO) 'return_code=$$?' >> run_app.sh
 	$(ECHO) 'cd -' >> run_app.sh
 	$(ECHO) '$(EXECUTABLE) -x testKernel.xclbin' >> run_app.sh
 	$(ECHO) 'return_code=$$?' >> run_app.sh

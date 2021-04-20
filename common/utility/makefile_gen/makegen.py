@@ -869,6 +869,7 @@ def util_checks(target):
         target.write("\t$(ECHO) 'echo \"unable to find xrt folder sub directories\"' >> run_app.sh\n")
         target.write("\t$(ECHO) 'fi' >> run_app.sh\n")
         target.write("\t$(ECHO) './reinstall_xrt.sh' >> run_app.sh\n")
+        target.write("\t$(ECHO) 'return_code=$$?' >> run_app.sh\n")
         target.write("\t$(ECHO) 'cd -' >> run_app.sh\n")
         target.write("\t$(ECHO) '$(EXECUTABLE)")
         if "launch" in data:	

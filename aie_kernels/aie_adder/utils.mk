@@ -93,6 +93,7 @@ endif
 	$(ECHO) 'echo "unable to find xrt folder sub directories"' >> run_app.sh
 	$(ECHO) 'fi' >> run_app.sh
 	$(ECHO) './reinstall_xrt.sh' >> run_app.sh
+	$(ECHO) 'return_code=$$?' >> run_app.sh
 	$(ECHO) 'cd -' >> run_app.sh
 	$(ECHO) 'dmesg -n 4 && echo "Hide DRM messages..."' >> run_app.sh
 	$(ECHO) '$(EXECUTABLE) krnl_adder.xclbin' >> run_app.sh

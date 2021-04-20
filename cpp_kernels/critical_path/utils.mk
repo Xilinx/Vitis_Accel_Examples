@@ -93,6 +93,7 @@ endif
 	$(ECHO) 'echo "unable to find xrt folder sub directories"' >> run_app.sh
 	$(ECHO) 'fi' >> run_app.sh
 	$(ECHO) './reinstall_xrt.sh' >> run_app.sh
+	$(ECHO) 'return_code=$$?' >> run_app.sh
 	$(ECHO) 'cd -' >> run_app.sh
 	$(ECHO) '$(EXECUTABLE) -x apply_watermark_GOOD.xclbin -i xilinx_img.bmp -c golden.bmp' >> run_app.sh
 	$(ECHO) 'return_code=$$?' >> run_app.sh

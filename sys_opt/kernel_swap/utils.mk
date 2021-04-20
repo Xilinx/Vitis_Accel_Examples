@@ -93,6 +93,7 @@ endif
 	$(ECHO) 'echo "unable to find xrt folder sub directories"' >> run_app.sh
 	$(ECHO) 'fi' >> run_app.sh
 	$(ECHO) './reinstall_xrt.sh' >> run_app.sh
+	$(ECHO) 'return_code=$$?' >> run_app.sh
 	$(ECHO) 'cd -' >> run_app.sh
 	$(ECHO) './$(EXECUTABLE) -x1 krnl_vmul.xclbin -x2 krnl_vadd.xclbin' >> run_app.sh
 	$(ECHO) 'return_code=$$?' >> run_app.sh
