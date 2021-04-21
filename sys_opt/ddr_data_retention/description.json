@@ -84,6 +84,9 @@
     ],
     "testinfo": {
         "disable": false,
+        "features": [
+            "data_retention"
+        ],
         "jobs": [
             {
                 "index": 0,
