@@ -1,5 +1,5 @@
-AIE Adder (C)
-=============
+AIE Adder 
+==========
 
 This simple example demonstrate the flow to create aie Kernel and how to connect aie Kernel to PL Kernels and validate the design running on the AI Engine.
 
