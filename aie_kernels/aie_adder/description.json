@@ -1,5 +1,5 @@
 {
-    "name": "AIE Adder (C)", 
+    "name": "AIE Adder ", 
     "description": [
         "This simple example demonstrate the flow to create aie Kernel and how to connect aie Kernel to PL Kernels and validate the design running on the AI Engine."
     ],
@@ -33,26 +33,67 @@
         "OpenCL"
     ], 
     "host": {
+       "host_exe": "aie_adder",
         "compiler": {
             "sources": [
                 "REPO_DIR/common/includes/xcl2/xcl2.cpp",
-                "./src/host.cpp"
+                "./src/host.cpp",
+                "./Work/ps/c_rts/aie_control_xrt.cpp"
             ], 
             "includepaths": [
-                "REPO_DIR/common/includes/xcl2"
-            ]
-        }, 
-       "host_exe": "aie_adder"
+                "REPO_DIR/common/includes/xcl2",
+                "$(SYSROOT)/usr/include/xrt/"                
+            ],
+            "options": "--sysroot=$(SYSROOT)"
+        },
+        "linker": {
+            "librarypaths": [
+                "$(SYSROOT)/usr/lib/",
+                "xaiengine",
+                "adf_api_xrt",
+                "xrt_core",
+                "xrt_coreutil",
+                "${XILINX_VITIS}/aietools/lib/aarch64.o"
+            ],
+            "options": "--sysroot=$(SYSROOT)"
+        }
     },
+    "aiecompiler": {
+        "compiler": {
+            "includepaths": [
+                "./src"
+            ]
+        }
+    },
+    "aiecontainers": [
+        {
+            "accelerators": [
+                {
+                    "location": "./src/aie_graph.cpp",
+                    "pl-freq": 100,
+                    "workdir": "./Work",
+                    "name": "libadf.a",
+                    "aie_kernel_files":["aie_adder.cc"]
+                }
+            ]
+        }
+    ],
     "data": [
         "PROJECT/data/golden.txt",
         "PROJECT/data/input0.txt",
         "PROJECT/data/input1.txt"
     ],
     "v++": {
-        "build_datafiles" : [            
-            "PROJECT/system.cfg"
-        ]
+        "linker": {
+                    "cflags": [
+                        "--config PROJECT/system.cfg"
+                    ]
+                },
+        "package": {
+                    "cflags": [
+                        "--package.defer_aie_run"
+                    ]
+                }
      },
     "targets": [
        "hw_emu",
@@ -64,16 +105,13 @@
             "accelerators": [
                 {
                     "name": "pl_mm2s", 
-                    "location": "src/pl_mm2s.cpp"
+                    "location": "src/pl_mm2s.cpp",
+                    "num_compute_units": "2"
                 }, 
                 {
                     "name": "pl_s2mm", 
                     "location": "src/pl_s2mm.cpp"
-                }, 
-                {
-                    "name": "aie_adder", 
-                    "location": "src/aie_adder.cc"
-                }
+                } 
             ], 
             "name": "adder"
         }

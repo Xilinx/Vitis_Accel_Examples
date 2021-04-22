@@ -14,7 +14,7 @@
 * under the License.
 */
 
-#include "aie_graph.cpp"
+#include "aie_graph.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -27,6 +27,7 @@
 
 // Using the ADF API that call XRT API
 #include "adf/adf_api/XRTConfig.h"
+simpleGraph addergraph;
 
 static std::vector<char> load_xclbin(xrtDeviceHandle device, const std::string& fnm) {
     if (fnm.empty()) throw std::runtime_error("No xclbin specified");
