@@ -163,6 +163,9 @@ int main(int argc, char** argv) {
         return EXIT_FAILURE;
     }
     if (filename.empty()) {
+        std::cout << "\nWARNING: As user have not provided any input file path using -p switch, we are going with "
+                     "default 'sample.txt' "
+                     "file\n";
         filename = "./sample.txt";
     }
     int nvmeFd = -1;
