@@ -16,114 +16,124 @@
 
 /*******************************************************************************
 Description:
-    This is example of vector addition to demonstrate HLS Dataflow Pragma
-    functionality to perform task level parallelism using HLS Stream datatype.
-HLS
-    dataflow pragma instruct compiler to run sub-task parallel. Sub-task can
-    transfer the data using hls stream. In this Example, a vector addition
-    implementation is divided into three sub-task APIs as below:
-    1) read_input():
-        This API reads the input vector from Global Memory and writes it into
-        HLS Stream 'inStream' using blocking write command.
-    2) compute_add():
-        This API reads the input vector from 'inStream' using blocking read
-        command and increment the value by user specified increment. It writes
-        the results into 'outStream' using blocking write command.
-    3) write_result():
-        This API reads the result vector from 'outStream' using blocking read
-        command and write the result into Global Memory Location.
-    Data Flow Stream based Adder will be implemented as below:
-                    _____________
-                    |             |<----- Input Vectors from Global Memory
-                    |  read_input |       __
-                    |_____________|----->|  |
-                     _____________       |  | inStream
-                    |             |<-----|__|
-                    | compute_add |       __
-                    |_____________|----->|  |
-                     _____________       |  | outStream
-                    |              |<----|__|
-                    | write_result |
-                    |______________|-----> Output result to Global Memory
+
+    This example uses the load/compute/store coding style which is generally
+    the most efficient for implementing kernels using HLS. The load and store
+    functions are responsible for moving data in and out of the kernel as
+    efficiently as possible. The core functionality is decomposed across one
+    of more compute functions. Whenever possible, the compute function should
+    pass data through HLS streams and should contain a single set of nested loops.
+
+    HLS stream objects are used to pass data between producer and consumer
+    functions. Stream read and write operations have a blocking behavior which
+    allows consumers and producers to synchronize with each other automatically.
+
+    The dataflow pragma instructs the compiler to enable task-level pipelining.
+    This is required for to load/compute/store functions to execute in a parallel
+    and pipelined manner.
+
+    The kernel operates on vectors of 16 integers modeled using the hls::vector
+    data type. This datatype provides intuitive support for SIMD parallelism and
+    fits well the vector-add computation. The SIMD vector length is set to 16
+    since 16 integers amount to a total of 64 bytes, which is the maximum size of
+    a kernel port. It is a good practice to match the compute bandwidth to the I/O
+    bandwidth. Here the kernel loads, computes and stores 16 integer values per
+    clock cycle and is implemented as below:
+                                       _____________
+                                      |             |<----- Input Vector 1 from Global Memory
+                                      |  read_input |       __
+                                      |_____________|----->|  |
+                                       _____________       |  | in1_stream
+Input Vector 2 from Global Memory --->|             |      |__|
+                               __     |  load_input |        |
+                              |  |<---|_____________|        |
+                   in2_stream |  |     _____________         |
+                              |__|--->|             |<--------
+                                      | compute_add |      __
+                                      |_____________|---->|  |
+                                       ______________     |  | out_stream
+                                      |              |<---|__|
+                                      | write_result |
+                                      |______________|-----> Output result to Global Memory
+
 *******************************************************************************/
 
 // Includes
-#include <ap_int.h>
+#include <hls_vector.h>
 #include <hls_stream.h>
+#include "assert.h"
 
 #define DATA_SIZE 4096
 
 // TRIPCOUNT identifier
 const int c_size = DATA_SIZE;
 
-// Read Data from Global Memory and write into Stream inStream
-static void read_input(unsigned int* in, hls::stream<unsigned int>& inStream, int size) {
-// Auto-pipeline is going to apply pipeline to this loop
+static void load_input(hls::vector<unsigned int, 16>* in,
+                       hls::stream<hls::vector<unsigned int, 16> >& inStream,
+                       int vSize) {
 mem_rd:
-    for (int i = 0; i < size; i++) {
+    for (int i = 0; i < vSize; i++) {
 #pragma HLS LOOP_TRIPCOUNT min = c_size max = c_size
-        // Blocking write command to inStream
         inStream << in[i];
     }
 }
 
-// Read Input data from inStream and write the result into outStream
-static void compute_add(hls::stream<unsigned int>& inStream1,
-                        hls::stream<unsigned int>& inStream2,
-                        hls::stream<unsigned int>& outStream,
-                        int size) {
-// Auto-pipeline is going to apply pipeline to this loop
+static void compute_add(hls::stream<hls::vector<unsigned int, 16> >& in1_stream,
+                        hls::stream<hls::vector<unsigned int, 16> >& in2_stream,
+                        hls::stream<hls::vector<unsigned int, 16> >& out_stream,
+                        int vSize) {
+// The kernel is operating with SIMD vectors of 16 integers. The + operator performs
+// an element-wise add, resulting in 16 parallel additions.
 execute:
-    for (int i = 0; i < size; i++) {
+    for (int i = 0; i < vSize; i++) {
 #pragma HLS LOOP_TRIPCOUNT min = c_size max = c_size
-        // Blocking read command from inStream and Blocking write command
-        // to outStream
-        outStream << (inStream1.read() + inStream2.read());
+        out_stream << (in1_stream.read() + in2_stream.read());
     }
 }
 
-// Read result from outStream and write the result to Global Memory
-static void write_result(unsigned int* out, hls::stream<unsigned int>& outStream, int size) {
-// Auto-pipeline is going to apply pipeline to this loop
+static void store_result(hls::vector<unsigned int, 16>* out,
+                         hls::stream<hls::vector<unsigned int, 16> >& out_stream,
+                         int vSize) {
 mem_wr:
-    for (int i = 0; i < size; i++) {
+    for (int i = 0; i < vSize; i++) {
 #pragma HLS LOOP_TRIPCOUNT min = c_size max = c_size
-        // Blocking read command to inStream
-        out[i] = outStream.read();
+        out[i] = out_stream.read();
     }
 }
 
 extern "C" {
+
 /*
-    Vector Addition Kernel Implementation using dataflow
+    Vector Addition Kernel
+
     Arguments:
-        in1   (input)  --> Input Vector 1
-        in2   (input)  --> Input Vector 2
-        out  (output) --> Output Vector
-        size (input)  --> Size of Vector in Integer
-   */
-void vadd(unsigned int* in1, unsigned int* in2, unsigned int* out, int size) {
-    // Adding names for the streams. It allows the name to be used in reporting.
-    // Vivado HLS
-    // automatically checks to ensure all elements from an input stream are read.
-    static hls::stream<unsigned int> inStream1("input_stream_1");
-    static hls::stream<unsigned int> inStream2("input_stream_2");
-    static hls::stream<unsigned int> outStream("output_stream");
+        in1  (input)  --> Input vector 1
+        in2  (input)  --> Input vector 2
+        out  (output) --> Output vector
+        size (input)  --> Number of elements in vector
+*/
+
+void vadd(hls::vector<unsigned int, 16>* in1,
+          hls::vector<unsigned int, 16>* in2,
+          hls::vector<unsigned int, 16>* out,
+          int size) {
 #pragma HLS INTERFACE m_axi port = in1 bundle = gmem0
 #pragma HLS INTERFACE m_axi port = in2 bundle = gmem1
 #pragma HLS INTERFACE m_axi port = out bundle = gmem0
-//  If Stream is empty (no element in
-//  Stream)
-//  any blocking read command from consumer will go into wait state until
-//  producer
-//  writes elements to Stream. This blocking read and write allow consumer and
-//  producer to synchronize each other.
 
+    static hls::stream<hls::vector<unsigned int, 16> > in1_stream("input_stream_1");
+    static hls::stream<hls::vector<unsigned int, 16> > in2_stream("input_stream_2");
+    static hls::stream<hls::vector<unsigned int, 16> > out_stream("output_stream");
+
+    // Since 16 values are processed
+    // in parallel per loop iteration, the for loop only needs to iterate 'size / 16' times.
+    assert(size % 16 == 0);
+    int vSize = size / 16;
 #pragma HLS dataflow
-    // dataflow pragma instruct compiler to run following three APIs in parallel
-    read_input(in1, inStream1, size);
-    read_input(in2, inStream2, size);
-    compute_add(inStream1, inStream2, outStream, size);
-    write_result(out, outStream, size);
+
+    load_input(in1, in1_stream, vSize);
+    load_input(in2, in2_stream, vSize);
+    compute_add(in1_stream, in2_stream, out_stream, vSize);
+    store_result(out, out_stream, vSize);
 }
 }
