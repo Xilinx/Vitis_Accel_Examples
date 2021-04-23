@@ -55,7 +55,7 @@ int main(int argc, char* argv[]) {
     int expected_cmds = 10000;
 
     if (xcl::is_emulation()) {
-        cmds_per_run = {10, 50, 100};
+        cmds_per_run = {10, 20};
         std::cout << "Number of operations is reduced for faster execution on "
                      "emulation flow.\n";
     }
