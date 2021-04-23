@@ -57,9 +57,9 @@ Vector addition in kernel is divided into 4 sub-tasks(read input 1, read input 2
 .. code:: cpp
 
    #pragma HLS dataflow
-       read_input(in1, inStream1, size);
-       read_input(in2, inStream2, size);
-       compute_add(inStream1, inStream2, outStream, size);
-       write_result(out, outStream, size);
+       load_input(in1, in1_stream, vSize);
+       load_input(in2, in2_stream, vSize);
+       compute_add(in1_stream, in2_stream, out_stream, vSize);
+       store_result(out, out_stream, vSize);
 
 For more comprehensive documentation, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.
