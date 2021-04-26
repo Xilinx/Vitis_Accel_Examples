@@ -140,7 +140,7 @@ $(EMCONFIG_DIR)/emconfig.json:
 run: all
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 	$(CP) $(EMCONFIG_DIR)/emconfig.json .
-	XCL_EMULATION_MODE=$(TARGET) $(EXECUTABLE) -ps-only
+	XCL_EMULATION_MODE=$(TARGET) $(EXECUTABLE)
 else
 	$(EXECUTABLE)
 endif
@@ -149,7 +149,7 @@ endif
 .PHONY: test
 test: $(EXECUTABLE)
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
-	XCL_EMULATION_MODE=$(TARGET) $(EXECUTABLE) -ps-only
+	XCL_EMULATION_MODE=$(TARGET) $(EXECUTABLE)
 else
 	$(EXECUTABLE)
 endif

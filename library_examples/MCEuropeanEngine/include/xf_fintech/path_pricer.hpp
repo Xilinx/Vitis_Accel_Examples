@@ -81,34 +81,40 @@ class PathPricer<European, DT, StepFirst, SampNum, WithAntithetic> {
 #ifndef __SYNTHESIS__
         static int cnt = 0;
 #endif
+        DT s = underlying;
         for (int i = 0; i < paths; ++i) {
+            for (int t = 1; t <= steps; t++) {
 #pragma HLS pipeline II = 1
 #pragma HLS loop_tripcount min = SampNum max = SampNum
-            DT logS = pathStrmIn.read();
-            DT s1 = FPExp(logS);
-            DT s = FPTwoMul(underlying, s1);
-            DT op1 = 0;
-            DT op2 = 0;
-            if (optionType) {
-                op1 = strike;
-                op2 = s;
-            } else {
-                op1 = s;
-                op2 = strike;
-            }
-            DT p1 = FPTwoSub(op1, op2);
-            DT payoff = MAX(p1, 0); // discount * MAX(s1, 0);
-            DT price = FPTwoMul(discount, payoff);
+                DT logS = pathStrmIn.read();
+                if (t == 1) s = underlying;
+                DT s1 = FPExp(logS);
+                s = FPTwoMul(s, s1);
+                if (t == steps) {
+                    DT op1 = 0;
+                    DT op2 = 0;
+                    if (optionType) {
+                        op1 = strike;
+                        op2 = s;
+                    } else {
+                        op1 = s;
+                        op2 = strike;
+                    }
+                    DT p1 = FPTwoSub(op1, op2);
+                    DT payoff = MAX(p1, 0); // discount * MAX(s1, 0);
+                    DT price = FPTwoMul(discount, payoff);
 #ifndef __SYNTHESIS__
 #ifdef HLS_DEBUG
-            if (cnt < 1024) {
-                std::cout << "pIn = " << pIn << std::endl;
-                std::cout << "payoff = " << payoff << std::endl;
+                    if (cnt < 1024) {
+                        std::cout << "pIn = " << pIn << std::endl;
+                        std::cout << "payoff = " << payoff << std::endl;
+                    }
+                    cnt++;
+#endif
+#endif
+                    priceStrmOut.write(price);
+                }
             }
-            cnt++;
-#endif
-#endif
-            priceStrmOut.write(price);
         }
     } // PE()
     void Pricing(ap_uint<16> steps,
