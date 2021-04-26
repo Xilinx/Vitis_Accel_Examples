@@ -108,7 +108,7 @@ int main(int argc, char** argv) {
     OCL_CHECK(err, cl::Buffer infoBuf(context, CL_MEM_ALLOC_HOST_PTR | CL_MEM_WRITE_ONLY, sizeof(kernel_info), nullptr,
                                       &err));
     OCL_CHECK(err,
-              cl::Buffer dataBuf(context, CL_MEM_ALLOC_HOST_PTR | CL_MEM_WRITE_ONLY, buf_size_bytes, nullptr, &err));
+              cl::Buffer dataBuf(context, CL_MEM_ALLOC_HOST_PTR | CL_MEM_READ_WRITE, buf_size_bytes, nullptr, &err));
     // Pin the buffers to kernel arguments
     for (int i = 0; i < 6; i++) {
         OCL_CHECK(err, err = krnl[i].setArg(2, infoBuf));

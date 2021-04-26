@@ -514,10 +514,9 @@ def mk_run(target, data):
     if not ("platform_type" in data and data["platform_type"] == "pcie"):
         target.write("\nelse\n")
         target.write("\t$(LAUNCH_EMULATOR_CMD)")
-    if "containers" in data:
-        target.write("\n")
-    else:
-        target.write(" -ps-only\n")
+        if "containers" not in data:
+            target.write(" -ps-only")
+    target.write("\n")
     if not ("platform_type" in data and data["platform_type"] == "pcie"):
         target.write("endif\n")
     target.write("else\n")
@@ -569,10 +568,9 @@ def mk_run(target, data):
     if not ("platform_type" in data and data["platform_type"] == "pcie"):
         target.write("\nelse\n")
         target.write("\t$(LAUNCH_EMULATOR_CMD)")
-    if "containers" in data:
-        target.write("\n")
-    else:
-        target.write(" -ps-only\n")
+        if "containers" not in data:
+            target.write(" -ps-only")
+    target.write("\n")
     if not ("platform_type" in data and data["platform_type"] == "pcie"):
         target.write("endif\n")
     target.write("else\n")
