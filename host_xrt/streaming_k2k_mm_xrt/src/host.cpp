@@ -92,12 +92,15 @@ int main(int argc, char** argv) {
     run.set_arg(0, bo0);
     run.set_arg(1, bo1);
     run.set_arg(3, DATA_SIZE);
-    run.wait();
+    run.start();
 
     auto run1 = xrt::run(krnl_vmult);
     run1.set_arg(0, bo2);
     run1.set_arg(2, bo_out);
     run1.set_arg(3, DATA_SIZE);
+    run1.start();
+
+    run.wait();
     run1.wait();
 
     // Get the output;
