@@ -436,40 +436,24 @@
             
   <div class="section" id="hello-world">
 <h1>Hello World<a class="headerlink" href="#hello-world" title="Permalink to this headline">¶</a></h1>
-<p>This is simple example of vector addition to describe how to use HLS kernels in Vitis Environment.</p>
-<p><strong>KEY CONCEPTS:</strong> HLS C Kernel, OpenCL Host APIs</p>
-<p><strong>KEYWORDS:</strong> gmem, #pragma HLS INTERFACE, m_axi, s_axilite</p>
-<p>This example a simple hello world example to explain the Host and Kernel
-code structure. Here a simple <code class="docutils literal notranslate"><span class="pre">vadd</span></code> kernel is used to explain the
-same.</p>
-<p>Vitis kernel can have one s_axilite interface which will be used by host
-application to configure the kernel. All the global memory access arguments are associated to m_axi(AXI
-Master Interface). All these settings are automatically done by Vitis. Multiple interfaces can be
-created based on the requirements. For example when multiple memory
-accessing arguments need access to global memory simultaneously, user
-can create multiple master interfaces and can connect to different
-arguments.</p>
-<p>Rather than reading individual items for addition, local buffers are
-created in kernel local memory and multiple items are read in a single
-burst. This is done to achieve low memory access latency and also for
-efficient use of bandwidth provided by the m_axi interface.</p>
-<p>Similarly, results are stored in a buffer and are written to global
-memory in a burst. The for loops used have the following requirements to
-implement burst read/write:</p>
-<ul class="simple">
-<li><p>Pipeline the loop : Loop pipeline must have <code class="docutils literal notranslate"><span class="pre">II</span></code> (Initiation
-interval) = 1</p></li>
-<li><p>contiguous memory : Memory addresses for read/write should be
-contiguous.</p></li>
-</ul>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="nl">read1</span><span class="p">:</span> <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span> <span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">chunk_size</span> <span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">){</span>
-    <span class="cp">#pragma HLS PIPELINE II=1</span>
-        <span class="n">v1_buffer</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">in1</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="n">j</span><span class="p">];</span>
-    <span class="p">}</span>
-<span class="nl">write</span><span class="p">:</span> <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span> <span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">chunk_size</span> <span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">){</span>
-    <span class="cp">#pragma HLS PIPELINE II=1</span>
-        <span class="n">out_r</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">vout_buffer</span><span class="p">[</span><span class="n">j</span><span class="p">];</span>
-    <span class="p">}</span>
+<p>This is simple example of vector addition to describe how to use HLS kernels in Vitis Environment. The kernel uses HLS Dataflow which allows the user to schedule multiple task together to achieve higher throughput.</p>
+<p><strong>KEY CONCEPTS:</strong> HLS C Kernel, OpenCL Host APIs, Task Level Parallelism</p>
+<p><strong>KEYWORDS:</strong> gmem, #pragma HLS INTERFACE, m_axi, dataflow, hls::stream</p>
+<p>This example is a simple hello world example to explain the Host and Kernel code structure. Here a simple <code class="docutils literal notranslate"><span class="pre">vadd</span></code> kernel is used to explain the same. The kernel uses HLS Dataflow which allows the user to schedule multiple task together to achieve higher throughput.</p>
+<p>Vitis kernel can have one s_axilite interface which will be used by host application to configure the kernel. All the global memory access arguments are associated to m_axi(AXI Master Interface) as below:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#pragma HLS INTERFACE m_axi port = in1 bundle = gmem0</span>
+<span class="cp">#pragma HLS INTERFACE m_axi port = in2 bundle = gmem1</span>
+<span class="cp">#pragma HLS INTERFACE m_axi port = out bundle = gmem0</span>
+</pre></div>
+</div>
+<p>Multiple interfaces can be created based on the requirements. For example when multiple memory accessing arguments need access to global memory simultaneously, user can create multiple master interfaces and can connect to different arguments.</p>
+<p>Usually data stored in the array is consumed or produced in a sequential manner, a more efficient communication mechanism is to use streaming data as specified by the STREAM pragma, where FIFOs are used instead of RAMs.</p>
+<p>Vector addition in kernel is divided into 4 sub-tasks(read input 1, read input 2 , compute_add and write) which are then performed concurrently using <code class="docutils literal notranslate"><span class="pre">Dataflow</span></code>.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#pragma HLS dataflow</span>
+    <span class="n">load_input</span><span class="p">(</span><span class="n">in1</span><span class="p">,</span> <span class="n">in1_stream</span><span class="p">,</span> <span class="n">vSize</span><span class="p">);</span>
+    <span class="n">load_input</span><span class="p">(</span><span class="n">in2</span><span class="p">,</span> <span class="n">in2_stream</span><span class="p">,</span> <span class="n">vSize</span><span class="p">);</span>
+    <span class="n">compute_add</span><span class="p">(</span><span class="n">in1_stream</span><span class="p">,</span> <span class="n">in2_stream</span><span class="p">,</span> <span class="n">out_stream</span><span class="p">,</span> <span class="n">vSize</span><span class="p">);</span>
+    <span class="n">store_result</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="n">out_stream</span><span class="p">,</span> <span class="n">vSize</span><span class="p">);</span>
 </pre></div>
 </div>
 <div class="section" id="excluded-platforms">

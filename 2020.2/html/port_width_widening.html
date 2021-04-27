@@ -474,49 +474,64 @@ the size of kernel interface ports.</p>
 </ol>
 <p>Vitis kernel can have m_axi interface which will be used by host application to configure the kernel. We have 5 kernels here each having the port width set in a a different way -</p>
 <ol class="arabic simple">
-<li><p>KERNEL 1 - No pragmas, No tcl file, Number of iterations is a variable - The ports in this case have no fields specifying the number of bundles or port_width. The number of iterations are variable and passed from the host code. Therefore, default values for both will be taken for these i.e. 1 bundle with each port having a width of 64.</p></li>
+<li><p>KERNEL 1 - Default case (no explict settings) - By default, HLS gives single M_AXI interface to access all pointer arguments (i.e. a,b and res here) and default width would be the maximum width datatype (i.e. 64bit here due to uint64_t).</p></li>
 </ol>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span> <span class="n">dot_product_1</span><span class="p">(</span><span class="k">const</span> <span class="kt">uint32_t</span> <span class="o">*</span><span class="n">a</span><span class="p">,</span> <span class="k">const</span> <span class="kt">uint32_t</span> <span class="o">*</span><span class="n">b</span><span class="p">,</span> <span class="kt">uint64_t</span> <span class="o">*</span><span class="n">res</span><span class="p">,</span>
-                   <span class="k">const</span> <span class="kt">int</span> <span class="n">size</span><span class="p">,</span> <span class="k">const</span> <span class="kt">int</span> <span class="n">reps</span><span class="p">)</span>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span> <span class="nf">dot_product_1</span><span class="p">(</span><span class="k">const</span> <span class="kt">uint32_t</span> <span class="o">*</span><span class="n">a</span><span class="p">,</span> <span class="k">const</span> <span class="kt">uint32_t</span> <span class="o">*</span><span class="n">b</span><span class="p">,</span> <span class="kt">uint64_t</span> <span class="o">*</span><span class="n">res</span><span class="p">,</span>
+                   <span class="k">const</span> <span class="kt">int</span> <span class="n">size</span><span class="p">,</span> <span class="k">const</span> <span class="kt">int</span> <span class="n">reps</span><span class="p">){</span>
+<span class="nl">loop_reps</span><span class="p">:</span> <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">reps</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+ <span class="nl">dot_product</span><span class="p">:</span> <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">size</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+         <span class="n">res</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">*</span> <span class="n">b</span><span class="p">[</span><span class="n">j</span><span class="p">];</span>
+     <span class="p">}</span>
+ <span class="p">}</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 <ol class="arabic simple" start="2">
-<li><p>KERNEL 2 - No pragmas, No tcl file, Number of iterations is predefined in the kernel - The ports in this case have no fields specifying the number of bundles or port_width. The number of iterations are predefined in the kernel code. Therefore, default values for both will be taken for these i.e. 1 bundle with each port having a width of 512.</p></li>
+<li><p>KERNEL 2 - Auto port width widening when pipeline loop is fixed bound (i.e. DATA_WIDTH), HLS does auto port width widening when pipeline loop is fixed bound. Here pipeline loop dot_product_inner has fixed iteration of DATA_WIDTH, as a result, HLS is widening M_AXI port width to 512bit (Maximum).</p></li>
 </ol>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#define DATA_WIDTH 16</span>
-
-<span class="kt">void</span> <span class="n">dot_product_2</span><span class="p">(</span><span class="k">const</span> <span class="kt">uint32_t</span> <span class="o">*</span><span class="n">a</span><span class="p">,</span> <span class="k">const</span> <span class="kt">uint32_t</span> <span class="o">*</span><span class="n">b</span><span class="p">,</span> <span class="kt">uint64_t</span> <span class="o">*</span><span class="n">res</span><span class="p">,</span>
-                   <span class="k">const</span> <span class="kt">int</span> <span class="n">size</span><span class="p">,</span> <span class="k">const</span> <span class="kt">int</span> <span class="n">reps</span><span class="p">)</span>
+<span class="kt">void</span> <span class="nf">dot_product_2</span><span class="p">(</span><span class="k">const</span> <span class="kt">uint32_t</span> <span class="o">*</span><span class="n">a</span><span class="p">,</span> <span class="k">const</span> <span class="kt">uint32_t</span> <span class="o">*</span><span class="n">b</span><span class="p">,</span> <span class="kt">uint64_t</span> <span class="o">*</span><span class="n">res</span><span class="p">,</span>
+                   <span class="k">const</span> <span class="kt">int</span> <span class="n">size</span><span class="p">,</span> <span class="k">const</span> <span class="kt">int</span> <span class="n">reps</span><span class="p">){</span>
+     <span class="nl">dot_product_outer</span><span class="p">:</span> <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">size</span><span class="p">;</span> <span class="n">j</span> <span class="o">+=</span> <span class="n">DATA_WIDTH</span><span class="p">)</span> <span class="p">{</span>
+     <span class="nl">dot_product_inner</span><span class="p">:</span> <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">k</span> <span class="o">&lt;</span> <span class="n">DATA_WIDTH</span><span class="p">;</span> <span class="n">k</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+             <span class="n">res</span><span class="p">[</span><span class="n">j</span> <span class="o">+</span> <span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="n">j</span> <span class="o">+</span> <span class="n">k</span><span class="p">]</span> <span class="o">*</span> <span class="n">b</span><span class="p">[</span><span class="n">j</span> <span class="o">+</span> <span class="n">k</span><span class="p">];</span>
+         <span class="p">}</span>
+     <span class="p">}</span>
+ <span class="p">}</span>
 </pre></div>
 </div>
 <ol class="arabic simple" start="3">
-<li><p>KERNEL 3 - pragmas specifying bundle but not port width, No tcl file - The ports in this case have fields specifying the number of bundles but the port_width is still not set. Therefore, the number of bundles will be taken from the pragmas and port_width will be taken as default value.</p></li>
+<li><p>KERNEL 3 - pragmas specifying multiple bundles to infer multiple M_AXI interfaces. Here we are providing gmem0 to pointer a (Read) and res (write) and gmem1 to pointer b(read).</p></li>
 </ol>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span> <span class="nf">dot_product_3</span><span class="p">(</span><span class="k">const</span> <span class="kt">uint32_t</span> <span class="o">*</span><span class="n">a</span><span class="p">,</span> <span class="k">const</span> <span class="kt">uint32_t</span> <span class="o">*</span><span class="n">b</span><span class="p">,</span> <span class="kt">uint64_t</span> <span class="o">*</span><span class="n">res</span><span class="p">,</span>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#define DATA_WIDTH 16</span>
+<span class="kt">void</span> <span class="nf">dot_product_3</span><span class="p">(</span><span class="k">const</span> <span class="kt">uint32_t</span> <span class="o">*</span><span class="n">a</span><span class="p">,</span> <span class="k">const</span> <span class="kt">uint32_t</span> <span class="o">*</span><span class="n">b</span><span class="p">,</span> <span class="kt">uint64_t</span> <span class="o">*</span><span class="n">res</span><span class="p">,</span>
                    <span class="k">const</span> <span class="kt">int</span> <span class="n">size</span><span class="p">,</span> <span class="k">const</span> <span class="kt">int</span> <span class="n">reps</span><span class="p">)</span> <span class="p">{</span>
-
 <span class="cp">#pragma HLS INTERFACE m_axi port=a bundle=gmem0</span>
 <span class="cp">#pragma HLS INTERFACE m_axi port=b bundle=gmem1</span>
 <span class="cp">#pragma HLS INTERFACE m_axi port=res bundle=gmem0</span>
+<span class="nl">dot_product_outer</span><span class="p">:</span> <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">size</span><span class="p">;</span> <span class="n">j</span> <span class="o">+=</span> <span class="n">DATA_WIDTH</span><span class="p">)</span> <span class="p">{</span>
+     <span class="nl">dot_product_inner</span><span class="p">:</span> <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">k</span> <span class="o">&lt;</span> <span class="n">DATA_WIDTH</span><span class="p">;</span> <span class="n">k</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+             <span class="n">res</span><span class="p">[</span><span class="n">j</span> <span class="o">+</span> <span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="n">j</span> <span class="o">+</span> <span class="n">k</span><span class="p">]</span> <span class="o">*</span> <span class="n">b</span><span class="p">[</span><span class="n">j</span> <span class="o">+</span> <span class="n">k</span><span class="p">];</span>
+         <span class="p">}</span>
+     <span class="p">}</span>
+ <span class="p">}</span>
 </pre></div>
 </div>
 <ol class="arabic simple" start="4">
-<li><p>KERNEL 4 - pragmas specifying bundle allocation , tcl file specifying port width - The ports in this case have fields specifying the number of bundles. Therefore, the number of bundles will be taken from the pragmas and port_width will be taken fom the tcl file.</p></li>
+<li><p>KERNEL 4 - Along with pragma in kernel, user can explicitly provide port width in tcl file (hls_config.tcl) as specified below:</p></li>
 </ol>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span> <span class="nf">dot_product_4</span><span class="p">(</span><span class="k">const</span> <span class="kt">uint32_t</span> <span class="o">*</span><span class="n">a</span><span class="p">,</span> <span class="k">const</span> <span class="kt">uint32_t</span> <span class="o">*</span><span class="n">b</span><span class="p">,</span> <span class="kt">uint64_t</span> <span class="o">*</span><span class="n">res</span><span class="p">,</span>
-                   <span class="k">const</span> <span class="kt">int</span> <span class="n">size</span><span class="p">,</span> <span class="k">const</span> <span class="kt">int</span> <span class="n">reps</span><span class="p">)</span> <span class="p">{</span>
-
-<span class="cp">#pragma HLS INTERFACE m_axi port=a bundle=gmem0</span>
-<span class="cp">#pragma HLS INTERFACE m_axi port=b bundle=gmem1</span>
-<span class="cp">#pragma HLS INTERFACE m_axi port=res bundle=gmem0</span>
-</pre></div>
-</div>
-<p>The port_width will be set by the hls_config.tcl file.</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">config_interface</span> <span class="o">-</span><span class="n">m_axi_max_widen_bitwidth</span> <span class="mi">512</span>
 </pre></div>
 </div>
+<p>The interface size setting need to be specified in hls_config.tcl file. We included this tcl file in our krnl_dot_product_4.cfg file and by using
+the <code class="docutils literal notranslate"><span class="pre">--config</span></code> tag in the kernel compile stage we specify the m_axi interface size.</p>
+<p>Following is the content of krnl_dot_product_4.cfg file</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">advanced</span><span class="p">]</span>
+<span class="n">prop</span><span class="o">=</span><span class="n">solution</span><span class="p">.</span><span class="n">hls_pre_tcl</span><span class="o">=</span><span class="n">hls_config</span><span class="p">.</span><span class="n">tcl</span>
+</pre></div>
+</div>
 <ol class="arabic simple" start="5">
-<li><p>KERNEL 5 - pragmas specifying bundle allocation and port width - The ports in this case have fields specifying the number of bundles and port_width. Therefore, the number of bundles and port_width will be taken from the pragmas.</p></li>
+<li><p>KERNEL 5 - Interface pragma based port width allocation to each bundle. User can directly specifying portwidth to each M_AXI ports. Here user is setting 512 bit width to gmem0 and 256 bitwidth to gmem1.</p></li>
 </ol>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span> <span class="nf">dot_product_5</span><span class="p">(</span><span class="k">const</span> <span class="kt">uint32_t</span> <span class="o">*</span><span class="n">a</span><span class="p">,</span> <span class="k">const</span> <span class="kt">uint32_t</span> <span class="o">*</span><span class="n">b</span><span class="p">,</span> <span class="kt">uint64_t</span> <span class="o">*</span><span class="n">res</span><span class="p">,</span>
                    <span class="k">const</span> <span class="kt">int</span> <span class="n">size</span><span class="p">,</span> <span class="k">const</span> <span class="kt">int</span> <span class="n">reps</span><span class="p">)</span> <span class="p">{</span>
@@ -524,15 +539,6 @@ the size of kernel interface ports.</p>
 <span class="cp">#pragma HLS INTERFACE m_axi port=a bundle=gmem0 max_widen_bitwidth=512</span>
 <span class="cp">#pragma HLS INTERFACE m_axi port=b bundle=gmem1 max_widen_bitwidth=256</span>
 <span class="cp">#pragma HLS INTERFACE m_axi port=res bundle=gmem0</span>
-</pre></div>
-</div>
-<p>The interface size setting need to be specified in hls_config.tcl file.
-We include this tcl file in our krnl_dot_product_4.cfg file and by using
-the <code class="docutils literal notranslate"><span class="pre">--config</span></code> tag in the kernel compile stage we specify the m_axi
-interface size.</p>
-<p>Following is the content of cfg file</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">advanced</span><span class="p">]</span>
-<span class="n">prop</span><span class="o">=</span><span class="n">solution</span><span class="p">.</span><span class="n">hls_pre_tcl</span><span class="o">=</span><span class="n">hls_config</span><span class="p">.</span><span class="n">tcl</span>
 </pre></div>
 </div>
 <p>Below are the resource numbers while running the design on U200 platform:</p>

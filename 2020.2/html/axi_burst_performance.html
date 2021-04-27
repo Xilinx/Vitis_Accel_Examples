@@ -57,8 +57,8 @@
   <link rel="stylesheet" href="_static/css/pro.min.css" media="all" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Stream Free Running Kernel (HLS C/C++)" href="streaming_free_running_k2k.html" />
-    <link rel="prev" title="Slave Bridge Copy Buffer" href="slave_bridge_copy_buffer.html" /> 
+    <link rel="next" title="Concurrent Kernel Execution" href="concurrent_kernel_execution.html" />
+    <link rel="prev" title="Host" href="host.html" /> 
 	</head>
 	<body>
 		<div class="xilinx-bs3"/>
@@ -342,7 +342,12 @@
 <li class="toctree-l1"><a class="reference internal" href="hello_world.html">Hello World</a></li>
 <li class="toctree-l1"><a class="reference internal" href="aie_kernels.html">AIE Examples</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="host.html">Host</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="axi_burst_performance.html">AXI Burst Performance</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">AXI Burst Performance</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#excluded-platforms">EXCLUDED PLATFORMS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#design-files">DESIGN FILES</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#command-line-arguments">COMMAND LINE ARGUMENTS</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="concurrent_kernel_execution.html">Concurrent Kernel Execution</a></li>
 <li class="toctree-l2"><a class="reference internal" href="copy_buffer.html">Copy Buffer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="data_transfer.html">Data Transfer</a></li>
@@ -368,12 +373,7 @@
 <li class="toctree-l2"><a class="reference internal" href="slave_bridge_simple.html">Slave Bridge Simple</a></li>
 <li class="toctree-l2"><a class="reference internal" href="slave_bridge_bandwidth.html">Slave Bridge Bandwidth</a></li>
 <li class="toctree-l2"><a class="reference internal" href="slave_bridge_copy_buffer.html">Slave Bridge Copy Buffer</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Slave Bridge Copy Kernel</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#excluded-platforms">EXCLUDED PLATFORMS</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#design-files">DESIGN FILES</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#command-line-arguments">COMMAND LINE ARGUMENTS</a></li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="slave_bridge_copy_kernel.html">Slave Bridge Copy Kernel</a></li>
 <li class="toctree-l2"><a class="reference internal" href="streaming_free_running_k2k.html">Stream Free Running Kernel (HLS C/C++)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="streaming_reg_access.html">Control and Status Register access continuously streaming kernel (HLS C/C++)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="device_only_buffer.html">Device Only Buffer</a></li>
@@ -402,7 +402,7 @@
             
 			<p class="caption"><span class="caption-text">This Page</span></p>
 				<ul class="current">
-				  <li class="toctree-l1"><a href="_sources/slave_bridge_copy_kernel.rst.txt"
+				  <li class="toctree-l1"><a href="_sources/axi_burst_performance.rst.txt"
 						rel="nofollow">Show Source</a></li>						
 				</ul>
           
@@ -450,13 +450,13 @@
         
           <li><a href="host.html">Host</a> &raquo;</li>
         
-      <li>Slave Bridge Copy Kernel</li>
+      <li>AXI Burst Performance</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="_sources/slave_bridge_copy_kernel.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/axi_burst_performance.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -469,46 +469,158 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="slave-bridge-copy-kernel">
-<h1>Slave Bridge Copy Kernel<a class="headerlink" href="#slave-bridge-copy-kernel" title="Permalink to this headline">¶</a></h1>
-<p>This is a Slave Bridge Example to describe how data can be copied between host-only buffer and device-only buffer using User Copy Kernel.</p>
-<p><strong>KEY CONCEPTS:</strong> slave bridge</p>
-<p><strong>KEYWORDS:</strong> XCL_MEM_EXT_HOST_ONLY, CL_MEM_HOST_NO_ACCESS, enqueueMapBuffer</p>
-<p>Here a user copy kernel is instantiated inside container which copies data between host and device memory.</p>
-<p>Host only buffer is created using <code class="docutils literal notranslate"><span class="pre">XCL_MEM_EXT_HOST_ONLY</span></code> flag whereas device only buffer is created using <code class="docutils literal notranslate"><span class="pre">CL_MEM_HOST_NO_ACCESS</span></code> flag. The following data transfers take place in the example -</p>
-<ol class="arabic simple">
-<li><p>Enqueue kernel <code class="docutils literal notranslate"><span class="pre">copy_kernel</span></code> to copy the HOST_ONLY input buffer <code class="docutils literal notranslate"><span class="pre">buffer_in_host</span></code> into  DEVICE_ONLY input buffer <code class="docutils literal notranslate"><span class="pre">buffer_in_dev</span></code>.</p></li>
-<li><p>Enqueue kernel <code class="docutils literal notranslate"><span class="pre">krnl_vadd</span></code> to do computations on DEVICE_ONLY input buffer <code class="docutils literal notranslate"><span class="pre">buffer_in_dev</span></code> and put output in DEVICE_ONLY output buffer <code class="docutils literal notranslate"><span class="pre">buffer_out_dev</span></code>.</p></li>
-<li><p>Enqueue kernel <code class="docutils literal notranslate"><span class="pre">copy_kernel</span></code> to copy the DEVICE_ONLY output buffer <code class="docutils literal notranslate"><span class="pre">buffer_out_dev</span></code> into  HOST_ONLY output buffer <code class="docutils literal notranslate"><span class="pre">buffer_out_host</span></code>.</p></li>
-</ol>
+  <div class="section" id="axi-burst-performance">
+<h1>AXI Burst Performance<a class="headerlink" href="#axi-burst-performance" title="Permalink to this headline">¶</a></h1>
+<p>This is a AXI Burst Performance check design. It measures the time it takes to write a buffer into DDR or read a buffer from DDR. The example contains 6 kernels, each with different burst_length and num_outstanding parameters to compare the impact of these parameters on effective throughput.</p>
+<p>This design measures the time it takes to write a buffer into DDR or read a buffer from DDR. The example contains 6 kernels, each with different burst_length and num_outstanding parameters to compare the impact of these parameters on effective throughput.</p>
+<p>A counter is coded inside each of the kernels to accurately count the number of cycles between the start and end of the buffer transfer.</p>
+<p>In this version, the kernels are configured as follows:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">testKernel_1</span><span class="p">:</span> <span class="n">burst</span> <span class="n">length</span><span class="o">=</span> <span class="mi">4</span><span class="p">,</span> <span class="n">outstanding</span> <span class="n">transactions</span><span class="o">=</span><span class="mi">4</span>
+<span class="n">testKernel_2</span><span class="p">:</span> <span class="n">burst</span> <span class="n">length</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">outstanding</span> <span class="n">transactions</span><span class="o">=</span><span class="mi">4</span>
+<span class="n">testKernel_3</span><span class="p">:</span> <span class="n">burst</span> <span class="n">length</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">outstanding</span> <span class="n">transactions</span><span class="o">=</span><span class="mi">4</span>
+<span class="n">testKernel_4</span><span class="p">:</span> <span class="n">burst</span> <span class="n">length</span><span class="o">=</span> <span class="mi">4</span><span class="p">,</span> <span class="n">outstanding</span> <span class="n">transactions</span><span class="o">=</span><span class="mi">32</span>
+<span class="n">testKernel_5</span><span class="p">:</span> <span class="n">burst</span> <span class="n">length</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">outstanding</span> <span class="n">transactions</span><span class="o">=</span><span class="mi">32</span>
+<span class="n">testKernel_6</span><span class="p">:</span> <span class="n">burst</span> <span class="n">length</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">outstanding</span> <span class="n">transactions</span><span class="o">=</span><span class="mi">32</span>
+</pre></div>
+</div>
+<p>Below are the resource numbers while running the design on U200 platform:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 17%" />
+<col style="width: 17%" />
+<col style="width: 17%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Kernel</p></th>
+<th class="head"><p>LUT</p></th>
+<th class="head"><p>REG</p></th>
+<th class="head"><p>BRAM</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>testKernel_1</p></td>
+<td><p>4847</p></td>
+<td><p>9036</p></td>
+<td><p>14</p></td>
+</tr>
+<tr class="row-odd"><td><p>testKernel_2</p></td>
+<td><p>4895</p></td>
+<td><p>9061</p></td>
+<td><p>14</p></td>
+</tr>
+<tr class="row-even"><td><p>testKernel_3</p></td>
+<td><p>5154</p></td>
+<td><p>9060</p></td>
+<td><p>14</p></td>
+</tr>
+<tr class="row-odd"><td><p>testKernel_4</p></td>
+<td><p>4910</p></td>
+<td><p>9073</p></td>
+<td><p>14</p></td>
+</tr>
+<tr class="row-even"><td><p>testKernel_5</p></td>
+<td><p>4942</p></td>
+<td><p>9085</p></td>
+<td><p>14</p></td>
+</tr>
+<tr class="row-odd"><td><p>testKernel_6</p></td>
+<td><p>5179</p></td>
+<td><p>9013</p></td>
+<td><p>23</p></td>
+</tr>
+</tbody>
+</table>
+<p>Following is the real log reported while running the design on U200 platform for 16 KB transfers:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Test parameters
+ - xclbin file   : ./build_dir.hw.xilinx_u200_xdma_201830_2/testKernel.xclbin
+ - frequency     : 300 Mhz
+ - buffer size   : 16.00 KB
+
+Found Platform
+Platform Name: Xilinx
+INFO: Reading ./build_dir.hw.xilinx_u200_xdma_201830_2/testKernel.xclbin
+Loading: &#39;./build_dir.hw.xilinx_u200_xdma_201830_2/testKernel.xclbin&#39;
+Trying to program device[1]: xilinx_u200_xdma_201830_2
+Device[1]: program successful!
+
+Kernel-&gt;AXI Burst WRITE performance
+burst_length = 4 num_outstanding = 4 buffer_size = 16.00 KB | throughput = 4.61455 GB/sec
+burst_length = 16 num_outstanding = 4 buffer_size = 16.00 KB | throughput = 10.3801 GB/sec
+burst_length = 32 num_outstanding = 4 buffer_size = 16.00 KB | throughput = 8.41477 GB/sec
+burst_length = 4 num_outstanding = 32 buffer_size = 16.00 KB | throughput = 8.10201 GB/sec
+burst_length = 16 num_outstanding = 32 buffer_size = 16.00 KB | throughput = 11.5306 GB/sec
+burst_length = 32 num_outstanding = 32 buffer_size = 16.00 KB | throughput = 10.9775 GB/sec
+
+Kernel-&gt;AXI Burst READ performance
+burst_length = 4 num_outstanding = 4 buffer_size = 16.00 KB | throughput = 3.77693 GB/sec
+burst_length = 16 num_outstanding = 4 buffer_size = 16.00 KB | throughput = 11.6776 GB/sec
+burst_length = 32 num_outstanding = 4 buffer_size = 16.00 KB | throughput = 9.8869 GB/sec
+burst_length = 4 num_outstanding = 32 buffer_size = 16.00 KB | throughput = 13.6646 GB/sec
+burst_length = 16 num_outstanding = 32 buffer_size = 16.00 KB | throughput = 13.4636 GB/sec
+burst_length = 32 num_outstanding = 32 buffer_size = 16.00 KB | throughput = 13.6646 GB/sec
+
+TEST PASSED
+</pre></div>
+</div>
+<p>Following is the real log reported while running the design on U200 platform for 16 MB transfers:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Test parameters
+ - xclbin file   : ./build_dir.hw.xilinx_u200_xdma_201830_2/testKernel.xclbin
+ - frequency     : 300 Mhz
+ - buffer size   : 16.00 MB
+
+Found Platform
+Platform Name: Xilinx
+INFO: Reading ./build_dir.hw.xilinx_u200_xdma_201830_2/testKernel.xclbin
+Loading: &#39;./build_dir.hw.xilinx_u200_xdma_201830_2/testKernel.xclbin&#39;
+Trying to program device[1]: xilinx_u200_xdma_201830_2
+Device[1]: program successful!
+
+Kernel-&gt;AXI Burst WRITE performance
+burst_length = 4 num_outstanding = 4 buffer_size = 16.00 MB | throughput = 5.13962 GB/sec
+burst_length = 16 num_outstanding = 4 buffer_size = 16.00 MB | throughput = 11.7986 GB/sec
+burst_length = 32 num_outstanding = 4 buffer_size = 16.00 MB | throughput = 14.6955 GB/sec
+burst_length = 4 num_outstanding = 32 buffer_size = 16.00 MB | throughput = 8.93887 GB/sec
+burst_length = 16 num_outstanding = 32 buffer_size = 16.00 MB | throughput = 14.2987 GB/sec
+burst_length = 32 num_outstanding = 32 buffer_size = 16.00 MB | throughput = 15.1677 GB/sec
+
+Kernel-&gt;AXI Burst READ performance
+burst_length = 4 num_outstanding = 4 buffer_size = 16.00 MB | throughput = 3.93185 GB/sec
+burst_length = 16 num_outstanding = 4 buffer_size = 16.00 MB | throughput = 13.1127 GB/sec
+burst_length = 32 num_outstanding = 4 buffer_size = 16.00 MB | throughput = 16.8296 GB/sec
+burst_length = 4 num_outstanding = 32 buffer_size = 16.00 MB | throughput = 16.8294 GB/sec
+burst_length = 16 num_outstanding = 32 buffer_size = 16.00 MB | throughput = 16.8294 GB/sec
+burst_length = 32 num_outstanding = 32 buffer_size = 16.00 MB | throughput = 16.8295 GB/sec
+
+TEST PASSED
+</pre></div>
+</div>
 <div class="section" id="excluded-platforms">
 <h2>EXCLUDED PLATFORMS<a class="headerlink" href="#excluded-platforms" title="Permalink to this headline">¶</a></h2>
 <p>Platforms containing following strings in their names are not supported for this example :</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">_u25_</span>
-<span class="n">u30</span>
-<span class="n">zc</span>
-<span class="n">vck</span>
-<span class="n">aws</span><span class="o">-</span><span class="n">vu9p</span><span class="o">-</span><span class="n">f1</span>
-<span class="mi">2019</span>
-<span class="mi">2018</span>
-<span class="mi">202010</span>
-<span class="n">_u2_</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">aws</span><span class="o">-</span><span class="n">vu9p</span><span class="o">-</span><span class="n">f1</span>
+<span class="n">samsung</span>
+<span class="n">nodma</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="design-files">
 <h2>DESIGN FILES<a class="headerlink" href="#design-files" title="Permalink to this headline">¶</a></h2>
 <p>Application code is located in the src directory. Accelerator binary files will be compiled to the xclbin directory. The xclbin directory is required by the Makefile and its contents will be filled during compilation. A listing of all the files in this example is shown below</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">src</span><span class="o">/</span><span class="n">copy_kernel</span><span class="o">.</span><span class="n">cpp</span>
-<span class="n">src</span><span class="o">/</span><span class="n">host</span><span class="o">.</span><span class="n">cpp</span>
-<span class="n">src</span><span class="o">/</span><span class="n">krnl_vadd</span><span class="o">.</span><span class="n">cpp</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">src</span><span class="o">/</span><span class="n">host</span><span class="o">.</span><span class="n">cpp</span>
+<span class="n">src</span><span class="o">/</span><span class="n">testKernel_1</span><span class="o">.</span><span class="n">cpp</span>
+<span class="n">src</span><span class="o">/</span><span class="n">testKernel_2</span><span class="o">.</span><span class="n">cpp</span>
+<span class="n">src</span><span class="o">/</span><span class="n">testKernel_3</span><span class="o">.</span><span class="n">cpp</span>
+<span class="n">src</span><span class="o">/</span><span class="n">testKernel_4</span><span class="o">.</span><span class="n">cpp</span>
+<span class="n">src</span><span class="o">/</span><span class="n">testKernel_5</span><span class="o">.</span><span class="n">cpp</span>
+<span class="n">src</span><span class="o">/</span><span class="n">testKernel_6</span><span class="o">.</span><span class="n">cpp</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="command-line-arguments">
 <h2>COMMAND LINE ARGUMENTS<a class="headerlink" href="#command-line-arguments" title="Permalink to this headline">¶</a></h2>
 <p>Once the environment has been configured, the application can be executed by</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">slave_bridge_copy_kernel</span><span class="o">.</span><span class="n">exe</span> <span class="o">&lt;</span><span class="n">krnl_vadd</span> <span class="n">XCLBIN</span><span class="o">&gt;</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">axi_burst_performance</span> <span class="o">-</span><span class="n">x</span> <span class="o">&lt;</span><span class="n">testKernel</span> <span class="n">XCLBIN</span><span class="o">&gt;</span>
 </pre></div>
 </div>
 </div>
@@ -530,10 +642,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="streaming_free_running_k2k.html" class="btn btn-neutral float-right" title="Stream Free Running Kernel (HLS C/C++)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="concurrent_kernel_execution.html" class="btn btn-neutral float-right" title="Concurrent Kernel Execution" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="slave_bridge_copy_buffer.html" class="btn btn-neutral float-left" title="Slave Bridge Copy Buffer" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="host.html" class="btn btn-neutral float-left" title="Host" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

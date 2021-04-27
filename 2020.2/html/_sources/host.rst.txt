@@ -7,6 +7,7 @@ OpenCL host code for optimized interfacing with Xilinx Devices.
    :maxdepth: 1
    :caption: List of Examples
 
+   axi_burst_performance.rst
    concurrent_kernel_execution.rst
    copy_buffer.rst
    data_transfer.rst
