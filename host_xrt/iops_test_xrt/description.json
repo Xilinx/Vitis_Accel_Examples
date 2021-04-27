@@ -39,10 +39,6 @@
     },
     "match_ini": "false",
     "config_make": "config.mk",
-    "targets": [
-       "hw_emu",
-       "hw" 
-    ],
     "containers": [
         {
             "accelerators": [
@@ -79,6 +75,7 @@
             }
         ],
         "targets": [
+            "vitis_sw_emu",
             "vitis_hw_emu",
             "vitis_hw"
         ],

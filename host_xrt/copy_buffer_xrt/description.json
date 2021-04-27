@@ -40,10 +40,6 @@
                 ]
         }
     },
-    "targets": [
-       "hw_emu",
-       "hw" 
-    ],
     "match_ini": "false",
     "config_make": "config.mk",
     "containers": [
@@ -82,6 +78,7 @@
             }
         ],
         "targets": [
+            "vitis_sw_emu",
             "vitis_hw_emu",
             "vitis_hw"
         ],

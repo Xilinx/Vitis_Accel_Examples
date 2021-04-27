@@ -78,6 +78,8 @@ VPP_PFLAGS :=
 CMD_ARGS = -x $(BUILD_DIR)/bandwidth.xclbin
 
 include $(XF_PROJ_ROOT)/common/includes/opencl/opencl.mk
+include config.mk
+
 CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++1y
 LDFLAGS += $(opencl_LDFLAGS)
 
@@ -134,7 +136,6 @@ ifneq ($(TARGET), hw)
 	VPP_FLAGS += -g
 endif
 
-CXXFLAGS += -D_GLIBCXX_USE_CXX11_ABI=0
 
 # Kernel linker flags
 VPP_LDFLAGS += --config ./krnl_bandwidth.cfg
@@ -198,9 +199,6 @@ ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 else
 	$(EXECUTABLE) $(CMD_ARGS)
 endif
-ifneq ($(TARGET),$(findstring $(TARGET), hw_emu hw))
-$(error Application supports only hw_emu hw TARGET. Please use the target for running the application)
-endif
 
 
 .PHONY: test
@@ -210,10 +208,6 @@ ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 else
 	$(EXECUTABLE) $(CMD_ARGS)
 endif
-ifneq ($(TARGET),$(findstring $(TARGET), hw_emu hw))
-$(warning WARNING:Application supports only hw_emu hw TARGET. Please use the target for running the application)
-endif
-
 
 
 ############################## Cleaning Rules ##############################
