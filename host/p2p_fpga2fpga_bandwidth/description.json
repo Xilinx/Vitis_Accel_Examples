@@ -26,6 +26,10 @@
         "_u25_",
         "u30"
     ],
+    "targets": [	
+        "sw_emu",	
+        "hw" 	
+    ],
      "runtime": [
         "OpenCL"
     ], 
@@ -87,7 +91,6 @@
         ],
         "targets": [
             "vitis_sw_emu",
-            "vitis_hw_emu",
             "vitis_hw"
         ],
         "category": "canary"

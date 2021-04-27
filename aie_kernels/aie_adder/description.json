@@ -113,13 +113,13 @@
                     "location": "src/pl_s2mm.cpp"
                 } 
             ], 
-            "name": "adder"
+            "name": "krnl_adder"
         }
     ],
     "config_make" : "./system.cfg",
     "launch": [
         {
-            "cmd_args": "BUILD/adder.xclbin", 
+            "cmd_args": "BUILD/krnl_adder.xclbin", 
             "name": "generic launch for all flows"
         }
     ],
