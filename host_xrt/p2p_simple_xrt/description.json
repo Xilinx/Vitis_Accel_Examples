@@ -83,6 +83,9 @@
     ],
     "testinfo": {
         "disable": false,
+        "features": [
+            "p2p"
+        ],
         "profile": "no",
         "jobs": [
             {

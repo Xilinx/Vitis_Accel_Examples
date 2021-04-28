@@ -27,7 +27,8 @@
     ], 
     "runtime": [
         "OpenCL"
-    ], 
+    ],
+    "gui" : false, 
     "host": {
         "host_exe": "iops_fast_adapter_xrt",
         "compiler": {
@@ -48,6 +49,13 @@
                            "xrt_coreutil"
                ]
         }
+    },
+    "v++": {
+        "linker": {
+             "ldclflags": [
+                 "--config PROJECT/fa_hello.cfg"
+              ]
+         }
     },
     "match_makefile": "false",
     "match_ini": "false",
