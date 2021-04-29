@@ -14,6 +14,7 @@
     "platform_blacklist": [
         "u30",
         "u50",
+        "u55",
         "vck",
         "zc",
         "samsung",

@@ -931,13 +931,12 @@ else:
     target = open("xrt.ini","w+")
     profile_report(target)
 
-if "containers" in data:
-       	config_flag = 0
-        create_config(data)	
-
 if "match_makefile" in data and data["match_makefile"] == "false":
     print("Info:: Makefile Manually Edited:: AutoMakefile Generator Skipped")
 else:
+    if "containers" in data:
+        config_flag = 0
+        create_config(data)	
     print("Generating Auto-Makefile for %s" %data["name"])
     target = open("Makefile", "w")
     create_mk(target, data)

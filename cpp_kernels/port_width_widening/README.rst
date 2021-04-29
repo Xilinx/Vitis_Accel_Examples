@@ -55,51 +55,69 @@ A few rules must be kept in mind by the user -
 
 Vitis kernel can have m_axi interface which will be used by host application to configure the kernel. We have 5 kernels here each having the port width set in a a different way -
 
-1. KERNEL 1 - No pragmas, No tcl file, Number of iterations is a variable - The ports in this case have no fields specifying the number of bundles or port_width. The number of iterations are variable and passed from the host code. Therefore, default values for both will be taken for these i.e. 1 bundle with each port having a width of 64. 
+1. KERNEL 1 - Default case (no explict settings) - By default, HLS gives single M_AXI interface to access all pointer arguments (i.e. a,b and res here) and default width would be the maximum width datatype (i.e. 64bit here due to uint64_t). 
 
 .. code:: cpp
 
    void dot_product_1(const uint32_t *a, const uint32_t *b, uint64_t *res,
-                      const int size, const int reps)
+                      const int size, const int reps){
+   loop_reps: for (int i = 0; i < reps; i++) {
+    dot_product: for (int j = 0; j < size; j++) {
+            res[j] = a[j] * b[j];
+        }
+    }
+   }                      
 
-2. KERNEL 2 - No pragmas, No tcl file, Number of iterations is predefined in the kernel - The ports in this case have no fields specifying the number of bundles or port_width. The number of iterations are predefined in the kernel code. Therefore, default values for both will be taken for these i.e. 1 bundle with each port having a width of 512. 
+2. KERNEL 2 - Auto port width widening when pipeline loop is fixed bound (i.e. DATA_WIDTH), HLS does auto port width widening when pipeline loop is fixed bound. Here pipeline loop dot_product_inner has fixed iteration of DATA_WIDTH, as a result, HLS is widening M_AXI port width to 512bit (Maximum). 
 
 .. code:: cpp
 
    #define DATA_WIDTH 16
-
    void dot_product_2(const uint32_t *a, const uint32_t *b, uint64_t *res,
-                      const int size, const int reps)
+                      const int size, const int reps){
+        dot_product_outer: for (int j = 0; j < size; j += DATA_WIDTH) {
+        dot_product_inner: for (int k = 0; k < DATA_WIDTH; k++) {
+                res[j + k] = a[j + k] * b[j + k];
+            }
+        }
+    }   
 
-3. KERNEL 3 - pragmas specifying bundle but not port width, No tcl file - The ports in this case have fields specifying the number of bundles but the port_width is still not set. Therefore, the number of bundles will be taken from the pragmas and port_width will be taken as default value. 
+3. KERNEL 3 - pragmas specifying multiple bundles to infer multiple M_AXI interfaces. Here we are providing gmem0 to pointer a (Read) and res (write) and gmem1 to pointer b(read). 
 
 .. code:: cpp
 
+   #define DATA_WIDTH 16
    void dot_product_3(const uint32_t *a, const uint32_t *b, uint64_t *res,
                       const int size, const int reps) {
-
    #pragma HLS INTERFACE m_axi port=a bundle=gmem0
    #pragma HLS INTERFACE m_axi port=b bundle=gmem1
    #pragma HLS INTERFACE m_axi port=res bundle=gmem0
+   dot_product_outer: for (int j = 0; j < size; j += DATA_WIDTH) {
+        dot_product_inner: for (int k = 0; k < DATA_WIDTH; k++) {
+                res[j + k] = a[j + k] * b[j + k];
+            }
+        }
+    }
 
-4. KERNEL 4 - pragmas specifying bundle allocation , tcl file specifying port width - The ports in this case have fields specifying the number of bundles. Therefore, the number of bundles will be taken from the pragmas and port_width will be taken fom the tcl file. 
-
-.. code:: cpp
-
-   void dot_product_4(const uint32_t *a, const uint32_t *b, uint64_t *res,
-                      const int size, const int reps) {
-
-   #pragma HLS INTERFACE m_axi port=a bundle=gmem0
-   #pragma HLS INTERFACE m_axi port=b bundle=gmem1
-   #pragma HLS INTERFACE m_axi port=res bundle=gmem0
-
-The port_width will be set by the hls_config.tcl file.
+4. KERNEL 4 - Along with pragma in kernel, user can explicitly provide port width in tcl file (hls_config.tcl) as specified below: 
 
 .. code:: cpp
 
    config_interface -m_axi_max_widen_bitwidth 512
 
-5. KERNEL 5 - pragmas specifying bundle allocation and port width - The ports in this case have fields specifying the number of bundles and port_width. Therefore, the number of bundles and port_width will be taken from the pragmas. 
+
+The interface size setting need to be specified in hls_config.tcl file. We included this tcl file in our krnl_dot_product_4.cfg file and by using
+the ``--config`` tag in the kernel compile stage we specify the m_axi interface size.
+
+Following is the content of krnl_dot_product_4.cfg file
+
+.. code:: cpp
+
+   [advanced]
+   prop=solution.hls_pre_tcl=hls_config.tcl
+
+
+5. KERNEL 5 - Interface pragma based port width allocation to each bundle. User can directly specifying portwidth to each M_AXI ports. Here user is setting 512 bit width to gmem0 and 256 bitwidth to gmem1. 
 
 .. code:: cpp
 
@@ -110,17 +128,6 @@ The port_width will be set by the hls_config.tcl file.
    #pragma HLS INTERFACE m_axi port=b bundle=gmem1 max_widen_bitwidth=256
    #pragma HLS INTERFACE m_axi port=res bundle=gmem0 
 
-The interface size setting need to be specified in hls_config.tcl file.
-We include this tcl file in our krnl_dot_product_4.cfg file and by using
-the ``--config`` tag in the kernel compile stage we specify the m_axi
-interface size.
-
-Following is the content of cfg file
-
-.. code:: cpp
-
-   [advanced]
-   prop=solution.hls_pre_tcl=hls_config.tcl
 
 Below are the resource numbers while running the design on U200 platform:
 

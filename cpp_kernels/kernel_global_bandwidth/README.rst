@@ -13,6 +13,7 @@ Platforms containing following strings in their names are not supported for this
    _u2_
    u30
    u50
+   u55
    vck
    zc
 
