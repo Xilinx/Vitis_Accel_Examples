@@ -13,6 +13,7 @@ Platforms containing following strings in their names are not supported for this
    _u25_
    u30
    u50
+   u55
    u280
    vck
    samsung

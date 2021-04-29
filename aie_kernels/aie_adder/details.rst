@@ -59,7 +59,7 @@ We can also invoke the AI Engine System C simulator to simulate the AI Engine ap
 
 .. code:: c++
 
-      aiesimulator –-pkg-dir ./Work
+      aiesimulator --pkg-dir ./Work
 
 
 The process (v++ linker) creates an XCLBIN file to load and run an AI Engine graph and PL kernels code in the target platform. We need to tell the linker how we want to connect them together (from the AI Engine array to PL and vice versa). This is specified in system.cfg file.

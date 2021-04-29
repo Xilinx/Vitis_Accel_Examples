@@ -19,6 +19,7 @@ Platforms containing following strings in their names are not supported for this
    zc
    vck
    u50
+   u55
    samsung
    _u2_
    nodma
