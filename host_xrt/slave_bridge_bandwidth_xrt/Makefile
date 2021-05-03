@@ -137,9 +137,9 @@ ifneq ($(TARGET), hw)
 endif
 
 
-# Kernel linker flags
-VPP_LDFLAGS += --config ./krnl_bandwidth.cfg
 
+# Adding config files to linker
+VPP_LDFLAGS_bandwidth += --config bandwidth.cfg 
 EXECUTABLE = ./slave_bridge_bandwidth_xrt
 EMCONFIG_DIR = $(TEMP_DIR)
 
@@ -177,7 +177,7 @@ $(TEMP_DIR)/write_bandwidth.xo: src/write_bandwidth.cpp
 $(BUILD_DIR)/bandwidth.xclbin: $(BINARY_CONTAINER_bandwidth_OBJS)
 	mkdir -p $(BUILD_DIR)
 ifeq ($(HOST_ARCH), x86)
-	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR)  -o'$(BUILD_DIR)/bandwidth.link.xclbin' $(+)
+	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR)  $(VPP_LDFLAGS_bandwidth) -o'$(BUILD_DIR)/bandwidth.link.xclbin' $(+)
 	$(VPP) -p $(BUILD_DIR)/bandwidth.link.xclbin -t $(TARGET) --platform $(DEVICE) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/bandwidth.xclbin
 else
 	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) -o'$(BUILD_DIR)/bandwidth.xclbin' $(+)

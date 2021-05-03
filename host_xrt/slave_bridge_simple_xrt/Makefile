@@ -110,6 +110,9 @@ endif
 ifeq ($(findstring samsung, $(DEVICE)), samsung)
 $(error [ERROR]: This example is not supported for $(DEVICE).)
 endif
+ifeq ($(findstring _u2_, $(DEVICE)), _u2_)
+$(error [ERROR]: This example is not supported for $(DEVICE).)
+endif
 
 ############################## Setting up Host Variables ##############################
 #Include Required Host Source Files
@@ -133,9 +136,9 @@ ifneq ($(TARGET), hw)
 endif
 
 
-# Kernel linker flags
-VPP_LDFLAGS += --config ./krnl_vadd.ini
 
+# Adding config files to linker
+VPP_LDFLAGS_krnl_vadd += --config krnl_vadd.cfg 
 EXECUTABLE = ./slave_bridge_simple_xrt
 EMCONFIG_DIR = $(TEMP_DIR)
 
@@ -165,7 +168,7 @@ $(TEMP_DIR)/krnl_vadd.xo: src/kernel.cpp
 $(BUILD_DIR)/krnl_vadd.xclbin: $(BINARY_CONTAINER_krnl_vadd_OBJS)
 	mkdir -p $(BUILD_DIR)
 ifeq ($(HOST_ARCH), x86)
-	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR)  -o'$(BUILD_DIR)/krnl_vadd.link.xclbin' $(+)
+	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR)  $(VPP_LDFLAGS_krnl_vadd) -o'$(BUILD_DIR)/krnl_vadd.link.xclbin' $(+)
 	$(VPP) -p $(BUILD_DIR)/krnl_vadd.link.xclbin -t $(TARGET) --platform $(DEVICE) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/krnl_vadd.xclbin
 else
 	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) -o'$(BUILD_DIR)/krnl_vadd.xclbin' $(+)

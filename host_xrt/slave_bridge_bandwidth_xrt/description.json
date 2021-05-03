@@ -60,20 +60,53 @@
             "accelerators": [
                 {
                     "name": "bandwidth", 
-                    "location": "src/bandwidth.cpp"
+                    "location": "src/bandwidth.cpp",
+                    "compute_units": [
+                        {
+                            "arguments": [
+                                {
+                                    "name": "input0", 
+                                    "memory": "HOST[0]"
+                                }, 
+                                {
+                                    "name": "output0", 
+                                    "memory": "HOST[0]"
+                                }
+                            ]
+                        }
+                    ]
                 },
                 {
                     "name": "read_bandwidth", 
-                    "location": "src/read_bandwidth.cpp"
+                    "location": "src/read_bandwidth.cpp",
+                    "compute_units": [
+                        {
+                            "arguments": [
+                                {
+                                    "name": "input0", 
+                                    "memory": "HOST[0]"
+                                }
+                            ]
+                        }
+                    ]
                 },
                 {
                     "name": "write_bandwidth", 
-                    "location": "src/write_bandwidth.cpp"
+                    "location": "src/write_bandwidth.cpp",
+                    "compute_units": [
+                        {
+                            "arguments": [
+                                {
+                                    "name": "output0", 
+                                    "memory": "HOST[0]"
+                                }
+                            ]
+                        }
+                    ]
                 }
 
             ], 
-            "name": "bandwidth",
-            "ldclflags": "--config PROJECT/krnl_bandwidth.cfg"
+            "name": "bandwidth"
         }
     ],
     "launch": [
