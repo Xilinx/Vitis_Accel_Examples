@@ -33,6 +33,10 @@ help::
 	$(ECHO)  "  make test DEVICE=<FPGA platform>"
 	$(ECHO)  "     Command to run the application. This is same as 'run' target but does not have any makefile dependency."
 	$(ECHO)  ""
+	$(ECHO) "  make sd_card TARGET=<sw_emu/hw_emu/hw> DEVICE=<FPGA platform> HOST_ARCH=<aarch32/aarch64/x86> EDGE_COMMON_SW=<rootfs and kernel image path>"
+	$(ECHO) "      Command to prepare sd_card files."
+	$(ECHO) "      By default, HOST_ARCH=x86. HOST_ARCH and EDGE_COMMON_SW is required for SoC shells"
+	$(ECHO) ""
 	$(ECHO) "  make run TARGET=<sw_emu/hw_emu/hw> DEVICE=<FPGA platform> HOST_ARCH=<aarch32/aarch64/x86> EDGE_COMMON_SW=<rootfs and kernel image path>"
 	$(ECHO) "      Command to run application in emulation."
 	$(ECHO) "      By default, HOST_ARCH=x86. HOST_ARCH and EDGE_COMMON_SW is required for SoC shells"
@@ -49,7 +53,7 @@ help::
 ############################## Setting up Project Variables ##############################
 # Points to top directory of Git repository
 MK_PATH := $(abspath $(lastword $(MAKEFILE_LIST)))
-COMMON_REPO ?= $(shell bash -c 'export MK_PATH=$(MK_PATH); echo $${MK_PATH%rtl_kernels/rtl_streaming_free_running/*}')
+COMMON_REPO ?= $(shell bash -c 'export MK_PATH=$(MK_PATH); echo $${MK_PATH%rtl_kernels/rtl_streaming_free_running_k2k/*}')
 PWD = $(shell readlink -f .)
 XF_PROJ_ROOT = $(shell readlink -f $(COMMON_REPO))
 
@@ -75,7 +79,8 @@ RESULT_STRING = TEST PASSED
 
 VPP := v++
 VPP_PFLAGS := 
-CMD_ARGS = $(BUILD_DIR)/myadder1.xclbin
+CMD_ARGS = $(BUILD_DIR)/myadder.xclbin
+SDCARD := sd_card
 
 include $(XF_PROJ_ROOT)/common/includes/opencl/opencl.mk
 include config.mk
@@ -83,36 +88,17 @@ include config.mk
 CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++1y
 LDFLAGS += $(opencl_LDFLAGS)
 
-ifeq ($(findstring u30, $(DEVICE)), u30)
-$(error [ERROR]: This example is not supported for $(DEVICE).)
-endif
-ifeq ($(findstring u250, $(DEVICE)), u250)
-$(error [ERROR]: This example is not supported for $(DEVICE).)
-endif
-ifeq ($(findstring zc, $(DEVICE)), zc)
+ifeq ($(findstring 2018, $(DEVICE)), 2018)
 $(error [ERROR]: This example is not supported for $(DEVICE).)
 endif
 ifeq ($(findstring vck, $(DEVICE)), vck)
 $(error [ERROR]: This example is not supported for $(DEVICE).)
 endif
-ifeq ($(findstring xdma, $(DEVICE)), xdma)
-$(error [ERROR]: This example is not supported for $(DEVICE).)
-endif
-ifeq ($(findstring qep, $(DEVICE)), qep)
-$(error [ERROR]: This example is not supported for $(DEVICE).)
-endif
-ifeq ($(findstring aws-vu9p-f1, $(DEVICE)), aws-vu9p-f1)
-$(error [ERROR]: This example is not supported for $(DEVICE).)
-endif
-ifeq ($(findstring samsung, $(DEVICE)), samsung)
+ifeq ($(findstring zc706, $(DEVICE)), zc706)
 $(error [ERROR]: This example is not supported for $(DEVICE).)
 endif
 ifeq ($(findstring nodma, $(DEVICE)), nodma)
 $(error [ERROR]: This example is not supported for $(DEVICE).)
-endif
-
-ifneq ($(findstring u200_qdma, $(DEVICE)), u200_qdma)
-$(warning [WARNING]: This example has not been tested for $(DEVICE). It may or may not work.)
 endif
 
 ############################## Setting up Host Variables ##############################
@@ -136,19 +122,24 @@ ifneq ($(TARGET), hw)
 endif
 
 
+# Kernel linker flags
+VPP_LDFLAGS += --config ./myadder.cfg
 
-EXECUTABLE = ./rtl_streaming_free_running
+EXECUTABLE = ./rtl_streaming_free_running_k2k
 EMCONFIG_DIR = $(TEMP_DIR)
+EMU_DIR = $(SDCARD)/data/emulation
 
 ############################## Declaring Binary Containers ##############################
-BINARY_CONTAINERS += $(BUILD_DIR)/myadder1.xclbin
-BINARY_CONTAINER_myadder1_OBJS += $(TEMP_DIR)/myadder1.xo
+BINARY_CONTAINERS += $(BUILD_DIR)/myadder.xclbin
+BINARY_CONTAINER_myadder_OBJS += $(TEMP_DIR)/myadder.xo
+BINARY_CONTAINER_myadder_OBJS += $(TEMP_DIR)/krnl_mm2s.xo
+BINARY_CONTAINER_myadder_OBJS += $(TEMP_DIR)/krnl_s2mm.xo
 
 ############################## Setting Targets ##############################
 CP = cp -rf
 
 .PHONY: all clean cleanall docs emconfig
-all: check-devices $(EXECUTABLE) $(BINARY_CONTAINERS) emconfig
+all: check-devices $(EXECUTABLE) $(BINARY_CONTAINERS) emconfig sd_card
 
 .PHONY: host
 host: $(EXECUTABLE)
@@ -160,13 +151,13 @@ build: check-vitis $(BINARY_CONTAINERS)
 xclbin: build
 
 # Building kernel
-$(BUILD_DIR)/myadder1.xclbin: $(BINARY_CONTAINER_myadder1_OBJS)
+$(BUILD_DIR)/myadder.xclbin: $(BINARY_CONTAINER_myadder_OBJS)
 	mkdir -p $(BUILD_DIR)
 ifeq ($(HOST_ARCH), x86)
-	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR)  -o'$(BUILD_DIR)/myadder1.link.xclbin' $(+)
-	$(VPP) -p $(BUILD_DIR)/myadder1.link.xclbin -t $(TARGET) --platform $(DEVICE) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/myadder1.xclbin
+	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR)  -o'$(BUILD_DIR)/myadder.link.xclbin' $(+)
+	$(VPP) -p $(BUILD_DIR)/myadder.link.xclbin -t $(TARGET) --platform $(DEVICE) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/myadder.xclbin
 else
-	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) -o'$(BUILD_DIR)/myadder1.xclbin' $(+)
+	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) -o'$(BUILD_DIR)/myadder.xclbin' $(+)
 endif
 ############################## Setting Rules for Host (Building Host Executable) ##############################
 $(EXECUTABLE): $(HOST_SRCS) | check-xrt
@@ -179,10 +170,16 @@ $(EMCONFIG_DIR)/emconfig.json:
 ############################## Setting Essential Checks and Running Rules ##############################
 run: all
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
+ifeq ($(HOST_ARCH), x86)
 	$(CP) $(EMCONFIG_DIR)/emconfig.json .
 	XCL_EMULATION_MODE=$(TARGET) $(EXECUTABLE) $(CMD_ARGS)
 else
+	$(LAUNCH_EMULATOR_CMD)
+endif
+else
+ifeq ($(HOST_ARCH), x86)
 	$(EXECUTABLE) $(CMD_ARGS)
+endif
 endif
 ifneq ($(TARGET),$(findstring $(TARGET), hw hw_emu))
 $(error Application supports only hw hw_emu TARGET. Please use the target for running the application)
@@ -192,15 +189,29 @@ endif
 .PHONY: test
 test: $(EXECUTABLE)
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
+ifeq ($(HOST_ARCH), x86)
 	XCL_EMULATION_MODE=$(TARGET) $(EXECUTABLE) $(CMD_ARGS)
 else
+	$(LAUNCH_EMULATOR_CMD)
+endif
+else
+ifeq ($(HOST_ARCH), x86)
 	$(EXECUTABLE) $(CMD_ARGS)
+else
+	$(ECHO) "Please copy the content of sd_card folder and data to an SD Card and run on the board"
+endif
 endif
 ifneq ($(TARGET),$(findstring $(TARGET), hw hw_emu))
 $(warning WARNING:Application supports only hw hw_emu TARGET. Please use the target for running the application)
 endif
 
 
+
+############################## Preparing sdcard ##############################
+sd_card: $(BINARY_CONTAINERS) $(EXECUTABLE) gen_run_app
+ifneq ($(HOST_ARCH), x86)
+	$(VPP) -p $(BUILD_DIR)/myadder.xclbin -t $(TARGET) --platform $(DEVICE) --package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.sd_file $(SD_IMAGE_FILE) --package.sd_file xrt.ini --package.sd_file $(RUN_APP_SCRIPT) --package.sd_file $(EXECUTABLE) -o myadder.xclbin
+endif
 
 ############################## Cleaning Rules ##############################
 # Cleaning stuff
@@ -210,7 +221,7 @@ clean:
 	-$(RMDIR) src/*.ll *v++* .Xil emconfig.json dltmp* xmltmp* *.log *.jou *.wcfg *.wdb
 
 cleanall: clean
-	-$(RMDIR) build_dir*
+	-$(RMDIR) build_dir* sd_card*
 	-$(RMDIR) package.*
 	-$(RMDIR) _x* *xclbin.run_summary qemu-memory-_* emulation _vimage pl* start_simulation.sh *.xclbin
-	-$(RMDIR) ./tmp_kernel_pack* ./packaged_kernel* ./_x* ./*_ex ./project* ./pinfo.json 
+	-$(RMDIR) ./tmp_kernel_pack* ./packaged_kernel* ./_x* ./*_ex ./project* ./pinfo.json ./*.xo 

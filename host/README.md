@@ -6,7 +6,6 @@ OpenCL host code for optimized interfacing with Xilinx Devices.
 
 Example        | Description           | Key Concepts / Keywords 
 ---------------|-----------------------|-------------------------
-[axi_burst_performance/][]|This is a AXI Burst Performance check design. It measures the time it takes to write a buffer into DDR or read a buffer from DDR. The example contains 6 kernels, each with different burst_length and num_outstanding parameters to compare the impact of these parameters on effective throughput.|
 [concurrent_kernel_execution/][]|This example will demonstrate how to use multiple and out of order command queues to simultaneously execute multiple kernels on an FPGA.|__Key__ __Concepts__<br> - Concurrent execution<br> - Out of Order Command Queues<br> - Multiple Command Queues<br>__Keywords__<br> - CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE<br> - setCallback
 [copy_buffer/][]|This Copy Buffer example demonstrate how one buffer can be copied from another buffer.|__Key__ __Concepts__<br> - Copy Buffer<br>__Keywords__<br> - cl::CommandQueue<br> - enqueueCopyBuffer<br> - enqueueWriteBuffer<br> - enqueueReadBuffer<br> - enqueueMigrateMemObjects
 [data_transfer/][]|This example illustrates several ways to use the OpenCL API to transfer data to and from the FPGA|__Key__ __Concepts__<br> - OpenCL API<br> - Data Transfer<br> - Write Buffers<br> - Read Buffers<br> - Map Buffers<br> - Async Memcpy<br>__Keywords__<br> - enqueueWriteBuffer<br> - enqueueReadBuffer<br> - enqueueMapBuffer<br> - enqueueUnmapMemObject<br> - enqueueMigrateMemObjects
@@ -39,7 +38,6 @@ Example        | Description           | Key Concepts / Keywords
 [streaming_reg_access/][]|This is simple example which demonstrate streaming free-running kernel with scalar input and output.|__Key__ __Concepts__<br> - Free Running Kernel<br>__Keywords__<br> - xclRegRead<br> - xclRegWrite
 
 [.]:.
-[axi_burst_performance/]:axi_burst_performance/
 [concurrent_kernel_execution/]:concurrent_kernel_execution/
 [copy_buffer/]:copy_buffer/
 [data_transfer/]:data_transfer/

@@ -28,8 +28,8 @@ set device    [lindex $::argv 4]
 set pinfo [file join [pwd] "pinfo.json"]
 exec $::env(XILINX_VITIS)/bin/platforminfo -j $pinfo -p ${xpfm_path}
 
-if {[file exists "myadder1_ex"]} {
-    file delete -force "myadder1_ex"
+if {[file exists "myadder_ex"]} {
+    file delete -force "myadder_ex"
 }
 if {[file exists "project_1"]} {
     file delete -force "project_1"
@@ -51,29 +51,29 @@ while { ! [eof $fid] } {
 }
 close $fid
 create_project project_1 project_1 -part $partname
-create_ip -name rtl_kernel_wizard -vendor xilinx.com -library ip -version 1.0 -module_name myadder1
+create_ip -name rtl_kernel_wizard -vendor xilinx.com -library ip -version 1.0 -module_name myadder
 
-set_property -dict [list CONFIG.Component_Name {myadder1} CONFIG.KERNEL_NAME {myadder1} CONFIG.KERNEL_CTRL {ap_ctrl_none} CONFIG.NUM_INPUT_ARGS {0} CONFIG.NUM_M_AXI {0} CONFIG.NUM_AXIS {2} CONFIG.AXIS00_NAME {out} CONFIG.AXIS01_NAME {in1}] [get_ips myadder1]
+set_property -dict [list CONFIG.Component_Name {myadder} CONFIG.KERNEL_NAME {myadder} CONFIG.KERNEL_CTRL {ap_ctrl_none} CONFIG.NUM_INPUT_ARGS {0} CONFIG.NUM_M_AXI {0} CONFIG.NUM_AXIS {2} CONFIG.AXIS00_NAME {out} CONFIG.AXIS01_NAME {in}] [get_ips myadder]
 
-generate_target {instantiation_template} [get_files myadder1.xci]
-set_property generate_synth_checkpoint false [get_files myadder1.xci]
+generate_target {instantiation_template} [get_files myadder.xci]
+set_property generate_synth_checkpoint false [get_files myadder.xci]
 
-open_example_project -force -in_process -dir [pwd] [get_ips myadder1]
+open_example_project -force -in_process -dir [pwd] [get_ips myadder]
 
 # --------------------------------------------
 # Start: RTL Kernel Packaging of Sources
 #
-source -notrace myadder1_ex/imports/package_kernel.tcl
+source -notrace myadder_ex/imports/package_kernel.tcl
 # Packaging project
-package_project myadder1_ex/myadder1 xilinx.com user myadder1
-package_xo  -xo_path myadder1_ex/imports/myadder1.xo -kernel_name myadder1 -ip_directory myadder1_ex/myadder1 -kernel_xml myadder1_ex/imports/kernel.xml -kernel_files myadder1_ex/imports/myadder1_cmodel.cpp
+package_project myadder_ex/myadder xilinx.com user myadder
+package_xo  -xo_path myadder_ex/imports/myadder.xo -kernel_name myadder -ip_directory myadder_ex/myadder -kernel_files myadder_ex/imports/myadder_cmodel.cpp
 # Complete: RTL Kernel Packaging of Sources
 # --------------------------------------------
 
 set xo_path [file join [pwd] ${xo_pathname}]
-if {[file exists "myadder1_ex/imports/myadder1.xo"]} {
-    file copy myadder1_ex/imports/myadder1.xo ${xo_path}
+if {[file exists "myadder_ex/imports/myadder.xo"]} {
+    file copy myadder_ex/imports/myadder.xo ${xo_path}
 } else {
-    puts "ERROR: myadder1_ex/imports/myadder1.xo does not exist!\n"
+    puts "ERROR: myadder_ex/imports/myadder.xo does not exist!\n"
     exit 1
 }

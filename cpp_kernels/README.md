@@ -7,6 +7,7 @@ This section contains HLS C/C++ Kernel Examples.
 Example        | Description           | Key Concepts / Keywords 
 ---------------|-----------------------|-------------------------
 [array_partition/][]|This is a simple example of matrix multiplication (Row x Col) to demonstrate how to achieve better performance by array partitioning, using HLS kernel in Vitis Environment.|__Key__ __Concepts__<br> - Kernel Optimization<br> - HLS C Kernel<br> - Array Partition<br>__Keywords__<br> - #pragma HLS ARRAY_PARTITION<br> - complete
+[axi_burst_performance/][]|This is a AXI Burst Performance check design. It measures the time it takes to write a buffer into DDR or read a buffer from DDR. The example contains 6 kernels, each with different burst_length and num_outstanding parameters to compare the impact of these parameters on effective throughput.|
 [bind_op_storage/][]|This is simple example of vector addition to describe how to use BIND OP and STORAGE for better implementation style.|__Key__ __Concepts__<br> - BIND OP<br> - BIND STORAGE<br>__Keywords__<br> - BIND_OP<br> - BIND_STORAGE<br> - impl<br> - op<br> - type<br> - latency
 [burst_rw/][]|This is simple example of using AXI4-master interface for burst read and write|__Key__ __Concepts__<br> - burst access<br>__Keywords__<br> - memcpy<br> - max_read_burst_length<br> - max_write_burst_length
 [critical_path/][]|This example shows a normal coding style which could lead to critical path issue and design will give degraded timing.  Example also contains better coding style which can improve design timing.|__Key__ __Concepts__<br> - Critical Path handling<br> - Improve Timing<br>
@@ -30,6 +31,7 @@ Example        | Description           | Key Concepts / Keywords
 
 [.]:.
 [array_partition/]:array_partition/
+[axi_burst_performance/]:axi_burst_performance/
 [bind_op_storage/]:bind_op_storage/
 [burst_rw/]:burst_rw/
 [critical_path/]:critical_path/

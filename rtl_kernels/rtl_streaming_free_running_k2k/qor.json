@@ -2,7 +2,7 @@
     "containers": [
         {
             "meet_system_timing": "true", 
-            "name": "myadder", 
+            "name": "myadder",
             "accelerators": [
                 {
                     "name": "krnl_mm2s", 
@@ -30,7 +30,7 @@
                         } 
                     ]
                 }
-            ] 
+            ]
         }
     ]
 }
