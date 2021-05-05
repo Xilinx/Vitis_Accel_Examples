@@ -12,19 +12,6 @@ endif
 
 DEBUG := no
 B_TEMP = `$(XF_PROJ_ROOT)/common/utility/parse_platform_list.py $(DEVICE)`
-PERL := 
-QEMU_IMODE := no
-LAUNCH_EMULATOR_CMD := 
-
-ifneq ($(PERL), /tools/xgs/perl/5.8.5/bin/perl)
-	QEMU_IMODE = yes
-endif
-
-ifeq ($(QEMU_IMODE), yes)
-	LAUNCH_EMULATOR_CMD = $(LAUNCH_EMULATOR)
-else
-	LAUNCH_EMULATOR_CMD = $(PERL) $(XF_PROJ_ROOT)/common/utility/run_emulation.pl "${LAUNCH_EMULATOR} | tee run_app.log" "${RUN_APP_SCRIPT} $(TARGET)" "${RESULT_STRING}" "7"
-endif
 
 #Generates debug summary report
 ifeq ($(DEBUG), yes)
@@ -74,7 +61,7 @@ ifndef EDGE_COMMON_SW
 $(error EDGE_COMMON_SW variable is not set, please set correctly and rerun)
 endif
 ifeq ($(HOST_ARCH), aarch64)
-SYSROOT := $(EDGE_COMMON_SW)/sysroots/aarch64-xilinx-linux
+SYSROOT := $(EDGE_COMMON_SW)/sysroots/cortexa72-cortexa53-xilinx-linux
 SD_IMAGE_FILE := $(EDGE_COMMON_SW)/Image
 CXX := $(XILINX_VITIS)/gnu/aarch64/lin/aarch64-linux/bin/aarch64-linux-gnu-g++
 else ifeq ($(HOST_ARCH), aarch32)
@@ -88,11 +75,27 @@ gen_run_app:
 ifneq ($(HOST_ARCH), x86)
 	rm -rf run_app.sh
 	$(ECHO) 'export LD_LIBRARY_PATH=/mnt:/tmp:$$LD_LIBRARY_PATH' >> run_app.sh
+	$(ECHO) 'export PATH=$$PATH:/sbin' >> run_app.sh
 	$(ECHO) 'export XILINX_XRT=/usr' >> run_app.sh
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 	$(ECHO) 'export XILINX_VITIS=$$PWD' >> run_app.sh
 	$(ECHO) 'export XCL_EMULATION_MODE=$(TARGET)' >> run_app.sh
 endif
+	$(ECHO) 'if [ -d xrt/aarch64-xilinx-linux/ ]' >> run_app.sh
+	$(ECHO) 'then' >> run_app.sh
+	$(ECHO) 'cd xrt/aarch64-xilinx-linux/' >> run_app.sh
+	$(ECHO) 'elif [ -d xrt/versal ]' >> run_app.sh
+	$(ECHO) 'then' >> run_app.sh
+	$(ECHO) 'cd xrt/versal' >> run_app.sh
+	$(ECHO) 'elif [ xrt/cortexa9t2hf-neon-xilinx-linux-gnueabi  ]' >> run_app.sh
+	$(ECHO) 'then' >> run_app.sh
+	$(ECHO) 'cd xrt/cortexa9t2hf-neon-xilinx-linux-gnueabi/' >> run_app.sh
+	$(ECHO) 'else' >> run_app.sh
+	$(ECHO) 'echo "unable to find xrt folder sub directories"' >> run_app.sh
+	$(ECHO) 'fi' >> run_app.sh
+	$(ECHO) './reinstall_xrt.sh' >> run_app.sh
+	$(ECHO) 'return_code=$$?' >> run_app.sh
+	$(ECHO) 'cd -' >> run_app.sh
 	$(ECHO) '$(EXECUTABLE) myadder.xclbin' >> run_app.sh
 	$(ECHO) 'return_code=$$?' >> run_app.sh
 	$(ECHO) 'if [ $$return_code -ne 0 ]; then' >> run_app.sh
