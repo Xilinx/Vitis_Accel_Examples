@@ -124,7 +124,6 @@ BINARY_CONTAINER_rgb_to_hsv_OBJS += $(TEMP_DIR)/rgb_to_hsv.xo
 
 ############################## Setting Targets ##############################
 CP = cp -rf
-DATA = ./data
 
 .PHONY: all clean cleanall docs emconfig
 all: check-devices $(EXECUTABLE) $(BINARY_CONTAINERS) emconfig sd_card

@@ -136,7 +136,6 @@ BINARY_CONTAINER_krnl_kmeans_OBJS += $(TEMP_DIR)/kmeans.xo
 
 ############################## Setting Targets ##############################
 CP = cp -rf
-DATA = ./data
 
 .PHONY: all clean cleanall docs emconfig
 all: check-devices $(EXECUTABLE) $(BINARY_CONTAINERS) emconfig

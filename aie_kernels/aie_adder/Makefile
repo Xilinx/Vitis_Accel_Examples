@@ -108,7 +108,6 @@ VPP := v++
 VPP_PFLAGS := 
 AIECC := aiecompiler
 AIESIM := aiesimulator
-CXX := aarch64-linux-gnu-g++
 
 AIE_INCLUDE_FLAGS := -include="$(XILINX_VITIS)/aietools/include" -include="./src" -include="./data" -include="./"
 AIE_FLAGS := --target=hw $(AIE_INCLUDE_FLAGS) --pl-freq=100 -workdir=./Work 
