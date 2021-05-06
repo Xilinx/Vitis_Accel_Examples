@@ -153,7 +153,6 @@ BINARY_CONTAINER_aml_OBJS += $(TEMP_DIR)/fuzzy_kernel_2.xo
 
 ############################## Setting Targets ##############################
 CP = cp -rf
-DATA = ./data
 
 .PHONY: all clean cleanall docs emconfig
 all: check-devices $(EXECUTABLE) $(BINARY_CONTAINERS) emconfig

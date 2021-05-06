@@ -442,14 +442,6 @@ def mk_clean(target, data):
 def mk_build_all(target, data):
     target.write("############################## Setting Targets ##############################\n")
     target.write("CP = cp -rf\n")
-
-    args = []
-    if "launch" in data:
-        if "cmd_args" in data["launch"][0]:
-            args = data["launch"][0]["cmd_args"].split(" ")
-            if any("/data" in string for string in args):
-                target.write("DATA = ./data\n")
-
     target.write("\n")
 
     target.write(".PHONY: all clean cleanall docs emconfig\n")

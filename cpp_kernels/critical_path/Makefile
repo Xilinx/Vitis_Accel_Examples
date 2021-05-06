@@ -124,7 +124,6 @@ BINARY_CONTAINER_apply_watermark_GOOD_OBJS += $(TEMP_DIR)/apply_watermark.xo
 
 ############################## Setting Targets ##############################
 CP = cp -rf
-DATA = ./data
 
 .PHONY: all clean cleanall docs emconfig
 all: check-devices $(EXECUTABLE) $(BINARY_CONTAINERS) emconfig sd_card
