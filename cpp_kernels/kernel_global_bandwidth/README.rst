@@ -14,8 +14,7 @@ Platforms containing following strings in their names are not supported for this
    u30
    u50
    u55
-   vck
-   zc
+   vck5000
 
 DESIGN FILES
 ------------

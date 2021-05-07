@@ -6,8 +6,15 @@ ddr_banks := 2
 # Kernel linker config files
 ifeq ($(findstring samsung, $(DEVICE)), samsung)
 ddr_banks := 1
+else
+ifeq ($(findstring vck, $(DEVICE)), vck190)
+ddr_banks := 1
+endif
 endif
 
+ifeq ($(findstring vck190, $(DEVICE)), vck190)
+VPP_LDFLAGS+= --config vck190.cfg
+else
 ifeq ($(findstring zc, $(DEVICE)), zc)
 VPP_LDFLAGS+= --config $(ddr_banks)bank_zc.cfg
 else
@@ -15,6 +22,7 @@ ifeq ($(findstring samsung, $(DEVICE)), samsung)
 VPP_LDFLAGS+= --config samsung.cfg
 else
 VPP_LDFLAGS+= --config $(ddr_banks)bank.cfg
+endif
 endif
 endif
 

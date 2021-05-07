@@ -5,6 +5,19 @@
 
 DEBUG := no
 B_TEMP = `$(XF_PROJ_ROOT)/common/utility/parse_platform_list.py $(DEVICE)`
+PERL := 
+QEMU_IMODE := no
+LAUNCH_EMULATOR_CMD := 
+
+ifneq ($(PERL), /tools/xgs/perl/5.8.5/bin/perl)
+	QEMU_IMODE = yes
+endif
+
+ifeq ($(QEMU_IMODE), yes)
+	LAUNCH_EMULATOR_CMD = $(LAUNCH_EMULATOR)
+else
+	LAUNCH_EMULATOR_CMD = $(PERL) $(XF_PROJ_ROOT)/common/utility/run_emulation.pl "${LAUNCH_EMULATOR} | tee run_app.log" "${RUN_APP_SCRIPT} $(TARGET)" "${RESULT_STRING}" "7"
+endif
 
 #Generates debug summary report
 ifeq ($(DEBUG), yes)
@@ -64,6 +77,22 @@ CXX := $(XILINX_VITIS)/gnu/aarch32/lin/gcc-arm-linux-gnueabi/bin/arm-linux-gnuea
 endif
 endif
 
+gen_run_app:
+ifneq ($(HOST_ARCH), x86)
+	rm -rf run_app.sh
+	$(ECHO) 'export LD_LIBRARY_PATH=/mnt:/tmp:$$LD_LIBRARY_PATH' >> run_app.sh
+	$(ECHO) 'export XILINX_XRT=/usr' >> run_app.sh
+ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
+	$(ECHO) 'export XILINX_VITIS=$$PWD' >> run_app.sh
+	$(ECHO) 'export XCL_EMULATION_MODE=$(TARGET)' >> run_app.sh
+endif
+	$(ECHO) '$(EXECUTABLE) krnl_kernel_global.xclbin' >> run_app.sh
+	$(ECHO) 'return_code=$$?' >> run_app.sh
+	$(ECHO) 'if [ $$return_code -ne 0 ]; then' >> run_app.sh
+	$(ECHO) 'echo "ERROR: host run failed, RC=$$return_code"' >> run_app.sh
+	$(ECHO) 'fi' >> run_app.sh
+	$(ECHO) 'echo "INFO: host run completed."' >> run_app.sh
+endif
 check-devices:
 ifndef DEVICE
 	$(error DEVICE not set. Please set the DEVICE properly and rerun. Run "make help" for more details.)
