@@ -5,7 +5,7 @@ This example of 2ddr is to demonstrate how to use multiple ddr and create buffer
 
 **KEY CONCEPTS:** Multiple Banks
 
-**KEYWORDS:** max_memory_ports, sp, connectivity
+**KEYWORDS:** m_axi_auto_max_ports, sp, connectivity
 
 EXCLUDED PLATFORMS
 ------------------

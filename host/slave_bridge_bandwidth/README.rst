@@ -67,6 +67,7 @@ Using the ``sp`` option  in the krnl_bandwidth.cfg file, AXI-Master Port is conn
 
 ::
 
+   [connectivity]
    sp=bandwidth_1.input0:HOST[0]
    sp=bandwidth_1.output0:HOST[0]
    sp=read_bandwidth_1.input0:HOST[0]

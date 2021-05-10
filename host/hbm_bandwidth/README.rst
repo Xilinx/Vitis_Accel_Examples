@@ -76,6 +76,7 @@ in krnl_vaddmul.cfg file
 
 ::
 
+   [connectivity]
    sp=krnl_vaddmul_1.in1:HBM[0]
    sp=krnl_vaddmul_1.in2:HBM[1] 
    sp=krnl_vaddmul_1.out_add:HBM[2]

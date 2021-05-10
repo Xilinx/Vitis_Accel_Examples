@@ -60,7 +60,7 @@
         "Multiple Banks"
     ], 
     "keywords": [
-        "max_memory_ports",
+        "m_axi_auto_max_ports",
         "sp",
         "connectivity"
     ], 
