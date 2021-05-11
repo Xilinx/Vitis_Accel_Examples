@@ -74,7 +74,7 @@ LAUNCH_EMULATOR = $(PACKAGE_OUT)/launch_$(TARGET).sh
 RESULT_STRING = TEST PASSED
 
 VPP := v++
-CMD_ARGS = -x $(BUILD_DIR)/bandwidth.xclbin
+CMD_ARGS = -x $(BUILD_DIR)/bandwidth.xclbin -f ./data/sample.txt
 
 include $(XF_PROJ_ROOT)/common/includes/opencl/opencl.mk
 include config.mk

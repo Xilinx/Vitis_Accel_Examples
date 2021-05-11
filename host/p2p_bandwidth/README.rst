@@ -29,6 +29,7 @@ Application code is located in the src directory. Accelerator binary files will 
 
 ::
 
+   data/sample.txt
    src/bandwidth.cpp
    src/host.cpp
    
@@ -39,7 +40,7 @@ Once the environment has been configured, the application can be executed by
 
 ::
 
-   ./p2p_bandwidth -x <bandwidth XCLBIN>
+   ./p2p_bandwidth -x <bandwidth XCLBIN> -f ./data/sample.txt
 
 DETAILS
 -------

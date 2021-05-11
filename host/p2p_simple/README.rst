@@ -29,6 +29,7 @@ Application code is located in the src directory. Accelerator binary files will 
 
 ::
 
+   data/sample.txt
    src/adder.cpp
    src/host.cpp
    
@@ -39,7 +40,7 @@ Once the environment has been configured, the application can be executed by
 
 ::
 
-   ./p2p_simple -x <adder XCLBIN>
+   ./p2p_simple -x <adder XCLBIN> -f ./data/sample.txt
 
 DETAILS
 -------
