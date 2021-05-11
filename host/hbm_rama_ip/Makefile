@@ -134,7 +134,7 @@ endif
 
 
 # Kernel linker flags
-VPP_LDFLAGS += --advanced.param compiler.userPostSysLinkOverlayTcl=./postSysLink.tcl
+VPP_LDFLAGS += --config ./advanced.cfg
 
 # Adding config files to linker
 VPP_LDFLAGS_krnl_vaddmul += --config krnl_vaddmul.cfg 
