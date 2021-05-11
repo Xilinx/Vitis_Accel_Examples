@@ -41,7 +41,7 @@ Description:
     clock cycle and is implemented as below:
                                        _____________
                                       |             |<----- Input Vector 1 from Global Memory
-                                      |  read_input |       __
+                                      |  load_input |       __
                                       |_____________|----->|  |
                                        _____________       |  | in1_stream
 Input Vector 2 from Global Memory --->|             |      |__|
@@ -53,7 +53,7 @@ Input Vector 2 from Global Memory --->|             |      |__|
                                       |_____________|---->|  |
                                        ______________     |  | out_stream
                                       |              |<---|__|
-                                      | write_result |
+                                      | store_result |
                                       |______________|-----> Output result to Global Memory
 
 *******************************************************************************/

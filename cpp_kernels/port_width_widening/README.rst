@@ -113,8 +113,8 @@ Following is the content of krnl_dot_product_4.cfg file
 
 .. code:: cpp
 
-   [advanced]
-   prop=solution.hls_pre_tcl=hls_config.tcl
+   [hls]
+   pre_tcl=hls_config.tcl
 
 
 5. KERNEL 5 - Interface pragma based port width allocation to each bundle. User can directly specifying portwidth to each M_AXI ports. Here user is setting 512 bit width to gmem0 and 256 bitwidth to gmem1. 

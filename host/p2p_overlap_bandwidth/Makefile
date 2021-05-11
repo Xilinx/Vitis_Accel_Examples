@@ -75,7 +75,7 @@ RESULT_STRING = TEST PASSED
 
 VPP := v++
 VPP_PFLAGS := 
-CMD_ARGS = -x $(BUILD_DIR)/copy_kernel.xclbin
+CMD_ARGS = -x $(BUILD_DIR)/copy_kernel.xclbin -f ./data/sample.txt
 
 include $(XF_PROJ_ROOT)/common/includes/opencl/opencl.mk
 include config.mk

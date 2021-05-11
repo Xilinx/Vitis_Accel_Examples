@@ -9,8 +9,7 @@
         "u30",
         "u50",
         "u55",
-        "vck",
-        "zc"
+        "vck5000"
     ], 
     "os": [
         "Linux"
@@ -18,7 +17,6 @@
     "runtime": [
         "OpenCL"
     ], 
-    "platform_type": "pcie",
     "host": {
         "host_exe": "kernel_global_bandwidth",
         "compiler": {

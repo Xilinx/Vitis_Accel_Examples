@@ -142,7 +142,7 @@
                 }
             ], 
             "name": "krnl_vaddmul",
-            "ldclflags": "--advanced.param compiler.userPostSysLinkOverlayTcl=PROJECT/postSysLink.tcl"
+            "ldclflags": "--config PROJECT/advanced.cfg"
         }
     ],
     "launch": [

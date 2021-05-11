@@ -33,7 +33,7 @@
    "config_make": "config.mk",
     "launch": [
         {
-            "cmd_args": "-x BUILD/bandwidth.xclbin", 
+            "cmd_args": "-x BUILD/bandwidth.xclbin -f PROJECT/data/sample.txt", 
             "name": "generic launch for all flows"
         }
     ], 

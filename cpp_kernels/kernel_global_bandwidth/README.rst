@@ -14,8 +14,7 @@ Platforms containing following strings in their names are not supported for this
    u30
    u50
    u55
-   vck
-   zc
+   vck5000
 
 DESIGN FILES
 ------------
@@ -43,15 +42,16 @@ This example tests global memory access bandwidth of kernel. Kernel
 increase the bandwidth by accessing multiple DDR banks through different
 interfaces.
 
-Banks need to be specified using the ``--sp`` tags in the kernel linking
-stage along with the ``m_axi`` interface name and kernel name.
+Banks need to be specified using ``sp`` tags in
+respective ``.cfg`` file along with the port name and kernel name. For Ex-
 
 ::
 
-   --sp apply_watermark_1.m_axi_gmem0:DDR[0] --sp apply_watermark_1.m_axi_gmem1:DDR[1]
+   [connectivity]
+   sp=bandwidth_1.m_axi_gmem0:DDR[0]
+   sp=bandwidth_1.m_axi_gmem1:DDR[1]
 
-Following is the log reported while running the design on U200 platform
-:
+Following is the log reported while running the design on U200 platform:
 
 ::
 

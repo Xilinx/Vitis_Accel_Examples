@@ -135,20 +135,28 @@ int main(int argc, char** argv) {
     //**************//"<Full Arg>",  "<Short Arg>", "<Description>", "<Default>"
     parser.addSwitch("--xclbin_file", "-x", "input binary file string", "");
     parser.addSwitch("--file_path", "-p", "file path string", "");
+    parser.addSwitch("--input_file", "-f", "input file string", "");
     parser.parse(argc, argv);
 
     // Read settings
     auto binaryFile = parser.value("xclbin_file");
-    std::string filename = parser.value("file_path");
+    std::string filepath = parser.value("file_path");
+    std::string filename;
 
-    if (argc < 3) {
+    if (argc < 5) {
         parser.printHelp();
         return EXIT_FAILURE;
     }
 
-    if (filename.empty()) {
-        filename = "./sample.txt";
+    if (filepath.empty()) {
+        std::cout << "\nWARNING: As file path is not provided using -p option, going with -f option which is local "
+                     "file testing. Please use -p option, if looking for actual p2p operation on NVMe drive.\n";
+        filename = parser.value("input_file");
+    } else {
+        std::cout << "\nWARNING: Ignoring -f option when -p options is set. -p has high precedence over -f.\n";
+        filename = filepath;
     }
+
     int nvmeFd = -1;
 
     cl_int err;

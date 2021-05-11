@@ -38,7 +38,7 @@
     ],
     "launch": [
         {
-            "cmd_args": "-x BUILD/copy_kernel.xclbin", 
+            "cmd_args": "-x BUILD/copy_kernel.xclbin -f PROJECT/data/sample.txt", 
             "name": "generic launch for all flows"
         }
     ], 

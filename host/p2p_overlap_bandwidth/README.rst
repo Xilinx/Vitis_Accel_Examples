@@ -32,6 +32,7 @@ Application code is located in the src directory. Accelerator binary files will 
 
 ::
 
+   data/sample.txt
    src/copy_kernel.cpp
    src/host.cpp
    
@@ -42,7 +43,7 @@ Once the environment has been configured, the application can be executed by
 
 ::
 
-   ./p2p_overlap_bandwidth -x <copy_kernel XCLBIN>
+   ./p2p_overlap_bandwidth -x <copy_kernel XCLBIN> -f ./data/sample.txt
 
 DETAILS
 -------
@@ -61,7 +62,7 @@ reported while running the design on samsung platform:
 
 ::
 
-   ./p2p_overlap_bandwidth -x copy_kernel.xclbin -i /dev/nvme0n1
+   ./p2p_overlap_bandwidth -x copy_kernel.xclbin -p /dev/nvme0n1
    INFO: Successfully opened NVME SSD /dev/nvme0n1
    INFO: Preparing 1048576KB test data in 8 pipelines
    ############################################################
@@ -88,7 +89,7 @@ on samsung platform for asynchronous flow:
 
 :: 
 
-    ./p2p_overlap_bandwidth -x copy_kernel.xclbin -i /dev/nvme0n1
+    ./p2p_overlap_bandwidth -x copy_kernel.xclbin -p /dev/nvme0n1
     INFO: Successfully opened NVME SSD /dev/nvme0n1
     INFO: Preparing 1048576KB test data in 8 pipelines
     ############################################################

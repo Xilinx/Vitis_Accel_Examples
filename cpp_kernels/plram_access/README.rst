@@ -55,11 +55,13 @@ of data storage that application kernels can share and access
 rapidly(lowest latency). PLRAM behaves just like the DDR memory
 resources managed by the Vitis memory subsystem.
 
-PLRAM can be assigned to a buffer by using ``--sp`` tags in the kernel
-linking stage.
+PLRAM can be assigned to a buffer by using ``sp`` tags in the mmult.cfg file along with the port name and kernel name.
 
 ::
 
-   --sp mmult_1.a:PLRAM[0] --sp mmult_1.b:DDR[0] --sp mmult_1.c:PLRAM[1]
+   [connectivity]
+   sp=mmult_1.a:PLRAM[0]
+   sp=mmult_1.b:DDR[0]
+   sp=mmult_1.c:PLRAM[1]
 
 For more comprehensive documentation, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.
