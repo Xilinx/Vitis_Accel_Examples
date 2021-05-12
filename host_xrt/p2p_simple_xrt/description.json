@@ -38,7 +38,7 @@
     "config_make": "config.mk",
     "launch": [
         {
-            "cmd_args": "-x BUILD/adder.xclbin", 
+            "cmd_args": "-x BUILD/adder.xclbin -f PROJECT/data/sample.txt", 
             "name": "generic launch for all flows"
         }
     ], 
