@@ -106,6 +106,8 @@ Application code is located in the src directory. Accelerator binary files will 
    src/bandwidth.cpp
    src/host.cpp
    
+Access these files in the github repo by `clicking here <https://github.com/Xilinx/Vitis_Accel_Examples/tree/master/host/p2p_fpga2fpga_bandwidth>`__.
+
 COMMAND LINE ARGUMENTS
 ----------------------
 

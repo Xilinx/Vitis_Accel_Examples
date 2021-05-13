@@ -8,6 +8,7 @@ This page contains examples for users who are new to Xilinx Vitis OpenCL Flows. 
    :caption: List of Examples
 
    array_partition.rst
+   axi_burst_performance.rst
    burst_rw.rst
    bind_op_storage.rst
    critical_path.rst

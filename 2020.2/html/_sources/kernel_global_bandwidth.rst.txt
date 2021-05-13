@@ -8,15 +8,16 @@ This example tests global memory access bandwidth of kernel. Kernel
 increase the bandwidth by accessing multiple DDR banks through different
 interfaces.
 
-Banks need to be specified using the ``--sp`` tags in the kernel linking
-stage along with the ``m_axi`` interface name and kernel name.
+Banks need to be specified using ``sp`` tags in
+respective ``.cfg`` file along with the port name and kernel name. For Ex-
 
 ::
 
-   --sp apply_watermark_1.m_axi_gmem0:DDR[0] --sp apply_watermark_1.m_axi_gmem1:DDR[1]
+   [connectivity]
+   sp=bandwidth_1.m_axi_gmem0:DDR[0]
+   sp=bandwidth_1.m_axi_gmem1:DDR[1]
 
-Following is the log reported while running the design on U200 platform
-:
+Following is the log reported while running the design on U200 platform:
 
 ::
 
@@ -90,8 +91,8 @@ Platforms containing following strings in their names are not supported for this
    _u2_
    u30
    u50
-   vck
-   zc
+   u55
+   vck5000
 
 DESIGN FILES
 ------------
@@ -103,6 +104,8 @@ Application code is located in the src directory. Accelerator binary files will 
    src/kernel.cpp
    src/kernel_global_bandwidth.cpp
    
+Access these files in the github repo by `clicking here <https://github.com/Xilinx/Vitis_Accel_Examples/tree/master/cpp_kernels/kernel_global_bandwidth>`__.
+
 COMMAND LINE ARGUMENTS
 ----------------------
 

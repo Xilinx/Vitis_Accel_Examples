@@ -59,6 +59,8 @@ Application code is located in the src directory. Accelerator binary files will 
    src/ip/ip_3/src/krnl_output_stage_rtl_register_slice.sv
    src/ip/ip_3/xgui/krnl_output_stage_rtl_v1_0.tcl
    
+Access these files in the github repo by `clicking here <https://github.com/Xilinx/Vitis_Accel_Examples/tree/master/rtl_kernels/rtl_adder_streams>`__.
+
 COMMAND LINE ARGUMENTS
 ----------------------
 

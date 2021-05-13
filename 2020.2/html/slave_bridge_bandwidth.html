@@ -342,7 +342,6 @@
 <li class="toctree-l1"><a class="reference internal" href="hello_world.html">Hello World</a></li>
 <li class="toctree-l1"><a class="reference internal" href="aie_kernels.html">AIE Examples</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="host.html">Host</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="axi_burst_performance.html">AXI Burst Performance</a></li>
 <li class="toctree-l2"><a class="reference internal" href="concurrent_kernel_execution.html">Concurrent Kernel Execution</a></li>
 <li class="toctree-l2"><a class="reference internal" href="copy_buffer.html">Copy Buffer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="data_transfer.html">Data Transfer</a></li>
@@ -486,7 +485,8 @@
 </pre></div>
 </div>
 <p>Using the <code class="docutils literal notranslate"><span class="pre">sp</span></code> option  in the krnl_bandwidth.cfg file, AXI-Master Port is connected to the Slave-Bridge IP:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sp</span><span class="o">=</span><span class="n">bandwidth_1</span><span class="o">.</span><span class="n">input0</span><span class="p">:</span><span class="n">HOST</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">connectivity</span><span class="p">]</span>
+<span class="n">sp</span><span class="o">=</span><span class="n">bandwidth_1</span><span class="o">.</span><span class="n">input0</span><span class="p">:</span><span class="n">HOST</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 <span class="n">sp</span><span class="o">=</span><span class="n">bandwidth_1</span><span class="o">.</span><span class="n">output0</span><span class="p">:</span><span class="n">HOST</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 <span class="n">sp</span><span class="o">=</span><span class="n">read_bandwidth_1</span><span class="o">.</span><span class="n">input0</span><span class="p">:</span><span class="n">HOST</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 <span class="n">sp</span><span class="o">=</span><span class="n">write_bandwidth_1</span><span class="o">.</span><span class="n">output0</span><span class="p">:</span><span class="n">HOST</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
@@ -600,6 +600,7 @@ TEST PASSED
 <span class="n">src</span><span class="o">/</span><span class="n">write_bandwidth</span><span class="o">.</span><span class="n">cpp</span>
 </pre></div>
 </div>
+<p>Access these files in the github repo by <a class="reference external" href="https://github.com/Xilinx/Vitis_Accel_Examples/tree/master/host/slave_bridge_bandwidth">clicking here</a>.</p>
 </div>
 <div class="section" id="command-line-arguments">
 <h2>COMMAND LINE ARGUMENTS<a class="headerlink" href="#command-line-arguments" title="Permalink to this headline">¶</a></h2>

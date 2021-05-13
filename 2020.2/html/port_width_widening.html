@@ -344,6 +344,7 @@
 <li class="toctree-l1"><a class="reference internal" href="host.html">Host</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="cpp.html">C++ Kernels</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="array_partition.html">Array Partition</a></li>
+<li class="toctree-l2"><a class="reference internal" href="axi_burst_performance.html">AXI Burst Performance</a></li>
 <li class="toctree-l2"><a class="reference internal" href="burst_rw.html">Burst Read/Write</a></li>
 <li class="toctree-l2"><a class="reference internal" href="bind_op_storage.html">BIND OP and STORAGE</a></li>
 <li class="toctree-l2"><a class="reference internal" href="critical_path.html">Critical Path</a></li>
@@ -526,8 +527,8 @@ the size of kernel interface ports.</p>
 <p>The interface size setting need to be specified in hls_config.tcl file. We included this tcl file in our krnl_dot_product_4.cfg file and by using
 the <code class="docutils literal notranslate"><span class="pre">--config</span></code> tag in the kernel compile stage we specify the m_axi interface size.</p>
 <p>Following is the content of krnl_dot_product_4.cfg file</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">advanced</span><span class="p">]</span>
-<span class="n">prop</span><span class="o">=</span><span class="n">solution</span><span class="p">.</span><span class="n">hls_pre_tcl</span><span class="o">=</span><span class="n">hls_config</span><span class="p">.</span><span class="n">tcl</span>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">hls</span><span class="p">]</span>
+<span class="n">pre_tcl</span><span class="o">=</span><span class="n">hls_config</span><span class="p">.</span><span class="n">tcl</span>
 </pre></div>
 </div>
 <ol class="arabic simple" start="5">
@@ -659,6 +660,7 @@ the <code class="docutils literal notranslate"><span class="pre">--config</span>
 <span class="n">src</span><span class="o">/</span><span class="n">host</span><span class="o">.</span><span class="n">cpp</span>
 </pre></div>
 </div>
+<p>Access these files in the github repo by <a class="reference external" href="https://github.com/Xilinx/Vitis_Accel_Examples/tree/master/cpp_kernels/port_width_widening">clicking here</a>.</p>
 </div>
 <div class="section" id="command-line-arguments">
 <h2>COMMAND LINE ARGUMENTS<a class="headerlink" href="#command-line-arguments" title="Permalink to this headline">¶</a></h2>

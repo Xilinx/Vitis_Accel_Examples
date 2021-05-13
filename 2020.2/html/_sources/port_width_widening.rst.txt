@@ -79,8 +79,8 @@ Following is the content of krnl_dot_product_4.cfg file
 
 .. code:: cpp
 
-   [advanced]
-   prop=solution.hls_pre_tcl=hls_config.tcl
+   [hls]
+   pre_tcl=hls_config.tcl
 
 
 5. KERNEL 5 - Interface pragma based port width allocation to each bundle. User can directly specifying portwidth to each M_AXI ports. Here user is setting 512 bit width to gmem0 and 256 bitwidth to gmem1. 
@@ -142,6 +142,8 @@ Application code is located in the src directory. Accelerator binary files will 
    src/dot_product_5.cpp
    src/host.cpp
    
+Access these files in the github repo by `clicking here <https://github.com/Xilinx/Vitis_Accel_Examples/tree/master/cpp_kernels/port_width_widening>`__.
+
 COMMAND LINE ARGUMENTS
 ----------------------
 

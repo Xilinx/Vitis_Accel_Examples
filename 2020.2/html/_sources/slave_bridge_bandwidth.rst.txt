@@ -26,6 +26,7 @@ Using the ``sp`` option  in the krnl_bandwidth.cfg file, AXI-Master Port is conn
 
 ::
 
+   [connectivity]
    sp=bandwidth_1.input0:HOST[0]
    sp=bandwidth_1.output0:HOST[0]
    sp=read_bandwidth_1.input0:HOST[0]
@@ -146,6 +147,8 @@ Application code is located in the src directory. Accelerator binary files will 
    src/read_bandwidth.cpp
    src/write_bandwidth.cpp
    
+Access these files in the github repo by `clicking here <https://github.com/Xilinx/Vitis_Accel_Examples/tree/master/host/slave_bridge_bandwidth>`__.
+
 COMMAND LINE ARGUMENTS
 ----------------------
 

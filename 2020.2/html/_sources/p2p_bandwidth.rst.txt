@@ -103,9 +103,12 @@ Application code is located in the src directory. Accelerator binary files will 
 
 ::
 
+   data/sample.txt
    src/bandwidth.cpp
    src/host.cpp
    
+Access these files in the github repo by `clicking here <https://github.com/Xilinx/Vitis_Accel_Examples/tree/master/host/p2p_bandwidth>`__.
+
 COMMAND LINE ARGUMENTS
 ----------------------
 
@@ -113,5 +116,5 @@ Once the environment has been configured, the application can be executed by
 
 ::
 
-   ./p2p_bandwidth -x <bandwidth XCLBIN>
+   ./p2p_bandwidth -x <bandwidth XCLBIN> -f ./data/sample.txt
 

@@ -51,6 +51,8 @@ Application code is located in the src directory. Accelerator binary files will 
    src/adder.cpp
    src/host.cpp
    
+Access these files in the github repo by `clicking here <https://github.com/Xilinx/Vitis_Accel_Examples/tree/master/cpp_kernels/dataflow_stream>`__.
+
 COMMAND LINE ARGUMENTS
 ----------------------
 

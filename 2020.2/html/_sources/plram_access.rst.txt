@@ -17,12 +17,14 @@ of data storage that application kernels can share and access
 rapidly(lowest latency). PLRAM behaves just like the DDR memory
 resources managed by the Vitis memory subsystem.
 
-PLRAM can be assigned to a buffer by using ``--sp`` tags in the kernel
-linking stage.
+PLRAM can be assigned to a buffer by using ``sp`` tags in the mmult.cfg file along with the port name and kernel name.
 
 ::
 
-   --sp mmult_1.a:PLRAM[0] --sp mmult_1.b:DDR[0] --sp mmult_1.c:PLRAM[1]
+   [connectivity]
+   sp=mmult_1.a:PLRAM[0]
+   sp=mmult_1.b:DDR[0]
+   sp=mmult_1.c:PLRAM[1]
 
 EXCLUDED PLATFORMS
 ------------------
@@ -36,6 +38,7 @@ Platforms containing following strings in their names are not supported for this
    zc
    vck
    u50
+   u55
    samsung
    _u2_
    nodma
@@ -50,6 +53,8 @@ Application code is located in the src directory. Accelerator binary files will 
    src/host.cpp
    src/mmult.cpp
    
+Access these files in the github repo by `clicking here <https://github.com/Xilinx/Vitis_Accel_Examples/tree/master/cpp_kernels/plram_access>`__.
+
 COMMAND LINE ARGUMENTS
 ----------------------
 

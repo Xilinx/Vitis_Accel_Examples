@@ -55,6 +55,8 @@ Application code is located in the src directory. Accelerator binary files will 
    src/host.cpp
    src/mmult.cl
    
+Access these files in the github repo by `clicking here <https://github.com/Xilinx/Vitis_Accel_Examples/tree/master/ocl_kernels/cl_loop_reorder>`__.
+
 COMMAND LINE ARGUMENTS
 ----------------------
 

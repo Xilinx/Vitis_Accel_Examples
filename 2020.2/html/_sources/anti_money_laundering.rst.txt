@@ -36,6 +36,8 @@ Application code is located in the src directory. Accelerator binary files will 
    data/stopkeywords.csv
    data/txdata.csv
    
+Access these files in the github repo by `clicking here <https://github.com/Xilinx/Vitis_Accel_Examples/tree/master/library_examples/anti_money_laundering>`__.
+
 COMMAND LINE ARGUMENTS
 ----------------------
 

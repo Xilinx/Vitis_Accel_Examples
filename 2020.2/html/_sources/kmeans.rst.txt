@@ -82,6 +82,8 @@ Application code is located in the src directory. Accelerator binary files will 
    src/krnl_kmeans.h
    src/timer.h
    
+Access these files in the github repo by `clicking here <https://github.com/Xilinx/Vitis_Accel_Examples/tree/master/demo/kmeans>`__.
+
 COMMAND LINE ARGUMENTS
 ----------------------
 

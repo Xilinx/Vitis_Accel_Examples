@@ -57,8 +57,8 @@
   <link rel="stylesheet" href="_static/css/pro.min.css" media="all" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Loop Dependency Inter" href="dependence_inter.html" />
-    <link rel="prev" title="Dataflow Using HLS Stream" href="dataflow_stream.html" /> 
+    <link rel="next" title="RTL Stream Kernel to Kernel and Memory Mapped (RTL Kernel)" href="rtl_streaming_k2k_mm.html" />
+    <link rel="prev" title="Adder With Streams (RTL Kernel)" href="rtl_adder_streams.html" /> 
 	</head>
 	<body>
 		<div class="xilinx-bs3"/>
@@ -342,41 +342,27 @@
 <li class="toctree-l1"><a class="reference internal" href="hello_world.html">Hello World</a></li>
 <li class="toctree-l1"><a class="reference internal" href="aie_kernels.html">AIE Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="host.html">Host</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="cpp.html">C++ Kernels</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="array_partition.html">Array Partition</a></li>
-<li class="toctree-l2"><a class="reference internal" href="axi_burst_performance.html">AXI Burst Performance</a></li>
-<li class="toctree-l2"><a class="reference internal" href="burst_rw.html">Burst Read/Write</a></li>
-<li class="toctree-l2"><a class="reference internal" href="bind_op_storage.html">BIND OP and STORAGE</a></li>
-<li class="toctree-l2"><a class="reference internal" href="critical_path.html">Critical Path</a></li>
-<li class="toctree-l2"><a class="reference internal" href="custom_datatype.html">Custom Data Type</a></li>
-<li class="toctree-l2"><a class="reference internal" href="dataflow_stream.html">Dataflow Using HLS Stream</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Dataflow Using Array of HLS Stream</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="cpp.html">C++ Kernels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="demo.html">Demos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="emulation.html">Emulation Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="library_examples.html">Library Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sys_opt.html">System Optimization Kernels</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="rtl.html">RTL Kernels</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="rtl_adder_streams.html">Adder With Streams (RTL Kernel)</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Stream Free Running Kernel (RTL Kernel)</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#excluded-platforms">EXCLUDED PLATFORMS</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#design-files">DESIGN FILES</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#command-line-arguments">COMMAND LINE ARGUMENTS</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="dependence_inter.html">Loop Dependency Inter</a></li>
-<li class="toctree-l2"><a class="reference internal" href="gmem_2banks.html">Global Memory Two Banks</a></li>
-<li class="toctree-l2"><a class="reference internal" href="kernel_chain.html">Stream Chain Matrix Multiplication</a></li>
-<li class="toctree-l2"><a class="reference internal" href="kernel_global_bandwidth.html">Kernel Global Bandwidth</a></li>
-<li class="toctree-l2"><a class="reference internal" href="lmem_2rw.html">Local Memory Two Parallel Read/Write</a></li>
-<li class="toctree-l2"><a class="reference internal" href="loop_pipeline.html">Loop Pipelining</a></li>
-<li class="toctree-l2"><a class="reference internal" href="loop_reorder.html">Loop Reordering</a></li>
-<li class="toctree-l2"><a class="reference internal" href="partition_cyclicblock.html">Array Block and Cyclic Partitioning</a></li>
-<li class="toctree-l2"><a class="reference internal" href="port_width_widening.html">Port Width Widening</a></li>
-<li class="toctree-l2"><a class="reference internal" href="plram_access.html">PLRAM Memory Access</a></li>
-<li class="toctree-l2"><a class="reference internal" href="simple_vadd.html">Vector Addition</a></li>
-<li class="toctree-l2"><a class="reference internal" href="shift_register.html">Shift Register</a></li>
-<li class="toctree-l2"><a class="reference internal" href="systolic_array.html">Systolic Array</a></li>
-<li class="toctree-l2"><a class="reference internal" href="wide_mem_rw.html">Wide Memory Read/Write</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rtl_streaming_k2k_mm.html">RTL Stream Kernel to Kernel and Memory Mapped (RTL Kernel)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rtl_vadd.html">Vadd Simple (RTL Kernel)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rtl_vadd_2clks.html">Vadd 2 Kernel Clocks (RTL Kernel)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rtl_vadd_2kernels.html">Vadd 2 Kernels (RTL Kernel)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rtl_vadd_hw_debug.html">Hardware Debug (RTL Kernel)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rtl_vadd_mixed_c_vadd.html">Mixed Kernels (RTL &amp; C)</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="demo.html">Demos</a></li>
-<li class="toctree-l1"><a class="reference internal" href="emulation.html">Emulation Examples</a></li>
-<li class="toctree-l1"><a class="reference internal" href="library_examples.html">Library Examples</a></li>
-<li class="toctree-l1"><a class="reference internal" href="sys_opt.html">System Optimization Kernels</a></li>
-<li class="toctree-l1"><a class="reference internal" href="rtl.html">RTL Kernels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ocl.html">OpenCL Kernels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="validate.html">Validate</a></li>
 </ul>
@@ -393,7 +379,7 @@
             
 			<p class="caption"><span class="caption-text">This Page</span></p>
 				<ul class="current">
-				  <li class="toctree-l1"><a href="_sources/dataflow_stream_array.rst.txt"
+				  <li class="toctree-l1"><a href="_sources/rtl_streaming_free_running_k2k.rst.txt"
 						rel="nofollow">Show Source</a></li>						
 				</ul>
           
@@ -439,15 +425,15 @@
     
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
-          <li><a href="cpp.html">C++ Kernels</a> &raquo;</li>
+          <li><a href="rtl.html">RTL Kernels</a> &raquo;</li>
         
-      <li>Dataflow Using Array of HLS Stream</li>
+      <li>Stream Free Running Kernel (RTL Kernel)</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="_sources/dataflow_stream_array.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/rtl_streaming_free_running_k2k.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -460,62 +446,56 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="dataflow-using-array-of-hls-stream">
-<h1>Dataflow Using Array of HLS Stream<a class="headerlink" href="#dataflow-using-array-of-hls-stream" title="Permalink to this headline">¶</a></h1>
-<p>This is simple example of Multiple Stages Vector Addition to demonstrate Array of Stream usage in HLS C Kernel Code.</p>
-<p><strong>KEY CONCEPTS:</strong> Array of Stream</p>
-<p><strong>KEYWORDS:</strong> dataflow, hls::stream</p>
-<p>This example demontrates the use of an array of <code class="docutils literal notranslate"><span class="pre">HLS</span> <span class="pre">streams</span></code> in
-kernels.</p>
-<p>Kernel performs a number of vector additions. Initial vector is taken
-from the global memory and is written into a stream. Operator <code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span></code> is
-overloaded to perform a <code class="docutils literal notranslate"><span class="pre">blocking</span> <span class="pre">write</span></code> to a stream from a variable.</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="nl">mem_rd</span><span class="p">:</span>
-   <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">size</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-      <span class="cp">#pragma HLS LOOP_TRIPCOUNT min=c_size max=c_size</span>
-       <span class="n">inStream</span> <span class="o">&lt;&lt;</span> <span class="n">input</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
-   <span class="p">}</span>
+  <div class="section" id="stream-free-running-kernel-rtl-kernel">
+<h1>Stream Free Running Kernel (RTL Kernel)<a class="headerlink" href="#stream-free-running-kernel-rtl-kernel" title="Permalink to this headline">¶</a></h1>
+<p>This is simple example which demonstrate how to use and configure a free running RTL kernel.</p>
+<p><strong>KEY CONCEPTS:</strong> Read/Write Stream, RTL Kernel, Free Running Kernel</p>
+<p><strong>KEYWORDS:</strong> ap_axiu, hls::stream</p>
+<p>This example demonstrates the use of RTL <code class="docutils literal notranslate"><span class="pre">free</span> <span class="pre">running</span></code> kernel. Free-running kernels have no control signal ports, and cannot be started or stopped. The no-control signal feature of the free-running kernel results in the following characteristics:</p>
+<ul class="simple">
+<li><p>The free-running kernel has no memory input or output port, and therefore it interacts with the host or other kernels (other kernels can be regular kernel or another free running kernel) only through streams.</p></li>
+<li><p>When the FPGA is programmed by the binary container (xclbin), the free-running kernel starts running on the FPGA, and therefore it does not need the <code class="docutils literal notranslate"><span class="pre">clEnqueueTask</span></code> command from the host code.</p></li>
+<li><p>The kernel works on the stream data as soon as it starts receiving from the host or other kernels, and it stalls when the data is not available.</p></li>
+<li><p>The free-running kernel needs a special interface pragma <code class="docutils literal notranslate"><span class="pre">ap_ctrl_none</span></code> inside the kernel body.</p></li>
+</ul>
+<p>RTL kernels can be integrated to Vitis using <code class="docutils literal notranslate"><span class="pre">RTL</span> <span class="pre">Kernel</span> <span class="pre">Wizard</span></code>. These kernels have the same software interface model as OpenCL and C/C++ kernels. That is, they are seen by the host application as functions with a void return value, scalar arguments and pointer arguments. For free running kernels, Option <code class="docutils literal notranslate"><span class="pre">ap_ctrl_none</span></code> has to be chosen while setting up the kernel in the wizard.</p>
+<p>The RTL Kernel Wizard automates some of the steps that need to be taken to ensure that the RTL IP is packaged into a kernel that can be integrated into a system in Vitis environment.</p>
+<p>For kernel to kernel streaming transfer, kernel to kernel data transfer ports do not need <code class="docutils literal notranslate"><span class="pre">clSetKernelArg</span></code> from host code.</p>
+<p>Producer kernel <code class="docutils literal notranslate"><span class="pre">mem_read</span></code> streaming output port needs to be connected to consumer kernel <code class="docutils literal notranslate"><span class="pre">myadder</span></code> stream input port during <code class="docutils literal notranslate"><span class="pre">v++</span></code> using <code class="docutils literal notranslate"><span class="pre">myadder.cfg</span></code> file as below:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">connectivity</span><span class="p">]</span>
+<span class="n">stream_connect</span><span class="o">=</span><span class="n">krnl_mm2s_1</span><span class="o">.</span><span class="n">out</span><span class="p">:</span><span class="n">myadder_1</span><span class="o">.</span><span class="ow">in</span>
+<span class="n">stream_connect</span><span class="o">=</span><span class="n">myadder_1</span><span class="o">.</span><span class="n">out</span><span class="p">:</span><span class="n">krnl_s2mm_1</span><span class="o">.</span><span class="ow">in</span>
 </pre></div>
 </div>
-<p>Multiple additions are performed using the <code class="docutils literal notranslate"><span class="pre">adder</span></code> function which take
-the input from a stream and provide the output to another stream.</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="nl">compute_loop</span><span class="p">:</span>
-    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">STAGES</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-       <span class="cp">#pragma HLS UNROLL</span>
-        <span class="n">adder</span><span class="p">(</span><span class="n">streamArray</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">streamArray</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">],</span> <span class="n">incr</span><span class="p">,</span> <span class="n">size</span><span class="p">);</span>
-    <span class="p">}</span>
-</pre></div>
-</div>
-<p>Finally, result is written back from stream to global memory buffer.</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">static</span> <span class="kt">void</span> <span class="nf">write_result</span><span class="p">(</span><span class="kt">int</span> <span class="o">*</span><span class="n">output</span><span class="p">,</span> <span class="n">hls</span><span class="o">::</span><span class="n">stream</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">outStream</span><span class="p">,</span> <span class="kt">int</span> <span class="n">size</span><span class="p">)</span> <span class="p">{</span>
-<span class="nl">mem_wr</span><span class="p">:</span>
-    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">size</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-       <span class="cp">#pragma HLS LOOP_TRIPCOUNT min=c_size max=c_size</span>
-        <span class="n">output</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">outStream</span><span class="p">.</span><span class="n">read</span><span class="p">();</span>
-    <span class="p">}</span>
-<span class="p">}</span>
+<p>This stream connection specifies that <code class="docutils literal notranslate"><span class="pre">stream</span></code> streaming port of <code class="docutils literal notranslate"><span class="pre">mem_read</span></code> will be connected to <code class="docutils literal notranslate"><span class="pre">in</span></code> streaming port of <code class="docutils literal notranslate"><span class="pre">myadder</span></code> during system linker run and same for the second stream connection. This connectivity file is provided to v++ command as below:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">--</span><span class="n">config</span> <span class="n">myadder</span><span class="o">.</span><span class="n">cfg</span>
 </pre></div>
 </div>
 <div class="section" id="excluded-platforms">
 <h2>EXCLUDED PLATFORMS<a class="headerlink" href="#excluded-platforms" title="Permalink to this headline">¶</a></h2>
 <p>Platforms containing following strings in their names are not supported for this example :</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">nodma</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">2018</span>
+<span class="n">vck</span>
+<span class="n">zc706</span>
+<span class="n">nodma</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="design-files">
 <h2>DESIGN FILES<a class="headerlink" href="#design-files" title="Permalink to this headline">¶</a></h2>
 <p>Application code is located in the src directory. Accelerator binary files will be compiled to the xclbin directory. The xclbin directory is required by the Makefile and its contents will be filled during compilation. A listing of all the files in this example is shown below</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">src</span><span class="o">/</span><span class="n">N_stage_adders</span><span class="o">.</span><span class="n">cpp</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">src</span><span class="o">/</span><span class="n">gen_xo</span><span class="o">.</span><span class="n">tcl</span>
 <span class="n">src</span><span class="o">/</span><span class="n">host</span><span class="o">.</span><span class="n">cpp</span>
+<span class="n">src</span><span class="o">/</span><span class="n">krnl_mm2s</span><span class="o">.</span><span class="n">cpp</span>
+<span class="n">src</span><span class="o">/</span><span class="n">krnl_s2mm</span><span class="o">.</span><span class="n">cpp</span>
 </pre></div>
 </div>
-<p>Access these files in the github repo by <a class="reference external" href="https://github.com/Xilinx/Vitis_Accel_Examples/tree/master/cpp_kernels/dataflow_stream_array">clicking here</a>.</p>
+<p>Access these files in the github repo by <a class="reference external" href="https://github.com/Xilinx/Vitis_Accel_Examples/tree/master/rtl_kernels/rtl_streaming_free_running_k2k">clicking here</a>.</p>
 </div>
 <div class="section" id="command-line-arguments">
 <h2>COMMAND LINE ARGUMENTS<a class="headerlink" href="#command-line-arguments" title="Permalink to this headline">¶</a></h2>
 <p>Once the environment has been configured, the application can be executed by</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">dataflow_stream_array</span> <span class="o">&lt;</span><span class="n">N_stage_Adders</span> <span class="n">XCLBIN</span><span class="o">&gt;</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">rtl_streaming_free_running_k2k</span> <span class="o">&lt;</span><span class="n">myadder</span> <span class="n">XCLBIN</span><span class="o">&gt;</span>
 </pre></div>
 </div>
 </div>
@@ -537,10 +517,10 @@ the input from a stream and provide the output to another stream.</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="dependence_inter.html" class="btn btn-neutral float-right" title="Loop Dependency Inter" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="rtl_streaming_k2k_mm.html" class="btn btn-neutral float-right" title="RTL Stream Kernel to Kernel and Memory Mapped (RTL Kernel)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="dataflow_stream.html" class="btn btn-neutral float-left" title="Dataflow Using HLS Stream" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="rtl_adder_streams.html" class="btn btn-neutral float-left" title="Adder With Streams (RTL Kernel)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

@@ -5,7 +5,7 @@ This example of 2ddr is to demonstrate how to use multiple ddr and create buffer
 
 **KEY CONCEPTS:** Multiple Banks
 
-**KEYWORDS:** max_memory_ports, sp, connectivity
+**KEYWORDS:** m_axi_auto_max_ports, sp, connectivity
 
 
 This example demonstrates how buffers can be created in two different
@@ -44,6 +44,7 @@ Platforms containing following strings in their names are not supported for this
    vck
    u30
    u50
+   u55
    samsung
    _u2_
    nodma
@@ -59,6 +60,8 @@ Application code is located in the src directory. Accelerator binary files will 
    src/apply_watermark.cpp
    src/host.cpp
    
+Access these files in the github repo by `clicking here <https://github.com/Xilinx/Vitis_Accel_Examples/tree/master/cpp_kernels/gmem_2banks>`__.
+
 COMMAND LINE ARGUMENTS
 ----------------------
 

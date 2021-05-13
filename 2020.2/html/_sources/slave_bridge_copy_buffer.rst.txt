@@ -48,6 +48,7 @@ Platforms containing following strings in their names are not supported for this
    _u25_
    u30
    u50c
+   u55
    zc
    vck
    aws-vu9p-f1
@@ -66,6 +67,8 @@ Application code is located in the src directory. Accelerator binary files will 
    src/host.cpp
    src/krnl_vadd.cpp
    
+Access these files in the github repo by `clicking here <https://github.com/Xilinx/Vitis_Accel_Examples/tree/master/host/slave_bridge_copy_buffer>`__.
+
 COMMAND LINE ARGUMENTS
 ----------------------
 

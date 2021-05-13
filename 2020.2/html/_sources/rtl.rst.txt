@@ -8,7 +8,7 @@ Collection of RTL Kernel Based Examples.
    :caption: List of Examples
 
    rtl_adder_streams.rst
-   rtl_streaming_free_running.rst
+   rtl_streaming_free_running_k2k.rst
    rtl_streaming_k2k_mm.rst
    rtl_vadd.rst
    rtl_vadd_2clks.rst

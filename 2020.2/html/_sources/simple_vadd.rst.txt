@@ -24,6 +24,8 @@ Application code is located in the src directory. Accelerator binary files will 
    src/vadd.cpp
    src/vadd.h
    
+Access these files in the github repo by `clicking here <https://github.com/Xilinx/Vitis_Accel_Examples/tree/master/cpp_kernels/simple_vadd>`__.
+
 COMMAND LINE ARGUMENTS
 ----------------------
 

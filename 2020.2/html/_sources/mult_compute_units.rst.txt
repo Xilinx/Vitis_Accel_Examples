@@ -46,6 +46,8 @@ Application code is located in the src directory. Accelerator binary files will 
    src/host.cpp
    src/vadd.cpp
    
+Access these files in the github repo by `clicking here <https://github.com/Xilinx/Vitis_Accel_Examples/tree/master/host/mult_compute_units>`__.
+
 COMMAND LINE ARGUMENTS
 ----------------------
 

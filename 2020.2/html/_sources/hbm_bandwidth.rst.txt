@@ -36,6 +36,7 @@ in krnl_vaddmul.cfg file
 
 ::
 
+   [connectivity]
    sp=krnl_vaddmul_1.in1:HBM[0]
    sp=krnl_vaddmul_1.in2:HBM[1] 
    sp=krnl_vaddmul_1.out_add:HBM[2]
@@ -137,6 +138,8 @@ Application code is located in the src directory. Accelerator binary files will 
    src/krnl_vaddmul.cpp
    src/krnl_vaddmul.h
    
+Access these files in the github repo by `clicking here <https://github.com/Xilinx/Vitis_Accel_Examples/tree/master/host/hbm_bandwidth>`__.
+
 COMMAND LINE ARGUMENTS
 ----------------------
 

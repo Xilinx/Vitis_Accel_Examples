@@ -76,6 +76,8 @@ Application code is located in the src directory. Accelerator binary files will 
    src/mmult.cpp
    src/mscale.cpp
    
+Access these files in the github repo by `clicking here <https://github.com/Xilinx/Vitis_Accel_Examples/tree/master/host/concurrent_kernel_execution>`__.
+
 COMMAND LINE ARGUMENTS
 ----------------------
 

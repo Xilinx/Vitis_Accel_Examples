@@ -459,12 +459,13 @@ resources. In addition, connections between SLRs use super long line
 intra-SLR routing.</p>
 <p>It might be necessary to cross an SLR region to connect to a DDR
 resource in a different SLR. However, if both the and the directives are
-explicitly defined, the tools <code class="docutils literal notranslate"><span class="pre">--sp</span></code>, <code class="docutils literal notranslate"><span class="pre">--slr</span></code> automatically add
+explicitly defined, the options <code class="docutils literal notranslate"><span class="pre">sp</span></code>, <code class="docutils literal notranslate"><span class="pre">slr</span></code> automatically add
 additional crossing logic to minimize the effect of the SLL delay, and
 facilitates better timing closure.</p>
-<p><code class="docutils literal notranslate"><span class="pre">V++</span></code> requires <code class="docutils literal notranslate"><span class="pre">--slr</span></code> option during the linking stage for explicit
-slr assignment of kernels.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">--</span><span class="n">slr</span> <span class="n">vmult_1</span><span class="p">:</span><span class="n">SLR0</span> <span class="o">--</span><span class="n">slr</span> <span class="n">vadd_1</span><span class="p">:</span><span class="n">SLR1</span>
+<p>The explicit xlr assignment of kernels can be done using the <code class="docutils literal notranslate"><span class="pre">slr</span></code> option  in the vmult_vadd.cfg file:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">connectivity</span><span class="p">]</span>
+<span class="n">slr</span><span class="o">=</span><span class="n">vmult_1</span><span class="p">:</span><span class="n">SLR1</span>
+<span class="n">slr</span><span class="o">=</span><span class="n">vadd_1</span><span class="p">:</span><span class="n">SLR1</span>
 </pre></div>
 </div>
 <div class="section" id="excluded-platforms">
@@ -487,6 +488,7 @@ slr assignment of kernels.</p>
 <span class="n">src</span><span class="o">/</span><span class="n">kernel</span><span class="o">.</span><span class="n">cl</span>
 </pre></div>
 </div>
+<p>Access these files in the github repo by <a class="reference external" href="https://github.com/Xilinx/Vitis_Accel_Examples/tree/master/sys_opt/slr_assign">clicking here</a>.</p>
 </div>
 <div class="section" id="command-line-arguments">
 <h2>COMMAND LINE ARGUMENTS<a class="headerlink" href="#command-line-arguments" title="Permalink to this headline">¶</a></h2>

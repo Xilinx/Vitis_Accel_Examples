@@ -51,6 +51,8 @@ Application code is located in the src directory. Accelerator binary files will 
    src/hdl/krnl_vadd_2clk_rtl_int.sv
    src/host.cpp
    
+Access these files in the github repo by `clicking here <https://github.com/Xilinx/Vitis_Accel_Examples/tree/master/rtl_kernels/rtl_vadd_2clks>`__.
+
 COMMAND LINE ARGUMENTS
 ----------------------
 

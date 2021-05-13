@@ -344,6 +344,7 @@
 <li class="toctree-l1"><a class="reference internal" href="host.html">Host</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="cpp.html">C++ Kernels</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="array_partition.html">Array Partition</a></li>
+<li class="toctree-l2"><a class="reference internal" href="axi_burst_performance.html">AXI Burst Performance</a></li>
 <li class="toctree-l2"><a class="reference internal" href="burst_rw.html">Burst Read/Write</a></li>
 <li class="toctree-l2"><a class="reference internal" href="bind_op_storage.html">BIND OP and STORAGE</a></li>
 <li class="toctree-l2"><a class="reference internal" href="critical_path.html">Critical Path</a></li>
@@ -465,13 +466,14 @@
 <p>This example tests global memory access bandwidth of kernel. Kernel
 increase the bandwidth by accessing multiple DDR banks through different
 interfaces.</p>
-<p>Banks need to be specified using the <code class="docutils literal notranslate"><span class="pre">--sp</span></code> tags in the kernel linking
-stage along with the <code class="docutils literal notranslate"><span class="pre">m_axi</span></code> interface name and kernel name.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">--</span><span class="n">sp</span> <span class="n">apply_watermark_1</span><span class="o">.</span><span class="n">m_axi_gmem0</span><span class="p">:</span><span class="n">DDR</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">--</span><span class="n">sp</span> <span class="n">apply_watermark_1</span><span class="o">.</span><span class="n">m_axi_gmem1</span><span class="p">:</span><span class="n">DDR</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<p>Banks need to be specified using <code class="docutils literal notranslate"><span class="pre">sp</span></code> tags in
+respective <code class="docutils literal notranslate"><span class="pre">.cfg</span></code> file along with the port name and kernel name. For Ex-</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">connectivity</span><span class="p">]</span>
+<span class="n">sp</span><span class="o">=</span><span class="n">bandwidth_1</span><span class="o">.</span><span class="n">m_axi_gmem0</span><span class="p">:</span><span class="n">DDR</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">sp</span><span class="o">=</span><span class="n">bandwidth_1</span><span class="o">.</span><span class="n">m_axi_gmem1</span><span class="p">:</span><span class="n">DDR</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
 </pre></div>
 </div>
-<p>Following is the log reported while running the design on U200 platform
-:</p>
+<p>Following is the log reported while running the design on U200 platform:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">kernel_global</span> <span class="o">./</span><span class="n">build_dir</span><span class="o">.</span><span class="n">hw</span><span class="o">.</span><span class="n">xilinx_u200_xdma_201830_2</span><span class="o">/</span><span class="n">krnl_kernel_global</span><span class="o">.</span><span class="n">xclbin</span>
 <span class="n">Found</span> <span class="n">Platform</span>
 <span class="n">Platform</span> <span class="n">Name</span><span class="p">:</span> <span class="n">Xilinx</span>
@@ -543,8 +545,8 @@ NDDR_BANKS 4” at the top of kernel.cl</p></li>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">_u2_</span>
 <span class="n">u30</span>
 <span class="n">u50</span>
-<span class="n">vck</span>
-<span class="n">zc</span>
+<span class="n">u55</span>
+<span class="n">vck5000</span>
 </pre></div>
 </div>
 </div>
@@ -555,6 +557,7 @@ NDDR_BANKS 4” at the top of kernel.cl</p></li>
 <span class="n">src</span><span class="o">/</span><span class="n">kernel_global_bandwidth</span><span class="o">.</span><span class="n">cpp</span>
 </pre></div>
 </div>
+<p>Access these files in the github repo by <a class="reference external" href="https://github.com/Xilinx/Vitis_Accel_Examples/tree/master/cpp_kernels/kernel_global_bandwidth">clicking here</a>.</p>
 </div>
 <div class="section" id="command-line-arguments">
 <h2>COMMAND LINE ARGUMENTS<a class="headerlink" href="#command-line-arguments" title="Permalink to this headline">¶</a></h2>
