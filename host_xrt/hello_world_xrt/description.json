@@ -17,6 +17,9 @@
     "key_concepts": [
         "XRT Native APIs"
     ],
+    "platform_blacklist": [
+        "nodma"
+    ], 
     "os": [
         "Linux"
     ], 

@@ -7,6 +7,15 @@ This is simple example of vector addition to describe the usage of XRT Native AP
 
 **KEYWORDS:** xrt::device, load_xclbin, xrt::bo, xrt::kernel, map, sync, XCL_BO_SYNC_BO_TO_DEVICE, XCL_BO_SYNC_BO_FROM_DEVICE
 
+EXCLUDED PLATFORMS
+------------------
+
+Platforms containing following strings in their names are not supported for this example :
+
+::
+
+   nodma
+
 DESIGN FILES
 ------------
 
