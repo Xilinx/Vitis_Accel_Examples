@@ -173,7 +173,7 @@ int main(int argc, char** argv) {
         std::cout << "\nWARNING: Ignoring -f option when -p options is set. -p has high precedence over -f.\n";
         filename = filepath;
     }
-    
+
     int nvmeFd = -1;
     if (xcl::is_emulation()) {
         max_buffer = 16 * 1024;
