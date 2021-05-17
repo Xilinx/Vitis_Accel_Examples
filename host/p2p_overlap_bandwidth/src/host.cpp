@@ -350,7 +350,7 @@ int main(int argc, char** argv) {
     parser.parse(argc, argv);
 
     // Read settings
-    auto binaryFile = parser.value("xclbin_file");    
+    auto binaryFile = parser.value("xclbin_file");
     std::string filepath = parser.value("file_path");
     std::string filename;
     cl_uint dev_id = stoi(parser.value("device"));
