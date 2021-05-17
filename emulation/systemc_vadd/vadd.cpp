@@ -58,6 +58,9 @@ class vadd : public xsc::xtlm_ap_ctrl_hs {
             //! Add data1 & data2 and write back result
             data_r = data1 + data2;                                           //! Add
             out_r->write(out_r_base_addr + (i * 4), (unsigned char*)&data_r); //! Write the result
+
+            //! Workaround to avoid max. delta cycles in xsim
+            if (i % 100 == 0) wait(1, SC_NS);
         }
 
         ap_done(); //! completed Kernel computation...
