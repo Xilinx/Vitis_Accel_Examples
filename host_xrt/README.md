@@ -22,6 +22,7 @@ Example        | Description           | Key Concepts / Keywords
 [slave_bridge_copy_buffer_xrt/][]|This is simple slave bridge example to describe how host-only memory can be copied to device-only memory and vice-versa using XRT Native API's.|__Key__ __Concepts__<br> - slave bridge<br>__Keywords__<br> - host_only<br> - device_only<br> - HOST[0]
 [slave_bridge_copy_kernel_xrt/][]|This is a Slave Bridge Example to describe how data can be copied using xrt native api's between host-only buffer and device-only buffer using User Copy Kernel.|__Key__ __Concepts__<br> - slave bridge<br>__Keywords__<br> - host_only<br> - device_only
 [slave_bridge_simple_xrt/][]|This is simple slave bridge example to describe how a user kernel can access the host memory using xrt native api's.|__Key__ __Concepts__<br> - slave bridge<br> - address translation unit<br>__Keywords__<br> - host_only<br> - HOST[0]
+[streaming_free_running_k2k_xrt/][]|This is simple example which demonstrate how to use and configure a free running kernel.|__Key__ __Concepts__<br> - Free Running Kernel<br>__Keywords__<br> - ap_ctrl_none<br> - stream_connect
 [streaming_k2k_mm_xrt/][]|This is a simple kernel to kernel streaming Vector Add and Vector Multiply C Kernel design with 2 memory mapped input to kernel 1, 1 Stream output from kernel 1 to input of kernel 2, 1 memory mapped input to kernel 2, and 1 memory mapped output that demonstrates on how to process a stream of data for computation between two kernels using XRT Native APIs. This design also illustrates how to set FIFO depth for AXIS connections i.e. for the stream connecting the two kernels|__Key__ __Concepts__<br> - Read/Write Stream<br> - Create/Release Stream<br> - AXIS FIFO depth<br>__Keywords__<br> - stream_connect
 
 [.]:.
@@ -41,4 +42,5 @@ Example        | Description           | Key Concepts / Keywords
 [slave_bridge_copy_buffer_xrt/]:slave_bridge_copy_buffer_xrt/
 [slave_bridge_copy_kernel_xrt/]:slave_bridge_copy_kernel_xrt/
 [slave_bridge_simple_xrt/]:slave_bridge_simple_xrt/
+[streaming_free_running_k2k_xrt/]:streaming_free_running_k2k_xrt/
 [streaming_k2k_mm_xrt/]:streaming_k2k_mm_xrt/
