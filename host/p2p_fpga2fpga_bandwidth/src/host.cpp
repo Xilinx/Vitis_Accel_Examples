@@ -110,6 +110,22 @@ int main(int argc, char* argv[]) {
     else
         std::cout << "The device_id2 provided using -d1 flag is outside the range of "
                      "available devices\n";
+
+    cl_bool is_nodma;
+    uint8_t nodma_cnt = 0;
+    clGetDeviceInfo(device1, CL_DEVICE_NODMA, sizeof(is_nodma), &is_nodma, NULL);
+    if (is_nodma) nodma_cnt++;
+    clGetDeviceInfo(device2, CL_DEVICE_NODMA, sizeof(is_nodma), &is_nodma, NULL);
+    if (is_nodma) nodma_cnt++;
+
+    if (nodma_cnt == 2) {
+        std::cout
+            << "WARNING: P2P transfer can only be done between xdma and nodma devices but not between 2 nodma devices. "
+               "Please run this "
+               "design on machine with both xdma and nodma devices.\n";
+        return 0;
+    }
+
     cl_context context[device_count];
     cl_command_queue queue[device_count];
     cl_kernel krnl_dev0, krnl_dev1;

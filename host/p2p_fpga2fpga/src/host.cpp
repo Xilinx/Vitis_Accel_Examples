@@ -119,6 +119,21 @@ int main(int argc, char* argv[]) {
     cl_device_id* device_id = (cl_device_id*)malloc(sizeof(cl_device_id) * device_count);
     clGetDeviceIDs(platform_id, CL_DEVICE_TYPE_ACCELERATOR, device_count, device_id, nullptr);
 
+    cl_bool is_nodma;
+    uint8_t nodma_cnt = 0;
+    clGetDeviceInfo(device_id[0], CL_DEVICE_NODMA, sizeof(is_nodma), &is_nodma, NULL);
+    if (is_nodma) nodma_cnt++;
+    clGetDeviceInfo(device_id[1], CL_DEVICE_NODMA, sizeof(is_nodma), &is_nodma, NULL);
+    if (is_nodma) nodma_cnt++;
+
+    if (nodma_cnt == 2) {
+        std::cout
+            << "WARNING: P2P transfer can only be done between xdma and nodma devices but not between 2 nodma devices. "
+               "Please run this "
+               "design on machine with both xdma and nodma devices.\n";
+        return 0;
+    }
+
     cl_context context[device_count];
     cl_command_queue queue[device_count];
     cl_kernel krnl_mmult_dev0, krnl_madd_dev1;
