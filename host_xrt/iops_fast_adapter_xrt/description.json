@@ -50,16 +50,8 @@
                ]
         }
     },
-    "v++": {
-        "linker": {
-             "ldclflags": [
-                 "--config PROJECT/fa_hello.cfg"
-              ]
-         }
-    },
     "match_makefile": "false",
     "match_ini": "false",
-    "config_make": "config.mk",
     "targets": [
        "hw" 
     ],
@@ -71,8 +63,7 @@
                     "location": "src/hello.cpp"
                 } 
             ], 
-            "name": "hello",
-            "ldclflags": "--config fa_hello.cfg" 
+            "name": "hello"
         }
     ], 
     "launch": [

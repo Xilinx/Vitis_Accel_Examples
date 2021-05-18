@@ -124,8 +124,6 @@ ifneq ($(TARGET), hw)
 	VPP_FLAGS += -g
 endif
 
-VPP_LDFLAGS_FA_hello += --config fa_hello.cfg
-
 PART=$(shell platforminfo ${DEVICE} -jhardwarePlatform.board.part | tail -1)
 
 EXECUTABLE = ./iops_fast_adapter_xrt
@@ -159,10 +157,10 @@ $(TEMP_DIR)/FA_hello.xo: $(TEMP_DIR)/hello.xo
 $(BUILD_DIR)/hello.xclbin: $(TEMP_DIR)/FA_hello.xo
 	mkdir -p $(BUILD_DIR)
 ifeq ($(HOST_ARCH), x86)
-	$(VPP) $(VPP_FLAGS) $(VPP_LDFLAGS_FA_hello) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR)  -o'$(BUILD_DIR)/hello.link.xclbin' $(+)
+	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR)  -o'$(BUILD_DIR)/hello.link.xclbin' $(+)
 	$(VPP) -p $(BUILD_DIR)/hello.link.xclbin -t $(TARGET) --platform $(DEVICE) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/hello.xclbin
 else
-	$(VPP) $(VPP_FLAGS) $(VPP_LDFLAGS_FA_hello) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) -o'$(BUILD_DIR)/hello.xclbin' $(+)
+	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) -o'$(BUILD_DIR)/hello.xclbin' $(+)
 endif
 
 ############################## Setting Rules for Host (Building Host Executable) ##############################
