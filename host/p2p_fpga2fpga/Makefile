@@ -104,6 +104,9 @@ endif
 ifeq ($(findstring u30, $(DEVICE)), u30)
 $(error [ERROR]: This example is not supported for $(DEVICE).)
 endif
+ifeq ($(findstring u50_gen3x16_xdma_2019, $(DEVICE)), u50_gen3x16_xdma_2019)
+$(error [ERROR]: This example is not supported for $(DEVICE).)
+endif
 
 ############################## Setting up Host Variables ##############################
 #Include Required Host Source Files

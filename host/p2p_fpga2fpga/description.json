@@ -25,7 +25,8 @@
         "vck",
         "aws-vu9p-f1",
         "_u25_",
-        "u30"
+        "u30",
+        "u50_gen3x16_xdma_2019"
     ],
      "runtime": [
         "OpenCL"

@@ -21,6 +21,7 @@ Platforms containing following strings in their names are not supported for this
    201910
    _u25_
    u30
+   u50_gen3x16_xdma_2019
 
 DESIGN FILES
 ------------
