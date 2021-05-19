@@ -19,6 +19,7 @@ Platforms containing following strings in their names are not supported for this
    vck
    u200
    u250
+   2019
 
 DESIGN FILES
 ------------

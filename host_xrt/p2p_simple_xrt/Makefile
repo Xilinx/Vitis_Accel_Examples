@@ -104,6 +104,9 @@ endif
 ifeq ($(findstring 201910, $(DEVICE)), 201910)
 $(error [ERROR]: This example is not supported for $(DEVICE).)
 endif
+ifeq ($(findstring u50_gen3x16_xdma_2019, $(DEVICE)), u50_gen3x16_xdma_2019)
+$(error [ERROR]: This example is not supported for $(DEVICE).)
+endif
 
 ifneq ($(findstring samsung_u2, $(DEVICE)), samsung_u2)
 $(warning [WARNING]: This example has not been tested for $(DEVICE). It may or may not work.)
