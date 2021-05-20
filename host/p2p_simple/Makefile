@@ -97,10 +97,10 @@ endif
 ifeq ($(findstring aws-vu9p-f1, $(DEVICE)), aws-vu9p-f1)
 $(error [ERROR]: This example is not supported for $(DEVICE).)
 endif
-ifeq ($(findstring 2018, $(DEVICE)), 2018)
+ifeq ($(findstring 201910, $(DEVICE)), 201910)
 $(error [ERROR]: This example is not supported for $(DEVICE).)
 endif
-ifeq ($(findstring 201910, $(DEVICE)), 201910)
+ifeq ($(findstring u50_gen3x16_xdma_2019, $(DEVICE)), u50_gen3x16_xdma_2019)
 $(error [ERROR]: This example is not supported for $(DEVICE).)
 endif
 ifeq ($(findstring u50_gen3x16_xdma_2019, $(DEVICE)), u50_gen3x16_xdma_2019)

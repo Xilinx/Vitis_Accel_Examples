@@ -113,9 +113,9 @@ int main(int argc, char* argv[]) {
 
     cl_bool is_nodma;
     uint8_t nodma_cnt = 0;
-    clGetDeviceInfo(device1, CL_DEVICE_NODMA, sizeof(is_nodma), &is_nodma, NULL);
+    clGetDeviceInfo(device1, CL_DEVICE_NODMA, sizeof(is_nodma), &is_nodma, nullptr);
     if (is_nodma) nodma_cnt++;
-    clGetDeviceInfo(device2, CL_DEVICE_NODMA, sizeof(is_nodma), &is_nodma, NULL);
+    clGetDeviceInfo(device2, CL_DEVICE_NODMA, sizeof(is_nodma), &is_nodma, nullptr);
     if (is_nodma) nodma_cnt++;
 
     if (nodma_cnt == 2) {
@@ -274,7 +274,6 @@ int main(int argc, char* argv[]) {
         std::chrono::high_resolution_clock::time_point p2pWriteEnd = std::chrono::high_resolution_clock::now();
         cl_ulong p2pWriteTime =
             std::chrono::duration_cast<std::chrono::microseconds>(p2pWriteEnd - p2pWriteStart).count();
-        ;
         dnsduration = (double)p2pWriteTime;
         dsduration = dnsduration / ((double)1000000);
         gbpersec = ((iter * bufsize) / dsduration) / ((double)1024 * 1024 * 1024);
@@ -289,7 +288,6 @@ int main(int argc, char* argv[]) {
         clFinish(queue[1]);
         p2pWriteEnd = std::chrono::high_resolution_clock::now();
         p2pWriteTime = std::chrono::duration_cast<std::chrono::microseconds>(p2pWriteEnd - p2pWriteStart).count();
-        ;
         dnsduration = (double)p2pWriteTime;
         dsduration = dnsduration / ((double)1000000);
         gbpersec = ((iter * bufsize) / dsduration) / ((double)1024 * 1024 * 1024);

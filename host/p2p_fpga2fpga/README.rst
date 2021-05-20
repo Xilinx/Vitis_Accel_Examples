@@ -17,7 +17,6 @@ Platforms containing following strings in their names are not supported for this
    flat
    zc
    201910
-   2018
    vck
    aws-vu9p-f1
    _u25_
