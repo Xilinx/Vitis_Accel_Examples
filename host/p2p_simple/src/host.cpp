@@ -43,11 +43,19 @@ void p2p_host_to_ssd(int& nvmeFd,
     cl_mem_ext_ptr_t outExt;
     outExt = {XCL_MEM_EXT_P2P_BUFFER, nullptr, 0};
 
-    OCL_CHECK(err, cl::Buffer input_a(context, CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY, vector_size_bytes,
-                                      source_input_A.data(), &err));
+    OCL_CHECK(err, cl::Buffer input_a(context, CL_MEM_READ_ONLY, vector_size_bytes, nullptr, &err));
     OCL_CHECK(err,
               cl::Buffer p2pBo(context, CL_MEM_WRITE_ONLY | CL_MEM_EXT_PTR_XILINX, vector_size_bytes, &outExt, &err));
     OCL_CHECK(err, krnl_adder = cl::Kernel(program, "adder", &err));
+
+    int* inputPtr = (int*)q.enqueueMapBuffer(input_a, CL_TRUE, CL_MAP_WRITE | CL_MAP_READ, 0, vector_size_bytes,
+                                             nullptr, nullptr, &err);
+
+    for (int i = 0; i < DATA_SIZE; i++) {
+        inputPtr[i] = source_input_A[i];
+    }
+
+    q.finish();
     // Set the Kernel Arguments
     OCL_CHECK(err, err = krnl_adder.setArg(0, input_a));
     OCL_CHECK(err, err = krnl_adder.setArg(1, p2pBo));
@@ -56,6 +64,7 @@ void p2p_host_to_ssd(int& nvmeFd,
 
     // Copy input data to device global memory
     OCL_CHECK(err, err = q.enqueueMigrateMemObjects({input_a}, 0 /* 0 means from host*/));
+
     // Launch the Kernel
     OCL_CHECK(err, err = q.enqueueTask(krnl_adder));
 
@@ -87,13 +96,14 @@ void p2p_ssd_to_host(int& nvmeFd,
 
     cl::Kernel krnl_adder1;
     // Allocate Buffer in Global Memory
-    cl_mem_ext_ptr_t inExt;
+    cl_mem_ext_ptr_t inExt, outExt;
     inExt = {XCL_MEM_EXT_P2P_BUFFER, nullptr, 0};
+    outExt = {0, nullptr, 0};
 
     OCL_CHECK(err, cl::Buffer buffer_input(context, CL_MEM_READ_ONLY | CL_MEM_EXT_PTR_XILINX, vector_size_bytes, &inExt,
                                            &err));
-    OCL_CHECK(err, cl::Buffer buffer_output(context, CL_MEM_WRITE_ONLY | CL_MEM_USE_HOST_PTR, vector_size_bytes,
-                                            source_hw_results->data(), &err));
+    OCL_CHECK(err, cl::Buffer buffer_output(context, CL_MEM_WRITE_ONLY | CL_MEM_EXT_PTR_XILINX, vector_size_bytes,
+                                            &outExt, &err));
     OCL_CHECK(err, krnl_adder1 = cl::Kernel(program, "adder", &err));
     std::cout << "\nMap P2P device buffers to host access pointers\n" << std::endl;
     void* p2pPtr1 = q.enqueueMapBuffer(buffer_input,      // buffer

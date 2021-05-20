@@ -25,9 +25,9 @@
 #include <unistd.h>
 #include <vector>
 
-size_t max_buffer = 32 * 1024 * 1024;
+size_t max_buffer = 16 * 1024 * 1024;
 size_t min_buffer = 4 * 1024;
-size_t max_size = 1024 * 1024 * 1024; // 1GB
+size_t max_size = 128 * 1024 * 1024; // 128MB
 
 void p2p_host_to_ssd(int& nvmeFd,
                      cl::Context context,
@@ -43,16 +43,25 @@ void p2p_host_to_ssd(int& nvmeFd,
     cl_mem_ext_ptr_t outExt;
     outExt = {XCL_MEM_EXT_P2P_BUFFER, nullptr, 0};
 
-    OCL_CHECK(err, cl::Buffer input_a(context, CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY, vector_size_bytes,
-                                      source_input_A.data(), &err));
+    OCL_CHECK(err, cl::Buffer input_a(context, CL_MEM_READ_ONLY, vector_size_bytes, nullptr, &err));
     OCL_CHECK(err,
               cl::Buffer p2pBo(context, CL_MEM_WRITE_ONLY | CL_MEM_EXT_PTR_XILINX, vector_size_bytes, &outExt, &err));
     OCL_CHECK(err, krnl_adder = cl::Kernel(program, "bandwidth", &err));
+
+    int* inputPtr = (int*)q.enqueueMapBuffer(input_a, CL_TRUE, CL_MAP_WRITE | CL_MAP_READ, 0, vector_size_bytes,
+                                             nullptr, nullptr, &err);
+
+    for (int i = 0; i < max_buffer; i++) {
+        inputPtr[i] = source_input_A[i];
+    }
+    q.finish();
+
     // Set the Kernel Arguments
     OCL_CHECK(err, err = krnl_adder.setArg(0, input_a));
 
     // Copy input data to device global memory
     OCL_CHECK(err, err = q.enqueueMigrateMemObjects({input_a}, 0 /* 0 means from host*/));
+
     // Launch the Kernel
     OCL_CHECK(err, err = q.enqueueTask(krnl_adder));
 

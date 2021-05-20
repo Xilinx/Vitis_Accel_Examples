@@ -74,7 +74,7 @@ EXECUTABLE = ./aie_adder
 RUN_APP_SCRIPT = ./run_app.sh
 PACKAGE_OUT = ./package.$(TARGET)
 
-LAUNCH_EMULATOR = ./launch_$(TARGET).sh
+LAUNCH_EMULATOR = $(PACKAGE_OUT)/launch_$(TARGET).sh
 RESULT_STRING = TEST PASSED
 
 CONFIG_FILE := system.cfg
@@ -180,6 +180,7 @@ sd_card: $(GRAPH_O) $(KERNEL_XO) host gen_run_app
 ifeq (${TARGET},hw_emu)
 	v++ $(VPP_PFLAGS) -p -t hw_emu \
 		--platform $(DEVICE) \
+		--package.out_dir $(PACKAGE_OUT) \
 		--package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 \
 		--package.image_format=ext4 \
 		--package.boot_mode=sd \
@@ -192,6 +193,7 @@ ifeq (${TARGET},hw_emu)
 else
 	v++ $(VPP_PFLAGS) -p -t hw \
 		--platform $(DEVICE) \
+		--package.out_dir $(PACKAGE_OUT) \
 		--package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 \
 		--package.image_format=ext4 \
 		--package.boot_mode=sd \

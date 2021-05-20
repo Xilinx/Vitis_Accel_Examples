@@ -54,7 +54,7 @@ int main(int argc, char* argv[]) {
         return EXIT_FAILURE;
     }
 
-    int max_buffer = 32 * 1024 * 1024;
+    int max_buffer = 16 * 1024 * 1024;
     size_t min_buffer = 4 * 1024;
     if (xcl::is_emulation()) {
         max_buffer = 4 * 1024;
@@ -205,7 +205,7 @@ int main(int argc, char* argv[]) {
     cl_mem pbo2_imported;
     OCL_CHECK(err, err = xcl::P2P::getMemObjectFromFd(context[0], device1, 0, fd1, &pbo2_imported)); // Import
 
-    size_t max_size = 1024 * 1024 * 1024; // 1GB size
+    size_t max_size = 128 * 1024 * 1024; // 128MB size
     std::cout << "Start P2P copy of various Buffer sizes \n";
     for (size_t bufsize = min_buffer; bufsize <= vector_size_bytes; bufsize *= 2) {
         std::string size_str = xcl::convert_size(bufsize);
