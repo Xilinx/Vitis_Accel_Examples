@@ -121,10 +121,27 @@ int main(int argc, char* argv[]) {
 
     cl_bool is_nodma;
     uint8_t nodma_cnt = 0;
-    clGetDeviceInfo(device_id[0], CL_DEVICE_NODMA, sizeof(is_nodma), &is_nodma, NULL);
+    clGetDeviceInfo(device_id[0], CL_DEVICE_NODMA, sizeof(is_nodma), &is_nodma, nullptr);
     if (is_nodma) nodma_cnt++;
-    clGetDeviceInfo(device_id[1], CL_DEVICE_NODMA, sizeof(is_nodma), &is_nodma, NULL);
+    clGetDeviceInfo(device_id[1], CL_DEVICE_NODMA, sizeof(is_nodma), &is_nodma, nullptr);
     if (is_nodma) nodma_cnt++;
+
+    if (xcl::is_hw_emulation()) {
+        char device_name[256];
+        clGetDeviceInfo(device_id[0], CL_DEVICE_NAME, 256, &device_name, nullptr);
+        std::cout << device_name << std::endl;
+        if (strstr(device_name, "2018") != 0) {
+            std::cout << "[INFO]: The example is not supported for " << device_name
+                      << " this platform for hw_emu. Please try other flows." << '\n';
+            return EXIT_SUCCESS;
+        }
+        clGetDeviceInfo(device_id[1], CL_DEVICE_NAME, 256, &device_name, nullptr);
+        if (strstr(device_name, "2018") != 0) {
+            std::cout << "[INFO]: The example is not supported for " << device_name
+                      << " this platform for hw_emu. Please try other flows." << '\n';
+            return EXIT_SUCCESS;
+        }
+    }
 
     if (nodma_cnt == 2) {
         std::cout
