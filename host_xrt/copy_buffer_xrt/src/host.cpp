@@ -50,6 +50,18 @@ int main(int argc, char** argv) {
 
     std::cout << "Open the device" << device_index << std::endl;
     auto device = xrt::device(device_index);
+    auto device_name = device.get_info<xrt::info::device::name>();
+    char* xcl_mode = getenv("XCL_EMULATION_MODE");
+    if ((xcl_mode != nullptr) && !strcmp(xcl_mode, "hw_emu")) {
+        if (device_name.find("2018") != std::string::npos) {
+            std::cout << "[INFO]: The example is not supported for " << device_name
+                      << " for hw_emu. Please try other flows." << '\n';
+            return EXIT_SUCCESS;
+        }
+    }
+    if (device_name.find("u50_gen3x16_xdma_2019") != std::string::npos) {
+        std::cout << "[INFO]: The example runs on non-CDMA mode for " << device_name << '\n';
+    }
     std::cout << "Load the xclbin " << binaryFile << std::endl;
     auto uuid = device.load_xclbin(binaryFile);
 

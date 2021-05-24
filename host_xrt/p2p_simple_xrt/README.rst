@@ -19,7 +19,6 @@ Platforms containing following strings in their names are not supported for this
    u30
    vck
    aws
-   2018
    201910
    u50_gen3x16_xdma_2019
 
