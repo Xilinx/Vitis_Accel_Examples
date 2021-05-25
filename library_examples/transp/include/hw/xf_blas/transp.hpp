@@ -67,8 +67,8 @@ class Transp {
                           unsigned numOfReuse) {
         DdrStream p_wrStream, p_s1_1, p_s1_2, p_s2_1, p_s2_2, p_outStream;
 #pragma HLS STREAM variable = p_wrStream depth = 2
-#pragma HLS STREAM variable = p_s1_1 depth = t_ColMemWords * t_rowBlockLength
-#pragma HLS STREAM variable = p_s1_2 depth = t_ColMemWords * t_rowBlockLength
+#pragma HLS STREAM variable = p_s1_1 depth = t_colMemWords * t_rowBlockLength
+#pragma HLS STREAM variable = p_s1_2 depth = t_colMemWords * t_rowBlockLength
 #pragma HLS STREAM variable = p_s2_1 depth = 2
 #pragma HLS STREAM variable = p_s2_2 depth = 2
 #pragma HLS STREAM variable = p_outStream depth = 4
