@@ -212,8 +212,7 @@ int main(int argc, char** argv) {
         double bpersec;
         double mbpersec;
 
-        usduration =
-            (double)(std::chrono::duration_cast<std::chrono::nanoseconds>(timeEnd - timeStart).count() / reps);
+        usduration = (double)(std::chrono::duration_cast<std::chrono::nanoseconds>(timeEnd - timeStart).count() / reps);
 
         dnsduration = (double)usduration;
         dsduration = dnsduration / ((double)1000000000);
