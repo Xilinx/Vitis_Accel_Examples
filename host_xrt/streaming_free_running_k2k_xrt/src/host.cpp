@@ -55,8 +55,6 @@ output.
 #include "experimental/xrt_device.h"
 #include "experimental/xrt_kernel.h"
 
-#define DATA_SIZE 4 * 1024
-
 int main(int argc, char** argv) {
     // Command Line Parser
     sda::utils::CmdLineParser parser;
@@ -80,9 +78,8 @@ int main(int argc, char** argv) {
     std::cout << "Load the xclbin " << binaryFile << std::endl;
     auto uuid = device.load_xclbin(binaryFile);
 
-    size_t vector_size_bytes = sizeof(int) * DATA_SIZE;
-
     size_t data_size = 1024 * 1024;
+    size_t vector_size_bytes = sizeof(int) * data_size;
 
     // Reducing the data size for emulation mode
     char* xcl_mode = getenv("XCL_EMULATION_MODE");
