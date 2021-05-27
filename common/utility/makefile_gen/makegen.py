@@ -457,8 +457,20 @@ def building_host(target, data):
 
 def profile_report(target):
     target.write("[Debug]\n")
-    target.write("opencl_summary=true\n")
-    target.write("opencl_device_counter=true\n")
+    if "host" in data:
+        if "linker" in data["host"]:
+            if "libraries" in data["host"]["linker"]:
+                if "xrt_coreutil" in data["host"]["linker"]["libraries"] and "uuid" in data["host"]["linker"]["libraries"]:                    
+                    target.write("native_xrt_trace=true\n")
+                else:
+                    target.write("opencl_summary=true\n")
+                    target.write("opencl_device_counter=true\n")
+            else:
+                target.write("opencl_summary=true\n")
+                target.write("opencl_device_counter=true\n")
+        else:
+            target.write("opencl_summary=true\n")
+            target.write("opencl_device_counter=true\n")
     return
 
 def mk_clean(target, data):

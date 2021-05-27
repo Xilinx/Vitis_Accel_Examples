@@ -15,6 +15,9 @@
 */
 extern "C" {
 void copy_kernel(int* a, int* b, const int n_elements, const int direction) {
+#pragma HLS INTERFACE m_axi port = a offset = slave bundle = gmem0
+#pragma HLS INTERFACE m_axi port = b offset = slave bundle = gmem1
+
     if (direction == 0) {
     copy_h2d:
         for (int i = 0; i < n_elements; i += 1) {

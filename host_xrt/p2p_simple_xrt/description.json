@@ -61,7 +61,6 @@
                ]
         }
     },
-    "match_ini": "false",
     "config_make": "config.mk", 
     "containers": [
         {

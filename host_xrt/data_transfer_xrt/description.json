@@ -43,7 +43,6 @@
         }
     },
     "config_make" : "config.mk",
-    "match_ini": "false",
     "containers": [
         {
             "accelerators": [
