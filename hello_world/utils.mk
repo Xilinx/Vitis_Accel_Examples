@@ -12,7 +12,7 @@ endif
 
 DEBUG := no
 B_TEMP = `$(XF_PROJ_ROOT)/common/utility/parse_platform_list.py $(DEVICE)`
-PERL := 
+PERL ?= 
 QEMU_IMODE := no
 LAUNCH_EMULATOR_CMD := 
 

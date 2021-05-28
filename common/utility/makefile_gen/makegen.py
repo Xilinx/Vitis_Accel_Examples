@@ -712,7 +712,7 @@ def report_gen(target, data):
     target.write("DEBUG := no\n")
     target.write("B_TEMP = `$(XF_PROJ_ROOT)/common/utility/parse_platform_list.py $(DEVICE)`\n")
     if not ("platform_type" in data and data["platform_type"] == "pcie"):
-        target.write("PERL := \n")
+        target.write("PERL ?= \n")
         target.write("QEMU_IMODE := no\n")
         target.write("LAUNCH_EMULATOR_CMD := \n")
         target.write("\n")
