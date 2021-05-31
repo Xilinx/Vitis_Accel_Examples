@@ -12,19 +12,6 @@ endif
 
 DEBUG := no
 B_TEMP = `$(XF_PROJ_ROOT)/common/utility/parse_platform_list.py $(DEVICE)`
-PERL ?= 
-QEMU_IMODE := no
-LAUNCH_EMULATOR_CMD := 
-
-ifneq ($(PERL), /tools/xgs/perl/5.8.5/bin/perl)
-	QEMU_IMODE = yes
-endif
-
-ifeq ($(QEMU_IMODE), yes)
-	LAUNCH_EMULATOR_CMD = $(LAUNCH_EMULATOR)
-else
-	LAUNCH_EMULATOR_CMD = $(PERL) $(XF_PROJ_ROOT)/common/utility/run_emulation_external_io.pl "${LAUNCH_EMULATOR} -verbose -no-reboot | tee run_app.log" "${RUN_APP_SCRIPT} $(TARGET)" "${RESULT_STRING}" "2"
-endif
 
 #Generates debug summary report
 ifeq ($(DEBUG), yes)
@@ -91,7 +78,7 @@ ifneq ($(HOST_ARCH), x86)
 	$(ECHO) 'export PATH=$$PATH:/sbin' >> run_app.sh
 	$(ECHO) 'export XILINX_XRT=/usr' >> run_app.sh
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
-	$(ECHO) 'export XILINX_VITIS=/$$PWD' >> run_app.sh
+	$(ECHO) 'export XILINX_VITIS=$$PWD' >> run_app.sh
 	$(ECHO) 'export XCL_EMULATION_MODE=$(TARGET)' >> run_app.sh
 endif
 	$(ECHO) 'if [ -d xrt/aarch64-xilinx-linux/ ]' >> run_app.sh
