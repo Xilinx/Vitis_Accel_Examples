@@ -45,6 +45,14 @@ int main(int argc, char* argv[]) {
     bool valid_device = false;
     for (unsigned int i = 0; i < devices.size(); i++) {
         auto device = devices[i];
+        auto device_name = device.getInfo<CL_DEVICE_NAME>();
+        if (xcl::is_hw_emulation()) {
+            if (device_name.find("u250_gen3x16_xdma_3_1_202020") != std::string::npos) {
+                std::cout << "[INFO]: The example is not supported for " << device_name
+                          << " for hw_emu. Please try other flows." << '\n';
+                return EXIT_SUCCESS;
+            }
+        }
         // Creating Context and Command Queue for selected Device
         OCL_CHECK(err, context = cl::Context(device, nullptr, nullptr, nullptr, &err));
         OCL_CHECK(err, q = cl::CommandQueue(context, device, CL_QUEUE_PROFILING_ENABLE, &err));
