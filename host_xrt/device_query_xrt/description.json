@@ -40,7 +40,6 @@
                ]
         }
     },
-    "config_make": "config.mk", 
     "contributors": [
         {
             "url": "http://www.xilinx.com", 

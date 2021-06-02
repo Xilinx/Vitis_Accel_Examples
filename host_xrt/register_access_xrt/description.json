@@ -42,7 +42,6 @@
        "hw_emu",	
        "hw" 	
     ],
-    "config_make": "config.mk", 
     "containers": [
         {
             "accelerators": [

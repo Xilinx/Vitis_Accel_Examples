@@ -46,7 +46,6 @@
                ]
         }
     },
-    "config_make" : "config.mk",
     "containers": [
         {
             "accelerators": [
