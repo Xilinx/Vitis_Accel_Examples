@@ -18,7 +18,11 @@
                         {
                             "name": "readB", 
                             "PipelineII": "1"
-                        }, 
+                        },
+                        {
+                            "name": "nopart1_nopart2", 
+                            "PipelineII": "8"
+                        } 
                         {
                             "name": "writeC", 
                             "PipelineII": "1"

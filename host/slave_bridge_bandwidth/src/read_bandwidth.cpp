@@ -38,10 +38,10 @@ void read_bandwidth(TYPE* input0, int64_t buf_size, int64_t iter) {
     uint32_t baseAddr = 0;
 
     if (buf_size <= 8 * 1024) {
+    read_bandwidth_small_1:
         for (int itr = 0; itr < iter * factor; itr++) {
-#pragma HLS PIPELINE II = 1
+        read_bandwidth_small_2:
             for (int i = 0; i < c_burstLength; i++) {
-#pragma HLS PIPELINE II = 1
                 temp |= input0[baseAddr + i];
             }
             Indx = itr % factor;
@@ -49,7 +49,9 @@ void read_bandwidth(TYPE* input0, int64_t buf_size, int64_t iter) {
         }
     } else {
         buf_size = buf_size / c_widthInBytes;
+    read_bandwidth_large_1:
         for (int64_t i = 0; i < iter; i++) {
+        read_bandwidth_large_2:
             for (int64_t blockindex = 0; blockindex < buf_size; blockindex++) {
                 temp |= input0[blockindex];
             }

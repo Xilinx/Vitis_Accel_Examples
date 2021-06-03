@@ -24,6 +24,7 @@ void increment(hls::stream<ap_axiu<32, 0, 0, 0> >& input, hls::stream<ap_axiu<32
 // in running states.
 #pragma HLS interface ap_ctrl_none port = return
 
+increment:
     while (1) {
         ap_axiu<32, 0, 0, 0> v = input.read();
         v.data = v.data + 1;

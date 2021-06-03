@@ -19,6 +19,7 @@
 
 extern "C" {
 void mem_write(hls::stream<ap_axiu<32, 0, 0, 0> >& stream, int* mem, int size) {
+mem_write:
     for (int i = 0; i < size; i++) {
         ap_axiu<32, 0, 0, 0> v = stream.read();
         mem[i] = v.data;

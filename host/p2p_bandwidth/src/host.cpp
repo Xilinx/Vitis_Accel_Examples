@@ -51,7 +51,7 @@ void p2p_host_to_ssd(int& nvmeFd,
     int* inputPtr = (int*)q.enqueueMapBuffer(input_a, CL_TRUE, CL_MAP_WRITE | CL_MAP_READ, 0, vector_size_bytes,
                                              nullptr, nullptr, &err);
 
-    for (int i = 0; i < max_buffer; i++) {
+    for (uint32_t i = 0; i < max_buffer; i++) {
         inputPtr[i] = source_input_A[i];
     }
     q.finish();

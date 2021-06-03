@@ -13,7 +13,7 @@
                     "loops": [
                         {
                             "name": "vadd", 
-                            "PipelineII": "1"
+                            "PipelineII": "2"
                         } 
                     ]
                 },
@@ -26,7 +26,7 @@
                     "loops": [
                         {
                             "name": "vmult", 
-                            "PipelineII": "1"
+                            "PipelineII": "2"
                         } 
                     ]
                 }

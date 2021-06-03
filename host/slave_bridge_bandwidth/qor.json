@@ -1,0 +1,61 @@
+{
+    "containers": [
+        {
+            "name": "bandwidth", 
+            "meet_system_timing": "true", 
+            "accelerators": [
+                {
+                    "name": "bandwidth", 
+                    "check_timing": "true", 
+                    "PipelineType": "none", 
+                    "check_latency": "true", 
+                    "check_warning": "false",
+                    "loops": [	
+                        {	
+                            "name": "bandwidth_small_2", 	
+                            "PipelineII": "1"	
+                        }, 	
+                        {	
+                            "name": "bandwidth_large_2", 	
+                            "PipelineII": "1"	
+                        }	
+                    ]
+                },
+                {
+                    "name": "read_bandwidth", 
+                    "check_timing": "true", 
+                    "PipelineType": "none", 
+                    "check_latency": "true", 
+                    "check_warning": "false",
+                    "loops": [	
+                        {	
+                            "name": "read_bandwidth_small_2", 	
+                            "PipelineII": "1"	
+                        }, 	
+                        {	
+                            "name": "read_bandwidth_large_2", 	
+                            "PipelineII": "1"	
+                        }	
+                    ]
+                },
+                {
+                    "name": "write_bandwidth", 
+                    "check_timing": "true", 
+                    "PipelineType": "none", 
+                    "check_latency": "true", 
+                    "check_warning": "false",
+                    "loops": [	
+                        {	
+                            "name": "write_bandwidth_small_2", 	
+                            "PipelineII": "1"	
+                        }, 	
+                        {	
+                            "name": "write_bandwidth_large_2", 	
+                            "PipelineII": "1"	
+                        }	
+                    ]
+                }
+            ]
+        }
+    ]
+}

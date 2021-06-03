@@ -44,7 +44,7 @@ void mmult(const int* in1, // Read-Only Matrix 1
 // Burst reads on input matrices from global memory
 // Burst read for matrix A
 // Auto-pipeline is going to apply pipeline to these loops
-readA:
+mmult_readA:
     for (int itr = 0, i = 0, j = 0; itr < size * size; itr++, j++) {
 #pragma HLS LOOP_TRIPCOUNT min = c_size* c_size max = c_size * c_size
         if (j == size) {
@@ -55,7 +55,7 @@ readA:
     }
 
 // Burst read for matrix B
-readB:
+mmult_readB:
     for (int itr = 0, i = 0, j = 0; itr < size * size; itr++, j++) {
 #pragma HLS LOOP_TRIPCOUNT min = c_size* c_size max = c_size * c_size
         if (j == size) {
@@ -83,7 +83,7 @@ mmult1:
 
 // Burst write from output matrices to global memory
 // Burst write from matrix C
-writeC:
+mmult_writeC:
     for (int itr = 0, i = 0, j = 0; itr < size * size; itr++, j++) {
 #pragma HLS LOOP_TRIPCOUNT min = c_size* c_size max = c_size * c_size
         if (j == size) {

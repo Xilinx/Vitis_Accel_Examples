@@ -9,7 +9,13 @@
                     "check_timing": "true", 
                     "PipelineType": "none", 
                     "check_latency": "true", 
-                    "check_warning": "false", 
+                    "check_warning": "false",
+                    "loops": [
+                        {
+                            "name": "increment", 
+                            "PipelineII": "1"
+                        }
+                    ] 
                 }
             ]
         }

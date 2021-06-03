@@ -45,6 +45,7 @@ void vadd(int* a, int size, int inc_value) {
 
     int burstbuffer[BURSTBUFFERSIZE];
 
+read_buf:
     // Per iteration of this loop perform BURSTBUFFERSIZE vector addition
     for (int i = 0; i < size; i += BURSTBUFFERSIZE) {
 #pragma HLS LOOP_TRIPCOUNT min = c_size_min* c_size_min max = c_chunk_sz * c_chunk_sz / (c_size_max * c_size_max)

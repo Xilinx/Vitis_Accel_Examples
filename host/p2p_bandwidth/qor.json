@@ -8,14 +8,8 @@
                     "name": "bandwidth", 
                     "check_timing": "true", 
                     "PipelineType": "none", 
-                    "check_latency": "true", 
-                    "check_warning": "true", 
-                    "loops": [
-                        {
-                            "name": "read_write", 
-                            "PipelineII": "1"
-                        }
-                    ]
+                    "check_latency": "false", 
+                    "check_warning": "false"
                 }
             ]
         }

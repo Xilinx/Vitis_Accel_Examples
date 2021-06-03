@@ -1,11 +1,11 @@
 {
     "containers": [
         {
+            "name": "krnl_adder",
             "meet_system_timing": "true", 
-            "name": "adder",
             "accelerators": [
                 {
-                    "name": "mm2s", 
+                    "name": "pl_mm2s", 
                     "check_timing": "true", 
                     "PipelineType": "none", 
                     "check_latency": "false", 
@@ -18,7 +18,7 @@
                     ]
                 },
                 {
-                    "name": "s2mm", 
+                    "name": "pl_s2mm", 
                     "check_timing": "true", 
                     "PipelineType": "none", 
                     "check_latency": "false", 
