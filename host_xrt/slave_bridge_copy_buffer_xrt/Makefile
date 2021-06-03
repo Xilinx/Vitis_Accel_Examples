@@ -121,6 +121,10 @@ ifeq ($(findstring _u2_, $(DEVICE)), _u2_)
 $(error [ERROR]: This example is not supported for $(DEVICE).)
 endif
 
+ifneq ($(findstring u50_gen3x16_nodma, $(DEVICE)), u50_gen3x16_nodma)
+$(warning [WARNING]: This example has not been tested for $(DEVICE). It may or may not work.)
+endif
+
 ############################## Setting up Host Variables ##############################
 #Include Required Host Source Files
 CXXFLAGS += -I$(XF_PROJ_ROOT)/common/includes/cmdparser

@@ -1,23 +1,23 @@
 {
     "containers": [
         {
-            "name": "increment", 
+            "name": "krnl_vadd", 
             "meet_system_timing": "true", 
             "accelerators": [
                 {
-                    "name": "increment", 
+                    "name": "krnl_vadd", 
                     "check_timing": "true", 
                     "PipelineType": "none", 
-                    "check_latency": "true", 
-                    "check_warning": "false", 
+                    "check_latency": "false", 
+                    "check_warning": "true", 
                     "loops": [
                         {
-                            "name": "incr", 
+                            "name": "vadd1", 
                             "PipelineII": "1"
                         }
                     ]
                 }
             ]
-        }
+        } 
     ]
 }

@@ -1,18 +1,26 @@
 {
     "containers": [
         {
-            "name": "increment", 
+            "name": "vector_addition", 
             "meet_system_timing": "true", 
             "accelerators": [
                 {
-                    "name": "increment", 
+                    "name": "vector_add", 
                     "check_timing": "true", 
                     "PipelineType": "none", 
                     "check_latency": "true", 
                     "check_warning": "false", 
                     "loops": [
                         {
-                            "name": "incr", 
+                            "name": "readA", 
+                            "PipelineII": "1"
+                        }, 
+                        {
+                            "name": "readB", 
+                            "PipelineII": "1"
+                        }, 
+                        {
+                            "name": "vadd_writeC", 
                             "PipelineII": "1"
                         }
                     ]

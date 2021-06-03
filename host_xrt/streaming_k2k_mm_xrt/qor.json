@@ -1,0 +1,36 @@
+{
+    "containers": [
+        {
+            "name": "krnl_stream_vadd_vmult", 
+            "meet_system_timing": "true", 
+            "accelerators": [
+                {
+                    "name": "krnl_stream_vadd", 
+                    "check_timing": "true", 
+                    "PipelineType": "none", 
+                    "check_latency": "false", 
+                    "check_warning": "true", 
+                    "loops": [
+                        {
+                            "name": "vadd", 
+                            "PipelineII": "2"
+                        } 
+                    ]
+                },
+                {
+                    "name": "krnl_stream_vmult", 
+                    "check_timing": "true", 
+                    "PipelineType": "none", 
+                    "check_latency": "false", 
+                    "check_warning": "true", 
+                    "loops": [
+                        {
+                            "name": "vmult", 
+                            "PipelineII": "2"
+                        } 
+                    ]
+                }
+            ]
+        }
+    ]
+}

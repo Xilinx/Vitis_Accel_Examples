@@ -1,0 +1,56 @@
+{
+    "containers": [
+        {
+            "name": "device_only_buf", 
+            "meet_system_timing": "true", 
+            "accelerators": [
+                {
+                    "name": "madd", 
+                    "check_timing": "true", 
+                    "PipelineType": "none", 
+                    "check_latency": "true", 
+                    "check_warning": "false", 
+                    "loops": [
+                        {
+                            "name": "madd_readA", 
+                            "PipelineII": "1"
+                        }, 
+                        {
+                            "name": "madd_readB", 
+                            "PipelineII": "1"
+                        }, 
+                        {
+                            "name": "madd_writeC", 
+                            "PipelineII": "1"
+                        }
+                    ]
+                }, 
+                {
+                    "name": "mmult", 
+                    "check_timing": "true", 
+                    "PipelineType": "none", 
+                    "check_latency": "true", 
+                    "check_warning": "false", 
+                    "loops": [
+                        {
+                            "name": "mmult_readA", 
+                            "PipelineII": "1"
+                        }, 
+                        {
+                            "name": "mmult_readB", 
+                            "PipelineII": "1"
+                        },
+                        {
+                            "name": "mmult_writeC",
+                            "PipelineII": "1"
+                        },
+                        {
+                            "name": "mmult3",
+                            "PipelineII": "1"
+                        }
+                    ]
+                } 
+            ]
+        }
+    ]
+}
