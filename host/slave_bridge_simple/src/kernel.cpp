@@ -29,7 +29,7 @@ void krnl_vadd(int* a, int* b, int* out, const int n_elements) {
 
     // Burst reading B and calculating C and Burst writing
     // to  Global memory
-    vadd_wrteC:
+    vadd_writeC:
         for (int j = 0; j < size; j++) out[i + j] = arrayA[j] + b[i + j];
     }
 }

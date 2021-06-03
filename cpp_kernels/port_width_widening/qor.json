@@ -13,7 +13,7 @@
                     "loops": [
                         {
                             "name": "dot_product", 
-                            "PipelineII": "1"
+                            "PipelineII": "2"
                         }
                     ]
                 }, 
@@ -26,7 +26,7 @@
                     "loops": [
                         {
                             "name": "dot_product_inner", 
-                            "PipelineII": "1"
+                            "PipelineII": "2"
                         }
                     ]
                 }, 
@@ -39,7 +39,7 @@
                     "loops": [
                         {
                             "name": "dot_product_inner", 
-                            "PipelineII": "1"
+                            "PipelineII": "2"
                         }
                     ]
                 }, 
@@ -52,7 +52,7 @@
                     "loops": [
                         {
                             "name": "dot_product_inner", 
-                            "PipelineII": "1"
+                            "PipelineII": "2"
                         }
                     ]
                 }, 
@@ -65,7 +65,7 @@
                     "loops": [
                         {
                             "name": "dot_product_inner", 
-                            "PipelineII": "1"
+                            "PipelineII": "2"
                         }
                     ]
                 }  

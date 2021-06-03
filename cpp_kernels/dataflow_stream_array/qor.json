@@ -20,17 +20,9 @@
                             "PipelineII": "1"
                         }, 
                         {
-                            "name": "execute", 
+                            "name": "compute_loop", 
                             "PipelineII": "1"
-                        }, 
-                        {
-                            "name": "execute", 
-                            "PipelineII": "1"
-                        }, 
-                        {
-                            "name": "execute", 
-                            "PipelineII": "1"
-                        }, 
+                        },
                         {
                             "name": "mem_wr", 
                             "PipelineII": "1"

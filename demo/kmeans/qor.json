@@ -1,0 +1,46 @@
+{
+    "containers": [
+        {
+            "name": "krnl_kmeans", 
+            "meet_system_timing": "true", 
+            "accelerators": [
+                {
+                    "name": "kmeans", 
+                    "check_timing": "true", 
+                    "PipelineType": "none", 
+                    "check_latency": "false", 
+                    "loops": [
+                        {
+                            "name": "ld_clusters", 
+                            "PipelineII": "1"
+                        },
+                        {
+                            "name": "ld_features", 
+                            "PipelineII": "1"
+                        },
+                        {
+                            "name": "calc_indexes_1_calc_indexes_2", 
+                            "PipelineII": "1"
+                        },
+                        {
+                            "name": "init_centers", 
+                            "PipelineII": "1"
+                        },
+                        {
+                            "name": "calc_centers_1_calc_centers_2", 
+                            "PipelineII": "1"
+                        },
+                        {
+                            "name": "st_members", 
+                            "PipelineII": "1"
+                        },
+                        {
+                            "name": "st_centers", 
+                            "PipelineII": "1"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

@@ -1,22 +1,18 @@
 {
     "containers": [
         {
-            "name": "vadd", 
+            "name": "slavebridge", 
             "meet_system_timing": "true", 
             "accelerators": [
                 {
-                    "name": "vadd", 
+                    "name": "slavebridge", 
                     "check_timing": "true", 
                     "PipelineType": "none", 
                     "check_latency": "true", 
-                    "check_warning": "false", 
+                    "check_warning": "true", 
                     "loops": [
                         {
-                            "name": "read_buf", 
-                            "PipelineII": "1"
-                        }, 
-                        {
-                            "name": "calc_write", 
+                            "name": "read_write", 
                             "PipelineII": "1"
                         }
                     ]

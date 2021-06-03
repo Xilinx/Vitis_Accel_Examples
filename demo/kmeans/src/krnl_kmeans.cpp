@@ -97,14 +97,14 @@ void compute_memberships(hls::stream<unsigned int> index_str[PARALLEL_POINTS],
         pt[p].init();
     }
 
-calc_indexes:
+calc_indexes_1:
     for (int c = 0, offset = 0; c < nclusters; c++, offset += nfeatures) {
 #pragma HLS LOOP_TRIPCOUNT min = c_nclusters max = c_nclusters
-
+    calc_indexes_2:
         for (int f = 0; f < nfeatures; f++) {
 #pragma HLS LOOP_TRIPCOUNT min = c_nfeatures max = c_nfeatures
 #pragma HLS PIPELINE
-
+        calc_indexes_3:
             for (int p = 0; p < PARALLEL_POINTS; p++) {
 #pragma HLS UNROLL
                 pt[p].update_dist(features[p][f], clusters[offset + f]);
@@ -140,8 +140,9 @@ void compute_new_centers(hls::stream<unsigned int> index_str[PARALLEL_POINTS],
                          unsigned& npoints_cnt) {
     index_t index;
 
-calc_centers:
+calc_centers_1:
     for (int p = 0; p < PARALLEL_POINTS; p++, npoints_cnt++) {
+    calc_centers_2:
         for (int f = 0; f < nfeatures; f++) {
 #pragma HLS LOOP_TRIPCOUNT min = c_nfeatures max = c_nfeatures
 #pragma HLS PIPELINE II = 1

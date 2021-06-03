@@ -30,6 +30,7 @@ void increment(hls::stream<qdma_axis<32, 0, 0, 0> >& input,
 #pragma HLS interface ap_ctrl_none port = return
 
     int count = 0;
+increment:
     while (1) {
         qdma_axis<32, 0, 0, 0> v = input.read();
         if (v.data > foo) count++;
