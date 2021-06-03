@@ -63,10 +63,13 @@ int main(int argc, char* argv[]) {
 
     /* Create 'expected_cmds' commands if possible */
     std::vector<xrt::run> cmds;
+    std::vector<xrt::bo> bos;
     for (int i = 0; i < expected_cmds; i++) {
         auto run = xrt::run(hello);
-        run.set_arg(0, xrt::bo(device, 20, hello.group_id(0)));
+        auto bo = xrt::bo(device, 20, hello.group_id(0));
+        run.set_arg(0, bo);
         cmds.push_back(std::move(run));
+        bos.push_back(std::move(bo));
     }
     std::cout << "Allocated commands, expect " << expected_cmds << ", created " << cmds.size() << std::endl;
 
