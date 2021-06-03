@@ -1,0 +1,114 @@
+{
+    "name": "PLRAM Config (C)", 
+    "description": [
+        "This example shows how to resize the PLRAM to use BRAM or URAM."
+    ],
+    "flow": "vitis",
+    "keywords": [
+        "PLRAM",
+        "BRAM",
+        "URAM"
+    ], 
+    "key_concepts": [
+        "Vitis Memory Hierarchy", 
+        "PLRAMs"
+    ], 
+    "platform_blacklist": [
+        "_u25_",
+        "u30",
+        "zc",
+        "vck", 
+        "samsung",
+        "_u2_",
+        "nodma"    
+    ], 
+    "os": [
+        "Linux"
+    ], 
+    "runtime": [
+        "OpenCL"
+    ], 
+    "platform_type": "pcie",
+    "host": {
+        "host_exe": "plram_config",
+        "compiler": {
+            "sources": [
+                "REPO_DIR/common/includes/xcl2/xcl2.cpp",
+                "./src/host.cpp"
+            ], 
+            "includepaths": [
+                "REPO_DIR/common/includes/xcl2"
+            ]
+        }
+    },
+    "v++": {
+        "build_datafiles" : [            
+            "PROJECT/preSysLink.tcl"
+        ]
+    },
+    "targets": [
+        "sw_emu",
+        "hw"
+    ], 
+    "containers": [
+        {
+            "accelerators": [
+                {
+                    "compute_units": [
+                        {
+                            "arguments": [
+                                {
+                                    "name": "in1", 
+                                    "memory": "PLRAM[0]"
+                                }, 
+                                {
+                                    "name": "in2", 
+                                    "memory": "PLRAM[1]"
+                                }, 
+                                {
+                                    "name": "out", 
+                                    "memory": "PLRAM[1]"
+                                }
+                            ]
+                        }
+                    ], 
+                    "name": "vadd", 
+                    "location": "src/vadd.cpp"
+                }
+            ], 
+            "name": "vadd",
+            "ldclflags": "--config PROJECT/advanced.cfg"
+        }
+    ],
+    "launch": [
+        {
+            "cmd_args": "BUILD/vadd.xclbin", 
+            "name": "generic launch for all flows"
+        }
+    ], 
+    "contributors": [
+        {
+            "url": "http://www.xilinx.com", 
+            "group": "Xilinx"
+        }
+    ],
+    "testinfo": {
+        "disable": false,
+        "profile": "no",
+        "jobs": [
+            {
+                "index": 0,
+                "dependency": [],
+                "env": "",
+                "cmd": "",
+                "max_memory_MB": 32768,
+                "max_time_min": 300
+            }
+        ],
+        "targets": [
+            "vitis_sw_emu",
+            "vitis_hw"
+        ],
+        "category": "canary"
+    } 
+}
