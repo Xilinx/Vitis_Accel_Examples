@@ -780,6 +780,10 @@ def util_checks(target):
     target.write("$(error HOST_ARCH variable not set, please set correctly and rerun)\n") 
     target.write("endif\n")
     target.write("\n")
+
+    target.write("#Setting CXX\n")
+    target.write("CXX := g++\n")
+    target.write("\n")
     
     target.write("#Checks for EDGE_COMMON_SW\n")
     target.write("ifneq ($(HOST_ARCH), x86)\n")
