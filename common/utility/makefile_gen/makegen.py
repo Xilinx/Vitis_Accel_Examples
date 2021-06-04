@@ -834,6 +834,15 @@ def util_checks(target):
     target.write("endif\n")
     target.write("\n")
 
+    
+    if "host" in data:
+        if "linker" in data["host"]:
+            if "libraries" in data["host"]["linker"]:
+                if "xrt_coreutil" in data["host"]["linker"]["libraries"] and "uuid" in data["host"]["linker"]["libraries"]:                    
+                    target.write("USR_LDFLAGS :=\n")
+                    target.write("LDFLAGS += $(USR_LDFLAGS)\n")
+                    target.write("\n")
+
     target.write("#Setting CXX\n")
     target.write("CXX := g++\n")
     target.write("\n")

@@ -74,10 +74,11 @@ LAUNCH_EMULATOR = $(PACKAGE_OUT)/launch_$(TARGET).sh
 RESULT_STRING = TEST PASSED
 
 VPP := v++
+VPP_PFLAGS := 
 CMD_ARGS = $(BUILD_DIR)/vadd.xclbin
 
 include $(XF_PROJ_ROOT)/common/includes/opencl/opencl.mk
-CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++11
+CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++1y
 LDFLAGS += $(opencl_LDFLAGS)
 
 ifeq ($(findstring _u25_, $(DEVICE)), _u25_)
