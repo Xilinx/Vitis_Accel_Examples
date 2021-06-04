@@ -5,7 +5,7 @@ This is simple example which demonstrate how to use and configure a free running
 
 **KEY CONCEPTS:** Read/Write Stream, RTL Kernel, Free Running Kernel
 
-**KEYWORDS:** ap_axiu, hls::stream
+**KEYWORDS:** ap_axiu, `hls::stream <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/hls_stream_library.html>`__
 
 EXCLUDED PLATFORMS
 ------------------

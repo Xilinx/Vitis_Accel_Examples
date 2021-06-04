@@ -3,7 +3,7 @@ Two Parallel Read/Write on Local Memory (OpenCL Kernel)
 
 This is simple example of vector addition to demonstrate how to utilized both ports of Local Memory.
 
-**KEY CONCEPTS:** Kernel Optimization, 2port BRAM Utilization, two read/write Local Memory
+**KEY CONCEPTS:** `Kernel Optimization <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/vitis_hls_optimization_techniques.html>`__, 2port BRAM Utilization, two read/write Local Memory
 
 **KEYWORDS:** opencl_unroll_hint
 

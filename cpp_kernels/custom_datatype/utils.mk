@@ -55,6 +55,9 @@ ifneq ($(HOST_ARCH), $(filter $(HOST_ARCH),aarch64 aarch32 x86))
 $(error HOST_ARCH variable not set, please set correctly and rerun)
 endif
 
+#Setting CXX
+CXX := g++
+
 #Checks for EDGE_COMMON_SW
 ifneq ($(HOST_ARCH), x86)
 ifndef EDGE_COMMON_SW

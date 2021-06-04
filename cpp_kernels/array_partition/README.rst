@@ -3,9 +3,9 @@ Array Partition (HLS C/C++ Kernel)
 
 This is a simple example of matrix multiplication (Row x Col) to demonstrate how to achieve better performance by array partitioning, using HLS kernel in Vitis Environment.
 
-**KEY CONCEPTS:** Kernel Optimization, HLS C Kernel, Array Partition
+**KEY CONCEPTS:** `Kernel Optimization <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/vitis_hls_optimization_techniques.html>`__, `HLS C Kernel <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/devckernels.html#hxx1556235054362>`__, `Array Partition <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/vitis_hls_optimization_techniques.html#swq1539734225427>`__
 
-**KEYWORDS:** #pragma HLS ARRAY_PARTITION, complete
+**KEYWORDS:** `#pragma HLS ARRAY_PARTITION <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/vitis_hls_optimization_techniques.html#swq1539734225427>`__, complete
 
 EXCLUDED PLATFORMS
 ------------------

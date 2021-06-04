@@ -5,7 +5,7 @@ This example uses two simple increment RTL kernels connected to each other via s
 
 **KEY CONCEPTS:** Read/Write Stream, RTL Kernel
 
-**KEYWORDS:** ap_axiu, hls::stream
+**KEYWORDS:** ap_axiu, `hls::stream <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/hls_stream_library.html>`__
 
 EXCLUDED PLATFORMS
 ------------------

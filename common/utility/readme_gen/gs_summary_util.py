@@ -27,7 +27,7 @@ def get_immediate_subdirectories(dir):
     return [name for name in os.listdir(dir)
             if os.path.isdir(os.path.join(dir, name))]
 
-def gen_category(dir ,outfile, subdircount):
+def gen_category(dir ,outfile, subdircount, ref_data):
 
   links = "[" + dir +"]:"+ dir + "\n"
   testcaselist = get_testcases(dir);
@@ -55,7 +55,15 @@ def gen_category(dir ,outfile, subdircount):
         for i, kc in enumerate(key_concepts):
             outfile.write("<br>")
             outfile.write(" - ")
-            outfile.write(kc)
+            if "key_concepts" in ref_data:
+                if kc in ref_data["key_concepts"]:
+                    outfile.write("[")
+                    outfile.write(kc)
+                    outfile.write("](")
+                    outfile.write(ref_data["key_concepts"][kc])
+                    outfile.write(")")
+                else:
+                    outfile.write(kc)
         outfile.write("<br>")
     if 'keywords' in data:    
         outfile.write("__Keywords__")
@@ -63,7 +71,15 @@ def gen_category(dir ,outfile, subdircount):
         for  i, kw in enumerate(keywords):
             outfile.write("<br>")
             outfile.write(" - ")
-            outfile.write(kw)
+            if "keywords" in ref_data:
+                if kw in ref_data["keywords"]:
+                    outfile.write("[")
+                    outfile.write(kw)
+                    outfile.write("](")
+                    outfile.write(ref_data["keywords"][kw])
+                    outfile.write(")")
+                else:
+                    outfile.write(kw)
     outfile.write("\n")
     desc.close()
   return links
@@ -104,8 +120,30 @@ Example        | Description           | Key Concepts / Keywords
 ---------------|-----------------------|-------------------------
 """
   outfile.write(table_header)
+  
+  file_name = "reference.json" # file to be searched
+  cur_dir = os.getcwd()      # Dir from where search starts can be replaced with any path
+  init_cur_dir = cur_dir
+  ref_data = ""
+  
+  while True:
+      file_list = os.listdir(cur_dir)
+      parent_dir = os.path.dirname(cur_dir)
+      if file_name in file_list:
+          path = cur_dir + '/' + file_name
+          ref_file = open(path,'r')
+          ref_data = json.load(ref_file)
+          ref_file.close()
+          break
+      else:
+          if cur_dir == parent_dir:         # if dir is root dir
+              print ("reference.json file not found")
+              break
+          else:
+            cur_dir = parent_dir
+  
   for subDir in subDirs:
-    links = links + gen_category(subDir,outfile,2);
+    links = links + gen_category(subDir,outfile,2,ref_data);
 
   outfile.write("\n")
   outfile.write(links)
@@ -126,7 +164,29 @@ Example        | Description           | Key Concepts / Keywords
 ---------------|-----------------------|-------------------------
 """
   outfile.write(table_header)
-  links = gen_category(dir,outfile,1)
+  
+  file_name = "reference.json" # file to be searched
+  cur_dir = os.getcwd()      # Dir from where search starts can be replaced with any path
+  init_cur_dir = cur_dir
+  ref_data = ""
+  
+  while True:
+      file_list = os.listdir(cur_dir)
+      parent_dir = os.path.dirname(cur_dir)
+      if file_name in file_list:
+          path = cur_dir + '/' + file_name
+          ref_file = open(path,'r')
+          ref_data = json.load(ref_file)
+          ref_file.close()
+          break
+      else:
+          if cur_dir == parent_dir:         # if dir is root dir
+              print ("reference.json file not found")
+              break
+          else:
+              cur_dir = parent_dir
+
+  links = gen_category(dir,outfile,1,ref_data)
   outfile.write("\n")
   outfile.write(links)
   outfile.close();

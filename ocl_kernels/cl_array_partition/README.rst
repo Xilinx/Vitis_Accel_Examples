@@ -3,7 +3,7 @@ Array Partitioning (OpenCL Kernel)
 
 This example shows how to use array partitioning to improve performance of a kernel
 
-**KEY CONCEPTS:** Kernel Optimization, Array Partitioning
+**KEY CONCEPTS:** `Kernel Optimization <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/vitis_hls_optimization_techniques.html>`__, Array Partitioning
 
 **KEYWORDS:** xcl_array_partition, complete
 
