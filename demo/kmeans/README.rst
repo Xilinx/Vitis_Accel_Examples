@@ -17,7 +17,7 @@ Command line argument flags:
 
 
 
-**KEY CONCEPTS:** K-Means, Multiple compute units
+**KEY CONCEPTS:** K-Means, `Multiple compute units <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/devhostapp.html#dqz1555367565037>`__
 
 **KEYWORDS:** DATAFLOW, ARRAY PARTITION
 

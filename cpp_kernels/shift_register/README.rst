@@ -3,9 +3,9 @@ Shift Register (C)
 
 This example demonstrates how to shift values in registers in each clock cycle
 
-**KEY CONCEPTS:** `Kernel Optimization <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/vitis_hls_optimization_techniques.html>`__, Shift Register, FIR
+**KEY CONCEPTS:** `Kernel Optimization <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/vitis_hls_optimization_techniques.html>`__, `Shift Register <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/vitis_hls_optimization_techniques.html#jnp1590257015961>`__, `FIR <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/dwh1606804880900.html>`__
 
-**KEYWORDS:** `#pragma HLS ARRAY_PARTITION <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/vitis_hls_optimization_techniques.html#swq1539734225427>`__
+**KEYWORDS:** `#pragma HLS ARRAY_PARTITION <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/hls_pragmas.html#gle1504034361378>`__
 
 EXCLUDED PLATFORMS
 ------------------

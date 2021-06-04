@@ -3,7 +3,7 @@ Wide Memory Read/Write (OpenCL Kernel)
 
 This is simple example of vector addition to demonstrate Wide Memory Access using uint16 data type. Based on input argument type, V++ compiler will figure our the memory datawidth between Global Memory and Kernel. For this example, uint16 datatype is used, so Memory datawidth will be 16 x (integer bit size) = 16 x 32 = 512 bit.
 
-**KEY CONCEPTS:** Kernel to DDR, wide memory access, burst read and write
+**KEY CONCEPTS:** Kernel to DDR, `wide memory access <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/vitis_hls_optimization_techniques.html#ddw1586913493144__section_kc3_ykf_jlb>`__, `burst read and write <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/vitis_hls_optimization_techniques.html#ddw1586913493144__section_ogb_tkf_jlb>`__
 
 **KEYWORDS:** uint16, xcl_pipeline_loop
 

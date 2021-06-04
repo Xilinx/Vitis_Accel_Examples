@@ -5,7 +5,7 @@ This is a simple kernel to kernel streaming Vector Add and Vector Multiply C Ker
 
 **KEY CONCEPTS:** Read/Write Stream, Create/Release Stream, AXIS FIFO depth
 
-**KEYWORDS:** stream_connect
+**KEYWORDS:** `stream_connect <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/buildingdevicebinary.html#yha1565541199876>`__
 
 EXCLUDED PLATFORMS
 ------------------

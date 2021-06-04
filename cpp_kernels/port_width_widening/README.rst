@@ -3,7 +3,7 @@ Port Width Widening
 
 This example shows how HLS introduces the capability of resizing the port width of the kernel interface ports for better resource utilization maintaining the performance.
 
-**KEY CONCEPTS:** Interface port width auto widening
+**KEY CONCEPTS:** `Interface port width auto widening <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/managing_interface_synthesis.html#ooe1589518299593>`__
 
 **KEYWORDS:** m_axi_max_widen_bitwidth 
 
