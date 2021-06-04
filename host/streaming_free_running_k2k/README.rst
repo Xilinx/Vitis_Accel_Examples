@@ -5,7 +5,7 @@ This is simple example which demonstrate how to use and configure a free running
 
 **KEY CONCEPTS:** Free Running Kernel
 
-**KEYWORDS:** ap_ctrl_none, stream_connect
+**KEYWORDS:** ap_ctrl_none, `stream_connect <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/buildingdevicebinary.html#yha1565541199876>`__
 
 EXCLUDED PLATFORMS
 ------------------
