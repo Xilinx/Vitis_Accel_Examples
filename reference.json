@@ -1,0 +1,17 @@
+{
+    "keywords": {
+        "gmem": "https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/devckernels.html#hxx1556235054362",
+        "#pragma HLS INTERFACE": "https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/hls_pragmas.html#jit1504034365862",
+        "m_axi": "https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/managing_interface_synthesis.html#qoa1585574520885",
+        "dataflow": "https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/vitis_hls_optimization_techniques.html#bmx1539734225930",
+        "hls::stream": "https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/hls_stream_library.html",
+        "#pragma HLS ARRAY_PARTITION": "https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/vitis_hls_optimization_techniques.html#swq1539734225427"
+    },
+    "key_concepts": {
+        "HLS C Kernel": "https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/devckernels.html#hxx1556235054362",
+        "OpenCL Host APIs": "https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/devhostapp.html",
+        "Task Level Parallelism": "https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/optimizingperformance.html#cvc1523913889499",     
+        "Kernel Optimization": "https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/vitis_hls_optimization_techniques.html",
+        "Array Partition": "https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/vitis_hls_optimization_techniques.html#swq1539734225427"
+    }
+}

@@ -12,8 +12,11 @@
     "key_concepts": [
         "slave bridge"
     ],
-   "platform_type": "pcie",
-   "platform_blacklist": [ 
+    "platform_type": "pcie",
+    "platform_whitelist": [ 
+        "u50_gen3x16_nodma"
+    ], 
+    "platform_blacklist": [ 
         "_u25_",
         "u30",
         "u50c",

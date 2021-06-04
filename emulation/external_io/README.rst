@@ -3,7 +3,7 @@ External IO (HLS C/C++ Kernel)
 
 This example will demonstrate emulation of Xilinx Device's IO with an external process.
 
-**KEY CONCEPTS:** HLS C Kernel, OpenCL Host APIs
+**KEY CONCEPTS:** `HLS C Kernel <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/devckernels.html#hxx1556235054362>`__, `OpenCL Host APIs <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/devhostapp.html>`__
 
 **KEYWORDS:** sim_ipc_axis_master, sim_ipc_axis_slave, gt_master, gt_slave
 

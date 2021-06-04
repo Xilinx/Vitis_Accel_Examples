@@ -3,7 +3,7 @@ Loop Reordering (OpenCL Kernel)
 
 This is a simple example of matrix multiplication (Row x Col) to demonstrate how to achieve better pipeline II factor by loop reordering.
 
-**KEY CONCEPTS:** Kernel Optimization, Loop reorder to improve II
+**KEY CONCEPTS:** `Kernel Optimization <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/vitis_hls_optimization_techniques.html>`__, Loop reorder to improve II
 
 **KEYWORDS:** xcl_pipeline_loop, xcl_array_partition
 

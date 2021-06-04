@@ -3,7 +3,7 @@ Array Block and Cyclic Partitioning (OpenCL Kernel)
 
 This example shows how to use array block and cyclic partitioning to improve performance of a kernel
 
-**KEY CONCEPTS:** Kernel Optimization, Array Partitioning, Block Partition, Cyclic Partition
+**KEY CONCEPTS:** `Kernel Optimization <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/vitis_hls_optimization_techniques.html>`__, Array Partitioning, Block Partition, Cyclic Partition
 
 **KEYWORDS:** xcl_array_partition, cyclic, block
 

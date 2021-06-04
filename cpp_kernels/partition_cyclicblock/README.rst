@@ -3,9 +3,9 @@ Array Block and Cyclic Partitioning (C)
 
 This example shows how to use array block and cyclic partitioning to improve performance of a kernel
 
-**KEY CONCEPTS:** Kernel Optimization, Array Partitioning, Block Partition, Cyclic Partition
+**KEY CONCEPTS:** `Kernel Optimization <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/vitis_hls_optimization_techniques.html>`__, Array Partitioning, Block Partition, Cyclic Partition
 
-**KEYWORDS:** #pragma HLS ARRAY_PARTITION, cyclic, block, factor, dim
+**KEYWORDS:** `#pragma HLS ARRAY_PARTITION <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/vitis_hls_optimization_techniques.html#swq1539734225427>`__, cyclic, block, factor, dim
 
 EXCLUDED PLATFORMS
 ------------------
