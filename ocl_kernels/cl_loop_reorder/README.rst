@@ -5,7 +5,7 @@ This is a simple example of matrix multiplication (Row x Col) to demonstrate how
 
 **KEY CONCEPTS:** `Kernel Optimization <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/vitis_hls_optimization_techniques.html>`__, Loop reorder to improve II
 
-**KEYWORDS:** xcl_pipeline_loop, xcl_array_partition
+**KEYWORDS:** `xcl_pipeline_loop <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/openclattributes.html#sgo1504034359903>`__, `xcl_array_partition <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/openclattributes.html#kal1504034361186>`__
 
 EXCLUDED PLATFORMS
 ------------------

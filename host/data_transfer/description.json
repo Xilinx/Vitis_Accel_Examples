@@ -12,7 +12,7 @@
         "enqueueMigrateMemObjects"
     ], 
     "key_concepts": [
-        "OpenCL API", 
+        "OpenCL Host APIs", 
         "Data Transfer", 
         "Write Buffers", 
         "Read Buffers", 

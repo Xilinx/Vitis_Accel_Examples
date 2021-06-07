@@ -3,7 +3,7 @@ Vadd Simple (RTL Kernel)
 
 Simple example of vector addition using RTL Kernel
 
-**KEY CONCEPTS:** RTL Kernel
+**KEY CONCEPTS:** `RTL Kernel <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/devrtlkernel.html>`__
 
 EXCLUDED PLATFORMS
 ------------------

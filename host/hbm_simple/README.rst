@@ -3,9 +3,9 @@ HBM Simple
 
 This is a simple example of vector addition to describe how to use HLS kernels with HBM (High Bandwidth Memory) for achieving high throughput.
 
-**KEY CONCEPTS:** High Bandwidth Memory, Multiple HBM pseudo-channels
+**KEY CONCEPTS:** `High Bandwidth Memory <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/buildingdevicebinary.html#lgl1614021146997>`__, Multiple HBM pseudo-channels
 
-**KEYWORDS:** HBM, XCL_MEM_TOPOLOGY, cl_mem_ext_ptr_t
+**KEYWORDS:** `HBM <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/buildingdevicebinary.html#lgl1614021146997>`__, `XCL_MEM_TOPOLOGY <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/optimizingperformance.html#utc1504034308941>`__, `cl_mem_ext_ptr_t <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/optimizingperformance.html#utc1504034308941>`__
 
 EXCLUDED PLATFORMS
 ------------------

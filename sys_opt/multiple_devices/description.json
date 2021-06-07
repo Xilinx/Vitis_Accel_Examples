@@ -8,7 +8,7 @@
 	"xcl::get_xil_devices"
     ], 
     "key_concepts": [
-        "OpenCL API", 
+        "OpenCL Host APIs", 
         "Multi-FPGA Execution", 
         "Event Handling"
     ],

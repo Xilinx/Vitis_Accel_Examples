@@ -5,7 +5,7 @@ This is simple example of using AXI4-master interface for burst read and write
 
 **KEY CONCEPTS:** `burst access <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/vitis_hls_optimization_techniques.html#ddw1586913493144>`__
 
-**KEYWORDS:** compiler.interfaceRdBurstLen, compiler.interfaceWrBurstLen
+**KEYWORDS:** `compiler.interfaceRdBurstLen <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/vitiscommandcompiler.html#fgh1568640841739__section_mh4_qf4_bjb>`__, `compiler.interfaceWrBurstLen <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/vitiscommandcompiler.html#fgh1568640841739__section_mh4_qf4_bjb>`__
 
 EXCLUDED PLATFORMS
 ------------------

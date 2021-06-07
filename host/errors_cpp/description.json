@@ -13,7 +13,7 @@
         "CL_INVALID_BUFFER_SIZE"
     ], 
     "key_concepts": [
-        "OpenCL C++ API", 
+        "OpenCL Host API", 
         "Error handling"
     ],
     "platform_blacklist": [

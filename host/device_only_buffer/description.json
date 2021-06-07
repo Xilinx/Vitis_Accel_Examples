@@ -8,8 +8,7 @@
         "CL_MEM_HOST_NO_ACCESS"
     ], 
     "key_concepts": [
-        "Device only buffer" 
-               
+        "Device only buffer"
     ],
     "platform_blacklist": [
         "nodma"

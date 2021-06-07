@@ -5,7 +5,7 @@ This example shows how host can swap the kernels and share same buffer between t
 
 **KEY CONCEPTS:** Handling Buffer sharing across multiple binaries, Multiple Kernel Binaries
 
-**KEYWORDS:** enqueueMigrateMemObjects, CL_MIGRATE_MEM_OBJECT_HOST
+**KEYWORDS:** `enqueueMigrateMemObjects <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/devhostapp.html#xio1524524087132>`__, `CL_MIGRATE_MEM_OBJECT_HOST <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/devhostapp.html#kcd1556227380924>`__
 
 EXCLUDED PLATFORMS
 ------------------
