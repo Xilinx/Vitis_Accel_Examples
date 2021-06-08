@@ -29,6 +29,10 @@
     ], 
     "runtime": [
         "OpenCL"
+    ],
+    "targets": [	
+        "hw_emu",
+        "hw" 	
     ], 
     "host": {
         "host_exe": "hbm_simple_xrt",
@@ -103,7 +107,6 @@
             }
         ],
         "targets": [
-            "vitis_sw_emu",
             "vitis_hw_emu",
             "vitis_hw"
         ],
