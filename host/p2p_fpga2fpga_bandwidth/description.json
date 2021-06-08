@@ -28,7 +28,6 @@
         "u50_gen3x16_xdma_2019"
     ],
     "targets": [	
-        "sw_emu",	
         "hw" 	
     ],
      "runtime": [
@@ -91,7 +90,6 @@
             }
         ],
         "targets": [
-            "vitis_sw_emu",
             "vitis_hw"
         ],
         "category": "canary"

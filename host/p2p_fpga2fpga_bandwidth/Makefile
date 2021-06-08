@@ -179,8 +179,8 @@ ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 else
 	$(EXECUTABLE) $(CMD_ARGS)
 endif
-ifneq ($(TARGET),$(findstring $(TARGET), sw_emu hw))
-$(error Application supports only sw_emu hw TARGET. Please use the target for running the application)
+ifneq ($(TARGET),$(findstring $(TARGET), hw))
+$(error Application supports only hw TARGET. Please use the target for running the application)
 endif
 
 
@@ -191,8 +191,8 @@ ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 else
 	$(EXECUTABLE) $(CMD_ARGS)
 endif
-ifneq ($(TARGET),$(findstring $(TARGET), sw_emu hw))
-$(warning WARNING:Application supports only sw_emu hw TARGET. Please use the target for running the application)
+ifneq ($(TARGET),$(findstring $(TARGET), hw))
+$(warning WARNING:Application supports only hw TARGET. Please use the target for running the application)
 endif
 
 
