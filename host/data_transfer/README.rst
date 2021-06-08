@@ -3,9 +3,9 @@ Data Transfer (C)
 
 This example illustrates several ways to use the OpenCL API to transfer data to and from the FPGA
 
-**KEY CONCEPTS:** OpenCL API, Data Transfer, Write Buffers, Read Buffers, Map Buffers, Async Memcpy
+**KEY CONCEPTS:** `OpenCL Host APIs <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/devhostapp.html>`__, `Data Transfer <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/devhostapp.html#xio1524524087132>`__, `Write Buffers <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/devhostapp.html#xio1524524087132>`__, `Read Buffers <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/devhostapp.html#xio1524524087132>`__, `Map Buffers <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/devhostapp.html#xio1524524087132>`__, Async Memcpy
 
-**KEYWORDS:** enqueueWriteBuffer, enqueueReadBuffer, enqueueMapBuffer, enqueueUnmapMemObject, enqueueMigrateMemObjects
+**KEYWORDS:** `enqueueWriteBuffer <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/devhostapp.html#xio1524524087132>`__, `enqueueReadBuffer <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/devhostapp.html#xio1524524087132>`__, `enqueueMapBuffer <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/devhostapp.html#czb1555520653128>`__, enqueueUnmapMemObject, `enqueueMigrateMemObjects <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/devhostapp.html#xio1524524087132>`__
 
 EXCLUDED PLATFORMS
 ------------------

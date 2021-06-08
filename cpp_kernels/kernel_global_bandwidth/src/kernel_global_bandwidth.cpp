@@ -282,7 +282,7 @@ int main(int argc, char** argv) {
     double dsduration = dnsduration / ((double)1000000000);
 
     double bpersec = (dbytes / dsduration);
-    double gbpersec = bpersec / ((double)1024 * 1024 * 1024) * ddr_banks;
+    double gbpersec = bpersec / ((double)1024 * 1024 * 1024) * num_buffers;
 
     printf("Kernel completed read/write %.0lf MB bytes from/to global memory.\n", dmbytes);
     printf("Execution time = %f (sec) \n", dsduration);

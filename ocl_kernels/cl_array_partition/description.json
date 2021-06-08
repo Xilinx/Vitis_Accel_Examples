@@ -10,7 +10,7 @@
     ], 
     "key_concepts": [
         "Kernel Optimization", 
-        "Array Partitioning"
+        "Array Partition"
     ],
     "platform_blacklist": [
         "nodma"

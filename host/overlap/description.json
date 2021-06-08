@@ -11,7 +11,7 @@
         "enqueueMigrateMemObjects"
     ], 
     "key_concepts": [
-        "OpenCL API", 
+        "OpenCL Host API", 
         "Synchronize Host and FPGA", 
         "Asynchronous Processing", 
         "Events", 
