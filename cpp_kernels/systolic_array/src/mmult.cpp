@@ -148,8 +148,10 @@ systolic1:
 #pragma HLS LOOP_TRIPCOUNT min = c_size max = c_size
     systolic2:
         for (int i = 0; i < MAX_SIZE; i++) {
+#pragma HLS UNROLL
         systolic3:
             for (int j = 0; j < MAX_SIZE; j++) {
+#pragma HLS UNROLL
                 // Get previous sum
                 int last = (k == 0) ? 0 : localC[i][j];
 
