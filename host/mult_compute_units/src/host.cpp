@@ -123,11 +123,13 @@ int main(int argc, char** argv) {
 
         // Copy input data to device global memory
         OCL_CHECK(err, err = q.enqueueMigrateMemObjects({buffer_in1[i], buffer_in2[i]}, 0 /* 0 means from host*/));
+    }
+    OCL_CHECK(err, err = q.finish());
 
+    for (int i = 0; i < num_cu; i++) {
         // Launch the kernel
         OCL_CHECK(err, err = q.enqueueTask(krnls[i]));
     }
-
     OCL_CHECK(err, err = q.finish());
 
     // Copy result from device global memory to host local memory
