@@ -14,10 +14,9 @@
     "runtime": [
         "OpenCL"
     ],
-    "platform_type": "pcie",
     "platform_blacklist": [
         "zc",
-        "vck",
+        "vck190",
         "2019",
         "2018"
     ], 

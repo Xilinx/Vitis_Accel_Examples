@@ -772,7 +772,7 @@ def report_gen(target, data):
         target.write("\n")
         target.write("#Generates profile summary report\n")
         target.write("ifeq ($(PROFILE), yes)\n")
-        target.write("VPP_LDFLAGS += --profile_kernel data:all:all:all\n")
+        target.write("VPP_LDFLAGS += --profile.data all:all:all\n")
         target.write("endif\n")
         target.write("\n")
     

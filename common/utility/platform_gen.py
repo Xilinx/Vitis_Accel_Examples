@@ -11,9 +11,9 @@ import subprocess
 def create_cfg_u2(data):    
     target = open("platform_"+filename+".cfg","w+")
     target.write("[connectivity]\n")
-    target.write("sp=" + filename + "_" + str(1) + ".input:" + "bank0\n")
-    target.write("sp=" + filename + "_" + str(1) + ".output:" + "bank0\n")
-    target.write("nk=" + filename + ":" + str(1) + "\n")
+    target.write("sp=" + filename + "_1.input:bank0\n")
+    target.write("sp=" + filename + "_1.output:bank0\n")
+    target.write("nk=" + filename + ":1\n")
     return
 
 def create_json_u2(data):
@@ -21,16 +21,42 @@ def create_json_u2(data):
     target.write("{\n")
     target.write("    \"meminfo\": [\n")
     target.write("    {\n")
-    target.write("        \"type\": \"" + "DDR" + "\",\n")
+    target.write("        \"type\": \"DDR\",\n")
     target.write("        \"banks\": [\n")                    
     target.write("            {\n")
-    target.write("                \"name\": \"" + "bank0\"\n")
+    target.write("                \"name\": \"bank0\"\n")
     target.write("            }\n")
     target.write("        ]\n")
     target.write("    }")
     target.write("\n    ],\n")
-    target.write("    \"total_ddr_banks\": \"" +  str(1) + "\",\n")
-    target.write("    \"version\": \"" + str(1.1)  + "\"\n")
+    target.write("    \"total_ddr_banks\": \"1\",\n")
+    target.write("    \"version\": \"1.1\"\n")
+    target.write("}\n")
+    return
+
+def create_cfg_vck(data):    
+    target = open("platform_"+filename+".cfg","w+")
+    target.write("[connectivity]\n")
+    target.write("sp=" + filename + "_1.input:MC_NOC0\n")
+    target.write("sp=" + filename + "_1.output:MC_NOC0\n")
+    target.write("nk=" + filename + ":1\n")
+    return
+
+def create_json_vck(data):
+    target = open("platform.json","w+")
+    target.write("{\n")
+    target.write("    \"meminfo\": [\n")
+    target.write("    {\n")
+    target.write("        \"type\": \"DDR\",\n")
+    target.write("        \"banks\": [\n")                    
+    target.write("            {\n")
+    target.write("                \"name\": \"MC_NOC0\"\n")
+    target.write("            }\n")
+    target.write("        ]\n")
+    target.write("    }")
+    target.write("\n    ],\n")
+    target.write("    \"total_ddr_banks\": \"1\",\n")
+    target.write("    \"version\": \"1.1\"\n")
     target.write("}\n")
     return
 
@@ -143,7 +169,7 @@ def create_json(data):
         target.write("    \"total_ddr_banks\": \"" +  str(Total_ddr_banks) + "\",\n")
         if Total_host_banks:
             target.write("    \"total_host_banks\": \"" +  str(Total_host_banks) + "\",\n")
-        target.write("    \"version\": \"" + str(1.1)  + "\"\n")
+        target.write("    \"version\": \"1.1\"\n")
         target.write("}\n")
     else :        
         print("Error: This example is not supported for targeted device")
@@ -162,6 +188,10 @@ if "_u2_" in plat_name:
     if(filename!='verify'):
         create_cfg_u2(data)
     create_json_u2(data)
+elif "vck" in plat_name:
+    if(filename!='verify'):
+        create_cfg_vck(data)
+    create_json_vck(data)
 else:    
     if(filename!='verify'):
         create_cfg(data)
