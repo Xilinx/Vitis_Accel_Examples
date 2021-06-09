@@ -472,7 +472,7 @@
 <h1>Slave Bridge Copy Kernel<a class="headerlink" href="#slave-bridge-copy-kernel" title="Permalink to this headline">¶</a></h1>
 <p>This is a Slave Bridge Example to describe how data can be copied between host-only buffer and device-only buffer using User Copy Kernel.</p>
 <p><strong>KEY CONCEPTS:</strong> slave bridge</p>
-<p><strong>KEYWORDS:</strong> XCL_MEM_EXT_HOST_ONLY, CL_MEM_HOST_NO_ACCESS, enqueueMapBuffer</p>
+<p><strong>KEYWORDS:</strong> XCL_MEM_EXT_HOST_ONLY, CL_MEM_HOST_NO_ACCESS, <a class="reference external" href="https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/devhostapp.html#czb1555520653128">enqueueMapBuffer</a></p>
 <p>Here a user copy kernel is instantiated inside container which copies data between host and device memory.</p>
 <p>Host only buffer is created using <code class="docutils literal notranslate"><span class="pre">XCL_MEM_EXT_HOST_ONLY</span></code> flag whereas device only buffer is created using <code class="docutils literal notranslate"><span class="pre">CL_MEM_HOST_NO_ACCESS</span></code> flag. The following data transfers take place in the example -</p>
 <ol class="arabic simple">

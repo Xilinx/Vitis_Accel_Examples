@@ -3,9 +3,9 @@ Global Memory Two Banks
 
 This example of 2ddr is to demonstrate how to use multiple ddr and create buffers in each DDR.
 
-**KEY CONCEPTS:** Multiple Banks
+**KEY CONCEPTS:** `Multiple Banks <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/optimizingperformance.html#uuy1504034303412>`__
 
-**KEYWORDS:** m_axi_auto_max_ports, sp, connectivity
+**KEYWORDS:** `m_axi_auto_max_ports <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/migrating_to_vitis_hls.html#jsk1590553271532>`__, `sp <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/vitiscommandcompiler.html#clt1568640709907__section_tfc_zxm_1jb>`__, `connectivity <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/vitiscommandcompiler.html#qcm1528577331870__section_wgd_dxf_dnb>`__
 
 
 This example demonstrates how buffers can be created in two different

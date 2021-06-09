@@ -453,8 +453,8 @@
   <div class="section" id="burst-read-write-opencl-kernel">
 <h1>Burst Read/Write (OpenCL Kernel)<a class="headerlink" href="#burst-read-write-opencl-kernel" title="Permalink to this headline">¶</a></h1>
 <p>This is simple example of using AXI4-master interface for burst read and write</p>
-<p><strong>KEY CONCEPTS:</strong> burst access</p>
-<p><strong>KEYWORDS:</strong> compiler.interfaceRdBurstLen, compiler.interfaceWrBurstLen</p>
+<p><strong>KEY CONCEPTS:</strong> <a class="reference external" href="https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/vitis_hls_optimization_techniques.html#ddw1586913493144">burst access</a></p>
+<p><strong>KEYWORDS:</strong> <a class="reference external" href="https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/vitiscommandcompiler.html#fgh1568640841739__section_mh4_qf4_bjb">compiler.interfaceRdBurstLen</a>, <a class="reference external" href="https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/vitiscommandcompiler.html#fgh1568640841739__section_mh4_qf4_bjb">compiler.interfaceWrBurstLen</a></p>
 <p>The usual reason for having a burst mode capability, or using burst
 mode, is to increase data throughput. This example demonstrates how
 multiple items can be read from global memory to kernel’s local memory

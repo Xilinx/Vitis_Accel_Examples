@@ -57,8 +57,8 @@
   <link rel="stylesheet" href="_static/css/pro.min.css" media="all" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="PLRAM Config" href="plram_config.html" />
-    <link rel="prev" title="Multiple Devices" href="multiple_devices.html" /> 
+    <link rel="next" title="SLR Assign" href="slr_assign.html" />
+    <link rel="prev" title="Multiple Process" href="multiple_process.html" /> 
 	</head>
 	<body>
 		<div class="xilinx-bs3"/>
@@ -350,13 +350,13 @@
 <li class="toctree-l2"><a class="reference internal" href="advanced_config.html">Advanced Configuration</a></li>
 <li class="toctree-l2"><a class="reference internal" href="kernel_swap.html">Kernel Swap</a></li>
 <li class="toctree-l2"><a class="reference internal" href="multiple_devices.html">Multiple Devices</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Multiple Process</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="multiple_process.html">Multiple Process</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">PLRAM Config</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#excluded-platforms">EXCLUDED PLATFORMS</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#design-files">DESIGN FILES</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#command-line-arguments">COMMAND LINE ARGUMENTS</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="plram_config.html">PLRAM Config</a></li>
 <li class="toctree-l2"><a class="reference internal" href="slr_assign.html">SLR Assign</a></li>
 </ul>
 </li>
@@ -377,7 +377,7 @@
             
 			<p class="caption"><span class="caption-text">This Page</span></p>
 				<ul class="current">
-				  <li class="toctree-l1"><a href="_sources/multiple_process.rst.txt"
+				  <li class="toctree-l1"><a href="_sources/plram_config.rst.txt"
 						rel="nofollow">Show Source</a></li>						
 				</ul>
           
@@ -425,13 +425,13 @@
         
           <li><a href="sys_opt.html">System Optimization Kernels</a> &raquo;</li>
         
-      <li>Multiple Process</li>
+      <li>PLRAM Config</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="_sources/multiple_process.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/plram_config.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -444,53 +444,46 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="multiple-process">
-<h1>Multiple Process<a class="headerlink" href="#multiple-process" title="Permalink to this headline">¶</a></h1>
-<p>This example will demonstrate how to run multiple processes to utilize multiple kernels simultaneously on an FPGA device. Multiple processes can share access to the same device provided each process uses the same xclbin. Processes share access to all device resources but there is no support for exclusive access to resources by any process.</p>
-<p><strong>KEY CONCEPTS:</strong> <a class="reference external" href="https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/optimizingperformance.html#cvc1523913889499">Concurrent execution</a>, Multiple HLS kernels, Multiple Process Support</p>
-<p><strong>KEYWORDS:</strong> PID, fork, XCL_MULTIPROCESS_MODE, multiprocess</p>
-<p>This example will demonstrate how to run multiple processes to utilize
-multiple kernels simultaneously on an FPGA device. Multiple processes
-can share access to the same device provided each process uses the same
-xclbin. Processes share access to all device resources but there is no
-support for exclusive access to resources by any process.</p>
-<p>If two or more processes execute the same kernel, then these processes
-will acquire the kernel’s compute units and will be scheduled in a
-first-come first-serve manner. All processes have the same priority in
-Xilinx Runtime(XRT) Environment.</p>
-<p><strong>PREREQUISITE</strong>: Host is required to set the environment variable:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">XCL_MULTIPROCESS_MODE</span> <span class="o">=</span> <span class="mi">1</span>
+  <div class="section" id="plram-config">
+<h1>PLRAM Config<a class="headerlink" href="#plram-config" title="Permalink to this headline">¶</a></h1>
+<p>This example shows how to resize the PLRAM to use BRAM or URAM.</p>
+<p><strong>KEY CONCEPTS:</strong> Vitis Memory Hierarchy, <a class="reference external" href="https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/buildingdevicebinary.html#wsi1614020986106">PLRAMs</a></p>
+<p><strong>KEYWORDS:</strong> <a class="reference external" href="https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/buildingdevicebinary.html#wsi1614020986106">PLRAM</a>, BRAM, URAM</p>
+<p>This example demonstrates how size and type of each <code class="docutils literal notranslate"><span class="pre">PLRAM</span></code> can
+be configured on the target platform before kernels or Compute Units
+are linked into the system.</p>
+<p>We can use a Tcl script to configure the PLRAM before system linking occurs.
+The use of the Tcl script can be enabled on the v++ command line as follows:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp"># Setup PLRAM</span>
+<span class="n">sdx_memory_subsystem</span><span class="o">::</span><span class="n">update_plram_specification</span> <span class="p">[</span><span class="n">get_bd_cells</span> <span class="o">/</span><span class="n">memory_subsystem</span><span class="p">]</span> <span class="n">PLRAM_MEM00</span> <span class="p">{</span> <span class="n">SIZE</span> <span class="mi">2</span><span class="n">M</span> <span class="n">AXI_DATA_WIDTH</span> <span class="mi">512</span>
+<span class="n">SLR_ASSIGNMENT</span> <span class="n">SLR0</span> <span class="n">READ_LATENCY</span> <span class="mi">10</span> <span class="n">MEMORY_PRIMITIVE</span> <span class="n">URAM</span><span class="p">}</span>
+
+<span class="n">sdx_memory_subsystem</span><span class="o">::</span><span class="n">update_plram_specification</span> <span class="p">[</span><span class="n">get_bd_cells</span> <span class="o">/</span><span class="n">memory_subsystem</span><span class="p">]</span> <span class="n">PLRAM_MEM01</span> <span class="p">{</span> <span class="n">SIZE</span> <span class="mi">2</span><span class="n">M</span> <span class="n">AXI_DATA_WIDTH</span> <span class="mi">512</span>
+<span class="n">SLR_ASSIGNMENT</span> <span class="n">SLR1</span> <span class="n">READ_LATENCY</span> <span class="mi">10</span> <span class="n">MEMORY_PRIMITIVE</span> <span class="n">URAM</span><span class="p">}</span>
+
+<span class="n">validate_bd_design</span> <span class="o">-</span><span class="n">force</span>
+<span class="n">save_bd_design</span>
 </pre></div>
 </div>
-<p>The example comprises of three different kernels for performing vector
-addition, subtraction and multiplication. The host uses C provided
-function <code class="docutils literal notranslate"><span class="pre">fork()</span></code> for invoking different child process for each of the
-kernel to execute. The three child processes created can be identified
-by their process ID using the function <code class="docutils literal notranslate"><span class="pre">getpid()</span></code>. Similarly, if
-required, parent process ID can also be achieved using the function
-<code class="docutils literal notranslate"><span class="pre">getppid()</span></code>.</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span> <span class="n">num_of_child_process</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">if</span><span class="p">(</span><span class="n">fork</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">printf</span><span class="p">(</span><span class="s">&quot;[CHILD] PID %d from [PARENT] PPID %d&quot;</span><span class="p">,</span><span class="n">getpid</span><span class="p">(),</span><span class="n">getppid</span><span class="p">());</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="n">run_kernel</span><span class="p">(</span><span class="n">krnl_id</span><span class="p">);</span>
-    <span class="p">}</span>
-<span class="p">}</span>
+<p>In the example above, PLRAM_MEM00 is changed to be 2 MB in size and composed of UltraRAM;
+PLRAM_MEM01 is changed to be 2 MB in size and composed of UltraRAM.</p>
+<p>PLRAM can be assigned to a buffer by using <code class="docutils literal notranslate"><span class="pre">sp</span></code> tags in the vadd.cfg file along with the port name and kernel name.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">connectivity</span><span class="p">]</span>
+<span class="n">sp</span><span class="o">=</span><span class="n">vadd_1</span><span class="o">.</span><span class="n">in1</span><span class="p">:</span><span class="n">PLRAM</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">sp</span><span class="o">=</span><span class="n">vadd_1</span><span class="o">.</span><span class="n">in2</span><span class="p">:</span><span class="n">PLRAM</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">sp</span><span class="o">=</span><span class="n">vadd_1</span><span class="o">.</span><span class="n">out</span><span class="p">:</span><span class="n">PLRAM</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
 </pre></div>
 </div>
-<p>For each of the process, the following tasks can be viewed along with
-their PID: 1. Transfer the Input Data to Device 2. Launch Kernel 3.
-Transfer the Output Data from Device 4. Checking the Output Data with
-Golden Results</p>
-<p>The flow of the above stated tasks will give the users an in-sight
-information of how multiprocessing is performed by the Xilinx FPGA
-device. Until all the child processes are finished, parent process
-(host) waits for any further execution</p>
-<p><strong>LIMITATION</strong>: In Emulation flow, Debug and Profile will not function
-correctly when multi-process has been enabled.</p>
 <div class="section" id="excluded-platforms">
 <h2>EXCLUDED PLATFORMS<a class="headerlink" href="#excluded-platforms" title="Permalink to this headline">¶</a></h2>
 <p>Platforms containing following strings in their names are not supported for this example :</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">nodma</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">_u25_</span>
+<span class="n">u30</span>
+<span class="n">zc</span>
+<span class="n">vck</span>
+<span class="n">samsung</span>
+<span class="n">_u2_</span>
+<span class="n">nodma</span>
 </pre></div>
 </div>
 </div>
@@ -498,18 +491,15 @@ correctly when multi-process has been enabled.</p>
 <h2>DESIGN FILES<a class="headerlink" href="#design-files" title="Permalink to this headline">¶</a></h2>
 <p>Application code is located in the src directory. Accelerator binary files will be compiled to the xclbin directory. The xclbin directory is required by the Makefile and its contents will be filled during compilation. A listing of all the files in this example is shown below</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">src</span><span class="o">/</span><span class="n">host</span><span class="o">.</span><span class="n">cpp</span>
-<span class="n">src</span><span class="o">/</span><span class="n">krnl_vadd</span><span class="o">.</span><span class="n">cpp</span>
-<span class="n">src</span><span class="o">/</span><span class="n">krnl_vmul</span><span class="o">.</span><span class="n">cpp</span>
-<span class="n">src</span><span class="o">/</span><span class="n">krnl_vsub</span><span class="o">.</span><span class="n">cpp</span>
-<span class="n">src</span><span class="o">/</span><span class="n">multi_krnl</span><span class="o">.</span><span class="n">h</span>
+<span class="n">src</span><span class="o">/</span><span class="n">vadd</span><span class="o">.</span><span class="n">cpp</span>
 </pre></div>
 </div>
-<p>Access these files in the github repo by <a class="reference external" href="https://github.com/Xilinx/Vitis_Accel_Examples/tree/master/sys_opt/multiple_process">clicking here</a>.</p>
+<p>Access these files in the github repo by <a class="reference external" href="https://github.com/Xilinx/Vitis_Accel_Examples/tree/master/sys_opt/plram_config">clicking here</a>.</p>
 </div>
 <div class="section" id="command-line-arguments">
 <h2>COMMAND LINE ARGUMENTS<a class="headerlink" href="#command-line-arguments" title="Permalink to this headline">¶</a></h2>
 <p>Once the environment has been configured, the application can be executed by</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">multiple_process</span> <span class="o">&lt;</span><span class="n">multi_krnl</span> <span class="n">XCLBIN</span><span class="o">&gt;</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">plram_config</span> <span class="o">&lt;</span><span class="n">vadd</span> <span class="n">XCLBIN</span><span class="o">&gt;</span>
 </pre></div>
 </div>
 </div>
@@ -531,10 +521,10 @@ correctly when multi-process has been enabled.</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="plram_config.html" class="btn btn-neutral float-right" title="PLRAM Config" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="slr_assign.html" class="btn btn-neutral float-right" title="SLR Assign" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="multiple_devices.html" class="btn btn-neutral float-left" title="Multiple Devices" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="multiple_process.html" class="btn btn-neutral float-left" title="Multiple Process" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

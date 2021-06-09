@@ -3,9 +3,9 @@ Overlap Host and Kernel
 
 This examples demonstrates techniques that allow user to overlap Host(CPU) and FPGA computation in an application. It will cover asynchronous operations and event object.
 
-**KEY CONCEPTS:** OpenCL API, Synchronize Host and FPGA, Asynchronous Processing, Events, Asynchronous memcpy
+**KEY CONCEPTS:** OpenCL Host API, `Synchronize Host and FPGA <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/devhostapp.html#usz1524526733752>`__, `Asynchronous Processing <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/devhostapp.html#usz1524526733752>`__, `Events <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/optimizingperformance.html#bsa1504034305860>`__, `Asynchronous memcpy <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/devhostapp.html#usz1524526733752>`__
 
-**KEYWORDS:** cl_event, cl::CommandQueue, CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE, enqueueMigrateMemObjects
+**KEYWORDS:** `cl_event <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/devhostapp.html#usz1524526733752>`__, `cl::CommandQueue <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/devhostapp.html#llr1524522915783>`__, `CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/optimizingperformance.html#nzy1504034306881>`__, `enqueueMigrateMemObjects <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/devhostapp.html#xio1524524087132>`__
 
 
 This example illustrates how host read and write tasks can be

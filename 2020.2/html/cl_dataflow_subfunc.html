@@ -454,7 +454,7 @@
 <h1>Dataflow SubFunction OpenCL (OpenCL Kernel)<a class="headerlink" href="#dataflow-subfunction-opencl-opencl-kernel" title="Permalink to this headline">¶</a></h1>
 <p>This is simple example of vector addition to demonstrate how OpenCL Dataflow allows user to run multiple sub functions together to achieve higher throughput.</p>
 <p><strong>KEY CONCEPTS:</strong> SubFunction Level Parallelism</p>
-<p><strong>KEYWORDS:</strong> xcl_dataflow, xclDataflowFifoDepth</p>
+<p><strong>KEYWORDS:</strong> <a class="reference external" href="https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/openclattributes.html#dmj1504034358681">xcl_dataflow</a>, <a class="reference external" href="https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/vitiscommandcompiler.html#fgh1568640841739__section_mh4_qf4_bjb">xclDataflowFifoDepth</a></p>
 <p>This example demonstrates how <code class="docutils literal notranslate"><span class="pre">xcl_dataflow</span></code> attribute can be used to
 implement task level parallelism for subfunctions inside a function.</p>
 <p><code class="docutils literal notranslate"><span class="pre">adder</span></code> kernel uses a function <code class="docutils literal notranslate"><span class="pre">run_subfunc</span></code> which has 3

@@ -3,9 +3,9 @@ Local Memory Two Parallel Read/Write
 
 This is simple example of vector addition to demonstrate how to utilize both ports of Local Memory.
 
-**KEY CONCEPTS:** Kernel Optimization, 2port BRAM Utilization, two read/write Local Memory
+**KEY CONCEPTS:** `Kernel Optimization <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/vitis_hls_optimization_techniques.html>`__, `2port BRAM Utilization <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/managing_interface_synthesis.html#gen1585145183590__ae401668>`__, two read/write Local Memory
 
-**KEYWORDS:** #pragma HLS UNROLL FACTOR=2
+**KEYWORDS:** `#pragma HLS UNROLL FACTOR=2 <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/hls_pragmas.html#uyd1504034366571>`__
 
 
 This is a simple example to demonstrate how to utilize both ports of

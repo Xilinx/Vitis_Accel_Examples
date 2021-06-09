@@ -471,7 +471,7 @@
   <div class="section" id="debug-profile">
 <h1>Debug Profile<a class="headerlink" href="#debug-profile" title="Permalink to this headline">¶</a></h1>
 <p>This is simple example of vector addition and printing profile data (wall clock time taken between start and stop). It also dump a waveform file which can be reloaded to vivado to see the waveform. Run command ‘vivado -source ./scripts/open_waveform.tcl -tclargs &lt;device_name&gt;-&lt;kernel_name&gt;.&lt;target&gt;.&lt;device_name&gt;.wdb’ to launch waveform viewer. User can also update batch to gui in xrt.ini file to see the live waveform while running application.</p>
-<p><strong>KEY CONCEPTS:</strong> Use of Profile API, Waveform Dumping and loading</p>
+<p><strong>KEY CONCEPTS:</strong> <a class="reference external" href="https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/profilingapplication.html#vfc1586356138757">Use of Profile API</a>, <a class="reference external" href="https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/profilingapplication.html#ffv1523643432801">Waveform Dumping and loading</a></p>
 <p>The Vitis development environment can generate a waveform view and
 launch a live <code class="docutils literal notranslate"><span class="pre">waveform</span> <span class="pre">viewer</span></code> when running hardware emulation. It
 displays in-depth details on the emulation results at system level,

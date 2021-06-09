@@ -3,9 +3,9 @@ Control and Status Register access continuously streaming kernel (HLS C/C++)
 
 This is simple example which demonstrate streaming free-running kernel with scalar input and output.
 
-**KEY CONCEPTS:** Free Running Kernel
+**KEY CONCEPTS:** `Free Running Kernel <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/streamingconnections.html#uug1556136182736>`__
 
-**KEYWORDS:** xclRegRead, xclRegWrite
+**KEYWORDS:** `xclRegRead <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/obl1532064985142.html#tpi1504034339424__section_tnh_pks_rx>`__, `xclRegWrite <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/obl1532064985142.html#tpi1504034339424__section_tnh_pks_rx>`__
 
 
 Sometimes the kernel does not need to be controlled by the host. For

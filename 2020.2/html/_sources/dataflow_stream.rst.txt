@@ -3,9 +3,9 @@ Dataflow Using HLS Stream
 
 This is simple example of vector addition to demonstrate Dataflow functionality of HLS. HLS Dataflow allows user to schedule multiple task together to achieve higher throughput.
 
-**KEY CONCEPTS:** Task Level Parallelism
+**KEY CONCEPTS:** `Task Level Parallelism <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/optimizingperformance.html#cvc1523913889499>`__
 
-**KEYWORDS:** dataflow, hls::stream
+**KEYWORDS:** `dataflow <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/vitis_hls_optimization_techniques.html#bmx1539734225930>`__, `hls::stream <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/hls_stream_library.html>`__
 
 
 This example explains how ``#pragma HLS dataflow`` can be used to

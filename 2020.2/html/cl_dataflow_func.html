@@ -453,8 +453,8 @@
   <div class="section" id="dataflow-function-opencl-opencl-kernel">
 <h1>Dataflow Function OpenCL (OpenCL Kernel)<a class="headerlink" href="#dataflow-function-opencl-opencl-kernel" title="Permalink to this headline">¶</a></h1>
 <p>This is simple example of vector addition to demonstrate Dataflow functionality in OpenCL Kernel. OpenCL Dataflow allows user to run multiple functions together to achieve higher throughput.</p>
-<p><strong>KEY CONCEPTS:</strong> Function/Task Level Parallelism</p>
-<p><strong>KEYWORDS:</strong> xcl_dataflow, xclDataflowFifoDepth</p>
+<p><strong>KEY CONCEPTS:</strong> <a class="reference external" href="https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/optimizingperformance.html#cvc1523913889499">Function/Task Level Parallelism</a></p>
+<p><strong>KEYWORDS:</strong> <a class="reference external" href="https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/openclattributes.html#dmj1504034358681">xcl_dataflow</a>, <a class="reference external" href="https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/vitiscommandcompiler.html#fgh1568640841739__section_mh4_qf4_bjb">xclDataflowFifoDepth</a></p>
 <p>This example demonstrates the use of <code class="docutils literal notranslate"><span class="pre">xcl_dataflow</span></code> attribute used to
 implement task level parallelism in OpenCL kernels i.e.  multiple
 functions can be pipelied to increase the throughput of the design.</p>

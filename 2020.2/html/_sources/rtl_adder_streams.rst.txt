@@ -3,7 +3,7 @@ Adder With Streams (RTL Kernel)
 
 This example shows an adder with streams using 3 RTL kernels.
 
-**KEY CONCEPTS:** RTL Kernel, Multiple RTL Kernels
+**KEY CONCEPTS:** `RTL Kernel <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/devrtlkernel.html>`__, `Multiple RTL Kernels <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/devrtlkernel.html>`__
 
 
 This example demonstrates the use of RTL kernels for addition with

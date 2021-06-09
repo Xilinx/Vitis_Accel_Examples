@@ -356,6 +356,7 @@
 <li class="toctree-l2"><a class="reference internal" href="kernel_swap.html">Kernel Swap</a></li>
 <li class="toctree-l2"><a class="reference internal" href="multiple_devices.html">Multiple Devices</a></li>
 <li class="toctree-l2"><a class="reference internal" href="multiple_process.html">Multiple Process</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plram_config.html">PLRAM Config</a></li>
 <li class="toctree-l2"><a class="reference internal" href="slr_assign.html">SLR Assign</a></li>
 </ul>
 </li>
@@ -446,8 +447,8 @@
   <div class="section" id="advanced-configuration">
 <h1>Advanced Configuration<a class="headerlink" href="#advanced-configuration" title="Permalink to this headline">¶</a></h1>
 <p>This is simple example to describe how user can provide various advanced options in Vitis flow.</p>
-<p><strong>KEY CONCEPTS:</strong> Using custom Tcl, Setting Kernel Clock Frequency, Clock Uncertainity</p>
-<p><strong>KEYWORDS:</strong> config, set_clock_uncertainity, kernel_frequency, hls.pre_tcl</p>
+<p><strong>KEY CONCEPTS:</strong> <a class="reference external" href="https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/vitiscommandcompiler.html#mcj1568640526180__section_emy_hbk_dnb">Using custom Tcl</a>, <a class="reference external" href="https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/vitiscommandcompiler.html#qcm1528577331870__section_frk_">Setting Kernel Clock Frequency</a>, <a class="reference external" href="https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/vitiscommandcompiler.html#mcj1568640526180__section_bh5_dg4_bjb">Clock Uncertainity</a></p>
+<p><strong>KEYWORDS:</strong> <a class="reference external" href="https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/vitiscommandcompiler.html#qcm1528577331870__config">config</a>, set_clock_uncertainity, <a class="reference external" href="https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/vitiscommandcompiler.html#qcm1528577331870__section_frk_xtr_t3b">kernel_frequency</a>, <a class="reference external" href="https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/vitiscommandcompiler.html#mcj1568640526180__section_emy_hbk_dnb">hls.pre_tcl</a></p>
 <p>This is a simple example to describe how user can provide various advanced options in Vitis flow. The same can be achieved by the inclusion of cfg or tcl files.</p>
 <p>User can customize the clock_uncertainity using ‘set_clock_uncertainty’. Following is the content of my_directives.tcl file</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">set_clock_uncertainty</span> <span class="mf">0.370</span>
