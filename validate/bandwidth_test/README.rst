@@ -13,7 +13,7 @@ Platforms containing following strings in their names are not supported for this
 ::
 
    zc
-   vck
+   vck190
    2019
    2018
 
