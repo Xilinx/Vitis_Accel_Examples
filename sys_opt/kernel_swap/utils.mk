@@ -7,7 +7,7 @@ PROFILE := no
 
 #Generates profile summary report
 ifeq ($(PROFILE), yes)
-VPP_LDFLAGS += --profile_kernel data:all:all:all
+VPP_LDFLAGS += --profile.data all:all:all
 endif
 
 DEBUG := no
