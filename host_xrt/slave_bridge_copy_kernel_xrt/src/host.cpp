@@ -48,7 +48,8 @@ int main(int argc, char* argv[]) {
     auto device_name = device.get_info<xrt::info::device::name>();
     char* xcl_mode = getenv("XCL_EMULATION_MODE");
     if ((xcl_mode != nullptr) && !strcmp(xcl_mode, "hw_emu")) {
-        if (device_name.find("u250_gen3x16_xdma_3_1_202020") != std::string::npos) {
+        if (device_name.find("u250_gen3x16_xdma_3_1_202020") != std::string::npos or
+            device_name.find("202010") != std::string::npos) {
             std::cout << "[INFO]: The example is not supported for " << device_name
                       << " for hw_emu. Please try other flows." << '\n';
             return EXIT_SUCCESS;
