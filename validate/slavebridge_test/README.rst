@@ -19,7 +19,6 @@ Platforms containing following strings in their names are not supported for this
    aws-vu9p-f1
    2019
    2018
-   202010
    _u2_
    _u25_
    u30

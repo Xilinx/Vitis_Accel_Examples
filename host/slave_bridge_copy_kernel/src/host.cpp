@@ -47,7 +47,8 @@ int main(int argc, char* argv[]) {
         auto device = devices[i];
         auto device_name = device.getInfo<CL_DEVICE_NAME>();
         if (xcl::is_hw_emulation()) {
-            if (device_name.find("u250_gen3x16_xdma_3_1_202020") != std::string::npos) {
+            if (device_name.find("u250_gen3x16_xdma_3_1_202020") != std::string::npos or
+                device_name.find("202010") != std::string::npos) {
                 std::cout << "[INFO]: The example is not supported for " << device_name
                           << " for hw_emu. Please try other flows." << '\n';
                 return EXIT_SUCCESS;
