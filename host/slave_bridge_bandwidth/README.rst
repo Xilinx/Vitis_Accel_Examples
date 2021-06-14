@@ -16,6 +16,8 @@ Platforms containing following strings in their names are not supported for this
 
    _u25_
    u30
+   u50lv
+   u50_gen3x4
    zc
    vck
    aws-vu9p-f1

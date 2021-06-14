@@ -17,6 +17,8 @@ Platforms containing following strings in their names are not supported for this
    _u25_
    u30
    u50c
+   u50lv
+   u50_gen3x4
    u55
    u250
    zc
