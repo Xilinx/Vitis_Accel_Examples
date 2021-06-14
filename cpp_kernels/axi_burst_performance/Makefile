@@ -79,13 +79,25 @@ RESULT_STRING = TEST PASSED
 
 VPP := v++
 VPP_PFLAGS := 
-CMD_ARGS = -x $(BUILD_DIR)/testKernel.xclbin
+CMD_ARGS = -x1 $(BUILD_DIR)/test_kernel_maxi_256bit.xclbin -x2 $(BUILD_DIR)/test_kernel_maxi_512bit.xclbin
 SDCARD := sd_card
 
 include $(XF_PROJ_ROOT)/common/includes/opencl/opencl.mk
 CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++1y
 LDFLAGS += $(opencl_LDFLAGS)
 
+ifeq ($(findstring zcu102_base_20, $(DEVICE)), zcu102_base_20)
+$(error This example is not supported for $(DEVICE))
+endif
+ifeq ($(findstring zcu104_base_20, $(DEVICE)), zcu104_base_20)
+$(error This example is not supported for $(DEVICE))
+endif
+ifeq ($(findstring vck, $(DEVICE)), vck)
+$(error This example is not supported for $(DEVICE))
+endif
+ifeq ($(findstring zc7, $(DEVICE)), zc7)
+$(error This example is not supported for $(DEVICE))
+endif
 ifeq ($(findstring aws-vu9p-f1, $(DEVICE)), aws-vu9p-f1)
 $(error [ERROR]: This example is not supported for $(DEVICE).)
 endif
@@ -124,13 +136,20 @@ EMCONFIG_DIR = $(TEMP_DIR)
 EMU_DIR = $(SDCARD)/data/emulation
 
 ############################## Declaring Binary Containers ##############################
-BINARY_CONTAINERS += $(BUILD_DIR)/testKernel.xclbin
-BINARY_CONTAINER_testKernel_OBJS += $(TEMP_DIR)/testKernel_1.xo
-BINARY_CONTAINER_testKernel_OBJS += $(TEMP_DIR)/testKernel_2.xo
-BINARY_CONTAINER_testKernel_OBJS += $(TEMP_DIR)/testKernel_3.xo
-BINARY_CONTAINER_testKernel_OBJS += $(TEMP_DIR)/testKernel_4.xo
-BINARY_CONTAINER_testKernel_OBJS += $(TEMP_DIR)/testKernel_5.xo
-BINARY_CONTAINER_testKernel_OBJS += $(TEMP_DIR)/testKernel_6.xo
+BINARY_CONTAINERS += $(BUILD_DIR)/test_kernel_maxi_256bit.xclbin
+BINARY_CONTAINER_test_kernel_maxi_256bit_OBJS += $(TEMP_DIR)/test_kernel_maxi_256bit_1.xo
+BINARY_CONTAINER_test_kernel_maxi_256bit_OBJS += $(TEMP_DIR)/test_kernel_maxi_256bit_2.xo
+BINARY_CONTAINER_test_kernel_maxi_256bit_OBJS += $(TEMP_DIR)/test_kernel_maxi_256bit_3.xo
+BINARY_CONTAINER_test_kernel_maxi_256bit_OBJS += $(TEMP_DIR)/test_kernel_maxi_256bit_4.xo
+BINARY_CONTAINER_test_kernel_maxi_256bit_OBJS += $(TEMP_DIR)/test_kernel_maxi_256bit_5.xo
+BINARY_CONTAINER_test_kernel_maxi_256bit_OBJS += $(TEMP_DIR)/test_kernel_maxi_256bit_6.xo
+BINARY_CONTAINERS += $(BUILD_DIR)/test_kernel_maxi_512bit.xclbin
+BINARY_CONTAINER_test_kernel_maxi_512bit_OBJS += $(TEMP_DIR)/test_kernel_maxi_512bit_1.xo
+BINARY_CONTAINER_test_kernel_maxi_512bit_OBJS += $(TEMP_DIR)/test_kernel_maxi_512bit_2.xo
+BINARY_CONTAINER_test_kernel_maxi_512bit_OBJS += $(TEMP_DIR)/test_kernel_maxi_512bit_3.xo
+BINARY_CONTAINER_test_kernel_maxi_512bit_OBJS += $(TEMP_DIR)/test_kernel_maxi_512bit_4.xo
+BINARY_CONTAINER_test_kernel_maxi_512bit_OBJS += $(TEMP_DIR)/test_kernel_maxi_512bit_5.xo
+BINARY_CONTAINER_test_kernel_maxi_512bit_OBJS += $(TEMP_DIR)/test_kernel_maxi_512bit_6.xo
 
 ############################## Setting Targets ##############################
 CP = cp -rf
@@ -148,31 +167,58 @@ build: check-vitis $(BINARY_CONTAINERS)
 xclbin: build
 
 ############################## Setting Rules for Binary Containers (Building Kernels) ##############################
-$(TEMP_DIR)/testKernel_1.xo: src/testKernel_1.cpp
+$(TEMP_DIR)/test_kernel_maxi_256bit_1.xo: src/test_kernel_maxi_256bit_1.cpp
 	mkdir -p $(TEMP_DIR)
-	$(VPP) $(VPP_FLAGS) -c -k testKernel_1 --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
-$(TEMP_DIR)/testKernel_2.xo: src/testKernel_2.cpp
+	$(VPP) $(VPP_FLAGS) -c -k test_kernel_maxi_256bit_1 --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
+$(TEMP_DIR)/test_kernel_maxi_256bit_2.xo: src/test_kernel_maxi_256bit_2.cpp
 	mkdir -p $(TEMP_DIR)
-	$(VPP) $(VPP_FLAGS) -c -k testKernel_2 --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
-$(TEMP_DIR)/testKernel_3.xo: src/testKernel_3.cpp
+	$(VPP) $(VPP_FLAGS) -c -k test_kernel_maxi_256bit_2 --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
+$(TEMP_DIR)/test_kernel_maxi_256bit_3.xo: src/test_kernel_maxi_256bit_3.cpp
 	mkdir -p $(TEMP_DIR)
-	$(VPP) $(VPP_FLAGS) -c -k testKernel_3 --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
-$(TEMP_DIR)/testKernel_4.xo: src/testKernel_4.cpp
+	$(VPP) $(VPP_FLAGS) -c -k test_kernel_maxi_256bit_3 --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
+$(TEMP_DIR)/test_kernel_maxi_256bit_4.xo: src/test_kernel_maxi_256bit_4.cpp
 	mkdir -p $(TEMP_DIR)
-	$(VPP) $(VPP_FLAGS) -c -k testKernel_4 --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
-$(TEMP_DIR)/testKernel_5.xo: src/testKernel_5.cpp
+	$(VPP) $(VPP_FLAGS) -c -k test_kernel_maxi_256bit_4 --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
+$(TEMP_DIR)/test_kernel_maxi_256bit_5.xo: src/test_kernel_maxi_256bit_5.cpp
 	mkdir -p $(TEMP_DIR)
-	$(VPP) $(VPP_FLAGS) -c -k testKernel_5 --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
-$(TEMP_DIR)/testKernel_6.xo: src/testKernel_6.cpp
+	$(VPP) $(VPP_FLAGS) -c -k test_kernel_maxi_256bit_5 --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
+$(TEMP_DIR)/test_kernel_maxi_256bit_6.xo: src/test_kernel_maxi_256bit_6.cpp
 	mkdir -p $(TEMP_DIR)
-	$(VPP) $(VPP_FLAGS) -c -k testKernel_6 --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
-$(BUILD_DIR)/testKernel.xclbin: $(BINARY_CONTAINER_testKernel_OBJS)
+	$(VPP) $(VPP_FLAGS) -c -k test_kernel_maxi_256bit_6 --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
+$(TEMP_DIR)/test_kernel_maxi_512bit_1.xo: src/test_kernel_maxi_512bit_1.cpp
+	mkdir -p $(TEMP_DIR)
+	$(VPP) $(VPP_FLAGS) -c -k test_kernel_maxi_512bit_1 --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
+$(TEMP_DIR)/test_kernel_maxi_512bit_2.xo: src/test_kernel_maxi_512bit_2.cpp
+	mkdir -p $(TEMP_DIR)
+	$(VPP) $(VPP_FLAGS) -c -k test_kernel_maxi_512bit_2 --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
+$(TEMP_DIR)/test_kernel_maxi_512bit_3.xo: src/test_kernel_maxi_512bit_3.cpp
+	mkdir -p $(TEMP_DIR)
+	$(VPP) $(VPP_FLAGS) -c -k test_kernel_maxi_512bit_3 --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
+$(TEMP_DIR)/test_kernel_maxi_512bit_4.xo: src/test_kernel_maxi_512bit_4.cpp
+	mkdir -p $(TEMP_DIR)
+	$(VPP) $(VPP_FLAGS) -c -k test_kernel_maxi_512bit_4 --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
+$(TEMP_DIR)/test_kernel_maxi_512bit_5.xo: src/test_kernel_maxi_512bit_5.cpp
+	mkdir -p $(TEMP_DIR)
+	$(VPP) $(VPP_FLAGS) -c -k test_kernel_maxi_512bit_5 --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
+$(TEMP_DIR)/test_kernel_maxi_512bit_6.xo: src/test_kernel_maxi_512bit_6.cpp
+	mkdir -p $(TEMP_DIR)
+	$(VPP) $(VPP_FLAGS) -c -k test_kernel_maxi_512bit_6 --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
+$(BUILD_DIR)/test_kernel_maxi_256bit.xclbin: $(BINARY_CONTAINER_test_kernel_maxi_256bit_OBJS)
 	mkdir -p $(BUILD_DIR)
 ifeq ($(HOST_ARCH), x86)
-	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR)  -o'$(BUILD_DIR)/testKernel.link.xclbin' $(+)
-	$(VPP) -p $(BUILD_DIR)/testKernel.link.xclbin -t $(TARGET) --platform $(DEVICE) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/testKernel.xclbin
+	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR)  -o'$(BUILD_DIR)/test_kernel_maxi_256bit.link.xclbin' $(+)
+	$(VPP) -p $(BUILD_DIR)/test_kernel_maxi_256bit.link.xclbin -t $(TARGET) --platform $(DEVICE) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/test_kernel_maxi_256bit.xclbin
 else
-	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) -o'$(BUILD_DIR)/testKernel.xclbin' $(+)
+	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) -o'$(BUILD_DIR)/test_kernel_maxi_256bit.xclbin' $(+)
+endif
+
+$(BUILD_DIR)/test_kernel_maxi_512bit.xclbin: $(BINARY_CONTAINER_test_kernel_maxi_512bit_OBJS)
+	mkdir -p $(BUILD_DIR)
+ifeq ($(HOST_ARCH), x86)
+	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR)  -o'$(BUILD_DIR)/test_kernel_maxi_512bit.link.xclbin' $(+)
+	$(VPP) -p $(BUILD_DIR)/test_kernel_maxi_512bit.link.xclbin -t $(TARGET) --platform $(DEVICE) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/test_kernel_maxi_512bit.xclbin
+else
+	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) -o'$(BUILD_DIR)/test_kernel_maxi_512bit.xclbin' $(+)
 endif
 
 ############################## Setting Rules for Host (Building Host Executable) ##############################
@@ -217,9 +263,20 @@ endif
 
 
 ############################## Preparing sdcard ##############################
+$(BUILD_DIR)/$(PACKAGE_OUT)/test_kernel_maxi_512bit.xclbin: $(BUILD_DIR)/test_kernel_maxi_256bit.xclbin $(BUILD_DIR)/test_kernel_maxi_512bit.xclbin $(EXECUTABLE)
+ifneq ($(HOST_ARCH), x86)
+	$(VPP) -p $(BUILD_DIR)/test_kernel_maxi_512bit.xclbin -t $(TARGET) --platform $(DEVICE) --package.sd_file $(BUILD_DIR)/test_kernel_maxi_256bit.xclbin --package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.sd_file $(SD_IMAGE_FILE) --package.sd_file xrt.ini --package.sd_file $(RUN_APP_SCRIPT) --package.sd_file $(EXECUTABLE) -o $(BUILD_DIR)/$(PACKAGE_OUT)/test_kernel_maxi_512bit.xclbin
+else
+	$(error package command not needed for x86 platform)
+endif
+
 sd_card: $(BINARY_CONTAINERS) $(EXECUTABLE) gen_run_app
 ifneq ($(HOST_ARCH), x86)
+<<<<<<< HEAD
 	$(VPP) $(VPP_PFLAGS) -p $(BUILD_DIR)/testKernel.xclbin -t $(TARGET) --platform $(DEVICE) --package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.sd_file $(SD_IMAGE_FILE) --package.sd_file xrt.ini --package.sd_file $(RUN_APP_SCRIPT) --package.sd_file $(EXECUTABLE) -o testKernel.xclbin
+=======
+	make $(BUILD_DIR)/$(PACKAGE_OUT)/test_kernel_maxi_512bit.xclbin
+>>>>>>> 3af355b78cc6cd8246021c7ad896350aab0128c7
 endif
 
 ############################## Cleaning Rules ##############################

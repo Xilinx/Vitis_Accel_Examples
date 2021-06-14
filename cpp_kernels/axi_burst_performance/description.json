@@ -1,14 +1,19 @@
 {
     "name": "AXI Burst Performance", 
     "description": [
-        "This is a AXI Burst Performance check design. It measures the time it takes to write a buffer into DDR or read a buffer from DDR. The example contains 6 kernels, each with different burst_length and num_outstanding parameters to compare the impact of these parameters on effective throughput."
+        "This is an AXI Burst Performance check design. It measures the time it takes to write a buffer into DDR or read a buffer from DDR. The example contains 2 sets of 6 kernels each: each set having a different data width and each kernel having a different burst_length and num_outstanding parameters to compare the impact of these parameters on effective throughput."
     ],
     "flow": "vitis",
     "platform_blacklist": [
+        "zcu102_base_20",
+        "zcu104_base_20",
+        "vck",
+        "zc7",
         "aws-vu9p-f1",
         "samsung",
         "nodma"
     ], 
+    "match_makefile": "false",
     "runtime": [
         "OpenCL"
     ], 
@@ -32,36 +37,65 @@
         {
             "accelerators": [
                 {
-                    "location": "src/testKernel_1.cpp", 
-                    "name": "testKernel_1"
+                    "location": "src/test_kernel_maxi_256bit_1.cpp", 
+                    "name": "test_kernel_maxi_256bit_1"
                 },
                 {
-                    "location": "src/testKernel_2.cpp", 
-                    "name": "testKernel_2"
+                    "location": "src/test_kernel_maxi_256bit_2.cpp", 
+                    "name": "test_kernel_maxi_256bit_2"
                 },
                 {
-                    "location": "src/testKernel_3.cpp", 
-                    "name": "testKernel_3"
+                    "location": "src/test_kernel_maxi_256bit_3.cpp", 
+                    "name": "test_kernel_maxi_256bit_3"
                 },
                 {
-                    "location": "src/testKernel_4.cpp", 
-                    "name": "testKernel_4"
+                    "location": "src/test_kernel_maxi_256bit_4.cpp", 
+                    "name": "test_kernel_maxi_256bit_4"
                 },
                 {
-                    "location": "src/testKernel_5.cpp", 
-                    "name": "testKernel_5"
+                    "location": "src/test_kernel_maxi_256bit_5.cpp", 
+                    "name": "test_kernel_maxi_256bit_5"
                 },
                 {
-                    "location": "src/testKernel_6.cpp", 
-                    "name": "testKernel_6"
+                    "location": "src/test_kernel_maxi_256bit_6.cpp", 
+                    "name": "test_kernel_maxi_256bit_6"
                 }
             ], 
-            "name": "testKernel"
+            "name": "test_kernel_maxi_256bit"
+        },
+        {
+            "accelerators": [
+                {
+                    "location": "src/test_kernel_maxi_512bit_1.cpp", 
+                    "name": "test_kernel_maxi_512bit_1"
+                },
+                {
+                    "location": "src/test_kernel_maxi_512bit_2.cpp", 
+                    "name": "test_kernel_maxi_512bit_2"
+                },
+                {
+                    "location": "src/test_kernel_maxi_512bit_3.cpp", 
+                    "name": "test_kernel_maxi_512bit_3"
+                },
+                {
+                    "location": "src/test_kernel_maxi_512bit_4.cpp", 
+                    "name": "test_kernel_maxi_512bit_4"
+                },
+                {
+                    "location": "src/test_kernel_maxi_512bit_5.cpp", 
+                    "name": "test_kernel_maxi_512bit_5"
+                },
+                {
+                    "location": "src/test_kernel_maxi_512bit_6.cpp", 
+                    "name": "test_kernel_maxi_512bit_6"
+                }
+            ], 
+            "name": "test_kernel_maxi_512bit"
         }
     ],
     "launch": [
         {
-            "cmd_args": "-x BUILD/testKernel.xclbin", 
+            "cmd_args": "-x1 BUILD/test_kernel_maxi_256bit.xclbin -x2 BUILD/test_kernel_maxi_512bit.xclbin", 
             "name": "generic launch for all flows"
         }
     ], 

@@ -92,7 +92,7 @@ endif
 	$(ECHO) './reinstall_xrt.sh' >> run_app.sh
 	$(ECHO) 'return_code=$$?' >> run_app.sh
 	$(ECHO) 'cd -' >> run_app.sh
-	$(ECHO) '$(EXECUTABLE) -x testKernel.xclbin' >> run_app.sh
+	$(ECHO) './$(EXECUTABLE) -x1 test_kernel_maxi_256bit.xclbin -x2 test_kernel_maxi_512bit.xclbin' >> run_app.sh
 	$(ECHO) 'return_code=$$?' >> run_app.sh
 	$(ECHO) 'if [ $$return_code -ne 0 ]; then' >> run_app.sh
 	$(ECHO) 'echo "ERROR: host run failed, RC=$$return_code"' >> run_app.sh
