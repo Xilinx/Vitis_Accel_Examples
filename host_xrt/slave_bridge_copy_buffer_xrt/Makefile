@@ -90,6 +90,12 @@ endif
 ifeq ($(findstring u50c, $(DEVICE)), u50c)
 $(error [ERROR]: This example is not supported for $(DEVICE).)
 endif
+ifeq ($(findstring u50lv, $(DEVICE)), u50lv)
+$(error [ERROR]: This example is not supported for $(DEVICE).)
+endif
+ifeq ($(findstring u50_gen3x4, $(DEVICE)), u50_gen3x4)
+$(error [ERROR]: This example is not supported for $(DEVICE).)
+endif
 ifeq ($(findstring u55, $(DEVICE)), u55)
 $(error [ERROR]: This example is not supported for $(DEVICE).)
 endif
