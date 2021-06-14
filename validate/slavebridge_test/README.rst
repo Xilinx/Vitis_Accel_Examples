@@ -22,6 +22,8 @@ Platforms containing following strings in their names are not supported for this
    _u2_
    _u25_
    u30
+   u50lv
+   u50_gen3x4
 
 DESIGN FILES
 ------------
