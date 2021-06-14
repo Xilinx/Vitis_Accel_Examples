@@ -14,6 +14,8 @@ Platforms containing following strings in their names are not supported for this
 
 ::
 
+   zc
+   vck
    nodma
 
 DESIGN FILES

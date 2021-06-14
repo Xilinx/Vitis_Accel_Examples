@@ -10,7 +10,10 @@
     "key_concepts": [
         "Copy Buffer"
     ], 
+    "platform_type": "pcie",
     "platform_blacklist": [
+        "zc",
+        "vck",
         "nodma"
     ],
     "runtime": [
