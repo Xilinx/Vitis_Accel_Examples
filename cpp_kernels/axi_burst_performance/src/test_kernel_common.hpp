@@ -19,53 +19,55 @@
 #include <cstdint>
 #include <string.h>
 
-// Parameters of the AXI-MM ports of the kernel
-const int bl = 16; // Burst length
-const int ot = 32; // Outstanding transactions
+template <typename T>
 
-typedef ap_int<512> int512_t;
-
-void writeBuffer_5(int512_t* mem, int64_t buf_size) {
+void writeBuffer(T* mem, int64_t buf_size, int burst_size) {
     buf_size = (buf_size / 1024) * 1024; // Make HLS see that buf_size is a multiple of 1024
 
-write_buffer_5:
-    for (int64_t i = 0; i < buf_size / 64; i++) {
+write_buffer:
+    for (int64_t i = 0; i < buf_size / burst_size; i++) {
         mem[i] = i;
     }
 }
 
-void readBuffer_5(int512_t* mem, int64_t buf_size, int64_t& err) {
+template <typename T>
+
+void readBuffer(T* mem, int64_t buf_size, int64_t& err, int burst_size) {
     int64_t tmp = 0;
 
     buf_size = (buf_size / 1024) * 1024; // Make HLS see that buf_size is a multiple of 1024
 
-read_buffer_5:
-    for (int64_t i = 0; i < buf_size / 64; i++) {
+read_buffer:
+    for (int64_t i = 0; i < buf_size / burst_size; i++) {
         tmp += (mem[i] != i) ? 1 : 0;
     }
 
     err = tmp;
 }
 
-void testKernelProc_5(int512_t* mem, int64_t buf_size, int direction, hls::stream<int64_t>& cmd) {
+// Template to avoid signature conflict in sw_emu
+template <typename T, int DUMMY = 0>
+void testKernelProc(T* mem, int64_t buf_size, int direction, hls::stream<int64_t>& cmd, int burst_size) {
     if (direction == 0) {
         cmd.write(0); // Send a command to start the counter
-        writeBuffer_5(mem, buf_size);
+        writeBuffer(mem, buf_size, burst_size);
         cmd.write(0); // Send a command to stop the counter
     } else {
         int64_t err;
         cmd.write(0); // Send a command to start the counter
-        readBuffer_5(mem, buf_size, err);
+        readBuffer(mem, buf_size, err, burst_size);
         cmd.write(err); // Send a command to stop the counter
     }
 }
 
-void perfCounterProc_5(hls::stream<int64_t>& cmd, int64_t* out, int direction) {
+// Template to avoid signature conflict in sw_emu
+template <int DUMMY = 0>
+void perfCounterProc(hls::stream<int64_t>& cmd, int64_t* out, int direction, int bl, int ot) {
     int64_t val;
     // wait to receive a value to start counting
     int64_t cnt = cmd.read();
 // keep counting until a value is available
-count_5:
+count:
     while (cmd.read_nb(val) == false) {
         cnt++;
     }
@@ -77,18 +79,4 @@ count_5:
     tmp[2] = bl;
     tmp[3] = ot;
     memcpy(out, tmp, 4 * sizeof(int64_t));
-}
-
-extern "C" {
-void testKernel_5(int64_t buf_size, int direction, int64_t* perf, int512_t* mem) {
-#pragma HLS INTERFACE m_axi port = mem bundle = aximm0 num_write_outstanding = ot max_write_burst_length = \
-    bl num_read_outstanding = ot max_read_burst_length = bl offset = slave
-
-#pragma HLS DATAFLOW
-
-    hls::stream<int64_t> cmd;
-
-    testKernelProc_5(mem, buf_size, direction, cmd);
-    perfCounterProc_5(cmd, perf, direction);
-}
 }

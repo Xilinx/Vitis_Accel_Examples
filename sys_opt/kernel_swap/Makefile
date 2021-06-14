@@ -134,10 +134,8 @@ EMU_DIR = $(SDCARD)/data/emulation
 
 ############################## Declaring Binary Containers ##############################
 BINARY_CONTAINERS += $(BUILD_DIR)/krnl_vmul.xclbin
-BINARY_CONTAINER_krnl_vmul_LINK += $(BUILD_DIR)/krnl_vmul.link.xclbin
 BINARY_CONTAINER_krnl_vmul_OBJS += $(TEMP_DIR)/krnl_vmul.xo
 BINARY_CONTAINERS += $(BUILD_DIR)/krnl_vadd.xclbin
-BINARY_CONTAINER_krnl_vadd_LINK += $(BUILD_DIR)/krnl_vadd.link.xclbin
 BINARY_CONTAINER_krnl_vadd_OBJS += $(TEMP_DIR)/krnl_vadd.xo
 
 ############################## Setting Targets ##############################
