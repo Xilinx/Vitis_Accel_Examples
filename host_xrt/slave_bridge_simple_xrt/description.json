@@ -51,22 +51,13 @@
                ]
         }
     },
+    "config_make": "config.mk",
     "containers": [
         {
             "accelerators": [
                 {
                     "name": "krnl_vadd", 
-                    "location": "src/kernel.cpp",
-                    "compute_units": [
-                        {
-                            "arguments": [
-                                {
-                                    "name": "m_axi_gmem", 
-                                    "memory": "HOST[0]"
-                                }
-                            ]
-                        }
-                    ]
+                    "location": "src/kernel.cpp"
                 } 
             ], 
             "name": "krnl_vadd"

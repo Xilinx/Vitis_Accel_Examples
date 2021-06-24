@@ -52,10 +52,10 @@
                     "location": "src/kernel.cpp"
                 } 
             ], 
-            "name": "krnl_vadd",
-            "ldclflags": "--config PROJECT/krnl_vadd.cfg"
+            "name": "krnl_vadd"
         }
     ],
+    "config_make": "config.mk",
     "launch": [
         {
             "cmd_args": "BUILD/krnl_vadd.xclbin", 

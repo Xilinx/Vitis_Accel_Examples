@@ -54,54 +54,21 @@
                ]
         }
     },
+    "config_make": "config.mk",
     "containers": [
         {
             "accelerators": [
                 {
                     "name": "bandwidth", 
-                    "location": "src/bandwidth.cpp",
-                    "compute_units": [
-                        {
-                            "arguments": [
-                                {
-                                    "name": "input0", 
-                                    "memory": "HOST[0]"
-                                }, 
-                                {
-                                    "name": "output0", 
-                                    "memory": "HOST[0]"
-                                }
-                            ]
-                        }
-                    ]
+                    "location": "src/bandwidth.cpp"
                 },
                 {
                     "name": "read_bandwidth", 
-                    "location": "src/read_bandwidth.cpp",
-                    "compute_units": [
-                        {
-                            "arguments": [
-                                {
-                                    "name": "input0", 
-                                    "memory": "HOST[0]"
-                                }
-                            ]
-                        }
-                    ]
+                    "location": "src/read_bandwidth.cpp"
                 },
                 {
                     "name": "write_bandwidth", 
-                    "location": "src/write_bandwidth.cpp",
-                    "compute_units": [
-                        {
-                            "arguments": [
-                                {
-                                    "name": "output0", 
-                                    "memory": "HOST[0]"
-                                }
-                            ]
-                        }
-                    ]
+                    "location": "src/write_bandwidth.cpp"
                 }
 
             ], 

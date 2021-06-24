@@ -86,14 +86,6 @@ int main(int argc, char** argv) {
 
     auto pos = dev_id.find(":");
     cl::Device device;
-    auto device_name = device.getInfo<CL_DEVICE_NAME>();
-    if (xcl::is_hw_emulation()) {
-        if (device_name.find("202010") != std::string::npos) {
-            std::cout << "[INFO]: The example is not supported for " << device_name
-                      << " for emulation flows. Please try for hw." << '\n';
-            return EXIT_SUCCESS;
-        }
-    }
     if (pos == std::string::npos) {
         uint32_t device_index = stoi(dev_id);
         if (device_index >= devices.size()) {
@@ -108,6 +100,15 @@ int main(int argc, char** argv) {
             return EXIT_FAILURE;
         }
         device = xcl::find_device_bdf(devices, dev_id);
+    }
+
+    auto device_name = device.getInfo<CL_DEVICE_NAME>();
+    if (xcl::is_hw_emulation()) {
+        if (device_name.find("202010") != std::string::npos) {
+            std::cout << "[INFO]: The example is not supported for " << device_name
+                      << " for hw_emu. Please try other flows." << '\n';
+            return EXIT_SUCCESS;
+        }
     }
 
     // Creating Context and Command Queue for selected Device

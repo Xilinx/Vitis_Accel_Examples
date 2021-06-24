@@ -42,7 +42,7 @@ int main(int argc, char* argv[]) {
         if (xcl::is_hw_emulation()) {
             if (device_name.find("202010") != std::string::npos) {
                 std::cout << "[INFO]: The example is not supported for " << device_name
-                          << " for emulation flows. Please try for hw." << '\n';
+                          << " for hw_emu. Please try other flows." << '\n';
                 return EXIT_SUCCESS;
             }
         }

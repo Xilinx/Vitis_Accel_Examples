@@ -43,6 +43,7 @@
         }, 
         "host_exe": "slave_bridge_copy_kernel.exe"
     },
+    "config_make": "config.mk",
     "containers": [
         {
             "accelerators": [
@@ -52,17 +53,7 @@
                 },
                 {
                     "name": "copy_kernel", 
-                    "location": "src/copy_kernel.cpp",
-                    "compute_units": [
-                        {
-                            "arguments": [
-                                {
-                                    "name": "a", 
-                                    "memory": "HOST[0]"
-                                }
-                            ]
-                        }
-                    ]
+                    "location": "src/copy_kernel.cpp"
                 }  
             ], 
             "name": "krnl_vadd"

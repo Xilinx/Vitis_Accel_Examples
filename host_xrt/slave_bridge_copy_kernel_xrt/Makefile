@@ -78,6 +78,8 @@ VPP_PFLAGS :=
 CMD_ARGS = -x $(BUILD_DIR)/krnl_vadd.xclbin
 
 include $(XF_PROJ_ROOT)/common/includes/opencl/opencl.mk
+include config.mk
+
 CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++1y
 LDFLAGS += $(opencl_LDFLAGS)
 
@@ -135,8 +137,6 @@ endif
 
 
 
-# Adding config files to linker
-VPP_LDFLAGS_krnl_vadd += --config krnl_vadd.cfg 
 EXECUTABLE = ./slave_bridge_copy_kernel_xrt
 EMCONFIG_DIR = $(TEMP_DIR)
 
@@ -170,7 +170,7 @@ $(TEMP_DIR)/copy_kernel.xo: src/copy_kernel.cpp
 $(BUILD_DIR)/krnl_vadd.xclbin: $(BINARY_CONTAINER_krnl_vadd_OBJS)
 	mkdir -p $(BUILD_DIR)
 ifeq ($(HOST_ARCH), x86)
-	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR)  $(VPP_LDFLAGS_krnl_vadd) -o'$(BUILD_DIR)/krnl_vadd.link.xclbin' $(+)
+	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR)  -o'$(BUILD_DIR)/krnl_vadd.link.xclbin' $(+)
 	$(VPP) -p $(BUILD_DIR)/krnl_vadd.link.xclbin -t $(TARGET) --platform $(DEVICE) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/krnl_vadd.xclbin
 else
 	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) -o'$(BUILD_DIR)/krnl_vadd.xclbin' $(+)
