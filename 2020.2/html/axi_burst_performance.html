@@ -462,25 +462,35 @@
             
   <div class="section" id="axi-burst-performance">
 <h1>AXI Burst Performance<a class="headerlink" href="#axi-burst-performance" title="Permalink to this headline">¶</a></h1>
-<p>This is a AXI Burst Performance check design. It measures the time it takes to write a buffer into DDR or read a buffer from DDR. The example contains 6 kernels, each with different burst_length and num_outstanding parameters to compare the impact of these parameters on effective throughput.</p>
-<p>This design measures the time it takes to write a buffer into DDR or read a buffer from DDR. The example contains 6 kernels, each with different burst_length and num_outstanding parameters to compare the impact of these parameters on effective throughput.</p>
+<p>This is an AXI Burst Performance check design. It measures the time it takes to write a buffer into DDR or read a buffer from DDR. The example contains 2 sets of 6 kernels each: each set having a different data width and each kernel having a different burst_length and num_outstanding parameters to compare the impact of these parameters on effective throughput.</p>
+<p>This is an AXI Burst Performance check design. It measures the time it takes to write a buffer into DDR or read a buffer from DDR. The example contains 2 sets of 6 kernels each: each set having a different data width and each kernel having a different burst_length and num_outstanding parameters to compare the impact of these parameters on effective throughput.</p>
 <p>A counter is coded inside each of the kernels to accurately count the number of cycles between the start and end of the buffer transfer.</p>
 <p>In this version, the kernels are configured as follows:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">testKernel_1</span><span class="p">:</span> <span class="n">burst</span> <span class="n">length</span><span class="o">=</span> <span class="mi">4</span><span class="p">,</span> <span class="n">outstanding</span> <span class="n">transactions</span><span class="o">=</span><span class="mi">4</span>
-<span class="n">testKernel_2</span><span class="p">:</span> <span class="n">burst</span> <span class="n">length</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">outstanding</span> <span class="n">transactions</span><span class="o">=</span><span class="mi">4</span>
-<span class="n">testKernel_3</span><span class="p">:</span> <span class="n">burst</span> <span class="n">length</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">outstanding</span> <span class="n">transactions</span><span class="o">=</span><span class="mi">4</span>
-<span class="n">testKernel_4</span><span class="p">:</span> <span class="n">burst</span> <span class="n">length</span><span class="o">=</span> <span class="mi">4</span><span class="p">,</span> <span class="n">outstanding</span> <span class="n">transactions</span><span class="o">=</span><span class="mi">32</span>
-<span class="n">testKernel_5</span><span class="p">:</span> <span class="n">burst</span> <span class="n">length</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">outstanding</span> <span class="n">transactions</span><span class="o">=</span><span class="mi">32</span>
-<span class="n">testKernel_6</span><span class="p">:</span> <span class="n">burst</span> <span class="n">length</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">outstanding</span> <span class="n">transactions</span><span class="o">=</span><span class="mi">32</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Data</span> <span class="n">Width</span> <span class="o">-</span> <span class="mi">256</span>
+<span class="n">test_kernel_maxi_256bit_1</span><span class="p">:</span> <span class="n">burst</span> <span class="n">length</span><span class="o">=</span> <span class="mi">4</span><span class="p">,</span> <span class="n">outstanding</span> <span class="n">transactions</span><span class="o">=</span><span class="mi">4</span>
+<span class="n">test_kernel_maxi_256bit_2</span><span class="p">:</span> <span class="n">burst</span> <span class="n">length</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">outstanding</span> <span class="n">transactions</span><span class="o">=</span><span class="mi">4</span>
+<span class="n">test_kernel_maxi_256bit_3</span><span class="p">:</span> <span class="n">burst</span> <span class="n">length</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">outstanding</span> <span class="n">transactions</span><span class="o">=</span><span class="mi">4</span>
+<span class="n">test_kernel_maxi_256bit_4</span><span class="p">:</span> <span class="n">burst</span> <span class="n">length</span><span class="o">=</span> <span class="mi">4</span><span class="p">,</span> <span class="n">outstanding</span> <span class="n">transactions</span><span class="o">=</span><span class="mi">32</span>
+<span class="n">test_kernel_maxi_256bit_5</span><span class="p">:</span> <span class="n">burst</span> <span class="n">length</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">outstanding</span> <span class="n">transactions</span><span class="o">=</span><span class="mi">32</span>
+<span class="n">test_kernel_maxi_256bit_6</span><span class="p">:</span> <span class="n">burst</span> <span class="n">length</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">outstanding</span> <span class="n">transactions</span><span class="o">=</span><span class="mi">32</span>
+
+<span class="n">Data</span> <span class="n">Width</span> <span class="o">-</span> <span class="mi">512</span>
+<span class="n">test_kernel_maxi_512bit_1</span><span class="p">:</span> <span class="n">burst</span> <span class="n">length</span><span class="o">=</span> <span class="mi">4</span><span class="p">,</span> <span class="n">outstanding</span> <span class="n">transactions</span><span class="o">=</span><span class="mi">4</span>
+<span class="n">test_kernel_maxi_512bit_2</span><span class="p">:</span> <span class="n">burst</span> <span class="n">length</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">outstanding</span> <span class="n">transactions</span><span class="o">=</span><span class="mi">4</span>
+<span class="n">test_kernel_maxi_512bit_3</span><span class="p">:</span> <span class="n">burst</span> <span class="n">length</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">outstanding</span> <span class="n">transactions</span><span class="o">=</span><span class="mi">4</span>
+<span class="n">test_kernel_maxi_512bit_4</span><span class="p">:</span> <span class="n">burst</span> <span class="n">length</span><span class="o">=</span> <span class="mi">4</span><span class="p">,</span> <span class="n">outstanding</span> <span class="n">transactions</span><span class="o">=</span><span class="mi">32</span>
+<span class="n">test_kernel_maxi_512bit_5</span><span class="p">:</span> <span class="n">burst</span> <span class="n">length</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">outstanding</span> <span class="n">transactions</span><span class="o">=</span><span class="mi">32</span>
+<span class="n">test_kernel_maxi_512bit_6</span><span class="p">:</span> <span class="n">burst</span> <span class="n">length</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">outstanding</span> <span class="n">transactions</span><span class="o">=</span><span class="mi">32</span>
 </pre></div>
 </div>
 <p>Below are the resource numbers while running the design on U200 platform:</p>
+<p>Data Width - 256</p>
 <table class="docutils align-default">
 <colgroup>
-<col style="width: 50%" />
-<col style="width: 17%" />
-<col style="width: 17%" />
-<col style="width: 17%" />
+<col style="width: 68%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
 </colgroup>
 <thead>
 <tr class="row-odd"><th class="head"><p>Kernel</p></th>
@@ -490,98 +500,202 @@
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p>testKernel_1</p></td>
-<td><p>4847</p></td>
-<td><p>9036</p></td>
+<tr class="row-even"><td><p>test_kernel_maxi_256bit_1</p></td>
+<td><p>4.2K</p></td>
+<td><p>7.2K</p></td>
+<td><p>11</p></td>
+</tr>
+<tr class="row-odd"><td><p>test_kernel_maxi_256bit_2</p></td>
+<td><p>4.3K</p></td>
+<td><p>7.2K</p></td>
+<td><p>11</p></td>
+</tr>
+<tr class="row-even"><td><p>test_kernel_maxi_256bit_3</p></td>
+<td><p>4.4K</p></td>
+<td><p>7.3K</p></td>
+<td><p>11</p></td>
+</tr>
+<tr class="row-odd"><td><p>test_kernel_maxi_256bit_4</p></td>
+<td><p>4.3K</p></td>
+<td><p>7.2K</p></td>
+<td><p>11</p></td>
+</tr>
+<tr class="row-even"><td><p>test_kernel_maxi_256bit_5</p></td>
+<td><p>4.3K</p></td>
+<td><p>7.3K</p></td>
+<td><p>11</p></td>
+</tr>
+<tr class="row-odd"><td><p>test_kernel_maxi_256bit_6</p></td>
+<td><p>4.5K</p></td>
+<td><p>7.1K</p></td>
+<td><p>15</p></td>
+</tr>
+</tbody>
+</table>
+<p>Data Width - 512</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 68%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Kernel</p></th>
+<th class="head"><p>LUT</p></th>
+<th class="head"><p>REG</p></th>
+<th class="head"><p>BRAM</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>test_kernel_maxi_512bit_1</p></td>
+<td><p>4.8K</p></td>
+<td><p>9.0K</p></td>
 <td><p>14</p></td>
 </tr>
-<tr class="row-odd"><td><p>testKernel_2</p></td>
-<td><p>4895</p></td>
-<td><p>9061</p></td>
+<tr class="row-odd"><td><p>test_kernel_maxi_512bit_2</p></td>
+<td><p>4.9K</p></td>
+<td><p>9.1K</p></td>
 <td><p>14</p></td>
 </tr>
-<tr class="row-even"><td><p>testKernel_3</p></td>
-<td><p>5154</p></td>
-<td><p>9060</p></td>
+<tr class="row-even"><td><p>test_kernel_maxi_512bit_3</p></td>
+<td><p>5.2K</p></td>
+<td><p>9.1K</p></td>
 <td><p>14</p></td>
 </tr>
-<tr class="row-odd"><td><p>testKernel_4</p></td>
-<td><p>4910</p></td>
-<td><p>9073</p></td>
+<tr class="row-odd"><td><p>test_kernel_maxi_512bit_4</p></td>
+<td><p>4.9K</p></td>
+<td><p>9.1K</p></td>
 <td><p>14</p></td>
 </tr>
-<tr class="row-even"><td><p>testKernel_5</p></td>
-<td><p>4942</p></td>
-<td><p>9085</p></td>
+<tr class="row-even"><td><p>test_kernel_maxi_512bit_5</p></td>
+<td><p>4.9K</p></td>
+<td><p>9.1K</p></td>
 <td><p>14</p></td>
 </tr>
-<tr class="row-odd"><td><p>testKernel_6</p></td>
-<td><p>5179</p></td>
-<td><p>9013</p></td>
+<tr class="row-odd"><td><p>test_kernel_maxi_512bit_6</p></td>
+<td><p>5.2K</p></td>
+<td><p>9.0K</p></td>
 <td><p>23</p></td>
 </tr>
 </tbody>
 </table>
 <p>Following is the real log reported while running the design on U200 platform for 16 KB transfers:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Test parameters
- - xclbin file   : ./build_dir.hw.xilinx_u200_xdma_201830_2/testKernel.xclbin
- - frequency     : 300 Mhz
+ - xclbin file   : ./build_dir.hw.xilinx_u200_xdma_201830_2/test_kernel_maxi_256bit.xclbin
+ - frequency     : 300 MHz
  - buffer size   : 16.00 KB
 
 Found Platform
 Platform Name: Xilinx
-INFO: Reading ./build_dir.hw.xilinx_u200_xdma_201830_2/testKernel.xclbin
-Loading: &#39;./build_dir.hw.xilinx_u200_xdma_201830_2/testKernel.xclbin&#39;
+INFO: Reading ./build_dir.hw.xilinx_u200_xdma_201830_2/test_kernel_maxi_256bit.xclbin
+Loading: &#39;./build_dir.hw.xilinx_u200_xdma_201830_2/test_kernel_maxi_256bit.xclbin&#39;
 Trying to program device[1]: xilinx_u200_xdma_201830_2
 Device[1]: program successful!
 
 Kernel-&gt;AXI Burst WRITE performance
-burst_length = 4 num_outstanding = 4 buffer_size = 16.00 KB | throughput = 4.61455 GB/sec
-burst_length = 16 num_outstanding = 4 buffer_size = 16.00 KB | throughput = 10.3801 GB/sec
-burst_length = 32 num_outstanding = 4 buffer_size = 16.00 KB | throughput = 8.41477 GB/sec
-burst_length = 4 num_outstanding = 32 buffer_size = 16.00 KB | throughput = 8.10201 GB/sec
-burst_length = 16 num_outstanding = 32 buffer_size = 16.00 KB | throughput = 11.5306 GB/sec
-burst_length = 32 num_outstanding = 32 buffer_size = 16.00 KB | throughput = 10.9775 GB/sec
+Data Width = 256 burst_length = 4 num_outstanding = 4 buffer_size = 16.00 KB | throughput = 2.55877 GB/sec
+Data Width = 256 burst_length = 16 num_outstanding = 4 buffer_size = 16.00 KB | throughput = 6.31398 GB/sec
+Data Width = 256 burst_length = 32 num_outstanding = 4 buffer_size = 16.00 KB | throughput = 6.84251 GB/sec
+Data Width = 256 burst_length = 4 num_outstanding = 32 buffer_size = 16.00 KB | throughput = 4.26223 GB/sec
+Data Width = 256 burst_length = 16 num_outstanding = 32 buffer_size = 16.00 KB | throughput = 6.45647 GB/sec
+Data Width = 256 burst_length = 32 num_outstanding = 32 buffer_size = 16.00 KB | throughput = 6.84251 GB/sec
 
 Kernel-&gt;AXI Burst READ performance
-burst_length = 4 num_outstanding = 4 buffer_size = 16.00 KB | throughput = 3.77693 GB/sec
-burst_length = 16 num_outstanding = 4 buffer_size = 16.00 KB | throughput = 11.6776 GB/sec
-burst_length = 32 num_outstanding = 4 buffer_size = 16.00 KB | throughput = 9.8869 GB/sec
-burst_length = 4 num_outstanding = 32 buffer_size = 16.00 KB | throughput = 13.6646 GB/sec
-burst_length = 16 num_outstanding = 32 buffer_size = 16.00 KB | throughput = 13.4636 GB/sec
-burst_length = 32 num_outstanding = 32 buffer_size = 16.00 KB | throughput = 13.6646 GB/sec
+Data Width = 256 burst_length = 4 num_outstanding = 4 buffer_size = 16.00 KB | throughput = 2.01658 GB/sec
+Data Width = 256 burst_length = 16 num_outstanding = 4 buffer_size = 16.00 KB | throughput = 6.54884 GB/sec
+Data Width = 256 burst_length = 32 num_outstanding = 4 buffer_size = 16.00 KB | throughput = 7.79836 GB/sec
+Data Width = 256 burst_length = 4 num_outstanding = 32 buffer_size = 16.00 KB | throughput = 7.7851 GB/sec
+Data Width = 256 burst_length = 16 num_outstanding = 32 buffer_size = 16.00 KB | throughput = 7.79836 GB/sec
+Data Width = 256 burst_length = 32 num_outstanding = 32 buffer_size = 16.00 KB | throughput = 7.79836 GB/sec
+
+Test parameters
+ - xclbin file   : ./build_dir.hw.xilinx_u200_xdma_201830_2/test_kernel_maxi_512bit.xclbin
+ - frequency     : 300 MHz
+ - buffer size   : 16.00 KB
+
+Found Platform
+Platform Name: Xilinx
+INFO: Reading ./build_dir.hw.xilinx_u200_xdma_201830_2/test_kernel_maxi_512bit.xclbin
+Loading: &#39;./build_dir.hw.xilinx_u200_xdma_201830_2/test_kernel_maxi_512bit.xclbin&#39;
+Trying to program device[1]: xilinx_u200_xdma_201830_2
+Device[1]: program successful!
+
+Kernel-&gt;AXI Burst WRITE performance
+Data Width = 512 burst_length = 4 num_outstanding = 4 buffer_size = 16.00 KB | throughput = 5.17832 GB/sec
+Data Width = 512 burst_length = 16 num_outstanding = 4 buffer_size = 16.00 KB | throughput = 8.23316 GB/sec
+Data Width = 512 burst_length = 32 num_outstanding = 4 buffer_size = 16.00 KB | throughput = 11.5306 GB/sec
+Data Width = 512 burst_length = 4 num_outstanding = 32 buffer_size = 16.00 KB | throughput = 8.10201 GB/sec
+Data Width = 512 burst_length = 16 num_outstanding = 32 buffer_size = 16.00 KB | throughput = 11.5016 GB/sec
+Data Width = 512 burst_length = 32 num_outstanding = 32 buffer_size = 16.00 KB | throughput = 11.2473 GB/sec
+
+Kernel-&gt;AXI Burst READ performance
+Data Width = 512 burst_length = 4 num_outstanding = 4 buffer_size = 16.00 KB | throughput = 4.04385 GB/sec
+Data Width = 512 burst_length = 16 num_outstanding = 4 buffer_size = 16.00 KB | throughput = 11.6776 GB/sec
+Data Width = 512 burst_length = 32 num_outstanding = 4 buffer_size = 16.00 KB | throughput = 13.6646 GB/sec
+Data Width = 512 burst_length = 4 num_outstanding = 32 buffer_size = 16.00 KB | throughput = 13.6646 GB/sec
+Data Width = 512 burst_length = 16 num_outstanding = 32 buffer_size = 16.00 KB | throughput = 13.6646 GB/sec
+Data Width = 512 burst_length = 32 num_outstanding = 32 buffer_size = 16.00 KB | throughput = 13.6646 GB/sec
 
 TEST PASSED
 </pre></div>
 </div>
 <p>Following is the real log reported while running the design on U200 platform for 16 MB transfers:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Test parameters
- - xclbin file   : ./build_dir.hw.xilinx_u200_xdma_201830_2/testKernel.xclbin
- - frequency     : 300 Mhz
+ - xclbin file   : ./build_dir.hw.xilinx_u200_xdma_201830_2/test_kernel_maxi_256bit.xclbin
+ - frequency     : 300 MHz
  - buffer size   : 16.00 MB
 
 Found Platform
 Platform Name: Xilinx
-INFO: Reading ./build_dir.hw.xilinx_u200_xdma_201830_2/testKernel.xclbin
-Loading: &#39;./build_dir.hw.xilinx_u200_xdma_201830_2/testKernel.xclbin&#39;
+INFO: Reading ./build_dir.hw.xilinx_u200_xdma_201830_2/test_kernel_maxi_256bit.xclbin
+Loading: &#39;./build_dir.hw.xilinx_u200_xdma_201830_2/test_kernel_maxi_256bit.xclbin&#39;
 Trying to program device[1]: xilinx_u200_xdma_201830_2
 Device[1]: program successful!
 
 Kernel-&gt;AXI Burst WRITE performance
-burst_length = 4 num_outstanding = 4 buffer_size = 16.00 MB | throughput = 5.13962 GB/sec
-burst_length = 16 num_outstanding = 4 buffer_size = 16.00 MB | throughput = 11.7986 GB/sec
-burst_length = 32 num_outstanding = 4 buffer_size = 16.00 MB | throughput = 14.6955 GB/sec
-burst_length = 4 num_outstanding = 32 buffer_size = 16.00 MB | throughput = 8.93887 GB/sec
-burst_length = 16 num_outstanding = 32 buffer_size = 16.00 MB | throughput = 14.2987 GB/sec
-burst_length = 32 num_outstanding = 32 buffer_size = 16.00 MB | throughput = 15.1677 GB/sec
+Data Width = 256 burst_length = 4 num_outstanding = 4 buffer_size = 16.00 MB | throughput = 2.66919 GB/sec
+Data Width = 256 burst_length = 16 num_outstanding = 4 buffer_size = 16.00 MB | throughput = 6.62449 GB/sec
+Data Width = 256 burst_length = 32 num_outstanding = 4 buffer_size = 16.00 MB | throughput = 7.59737 GB/sec
+Data Width = 256 burst_length = 4 num_outstanding = 32 buffer_size = 16.00 MB | throughput = 4.47013 GB/sec
+Data Width = 256 burst_length = 16 num_outstanding = 32 buffer_size = 16.00 MB | throughput = 7.1518 GB/sec
+Data Width = 256 burst_length = 32 num_outstanding = 32 buffer_size = 16.00 MB | throughput = 7.94597 GB/sec
 
 Kernel-&gt;AXI Burst READ performance
-burst_length = 4 num_outstanding = 4 buffer_size = 16.00 MB | throughput = 3.93185 GB/sec
-burst_length = 16 num_outstanding = 4 buffer_size = 16.00 MB | throughput = 13.1127 GB/sec
-burst_length = 32 num_outstanding = 4 buffer_size = 16.00 MB | throughput = 16.8296 GB/sec
-burst_length = 4 num_outstanding = 32 buffer_size = 16.00 MB | throughput = 16.8294 GB/sec
-burst_length = 16 num_outstanding = 32 buffer_size = 16.00 MB | throughput = 16.8294 GB/sec
-burst_length = 32 num_outstanding = 32 buffer_size = 16.00 MB | throughput = 16.8295 GB/sec
+Data Width = 256 burst_length = 4 num_outstanding = 4 buffer_size = 16.00 MB | throughput = 2.02206 GB/sec
+Data Width = 256 burst_length = 16 num_outstanding = 4 buffer_size = 16.00 MB | throughput = 6.80909 GB/sec
+Data Width = 256 burst_length = 32 num_outstanding = 4 buffer_size = 16.00 MB | throughput = 8.59958 GB/sec
+Data Width = 256 burst_length = 4 num_outstanding = 32 buffer_size = 16.00 MB | throughput = 8.68773 GB/sec
+Data Width = 256 burst_length = 16 num_outstanding = 32 buffer_size = 16.00 MB | throughput = 8.93942 GB/sec
+Data Width = 256 burst_length = 32 num_outstanding = 32 buffer_size = 16.00 MB | throughput = 8.93942 GB/sec
+
+Test parameters
+ - xclbin file   : ./build_dir.hw.xilinx_u200_xdma_201830_2/test_kernel_maxi_512bit.xclbin
+ - frequency     : 300 MHz
+ - buffer size   : 16.00 MB
+
+Found Platform
+Platform Name: Xilinx
+INFO: Reading ./build_dir.hw.xilinx_u200_xdma_201830_2/test_kernel_maxi_512bit.xclbin
+Loading: &#39;./build_dir.hw.xilinx_u200_xdma_201830_2/test_kernel_maxi_512bit.xclbin&#39;
+Trying to program device[1]: xilinx_u200_xdma_201830_2
+Device[1]: program successful!
+
+Kernel-&gt;AXI Burst WRITE performance
+Data Width = 512 burst_length = 4 num_outstanding = 4 buffer_size = 16.00 MB | throughput = 5.1399 GB/sec
+Data Width = 512 burst_length = 16 num_outstanding = 4 buffer_size = 16.00 MB | throughput = 11.7942 GB/sec
+Data Width = 512 burst_length = 32 num_outstanding = 4 buffer_size = 16.00 MB | throughput = 14.6941 GB/sec
+Data Width = 512 burst_length = 4 num_outstanding = 32 buffer_size = 16.00 MB | throughput = 8.93979 GB/sec
+Data Width = 512 burst_length = 16 num_outstanding = 32 buffer_size = 16.00 MB | throughput = 14.3008 GB/sec
+Data Width = 512 burst_length = 32 num_outstanding = 32 buffer_size = 16.00 MB | throughput = 15.1586 GB/sec
+
+Kernel-&gt;AXI Burst READ performance
+Data Width = 512 burst_length = 4 num_outstanding = 4 buffer_size = 16.00 MB | throughput = 3.92988 GB/sec
+Data Width = 512 burst_length = 16 num_outstanding = 4 buffer_size = 16.00 MB | throughput = 13.1114 GB/sec
+Data Width = 512 burst_length = 32 num_outstanding = 4 buffer_size = 16.00 MB | throughput = 16.8218 GB/sec
+Data Width = 512 burst_length = 4 num_outstanding = 32 buffer_size = 16.00 MB | throughput = 16.8222 GB/sec
+Data Width = 512 burst_length = 16 num_outstanding = 32 buffer_size = 16.00 MB | throughput = 16.8295 GB/sec
+Data Width = 512 burst_length = 32 num_outstanding = 32 buffer_size = 16.00 MB | throughput = 16.8219 GB/sec
 
 TEST PASSED
 </pre></div>
@@ -589,7 +703,11 @@ TEST PASSED
 <div class="section" id="excluded-platforms">
 <h2>EXCLUDED PLATFORMS<a class="headerlink" href="#excluded-platforms" title="Permalink to this headline">¶</a></h2>
 <p>Platforms containing following strings in their names are not supported for this example :</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">aws</span><span class="o">-</span><span class="n">vu9p</span><span class="o">-</span><span class="n">f1</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">zcu102_base_20</span>
+<span class="n">zcu104_base_20</span>
+<span class="n">vck</span>
+<span class="n">zc7</span>
+<span class="n">aws</span><span class="o">-</span><span class="n">vu9p</span><span class="o">-</span><span class="n">f1</span>
 <span class="n">samsung</span>
 <span class="n">nodma</span>
 </pre></div>
@@ -599,20 +717,27 @@ TEST PASSED
 <h2>DESIGN FILES<a class="headerlink" href="#design-files" title="Permalink to this headline">¶</a></h2>
 <p>Application code is located in the src directory. Accelerator binary files will be compiled to the xclbin directory. The xclbin directory is required by the Makefile and its contents will be filled during compilation. A listing of all the files in this example is shown below</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">src</span><span class="o">/</span><span class="n">host</span><span class="o">.</span><span class="n">cpp</span>
-<span class="n">src</span><span class="o">/</span><span class="n">testKernel_1</span><span class="o">.</span><span class="n">cpp</span>
-<span class="n">src</span><span class="o">/</span><span class="n">testKernel_2</span><span class="o">.</span><span class="n">cpp</span>
-<span class="n">src</span><span class="o">/</span><span class="n">testKernel_3</span><span class="o">.</span><span class="n">cpp</span>
-<span class="n">src</span><span class="o">/</span><span class="n">testKernel_4</span><span class="o">.</span><span class="n">cpp</span>
-<span class="n">src</span><span class="o">/</span><span class="n">testKernel_5</span><span class="o">.</span><span class="n">cpp</span>
-<span class="n">src</span><span class="o">/</span><span class="n">testKernel_6</span><span class="o">.</span><span class="n">cpp</span>
+<span class="n">src</span><span class="o">/</span><span class="n">test_kernel_common</span><span class="o">.</span><span class="n">hpp</span>
+<span class="n">src</span><span class="o">/</span><span class="n">test_kernel_maxi_256bit_1</span><span class="o">.</span><span class="n">cpp</span>
+<span class="n">src</span><span class="o">/</span><span class="n">test_kernel_maxi_256bit_2</span><span class="o">.</span><span class="n">cpp</span>
+<span class="n">src</span><span class="o">/</span><span class="n">test_kernel_maxi_256bit_3</span><span class="o">.</span><span class="n">cpp</span>
+<span class="n">src</span><span class="o">/</span><span class="n">test_kernel_maxi_256bit_4</span><span class="o">.</span><span class="n">cpp</span>
+<span class="n">src</span><span class="o">/</span><span class="n">test_kernel_maxi_256bit_5</span><span class="o">.</span><span class="n">cpp</span>
+<span class="n">src</span><span class="o">/</span><span class="n">test_kernel_maxi_256bit_6</span><span class="o">.</span><span class="n">cpp</span>
+<span class="n">src</span><span class="o">/</span><span class="n">test_kernel_maxi_512bit_1</span><span class="o">.</span><span class="n">cpp</span>
+<span class="n">src</span><span class="o">/</span><span class="n">test_kernel_maxi_512bit_2</span><span class="o">.</span><span class="n">cpp</span>
+<span class="n">src</span><span class="o">/</span><span class="n">test_kernel_maxi_512bit_3</span><span class="o">.</span><span class="n">cpp</span>
+<span class="n">src</span><span class="o">/</span><span class="n">test_kernel_maxi_512bit_4</span><span class="o">.</span><span class="n">cpp</span>
+<span class="n">src</span><span class="o">/</span><span class="n">test_kernel_maxi_512bit_5</span><span class="o">.</span><span class="n">cpp</span>
+<span class="n">src</span><span class="o">/</span><span class="n">test_kernel_maxi_512bit_6</span><span class="o">.</span><span class="n">cpp</span>
 </pre></div>
 </div>
-<p>Access these files in the github repo by <a class="reference external" href="https://github.com/Xilinx/Vitis_Accel_Examples/tree/master/cpp_kernels/axi_burst_performance">clicking here</a>.</p>
+<p>Access these files in the github repo by <a class="reference external" href="https://github.com/Xilinx/Vitis_Accel_Examples/tree/2020.2/cpp_kernels/axi_burst_performance">clicking here</a>.</p>
 </div>
 <div class="section" id="command-line-arguments">
 <h2>COMMAND LINE ARGUMENTS<a class="headerlink" href="#command-line-arguments" title="Permalink to this headline">¶</a></h2>
 <p>Once the environment has been configured, the application can be executed by</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">axi_burst_performance</span> <span class="o">-</span><span class="n">x</span> <span class="o">&lt;</span><span class="n">testKernel</span> <span class="n">XCLBIN</span><span class="o">&gt;</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">axi_burst_performance</span> <span class="o">-</span><span class="n">x1</span> <span class="o">&lt;</span><span class="n">test_kernel_maxi_256bit</span> <span class="n">XCLBIN</span><span class="o">&gt;</span> <span class="o">-</span><span class="n">x2</span> <span class="o">&lt;</span><span class="n">test_kernel_maxi_512bit</span> <span class="n">XCLBIN</span><span class="o">&gt;</span>
 </pre></div>
 </div>
 </div>

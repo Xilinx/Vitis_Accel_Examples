@@ -14,7 +14,7 @@ Platforms containing following strings in their names are not supported for this
 ::
 
    zc
-   vck
+   vck190
    2019
    2018
 
@@ -28,7 +28,7 @@ Application code is located in the src directory. Accelerator binary files will 
    src/host.cpp
    src/verify.cpp
    
-Access these files in the github repo by `clicking here <https://github.com/Xilinx/Vitis_Accel_Examples/tree/master/validate/verify_test>`__.
+Access these files in the github repo by `clicking here <https://github.com/Xilinx/Vitis_Accel_Examples/tree/2020.2/validate/verify_test>`__.
 
 COMMAND LINE ARGUMENTS
 ----------------------

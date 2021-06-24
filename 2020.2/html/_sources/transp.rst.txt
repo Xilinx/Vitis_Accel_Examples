@@ -26,7 +26,7 @@ Application code is located in the src directory. Accelerator binary files will 
    src/sw/transp_main.cpp
    src/sw/xcl2/xcl2.cpp
    
-Access these files in the github repo by `clicking here <https://github.com/Xilinx/Vitis_Accel_Examples/tree/master/library_examples/transp>`__.
+Access these files in the github repo by `clicking here <https://github.com/Xilinx/Vitis_Accel_Examples/tree/2020.2/library_examples/transp>`__.
 
 COMMAND LINE ARGUMENTS
 ----------------------

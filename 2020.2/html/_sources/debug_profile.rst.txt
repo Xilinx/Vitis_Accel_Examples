@@ -72,7 +72,7 @@ Application code is located in the src directory. Accelerator binary files will 
    src/host.h
    src/vadd.cpp
    
-Access these files in the github repo by `clicking here <https://github.com/Xilinx/Vitis_Accel_Examples/tree/master/host/debug_profile>`__.
+Access these files in the github repo by `clicking here <https://github.com/Xilinx/Vitis_Accel_Examples/tree/2020.2/host/debug_profile>`__.
 
 COMMAND LINE ARGUMENTS
 ----------------------

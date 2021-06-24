@@ -41,10 +41,11 @@ Platforms containing following strings in their names are not supported for this
    aws-vu9p-f1
    2019
    2018
-   202010
    _u2_
    _u25_
    u30
+   u50lv
+   u50_gen3x4
 
 DESIGN FILES
 ------------
@@ -56,7 +57,7 @@ Application code is located in the src directory. Accelerator binary files will 
    src/host.cpp
    src/slavebridge.cpp
    
-Access these files in the github repo by `clicking here <https://github.com/Xilinx/Vitis_Accel_Examples/tree/master/validate/slavebridge_test>`__.
+Access these files in the github repo by `clicking here <https://github.com/Xilinx/Vitis_Accel_Examples/tree/2020.2/validate/slavebridge_test>`__.
 
 COMMAND LINE ARGUMENTS
 ----------------------

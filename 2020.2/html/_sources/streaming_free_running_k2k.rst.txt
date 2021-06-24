@@ -86,7 +86,7 @@ Application code is located in the src directory. Accelerator binary files will 
    src/mem_read.cpp
    src/mem_write.cpp
    
-Access these files in the github repo by `clicking here <https://github.com/Xilinx/Vitis_Accel_Examples/tree/master/host/streaming_free_running_k2k>`__.
+Access these files in the github repo by `clicking here <https://github.com/Xilinx/Vitis_Accel_Examples/tree/2020.2/host/streaming_free_running_k2k>`__.
 
 COMMAND LINE ARGUMENTS
 ----------------------

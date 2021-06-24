@@ -67,7 +67,7 @@ Application code is located in the src directory. Accelerator binary files will 
    src/vector_addition.cpp
    src/vector_addition_BAD.cpp
    
-Access these files in the github repo by `clicking here <https://github.com/Xilinx/Vitis_Accel_Examples/tree/master/cpp_kernels/loop_pipeline>`__.
+Access these files in the github repo by `clicking here <https://github.com/Xilinx/Vitis_Accel_Examples/tree/2020.2/cpp_kernels/loop_pipeline>`__.
 
 COMMAND LINE ARGUMENTS
 ----------------------

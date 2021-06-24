@@ -120,7 +120,7 @@ Application code is located in the src directory. Accelerator binary files will 
    src/pl_mm2s.cpp
    src/pl_s2mm.cpp
    
-Access these files in the github repo by `clicking here <https://github.com/Xilinx/Vitis_Accel_Examples/tree/master/aie_kernels/aie_adder>`__.
+Access these files in the github repo by `clicking here <https://github.com/Xilinx/Vitis_Accel_Examples/tree/2020.2/aie_kernels/aie_adder>`__.
 
 COMMAND LINE ARGUMENTS
 ----------------------

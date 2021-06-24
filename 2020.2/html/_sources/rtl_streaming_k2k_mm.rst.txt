@@ -32,7 +32,7 @@ Application code is located in the src directory. Accelerator binary files will 
    src/krnl_mm2s.cpp
    src/krnl_s2mm.cpp
    
-Access these files in the github repo by `clicking here <https://github.com/Xilinx/Vitis_Accel_Examples/tree/master/rtl_kernels/rtl_streaming_k2k_mm>`__.
+Access these files in the github repo by `clicking here <https://github.com/Xilinx/Vitis_Accel_Examples/tree/2020.2/rtl_kernels/rtl_streaming_k2k_mm>`__.
 
 COMMAND LINE ARGUMENTS
 ----------------------

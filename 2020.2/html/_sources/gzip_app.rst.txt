@@ -39,7 +39,7 @@ Application code is located in the src directory. Accelerator binary files will 
    src/zlib_lz77_compress_mm.cpp
    src/zlib_parallelbyte_decompress_full.cpp
    
-Access these files in the github repo by `clicking here <https://github.com/Xilinx/Vitis_Accel_Examples/tree/master/library_examples/gzip_app>`__.
+Access these files in the github repo by `clicking here <https://github.com/Xilinx/Vitis_Accel_Examples/tree/2020.2/library_examples/gzip_app>`__.
 
 COMMAND LINE ARGUMENTS
 ----------------------

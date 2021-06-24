@@ -62,7 +62,7 @@ Application code is located in the src directory. Accelerator binary files will 
    src/host.cpp
    src/mmult.cl
    
-Access these files in the github repo by `clicking here <https://github.com/Xilinx/Vitis_Accel_Examples/tree/master/ocl_kernels/cl_systolic_array>`__.
+Access these files in the github repo by `clicking here <https://github.com/Xilinx/Vitis_Accel_Examples/tree/2020.2/ocl_kernels/cl_systolic_array>`__.
 
 COMMAND LINE ARGUMENTS
 ----------------------

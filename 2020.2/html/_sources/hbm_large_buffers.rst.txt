@@ -67,7 +67,7 @@ Application code is located in the src directory. Accelerator binary files will 
    src/host.cpp
    src/krnl_vadd.cpp
    
-Access these files in the github repo by `clicking here <https://github.com/Xilinx/Vitis_Accel_Examples/tree/master/host/hbm_large_buffers>`__.
+Access these files in the github repo by `clicking here <https://github.com/Xilinx/Vitis_Accel_Examples/tree/2020.2/host/hbm_large_buffers>`__.
 
 COMMAND LINE ARGUMENTS
 ----------------------

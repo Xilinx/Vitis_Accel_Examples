@@ -60,7 +60,7 @@ Application code is located in the src directory. Accelerator binary files will 
    src/apply_watermark.cpp
    src/host.cpp
    
-Access these files in the github repo by `clicking here <https://github.com/Xilinx/Vitis_Accel_Examples/tree/master/cpp_kernels/gmem_2banks>`__.
+Access these files in the github repo by `clicking here <https://github.com/Xilinx/Vitis_Accel_Examples/tree/2020.2/cpp_kernels/gmem_2banks>`__.
 
 COMMAND LINE ARGUMENTS
 ----------------------

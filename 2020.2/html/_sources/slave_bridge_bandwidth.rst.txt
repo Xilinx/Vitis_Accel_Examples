@@ -126,12 +126,13 @@ Platforms containing following strings in their names are not supported for this
 
    _u25_
    u30
+   u50lv
+   u50_gen3x4
    zc
    vck
    aws-vu9p-f1
    2019
    2018
-   202010
    samsung
    _u2_
 
@@ -147,7 +148,7 @@ Application code is located in the src directory. Accelerator binary files will 
    src/read_bandwidth.cpp
    src/write_bandwidth.cpp
    
-Access these files in the github repo by `clicking here <https://github.com/Xilinx/Vitis_Accel_Examples/tree/master/host/slave_bridge_bandwidth>`__.
+Access these files in the github repo by `clicking here <https://github.com/Xilinx/Vitis_Accel_Examples/tree/2020.2/host/slave_bridge_bandwidth>`__.
 
 COMMAND LINE ARGUMENTS
 ----------------------
