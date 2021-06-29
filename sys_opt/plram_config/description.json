@@ -1,7 +1,7 @@
 {
     "name": "PLRAM Config (C)", 
     "description": [
-        "This example shows how to resize the PLRAM to use BRAM or URAM."
+        "This example showcases how to configure various PLRAM parameters like Memory Size, Memory Type(BRAM/URAM) etc."
     ],
     "flow": "vitis",
     "keywords": [
