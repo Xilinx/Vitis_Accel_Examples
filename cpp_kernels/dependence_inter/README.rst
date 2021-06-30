@@ -3,9 +3,9 @@ Loop Dependency Inter (C)
 
 This Example demonstrates the HLS pragma 'DEPENDENCE'.Using 'DEPENDENCE' pragma, user can provide additional dependency details to the compiler by specifying if the dependency in consecutive loop iterations on buffer is true/false, which allows the compiler to perform unrolling/pipelining to get better performance.
 
-**KEY CONCEPTS:** `Inter Dependence <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/vitis_hls_optimization_techniques.html#wen1539734225565>`__
+**KEY CONCEPTS:** `Inter Dependence <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/vitis_hls_optimization_techniques.html#wen1539734225565>`__
 
-**KEYWORDS:** `DEPENDENCE <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/hls_pragmas.html#dxe1504034360397>`__, `inter <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/hls_pragmas.html#dxe1504034360397__ad411019>`__, `WAR <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/hls_pragmas.html#dxe1504034360397__ad411019>`__
+**KEYWORDS:** `DEPENDENCE <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/hls_pragmas.html#dxe1504034360397>`__, `inter <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/hls_pragmas.html#dxe1504034360397__ad411019>`__, `WAR <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/hls_pragmas.html#dxe1504034360397__ad411019>`__
 
 EXCLUDED PLATFORMS
 ------------------

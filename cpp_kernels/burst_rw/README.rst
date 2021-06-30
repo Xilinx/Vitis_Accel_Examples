@@ -3,9 +3,9 @@ Burst Read/Write (C)
 
 This is simple example of using AXI4-master interface for burst read and write
 
-**KEY CONCEPTS:** `burst access <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/vitis_hls_optimization_techniques.html#ddw1586913493144>`__
+**KEY CONCEPTS:** `burst access <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/vitis_hls_optimization_techniques.html#ddw1586913493144>`__
 
-**KEYWORDS:** `memcpy <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/managing_interface_synthesis.html#qoa1585574520885>`__, `max_read_burst_length <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/vitis_hls_optimization_techniques.html#mcz1586914389391>`__, `max_write_burst_length <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/vitis_hls_optimization_techniques.html#mcz1586914389391>`__
+**KEYWORDS:** `memcpy <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/managing_interface_synthesis.html#qoa1585574520885>`__, `max_read_burst_length <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/vitis_hls_optimization_techniques.html#mcz1586914389391>`__, `max_write_burst_length <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/vitis_hls_optimization_techniques.html#mcz1586914389391>`__
 
 EXCLUDED PLATFORMS
 ------------------

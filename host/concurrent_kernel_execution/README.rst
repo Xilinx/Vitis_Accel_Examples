@@ -3,9 +3,9 @@ Concurrent Kernel Execution (C)
 
 This example will demonstrate how to use multiple and out of order command queues to simultaneously execute multiple kernels on an FPGA.
 
-**KEY CONCEPTS:** `Concurrent execution <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/optimizingperformance.html#cvc1523913889499>`__, `Out of Order Command Queues <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/optimizingperformance.html#nzy1504034306881>`__, `Multiple Command Queues <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/optimizingperformance.html#jyf1504034306600>`__
+**KEY CONCEPTS:** `Concurrent execution <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/optimizingperformance.html#cvc1523913889499>`__, `Out of Order Command Queues <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/optimizingperformance.html#nzy1504034306881>`__, `Multiple Command Queues <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/optimizingperformance.html#jyf1504034306600>`__
 
-**KEYWORDS:** `CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/optimizingperformance.html#nzy1504034306881>`__, `setCallback <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/optimizingperformance.html#nzy1504034306881>`__
+**KEYWORDS:** `CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/optimizingperformance.html#nzy1504034306881>`__, `setCallback <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/optimizingperformance.html#nzy1504034306881>`__
 
 EXCLUDED PLATFORMS
 ------------------

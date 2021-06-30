@@ -41,7 +41,7 @@ There are three types of Vitis HLS kernels namely ap_ctrl_chain, ap_ctrl_hs and 
 
 
 Writing ap_ctrl_hs SystemC kernel (vadd)
-========================================
+----------------------------------------
 
 xtlm_ap_ctrl_hs base class
 --------------------------

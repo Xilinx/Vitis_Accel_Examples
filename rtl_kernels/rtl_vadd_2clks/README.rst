@@ -3,9 +3,9 @@ Vadd 2 Kernel Clocks (RTL Kernel)
 
 This example shows vector addition with 2 kernel clocks using RTL Kernel.
 
-**KEY CONCEPTS:** `RTL Kernel <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/devrtlkernel.html>`__, `Multiple Kernel Clocks <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/vitiscommandcompiler.html#mcj1568640526180__section_bh5_dg4_bjb>`__
+**KEY CONCEPTS:** `RTL Kernel <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/devrtlkernel.html>`__, `Multiple Kernel Clocks <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/vitiscommandcompiler.html#mcj1568640526180__section_bh5_dg4_bjb>`__
 
-**KEYWORDS:** `kernel_frequency <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/vitiscommandcompiler.html#qcm1528577331870__section_frk_xtr_t3b>`__
+**KEYWORDS:** `kernel_frequency <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/vitiscommandcompiler.html#qcm1528577331870__section_frk_xtr_t3b>`__
 
 EXCLUDED PLATFORMS
 ------------------

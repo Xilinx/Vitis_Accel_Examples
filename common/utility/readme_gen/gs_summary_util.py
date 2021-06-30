@@ -121,7 +121,7 @@ Example        | Description           | Key Concepts / Keywords
 """
   outfile.write(table_header)
   
-  file_name = "reference.json" # file to be searched
+  file_name = "LICENSE.txt" # file to be searched
   cur_dir = os.getcwd()      # Dir from where search starts can be replaced with any path
   init_cur_dir = cur_dir
   ref_data = ""
@@ -130,14 +130,14 @@ Example        | Description           | Key Concepts / Keywords
       file_list = os.listdir(cur_dir)
       parent_dir = os.path.dirname(cur_dir)
       if file_name in file_list:
-          path = cur_dir + '/' + file_name
+          path = cur_dir + '/common/utility/reference.json'
           ref_file = open(path,'r')
           ref_data = json.load(ref_file)
           ref_file.close()
           break
       else:
           if cur_dir == parent_dir:         # if dir is root dir
-              print ("reference.json file not found")
+              print ("LICENSE.txt file not found")
               break
           else:
             cur_dir = parent_dir
@@ -165,7 +165,7 @@ Example        | Description           | Key Concepts / Keywords
 """
   outfile.write(table_header)
   
-  file_name = "reference.json" # file to be searched
+  file_name = "LICENSE.txt" # file to be searched
   cur_dir = os.getcwd()      # Dir from where search starts can be replaced with any path
   init_cur_dir = cur_dir
   ref_data = ""
@@ -174,14 +174,14 @@ Example        | Description           | Key Concepts / Keywords
       file_list = os.listdir(cur_dir)
       parent_dir = os.path.dirname(cur_dir)
       if file_name in file_list:
-          path = cur_dir + '/' + file_name
+          path = cur_dir + '/common/utility/reference.json'
           ref_file = open(path,'r')
           ref_data = json.load(ref_file)
           ref_file.close()
           break
       else:
           if cur_dir == parent_dir:         # if dir is root dir
-              print ("reference.json file not found")
+              print ("LICENSE.txt file not found")
               break
           else:
               cur_dir = parent_dir

@@ -3,9 +3,9 @@ Shift Register (OpenCL Kernel)
 
 This example demonstrates how to shift values in registers in each clock cycle
 
-**KEY CONCEPTS:** `Kernel Optimization <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/vitis_hls_optimization_techniques.html>`__, `Shift Register <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/vitis_hls_optimization_techniques.html#jnp1590257015961>`__, `FIR <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/dwh1606804880900.html>`__
+**KEY CONCEPTS:** `Kernel Optimization <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/vitis_hls_optimization_techniques.html>`__, `Shift Register <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/vitis_hls_optimization_techniques.html#jnp1590257015961>`__, `FIR <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/dwh1606804880900.html>`__
 
-**KEYWORDS:** `xcl_array_partition <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/openclattributes.html#kal1504034361186>`__, getProfilingInfo
+**KEYWORDS:** `xcl_array_partition <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/openclattributes.html#kal1504034361186>`__, getProfilingInfo
 
 EXCLUDED PLATFORMS
 ------------------

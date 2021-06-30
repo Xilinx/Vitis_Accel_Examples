@@ -3,9 +3,9 @@ PLRAM Memory Access (C)
 
 This example shows the usage of PLRAM and how to use it with simple matrix multiplication (Row x Col).
 
-**KEY CONCEPTS:** Vitis Memory Hierarchy, `PLRAMs <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/buildingdevicebinary.html#wsi1614020986106>`__
+**KEY CONCEPTS:** Vitis Memory Hierarchy, `PLRAMs <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/buildingdevicebinary.html#wsi1614020986106>`__
 
-**KEYWORDS:** `PLRAM <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/buildingdevicebinary.html#wsi1614020986106>`__
+**KEYWORDS:** `PLRAM <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/buildingdevicebinary.html#wsi1614020986106>`__
 
 EXCLUDED PLATFORMS
 ------------------

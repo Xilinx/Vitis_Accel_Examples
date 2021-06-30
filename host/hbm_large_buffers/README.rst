@@ -3,9 +3,9 @@ HBM Large Buffers
 
 This is a simple example of vector addition to describe how HBM pseudo-channels can be grouped to handle buffers larger than 256 MB.
 
-**KEY CONCEPTS:** `High Bandwidth Memory <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/buildingdevicebinary.html#lgl1614021146997>`__, Multiple HBM Pseudo-channel Groups
+**KEY CONCEPTS:** `High Bandwidth Memory <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/buildingdevicebinary.html#lgl1614021146997>`__, Multiple HBM Pseudo-channel Groups
 
-**KEYWORDS:** `HBM <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/buildingdevicebinary.html#lgl1614021146997>`__
+**KEYWORDS:** `HBM <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/buildingdevicebinary.html#lgl1614021146997>`__
 
 EXCLUDED PLATFORMS
 ------------------

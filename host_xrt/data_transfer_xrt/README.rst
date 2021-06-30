@@ -3,7 +3,7 @@ Data Transfer XRT (XRT Native API's)
 
 This example illustrates transferring of data to and from the FPGA using xrt native api's
 
-**KEY CONCEPTS:** XRT Native API, `Data Transfer <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/devhostapp.html#xio1524524087132>`__, `Write Buffers <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/devhostapp.html#xio1524524087132>`__, `Read Buffers <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/devhostapp.html#xio1524524087132>`__
+**KEY CONCEPTS:** XRT Native API, `Data Transfer <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/devhostapp.html#xio1524524087132>`__, `Write Buffers <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/devhostapp.html#xio1524524087132>`__, `Read Buffers <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/devhostapp.html#xio1524524087132>`__
 
 **KEYWORDS:** xrt::bo::write, xrt::bo::read
 

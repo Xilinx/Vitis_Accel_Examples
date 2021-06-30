@@ -5,7 +5,7 @@ This is simple test design to measure Input/Output Operations per second. In thi
 
 **KEY CONCEPTS:** Input/Output Operations per second
 
-**KEYWORDS:** `CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/optimizingperformance.html#nzy1504034306881>`__
+**KEYWORDS:** `CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/optimizingperformance.html#nzy1504034306881>`__
 
 EXCLUDED PLATFORMS
 ------------------

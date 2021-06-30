@@ -3,9 +3,9 @@ RTL Stream Kernel to Kernel and Memory Mapped (RTL Kernel)
 
 This example uses two simple increment RTL kernels connected to each other via stream interface and connected to host via memory mapped C++ data mover kernels
 
-**KEY CONCEPTS:** `Read/Write Stream <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/streamingconnections.html#ynb1556233012018>`__, `RTL Kernel <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/devrtlkernel.html>`__
+**KEY CONCEPTS:** `Read/Write Stream <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/streamingconnections.html#ynb1556233012018>`__, `RTL Kernel <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/devrtlkernel.html>`__
 
-**KEYWORDS:** `ap_axiu <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/streamingconnections.html#tzq1555344621950>`__, `hls::stream <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/hls_stream_library.html>`__
+**KEYWORDS:** `ap_axiu <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/streamingconnections.html#tzq1555344621950>`__, `hls::stream <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/hls_stream_library.html>`__
 
 EXCLUDED PLATFORMS
 ------------------
