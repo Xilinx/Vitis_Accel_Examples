@@ -1,0 +1,31 @@
+C++ Kernels
+===========
+
+This page contains examples for users who are new to Xilinx Vitis OpenCL Flows. The focus of the examples is towards code optimization using HLS C/C++ kernels for Xilinx devices.
+
+.. toctree::
+   :maxdepth: 1
+   :caption: List of Examples
+
+   array_partition.rst
+   axi_burst_performance.rst
+   burst_rw.rst
+   bind_op_storage.rst
+   critical_path.rst
+   custom_datatype.rst
+   dataflow_stream.rst
+   dataflow_stream_array.rst
+   dependence_inter.rst
+   gmem_2banks.rst
+   kernel_chain.rst
+   kernel_global_bandwidth.rst
+   lmem_2rw.rst
+   loop_pipeline.rst
+   loop_reorder.rst
+   partition_cyclicblock.rst
+   port_width_widening.rst
+   plram_access.rst
+   simple_vadd.rst
+   shift_register.rst
+   systolic_array.rst
+   wide_mem_rw.rst
