@@ -5,7 +5,7 @@ This Example prints device properties using XRT Native APIs. It also displays th
 
 **KEY CONCEPTS:** Querying device properties
 
-**KEYWORDS:** xrt::device
+**KEYWORDS:** `xrt::device <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/devhostapp.html#zja1524097906844>`__
 
 
 This example is to get the details of all the devices connected to a system. . The example prints all device properties like device bdf, kdma etc. It reports the details as below:

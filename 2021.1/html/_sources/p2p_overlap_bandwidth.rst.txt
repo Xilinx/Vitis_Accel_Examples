@@ -3,7 +3,7 @@ P2P overlap bandwidth Example
 
 This is simple example to test Synchronous and Asyncronous data transfer between SSD and FPGA.
 
-**KEY CONCEPTS:** P2P, SmartSSD, XDMA
+**KEY CONCEPTS:** `P2P <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/Chunk938767849.html#qex1558551641915>`__, SmartSSD, XDMA
 
 **KEYWORDS:** XCL_MEM_EXT_P2P_BUFFER, pread, pwrite
 

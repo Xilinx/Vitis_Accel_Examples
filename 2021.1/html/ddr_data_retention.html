@@ -451,7 +451,7 @@
 <h1>DDR Data Retention<a class="headerlink" href="#ddr-data-retention" title="Permalink to this headline">¶</a></h1>
 <p>This example demonstrates how DDR can hold the data between successive XCLBIN load. The first xclbin dumps the DDR data at the end of the run. The second xclbin  loads the dumped data and starts executing.</p>
 <p><strong>KEY CONCEPTS:</strong> Handling Buffer sharing across multiple binaries, Multiple Kernel Binaries</p>
-<p><strong>KEYWORDS:</strong> enable_memory_persistence</p>
+<p><strong>KEYWORDS:</strong> <a class="reference external" href="https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/xrtini.html#tpi1504034339424__section_tnh_pks_rx">enable_memory_persistence</a></p>
 <p>This example shows how host can swap between kernels and share the same buffer between two kernels. Since the DDR can hold the data between successive XCLBIN loads, the user can dump data to the DDR using the first xclbin and then reuse the same in successive xclbins directly. This reduces the number of transfers between host and device by 2 for each reuse.</p>
 <p>In the design, the host application first programs the device with the binary containing <code class="docutils literal notranslate"><span class="pre">krnl_vmult</span></code> and executes the operation.</p>
 <p>Before the first kernel call, the common <code class="docutils literal notranslate"><span class="pre">d_mul</span></code> buffer is created using <code class="docutils literal notranslate"><span class="pre">NULL</span></code> buffer. This is because, it will be populated by the first kernel and then reused by the second kernel and thus, would not require any host side memory to map to.</p>

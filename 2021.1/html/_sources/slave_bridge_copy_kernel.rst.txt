@@ -5,7 +5,7 @@ This is a Slave Bridge Example to describe how data can be copied between host-o
 
 **KEY CONCEPTS:** slave bridge
 
-**KEYWORDS:** XCL_MEM_EXT_HOST_ONLY, CL_MEM_HOST_NO_ACCESS, `enqueueMapBuffer <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/devhostapp.html#czb1555520653128>`__
+**KEYWORDS:** XCL_MEM_EXT_HOST_ONLY, CL_MEM_HOST_NO_ACCESS, `enqueueMapBuffer <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/opencl_programming.html#czb1555520653128>`__
 
 
 Here a user copy kernel is instantiated inside container which copies data between host and device memory.

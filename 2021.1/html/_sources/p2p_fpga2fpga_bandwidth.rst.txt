@@ -3,7 +3,7 @@ P2P FPGA to FPGA Bandwidth Example
 
 This is simple example to explain performance bandwidth for P2P transfer between two FPGA devices.
 
-**KEY CONCEPTS:** P2P, Multi-FPGA Execution, XDMA
+**KEY CONCEPTS:** `P2P <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/Chunk938767849.html#qex1558551641915>`__, Multi-FPGA Execution, XDMA
 
 **KEYWORDS:** XCL_MEM_EXT_P2P_BUFFER
 

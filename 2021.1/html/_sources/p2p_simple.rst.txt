@@ -3,7 +3,7 @@ P2P Simple Example
 
 This is simple example of vector increment to describe P2P between FPGA and NVMe SSD.
 
-**KEY CONCEPTS:** P2P, NVMe SSD, SmartSSD
+**KEY CONCEPTS:** `P2P <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/Chunk938767849.html#qex1558551641915>`__, NVMe SSD, SmartSSD
 
 **KEYWORDS:** XCL_MEM_EXT_P2P_BUFFER, pread, pwrite, O_DIRECT, O_RDWR
 
