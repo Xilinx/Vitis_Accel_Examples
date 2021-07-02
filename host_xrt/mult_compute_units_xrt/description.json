@@ -8,7 +8,7 @@
         "nk"
     ], 
     "key_concepts": [
-        "Multiple Compute Units"
+        "Multiple compute units"
     ],
     "platform_blacklist": [
         "nodma"

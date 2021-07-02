@@ -5,7 +5,7 @@ This is simple example of vector addition to demonstrate Wide Memory Access usin
 
 **KEY CONCEPTS:** Kernel to DDR, `wide memory access <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/vitis_hls_optimization_techniques.html#ddw1586913493144__section_kc3_ykf_jlb>`__, `burst read and write <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/vitis_hls_optimization_techniques.html#ddw1586913493144__section_ogb_tkf_jlb>`__
 
-**KEYWORDS:** uint16, `xcl_pipeline_loop <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/openclattributes.html#sgo1504034359903>`__
+**KEYWORDS:** uint16, `xcl_pipeline_loop <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/opencl_programming.html#sgo1504034359903>`__
 
 EXCLUDED PLATFORMS
 ------------------

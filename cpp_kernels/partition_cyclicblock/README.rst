@@ -5,7 +5,7 @@ This example shows how to use array block and cyclic partitioning to improve per
 
 **KEY CONCEPTS:** `Kernel Optimization <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/vitis_hls_optimization_techniques.html>`__, Array Partitioning, `Block Partition <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/vitis_hls_optimization_techniques.html#swq1539734225427>`__, `Cyclic Partition <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/vitis_hls_optimization_techniques.html#swq1539734225427>`__
 
-**KEYWORDS:** `#pragma HLS ARRAY_PARTITION <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/hls_pragmas.html#gle1504034361378>`__, `cyclic <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/hls_pragmas.html#zof1504034359187__ad410728>`__, `block <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/hls_pragmas.html#zof1504034359187__ad410728>`__, `factor <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/hls_pragmas.html#zof1504034359187__ad410728>`__, `dim <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/hls_pragmas.html#zof1504034359187__ad410728>`__
+**KEYWORDS:** `#pragma HLS ARRAY_PARTITION <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/hls_pragmas.html#gle1504034361378>`__, `cyclic <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/hls_pragmas.html#gle1504034361378__ad410829>`__, `block <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/hls_pragmas.html#gle1504034361378__ad410829>`__, `factor <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/hls_pragmas.html#gle1504034361378__ad410829>`__, `dim <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/hls_pragmas.html#gle1504034361378__ad410829>`__
 
 EXCLUDED PLATFORMS
 ------------------

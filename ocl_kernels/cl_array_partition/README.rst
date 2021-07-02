@@ -5,7 +5,7 @@ This example shows how to use array partitioning to improve performance of a ker
 
 **KEY CONCEPTS:** `Kernel Optimization <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/vitis_hls_optimization_techniques.html>`__, `Array Partition <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/vitis_hls_optimization_techniques.html#swq1539734225427>`__
 
-**KEYWORDS:** `xcl_array_partition <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/openclattributes.html#kal1504034361186>`__, `complete <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/hls_pragmas.html#zof1504034359187__ad410728>`__
+**KEYWORDS:** `xcl_array_partition <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/opencl_programming.html#kal1504034361186>`__, `complete <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/hls_pragmas.html#gle1504034361378__ad410829>`__
 
 EXCLUDED PLATFORMS
 ------------------

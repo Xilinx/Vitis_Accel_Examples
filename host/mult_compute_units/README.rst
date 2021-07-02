@@ -3,7 +3,7 @@ Multiple Compute Units (C)
 
 This is simple Example of Multiple Compute units to showcase how a single kernel can be instantiated into Multiple compute units. Host code will show how to use multiple compute units and run them concurrently.
 
-**KEY CONCEPTS:** `Multiple Compute Units <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/devhostapp.html#dqz1555367565037>`__
+**KEY CONCEPTS:** `Multiple Compute Units <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/opencl_programming.html#dqz1555367565037>`__
 
 **KEYWORDS:** `nk <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/vitiscommandcompiler.html#clt1568640709907__section_wtp_zvm_1jb>`__
 

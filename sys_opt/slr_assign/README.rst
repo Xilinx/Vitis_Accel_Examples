@@ -3,7 +3,7 @@ SLR Assign (CL)
 
 This is simple example to describe SLR assignment information for a platform design. This example highlights how to provide extra input to assign the logic of the kernel into a nominated SLR. In this example we are assigning first kernel(Vector Multiplication) to SLR0 and assigning the second kernel(Vector Addition) to SLR1
 
-**KEY CONCEPTS:** `SLR Assignments <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/modifyingkernelplacement.html#ariaid-title4>`__
+**KEY CONCEPTS:** `SLR Assignments <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/migrating_new_target_platform.html#img1535745661571>`__
 
 **KEYWORDS:** `slr <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/vitiscommandcompiler.html#clt1568640709907__section_m3v_qxm_1jb>`__
 

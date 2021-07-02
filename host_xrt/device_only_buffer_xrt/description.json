@@ -8,8 +8,7 @@
         "xrt::bo::flags::device_only"
     ], 
     "key_concepts": [
-        "Device only buffer" 
-               
+        "Device only buffer"              
     ],
     "platform_blacklist": [
         "nodma"

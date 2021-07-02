@@ -3,9 +3,9 @@ SystemC Vadd (C)
 
 This is simple example of vector addition to describe usage of custom SystemC in Vitis Environment.
 
-**KEY CONCEPTS:** SystemC
+**KEY CONCEPTS:** `SystemC <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/runemulation1.html#cmo1619037605921>`__
 
-**KEYWORDS:** create_sc_xo, xtlm_ap_ctrl_hs
+**KEYWORDS:** `create_sc_xo <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/runemulation1.html#rgl1621883070991>`__, `xtlm_ap_ctrl_hs <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/runemulation1.html#pkt1621882955152>`__
 
 EXCLUDED PLATFORMS
 ------------------

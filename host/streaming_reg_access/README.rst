@@ -5,7 +5,7 @@ This is simple example which demonstrate streaming free-running kernel with scal
 
 **KEY CONCEPTS:** `Free Running Kernel <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/streamingconnections.html#uug1556136182736>`__
 
-**KEYWORDS:** `xclRegRead <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/obl1532064985142.html#tpi1504034339424__section_tnh_pks_rx>`__, `xclRegWrite <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/obl1532064985142.html#tpi1504034339424__section_tnh_pks_rx>`__
+**KEYWORDS:** `xclRegRead <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/xrtini.html#tpi1504034339424__section_tnh_pks_rx>`__, `xclRegWrite <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/obl1532064985142.html#tpi1504034339424__section_tnh_pks_rx>`__
 
 EXCLUDED PLATFORMS
 ------------------

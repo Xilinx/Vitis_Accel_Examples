@@ -5,7 +5,7 @@ This is simple example of vector addition to demonstrate Dataflow functionality 
 
 **KEY CONCEPTS:** `Function/Task Level Parallelism <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/optimizingperformance.html#cvc1523913889499>`__
 
-**KEYWORDS:** `xcl_dataflow <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/openclattributes.html#dmj1504034358681>`__, `xclDataflowFifoDepth <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/vitiscommandcompiler.html#fgh1568640841739__section_mh4_qf4_bjb>`__
+**KEYWORDS:** `xcl_dataflow <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/opencl_programming.html#dmj1504034358681>`__, `xclDataflowFifoDepth <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/vitiscommandcompiler.html#fgh1568640841739__section_mh4_qf4_bjb>`__
 
 EXCLUDED PLATFORMS
 ------------------
