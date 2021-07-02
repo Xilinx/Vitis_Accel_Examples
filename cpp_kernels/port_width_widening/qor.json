@@ -25,7 +25,7 @@
                     "check_warning": "true", 
                     "loops": [
                         {
-                            "name": "dot_product_inner", 
+                            "name": "dot_product_outer", 
                             "PipelineII": "2"
                         }
                     ]
@@ -38,7 +38,7 @@
                     "check_warning": "true", 
                     "loops": [
                         {
-                            "name": "dot_product_inner", 
+                            "name": "dot_product_outer", 
                             "PipelineII": "2"
                         }
                     ]
@@ -51,7 +51,7 @@
                     "check_warning": "true", 
                     "loops": [
                         {
-                            "name": "dot_product_inner", 
+                            "name": "dot_product_outer", 
                             "PipelineII": "2"
                         }
                     ]
@@ -64,7 +64,7 @@
                     "check_warning": "true", 
                     "loops": [
                         {
-                            "name": "dot_product_inner", 
+                            "name": "dot_product_outer", 
                             "PipelineII": "2"
                         }
                     ]
