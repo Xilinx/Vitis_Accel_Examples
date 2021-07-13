@@ -9,7 +9,7 @@
                     "check_timing": "true", 
                     "PipelineType": "none", 
                     "check_latency": "true", 
-                    "check_warning": "true", 
+                    "check_warning": "false", 
                     "loops": [
                         {
                             "name": "dot_product", 
@@ -22,7 +22,7 @@
                     "check_timing": "true", 
                     "PipelineType": "none", 
                     "check_latency": "true", 
-                    "check_warning": "true", 
+                    "check_warning": "false", 
                     "loops": [
                         {
                             "name": "dot_product_outer", 
@@ -35,7 +35,7 @@
                     "check_timing": "true", 
                     "PipelineType": "none", 
                     "check_latency": "true", 
-                    "check_warning": "true", 
+                    "check_warning": "false", 
                     "loops": [
                         {
                             "name": "dot_product_outer", 
@@ -48,7 +48,7 @@
                     "check_timing": "true", 
                     "PipelineType": "none", 
                     "check_latency": "true", 
-                    "check_warning": "true", 
+                    "check_warning": "false", 
                     "loops": [
                         {
                             "name": "dot_product_outer", 
@@ -61,7 +61,7 @@
                     "check_timing": "true", 
                     "PipelineType": "none", 
                     "check_latency": "true", 
-                    "check_warning": "true", 
+                    "check_warning": "false", 
                     "loops": [
                         {
                             "name": "dot_product_outer", 
