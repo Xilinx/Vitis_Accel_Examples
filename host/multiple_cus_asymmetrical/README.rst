@@ -3,7 +3,7 @@ Multiple Compute Units (Asymmetrical) (C)
 
 This is simple example of vector addition to demonstrate how to connect each compute unit to different banks and how to use these compute units in host applications
 
-**KEY CONCEPTS:** `Multiple Compute Units <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/devhostapp.html#dqz1555367565037>`__
+**KEY CONCEPTS:** `Multiple Compute Units <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/opencl_programming.html#dqz1555367565037>`__
 
 EXCLUDED PLATFORMS
 ------------------

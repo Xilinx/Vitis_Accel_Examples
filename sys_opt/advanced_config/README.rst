@@ -3,9 +3,9 @@ Advanced Configuration
 
 This is simple example to describe how user can provide various advanced options in Vitis flow.
 
-**KEY CONCEPTS:** `Using custom Tcl <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/vitiscommandcompiler.html#mcj1568640526180__section_emy_hbk_dnb>`__, `Setting Kernel Clock Frequency <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/vitiscommandcompiler.html#qcm1528577331870__section_frk_>`__, `Clock Uncertainity <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/vitiscommandcompiler.html#mcj1568640526180__section_bh5_dg4_bjb>`__
+**KEY CONCEPTS:** `Using custom Tcl <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/vitiscommandcompiler.html#mcj1568640526180__section_emy_hbk_dnb>`__, `Setting Kernel Clock Frequency <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/vitiscommandcompiler.html#qcm1528577331870__section_frk_>`__, `Clock Uncertainity <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/vitiscommandcompiler.html#mcj1568640526180__section_bh5_dg4_bjb>`__
 
-**KEYWORDS:** `config <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/vitiscommandcompiler.html#qcm1528577331870__config>`__, set_clock_uncertainity, `kernel_frequency <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/vitiscommandcompiler.html#qcm1528577331870__section_frk_xtr_t3b>`__, `hls.pre_tcl <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/vitiscommandcompiler.html#mcj1568640526180__section_emy_hbk_dnb>`__
+**KEYWORDS:** `config <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/vitiscommandcompiler.html#qcm1528577331870__config>`__, set_clock_uncertainity, `kernel_frequency <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/vitiscommandcompiler.html#qcm1528577331870__section_frk_xtr_t3b>`__, `hls.pre_tcl <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/vitiscommandcompiler.html#mcj1568640526180__section_emy_hbk_dnb>`__
 
 EXCLUDED PLATFORMS
 ------------------

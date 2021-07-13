@@ -15,7 +15,7 @@
         "XCL_BO_SYNC_BO_FROM_DEVICE"
     ], 
     "key_concepts": [
-        "XRT Native APIs"
+        "XRT Native API"
     ],
     "platform_blacklist": [
         "nodma"

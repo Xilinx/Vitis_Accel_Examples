@@ -3,9 +3,9 @@ Stream Free Running Kernel (XRT Native API's)
 
 This is simple example which demonstrate how to use and configure a free running kernel.
 
-**KEY CONCEPTS:** `Free Running Kernel <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/streamingconnections.html#uug1556136182736>`__
+**KEY CONCEPTS:** `Free Running Kernel <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/streamingconnections.html#uug1556136182736>`__
 
-**KEYWORDS:** `ap_ctrl_none <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/managing_interface_synthesis.html#qls1539734256651__ae476284>`__, `stream_connect <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/buildingdevicebinary.html#yha1565541199876>`__
+**KEYWORDS:** `ap_ctrl_none <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/managing_interface_synthesis.html#qls1539734256651__ae476284>`__, `stream_connect <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/buildingdevicebinary.html#yha1565541199876>`__
 
 EXCLUDED PLATFORMS
 ------------------

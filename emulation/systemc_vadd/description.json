@@ -51,8 +51,8 @@
         }
     ],
     "targets": [
-            "hw_emu"
-        ],
+        "hw_emu"
+    ],
     "contributors": [
         {
             "url": "http://www.xilinx.com", 

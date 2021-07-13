@@ -3,9 +3,9 @@ Wide Memory Read/Write (C)
 
 This is simple example of vector addition to demonstrate Wide Memory Access using ap_uint<512> data type. Based on input argument type, V++ compiler will figure our the memory datawidth between Global Memory and Kernel. For this example, ap_uint<512> datatype is used, so Memory datawidth will be 16 x (integer bit size) = 16 x 32 = 512 bit.
 
-**KEY CONCEPTS:** Kernel to DDR, `wide memory access <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/vitis_hls_optimization_techniques.html#ddw1586913493144__section_kc3_ykf_jlb>`__, `burst read and write <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/vitis_hls_optimization_techniques.html#ddw1586913493144__section_ogb_tkf_jlb>`__
+**KEY CONCEPTS:** Kernel to DDR, `wide memory access <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/vitis_hls_optimization_techniques.html#ddw1586913493144__section_kc3_ykf_jlb>`__, `burst read and write <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/vitis_hls_optimization_techniques.html#ddw1586913493144__section_ogb_tkf_jlb>`__
 
-**KEYWORDS:** `ap_uint<> <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/integer_types.html#kcn1539734233458>`__, `ap_int.h <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/integer_types.html>`__
+**KEYWORDS:** `ap_uint<> <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/integer_types.html#kcn1539734233458>`__, `ap_int.h <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/integer_types.html>`__
 
 EXCLUDED PLATFORMS
 ------------------

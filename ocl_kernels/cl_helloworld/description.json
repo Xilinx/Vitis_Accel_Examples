@@ -5,7 +5,7 @@
     ],
     "flow": "vitis",
     "key_concepts": [
-        "OpenCL Host API"
+        "OpenCL Host APIs"
     ],
     "platform_blacklist": [
         "nodma"

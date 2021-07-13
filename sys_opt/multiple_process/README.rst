@@ -3,7 +3,7 @@ Multiple Process (C)
 
 This example will demonstrate how to run multiple processes to utilize multiple kernels simultaneously on an FPGA device. Multiple processes can share access to the same device provided each process uses the same xclbin. Processes share access to all device resources but there is no support for exclusive access to resources by any process.
 
-**KEY CONCEPTS:** `Concurrent execution <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/optimizingperformance.html#cvc1523913889499>`__, Multiple HLS kernels, Multiple Process Support
+**KEY CONCEPTS:** `Concurrent execution <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/optimizingperformance.html#cvc1523913889499>`__, Multiple HLS kernels, Multiple Process Support
 
 **KEYWORDS:** PID, fork, XCL_MULTIPROCESS_MODE, multiprocess
 

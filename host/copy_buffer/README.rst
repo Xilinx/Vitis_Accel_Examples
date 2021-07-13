@@ -5,7 +5,7 @@ This Copy Buffer example demonstrate how one buffer can be copied from another b
 
 **KEY CONCEPTS:** Copy Buffer
 
-**KEYWORDS:** `cl::CommandQueue <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/devhostapp.html#llr1524522915783>`__, enqueueCopyBuffer, `enqueueWriteBuffer <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/devhostapp.html#xio1524524087132>`__, `enqueueReadBuffer <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/devhostapp.html#xio1524524087132>`__, `enqueueMigrateMemObjects <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/devhostapp.html#xio1524524087132>`__
+**KEYWORDS:** `cl::CommandQueue <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/opencl_programming.html#llr1524522915783>`__, enqueueCopyBuffer, `enqueueWriteBuffer <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/opencl_programming.html#xio1524524087132>`__, `enqueueReadBuffer <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/opencl_programming.html#xio1524524087132>`__, `enqueueMigrateMemObjects <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/opencl_programming.html#xio1524524087132>`__
 
 EXCLUDED PLATFORMS
 ------------------

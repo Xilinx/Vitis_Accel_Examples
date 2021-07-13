@@ -5,7 +5,7 @@ This example demonstrates how DDR can hold the data between successive XCLBIN lo
 
 **KEY CONCEPTS:** Handling Buffer sharing across multiple binaries, Multiple Kernel Binaries
 
-**KEYWORDS:** enable_memory_persistence
+**KEYWORDS:** `enable_memory_persistence <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/xrtini.html#tpi1504034339424__section_tnh_pks_rx>`__
 
 EXCLUDED PLATFORMS
 ------------------

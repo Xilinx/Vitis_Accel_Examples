@@ -179,15 +179,17 @@ int main(int argc, char** argv) {
         OCL_CHECK(err, err = krnl_chain_mmult.setArg(4, buffer_output[i]));
         OCL_CHECK(err, err = krnl_chain_mmult.setArg(5, MAT_DIM));
 
+        cl::Event event;
         // Copy input data to device global memory
         OCL_CHECK(err, err = q.enqueueMigrateMemObjects({buffer_in1[i], buffer_in2[i], buffer_in3[i], buffer_in4[i]},
-                                                        0 /* 0 means from host*/));
-
+                                                        0 /* 0 means from host*/, nullptr, &event));
+        std::vector<cl::Event> waitList;
+        waitList.push_back(event);
         // Launch the Kernel
         // For HLS kernels global and local size is always (1,1,1). So, it is
         // recommended
         // to always use enqueueTask() for invoking HLS kernel
-        OCL_CHECK(err, err = q.enqueueTask(krnl_chain_mmult));
+        OCL_CHECK(err, err = q.enqueueTask(krnl_chain_mmult, &waitList, nullptr));
     }
 
     OCL_CHECK(err, err = q.finish());
@@ -224,15 +226,19 @@ int main(int argc, char** argv) {
         OCL_CHECK(err, err = krnl_simple_mmult.setArg(4, buffer_output1[i]));
         OCL_CHECK(err, err = krnl_simple_mmult.setArg(5, MAT_DIM));
 
+        cl::Event event;
         // Copy input data to device global memory
         OCL_CHECK(err, err = q.enqueueMigrateMemObjects({buffer_in1[i], buffer_in2[i], buffer_in3[i], buffer_in4[i]},
-                                                        0 /* 0 means from host*/));
+                                                        0 /* 0 means from host*/, nullptr, &event));
+
+        std::vector<cl::Event> waitList;
+        waitList.push_back(event);
 
         // Launch the Kernel
         // For HLS kernels global and local size is always (1,1,1). So, it is
         // recommended
         // to always use enqueueTask() for invoking HLS kernel
-        OCL_CHECK(err, err = q.enqueueTask(krnl_simple_mmult));
+        OCL_CHECK(err, err = q.enqueueTask(krnl_simple_mmult, &waitList, nullptr));
     }
 
     OCL_CHECK(err, err = q.finish());

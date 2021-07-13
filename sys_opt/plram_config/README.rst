@@ -1,11 +1,11 @@
 PLRAM Config (C)
 ================
 
-This example shows how to resize the PLRAM to use BRAM or URAM.
+This example showcases how to configure various PLRAM parameters like Memory Size, Memory Type(BRAM/URAM) etc.
 
-**KEY CONCEPTS:** Vitis Memory Hierarchy, `PLRAMs <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/buildingdevicebinary.html#wsi1614020986106>`__
+**KEY CONCEPTS:** Vitis Memory Hierarchy, `PLRAMs <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/buildingdevicebinary.html#wsi1614020986106>`__
 
-**KEYWORDS:** `PLRAM <https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/buildingdevicebinary.html#wsi1614020986106>`__, BRAM, URAM
+**KEYWORDS:** `PLRAM <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/buildingdevicebinary.html#wsi1614020986106>`__, BRAM, URAM
 
 EXCLUDED PLATFORMS
 ------------------

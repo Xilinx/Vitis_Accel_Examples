@@ -9,6 +9,7 @@
                     "check_timing": "true", 
                     "PipelineType": "none", 
                     "check_latency": "false", 
+                    "check_warning": "false", 
                     "loops": [
                         {
                             "name": "ld_clusters", 

@@ -9,7 +9,7 @@
                     "check_timing": "true", 
                     "PipelineType": "none", 
                     "check_latency": "true", 
-                    "check_warning": "true", 
+                    "check_warning": "false", 
                     "loops": [
                         {
                             "name": "madd_readA", 
@@ -51,7 +51,7 @@
                     "check_timing": "true", 
                     "pipelinetype": "none", 
                     "check_latency": "true", 
-                    "check_warning": "true", 
+                    "check_warning": "false", 
                     "loops": [
                         {
                             "name": "mscale", 
