@@ -11,7 +11,7 @@ config_file = 0
 
 def mk_copyright(target):
     target.write("""#
-# Copyright 2019-2020 Xilinx, Inc.
+# Copyright 2019-2021 Xilinx, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
