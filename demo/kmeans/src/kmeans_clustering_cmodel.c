@@ -5,7 +5,7 @@
 * install, copy or use the software.
 *
 * Copyright (c) 2005 Northwestern University
-* Copyright (C) 2020 Xilinx, Inc
+* Copyright (C) 2019-2021 Xilinx, Inc
 *
 * Licensed under the Apache License, Version 2.0 (the "License"). You may
 * not use this file except in compliance with the License. A copy of the
