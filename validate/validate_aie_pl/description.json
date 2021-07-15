@@ -1,6 +1,7 @@
 {
     "name": "Xilinx Accumulate AIE Codec Test",
-    "description": "Accumulate AIE function example",
+    "description": [ "Accumulate AIE function example"
+    ],
     "flow": "versal",
     "platform_whitelist": [ 
         "vck190",
@@ -28,6 +29,9 @@
             "input-dir": "./",
             "output-dir": "./"
         }
+    ],
+    "runtime": [
+        "OpenCL"
     ],
     "host": {
         "host_exe": "host.elf", 

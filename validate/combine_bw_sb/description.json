@@ -1,0 +1,96 @@
+{
+    "name": "Combine_Bandwidth_Slavebridge(C)", 
+    "description": [
+        "This is a simple design that verifies if the platform has basic functionalities It also tests the possible bandwidth between Kernel and Global Memory and validates direct host memory access from kernel using slave bridge."
+    ],
+    "flow": "vitis",
+    "os": [
+        "Linux"
+    ], 
+    "runtime": [
+        "OpenCL"
+    ],
+    "platform_blacklist": [
+        "_u25_",
+        "u30",
+        "u50lv",
+        "u50_gen3x4",
+        "zc",
+        "vck", 
+        "aws-vu9p-f1",
+        "2019",
+        "2018",  
+        "samsung",
+        "_u2_"
+    ],
+    "host": {
+        "compiler": {
+            "sources": [
+                "REPO_DIR/common/includes/xcl2/xcl2.cpp",
+                "REPO_DIR/common/includes/cmdparser/cmdlineparser.cpp",
+                "REPO_DIR/common/includes/logger/logger.cpp",
+                "./src/host.cpp"
+            ], 
+            "includepaths": [
+                "REPO_DIR/common/includes/xcl2",
+                "REPO_DIR/common/includes/cmdparser",
+                "REPO_DIR/common/includes/logger"
+            ]
+        }, 
+        "host_exe": "combine_bw_sb.exe"
+    },    
+    "match_makefile": "false",
+    "containers": [
+        {
+            "accelerators": [
+                {
+                    "name": "verify", 
+                    "location": "src/verify.cpp"
+                }, 
+                {
+                    "name": "bandwidth", 
+                    "location": "src/bandwidth.cpp"
+                },
+                {
+                    "name": "slavebridge", 
+                    "location": "src/slavebridge.cpp"
+                } 
+            ], 
+            "name": "combine_bw_sb"
+        }
+    ],
+    "config_make": "config.mk",
+    "platform_type": "pcie",        
+    "launch": [
+        {
+            "cmd_args": "platform_test_path", 
+            "name": "generic launch for all flows"
+        }
+    ], 
+    "contributors": [
+        {
+            "url": "http://www.xilinx.com", 
+            "group": "Xilinx"
+        }
+    ],
+    "testinfo": {
+        "profile": "no",
+        "disable": false,
+        "jobs": [
+            {
+                "index": 0,
+                "dependency": [],
+                "env": "",
+                "cmd": "",
+                "max_memory_MB": 32768,
+                "max_time_min": 300
+            }
+        ],
+        "targets": [
+            "vitis_sw_emu",
+            "vitis_hw_emu",
+            "vitis_hw"
+        ],
+        "category": "canary"
+    }
+}

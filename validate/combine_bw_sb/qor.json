@@ -1,0 +1,43 @@
+{
+    "containers": [
+        {
+            "name": "validate_bw_sb", 
+            "meet_system_timing": "true", 
+            "accelerators": [
+                {
+                    "name": "verify", 
+                    "check_timing": "true", 
+                    "PipelineType": "none", 
+                    "check_latency": "true", 
+                    "check_warning": "false"
+                },
+                {
+                    "name": "bandwidth", 
+                    "check_timing": "true", 
+                    "PipelineType": "none", 
+                    "check_latency": "true", 
+                    "check_warning": "false", 
+                    "loops": [
+                        {
+                            "name": "read_write", 
+                            "PipelineII": "1"
+                        }
+                    ]
+                },
+                {
+                    "name": "slavebridge", 
+                    "check_timing": "true", 
+                    "PipelineType": "none", 
+                    "check_latency": "true", 
+                    "check_warning": "false", 
+                    "loops": [
+                        {
+                            "name": "read_write", 
+                            "PipelineII": "1"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
