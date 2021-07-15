@@ -4,8 +4,7 @@
     ],
     "flow": "versal",
     "platform_whitelist": [ 
-        "vck190",
-        "vck5000"
+        "vck190"
     ],
     "launch": [
         {

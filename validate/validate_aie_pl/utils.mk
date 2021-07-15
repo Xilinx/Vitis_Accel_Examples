@@ -66,18 +66,17 @@ ifneq ($(HOST_ARCH), $(filter $(HOST_ARCH),aarch64 aarch32 x86))
 $(error HOST_ARCH variable not set, please set correctly and rerun)
 endif
 
-#Checks for SYSROOT
-check_sysroot:
-ifneq ($(HOST_ARCH), x86)
-ifndef SYSROOT
-	$(error SYSROOT ENV variable is not set, please set ENV variable correctly and rerun)
-endif
-endif
-
 check_version:
 ifneq (, $(shell which git))
 ifneq (,$(wildcard $(XFLIB_DIR)/.git))
 	@cd $(XFLIB_DIR) && git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit -n 1 && cd -
+endif
+endif
+
+check_edge_common_sw:
+ifneq ($(HOST_ARCH), x86)
+ifndef EDGE_COMMON_SW
+$(error [ERROR]:EDGE_COMMON_SW variable is not set, please set correctly and rerun)
 endif
 endif
 
@@ -101,6 +100,11 @@ else ifeq ($(HOST_ARCH), aarch64)
 CXX := $(XILINX_VITIS)/gnu/aarch64/lin/aarch64-linux/bin/aarch64-linux-gnu-g++
 else ifeq ($(HOST_ARCH), aarch32)
 CXX := $(XILINX_VITIS)/gnu/aarch32/lin/gcc-arm-linux-gnueabi/bin/arm-linux-gnueabihf-g++
+endif
+
+#Checks for EDGE_COMMON_SW
+ifneq ($(HOST_ARCH), x86)
+SYSROOT := $(EDGE_COMMON_SW)/sysroots/aarch64-xilinx-linux
 endif
 
 #Setting VPP

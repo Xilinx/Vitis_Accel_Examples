@@ -42,10 +42,8 @@ help::
 	$(ECHO) "  make host HOST_ARCH=<aarch64>"
 	$(ECHO) "      Command to build host application."
 	$(ECHO) ""
-	$(ECHO) "  NOTE: For embedded devices, e.g. zcu102/zcu104/vck190, env variable SYSROOT, EDGE_COMMON_SW and PERL need to be set first, and HOST_ARCH is either aarch32 or aarch64. For example,"
-	$(ECHO) "       export SYSROOT=< path-to-platform-sysroot >"
+	$(ECHO) "  NOTE: For embedded devices, e.g. zcu102/zcu104/vck190, env variable EDGE_COMMON_SW and PERL need to be set first, and HOST_ARCH is either aarch32 or aarch64. For example,"
 	$(ECHO) "       export EDGE_COMMON_SW=< path-to-rootfs-and-Image-files >"
-	$(ECHO) "       export PERL=<path-to-perl-installation-location >"
 	$(ECHO) ""
 
 # ##################### Setting up default value of TARGET ##########################
@@ -86,8 +84,6 @@ export XCL_BINDIR = $(XCLBIN_DIR)
 
 # ####################### Setting environment variables for embedded #####################
 ifneq ($(HOST_ARCH), x86)
-SYSROOT := $(SYSROOT)
-PERL ?= perl
 SDCARD := sd_card
 EMU_DIR := $(SDCARD)/data/emulation
 endif
@@ -137,11 +133,7 @@ LDFLAGS += -L$(SYSROOT)/usr/lib -L$(XILINX_VITIS_AIETOOLS)/lib/aarch64.o $(LDXRT
 
 # ################### Setting package and image directory #######################
 EMBEDDED_PACKAGE_OUT = package_$(TARGET)
-ifneq (,$(findstring zc706, $(XDEVICE)))
-K_IMAGE := $(EDGE_COMMON_SW)/uImage
-else
 K_IMAGE := $(EDGE_COMMON_SW)/Image
-endif
 
 EXE_NAME := host.elf
 EXE_FILE := $(BUILD_DIR)/$(EXE_NAME)
@@ -175,21 +167,21 @@ AIE_CONTAINER_OBJS := $(AIE_CONTAINERS)
 ifeq ($(HOST_ARCH), x86)
 all:  check_version check_vpp check_platform check_xrt $(EXE_FILE) $(BINARY_CONTAINERS) emconfig
 else
-all:  check_version check_vpp check_platform check_sysroot $(EXE_FILE) $(BINARY_CONTAINERS) emconfig  sd_card
+all:  check_version check_vpp check_platform check_edge_common_sw $(EXE_FILE) $(BINARY_CONTAINERS) emconfig  sd_card
 endif
 
 .PHONY: host
 ifeq ($(HOST_ARCH), x86)
 host:   check_xrt $(EXE_FILE)
 else
-host:   check_sysroot $(EXE_FILE)
+host:   check_edge_common_sw $(EXE_FILE)
 endif
 
 .PHONY: xclbin
 ifeq ($(HOST_ARCH), x86)
 xclbin: check_vpp  check_xrt $(AIE_CONTAINERS) $(BINARY_CONTAINERS)
 else
-xclbin: check_vpp  check_sysroot $(AIE_CONTAINERS) $(BINARY_CONTAINERS)
+xclbin: check_vpp  check_edge_common_sw $(AIE_CONTAINERS) $(BINARY_CONTAINERS)
 endif
 
 .PHONY: aiesim
@@ -226,7 +218,7 @@ $(BUILD_DIR)/kernel_pkg.xclbin: $(BINARY_CONTAINER_kernel_OBJS) $(AIE_CONTAINER_
 ifeq ($(HOST_ARCH), x86)
 $(EXE_FILE): $(AIE_CONTAINERS) $(HOST_SRCS) | check_xrt 
 else
-$(EXE_FILE): $(AIE_CONTAINERS) $(HOST_SRCS) | check_sysroot 
+$(EXE_FILE): $(AIE_CONTAINERS) $(HOST_SRCS) | check_edge_common_sw 
 endif
 
 	mkdir -p $(BUILD_DIR)
@@ -327,7 +319,6 @@ cleank:
 
 cleanall: cleanh cleank
 	-$(RMDIR) $(BUILD_DIR) sd_card* build_dir.* emconfig.json *.html $(TEMP_DIR) $(CUR_DIR)/reports *.csv *.run_summary $(CUR_DIR)/*.raw package_* run_script.sh .ipcache *.str
-
 	-$(RMDIR) $(AIE_CONTAINERS) $(CUR_DIR)/Work $(CUR_DIR)/*.xpe $(CUR_DIR)/hw.o $(CUR_DIR)/*.xsa $(CUR_DIR)/xnwOut aiesimulator_output .AIE_SIM_CMD_LINE_OPTIONS
 
 clean: cleanh
