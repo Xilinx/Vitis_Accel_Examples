@@ -1,0 +1,24 @@
+{
+    "containers": [
+        {
+            "name": "kernel", 
+            "meet_system_timing": "true", 
+            "accelerators": [
+                {
+                    "name": "mm2s", 
+                    "check_timing": "true", 
+                    "PipelineType": "none", 
+                    "check_latency": "true", 
+                    "check_warning": "false"
+                },
+                {
+                    "name": "s2mm", 
+                    "check_timing": "true", 
+                    "PipelineType": "none", 
+                    "check_latency": "true", 
+                    "check_warning": "false"
+                }
+            ]
+        }
+    ]
+}
