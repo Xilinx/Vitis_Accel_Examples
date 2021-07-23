@@ -19,7 +19,7 @@
                     "check_warning": "false", 
                     "loops": [
                         {
-                            "name": "read_write", 
+                            "name": "read_write_inner", 
                             "PipelineII": "1"
                         }
                     ]

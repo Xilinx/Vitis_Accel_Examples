@@ -49,6 +49,7 @@
                ]
         }
     },
+    "match_makefile": "false",
     "config_make": "config.mk",
     "containers": [
         {
@@ -62,7 +63,8 @@
                     "location": "src/copy_kernel.cpp"
                 }  
             ], 
-            "name": "krnl_vadd"
+            "name": "krnl_vadd",
+            "ldclflags": "--config PROJECT/krnl_vadd.cfg"
         }
     ],
     "launch": [
