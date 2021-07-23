@@ -1,7 +1,7 @@
 {
     "containers": [
         {
-            "name": "validate_bw_sb", 
+            "name": "combine_bw_sb", 
             "meet_system_timing": "true", 
             "accelerators": [
                 {
@@ -19,7 +19,7 @@
                     "check_warning": "false", 
                     "loops": [
                         {
-                            "name": "read_write", 
+                            "name": "read_write_inner", 
                             "PipelineII": "1"
                         }
                     ]
@@ -32,7 +32,7 @@
                     "check_warning": "false", 
                     "loops": [
                         {
-                            "name": "read_write", 
+                            "name": "read_write_inner", 
                             "PipelineII": "1"
                         }
                     ]
