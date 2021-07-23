@@ -78,7 +78,6 @@ VPP_PFLAGS :=
 CMD_ARGS = -x $(BUILD_DIR)/krnl_vadd.xclbin
 
 include $(XF_PROJ_ROOT)/common/includes/opencl/opencl.mk
-include config.mk
 
 CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++1y
 LDFLAGS += $(opencl_LDFLAGS)
@@ -136,6 +135,9 @@ ifneq ($(TARGET), hw)
 endif
 
 
+# Kernel linker flags
+VPP_LDFLAGS += --config ./krnl_vadd.cfg
+include config.mk
 
 EXECUTABLE = ./slave_bridge_copy_kernel_xrt
 EMCONFIG_DIR = $(TEMP_DIR)

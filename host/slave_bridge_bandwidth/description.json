@@ -46,6 +46,7 @@
         "host_exe": "slave_bridge_bw.exe"
     },
     "config_make": "config.mk",
+    "match_makefile": "false",
     "match_ini": "false",
     "containers": [
         {
@@ -64,7 +65,8 @@
                 }
 
             ], 
-            "name": "bandwidth"
+            "name": "bandwidth",
+            "ldclflags": "--config PROJECT/krnl_bandwidth.cfg"
         }
     ],
     "launch": [

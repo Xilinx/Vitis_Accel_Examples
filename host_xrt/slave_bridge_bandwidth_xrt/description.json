@@ -54,6 +54,7 @@
                ]
         }
     },
+    "match_makefile": "false",
     "config_make": "config.mk",
     "containers": [
         {
@@ -72,7 +73,8 @@
                 }
 
             ], 
-            "name": "bandwidth"
+            "name": "bandwidth",
+            "ldclflags": "--config PROJECT/bandwidth.cfg"
         }
     ],
     "launch": [
