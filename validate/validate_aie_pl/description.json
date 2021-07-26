@@ -112,6 +112,10 @@
     ],
     "match_makefile": "false",
     "match_ini" : "false",
+    "targets": [
+        "hw", 
+        "hw_emu"
+    ], 
     "testinfo": {
         "disable": false, 
         "jobs": [
