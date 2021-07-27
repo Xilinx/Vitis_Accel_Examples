@@ -807,14 +807,6 @@ def util_checks(target):
     target.write("endif\n")
     target.write("\n")
 
-    target.write("#Checks for Device Family\n")
-    target.write("ifeq ($(HOST_ARCH), aarch32)\n")
-    target.write("\tDEV_FAM = 7Series\n")
-    target.write("else ifeq ($(HOST_ARCH), aarch64)\n")
-    target.write("\tDEV_FAM = Ultrascale\n")
-    target.write("endif\n")
-    target.write("\n")
-
     target.write("#Checks for XILINX_XRT\n")
     target.write("check-xrt:\n")
     target.write("ifeq ($(HOST_ARCH), x86)\n")
