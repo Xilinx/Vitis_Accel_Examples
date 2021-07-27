@@ -272,11 +272,7 @@ endif
 
 sd_card: $(BINARY_CONTAINERS) $(EXECUTABLE) gen_run_app
 ifneq ($(HOST_ARCH), x86)
-<<<<<<< HEAD
-	$(VPP) $(VPP_PFLAGS) -p $(BUILD_DIR)/testKernel.xclbin -t $(TARGET) --platform $(DEVICE) --package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.sd_file $(SD_IMAGE_FILE) --package.sd_file xrt.ini --package.sd_file $(RUN_APP_SCRIPT) --package.sd_file $(EXECUTABLE) -o testKernel.xclbin
-=======
 	make $(BUILD_DIR)/$(PACKAGE_OUT)/test_kernel_maxi_512bit.xclbin
->>>>>>> 3af355b78cc6cd8246021c7ad896350aab0128c7
 endif
 
 ############################## Cleaning Rules ##############################
