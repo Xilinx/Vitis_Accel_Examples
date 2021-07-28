@@ -87,6 +87,7 @@ ifneq ($(HOST_ARCH), x86)
 SDCARD := sd_card
 EMU_DIR := $(SDCARD)/data/emulation
 endif
+RUN_APP_SCRIPT = ./run_script.sh
 
 # ######################### Setting up Host Variables #########################
 #Include Required Host Source Files
