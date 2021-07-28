@@ -15,12 +15,12 @@
 */
 #include <ap_int.h>
 
-auto constexpr DATAWIDTH = 512;
+auto constexpr DATAWIDTH = 64;
 using TYPE = ap_uint<DATAWIDTH>;
 
 extern "C" {
 void bandwidth(TYPE* input, TYPE* output, unsigned int buf_size, unsigned int reps) {
-    unsigned int num_blocks = (buf_size - 1) / 64 + 1;
+    unsigned int num_blocks = (buf_size - 1) / 8 + 1;
 read_write_outer:
     for (int repindex = 0; repindex < reps; repindex++) {
     read_write_inner:
