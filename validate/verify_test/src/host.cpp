@@ -13,33 +13,66 @@
 * License for the specific language governing permissions and limitations
 * under the License.
 */
-#include "cmdlineparser.h"
 #include "xcl2.hpp"
 #include <algorithm>
 #include <vector>
+#include <getopt.h>
 #define LENGTH 64
 
+const static struct option long_options[] = {{"path", required_argument, 0, 'p'},
+                                             {"device", required_argument, 0, 'd'},
+                                             {"supported", no_argument, 0, 's'},
+                                             {0, 0, 0, 0}};
+
+static void printHelp() {
+    std::cout << "usage: %s <options>\n";
+    std::cout << "  -p <platform_test_area_path>\n";
+    std::cout << "  -d <device> \n";
+    std::cout << "  -s <check_supported>\n";
+}
+
 int main(int argc, char** argv) {
-    if (argc < 2) {
-        std::cout << "Usage: " << argv[0] << " <Platform Test Area Path>"
-                  << "<optional> -d device_id" << std::endl;
+    int option_index = 0;
+    std::string dev_id = "0";
+    std::string test_path = argv[1];
+    std::string b_file = "/verify.xclbin";
+    bool flag_s = false;
+    bool flag_p = false;
+    // Commandline
+    int c;
+    while ((c = getopt_long(argc, argv, "p:d:s", long_options, &option_index)) != -1) {
+        switch (c) {
+            case 'p':
+                test_path = optarg;
+                flag_p = true;
+                break;
+            case 'd':
+                dev_id = optarg;
+                break;
+            case 's':
+                flag_s = true;
+                break;
+            default:
+                printHelp();
+                return 1;
+        }
+    }
+    if (!flag_p) {
+        std::cout << "ERROR : please provide the platform test path to -p option\n";
         return EXIT_FAILURE;
     }
+    if (flag_s) {
+        std::string binaryFile = test_path + b_file;
+        std::ifstream infile(binaryFile);
+        if (!infile.good()) {
+            std::cout << "\nNOT SUPPORTED" << std::endl;
+            return EOPNOTSUPP;
+        } else {
+            std::cout << "\nSUPPORTED" << std::endl;
+            return EXIT_SUCCESS;
+        }
+    }
 
-    // Command Line Parser
-    sda::utils::CmdLineParser parser;
-
-    // Switches
-    //**************//"<Full Arg>",  "<Short Arg>", "<Description>", "<Default>"
-    parser.addSwitch("--device", "-d", "device id", "0");
-    parser.parse(argc, argv);
-
-    // Read settings
-    std::string dev_id = parser.value("device");
-
-    std::string test_path = argv[1];
-
-    std::string b_file = "/verify.xclbin";
     std::string binaryFile = test_path + b_file;
     std::ifstream infile(binaryFile);
     if (!infile.good()) {

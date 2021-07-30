@@ -34,7 +34,7 @@ Once the environment has been configured, the application can be executed by
 
 ::
 
-   ./kernel_bw.exe platform_test_path
+   ./kernel_bw.exe -p $(GEN_DIR)
 
 DETAILS
 -------

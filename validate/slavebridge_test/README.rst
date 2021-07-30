@@ -42,7 +42,7 @@ Once the environment has been configured, the application can be executed by
 
 ::
 
-   ./slavebridge.exe platform_test_path
+   ./slavebridge.exe -p $(GEN_DIR)
 
 DETAILS
 -------

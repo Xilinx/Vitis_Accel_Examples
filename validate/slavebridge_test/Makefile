@@ -116,9 +116,7 @@ endif
 ############################## Setting up Host Variables ##############################
 #Include Required Host Source Files
 CXXFLAGS += -I$(XF_PROJ_ROOT)/common/includes/xcl2
-CXXFLAGS += -I$(XF_PROJ_ROOT)/common/includes/cmdparser
-CXXFLAGS += -I$(XF_PROJ_ROOT)/common/includes/logger
-HOST_SRCS += $(XF_PROJ_ROOT)/common/includes/xcl2/xcl2.cpp $(XF_PROJ_ROOT)/common/includes/cmdparser/cmdlineparser.cpp $(XF_PROJ_ROOT)/common/includes/logger/logger.cpp ./src/host.cpp 
+HOST_SRCS += $(XF_PROJ_ROOT)/common/includes/xcl2/xcl2.cpp ./src/host.cpp 
 # Host compiler global settings
 CXXFLAGS += -fmessage-length=0
 LDFLAGS += -lrt -lstdc++ 
@@ -137,7 +135,7 @@ endif
 
 
 EXECUTABLE = ./slavebridge.exe
-CMD_ARGS = platform_test_path
+CMD_ARGS = -p $(GEN_DIR) 
 EMCONFIG_DIR = $(TEMP_DIR)
 
 ############################## Declaring Binary Containers ##############################
@@ -186,18 +184,18 @@ $(EMCONFIG_DIR)/emconfig.json:
 run: all
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 	$(CP) $(EMCONFIG_DIR)/emconfig.json .
-	XCL_EMULATION_MODE=$(TARGET) $(EXECUTABLE) $(GEN_DIR) 
+	XCL_EMULATION_MODE=$(TARGET) $(EXECUTABLE) $(CMD_ARGS) 
 else
-	$(EXECUTABLE) $(GEN_DIR)
+	$(EXECUTABLE) $(CMD_ARGS)
 endif
 
 
 .PHONY: test
 test: $(EXECUTABLE)
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
-	XCL_EMULATION_MODE=$(TARGET) $(EXECUTABLE) $(GEN_DIR)
+	XCL_EMULATION_MODE=$(TARGET) $(EXECUTABLE) $(CMD_ARGS)
 else
-	$(EXECUTABLE) $(GEN_DIR)
+	$(EXECUTABLE) $(CMD_ARGS)
 endif
 
 

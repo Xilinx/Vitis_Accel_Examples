@@ -32,7 +32,7 @@ Once the environment has been configured, the application can be executed by
 
 ::
 
-   ./validate.exe platform_test_path
+   ./validate.exe -p $(GEN_DIR)
 
 DETAILS
 -------
