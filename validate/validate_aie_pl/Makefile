@@ -133,7 +133,7 @@ LDFLAGS += -L$(SYSROOT)/usr/lib -L$(XILINX_VITIS_AIETOOLS)/lib/aarch64.o $(LDXRT
 
 
 # ################### Setting package and image directory #######################
-EMBEDDED_PACKAGE_OUT = package_$(TARGET)
+PACKAGE_OUT = package_$(TARGET)
 K_IMAGE := $(EDGE_COMMON_SW)/Image
 
 EXE_NAME := host.elf
@@ -259,7 +259,7 @@ ifeq ($(TARGET),$(filter $(TARGET), aiesim))
 endif
 ifeq ($(TARGET),$(filter $(TARGET), hw_emu))
 	export XCL_EMULATION_MODE=$(TARGET)
-	./$(EMBEDDED_PACKAGE_OUT)/launch_$(TARGET).sh -noc-memory-config qemu-memory-_ddr@0x00000000 -no-reboot -run-app ./run_script.sh | tee run_app.log; exit $${PIPESTATUS[0]}
+	./$(PACKAGE_OUT)/launch_$(TARGET).sh -noc-memory-config qemu-memory-_ddr@0x00000000 -no-reboot -run-app ./run_script.sh | tee run_app.log; exit $${PIPESTATUS[0]}
 endif
 ifeq ($(TARGET),$(filter $(TARGET), hw))
 ifeq ($(HOST_ARCH), x86)
@@ -283,7 +283,7 @@ PACKAGE_FILES += $(AIE_CONTAINERS)
 sd_card: host xclbin emconfig
 ifneq ($(HOST_ARCH), x86)
 	@echo "Generating sd_card folder...."
-	mkdir -p $(EMBEDDED_PACKAGE_OUT)
+	mkdir -p $(PACKAGE_OUT)
 	rm -rf run_script.sh
 	@echo 'export LD_LIBRARY_PATH=/mnt:/tmp:$$LD_LIBRARY_PATH' >> run_script.sh
 ifeq ($(TARGET), $(filter $(TARGET),sw_emu hw_emu))
@@ -303,7 +303,7 @@ endif
 	@echo 'echo "INFO: Embedded host run completed."' >> run_script.sh
 	@echo 'exit $$return_code' >> run_script.sh
 	chmod a+rx run_script.sh
-	$(VPP) -t $(TARGET) --platform $(DEVICE) -o $(BINARY_CONTAINERS_PKG) -p $(PACKAGE_FILES) --package.defer_aie_run --package.out_dir $(EMBEDDED_PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.kernel_image $(K_IMAGE) --package.boot_mode sd $(SD_FILES_WITH_PREFIX) $(SD_DIRS_WITH_PREFIX)
+	$(VPP) -t $(TARGET) --platform $(DEVICE) -o $(BINARY_CONTAINERS_PKG) -p $(PACKAGE_FILES) --package.defer_aie_run --package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.kernel_image $(K_IMAGE) --package.boot_mode sd $(SD_FILES_WITH_PREFIX) $(SD_DIRS_WITH_PREFIX)
 	@echo "### ***** sd_card generation done! ***** ###"
 endif
 
