@@ -20,3 +20,27 @@ Using the ``sp`` option  in the platform_bandwidth.cfg file AXI-Master Port is c
    sp=bandwidth_4.input:HP3
    sp=bandwidth_4.output:HP3
 
+Following is the real log reported while running the design on zcu102_base platform:
+
+:: 
+
+   INFO: Starting the Verify test....
+   INFO: Found Platform
+   INFO: Platform Name: Xilinx
+   INFO: Platform Version: OpenCL 1.0
+   INFO: Platform Profile: EMBEDDED_PROFILE
+   INFO: Platform Extensions: cl_khr_icd
+   INFO: INFO: Reading validate_zcu.xclbin
+   INFO: Loading: 'validate_zcu.xclbin'
+   INFO: Trying to program device edge
+   INFO: Device program successful!
+   INFO: Hello World
+   INFO:
+   INFO: Starting the Bandwidth test....
+   INFO: Creating a kernel [bandwidth:{bandwidth_1}] for CU(1)
+   INFO: Creating a kernel [bandwidth:{bandwidth_2}] for CU(2)
+   INFO: Creating a kernel [bandwidth:{bandwidth_3}] for CU(3)
+   INFO: Creating a kernel [bandwidth:{bandwidth_4}] for CU(4)
+   INFO: Concurrent read and write throughput: 7318.5MB/s
+   INFO: TEST PASSED
+   INFO: INFO: host run completed.
