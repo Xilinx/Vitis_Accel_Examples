@@ -689,7 +689,7 @@ def mk_sdcard(target, data):
             target.write("\t$(VPP) $(VPP_PFLAGS) -p $(BUILD_DIR)/")
             target.write(con["name"])
             target.write(".xclbin -t $(TARGET) --platform $(DEVICE) ")
-            target.write("--package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.sd_file $(SD_IMAGE_FILE) --package.sd_file xrt.ini --package.sd_file $(RUN_APP_SCRIPT) --package.sd_file $(EXECUTABLE)")
+            target.write("--package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.sd_file $(SD_IMAGE_FILE) --package.sd_file xrt.ini --package.sd_file $(RUN_APP_SCRIPT) --package.sd_file $(EXECUTABLE) --package.sd_file $(EMCONFIG_DIR)/emconfig.json")
             for extra_filename in extra_file_list:
                 if ('-' not in extra_filename):
                     target.write(" --package.sd_file ")

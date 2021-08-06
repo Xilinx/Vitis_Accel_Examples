@@ -188,6 +188,7 @@ ifeq (${TARGET},hw_emu)
 		--package.defer_aie_run \
 		--package.sd_dir /proj/xbuilds/2021.1_daily_latest/internal_platforms/sw/versal/xrt \
 		--package.sd_file $(RUN_APP_SCRIPT) \
+		--package.sd_file $(EMCONFIG_DIR)/emconfig.json \
 		--package.sd_file aie_adder $(XCLBIN) $(GRAPH_O) -o krnl_adder.xclbin
 	@echo "COMPLETE: hw_emu package created."
 else
