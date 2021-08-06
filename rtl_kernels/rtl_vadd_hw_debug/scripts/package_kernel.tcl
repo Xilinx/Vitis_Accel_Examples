@@ -40,16 +40,6 @@ foreach up [ipx::get_user_parameters] {
 ipx::associate_bus_interfaces -busif m_axi_gmem -clock ap_clk $core
 ipx::associate_bus_interfaces -busif s_axi_control -clock ap_clk $core
 
-# Specify the freq_hz parameter 
-set clkbif      [::ipx::get_bus_interfaces -of $core "ap_clk"]
-set clkbifparam [::ipx::add_bus_parameter -quiet "FREQ_HZ" $clkbif]
-# Set desired frequency                   
-set_property value 250000000 $clkbifparam
-# set value_resolve_type 'user' if the frequency can vary. 
-set_property value_resolve_type user $clkbifparam
-# set value_resolve_type 'immediate' if the frequency cannot change. 
-# set_property value_resolve_type immediate $clkbifparam
-
 set mem_map    [::ipx::add_memory_map -quiet "s_axi_control" $core]
 set addr_block [::ipx::add_address_block -quiet "reg0" $mem_map]
 
