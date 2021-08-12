@@ -84,21 +84,21 @@ ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 	$(ECHO) 'export XILINX_VITIS=$$PWD' >> run_app.sh
 	$(ECHO) 'export XCL_EMULATION_MODE=$(TARGET)' >> run_app.sh
 endif
-	target.write("\t$(ECHO) 'if [ -d xrt/aarch64-xilinx-linux/ ]' >> run_app.sh\n")	
-        target.write("\t$(ECHO) 'then' >> run_app.sh\n")	
-        target.write("\t$(ECHO) 'cd xrt/aarch64-xilinx-linux/' >> run_app.sh\n")	
-        target.write("\t$(ECHO) 'elif [ -d xrt/versal ]' >> run_app.sh\n")	
-        target.write("\t$(ECHO) 'then' >> run_app.sh\n")	
-        target.write("\t$(ECHO) 'cd xrt/versal' >> run_app.sh\n")	
-        target.write("\t$(ECHO) 'elif [ xrt/cortexa9t2hf-neon-xilinx-linux-gnueabi  ]' >> run_app.sh\n")	
-        target.write("\t$(ECHO) 'then' >> run_app.sh\n")	
-        target.write("\t$(ECHO) 'cd xrt/cortexa9t2hf-neon-xilinx-linux-gnueabi/' >> run_app.sh\n")	
-        target.write("\t$(ECHO) 'else' >> run_app.sh\n")	
-        target.write("\t$(ECHO) 'echo \"unable to find xrt folder sub directories\"' >> run_app.sh\n")	
-        target.write("\t$(ECHO) 'fi' >> run_app.sh\n")	
-        target.write("\t$(ECHO) './reinstall_xrt.sh' >> run_app.sh\n")	
-        target.write("\t$(ECHO) 'return_code=$$?' >> run_app.sh\n")	
-        target.write("\t$(ECHO) 'cd -' >> run_app.sh\n")
+	$(ECHO) 'if [ -d xrt/aarch64-xilinx-linux/ ]' >> run_app.sh
+	$(ECHO) 'then' >> run_app.sh
+	$(ECHO) 'cd xrt/aarch64-xilinx-linux/' >> run_app.sh
+	$(ECHO) 'elif [ -d xrt/versal ]' >> run_app.sh
+	$(ECHO) 'then' >> run_app.sh
+	$(ECHO) 'cd xrt/versal' >> run_app.sh
+	$(ECHO) 'elif [ xrt/cortexa9t2hf-neon-xilinx-linux-gnueabi  ]' >> run_app.sh
+	$(ECHO) 'then' >> run_app.sh
+	$(ECHO) 'cd xrt/cortexa9t2hf-neon-xilinx-linux-gnueabi/' >> run_app.sh
+	$(ECHO) 'else' >> run_app.sh
+	$(ECHO) 'echo "unable to find xrt folder sub directories"' >> run_app.sh
+	$(ECHO) 'fi' >> run_app.sh
+	$(ECHO) './reinstall_xrt.sh' >> run_app.sh
+	$(ECHO) 'return_code=$$?' >> run_app.sh
+	$(ECHO) 'cd -' >> run_app.sh
 	$(ECHO) 'dmesg -n 4 && echo "Hide DRM messages..."' >> run_app.sh
 	$(ECHO) '$(EXECUTABLE) krnl_adder.xclbin' >> run_app.sh
 	$(ECHO) 'return_code=$$?' >> run_app.sh
