@@ -75,11 +75,22 @@ def create_cfg(data):
                         Memory_list[1] = int(feature_support["HOST"])
                     if "HBM" in feature_support and (filename!='slavebridge'):
                         Memory_list[2] = int(feature_support["HBM"])
+    elif "hardwarePlatforms" in data:
+        if "hardwarePlatform" in data["hardwarePlatforms"]:
+            if "extensions" in data["hardwarePlatforms"]["hardwarePlatform"]:
+                if "raptor2" in data["hardwarePlatforms"]["hardwarePlatform"]["extensions"]:
+                    if "feature_support" in data["hardwarePlatforms"]["hardwarePlatform"]["extensions"]["raptor2"]:
+                        feature_support = data["hardwarePlatforms"]["hardwarePlatform"]["extensions"]["raptor2"]["feature_support"]
+                     	if "DDR" in feature_support and (filename!='slavebridge'):
+                       	    Memory_list[0] = int(feature_support["DDR"])
+                    	if "HOST" in feature_support and (filename=='slavebridge'):
+                            Memory_list[1] = int(feature_support["HOST"])
+                    	if "HBM" in feature_support and (filename!='slavebridge'):
+                            Memory_list[2] = int(feature_support["HBM"])
     
     Total_banks = Memory_list[0] + Memory_list[1]
     if Memory_list[2] != 0:
         Total_banks += 1
-
     if Total_banks:
         target = open("platform_"+filename+".cfg","w+")
         target.write("[connectivity]\n")
@@ -125,6 +136,18 @@ def create_json(data):
                         Memory_list[1] = int(feature_support["HOST"])
                     if "HBM" in feature_support:
                         Memory_list[2] = int(feature_support["HBM"])
+    elif "hardwarePlatforms" in data:
+        if "hardwarePlatform" in data["hardwarePlatforms"]:
+            if "extensions" in data["hardwarePlatforms"]["hardwarePlatform"]:
+                if "raptor2" in data["hardwarePlatforms"]["hardwarePlatform"]["extensions"]:
+                    if "feature_support" in data["hardwarePlatforms"]["hardwarePlatform"]["extensions"]["raptor2"]:
+                        feature_support = data["hardwarePlatforms"]["hardwarePlatform"]["extensions"]["raptor2"]["feature_support"]
+                     	if "DDR" in feature_support and (filename!='slavebridge'):
+                       	    Memory_list[0] = int(feature_support["DDR"])
+                    	if "HOST" in feature_support and (filename=='slavebridge'):
+                            Memory_list[1] = int(feature_support["HOST"])
+                    	if "HBM" in feature_support and (filename!='slavebridge'):
+                            Memory_list[2] = int(feature_support["HBM"])
     
     Total_ddr_banks = Memory_list[0]
     Total_host_banks =  Memory_list[1]
