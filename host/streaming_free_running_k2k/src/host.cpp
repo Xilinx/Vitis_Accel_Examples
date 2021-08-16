@@ -64,7 +64,7 @@ int main(int argc, char** argv) {
     cl_int err;
     cl::CommandQueue q;
     cl::Context context;
-    cl::Kernel krnl_increment, krnl_mem_read, krnl_mem_write;
+    cl::Kernel krnl_mem_read, krnl_mem_write;
 
     // Reducing the data size for emulation mode
     char* xcl_mode = getenv("XCL_EMULATION_MODE");
@@ -107,7 +107,6 @@ int main(int argc, char** argv) {
             std::cout << "Failed to program device[" << i << "] with xclbin file!\n";
         } else {
             std::cout << "Device[" << i << "]: program successful!\n";
-            OCL_CHECK(err, krnl_increment = cl::Kernel(program, "increment", &err));
             OCL_CHECK(err, krnl_mem_read = cl::Kernel(program, "mem_read", &err));
             OCL_CHECK(err, krnl_mem_write = cl::Kernel(program, "mem_write", &err));
             valid_device = true;
