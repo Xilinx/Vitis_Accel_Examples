@@ -360,6 +360,11 @@ def building_kernel(target, data):
             target.write("--package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/" + con["name"] + ".xclbin\n")
             target.write("else\n")
             target.write("\t$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) ")
+            if "accelerators" in con:
+                for acc in con["accelerators"]:
+                    if "compute_units" in acc or "num_compute_units" in acc:
+                        target.write(" $(VPP_LDFLAGS_"+con["name"]+") ")
+                        break
             target.write("-o'$(BUILD_DIR)/" + con["name"] + ".xclbin' $(+)\n")
             target.write("endif\n")
     target.write("\n")
