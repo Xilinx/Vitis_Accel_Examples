@@ -164,7 +164,7 @@ ifeq ($(HOST_ARCH), x86)
 	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR)  $(VPP_LDFLAGS_krnl_host_global) -o'$(BUILD_DIR)/krnl_host_global.link.xclbin' $(+)
 	$(VPP) -p $(BUILD_DIR)/krnl_host_global.link.xclbin -t $(TARGET) --platform $(DEVICE) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/krnl_host_global.xclbin
 else
-	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) -o'$(BUILD_DIR)/krnl_host_global.xclbin' $(+)
+	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR)  $(VPP_LDFLAGS_krnl_host_global) -o'$(BUILD_DIR)/krnl_host_global.xclbin' $(+)
 endif
 
 ############################## Setting Rules for Host (Building Host Executable) ##############################
