@@ -90,7 +90,6 @@ int main(int argc, char** argv) {
     // Allocate Memory in Host Memory
     std::vector<int> source_sw_results(data_size);
 
-    auto increment_kernel = xrt::kernel(device, uuid, "increment");
     auto mem_read = xrt::kernel(device, uuid, "mem_read");
     auto mem_write = xrt::kernel(device, uuid, "mem_write");
 
