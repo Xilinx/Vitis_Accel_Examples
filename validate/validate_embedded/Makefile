@@ -53,7 +53,7 @@ help::
 ############################## Setting up Project Variables ##############################
 # Points to top directory of Git repository
 MK_PATH := $(abspath $(lastword $(MAKEFILE_LIST)))
-COMMON_REPO ?= $(shell bash -c 'export MK_PATH=$(MK_PATH); echo $${MK_PATH%validate/validate_zcu/*}')
+COMMON_REPO ?= $(shell bash -c 'export MK_PATH=$(MK_PATH); echo $${MK_PATH%validate/validate_embedded/*}')
 PWD = $(shell readlink -f .)
 XF_PROJ_ROOT = $(shell readlink -f $(COMMON_REPO))
 
@@ -106,7 +106,7 @@ endif
 ifeq ($(findstring 2018, $(DEVICE)), 2018)
 $(error [ERROR]: This example is not supported for $(DEVICE).)
 endif
-ifeq ($(findstring vck, $(DEVICE)), vck)
+ifeq ($(findstring vck5000, $(DEVICE)), vck5000)
 $(error [ERROR]: This example is not supported for $(DEVICE).)
 endif
 
