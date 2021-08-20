@@ -32,12 +32,12 @@ Description:
     This is required for to load/compute/store functions to execute in a parallel
     and pipelined manner.
 
-    The kernel operates on vectors of 16 integers modeled using the hls::vector
-    data type. This datatype provides intuitive support for SIMD parallelism and
-    fits well the vector-add computation. The SIMD vector length is set to 16
-    since 16 integers amount to a total of 64 bytes, which is the maximum size of
+    The kernel operates on vectors of NUM_WORDS integers modeled using the hls::vector
+    data type. This datatype provides intuitive support for parallelism and
+    fits well the vector-add computation. The vector length is set to NUM_WORDS
+    since NUM_WORDS integers amount to a total of 64 bytes, which is the maximum size of
     a kernel port. It is a good practice to match the compute bandwidth to the I/O
-    bandwidth. Here the kernel loads, computes and stores 16 integer values per
+    bandwidth. Here the kernel loads, computes and stores NUM_WORDS integer values per
     clock cycle and is implemented as below:
                                        _____________
                                       |             |<----- Input Vector 1 from Global Memory
@@ -63,13 +63,17 @@ Input Vector 2 from Global Memory --->|             |      |__|
 #include <hls_stream.h>
 #include "assert.h"
 
+#define MEMORY_DWIDTH 512
+#define SIZEOF_WORD 4
+#define NUM_WORDS ((MEMORY_DWIDTH) / (8 * SIZEOF_WORD))
+
 #define DATA_SIZE 4096
 
 // TRIPCOUNT identifier
 const int c_size = DATA_SIZE;
 
-static void load_input(hls::vector<unsigned int, 16>* in,
-                       hls::stream<hls::vector<unsigned int, 16> >& inStream,
+static void load_input(hls::vector<uint32_t, NUM_WORDS>* in,
+                       hls::stream<hls::vector<uint32_t, NUM_WORDS> >& inStream,
                        int vSize) {
 mem_rd:
     for (int i = 0; i < vSize; i++) {
@@ -78,12 +82,12 @@ mem_rd:
     }
 }
 
-static void compute_add(hls::stream<hls::vector<unsigned int, 16> >& in1_stream,
-                        hls::stream<hls::vector<unsigned int, 16> >& in2_stream,
-                        hls::stream<hls::vector<unsigned int, 16> >& out_stream,
+static void compute_add(hls::stream<hls::vector<uint32_t, NUM_WORDS> >& in1_stream,
+                        hls::stream<hls::vector<uint32_t, NUM_WORDS> >& in2_stream,
+                        hls::stream<hls::vector<uint32_t, NUM_WORDS> >& out_stream,
                         int vSize) {
-// The kernel is operating with SIMD vectors of 16 integers. The + operator performs
-// an element-wise add, resulting in 16 parallel additions.
+// The kernel is operating with vector of NUM_WORDS integers. The + operator performs
+// an element-wise add, resulting in NUM_WORDS parallel additions.
 execute:
     for (int i = 0; i < vSize; i++) {
 #pragma HLS LOOP_TRIPCOUNT min = c_size max = c_size
@@ -91,8 +95,8 @@ execute:
     }
 }
 
-static void store_result(hls::vector<unsigned int, 16>* out,
-                         hls::stream<hls::vector<unsigned int, 16> >& out_stream,
+static void store_result(hls::vector<uint32_t, NUM_WORDS>* out,
+                         hls::stream<hls::vector<uint32_t, NUM_WORDS> >& out_stream,
                          int vSize) {
 mem_wr:
     for (int i = 0; i < vSize; i++) {
@@ -113,22 +117,22 @@ extern "C" {
         size (input)  --> Number of elements in vector
 */
 
-void vadd(hls::vector<unsigned int, 16>* in1,
-          hls::vector<unsigned int, 16>* in2,
-          hls::vector<unsigned int, 16>* out,
+void vadd(hls::vector<uint32_t, NUM_WORDS>* in1,
+          hls::vector<uint32_t, NUM_WORDS>* in2,
+          hls::vector<uint32_t, NUM_WORDS>* out,
           int size) {
 #pragma HLS INTERFACE m_axi port = in1 bundle = gmem0
 #pragma HLS INTERFACE m_axi port = in2 bundle = gmem1
 #pragma HLS INTERFACE m_axi port = out bundle = gmem0
 
-    static hls::stream<hls::vector<unsigned int, 16> > in1_stream("input_stream_1");
-    static hls::stream<hls::vector<unsigned int, 16> > in2_stream("input_stream_2");
-    static hls::stream<hls::vector<unsigned int, 16> > out_stream("output_stream");
+    static hls::stream<hls::vector<uint32_t, NUM_WORDS> > in1_stream("input_stream_1");
+    static hls::stream<hls::vector<uint32_t, NUM_WORDS> > in2_stream("input_stream_2");
+    static hls::stream<hls::vector<uint32_t, NUM_WORDS> > out_stream("output_stream");
 
-    // Since 16 values are processed
-    // in parallel per loop iteration, the for loop only needs to iterate 'size / 16' times.
-    assert(size % 16 == 0);
-    int vSize = size / 16;
+    // Since NUM_WORDS values are processed
+    // in parallel per loop iteration, the for loop only needs to iterate 'size / NUM_WORDS' times.
+    assert(size % NUM_WORDS == 0);
+    int vSize = size / NUM_WORDS;
 #pragma HLS dataflow
 
     load_input(in1, in1_stream, vSize);

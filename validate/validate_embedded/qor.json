@@ -1,7 +1,7 @@
 {
     "containers": [
         {
-            "name": "validate_zcu", 
+            "name": "validate", 
             "meet_system_timing": "true", 
             "accelerators": [
                 {

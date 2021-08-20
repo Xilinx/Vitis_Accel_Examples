@@ -14,6 +14,8 @@
 * under the License.
 */
 #include "cmdlineparser.h"
+#include <boost/property_tree/json_parser.hpp>
+#include <boost/property_tree/ptree.hpp>
 #include "xcl2.hpp"
 #include <algorithm>
 #include <vector>
@@ -122,7 +124,23 @@ int main(int argc, char** argv) {
     }
 
     std::cout << "\nStarting the Bandwidth test....\n";
-    int NUM_KERNEL = 4;
+    int NUM_KERNEL;
+
+    std::string platform_json = "platform.json";
+
+    try {
+        boost::property_tree::ptree loadPtreeRoot;
+        boost::property_tree::read_json(platform_json, loadPtreeRoot);
+        boost::property_tree::ptree temp;
+
+        temp = loadPtreeRoot.get_child("total_ddr_banks");
+        NUM_KERNEL = temp.get_value<int>();
+    } catch (const std::exception& e) {
+        std::string msg("ERROR: Bad JSON format detected while marshaling build metadata (");
+        msg += e.what();
+        msg += ").";
+        std::cout << msg << std::endl;
+    }
 
     std::string krnl_name = "bandwidth";
     std::vector<cl::Kernel> krnls(NUM_KERNEL);
