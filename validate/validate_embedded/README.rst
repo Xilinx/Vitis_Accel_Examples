@@ -38,18 +38,14 @@ Once the environment has been configured, the application can be executed by
 
 ::
 
-   ./validate_zcu.exe -x <validate_zcu XCLBIN>
+   ./validate.exe -x <validate XCLBIN>
 
 DETAILS
 -------
 
-This example contains verify test and bandwidth test to validate EDGE platforms.
+This example contains verify test and bandwidth test to validate embedded platforms.
 
-In the verify test we have extremely simple HLS C Kernel to verify that the platform has basic functionality. It will make a call to the kernel with an empty global buffer. The kernel will then write the string of characters "Hello World" into the buffer and return. The host will copy this buffer locally and then print out the resulting buffer contents.
-
-In the bandwidth test we try to get the maximum possible bandwidth between Kernel and Global Memory.
-
-Using the ``sp`` option  in the platform_bandwidth.cfg file AXI-Master Port is connected to the IP. 
+Using the ``sp`` option  in the zcu102_base_dfx.cfg file AXI-Master Port is connected to the IP. 
 
 ::
 
@@ -62,7 +58,7 @@ Using the ``sp`` option  in the platform_bandwidth.cfg file AXI-Master Port is c
    sp=bandwidth_4.input:HP3
    sp=bandwidth_4.output:HP3
 
-Following is the real log reported while running the design on zcu102_base platform:
+Following is the real log reported while running the design on zcu102_base_dfx platform:
 
 :: 
 
@@ -72,8 +68,8 @@ Following is the real log reported while running the design on zcu102_base platf
    INFO: Platform Version: OpenCL 1.0
    INFO: Platform Profile: EMBEDDED_PROFILE
    INFO: Platform Extensions: cl_khr_icd
-   INFO: INFO: Reading validate_zcu.xclbin
-   INFO: Loading: 'validate_zcu.xclbin'
+   INFO: INFO: Reading validate.xclbin
+   INFO: Loading: 'validate.xclbin'
    INFO: Trying to program device edge
    INFO: Device program successful!
    INFO: Hello World

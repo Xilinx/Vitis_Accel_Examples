@@ -37,7 +37,7 @@
                 "REPO_DIR/common/includes/logger"
             ]
         }, 
-        "host_exe": "validate_zcu.exe"
+        "host_exe": "validate.exe"
     },
     "containers": [
         {
@@ -51,13 +51,13 @@
                     "location": "src/bandwidth.cpp"
                 } 
             ], 
-            "name": "validate_zcu"
+            "name": "validate"
         }
     ],
     "config_make": "config.mk",
     "launch": [
         {
-            "cmd_args": "-x BUILD/validate_zcu.xclbin", 
+            "cmd_args": "-x BUILD/validate.xclbin", 
             "name": "generic launch for all flows"
         }
     ], 
