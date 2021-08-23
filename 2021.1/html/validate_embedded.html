@@ -57,8 +57,8 @@
   <link rel="stylesheet" href="_static/css/pro.min.css" media="all" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Verify Kernel" href="verify_test.html" />
-    <link rel="prev" title="Bandwidth Kernel" href="bandwidth_test.html" /> 
+    <link rel="next" title="Common Files" href="common.html" />
+    <link rel="prev" title="Verify Kernel" href="verify_test.html" /> 
 	</head>
 	<body>
 		<div class="xilinx-bs3"/>
@@ -352,14 +352,14 @@
 <li class="toctree-l1"><a class="reference internal" href="ocl.html">OpenCL Kernels</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="validate.html">Validate</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="bandwidth_test.html">Bandwidth Kernel</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Slave Bridge</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="slavebridge_test.html">Slave Bridge</a></li>
+<li class="toctree-l2"><a class="reference internal" href="verify_test.html">Verify Kernel</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Validate Embedded Platform</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#excluded-platforms">EXCLUDED PLATFORMS</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#design-files">DESIGN FILES</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#command-line-arguments">COMMAND LINE ARGUMENTS</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="verify_test.html">Verify Kernel</a></li>
-<li class="toctree-l2"><a class="reference internal" href="validate_embedded.html">Validate Embedded Platform</a></li>
 </ul>
 </li>
 </ul>
@@ -377,7 +377,7 @@
 			
 			<p class="caption"><span class="caption-text">This Page</span></p>
 				<ul class="current">
-				  <li class="toctree-l1"><a href="_sources/slavebridge_test.rst.txt"
+				  <li class="toctree-l1"><a href="_sources/validate_embedded.rst.txt"
 						rel="nofollow">Show Source</a></li>
 				</ul>
           
@@ -425,13 +425,13 @@
         
           <li><a href="validate.html">Validate</a> &raquo;</li>
         
-      <li>Slave Bridge</li>
+      <li>Validate Embedded Platform</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="_sources/slavebridge_test.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/validate_embedded.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -444,56 +444,72 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="slave-bridge">
-<h1>Slave Bridge<a class="headerlink" href="#slave-bridge" title="Permalink to this headline">¶</a></h1>
-<p>This slave bridge bandwidth design explains how direct host memory access can be done by the kernel.</p>
-<p><strong>KEY CONCEPTS:</strong> slave bridge, address translation unit</p>
-<p><strong>KEYWORDS:</strong> XCL_MEM_EXT_HOST_ONLY, HOST[0]</p>
-<p>This design is created to validate direct host memory access from kernel using slave bridge.</p>
-<p>The host allocates a buffer into specific host-only buffer using <code class="docutils literal notranslate"><span class="pre">XCL_MEM_EXT_HOST_ONLY</span></code>. The <code class="docutils literal notranslate"><span class="pre">cl_mem_ext_ptr</span></code> object needs to be used in cases where memory assignment is done by user explicitly:</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">cl_mem_ext_ptr_t</span> <span class="n">input_buffer_ext</span><span class="p">;</span>
-<span class="n">input_buffer_ext</span><span class="p">.</span><span class="n">flags</span> <span class="o">=</span> <span class="n">XCL_MEM_EXT_HOST_ONLY</span><span class="p">;</span>
-<span class="n">input_buffer_ext</span><span class="p">.</span><span class="n">obj</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">;</span>
-<span class="n">input_buffer_ext</span><span class="p">.</span><span class="n">param</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-
-<span class="n">OCL_CHECK</span><span class="p">(</span><span class="n">err</span><span class="p">,</span> <span class="n">input_buffer</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="k">new</span> <span class="n">cl</span><span class="o">::</span><span class="n">Buffer</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">CL_MEM_READ_WRITE</span> <span class="o">|</span> <span class="n">CL_MEM_EXT_PTR_XILINX</span><span class="p">,</span> <span class="n">vector_size_bytes</span><span class="p">,</span>
-                                          <span class="o">&amp;</span><span class="n">input_buffer_ext</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">err</span><span class="p">));</span>
+  <div class="section" id="validate-embedded-platform">
+<h1>Validate Embedded Platform<a class="headerlink" href="#validate-embedded-platform" title="Permalink to this headline">¶</a></h1>
+<p>This is a simple design that verifies if the platform has basic functionalities. It also tests the possible bandwidth between Kernel and Global Memory.</p>
+<p><strong>KEY CONCEPTS:</strong> Bandwidth</p>
+<p>This example contains verify test and bandwidth test to validate embedded platforms.</p>
+<p>Using the <code class="docutils literal notranslate"><span class="pre">sp</span></code> option  in the zcu102_base_dfx.cfg file AXI-Master Port is connected to the IP.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sp</span><span class="o">=</span><span class="n">bandwidth_1</span><span class="o">.</span><span class="n">input</span><span class="p">:</span><span class="n">HP0</span>
+<span class="n">sp</span><span class="o">=</span><span class="n">bandwidth_1</span><span class="o">.</span><span class="n">output</span><span class="p">:</span><span class="n">HP0</span>
+<span class="n">sp</span><span class="o">=</span><span class="n">bandwidth_2</span><span class="o">.</span><span class="n">input</span><span class="p">:</span><span class="n">HP1</span>
+<span class="n">sp</span><span class="o">=</span><span class="n">bandwidth_2</span><span class="o">.</span><span class="n">output</span><span class="p">:</span><span class="n">HP1</span>
+<span class="n">sp</span><span class="o">=</span><span class="n">bandwidth_3</span><span class="o">.</span><span class="n">input</span><span class="p">:</span><span class="n">HP2</span>
+<span class="n">sp</span><span class="o">=</span><span class="n">bandwidth_3</span><span class="o">.</span><span class="n">output</span><span class="p">:</span><span class="n">HP2</span>
+<span class="n">sp</span><span class="o">=</span><span class="n">bandwidth_4</span><span class="o">.</span><span class="n">input</span><span class="p">:</span><span class="n">HP3</span>
+<span class="n">sp</span><span class="o">=</span><span class="n">bandwidth_4</span><span class="o">.</span><span class="n">output</span><span class="p">:</span><span class="n">HP3</span>
 </pre></div>
 </div>
-<p>Using the <code class="docutils literal notranslate"><span class="pre">sp</span></code> option  in the platform_slavebridge.cfg file, AXI-Master Port is connected to the Slave-Bridge IP:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sp</span><span class="o">=</span><span class="n">slavebridge_1</span><span class="o">.</span><span class="n">input</span><span class="p">:</span><span class="n">HOST</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-<span class="n">sp</span><span class="o">=</span><span class="n">slavebridge_1</span><span class="o">.</span><span class="n">output</span><span class="p">:</span><span class="n">HOST</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<p>Following is the real log reported while running the design on zcu102_base_dfx platform:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>INFO: Starting the Verify test....
+INFO: Found Platform
+INFO: Platform Name: Xilinx
+INFO: Platform Version: OpenCL 1.0
+INFO: Platform Profile: EMBEDDED_PROFILE
+INFO: Platform Extensions: cl_khr_icd
+INFO: INFO: Reading validate.xclbin
+INFO: Loading: &#39;validate.xclbin&#39;
+INFO: Trying to program device edge
+INFO: Device program successful!
+INFO: Hello World
+INFO:
+INFO: Starting the Bandwidth test....
+INFO: Creating a kernel [bandwidth:{bandwidth_1}] for CU(1)
+INFO: Creating a kernel [bandwidth:{bandwidth_2}] for CU(2)
+INFO: Creating a kernel [bandwidth:{bandwidth_3}] for CU(3)
+INFO: Creating a kernel [bandwidth:{bandwidth_4}] for CU(4)
+INFO: Concurrent read and write throughput: 7318.5MB/s
+INFO: TEST PASSED
+INFO: INFO: host run completed.
 </pre></div>
 </div>
 <div class="section" id="excluded-platforms">
 <h2>EXCLUDED PLATFORMS<a class="headerlink" href="#excluded-platforms" title="Permalink to this headline">¶</a></h2>
 <p>Platforms containing following strings in their names are not supported for this example :</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">zc</span>
-<span class="n">vck</span>
-<span class="n">aws</span><span class="o">-</span><span class="n">vu9p</span><span class="o">-</span><span class="n">f1</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">dma</span>
+<span class="n">u30</span>
+<span class="n">aws</span>
+<span class="n">samsung</span>
 <span class="mi">2019</span>
 <span class="mi">2018</span>
-<span class="n">_u2_</span>
-<span class="n">_u25_</span>
-<span class="n">u30</span>
-<span class="n">u50lv</span>
-<span class="n">u50_gen3x4</span>
+<span class="n">vck5000</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="design-files">
 <h2>DESIGN FILES<a class="headerlink" href="#design-files" title="Permalink to this headline">¶</a></h2>
 <p>Application code is located in the src directory. Accelerator binary files will be compiled to the xclbin directory. The xclbin directory is required by the Makefile and its contents will be filled during compilation. A listing of all the files in this example is shown below</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">src</span><span class="o">/</span><span class="n">host</span><span class="o">.</span><span class="n">cpp</span>
-<span class="n">src</span><span class="o">/</span><span class="n">slavebridge</span><span class="o">.</span><span class="n">cpp</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">src</span><span class="o">/</span><span class="n">bandwidth</span><span class="o">.</span><span class="n">cpp</span>
+<span class="n">src</span><span class="o">/</span><span class="n">host</span><span class="o">.</span><span class="n">cpp</span>
+<span class="n">src</span><span class="o">/</span><span class="n">verify</span><span class="o">.</span><span class="n">cpp</span>
 </pre></div>
 </div>
-<p>Access these files in the github repo by <a class="reference external" href="https://github.com/Xilinx/Vitis_Accel_Examples/tree/master/validate/slavebridge_test">clicking here</a>.</p>
+<p>Access these files in the github repo by <a class="reference external" href="https://github.com/Xilinx/Vitis_Accel_Examples/tree/master/validate/validate_embedded">clicking here</a>.</p>
 </div>
 <div class="section" id="command-line-arguments">
 <h2>COMMAND LINE ARGUMENTS<a class="headerlink" href="#command-line-arguments" title="Permalink to this headline">¶</a></h2>
 <p>Once the environment has been configured, the application can be executed by</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">slavebridge</span><span class="o">.</span><span class="n">exe</span> <span class="n">platform_test_path</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">validate</span><span class="o">.</span><span class="n">exe</span> <span class="o">-</span><span class="n">x</span> <span class="o">&lt;</span><span class="n">validate</span> <span class="n">XCLBIN</span><span class="o">&gt;</span>
 </pre></div>
 </div>
 </div>
@@ -515,10 +531,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="verify_test.html" class="btn btn-neutral float-right" title="Verify Kernel" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="common.html" class="btn btn-neutral float-right" title="Common Files" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="bandwidth_test.html" class="btn btn-neutral float-left" title="Bandwidth Kernel" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="verify_test.html" class="btn btn-neutral float-left" title="Verify Kernel" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
