@@ -1,5 +1,5 @@
-Validate Zynq UltraScale Platform (C)
-=====================================
+Validate Embedded Platform (C)
+==============================
 
 This is a simple design that verifies if the platform has basic functionalities. It also tests the possible bandwidth between Kernel and Global Memory.
 
