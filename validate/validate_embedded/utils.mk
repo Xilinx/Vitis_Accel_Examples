@@ -70,7 +70,6 @@ ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 	$(ECHO) 'export XILINX_VITIS=$$PWD' >> run_app.sh
 	$(ECHO) 'export XCL_EMULATION_MODE=$(TARGET)' >> run_app.sh
 endif
-<<<<<<< HEAD:validate/validate_zcu/utils.mk
 	$(ECHO) 'if [ -d xrt/aarch64-xilinx-linux/ ]' >> run_app.sh
 	$(ECHO) 'then' >> run_app.sh
 	$(ECHO) 'cd xrt/aarch64-xilinx-linux/' >> run_app.sh
@@ -86,10 +85,7 @@ endif
 	$(ECHO) './reinstall_xrt.sh' >> run_app.sh
 	$(ECHO) 'return_code=$$?' >> run_app.sh
 	$(ECHO) 'cd -' >> run_app.sh
-	$(ECHO) '$(EXECUTABLE) -x validate_zcu.xclbin' >> run_app.sh
-=======
 	$(ECHO) '$(EXECUTABLE) -x validate.xclbin' >> run_app.sh
->>>>>>> 71d9837ab1e2ccd033d887ae8a33ace84ba3ca2f:validate/validate_embedded/utils.mk
 	$(ECHO) 'return_code=$$?' >> run_app.sh
 	$(ECHO) 'if [ $$return_code -ne 0 ]; then' >> run_app.sh
 	$(ECHO) 'echo "ERROR: host run failed, RC=$$return_code"' >> run_app.sh
