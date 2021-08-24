@@ -183,7 +183,7 @@ endif
 ############################## Preparing sdcard ##############################
 $(BUILD_DIR)/$(PACKAGE_OUT)/krnl_vmul.xclbin: $(BUILD_DIR)/krnl_vmul.xclbin $(BUILD_DIR)/krnl_vadd.xclbin $(EXECUTABLE)
 ifneq ($(HOST_ARCH), x86)
-	$(VPP) $(VPP_PFLAGS) -p $(BUILD_DIR)/krnl_vmul.xclbin -t $(TARGET) --platform $(DEVICE) --package.sd_file $(BUILD_DIR)/krnl_vadd.xclbin --package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.sd_file $(SD_IMAGE_FILE) --package.sd_file xrt.ini --package.sd_file $(RUN_APP_SCRIPT) --package.sd_file $(EXECUTABLE) -o $(BUILD_DIR)/$(PACKAGE_OUT)/krnl_vmul.xclbin --package.sd_file $(EMCONFIG_DIR)/emconfig.json
+	$(VPP) $(VPP_PFLAGS) -p $(BUILD_DIR)/krnl_vmul.xclbin -t $(TARGET) --platform $(DEVICE) --package.sd_file $(BUILD_DIR)/krnl_vadd.xclbin --package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.sd_file $(SD_IMAGE_FILE) --package.sd_file xrt.ini --package.sd_file $(RUN_APP_SCRIPT) --package.sd_file $(EXECUTABLE) -o $(BUILD_DIR)/$(PACKAGE_OUT)/krnl_vmul.xclbin
 else
 	$(error package command not needed for x86 platform)
 endif
