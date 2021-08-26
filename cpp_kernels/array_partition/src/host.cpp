@@ -20,6 +20,7 @@
 #include <cstdio>
 #include <random>
 #include <vector>
+#include <iomanip>
 
 using std::default_random_engine;
 using std::generate;
@@ -47,20 +48,20 @@ void print(int* data, int columns, int rows) {
     vector<int> out(columns * rows);
     for (int r = 0; r < 10; r++) {
         for (int c = 0; c < 10; c++) {
-            printf("%4d ", data[r * columns + c]);
+            std::cout << std::setw(4) << data[r * columns + c] << " ";
         }
-        printf("…\n");
+        std::cout << "…\n";
     }
     for (int r = 0; r < 10; r++) {
-        printf("   %s ", "…");
+        std::cout << "   … ";
     }
-    printf("⋱\n\n");
+    std::cout << "⋱\n\n";
 }
 
 void verify(vector<int, aligned_allocator<int> >& gold, vector<int, aligned_allocator<int> >& output) {
     for (int i = 0; i < (int)output.size(); i++) {
         if (output[i] != gold[i]) {
-            printf("Mismatch %d: gold: %d device: %d\n", i, gold[i], output[i]);
+            std::cout << "Mismatch " << i << ": gold: " << gold[i] << " device: " << output[i] << "\n";
             print(output.data(), 16, 16);
             exit(EXIT_FAILURE);
         }
@@ -70,6 +71,8 @@ void verify(vector<int, aligned_allocator<int> >& gold, vector<int, aligned_allo
 // This example illustrates how to use array partitioning attributes in HLS
 // kernels for FPGA devices using matmul.
 int main(int argc, char** argv) {
+    uint32_t repeat_counter = xcl::is_hw_emulation() ? 2 : 1000000;
+
     if (argc != 2) {
         std::cout << "Usage: " << argv[0] << " <XCLBIN File>" << std::endl;
         return EXIT_FAILURE;
@@ -89,13 +92,13 @@ int main(int argc, char** argv) {
     generate(begin(A), end(A), gen_random);
     generate(begin(B), end(B), gen_random);
 
-    printf("A:\n");
+    std::cout << "A:\n";
     print(A.data(), columns, rows);
-    printf("B:\n");
+    std::cout << "B:\n";
     print(B.data(), columns, rows);
     matmul(gold.data(), A.data(), B.data(), columns);
 
-    printf("Gold:\n");
+    std::cout << "Gold:\n";
     print(gold.data(), columns, rows);
     auto devices = xcl::get_xil_devices();
 
@@ -134,16 +137,16 @@ int main(int argc, char** argv) {
     OCL_CHECK(err,
               cl::Buffer buffer_c(context, CL_MEM_USE_HOST_PTR | CL_MEM_WRITE_ONLY, array_size_bytes, C.data(), &err));
 
-    printf(
-        "|-------------------------+-------------------------|\n"
-        "| Kernel                  |    Wall-Clock Time (ns) |\n"
-        "|-------------------------+-------------------------|\n");
+    std::cout << "|-------------------------+-------------------------|\n"
+              << "| Kernel                  |    Wall-Clock Time (ns) |\n"
+              << "|-------------------------+-------------------------|\n";
 
     OCL_CHECK(err, matmul_kernel = cl::Kernel(program, "matmul", &err));
     OCL_CHECK(err, err = matmul_kernel.setArg(0, buffer_a));
     OCL_CHECK(err, err = matmul_kernel.setArg(1, buffer_b));
     OCL_CHECK(err, err = matmul_kernel.setArg(2, buffer_c));
     OCL_CHECK(err, err = matmul_kernel.setArg(3, columns));
+    OCL_CHECK(err, err = matmul_kernel.setArg(4, repeat_counter));
 
     OCL_CHECK(err, err = q.enqueueMigrateMemObjects({buffer_a, buffer_b}, 0 /* 0 means from host*/));
 
@@ -156,10 +159,11 @@ int main(int argc, char** argv) {
 
     OCL_CHECK(err, err = event.getProfilingInfo<uint64_t>(CL_PROFILING_COMMAND_START, &nstimestart));
     OCL_CHECK(err, err = event.getProfilingInfo<uint64_t>(CL_PROFILING_COMMAND_END, &nstimeend));
-    auto matmul_time = nstimeend - nstimestart;
+    auto matmul_time = (nstimeend - nstimestart) / repeat_counter;
 
     verify(gold, C);
-    printf("| %-23s | %23lu |\n", "matmul: ", matmul_time);
+    std::cout << "| " << std::left << std::setw(24) << "matmul: "
+              << "|" << std::right << std::setw(24) << matmul_time << " |\n";
 
     OCL_CHECK(err, matmul_partition_kernel = cl::Kernel(program, "matmul_partition", &err));
 
@@ -167,6 +171,7 @@ int main(int argc, char** argv) {
     OCL_CHECK(err, err = matmul_partition_kernel.setArg(1, buffer_b));
     OCL_CHECK(err, err = matmul_partition_kernel.setArg(2, buffer_c));
     OCL_CHECK(err, err = matmul_partition_kernel.setArg(3, columns));
+    OCL_CHECK(err, err = matmul_partition_kernel.setArg(4, repeat_counter));
 
     OCL_CHECK(err, err = q.enqueueTask(matmul_partition_kernel, nullptr, &event));
     OCL_CHECK(err, err = q.enqueueMigrateMemObjects({buffer_c}, CL_MIGRATE_MEM_OBJECT_HOST));
@@ -174,20 +179,21 @@ int main(int argc, char** argv) {
 
     OCL_CHECK(err, err = event.getProfilingInfo<uint64_t>(CL_PROFILING_COMMAND_START, &nstimestart));
     OCL_CHECK(err, err = event.getProfilingInfo<uint64_t>(CL_PROFILING_COMMAND_END, &nstimeend));
-    auto matmul_partition_time = nstimeend - nstimestart;
+    auto matmul_partition_time = (nstimeend - nstimestart) / repeat_counter;
 
     verify(gold, C);
 
-    printf("| %-23s | %23lu |\n", "matmul: partition", matmul_partition_time);
-
-    printf("|-------------------------+-------------------------|\n");
-    printf(
-        "Note: Wall Clock Time is meaningful for real hardware execution "
-        "only, not for emulation.\n");
-    printf(
-        "Please refer to profile summary for kernel execution time for "
-        "hardware emulation.\n");
-    printf("TEST PASSED\n\n");
+    std::cout << "| " << std::left << std::setw(24) << "matmul: partition"
+              << "|" << std::right << std::setw(24) << matmul_partition_time << " |\n";
+    std::cout << "|-------------------------+-------------------------|\n";
+    std::cout << "| " << std::left << std::setw(24) << "Speedup"
+              << "|" << std::right << std::setw(24) << (double)matmul_time / (double)matmul_partition_time << " |\n";
+    std::cout << "|-------------------------+-------------------------|\n";
+    std::cout << "Note: Wall Clock Time is meaningful for real hardware execution "
+              << "only, not for emulation.\n";
+    std::cout << "Please refer to profile summary for kernel execution time for "
+              << "hardware emulation.\n";
+    std::cout << "TEST PASSED\n\n";
 
     return EXIT_SUCCESS;
 }

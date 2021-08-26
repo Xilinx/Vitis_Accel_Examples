@@ -32,7 +32,7 @@ const unsigned int c_dim = MAX_SIZE;
 extern "C" {
 // Naive implementation of matrix multiplication
 // In this implementation array partition is not done
-void matmul(int* in1, int* in2, int* out_r, int size) {
+void matmul(int* in1, int* in2, int* out_r, int size, int rep_count) {
     // Local buffers to hold input data
     int A[MAX_SIZE][MAX_SIZE];
     int B[MAX_SIZE][MAX_SIZE];
@@ -63,19 +63,22 @@ readB:
 
 // Calculate matrix multiplication using local data buffer based on input size,
 // and write results into C
-nopart1:
-    for (int row = 0; row < size; row++) {
+count_loop:
+    for (int i = 0; i < rep_count; i++) {
+    nopart1:
+        for (int row = 0; row < size; row++) {
 #pragma HLS LOOP_TRIPCOUNT min = c_dim max = c_dim
-    nopart2:
-        for (int col = 0; col < size; col++) {
+        nopart2:
+            for (int col = 0; col < size; col++) {
 #pragma HLS LOOP_TRIPCOUNT min = c_dim max = c_dim
-        nopart3:
-            for (int j = 0; j < MAX_SIZE; j++) {
+            nopart3:
+                for (int j = 0; j < MAX_SIZE; j++) {
 #pragma HLS LOOP_TRIPCOUNT min = c_dim max = c_dim
-                int result = (col == 0) ? 0 : temp_sum[j];
-                result += A[row][col] * B[col][j];
-                temp_sum[j] = result;
-                if (col == size - 1) C[row][j] = result;
+                    int result = (col == 0) ? 0 : temp_sum[j];
+                    result += A[row][col] * B[col][j];
+                    temp_sum[j] = result;
+                    if (col == size - 1) C[row][j] = result;
+                }
             }
         }
     }

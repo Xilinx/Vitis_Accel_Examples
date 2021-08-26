@@ -31,7 +31,7 @@ const unsigned int c_dim = MAX_SIZE;
 extern "C" {
 // Matrix multiplication kernel
 // This kernel presents array partition concept
-void matmul_partition(int* in1, int* in2, int* out_r, int size) {
+void matmul_partition(int* in1, int* in2, int* out_r, int size, int rep_count) {
     // Local buffers to hold input data
     int A[MAX_SIZE][MAX_SIZE];
     int B[MAX_SIZE][MAX_SIZE];
@@ -67,19 +67,22 @@ read_B:
 
 // Calculate matrix multiplication using local data buffer based on input size,
 // and write results into local buffer for out
-arraypart1:
-    for (int row = 0; row < size; row++) {
+loop_count:
+    for (int i = 0; i < rep_count; i++) {
+    arraypart1:
+        for (int row = 0; row < size; row++) {
 #pragma HLS LOOP_TRIPCOUNT min = c_dim max = c_dim
-    arraypart2:
-        for (int col = 0; col < size; col++) {
+        arraypart2:
+            for (int col = 0; col < size; col++) {
 #pragma HLS LOOP_TRIPCOUNT min = c_dim max = c_dim
-        arraypart3:
-            for (int j = 0; j < MAX_SIZE; j++) {
+            arraypart3:
+                for (int j = 0; j < MAX_SIZE; j++) {
 #pragma HLS LOOP_TRIPCOUNT min = c_dim max = c_dim
-                int result = (col == 0) ? 0 : temp_sum[j];
-                result += A[row][col] * B[col][j];
-                temp_sum[j] = result;
-                if (col == size - 1) C[row][j] = result;
+                    int result = (col == 0) ? 0 : temp_sum[j];
+                    result += A[row][col] * B[col][j];
+                    temp_sum[j] = result;
+                    if (col == size - 1) C[row][j] = result;
+                }
             }
         }
     }
