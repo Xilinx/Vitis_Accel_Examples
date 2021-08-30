@@ -22,7 +22,6 @@ Platforms containing following strings in their names are not supported for this
    u55
    zc
    vck
-   aws
    2019
    2018
    samsung

@@ -20,7 +20,6 @@ Platforms containing following strings in their names are not supported for this
    u50_gen3x4
    zc
    vck
-   aws-vu9p-f1
    2019
    2018
    samsung
