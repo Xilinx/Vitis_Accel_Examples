@@ -54,7 +54,6 @@ Input Vector 2 from Global Memory --->|             |      |__|
 // Includes
 #include <stdint.h>
 #include <hls_stream.h>
-#include "assert.h"
 
 #define DATA_SIZE 4096
 
