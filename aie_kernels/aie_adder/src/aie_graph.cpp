@@ -29,7 +29,7 @@ connect<> net1(platform.src[1], addergraph.in1);
 
 connect<> net2(addergraph.out, platform.sink[0]);
 
-#ifdef __AIESIM__
+#if defined(__AIESIM__) || defined(__X86SIM__)
 int main(int argc, char** argv) {
     addergraph.init();
     addergraph.run(4);

@@ -15,7 +15,6 @@
 */
 
 #include "aie_graph.h"
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
@@ -86,6 +85,11 @@ int main(int argc, char** argv) {
     auto in_bomapped1 = reinterpret_cast<uint32_t*>(xrtBOMap(in_bohdl1));
     memcpy(in_bomapped1, DataInput1, sizeIn * sizeof(int));
     printf("Input memory virtual addr 0x%px\n", in_bomapped1);
+
+    std::cout << "in_bohdl0 in_bohdl1 sync started\n";
+    xrtBOSync(in_bohdl0, XCL_BO_SYNC_BO_TO_DEVICE, sizeIn * sizeof(int), 0);
+    xrtBOSync(in_bohdl1, XCL_BO_SYNC_BO_TO_DEVICE, sizeIn * sizeof(int), 0);
+    std::cout << "in_bohdl0 in_bohdl1 sync done\n";
 
     //////////////////////////////////////////
     // output memory
@@ -163,6 +167,8 @@ int main(int argc, char** argv) {
     std::cout << "s2mm completed with status(" << state << ")\n";
     xrtRunClose(s2mm_rhdl);
     xrtKernelClose(s2mm_khdl);
+
+    xrtBOSync(out_bohdl, XCL_BO_SYNC_BO_FROM_DEVICE, sizeOut * sizeof(int), 0);
 
     //////////////////////////////////////////
     // Comparing the execution data to the golden data

@@ -110,9 +110,15 @@ AIECC := aiecompiler
 AIESIM := aiesimulator
 
 AIE_INCLUDE_FLAGS := -include="$(XILINX_VITIS)/aietools/include" -include="./src" -include="./data" -include="./"
-AIE_FLAGS := --target=hw $(AIE_INCLUDE_FLAGS) --pl-freq=100 -workdir=./Work 
+AIE_FLAGS := $(AIE_INCLUDE_FLAGS) --pl-freq=100 -workdir=./Work
 
-VPP_XO_FLAGS := -c --platform $(DEVICE) --save-temps -g
+ifeq ($(TARGET),sw_emu)
+	AIE_FLAGS += --target=x86sim
+else
+	AIE_FLAGS += --target=hw
+endif
+
+VPP_XO_FLAGS := -c -t $(TARGET) --platform $(DEVICE) --save-temps -g
 VPP_LINK_FLAGS := -l --platform $(DEVICE) $(KERNEL_XO) $(GRAPH_O) -t $(TARGET) --save-temps -g --config $(CONFIG_FILE) -o $(XCLBIN)
 
 GCC_FLAGS := -Wall -c \
@@ -126,10 +132,15 @@ GCC_INCLUDES := -I$(SYSROOT)/usr/include/xrt \
 				-I${XILINX_VITIS}/aietools/include \
 				-I${XILINX_VITIS}/include
 
+
 GCC_LIB := -lxaiengine -ladf_api_xrt -lxrt_core -lxrt_coreutil \
 		   -L$(SYSROOT)/usr/lib \
 		   --sysroot=$(SYSROOT) \
 		   -L${XILINX_VITIS}/aietools/lib/aarch64.o
+
+ifeq ($(TARGET),$(filter $(TARGET),sw_emu))
+        GCC_LIB := -ladf_api_xrt -lxrt_coreutil -L$(SYSROOT)/usr/lib --sysroot=$(SYSROOT) -L${XILINX_VITIS}/aietools/lib/aarch64.o
+endif
 
 .PHONY: all clean cleanall docs emconfig
 all: kernels graph build host sd_card 
@@ -177,8 +188,8 @@ host:
 ##################################################################################################
 # Depending on the TARGET, it'll either generate the PDI for hw_emu or hw.
 sd_card: $(GRAPH_O) $(KERNEL_XO) host gen_run_app 
-ifeq (${TARGET},hw_emu)
-	v++ $(VPP_PFLAGS) -p -t hw_emu \
+ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
+	v++ $(VPP_PFLAGS) -p -t $(TARGET) \
 		--platform $(DEVICE) \
 		--package.out_dir $(PACKAGE_OUT) \
 		--package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 \
@@ -186,10 +197,10 @@ ifeq (${TARGET},hw_emu)
 		--package.boot_mode=sd \
 		--package.kernel_image $(SD_IMAGE_FILE) \
 		--package.defer_aie_run \
-		--package.sd_dir /proj/xbuilds/2021.2_daily_latest/internal_platforms/sw/versal/xrt \		
+		--package.sd_dir /proj/xbuilds/2021.2_daily_latest/internal_platforms/sw/versal/xrt \
 		--package.sd_file $(RUN_APP_SCRIPT) \
 		--package.sd_file aie_adder $(XCLBIN) $(GRAPH_O) -o krnl_adder.xclbin
-	@echo "COMPLETE: hw_emu package created."
+	@echo "COMPLETE: emulation package created."
 else
 	v++ $(VPP_PFLAGS) -p -t hw \
 		--platform $(DEVICE) \
@@ -211,13 +222,10 @@ endif
 # If the target is for HW, you'll have to follow the Confluence page for
 # running on a board farm system.
 run: all 
-ifeq (${TARGET},hw_emu)
+ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 	$(LAUNCH_EMULATOR) -run-app $(RUN_APP_SCRIPT) | tee run_app.log; exit $${PIPESTATUS[0]}
 else
 	@echo "Hardware build, no emulation executed."
-endif
-ifneq ($(TARGET),$(findstring $(TARGET), hw_emu hw))
-$(error Application supports only hw_emu hw TARGET. Please use the target for running the application)
 endif
 
 ############################## Cleaning Rules ##############################
