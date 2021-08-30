@@ -1,3 +1,4 @@
+RUNDIR=$(PWD)
 VIVADO := $(XILINX_VIVADO)/bin/vivado
 $(TEMP_DIR)/vadd.xo: scripts/package_kernel.tcl scripts/gen_xo.tcl src/hdl/*.sv src/hdl/*.v 
 	mkdir -p $(TEMP_DIR)

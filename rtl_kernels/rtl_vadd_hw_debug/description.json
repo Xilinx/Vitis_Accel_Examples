@@ -11,7 +11,6 @@
         "hw"
     ],
     "platform_blacklist": [
-        "flat",
         "vck",
         "nodma"
     ], 
@@ -35,6 +34,13 @@
             ]
         }
     }, 
+   "v++": {
+        "build_datafiles" : [            
+            "PROJECT/myconfig_hw.cfg",
+            "PROJECT/post_dbg_profile_overlay.tcl",
+            "PROJECT/connect_debug_core.xdc"
+        ]
+    }, 
     "containers": [
         {
             "accelerators": [
@@ -43,9 +49,10 @@
                     "name": "vadd"
                 }
             ], 
-            "name": "vadd"
+            "name": "vadd",
+            "ldclflags": "--config myconfig_hw.cfg"
         }
-    ], 
+    ],
     "launch": [
         {
             "cmd_args": "BUILD/vadd.xclbin", 
