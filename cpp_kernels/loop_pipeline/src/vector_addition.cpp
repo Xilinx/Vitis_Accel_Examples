@@ -47,38 +47,41 @@ const int c_n = N;
 // loop. This will improve the II and increase throughput of the kernel.
 
 extern "C" {
-void vadd_pipelined(int* c, const int* a, const int* b, const int len) {
+void vadd_pipelined(int* c, const int* a, const int* b, const int len, int rep_count) {
     int result[N];
     int iterations = len / N;
 
 // Default behavior of V++ will pipeline the outer loop. Since we have
 // multiple inner loops, the pipelining will fail. We can instead pipeline
 // the inner loops using the HLS PIPELINE pragma to guide the compiler.
-vadd_pipeline:
-    for (int i = 0; i < iterations; i++) {
+loop_count:
+    for (int k = 0; k < rep_count; k++) {
+    vadd_pipeline:
+        for (int i = 0; i < iterations; i++) {
 #pragma HLS LOOP_TRIPCOUNT min = c_len / c_n max = c_len / c_n
 
-    // Pipelining loops that access only one variable is the ideal way to
-    // increase the global memory bandwidth.
-    read_a:
-        for (int x = 0; x < N; ++x) {
+        // Pipelining loops that access only one variable is the ideal way to
+        // increase the global memory bandwidth.
+        read_a:
+            for (int x = 0; x < N; ++x) {
 #pragma HLS LOOP_TRIPCOUNT min = c_n max = c_n
 #pragma HLS PIPELINE II = 1
-            result[x] = a[i * N + x];
-        }
+                result[x] = a[i * N + x];
+            }
 
-    read_b:
-        for (int x = 0; x < N; ++x) {
+        read_b:
+            for (int x = 0; x < N; ++x) {
 #pragma HLS LOOP_TRIPCOUNT min = c_n max = c_n
 #pragma HLS PIPELINE II = 1
-            result[x] += b[i * N + x];
-        }
+                result[x] += b[i * N + x];
+            }
 
-    write_c:
-        for (int x = 0; x < N; ++x) {
+        write_c:
+            for (int x = 0; x < N; ++x) {
 #pragma HLS LOOP_TRIPCOUNT min = c_n max = c_n
 #pragma HLS PIPELINE II = 1
-            c[i * N + x] = result[x];
+                c[i * N + x] = result[x];
+            }
         }
     }
 }
