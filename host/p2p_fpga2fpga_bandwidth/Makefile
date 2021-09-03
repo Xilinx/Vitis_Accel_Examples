@@ -180,9 +180,6 @@ ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 else
 	$(EXECUTABLE) $(CMD_ARGS)
 endif
-ifneq ($(TARGET),$(findstring $(TARGET), hw))
-$(error Application supports only hw TARGET. Please use the target for running the application)
-endif
 
 
 .PHONY: test
@@ -192,10 +189,6 @@ ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 else
 	$(EXECUTABLE) $(CMD_ARGS)
 endif
-ifneq ($(TARGET),$(findstring $(TARGET), hw))
-$(warning WARNING:Application supports only hw TARGET. Please use the target for running the application)
-endif
-
 
 
 ############################## Cleaning Rules ##############################

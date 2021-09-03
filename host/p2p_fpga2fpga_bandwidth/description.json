@@ -27,10 +27,7 @@
         "u30",
         "u50_gen3x16_xdma_2019"
     ],
-    "targets": [	
-        "hw" 	
-    ],
-     "runtime": [
+    "runtime": [
         "OpenCL"
     ], 
     "launch": [
@@ -90,6 +87,8 @@
             }
         ],
         "targets": [
+            "vitis_sw_emu",
+            "vitis_hw_emu",
             "vitis_hw"
         ],
         "category": "canary"
