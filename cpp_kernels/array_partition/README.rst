@@ -87,7 +87,7 @@ U250 Card:
 
    Found Platform
    Platform Name: Xilinx
-   INFO: Reading ./build_dir.hw.xilinx_u250_gen3x16_xdma_3_1_202020_1/matmul.xclbin
+   INFO: Reading ./build_dir.hw.xilinx_u250_gen3x16_xdma_3_1_202020_1/matmul.xclbin 
    Loading: './build_dir.hw.xilinx_u250_gen3x16_xdma_3_1_202020_1/matmul.xclbin'
    |-------------------------+-------------------------|
    | Kernel                  |    Wall-Clock Time (ns) |
