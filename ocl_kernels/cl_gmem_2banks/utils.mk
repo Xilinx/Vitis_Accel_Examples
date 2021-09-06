@@ -26,39 +26,17 @@ endif
 
 #Checks for XILINX_XRT
 check-xrt:
-ifeq ($(HOST_ARCH), x86)
 ifndef XILINX_XRT
 	$(error XILINX_XRT variable is not set, please set correctly and rerun)
 endif
-else
-ifndef XILINX_VITIS
-	$(error XILINX_VITIS variable is not set, please set correctly and rerun)
-endif
-endif
 
 #Checks for Correct architecture
-ifneq ($(HOST_ARCH), $(filter $(HOST_ARCH),aarch64 aarch32 x86))
-$(error HOST_ARCH variable not set, please set correctly and rerun)
+ifneq ($(HOST_ARCH), $(filter $(HOST_ARCH),x86))
+$(error HOST_ARCH variable not set correctly, supported HOST_ARCH is x86 only)
 endif
 
 #Setting CXX
 CXX := g++
-
-#Checks for EDGE_COMMON_SW
-ifneq ($(HOST_ARCH), x86)
-ifndef EDGE_COMMON_SW
-$(error EDGE_COMMON_SW variable is not set, please set correctly and rerun)
-endif
-ifeq ($(HOST_ARCH), aarch64)
-SYSROOT := $(EDGE_COMMON_SW)/sysroots/cortexa72-cortexa53-xilinx-linux
-SD_IMAGE_FILE := $(EDGE_COMMON_SW)/Image
-CXX := $(XILINX_VITIS)/gnu/aarch64/lin/aarch64-linux/bin/aarch64-linux-gnu-g++
-else ifeq ($(HOST_ARCH), aarch32)
-SYSROOT := $(EDGE_COMMON_SW)/sysroots/cortexa9t2hf-neon-xilinx-linux-gnueabi/
-SD_IMAGE_FILE := $(EDGE_COMMON_SW)/uImage
-CXX := $(XILINX_VITIS)/gnu/aarch32/lin/gcc-arm-linux-gnueabi/bin/arm-linux-gnueabihf-g++
-endif
-endif
 
 check-devices:
 ifndef DEVICE

@@ -174,9 +174,10 @@ def add_host_flags(target, data):
                 target.write(" ")	
                 target.write(opt)
     target.write("\n\n")
-    target.write("ifneq ($(HOST_ARCH), x86)\n")
-    target.write("\tLDFLAGS += --sysroot=$(SYSROOT)\n")
-    target.write("endif\n\n")
+    if not ("platform_type" in data and data["platform_type"] == "pcie"):		
+        target.write("ifneq ($(HOST_ARCH), x86)\n")
+        target.write("\tLDFLAGS += --sysroot=$(SYSROOT)\n")
+        target.write("endif\n\n")
 
     return
 
@@ -344,7 +345,8 @@ def building_kernel(target, data):
             target.write(con["name"])
             target.write("_OBJS)\n")
             target.write("\tmkdir -p $(BUILD_DIR)\n")
-            target.write("ifeq ($(HOST_ARCH), x86)\n")
+            if not ("platform_type" in data and data["platform_type"] == "pcie"):
+                target.write("ifeq ($(HOST_ARCH), x86)\n")
             target.write("\t$(VPP) $(VPP_FLAGS) ")
             target.write("-l $(VPP_LDFLAGS) --temp_dir ")
             target.write("$(TEMP_DIR) ")
@@ -358,15 +360,16 @@ def building_kernel(target, data):
 
             target.write("\t$(VPP) -p $(BUILD_DIR)/" + con["name"] + ".link.xclbin -t $(TARGET) --platform $(DEVICE) ")
             target.write("--package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/" + con["name"] + ".xclbin\n")
-            target.write("else\n")
-            target.write("\t$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) ")
-            if "accelerators" in con:
-                for acc in con["accelerators"]:
-                    if "compute_units" in acc or "num_compute_units" in acc:
-                        target.write(" $(VPP_LDFLAGS_"+con["name"]+") ")
-                        break
-            target.write("-o'$(BUILD_DIR)/" + con["name"] + ".xclbin' $(+)\n")
-            target.write("endif\n")
+            if not ("platform_type" in data and data["platform_type"] == "pcie"):
+                target.write("else\n")
+                target.write("\t$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) ")
+                if "accelerators" in con:
+                    for acc in con["accelerators"]:
+                        if "compute_units" in acc or "num_compute_units" in acc:
+                            target.write(" $(VPP_LDFLAGS_"+con["name"]+") ")
+                            break
+                target.write("-o'$(BUILD_DIR)/" + con["name"] + ".xclbin' $(+)\n")
+                target.write("endif\n")
     target.write("\n")
     return
 
@@ -724,9 +727,11 @@ def mk_help(target):
     target.write("\n")
     target.write("help::\n")
     target.write("\t$(ECHO) \"Makefile Usage:\"\n")
-    target.write("\t$(ECHO) \"  make all TARGET=<sw_emu/hw_emu/hw> DEVICE=<FPGA platform> HOST_ARCH=<aarch32/aarch64/x86> EDGE_COMMON_SW=<rootfs and kernel image path>\"\n");
+    target.write("\t$(ECHO) \"  make all TARGET=<sw_emu/hw_emu/hw> DEVICE=<FPGA platform> ");
+    if not ("platform_type" in data and data["platform_type"] == "pcie"):
+		target.write("HOST_ARCH=<aarch32/aarch64/x86> EDGE_COMMON_SW=<rootfs and kernel image path>\"")
+    target.write("\n")
     target.write("\t$(ECHO) \"      Command to generate the design for specified Target and Shell.\"\n")
-    target.write("\t$(ECHO) \"      By default, HOST_ARCH=x86. HOST_ARCH and EDGE_COMMON_SW is required for SoC shells\"\n")
     target.write("\t$(ECHO) \"\"\n")
     target.write("\t$(ECHO) \"  make clean \"\n");
     target.write("\t$(ECHO) \"      Command to remove the generated non-hardware files.\"\n")
@@ -734,26 +739,33 @@ def mk_help(target):
     target.write("\t$(ECHO) \"  make cleanall\"\n")
     target.write("\t$(ECHO) \"      Command to remove all the generated files.\"\n")
     target.write("\t$(ECHO) \"\"\n")
-    target.write("\t$(ECHO)  \"  make test DEVICE=<FPGA platform>\"\n")    
-    target.write("\t$(ECHO)  \"     Command to run the application. This is same as 'run' target but does not have any makefile dependency.\"\n")  
-    target.write("\t$(ECHO)  \"\"\n")
+    target.write("\t$(ECHO) \"  make test DEVICE=<FPGA platform>\"\n")    
+    target.write("\t$(ECHO) \"      Command to run the application. This is same as 'run' target but does not have any makefile dependency.\"\n")  
+    target.write("\t$(ECHO) \"\"\n")
 
     if not ("platform_type" in data and data["platform_type"] == "pcie"):
         target.write("\t$(ECHO) \"  make sd_card TARGET=<sw_emu/hw_emu/hw> DEVICE=<FPGA platform> HOST_ARCH=<aarch32/aarch64/x86> EDGE_COMMON_SW=<rootfs and kernel image path>\"\n");
         target.write("\t$(ECHO) \"      Command to prepare sd_card files.\"\n")
-        target.write("\t$(ECHO) \"      By default, HOST_ARCH=x86. HOST_ARCH and EDGE_COMMON_SW is required for SoC shells\"\n")
         target.write("\t$(ECHO) \"\"\n")
-    target.write("\t$(ECHO) \"  make run TARGET=<sw_emu/hw_emu/hw> DEVICE=<FPGA platform> HOST_ARCH=<aarch32/aarch64/x86> EDGE_COMMON_SW=<rootfs and kernel image path>\"\n");
+    target.write("\t$(ECHO) \"  make run TARGET=<sw_emu/hw_emu/hw> DEVICE=<FPGA platform> ");
+    if not ("platform_type" in data and data["platform_type"] == "pcie"):
+		target.write("HOST_ARCH=<aarch32/aarch64/x86> EDGE_COMMON_SW=<rootfs and kernel image path>\"")
+    target.write("\n")
     target.write("\t$(ECHO) \"      Command to run application in emulation.\"\n")
-    target.write("\t$(ECHO) \"      By default, HOST_ARCH=x86. HOST_ARCH and EDGE_COMMON_SW is required for SoC shells\"\n")
     target.write("\t$(ECHO) \"\"\n")
-    target.write("\t$(ECHO) \"  make build TARGET=<sw_emu/hw_emu/hw> DEVICE=<FPGA platform> HOST_ARCH=<aarch32/aarch64/x86> EDGE_COMMON_SW=<rootfs and kernel image path>\"\n");
+    target.write("\t$(ECHO) \"  make build TARGET=<sw_emu/hw_emu/hw> DEVICE=<FPGA platform> ");
+    if not ("platform_type" in data and data["platform_type"] == "pcie"):
+		target.write("HOST_ARCH=<aarch32/aarch64/x86> EDGE_COMMON_SW=<rootfs and kernel image path>\"")
+    target.write("\n")
     target.write("\t$(ECHO) \"      Command to build xclbin application.\"\n")
-    target.write("\t$(ECHO) \"      By default, HOST_ARCH=x86. HOST_ARCH and EDGE_COMMON_SW is required for SoC shells\"\n")
     target.write("\t$(ECHO) \"\"\n")
-    target.write("\t$(ECHO) \"  make host HOST_ARCH=<aarch32/aarch64/x86> EDGE_COMMON_SW=<rootfs and kernel image path>\"\n");
+    target.write("\t$(ECHO) \"  make host ");
+    if not ("platform_type" in data and data["platform_type"] == "pcie"):
+		target.write("HOST_ARCH=<aarch32/aarch64/x86> EDGE_COMMON_SW=<rootfs and kernel image path>\"")
+    target.write("\n")
     target.write("\t$(ECHO) \"      Command to build host application.\"\n")
-    target.write("\t$(ECHO) \"      By default, HOST_ARCH=x86. HOST_ARCH and EDGE_COMMON_SW is required for SoC shells\"\n")
+    if not ("platform_type" in data and data["platform_type"] == "pcie"):
+    	target.write("\t$(ECHO) \"  By default, HOST_ARCH=x86. HOST_ARCH and EDGE_COMMON_SW is required for SoC shells\"\n")
     target.write("\t$(ECHO) \"\"\n")
     #target.write("\t$(ECHO) \"  make run_nimbix DEVICE=<FPGA platform>\"\n");
     #target.write("\t$(ECHO) \"      Command to run application on Nimbix Cloud.\"\n")
@@ -814,20 +826,26 @@ def util_checks(target):
 
     target.write("#Checks for XILINX_XRT\n")
     target.write("check-xrt:\n")
-    target.write("ifeq ($(HOST_ARCH), x86)\n")
+    if not ("platform_type" in data and data["platform_type"] == "pcie"):
+        target.write("ifeq ($(HOST_ARCH), x86)\n")
     target.write("ifndef XILINX_XRT\n")
     target.write("\t$(error XILINX_XRT variable is not set, please set correctly and rerun)\n")
     target.write("endif\n")
-    target.write("else\n")
-    target.write("ifndef XILINX_VITIS\n")
-    target.write("\t$(error XILINX_VITIS variable is not set, please set correctly and rerun)\n")
-    target.write("endif\n")
-    target.write("endif\n")
+    if not ("platform_type" in data and data["platform_type"] == "pcie"):
+        target.write("else\n")
+        target.write("ifndef XILINX_VITIS\n")
+        target.write("\t$(error XILINX_VITIS variable is not set, please set correctly and rerun)\n")
+        target.write("endif\n")
+        target.write("endif\n")
     target.write("\n")
 
     target.write("#Checks for Correct architecture\n")
-    target.write("ifneq ($(HOST_ARCH), $(filter $(HOST_ARCH),aarch64 aarch32 x86))\n")
-    target.write("$(error HOST_ARCH variable not set, please set correctly and rerun)\n") 
+    if not ("platform_type" in data and data["platform_type"] == "pcie"):
+        target.write("ifneq ($(HOST_ARCH), $(filter $(HOST_ARCH),aarch64 aarch32 x86))\n")
+        target.write("$(error HOST_ARCH variable not set, please set correctly and rerun)\n") 
+    else:
+        target.write("ifneq ($(HOST_ARCH), $(filter $(HOST_ARCH),x86))\n")
+        target.write("$(error HOST_ARCH variable not set correctly, supported HOST_ARCH is x86 only)\n") 
     target.write("endif\n")
     target.write("\n")
 
@@ -844,21 +862,22 @@ def util_checks(target):
     target.write("CXX := g++\n")
     target.write("\n")
     
-    target.write("#Checks for EDGE_COMMON_SW\n")
-    target.write("ifneq ($(HOST_ARCH), x86)\n")
-    target.write("ifndef EDGE_COMMON_SW\n")
-    target.write("$(error EDGE_COMMON_SW variable is not set, please set correctly and rerun)\n")
-    target.write("endif\n")
-    target.write("ifeq ($(HOST_ARCH), aarch64)\n")
-    target.write("SYSROOT := $(EDGE_COMMON_SW)/sysroots/cortexa72-cortexa53-xilinx-linux\n")
-    target.write("SD_IMAGE_FILE := $(EDGE_COMMON_SW)/Image\n")
-    target.write("CXX := $(XILINX_VITIS)/gnu/aarch64/lin/aarch64-linux/bin/aarch64-linux-gnu-g++\n")
-    target.write("else ifeq ($(HOST_ARCH), aarch32)\n")
-    target.write("SYSROOT := $(EDGE_COMMON_SW)/sysroots/cortexa9t2hf-neon-xilinx-linux-gnueabi/\n")
-    target.write("SD_IMAGE_FILE := $(EDGE_COMMON_SW)/uImage\n")
-    target.write("CXX := $(XILINX_VITIS)/gnu/aarch32/lin/gcc-arm-linux-gnueabi/bin/arm-linux-gnueabihf-g++\n")
-    target.write("endif\n")
-    target.write("endif\n\n")
+    if not ("platform_type" in data and data["platform_type"] == "pcie"):
+        target.write("#Checks for EDGE_COMMON_SW\n")
+        target.write("ifneq ($(HOST_ARCH), x86)\n")
+        target.write("ifndef EDGE_COMMON_SW\n")
+        target.write("$(error EDGE_COMMON_SW variable is not set, please set correctly and rerun)\n")
+        target.write("endif\n")
+        target.write("ifeq ($(HOST_ARCH), aarch64)\n")
+        target.write("SYSROOT := $(EDGE_COMMON_SW)/sysroots/cortexa72-cortexa53-xilinx-linux\n")
+        target.write("SD_IMAGE_FILE := $(EDGE_COMMON_SW)/Image\n")
+        target.write("CXX := $(XILINX_VITIS)/gnu/aarch64/lin/aarch64-linux/bin/aarch64-linux-gnu-g++\n")
+        target.write("else ifeq ($(HOST_ARCH), aarch32)\n")
+        target.write("SYSROOT := $(EDGE_COMMON_SW)/sysroots/cortexa9t2hf-neon-xilinx-linux-gnueabi/\n")
+        target.write("SD_IMAGE_FILE := $(EDGE_COMMON_SW)/uImage\n")
+        target.write("CXX := $(XILINX_VITIS)/gnu/aarch32/lin/gcc-arm-linux-gnueabi/bin/arm-linux-gnueabihf-g++\n")
+        target.write("endif\n")
+        target.write("endif\n\n")
 
     if not ("platform_type" in data and data["platform_type"] == "pcie"):
         target.write("gen_run_app:\n")
