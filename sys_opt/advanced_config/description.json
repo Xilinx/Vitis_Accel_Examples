@@ -7,7 +7,8 @@
     "keywords": [
 	"config",
 	"set_clock_uncertainity",
-	"kernel_frequency",
+        "clock",
+        "freqHz",
 	"hls.pre_tcl"
     ], 
     "key_concepts": [
@@ -15,10 +16,7 @@
         "Setting Kernel Clock Frequency",
 	"Clock Uncertainity"
     ],
-    "platform_type": "pcie", 
     "platform_blacklist": [
-        "zc",
-        "vck",
         "nodma"
     ], 
     "os": [

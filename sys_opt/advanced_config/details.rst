@@ -15,6 +15,8 @@ Following is the content of cfg file
 
 .. code:: cpp
 
-   kernel_frequency=0:280
+   [clock]
+   freqHz=280000000:vadd_1
+   
    [hls]
    pre_tcl=my_directives.tcl

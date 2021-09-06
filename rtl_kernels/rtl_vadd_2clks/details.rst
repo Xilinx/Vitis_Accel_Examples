@@ -15,4 +15,6 @@ following manner.
 
 ::
 
-   kernel_frequency=0:150|1:250 
+   [clock]
+   freqHz=150000000:krnl_vadd_2clk_rtl_1.ap_clk
+   freqHz=250000000:krnl_vadd_2clk_rtl_1.ap_clk_2

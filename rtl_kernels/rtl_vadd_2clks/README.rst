@@ -5,7 +5,7 @@ This example shows vector addition with 2 kernel clocks using RTL Kernel.
 
 **KEY CONCEPTS:** `RTL Kernel <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/devrtlkernel.html>`__, `Multiple Kernel Clocks <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/vitiscommandcompiler.html#mcj1568640526180__section_bh5_dg4_bjb>`__
 
-**KEYWORDS:** `kernel_frequency <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/vitiscommandcompiler.html#qcm1528577331870__section_frk_xtr_t3b>`__
+**KEYWORDS:** `clock <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/vitiscommandcompiler.html#ans1568640653312>`__, `freqHz <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/vitiscommandcompiler.html#ans1568640653312__section_vh5_yf4_bjb>`__, `ap_clk <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/managing_interface_synthesis.html#opo1539734223038>`__, ap_clk2
 
 EXCLUDED PLATFORMS
 ------------------
@@ -14,8 +14,6 @@ Platforms containing following strings in their names are not supported for this
 
 ::
 
-   zc
-   vck
    nodma
 
 DESIGN FILES
@@ -60,6 +58,8 @@ following manner.
 
 ::
 
-   kernel_frequency=0:150|1:250 
+   [clock]
+   freqHz=150000000:krnl_vadd_2clk_rtl_1.ap_clk
+   freqHz=250000000:krnl_vadd_2clk_rtl_1.ap_clk_2
 
 For more comprehensive documentation, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.
