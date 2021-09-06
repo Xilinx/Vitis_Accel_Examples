@@ -5,7 +5,7 @@ This is simple example to describe how user can provide various advanced options
 
 **KEY CONCEPTS:** `Using custom Tcl <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/vitiscommandcompiler.html#mcj1568640526180__section_emy_hbk_dnb>`__, `Setting Kernel Clock Frequency <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/vitiscommandcompiler.html#qcm1528577331870__section_frk_>`__, `Clock Uncertainity <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/vitiscommandcompiler.html#mcj1568640526180__section_bh5_dg4_bjb>`__
 
-**KEYWORDS:** `config <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/vitiscommandcompiler.html#qcm1528577331870__config>`__, set_clock_uncertainity, `kernel_frequency <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/vitiscommandcompiler.html#qcm1528577331870__section_frk_xtr_t3b>`__, `hls.pre_tcl <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/vitiscommandcompiler.html#mcj1568640526180__section_emy_hbk_dnb>`__
+**KEYWORDS:** `config <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/vitiscommandcompiler.html#qcm1528577331870__config>`__, set_clock_uncertainity, `clock <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/vitiscommandcompiler.html#ans1568640653312>`__, `freqHz <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/vitiscommandcompiler.html#ans1568640653312__section_vh5_yf4_bjb>`__, `hls.pre_tcl <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/vitiscommandcompiler.html#mcj1568640526180__section_emy_hbk_dnb>`__
 
 EXCLUDED PLATFORMS
 ------------------
@@ -14,8 +14,6 @@ Platforms containing following strings in their names are not supported for this
 
 ::
 
-   zc
-   vck
    nodma
 
 DESIGN FILES
@@ -54,7 +52,9 @@ Following is the content of cfg file
 
 .. code:: cpp
 
-   kernel_frequency=0:280
+   [clock]
+   freqHz=280000000:vadd_1
+   
    [hls]
    pre_tcl=my_directives.tcl
 

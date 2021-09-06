@@ -45,6 +45,40 @@ endif
 #Setting CXX
 CXX := g++
 
+#Checks for EDGE_COMMON_SW
+ifneq ($(HOST_ARCH), x86)
+ifndef EDGE_COMMON_SW
+$(error EDGE_COMMON_SW variable is not set, please set correctly and rerun)
+endif
+ifeq ($(HOST_ARCH), aarch64)
+SYSROOT := $(EDGE_COMMON_SW)/sysroots/cortexa72-cortexa53-xilinx-linux
+SD_IMAGE_FILE := $(EDGE_COMMON_SW)/Image
+CXX := $(XILINX_VITIS)/gnu/aarch64/lin/aarch64-linux/bin/aarch64-linux-gnu-g++
+else ifeq ($(HOST_ARCH), aarch32)
+SYSROOT := $(EDGE_COMMON_SW)/sysroots/cortexa9t2hf-neon-xilinx-linux-gnueabi/
+SD_IMAGE_FILE := $(EDGE_COMMON_SW)/uImage
+CXX := $(XILINX_VITIS)/gnu/aarch32/lin/gcc-arm-linux-gnueabi/bin/arm-linux-gnueabihf-g++
+endif
+endif
+
+gen_run_app:
+ifneq ($(HOST_ARCH), x86)
+	rm -rf run_app.sh
+	$(ECHO) 'export LD_LIBRARY_PATH=/mnt:/tmp:$$LD_LIBRARY_PATH' >> run_app.sh
+	$(ECHO) 'export PATH=$$PATH:/sbin' >> run_app.sh
+	$(ECHO) 'export XILINX_XRT=/usr' >> run_app.sh
+ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
+	$(ECHO) 'export XILINX_VITIS=$$PWD' >> run_app.sh
+	$(ECHO) 'export XCL_EMULATION_MODE=$(TARGET)' >> run_app.sh
+endif
+	$(ECHO) '$(EXECUTABLE) vadd.xclbin' >> run_app.sh
+	$(ECHO) 'return_code=$$?' >> run_app.sh
+	$(ECHO) 'if [ $$return_code -ne 0 ]; then' >> run_app.sh
+	$(ECHO) 'echo "ERROR: host run failed, RC=$$return_code"' >> run_app.sh
+	$(ECHO) 'fi' >> run_app.sh
+	$(ECHO) 'echo "INFO: host run completed."' >> run_app.sh
+endif
+
 check-devices:
 ifndef DEVICE
 	$(error DEVICE not set. Please set the DEVICE properly and rerun. Run "make help" for more details.)

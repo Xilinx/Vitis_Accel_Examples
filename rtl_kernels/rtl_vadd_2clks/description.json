@@ -5,16 +5,16 @@
     ], 
     "flow": "vitis",
     "keywords": [
-	"kernel_frequency"
+        "clock",
+        "freqHz",
+        "ap_clk",
+        "ap_clk2"
     ], 
     "key_concepts": [
         "RTL Kernel", 
         "Multiple Kernel Clocks"
     ],
-    "platform_type": "pcie", 
     "platform_blacklist": [
-        "zc",
-        "vck",
         "nodma"
     ], 
     "targets": [
