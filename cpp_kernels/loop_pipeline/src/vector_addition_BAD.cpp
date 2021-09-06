@@ -31,11 +31,14 @@ const int c_n = N;
 // performance because this kernel has only one global memory port.
 
 extern "C" {
-void vadd(int* c, const int* a, const int* b, const int len) {
-vadd_loop:
-    for (int x = 0; x < len; ++x) {
+void vadd(int* c, const int* a, const int* b, const int len, int rep_count) {
+count_loop:
+    for (int i = 0; i < rep_count; i++) {
+    vadd_loop:
+        for (int x = 0; x < len; ++x) {
 #pragma HLS LOOP_TRIPCOUNT min = c_len max = c_len
-        c[x] = a[x] + b[x];
+            c[x] = a[x] + b[x];
+        }
     }
 }
 }

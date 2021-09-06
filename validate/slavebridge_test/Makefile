@@ -20,9 +20,8 @@
 
 help::
 	$(ECHO) "Makefile Usage:"
-	$(ECHO) "  make all TARGET=<sw_emu/hw_emu/hw> DEVICE=<FPGA platform> HOST_ARCH=<aarch32/aarch64/x86> EDGE_COMMON_SW=<rootfs and kernel image path>"
+	$(ECHO) "  make all TARGET=<sw_emu/hw_emu/hw> DEVICE=<FPGA platform>"
 	$(ECHO) "      Command to generate the design for specified Target and Shell."
-	$(ECHO) "      By default, HOST_ARCH=x86. HOST_ARCH and EDGE_COMMON_SW is required for SoC shells"
 	$(ECHO) ""
 	$(ECHO) "  make clean "
 	$(ECHO) "      Command to remove the generated non-hardware files."
@@ -30,20 +29,17 @@ help::
 	$(ECHO) "  make cleanall"
 	$(ECHO) "      Command to remove all the generated files."
 	$(ECHO) ""
-	$(ECHO)  "  make test DEVICE=<FPGA platform>"
-	$(ECHO)  "     Command to run the application. This is same as 'run' target but does not have any makefile dependency."
-	$(ECHO)  ""
-	$(ECHO) "  make run TARGET=<sw_emu/hw_emu/hw> DEVICE=<FPGA platform> HOST_ARCH=<aarch32/aarch64/x86> EDGE_COMMON_SW=<rootfs and kernel image path>"
+	$(ECHO) "  make test DEVICE=<FPGA platform>"
+	$(ECHO) "     Command to run the application. This is same as 'run' target but does not have any makefile dependency."
+	$(ECHO) ""
+	$(ECHO) "  make run TARGET=<sw_emu/hw_emu/hw> DEVICE=<FPGA platform>"
 	$(ECHO) "      Command to run application in emulation."
-	$(ECHO) "      By default, HOST_ARCH=x86. HOST_ARCH and EDGE_COMMON_SW is required for SoC shells"
 	$(ECHO) ""
-	$(ECHO) "  make build TARGET=<sw_emu/hw_emu/hw> DEVICE=<FPGA platform> HOST_ARCH=<aarch32/aarch64/x86> EDGE_COMMON_SW=<rootfs and kernel image path>"
+	$(ECHO) "  make build TARGET=<sw_emu/hw_emu/hw> DEVICE=<FPGA platform>"
 	$(ECHO) "      Command to build xclbin application."
-	$(ECHO) "      By default, HOST_ARCH=x86. HOST_ARCH and EDGE_COMMON_SW is required for SoC shells"
 	$(ECHO) ""
-	$(ECHO) "  make host HOST_ARCH=<aarch32/aarch64/x86> EDGE_COMMON_SW=<rootfs and kernel image path>"
+	$(ECHO) "  make host"
 	$(ECHO) "      Command to build host application."
-	$(ECHO) "      By default, HOST_ARCH=x86. HOST_ARCH and EDGE_COMMON_SW is required for SoC shells"
 	$(ECHO) ""
 
 ############################## Setting up Project Variables ##############################
@@ -75,6 +71,7 @@ RESULT_STRING = TEST PASSED
 
 VPP := v++
 VPP_PFLAGS := 
+CMD_ARGS = platform_test_path
 
 include $(XF_PROJ_ROOT)/common/includes/opencl/opencl.mk
 include config.mk
@@ -83,28 +80,28 @@ CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++1y
 LDFLAGS += $(opencl_LDFLAGS)
 
 ifeq ($(findstring zc, $(DEVICE)), zc)
-$(error This example is not supported for $(DEVICE))
+$(error [ERROR]: This example is not supported for $(DEVICE).)
 endif
 ifeq ($(findstring vck, $(DEVICE)), vck)
-$(error This example is not supported for $(DEVICE))
+$(error [ERROR]: This example is not supported for $(DEVICE).)
 endif
 ifeq ($(findstring aws-vu9p-f1, $(DEVICE)), aws-vu9p-f1)
-$(error This example is not supported for $(DEVICE))
+$(error [ERROR]: This example is not supported for $(DEVICE).)
 endif
 ifeq ($(findstring 2019, $(DEVICE)), 2019)
-$(error This example is not supported for $(DEVICE))
+$(error [ERROR]: This example is not supported for $(DEVICE).)
 endif
 ifeq ($(findstring 2018, $(DEVICE)), 2018)
-$(error This example is not supported for $(DEVICE))
+$(error [ERROR]: This example is not supported for $(DEVICE).)
 endif
 ifeq ($(findstring _u2_, $(DEVICE)), _u2_)
-$(error This example is not supported for $(DEVICE))
+$(error [ERROR]: This example is not supported for $(DEVICE).)
 endif
 ifeq ($(findstring _u25_, $(DEVICE)), _u25_)
-$(error This example is not supported for $(DEVICE))
+$(error [ERROR]: This example is not supported for $(DEVICE).)
 endif
 ifeq ($(findstring u30, $(DEVICE)), u30)
-$(error This example is not supported for $(DEVICE))
+$(error [ERROR]: This example is not supported for $(DEVICE).)
 endif
 ifeq ($(findstring u50lv, $(DEVICE)), u50lv)
 $(error [ERROR]: This example is not supported for $(DEVICE).)
@@ -120,10 +117,6 @@ HOST_SRCS += $(XF_PROJ_ROOT)/common/includes/xcl2/xcl2.cpp ./src/host.cpp
 # Host compiler global settings
 CXXFLAGS += -fmessage-length=0
 LDFLAGS += -lrt -lstdc++ 
-
-ifneq ($(HOST_ARCH), x86)
-	LDFLAGS += --sysroot=$(SYSROOT)
-endif
 
 ############################## Setting up Kernel Variables ##############################
 # Kernel compiler global settings
@@ -163,14 +156,10 @@ $(TEMP_DIR)/slavebridge.xo: src/slavebridge.cpp
 	$(VPP) $(VPP_FLAGS) -c -k slavebridge --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
 $(BUILD_DIR)/slavebridge.xclbin: $(BINARY_CONTAINER_slavebridge_OBJS)
 	mkdir -p $(BUILD_DIR)
-ifeq ($(HOST_ARCH), x86)
 	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR)  -o'$(BUILD_DIR)/slavebridge.link.xclbin' $(+)
 	$(VPP) -p $(BUILD_DIR)/slavebridge.link.xclbin -t $(TARGET) --platform $(DEVICE) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/slavebridge.xclbin
 	mkdir -p $(GEN_DIR) && $(CP) $(BUILD_DIR)/slavebridge.xclbin $(GEN_DIR)
-	$(CP) $(PLATFORM_JSON) $(GEN_DIR)
-else
-	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) -o'$(BUILD_DIR)/slavebridge.xclbin' $(+)
-endif
+	$(CP) $(PLATFORM_JSON) $(GEN_DIR)	
 
 ############################## Setting Rules for Host (Building Host Executable) ##############################
 $(EXECUTABLE): $(HOST_SRCS) | check-xrt

@@ -19,6 +19,7 @@
 #include <cstdio>
 #include <random>
 #include <vector>
+#include <iomanip>
 
 using std::default_random_engine;
 using std::generate;
@@ -36,12 +37,13 @@ int gen_random() {
 
 void verify(const vector<int, aligned_allocator<int> >& gold, const vector<int, aligned_allocator<int> >& out) {
     if (!equal(begin(gold), end(gold), begin(out))) {
-        printf("TEST FAILED\n");
+        std::cout << "TEST FAILED\n";
         exit(EXIT_FAILURE);
     }
 }
 
 int main(int argc, char** argv) {
+    uint32_t repeat_counter = xcl::is_hw_emulation() ? 2 : 1000000;
     if (argc != 2) {
         std::cout << "Usage: " << argv[0] << " <XCLBIN File>" << std::endl;
         return EXIT_FAILURE;
@@ -102,16 +104,16 @@ int main(int argc, char** argv) {
     vector<int, aligned_allocator<int> > gold(DATA_SIZE);
     transform(begin(source_a), end(source_a), begin(source_b), begin(gold), std::plus<int>());
 
-    printf(
-        "|-------------------------+-------------------------|\n"
-        "| Kernel                  |    Wall-Clock Time (ns) |\n"
-        "|-------------------------+-------------------------|\n");
+    std::cout << "|-------------------------+-------------------------|\n"
+              << "| Kernel                  |    Wall-Clock Time (ns) |\n"
+              << "|-------------------------+-------------------------|\n";
     OCL_CHECK(err, cl::Kernel kernel_vadd(program, "vadd", &err));
 
     OCL_CHECK(err, err = kernel_vadd.setArg(0, buffer_result));
     OCL_CHECK(err, err = kernel_vadd.setArg(1, buffer_a));
     OCL_CHECK(err, err = kernel_vadd.setArg(2, buffer_b));
     OCL_CHECK(err, err = kernel_vadd.setArg(3, DATA_SIZE));
+    OCL_CHECK(err, err = kernel_vadd.setArg(4, repeat_counter));
 
     // Copy input data to device global memory
     OCL_CHECK(err, err = q.enqueueMigrateMemObjects({buffer_a, buffer_b}, 0 /* 0 means from host*/));
@@ -122,9 +124,10 @@ int main(int argc, char** argv) {
     q.finish();
     OCL_CHECK(err, err = event.getProfilingInfo<uint64_t>(CL_PROFILING_COMMAND_START, &nstimestart));
     OCL_CHECK(err, err = event.getProfilingInfo<uint64_t>(CL_PROFILING_COMMAND_END, &nstimeend));
-    auto simple_time = nstimeend - nstimestart;
+    auto simple_time = (nstimeend - nstimestart) / repeat_counter;
 
-    printf("| %-22s  | %23lu |\n", "vadd: simple", simple_time);
+    std::cout << "| " << std::left << std::setw(24) << "vadd: simple"
+              << "|" << std::right << std::setw(24) << simple_time << " |\n";
 
     // Copy Result from Device Global Memory to Host Local Memory
     OCL_CHECK(err, err = q.enqueueMigrateMemObjects({buffer_result}, CL_MIGRATE_MEM_OBJECT_HOST));
@@ -137,28 +140,31 @@ int main(int argc, char** argv) {
     OCL_CHECK(err, err = kernel_pipelined.setArg(1, buffer_a));
     OCL_CHECK(err, err = kernel_pipelined.setArg(2, buffer_b));
     OCL_CHECK(err, err = kernel_pipelined.setArg(3, DATA_SIZE));
+    OCL_CHECK(err, err = kernel_pipelined.setArg(4, repeat_counter));
 
     OCL_CHECK(err, err = q.enqueueTask(kernel_pipelined, nullptr, &event));
     q.finish();
 
     OCL_CHECK(err, err = event.getProfilingInfo<uint64_t>(CL_PROFILING_COMMAND_START, &nstimestart));
     OCL_CHECK(err, err = event.getProfilingInfo<uint64_t>(CL_PROFILING_COMMAND_END, &nstimeend));
-    auto pipelined_time = nstimeend - nstimestart;
+    auto pipelined_time = (nstimeend - nstimestart) / repeat_counter;
 
-    printf("| %-22s  | %23lu |\n", "vadd: pipelined", pipelined_time);
-    printf("|-------------------------+-------------------------|\n");
-    printf(
-        "Note: Wall Clock Time is meaningful for real hardware execution "
-        "only, not for emulation.\n");
-    printf(
-        "Please refer to profile summary for kernel execution time for "
-        "hardware emulation.\n");
+    std::cout << "| " << std::left << std::setw(24) << "vadd: pipelined"
+              << "|" << std::right << std::setw(24) << pipelined_time << " |\n";
+    std::cout << "|-------------------------+-------------------------|\n";
+    std::cout << "| " << std::left << std::setw(24) << "Speedup"
+              << "|" << std::right << std::setw(24) << (double)simple_time / (double)pipelined_time << " |\n";
+    std::cout << "|-------------------------+-------------------------|\n";
+    std::cout << "Note: Wall Clock Time is meaningful for real hardware execution "
+              << "only, not for emulation.\n";
+    std::cout << "Please refer to profile summary for kernel execution time for "
+              << "hardware emulation.\n";
 
     // Copy Result from Device Global Memory to Host Local Memory
     OCL_CHECK(err, err = q.enqueueMigrateMemObjects({buffer_result}, CL_MIGRATE_MEM_OBJECT_HOST));
     q.finish();
     verify(gold, source_results);
 
-    printf("TEST PASSED.\n");
+    std::cout << "TEST PASSED.\n";
     return EXIT_SUCCESS;
 }

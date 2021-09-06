@@ -21,20 +21,22 @@ bandwidth of ``m_axi`` in interface.
                result[x] = a[i * N + x];
            }
 
-Following is the log reported while running the design on U200 platform:
+Following is the log reported while running the design on U250 platform:
 
 ::
 
    Platform Name: Xilinx
-   INFO: Reading ./build_dir.hw.xilinx_u200_xdma_201830_2/vector_addition.xclbin
-   Loading: './build_dir.hw.xilinx_u200_xdma_201830_2/vector_addition.xclbin'
-   Trying to program device[0]: xilinx_u200_xdma_201830_2
+   INFO: Reading build_dir.hw.xilinx_u250_gen3x16_xdma_3_1_202020_1/vector_addition.xclbin
+   Loading: 'build_dir.hw.xilinx_u250_gen3x16_xdma_3_1_202020_1/vector_addition.xclbin'
+   Trying to program device[0]: xilinx_u250_gen3x16_xdma_shell_3_1
    Device[0]: program successful!
    |-------------------------+-------------------------|
-   | Kernel | Wall-Clock Time (ns) |
+   | Kernel                  |    Wall-Clock Time (ns) |
    |-------------------------+-------------------------|
-   | vadd: simple | 389441 |
-   | vadd: pipelined | 173306 |
+   | vadd: simple            |                   66858 |
+   | vadd: pipelined         |                   16410 |
+   |-------------------------+-------------------------|
+   | Speedup                 |                4.074223 |
    |-------------------------+-------------------------|
    Note: Wall Clock Time is meaningful for real hardware execution only, not for emulation.
    Please refer to profile summary for kernel execution time for hardware emulation.
