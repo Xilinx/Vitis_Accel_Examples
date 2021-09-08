@@ -20,7 +20,7 @@
 
 help::
 	$(ECHO) "Makefile Usage:"
-	$(ECHO) "  make all TARGET=<sw_emu/hw_emu/hw> DEVICE=<FPGA platform> 
+	$(ECHO) "  make all TARGET=<sw_emu/hw_emu/hw> DEVICE=<FPGA platform> HOST_ARCH=<aarch32/aarch64/x86> EDGE_COMMON_SW=<rootfs and kernel image path>"
 	$(ECHO) "      Command to generate the design for specified Target and Shell."
 	$(ECHO) ""
 	$(ECHO) "  make clean "
@@ -29,21 +29,21 @@ help::
 	$(ECHO) "  make cleanall"
 	$(ECHO) "      Command to remove all the generated files."
 	$(ECHO) ""
-	$(ECHO)  "  make test DEVICE=<FPGA platform>"
-	$(ECHO)  "     Command to run the application. This is same as 'run' target but does not have any makefile dependency."
-	$(ECHO)  ""
+	$(ECHO) "  make test DEVICE=<FPGA platform>"
+	$(ECHO) "      Command to run the application. This is same as 'run' target but does not have any makefile dependency."
+	$(ECHO) ""
 	$(ECHO) "  make sd_card TARGET=<sw_emu/hw_emu/hw> DEVICE=<FPGA platform> HOST_ARCH=<aarch32/aarch64/x86> EDGE_COMMON_SW=<rootfs and kernel image path>"
 	$(ECHO) "      Command to prepare sd_card files."
-	$(ECHO) "      By default, HOST_ARCH=x86. HOST_ARCH and EDGE_COMMON_SW is required for SoC shells"
 	$(ECHO) ""
 	$(ECHO) "  make run TARGET=<sw_emu/hw_emu/hw> DEVICE=<FPGA platform> HOST_ARCH=<aarch32/aarch64/x86> EDGE_COMMON_SW=<rootfs and kernel image path>"
 	$(ECHO) "      Command to run application in emulation."
 	$(ECHO) ""
-	$(ECHO) "  make build TARGET=<sw_emu/hw_emu/hw> DEVICE=<FPGA platform> 
+	$(ECHO) "  make build TARGET=<sw_emu/hw_emu/hw> DEVICE=<FPGA platform> HOST_ARCH=<aarch32/aarch64/x86> EDGE_COMMON_SW=<rootfs and kernel image path>"
 	$(ECHO) "      Command to build xclbin application."
 	$(ECHO) ""
-	$(ECHO) "  make host 
+	$(ECHO) "  make host HOST_ARCH=<aarch32/aarch64/x86> EDGE_COMMON_SW=<rootfs and kernel image path>"
 	$(ECHO) "      Command to build host application."
+	$(ECHO) "  By default, HOST_ARCH=x86. HOST_ARCH and EDGE_COMMON_SW is required for SoC shells"
 	$(ECHO) ""
 
 ############################## Setting up Project Variables ##############################
@@ -95,6 +95,10 @@ HOST_SRCS += $(XF_PROJ_ROOT)/common/includes/xcl2/xcl2.cpp src/host.cpp
 # Host compiler global settings
 CXXFLAGS += -fmessage-length=0
 LDFLAGS += -lrt -lstdc++ 
+
+ifneq ($(HOST_ARCH), x86)
+	LDFLAGS += --sysroot=$(SYSROOT)
+endif
 
 ############################## Setting up Kernel Variables ##############################
 # Kernel compiler global settings

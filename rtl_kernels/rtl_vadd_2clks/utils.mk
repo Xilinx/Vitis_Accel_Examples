@@ -33,13 +33,19 @@ endif
 
 #Checks for XILINX_XRT
 check-xrt:
+ifeq ($(HOST_ARCH), x86)
 ifndef XILINX_XRT
 	$(error XILINX_XRT variable is not set, please set correctly and rerun)
 endif
+else
+ifndef XILINX_VITIS
+	$(error XILINX_VITIS variable is not set, please set correctly and rerun)
+endif
+endif
 
 #Checks for Correct architecture
-ifneq ($(HOST_ARCH), $(filter $(HOST_ARCH),x86))
-$(error HOST_ARCH variable not set correctly, supported HOST_ARCH is x86 only)
+ifneq ($(HOST_ARCH), $(filter $(HOST_ARCH),aarch64 aarch32 x86))
+$(error HOST_ARCH variable not set, please set correctly and rerun)
 endif
 
 #Setting CXX
@@ -78,7 +84,6 @@ endif
 	$(ECHO) 'fi' >> run_app.sh
 	$(ECHO) 'echo "INFO: host run completed."' >> run_app.sh
 endif
-
 check-devices:
 ifndef DEVICE
 	$(error DEVICE not set. Please set the DEVICE properly and rerun. Run "make help" for more details.)
