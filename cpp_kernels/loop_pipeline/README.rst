@@ -79,5 +79,5 @@ Following is the log reported while running the design on U250 platform:
    Note: Wall Clock Time is meaningful for real hardware execution only, not for emulation.
    Please refer to profile summary for kernel execution time for hardware emulation.
    TEST PASSED.
-      
+
 For more comprehensive documentation, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.
