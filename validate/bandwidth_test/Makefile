@@ -169,6 +169,7 @@ ifeq ($(HOST_ARCH), x86)
 else
 	$(EXECUTABLE) $(CMD_ARGS)
 endif
+endif
 
 
 ############################## Cleaning Rules ##############################
