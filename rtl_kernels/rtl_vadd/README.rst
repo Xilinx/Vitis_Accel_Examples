@@ -5,6 +5,8 @@ Simple example of vector addition using RTL Kernel
 
 **KEY CONCEPTS:** `RTL Kernel <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/devrtlkernel.html>`__
 
+**KEYWORDS:** `kernel_files <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/devrtlkernel.html#nuy1588349382079>`__
+
 EXCLUDED PLATFORMS
 ------------------
 
@@ -29,6 +31,7 @@ Application code is located in the src directory. Accelerator binary files will 
    src/hdl/krnl_vadd_rtl_counter.sv
    src/hdl/krnl_vadd_rtl_int.sv
    src/host.cpp
+   src/vadd.cpp
    
 COMMAND LINE ARGUMENTS
 ----------------------
@@ -54,5 +57,11 @@ with a void return value, scalar arguments, and pointer arguments.
 The RTL Kernel Wizard automates some of the steps that need to be taken
 to ensure that the RTL IP is packaged into a kernel that can be
 integrated into a system in Vitis environment.
+
+The example also supports sw_emu by running the vadd.cpp code provided in the ``package_xo`` command as follows:
+
+::
+
+   package_xo -xo_path ${xoname} -kernel_name krnl_vadd_rtl -ip_directory ./packaged_kernel_${suffix} -kernel_files src/vadd.cpp
 
 For more comprehensive documentation, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.

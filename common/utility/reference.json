@@ -83,7 +83,8 @@
         "clock": "https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/vitiscommandcompiler.html#ans1568640653312",
         "freqHz": "https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/vitiscommandcompiler.html#ans1568640653312__section_vh5_yf4_bjb",
         "ap_clk": "https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/managing_interface_synthesis.html#opo1539734223038",
-        "ap_clk_2": "https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/rtl_kernel_wizard.html#isr1504034324715__section_x53_pcb_2jb"
+        "ap_clk_2": "https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/rtl_kernel_wizard.html#isr1504034324715__section_x53_pcb_2jb",
+        "kernel_files": "https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/devrtlkernel.html#nuy1588349382079"
     },
     "key_concepts": {
         "HLS C Kernel": "https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/devckernels.html#hxx1556235054362",

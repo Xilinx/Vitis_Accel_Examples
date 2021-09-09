@@ -4,15 +4,14 @@
         "Simple example of vector addition using RTL Kernel"
     ], 
     "flow": "vitis",
+    "keywords": [
+        "kernel_files"
+    ],
     "key_concepts": [
         "RTL Kernel"
     ],
     "platform_blacklist": [
         "nodma"
-    ], 
-    "targets": [
-        "hw", 
-        "hw_emu"
     ], 
     "os": [
         "Linux"
@@ -81,6 +80,7 @@
             }
         ],
         "targets": [
+            "vitis_sw_emu",
             "vitis_hw_emu",
             "vitis_hw"
         ],
