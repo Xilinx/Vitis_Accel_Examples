@@ -45,6 +45,7 @@
         }
     },
     "targets": [
+        "sw_emu",
         "hw_emu"
     ],   
     "match_makefile": "false",
@@ -57,7 +58,7 @@
                 }
             ], 
             "name": "increment",
-	    "ldclflags": "--config PROJECT/krnl_incr.cfg"
+            "ldclflags": "--config PROJECT/krnl_incr.cfg"
         }
     ],
     "launch": [
@@ -85,6 +86,7 @@
             }
         ],
         "targets": [
+            "vitis_sw_emu",
             "vitis_hw_emu"
         ],
         "category": "canary"

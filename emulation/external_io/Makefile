@@ -190,8 +190,8 @@ ifeq ($(HOST_ARCH), x86)
 	$(EXECUTABLE) $(CMD_ARGS)
 endif
 endif
-ifneq ($(TARGET),$(findstring $(TARGET), hw_emu))
-$(error Application supports only hw_emu TARGET. Please use the target for running the application)
+ifneq ($(TARGET),$(findstring $(TARGET), sw_emu hw_emu))
+$(error Application supports only sw_emu hw_emu TARGET. Please use the target for running the application)
 endif
 
 
@@ -210,8 +210,8 @@ else
 	$(ECHO) "Please copy the content of sd_card folder and data to an SD Card and run on the board"
 endif
 endif
-ifneq ($(TARGET),$(findstring $(TARGET), hw_emu))
-$(warning WARNING:Application supports only hw_emu TARGET. Please use the target for running the application)
+ifneq ($(TARGET),$(findstring $(TARGET), sw_emu hw_emu))
+$(warning WARNING:Application supports only sw_emu hw_emu TARGET. Please use the target for running the application)
 endif
 
 

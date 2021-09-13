@@ -84,7 +84,7 @@
         "ctrl_protocol": "https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/package_xo.html#fsi1542298725587__section_mhz_2p5_5fb",
         "user_managed": "https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/devrtlkernel.html#lvg1620349851355",
         "xrt::ip": "https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/devhostapp.html#jln1620691667890",
-        "xrt::xclbin": "https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/devhostapp.html#zja1524097906844"
+        "xrt::xclbin": "https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/devhostapp.html#zja1524097906844",
         "clock": "https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/vitiscommandcompiler.html#ans1568640653312",
         "freqHz": "https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/vitiscommandcompiler.html#ans1568640653312__section_vh5_yf4_bjb",
         "ap_clk": "https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/managing_interface_synthesis.html#opo1539734223038",
