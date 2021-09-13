@@ -59,26 +59,13 @@
         {
             "accelerators": [
                 {
-                    "compute_units": [
-                        {
-                            "arguments": [
-                                {
-                                    "name": "input", 
-                                    "memory": "DDR[0]"
-                                }, 
-                                {
-                                    "name": "output", 
-                                    "memory": "DDR[1]"
-                                }
-                            ]
-                        }
-                    ], 
                     "name": "apply_watermark", 
                     "location": "src/apply_watermark.cl",
                     "clflags": "--config PROJECT/bandwidth.cfg"
                 }
             ], 
-            "name": "apply_watermark"
+            "name": "apply_watermark",
+            "ldclflags": "--config PROJECT/krnl_vadd.cfg"
         }
     ], 
     "launch": [

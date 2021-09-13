@@ -106,9 +106,9 @@ ifneq ($(TARGET), hw)
 endif
 
 
+# Kernel linker flags
+VPP_LDFLAGS_vadd += --config ./vadd.cfg
 
-# Adding config files to linker
-VPP_LDFLAGS_vadd += --config vadd.cfg 
 EXECUTABLE = ./mult_compute_units
 EMCONFIG_DIR = $(TEMP_DIR)
 EMU_DIR = $(SDCARD)/data/emulation

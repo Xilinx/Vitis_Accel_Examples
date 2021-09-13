@@ -56,107 +56,16 @@
             "accelerators": [
                 {
                     "location": "PROJECT/kernel/fuzzy_kernel_1.cpp",
-                    "name": "fuzzy_kernel_1",
-                    "compute_units": [
-                        {
-                            "arguments": [
-                                {
-                                    "name": "buf_in", 
-                                    "memory": "PLRAM[0]"
-                                },
-                                {
-                                    "name": "csv_part0", 
-                                    "memory": "DDR[1]"
-                                },
-                                {
-                                    "name": "csv_part1", 
-                                    "memory": "DDR[1]"
-                                },
-                                {
-                                    "name": "csv_part2", 
-                                    "memory": "DDR[1]"
-                                },
-                                {
-                                    "name": "csv_part3", 
-                                    "memory": "DDR[1]"
-                                },
-                                {
-                                    "name": "csv_part4", 
-                                    "memory": "DDR[1]"
-                                },
-                                {
-                                    "name": "csv_part5", 
-                                    "memory": "DDR[1]"
-                                },
-                                {
-                                     "name": "csv_part6", 
-                                    "memory": "DDR[1]"
-                                },
-                                {
-                                     "name": "csv_part7", 
-                                    "memory": "DDR[1]"
-                                },
-                                {
-                                     "name": "buf_out", 
-                                    "memory": "PLRAM[0]"
-                                }
-                            ]
-                        }
-                    ]
+                    "name": "fuzzy_kernel_1"
                 },
                 {
                     "location": "PROJECT/kernel/fuzzy_kernel_2.cpp",
-                    "name": "fuzzy_kernel_2",
-                    "compute_units": [
-                        {
-                            "arguments": [
-                                {
-                                    "name": "buf_in", 
-                                    "memory": "PLRAM[1]"
-                                },
-                                {
-                                    "name": "csv_part0", 
-                                    "memory": "DDR[2]"
-                                },
-                                {
-                                    "name": "csv_part1", 
-                                    "memory": "DDR[2]"
-                                },
-                                {
-                                    "name": "csv_part2", 
-                                    "memory": "DDR[2]"
-                                },
-                                {
-                                    "name": "csv_part3", 
-                                    "memory": "DDR[2]"
-                                },
-                                {
-                                    "name": "csv_part4", 
-                                    "memory": "DDR[2]"
-                                },
-                                {
-                                    "name": "csv_part5", 
-                                    "memory": "DDR[2]"
-                                },
-                                {
-                                     "name": "csv_part6", 
-                                    "memory": "DDR[2]"
-                                },
-                                {
-                                     "name": "csv_part7", 
-                                    "memory": "DDR[2]"
-                                },
-                                {
-                                     "name": "buf_out", 
-                                    "memory": "PLRAM[1]"
-                                }
-                            ]
-                        }
-                    ]
+                    "name": "fuzzy_kernel_2"
                 }
             ],
             "frequency": 300,
-            "name": "aml"
+            "name": "aml",
+            "ldclflags": "--config PROJECT/aml.cfg"
         }
     ],
     "testinfo": {

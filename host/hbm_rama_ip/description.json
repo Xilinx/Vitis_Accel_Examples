@@ -54,95 +54,12 @@
         {
             "accelerators": [
                 {
-                    "compute_units": [
-                        {
-                            "arguments": [
-                                {
-                                    "name": "in1", 
-                                    "memory": "HBM[0:3]"
-                                }, 
-                                {
-                                    "name": "in2", 
-                                    "memory": "HBM[4:7]"
-                                }, 
-                                {
-                                    "name": "out_add", 
-                                    "memory": "HBM[8:11]"
-                                }, 
-                                {
-                                    "name": "out_mul", 
-                                    "memory": "HBM[12:15]"
-                                }
-                            ]
-                        }, 
-                        {
-                            "arguments": [
-                                {
-                                    "name": "in1", 
-                                    "memory": "HBM[16:19]"
-                                }, 
-                                {
-                                    "name": "in2", 
-                                    "memory": "HBM[20:23]"
-                                }, 
-                                {
-                                    "name": "out_add", 
-                                    "memory": "HBM[24:27]"
-                                }, 
-                                {
-                                    "name": "out_mul", 
-                                    "memory": "HBM[28:31]"
-                                }
-                            ]
-                        },
-                        {
-                            "arguments": [
-                                {
-                                    "name": "in1", 
-                                    "memory": "HBM[0:3]"
-                                }, 
-                                {
-                                    "name": "in2", 
-                                    "memory": "HBM[4:7]"
-                                }, 
-                                {
-                                    "name": "out_add", 
-                                    "memory": "HBM[8:11]"
-                                }, 
-                                {
-                                    "name": "out_mul", 
-                                    "memory": "HBM[12:15]"
-                                }
-                            ]
-                        }, 
-                        {
-                            "arguments": [
-                                {
-                                    "name": "in1", 
-                                    "memory": "HBM[16:19]"
-                                }, 
-                                {
-                                    "name": "in2", 
-                                    "memory": "HBM[20:23]"
-                                }, 
-                                {
-                                    "name": "out_add", 
-                                    "memory": "HBM[24:27]"
-                                }, 
-                                {
-                                    "name": "out_mul", 
-                                    "memory": "HBM[28:31]"
-                                }
-                            ]
-                        }
-                    ], 
-                    "num_compute_units": "4", 
                     "location": "src/krnl_vaddmul.cpp", 
                     "name": "krnl_vaddmul"
                 }
             ], 
             "name": "krnl_vaddmul",
-            "ldclflags": "--config PROJECT/advanced.cfg"
+            "ldclflags": "--config PROJECT/advanced.cfg --config PROJECT/krnl_vaddmul.cfg"
         }
     ],
     "launch": [

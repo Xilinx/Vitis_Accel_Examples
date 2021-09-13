@@ -127,10 +127,8 @@ endif
 
 
 # Kernel linker flags
-VPP_LDFLAGS += --config ./advanced.cfg
+VPP_LDFLAGS_krnl_vaddmul += --config ./advanced.cfg --config ./krnl_vaddmul.cfg
 
-# Adding config files to linker
-VPP_LDFLAGS_krnl_vaddmul += --config krnl_vaddmul.cfg 
 EXECUTABLE = ./hbm_rama_ip
 EMCONFIG_DIR = $(TEMP_DIR)
 

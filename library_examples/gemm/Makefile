@@ -130,7 +130,7 @@ VPP_FLAGS_blasKernel +=  --kernel_frequency 200
 CXXFLAGS += -DBLAS_ddrWidth=16 -DBLAS_numKernels=1 -DBLAS_dataType=float -DBLAS_gemmMBlocks=4 -DBLAS_gemmKBlocks=4 -DBLAS_gemmNBlocks=4 -DBLAS_argPipeline=2 -DBLAS_instructionSizeBytes=64 -DBLAS_XdataType=float -DBLAS_argInstrWidth=1 -DBLAS_runGemm=1
 
 # Kernel linker flags
-VPP_LDFLAGS += --config ./opts.cfg --kernel_frequency 200
+VPP_LDFLAGS_blas += --config ./opts.cfg --kernel_frequency 200
 
 EXECUTABLE = ./api_gemm.exe
 EMCONFIG_DIR = $(TEMP_DIR)
@@ -168,7 +168,7 @@ $(TEMP_DIR)/blasKernel.xo: ./src/hw/kernel.cpp
 	$(VPP) $(VPP_FLAGS) $(VPP_FLAGS_blasKernel) -c -k blasKernel --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
 $(BUILD_DIR)/blas.xclbin: $(BINARY_CONTAINER_blas_OBJS)
 	mkdir -p $(BUILD_DIR)
-	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR)  -o'$(BUILD_DIR)/blas.link.xclbin' $(+)
+	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR)  $(VPP_LDFLAGS_blas) -o'$(BUILD_DIR)/blas.link.xclbin' $(+)
 	$(VPP) -p $(BUILD_DIR)/blas.link.xclbin -t $(TARGET) --platform $(DEVICE) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/blas.xclbin
 
 ############################## Setting Rules for Host (Building Host Executable) ##############################

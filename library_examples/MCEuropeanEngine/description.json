@@ -59,41 +59,11 @@
                 {
                     "location": "PROJECT/src/kernel_mc.cpp", 
                     "clflags": " -D DPRAGMA", 
-                    "name": "kernel_mc", 
-                    "num_compute_units": "3", 
-                    "compute_units": [
-                        {
-                            "slr": "SLR0", 
-                            "arguments": [
-                                {
-                                    "name": "m_axi_gmem", 
-                                    "memory": "DDR[3]"
-                                }
-                            ]
-                        }, 
-                        {
-                            "slr": "SLR1", 
-                            "arguments": [
-                                {
-                                    "name": "m_axi_gmem", 
-                                    "memory": "DDR[0]"
-                                }
-                            ]
-                        }, 
-                        {
-                            "slr": "SLR2", 
-                            "arguments": [
-                                {
-                                    "name": "m_axi_gmem", 
-                                    "memory": "DDR[1]"
-                                }
-                            ]
-                        }
-                    ]
+                    "name": "kernel_mc"
                 }
             ], 
             "name": "kernel_mc",
-            "ldclflags": "--config PROJECT/conn_vu9p.cfg --kernel_frequency 300"
+            "ldclflags": "--config PROJECT/conn_vu9p.cfg --config PROJECT/kernel_mc.cfg --kernel_frequency 300"
         }
     ], 
     "testinfo": {

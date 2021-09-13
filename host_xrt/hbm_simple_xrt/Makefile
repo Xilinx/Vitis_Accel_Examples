@@ -126,9 +126,9 @@ ifneq ($(TARGET), hw)
 endif
 
 
+# Kernel linker flags
+VPP_LDFLAGS_krnl_vadd += --config ./krnl_vadd.cfg
 
-# Adding config files to linker
-VPP_LDFLAGS_krnl_vadd += --config krnl_vadd.cfg 
 EXECUTABLE = ./hbm_simple_xrt
 EMCONFIG_DIR = $(TEMP_DIR)
 

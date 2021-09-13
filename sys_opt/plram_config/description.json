@@ -54,30 +54,12 @@
         {
             "accelerators": [
                 {
-                    "compute_units": [
-                        {
-                            "arguments": [
-                                {
-                                    "name": "in1", 
-                                    "memory": "PLRAM[0]"
-                                }, 
-                                {
-                                    "name": "in2", 
-                                    "memory": "PLRAM[1]"
-                                }, 
-                                {
-                                    "name": "out", 
-                                    "memory": "PLRAM[1]"
-                                }
-                            ]
-                        }
-                    ], 
                     "name": "vadd", 
                     "location": "src/vadd.cpp"
                 }
             ], 
             "name": "vadd",
-            "ldclflags": "--config PROJECT/advanced.cfg"
+            "ldclflags": "--config PROJECT/advanced.cfg --config PROJECT/vadd.cfg"
         }
     ],
     "launch": [

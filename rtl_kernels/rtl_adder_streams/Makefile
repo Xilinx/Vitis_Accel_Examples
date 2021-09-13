@@ -109,7 +109,7 @@ endif
 
 
 # Kernel linker flags
-VPP_LDFLAGS += --config ./adder.cfg
+VPP_LDFLAGS_adder += --config ./adder.cfg
 
 EXECUTABLE = ./rtl_adder_streams
 EMCONFIG_DIR = $(TEMP_DIR)
@@ -140,10 +140,10 @@ xclbin: build
 $(BUILD_DIR)/adder.xclbin: $(BINARY_CONTAINER_adder_OBJS)
 	mkdir -p $(BUILD_DIR)
 ifeq ($(HOST_ARCH), x86)
-	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR)  -o'$(BUILD_DIR)/adder.link.xclbin' $(+)
+	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR)  $(VPP_LDFLAGS_adder) -o'$(BUILD_DIR)/adder.link.xclbin' $(+)
 	$(VPP) -p $(BUILD_DIR)/adder.link.xclbin -t $(TARGET) --platform $(DEVICE) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/adder.xclbin
 else
-	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) -o'$(BUILD_DIR)/adder.xclbin' $(+)
+	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR)  $(VPP_LDFLAGS_adder)-o'$(BUILD_DIR)/adder.xclbin' $(+)
 endif
 ############################## Setting Rules for Host (Building Host Executable) ##############################
 $(EXECUTABLE): $(HOST_SRCS) | check-xrt

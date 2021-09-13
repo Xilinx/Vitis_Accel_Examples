@@ -121,9 +121,9 @@ ifneq ($(TARGET), hw)
 endif
 
 
+# Kernel linker flags
+VPP_LDFLAGS_mmult += --config ./mmult.cfg
 
-# Adding config files to linker
-VPP_LDFLAGS_mmult += --config mmult.cfg 
 EXECUTABLE = ./plram_access
 EMCONFIG_DIR = $(TEMP_DIR)
 

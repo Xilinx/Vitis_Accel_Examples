@@ -135,10 +135,8 @@ VPP_FLAGS_kernel_mc +=   -D DPRAGMA
 
 
 # Kernel linker flags
-VPP_LDFLAGS += --config ./conn_vu9p.cfg --kernel_frequency 300
+VPP_LDFLAGS_kernel_mc += --config ./conn_vu9p.cfg --config ./kernel_mc.cfg --kernel_frequency 300
 
-# Adding config files to linker
-VPP_LDFLAGS_kernel_mc += --config kernel_mc.cfg 
 EXECUTABLE = ./test.exe
 EMCONFIG_DIR = $(TEMP_DIR)
 

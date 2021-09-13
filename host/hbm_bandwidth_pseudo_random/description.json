@@ -47,74 +47,12 @@
         {
             "accelerators": [
                 {
-                    "compute_units": [
-                        {
-                            "arguments": [
-                                {
-                                    "name": "in1", 
-                                    "memory": "HBM[0]"
-                                }, 
-                                {
-                                    "name": "in2", 
-                                    "memory": "HBM[1]"
-                                }, 
-                                {
-                                    "name": "out_add", 
-                                    "memory": "HBM[2]"
-                                }, 
-                                {
-                                    "name": "out_mul", 
-                                    "memory": "HBM[3]"
-                                }
-                            ]
-                        }, 
-                        {
-                            "arguments": [
-                                {
-                                    "name": "in1", 
-                                    "memory": "HBM[4]"
-                                }, 
-                                {
-                                    "name": "in2", 
-                                    "memory": "HBM[5]"
-                                }, 
-                                {
-                                    "name": "out_add", 
-                                    "memory": "HBM[6]"
-                                }, 
-                                {
-                                    "name": "out_mul", 
-                                    "memory": "HBM[7]"
-                                }
-                            ]
-                        }, 
-                        {
-                            "arguments": [
-                                {
-                                    "name": "in1", 
-                                    "memory": "HBM[8]"
-                                }, 
-                                {
-                                    "name": "in2", 
-                                    "memory": "HBM[9]"
-                                }, 
-                                {
-                                    "name": "out_add", 
-                                    "memory": "HBM[10]"
-                                }, 
-                                {
-                                    "name": "out_mul", 
-                                    "memory": "HBM[11]"
-                                }
-                            ]
-                        } 
-                    ], 
-                    "num_compute_units": "3", 
                     "location": "src/krnl_vaddmul.cpp", 
                     "name": "krnl_vaddmul"
                 }
             ], 
-            "name": "krnl_vaddmul"
+            "name": "krnl_vaddmul",
+            "ldclflags": "--config PROJECT/krnl_vaddmul.cfg"
         }
     ],
     "launch": [

@@ -42,12 +42,12 @@
         {
             "accelerators": [
                 {
-                    "num_compute_units": "4", 
                     "name": "vadd", 
                     "location": "src/vadd.cpp"
                 }
             ], 
-            "name": "vadd"
+            "name": "vadd",
+            "ldclflags": "--config PROJECT/vadd.cfg"
         }
     ],
     "launch": [

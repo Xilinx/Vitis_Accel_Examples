@@ -131,9 +131,9 @@ ifneq ($(TARGET), hw)
 endif
 
 
+# Kernel linker flags
+VPP_LDFLAGS_aml += --config ./aml.cfg
 
-# Adding config files to linker
-VPP_LDFLAGS_aml += --config aml.cfg 
 EXECUTABLE = ./test_aml
 EMCONFIG_DIR = $(TEMP_DIR)
 

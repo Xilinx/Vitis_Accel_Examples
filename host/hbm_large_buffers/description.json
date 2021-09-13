@@ -48,30 +48,13 @@
     "containers": [
         {
             "accelerators": [
-                {
-                    "compute_units": [
-                        {
-                            "arguments": [
-                                {
-                                    "name": "in1", 
-                                    "memory": "HBM[0:31]"
-                                }, 
-                                {
-                                    "name": "in2", 
-                                    "memory": "HBM[0:31]"
-                                }, 
-                                {
-                                    "name": "out_r", 
-                                    "memory": "HBM[0:31]"
-                                }
-                            ]
-                        }
-                    ], 
+                { 
                     "name": "krnl_vadd", 
                     "location": "src/krnl_vadd.cpp"
                 }
             ], 
-            "name": "krnl_vadd"
+            "name": "krnl_vadd",
+            "ldclflags": "--config PROJECT/krnl_vadd.cfg"
         }
     ],
     "launch": [
