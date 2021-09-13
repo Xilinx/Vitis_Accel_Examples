@@ -123,9 +123,9 @@ endif
 VPP_FLAGS_apply_watermark +=  --config ./bandwidth.cfg
 
 
+# Kernel linker flags
+VPP_LDFLAGS_apply_watermark += --config ./krnl_vadd.cfg
 
-# Adding config files to linker
-VPP_LDFLAGS_apply_watermark += --config apply_watermark.cfg 
 EXECUTABLE = ./cl_gmem_2banks
 EMCONFIG_DIR = $(TEMP_DIR)
 

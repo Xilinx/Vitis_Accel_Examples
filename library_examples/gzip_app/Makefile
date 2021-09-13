@@ -124,7 +124,7 @@ endif
 CXXFLAGS += -DC_COMPUTE_UNIT=1 -DH_COMPUTE_UNIT=1 -DD_COMPUTE_UNIT=1 -DPARALLEL_BLOCK=8 -DGZIP_MODE -DOVERLAP_HOST_DEVICE
 
 # Kernel linker flags
-VPP_LDFLAGS += --kernel_frequency 250 --config ./opts.cfg
+VPP_LDFLAGS_compress_decompress += --kernel_frequency 250 --config ./opts.cfg
 
 EXECUTABLE = ./xil_gzip
 EMCONFIG_DIR = $(TEMP_DIR)
@@ -176,7 +176,7 @@ $(TEMP_DIR)/xilDecompressFull.xo: ./src/zlib_parallelbyte_decompress_full.cpp
 	$(VPP) $(VPP_FLAGS) -c -k xilDecompressFull --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
 $(BUILD_DIR)/compress_decompress.xclbin: $(BINARY_CONTAINER_compress_decompress_OBJS)
 	mkdir -p $(BUILD_DIR)
-	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR)  -o'$(BUILD_DIR)/compress_decompress.link.xclbin' $(+)
+	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR)  $(VPP_LDFLAGS_compress_decompress) -o'$(BUILD_DIR)/compress_decompress.link.xclbin' $(+)
 	$(VPP) -p $(BUILD_DIR)/compress_decompress.link.xclbin -t $(TARGET) --platform $(DEVICE) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/compress_decompress.xclbin
 
 ############################## Setting Rules for Host (Building Host Executable) ##############################

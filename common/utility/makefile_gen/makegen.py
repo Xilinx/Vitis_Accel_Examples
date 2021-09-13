@@ -227,7 +227,7 @@ def add_kernel_flags(target, data):
             if  "ldclflags" in con:
                 target.write("\n")
                 target.write("# Kernel linker flags\n")
-                target.write("VPP_LDFLAGS +=")
+                target.write("VPP_LDFLAGS_"+con["name"]+" +=") 
                 ldclflags = con["ldclflags"].split(" ")
                 for flg in ldclflags[0:]:
                     target.write(" ")
@@ -235,19 +235,6 @@ def add_kernel_flags(target, data):
                     target.write(flg)
             target.write("\n")
 
-    #adding config files to linker 
-    if "containers" in data:
-        for con in data["containers"]:
-                config_add=0
-                if "accelerators" in con:
-                        for acc in con["accelerators"]:
-                                if "compute_units" in acc or "num_compute_units" in acc:
-                                        if not config_add:			
-                                                target.write("\n")
-                                                target.write("# Adding config files to linker\n")
-                                                target.write("VPP_LDFLAGS_"+con["name"]+" += ")
-                                                target.write("--config "+con["name"]+".cfg ")
-                                                config_add=1
     target.write("\n")
     target.write("EXECUTABLE = ./")
     if "host_exe" in data["host"]:
@@ -351,11 +338,8 @@ def building_kernel(target, data):
             target.write("-l $(VPP_LDFLAGS) --temp_dir ")
             target.write("$(TEMP_DIR) ")
 
-            if "accelerators" in con:
-                for acc in con["accelerators"]:
-                    if "compute_units" in acc or "num_compute_units" in acc:
-                        target.write(" $(VPP_LDFLAGS_"+con["name"]+")")
-                        break
+            if "ldclflags" in con:
+                target.write(" $(VPP_LDFLAGS_"+con["name"]+")")
             target.write(" -o'$(BUILD_DIR)/" + con["name"] + ".link.xclbin' $(+)\n")
 
             target.write("\t$(VPP) -p $(BUILD_DIR)/" + con["name"] + ".link.xclbin -t $(TARGET) --platform $(DEVICE) ")
@@ -363,11 +347,8 @@ def building_kernel(target, data):
             if not ("platform_type" in data and data["platform_type"] == "pcie"):
                 target.write("else\n")
                 target.write("\t$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) ")
-                if "accelerators" in con:
-                    for acc in con["accelerators"]:
-                        if "compute_units" in acc or "num_compute_units" in acc:
-                            target.write(" $(VPP_LDFLAGS_"+con["name"]+") ")
-                            break
+                if "ldclflags" in con:
+                    target.write(" $(VPP_LDFLAGS_"+con["name"]+") ")
                 target.write("-o'$(BUILD_DIR)/" + con["name"] + ".xclbin' $(+)\n")
                 target.write("endif\n")
     target.write("\n")
@@ -389,16 +370,16 @@ def building_kernel_rtl(target, data):
             target.write("-l $(VPP_LDFLAGS) --temp_dir ")
             target.write("$(TEMP_DIR) ")
 
-            if "accelerators" in con:
-                for acc in con["accelerators"]:
-                    if "compute_units" in acc or "num_compute_units" in acc:
-                        target.write(" $(VPP_LDFLAGS_"+con["name"]+")")
+            if "ldclflags" in con:
+                target.write(" $(VPP_LDFLAGS_"+con["name"]+")")
             target.write(" -o'$(BUILD_DIR)/" + con["name"] + ".link.xclbin' $(+)\n")
 
             target.write("\t$(VPP) -p $(BUILD_DIR)/" + con["name"] + ".link.xclbin -t $(TARGET) --platform $(DEVICE) ")
             target.write("--package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/" + con["name"] + ".xclbin\n")
             target.write("else\n")
             target.write("\t$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) ")
+            if "ldclflags" in con:
+                target.write(" $(VPP_LDFLAGS_"+con["name"]+")")
             target.write("-o'$(BUILD_DIR)/" + con["name"] + ".xclbin' $(+)\n")
             target.write("endif\n")
     return
@@ -432,17 +413,16 @@ def building_kernel_systemc(target, data):
             target.write("-l $(VPP_LDFLAGS) --temp_dir ")
             target.write("$(TEMP_DIR) ")
 
-            if "accelerators" in con:
-                for acc in con["accelerators"]:
-                    if "compute_units" in acc or "num_compute_units" in acc:
-                        target.write(" $(VPP_LDFLAGS_"+con["name"]+")")
-                        break
+            if "ldclflags" in acc:
+                target.write(" $(VPP_LDFLAGS_"+con["name"]+")")
             target.write(" -o'$(BUILD_DIR)/" + con["name"] + ".link.xclbin' $(+)\n")
 
             target.write("\t$(VPP) -p $(BUILD_DIR)/" + con["name"] + ".link.xclbin -t $(TARGET) --platform $(DEVICE) ")
             target.write("--package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/" + con["name"] + ".xclbin\n")
             target.write("else\n")
             target.write("\t$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) ")
+            if "ldclflags" in acc:
+                target.write(" $(VPP_LDFLAGS_"+con["name"]+")")
             target.write("-o'$(BUILD_DIR)/" + con["name"] + ".xclbin' $(+)\n")
             target.write("endif\n")
     target.write("\n")
@@ -951,32 +931,6 @@ def create_utils(target, data):
     readme_gen(target)
     return
 
-def create_config(data):
-    if "containers" in data:
-        for con in data["containers"]:
-            if "accelerators" in con:
-                config_file = 0
-                for acc in con["accelerators"]:
-                    if ("compute_units" in acc or "num_compute_units" in acc) and config_file == 0:
-                        print ("Creating "+con["name"]+".cfg file for %s" %data["name"])
-                        target = open(con["name"] + ".cfg","w")
-                        target.write("[connectivity]\n")
-                        config_file = 1
-                    if "compute_units" in acc:
-                        for i in range(len(acc["compute_units"])):
-                            com = acc["compute_units"][i]
-                            if "arguments" in com:
-                                for arg in com["arguments"]:
-                                    target.write("sp="+acc["name"]+"_"+str(i + 1)+"."+arg["name"])
-                                    if "memory" in arg:
-                                        target.write(":" + arg["memory"])
-                                    target.write("\n")
-                            if "slr" in com:
-                                target.write("slr="+acc["name"]+"_"+str(i + 1)+":"+com["slr"]+"\n")
-                    if "num_compute_units" in acc:
-                                target.write("nk="+acc["name"]+":"+acc["num_compute_units"]+"\n")
-    return
-
 script, desc_file = argv
 desc = open(desc_file, 'r')
 data = json.load(desc)
@@ -1009,9 +963,6 @@ else:
 if "match_makefile" in data and data["match_makefile"] == "false":
     print("Info:: Makefile Manually Edited:: AutoMakefile Generator Skipped")
 else:
-    if "containers" in data:
-        config_flag = 0
-        create_config(data)	
     print("Generating Auto-Makefile for %s" %data["name"])
     target = open("Makefile", "w")
     create_mk(target, data)

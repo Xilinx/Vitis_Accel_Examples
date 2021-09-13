@@ -121,9 +121,9 @@ ifneq ($(TARGET), hw)
 endif
 
 
+# Kernel linker flags
+VPP_LDFLAGS_krnl_host_global += --config ./krnl_host_global.cfg
 
-# Adding config files to linker
-VPP_LDFLAGS_krnl_host_global += --config krnl_host_global.cfg 
 EXECUTABLE = ./host_global_bandwidth
 EMCONFIG_DIR = $(TEMP_DIR)
 

@@ -117,10 +117,8 @@ endif
 
 
 # Kernel linker flags
-VPP_LDFLAGS += --config ./kmeans.cfg -O3
+VPP_LDFLAGS_krnl_kmeans += --config ./kmeans.cfg --config ./krnl_kmeans.cfg -O3
 
-# Adding config files to linker
-VPP_LDFLAGS_krnl_kmeans += --config krnl_kmeans.cfg 
 EXECUTABLE = ./kmeans
 EMCONFIG_DIR = $(TEMP_DIR)
 

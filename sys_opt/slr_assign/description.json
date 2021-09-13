@@ -42,25 +42,16 @@
         {
             "accelerators": [
                 {
-                    "compute_units": [
-                        {
-                            "slr": "SLR1"
-                        }
-                    ], 
                     "name": "vmult", 
                     "location": "src/kernel.cl"
                 }, 
                 {
-                    "compute_units": [
-                        {
-                            "slr": "SLR1"
-                        }
-                    ], 
                     "name": "vadd", 
                     "location": "src/kernel.cl"
                 }
             ], 
-            "name": "vmult_vadd"
+            "name": "vmult_vadd",
+            "ldclflags": "--config PROJECT/vmult_vadd.cfg"
         }
     ], 
     "launch": [

@@ -50,12 +50,11 @@
             "accelerators": [
                 {
                     "name": "kmeans", 
-                    "location": "src/krnl_kmeans.cpp",
-                    "num_compute_units": "2"
+                    "location": "src/krnl_kmeans.cpp"
                 }
             ], 
             "name": "krnl_kmeans",
-            "ldclflags": "--config PROJECT/kmeans.cfg -O3"
+            "ldclflags": "--config PROJECT/kmeans.cfg --config PROJECT/krnl_kmeans.cfg -O3"
         }
     ],
     "launch": [

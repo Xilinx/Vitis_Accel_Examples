@@ -48,78 +48,12 @@
         {
             "accelerators": [
                 {
-                    "compute_units": [
-                        {
-                            "arguments": [
-                                {
-                                    "name": "in1", 
-                                    "memory": "DDR[0]"
-                                }, 
-                                {
-                                    "name": "in2", 
-                                    "memory": "DDR[0]"
-                                }, 
-                                {
-                                    "name": "out_r", 
-                                    "memory": "DDR[0]"
-                                }
-                            ]
-                        }, 
-                        {
-                            "arguments": [
-                                {
-                                    "name": "in1", 
-                                    "memory": "DDR[1]"
-                                }, 
-                                {
-                                    "name": "in2", 
-                                    "memory": "DDR[1]"
-                                }, 
-                                {
-                                    "name": "out_r", 
-                                    "memory": "DDR[1]"
-                                }
-                            ]
-                        }, 
-                        {
-                            "arguments": [
-                                {
-                                    "name": "in1", 
-                                    "memory": "PLRAM[0]"
-                                }, 
-                                {
-                                    "name": "in2", 
-                                    "memory": "PLRAM[0]"
-                                }, 
-                                {
-                                    "name": "out_r", 
-                                    "memory": "PLRAM[0]"
-                                }
-                            ]
-                        }, 
-                        {
-                            "arguments": [
-                                {
-                                    "name": "in1", 
-                                    "memory": "PLRAM[1]"
-                                }, 
-                                {
-                                    "name": "in2", 
-                                    "memory": "PLRAM[1]"
-                                }, 
-                                {
-                                    "name": "out_r", 
-                                    "memory": "PLRAM[1]"
-                                }
-                            ]
-                        }
-                    ], 
                     "location": "src/vadd.cpp", 
-                    "name": "vadd", 
-                    "num_compute_units": "4"
+                    "name": "vadd"
                 }
             ], 
-            "name": "vadd"
+            "name": "vadd",
+            "ldclflags": "--config PROJECT/vadd.cfg"
         }
     ],
     "launch": [

@@ -38,25 +38,12 @@
         {
             "accelerators": [
                 {
-                    "compute_units": [
-                        {
-                            "arguments": [
-                                {
-                                    "name": "buffer0", 
-                                    "memory": "DDR[0]"
-                                }, 
-                                {
-                                    "name": "buffer1", 
-                                    "memory": "DDR[1]"
-                                }
-                            ]
-                        }
-                    ], 
                     "name": "bandwidth", 
                     "location": "src/kernel.cpp"
                 }
             ], 
-            "name": "krnl_host_global"
+            "name": "krnl_host_global",
+            "ldclflags": "--config PROJECT/krnl_host_global.cfg"
         }
     ],
     "launch": [

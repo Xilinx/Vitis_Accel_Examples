@@ -45,29 +45,12 @@
         {
             "accelerators": [
                 {
-                    "compute_units": [
-                        {
-                            "arguments": [
-                                {
-                                    "name": "a", 
-                                    "memory": "PLRAM[0]"
-                                }, 
-                                {
-                                    "name": "b", 
-                                    "memory": "DDR[0]"
-                                }, 
-                                {
-                                    "name": "c", 
-                                    "memory": "PLRAM[1]"
-                                }
-                            ]
-                        }
-                    ], 
                     "name": "mmult", 
                     "location": "src/mmult.cpp"
                 }
             ], 
-            "name": "mmult"
+            "name": "mmult",
+            "ldclflags": "--config PROJECT/mmult.cfg"
         }
     ],
     "launch": [

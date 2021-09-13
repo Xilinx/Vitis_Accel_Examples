@@ -117,10 +117,8 @@ endif
 
 
 # Kernel linker flags
-VPP_LDFLAGS += --config ./advanced.cfg
+VPP_LDFLAGS_vadd += --config ./advanced.cfg --config ./vadd.cfg
 
-# Adding config files to linker
-VPP_LDFLAGS_vadd += --config vadd.cfg 
 EXECUTABLE = ./plram_config
 EMCONFIG_DIR = $(TEMP_DIR)
 

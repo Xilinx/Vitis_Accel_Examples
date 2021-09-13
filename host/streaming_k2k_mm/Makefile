@@ -108,7 +108,7 @@ endif
 
 
 # Kernel linker flags
-VPP_LDFLAGS += --config ./krnl_stream_vadd_vmult.cfg
+VPP_LDFLAGS_krnl_stream_vadd_vmult += --config ./krnl_stream_vadd_vmult.cfg
 
 EXECUTABLE = ./streaming_k2k_mm
 EMCONFIG_DIR = $(TEMP_DIR)
@@ -142,7 +142,7 @@ $(TEMP_DIR)/krnl_stream_vmult.xo: src/krnl_stream_vmult.cpp
 	$(VPP) $(VPP_FLAGS) -c -k krnl_stream_vmult --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
 $(BUILD_DIR)/krnl_stream_vadd_vmult.xclbin: $(BINARY_CONTAINER_krnl_stream_vadd_vmult_OBJS)
 	mkdir -p $(BUILD_DIR)
-	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR)  -o'$(BUILD_DIR)/krnl_stream_vadd_vmult.link.xclbin' $(+)
+	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR)  $(VPP_LDFLAGS_krnl_stream_vadd_vmult) -o'$(BUILD_DIR)/krnl_stream_vadd_vmult.link.xclbin' $(+)
 	$(VPP) -p $(BUILD_DIR)/krnl_stream_vadd_vmult.link.xclbin -t $(TARGET) --platform $(DEVICE) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/krnl_stream_vadd_vmult.xclbin
 
 ############################## Setting Rules for Host (Building Host Executable) ##############################

@@ -124,9 +124,9 @@ ifneq ($(TARGET), hw)
 endif
 
 
+# Kernel linker flags
+VPP_LDFLAGS_krnl_vaddmul += --config ./krnl_vaddmul.cfg
 
-# Adding config files to linker
-VPP_LDFLAGS_krnl_vaddmul += --config krnl_vaddmul.cfg 
 EXECUTABLE = ./hbm_bandwidth_pseudo_random
 EMCONFIG_DIR = $(TEMP_DIR)
 

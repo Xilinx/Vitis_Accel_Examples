@@ -115,9 +115,9 @@ ifneq ($(TARGET), hw)
 endif
 
 
+# Kernel linker flags
+VPP_LDFLAGS_vmult_vadd += --config ./vmult_vadd.cfg
 
-# Adding config files to linker
-VPP_LDFLAGS_vmult_vadd += --config vmult_vadd.cfg 
 EXECUTABLE = ./slr_assign
 EMCONFIG_DIR = $(TEMP_DIR)
 
