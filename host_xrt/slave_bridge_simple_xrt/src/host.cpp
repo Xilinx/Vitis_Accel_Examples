@@ -46,7 +46,7 @@ int main(int argc, char* argv[]) {
 
     std::cout << "Open the device" << device_index << std::endl;
     auto device = xrt::device(device_index);
-    auto device_name = device.get_info<xrt::info::device::name>();
+    auto device_name = device.get_info<xrt::info::device::name>(xrt::info::InfoSchemaVersion::json_20202);
     char* xcl_mode = getenv("XCL_EMULATION_MODE");
     if ((xcl_mode != nullptr) && !strcmp(xcl_mode, "hw_emu")) {
         if (device_name.find("202010") != std::string::npos) {

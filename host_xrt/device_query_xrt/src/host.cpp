@@ -32,14 +32,20 @@ int main(int argc, char** argv) {
     int device_index = stoi(parser.value("device_id"));
 
     auto device = xrt::device(device_index);
-    std::cout << "Device " << device_index << " : " << device.get_info<xrt::info::device::name>() << "\n";
+    std::cout << "Device " << device_index << " : "
+              << device.get_info<xrt::info::device::name>(xrt::info::InfoSchemaVersion::json_20202) << "\n";
 
-    std::cout << "  device bdf      : " << device.get_info<xrt::info::device::bdf>() << "\n";
-    std::cout << "  device kdma     : " << device.get_info<xrt::info::device::kdma>() << "\n";
-    std::cout << "  device max freq : " << device.get_info<xrt::info::device::max_clock_frequency_mhz>() << "\n";
-    std::cout << "  device m2m      : " << std::boolalpha << device.get_info<xrt::info::device::m2m>() << std::dec
+    std::cout << "  device bdf      : "
+              << device.get_info<xrt::info::device::bdf>(xrt::info::InfoSchemaVersion::json_20202) << "\n";
+    std::cout << "  device kdma     : "
+              << device.get_info<xrt::info::device::kdma>(xrt::info::InfoSchemaVersion::json_20202) << "\n";
+    std::cout << "  device max freq : "
+              << device.get_info<xrt::info::device::max_clock_frequency_mhz>(xrt::info::InfoSchemaVersion::json_20202)
               << "\n";
-    std::cout << "  device nodma    : " << std::boolalpha << device.get_info<xrt::info::device::nodma>() << std::dec
+    std::cout << "  device m2m      : " << std::boolalpha
+              << device.get_info<xrt::info::device::m2m>(xrt::info::InfoSchemaVersion::json_20202) << std::dec << "\n";
+    std::cout << "  device nodma    : " << std::boolalpha
+              << device.get_info<xrt::info::device::nodma>(xrt::info::InfoSchemaVersion::json_20202) << std::dec
               << "\n";
 
     std::cout << "TEST PASSED\n";
