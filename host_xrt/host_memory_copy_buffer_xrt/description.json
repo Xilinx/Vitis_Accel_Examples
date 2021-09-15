@@ -1,0 +1,103 @@
+{
+    "name": "Host Memory Copy Buffer XRT (XRT Native API's)", 
+    "description": [
+       "This is simple host memory example to describe how host-only memory can be copied to device-only memory and vice-versa using XRT Native API's." 
+    ],
+    "flow": "vitis",
+    "keywords": [
+        "host_only",
+        "device_only",
+        "HOST[0]"
+        ],
+    "key_concepts": [
+        "host memory"
+    ],
+    "platform_type": "pcie",
+    "platform_whitelist": [ 
+        "u50_gen3x16_nodma"
+    ],
+    "platform_blacklist": [ 
+        "_u25_",
+        "u30",
+        "u50c",
+        "u50lv",
+        "u50_gen3x4",
+        "u55",
+        "zc",
+        "vck", 
+        "2019",
+        "2018",  
+        "samsung",
+        "u250",
+        "_u2_"
+    ], 
+    "os": [
+        "Linux"
+    ], 
+    "runtime": [
+        "OpenCL"
+    ], 
+    "platform_type": "pcie",
+    "host": {
+        "host_exe": "host_memory_copy_buffer_xrt",
+        "compiler": {
+            "sources": [
+                "REPO_DIR/common/includes/cmdparser/cmdlineparser.cpp",
+                "REPO_DIR/common/includes/logger/logger.cpp",
+                "./src/host.cpp"
+            ], 
+            "includepaths": [
+                "REPO_DIR/common/includes/cmdparser",
+                "REPO_DIR/common/includes/logger"
+            ]
+        },
+        "linker" : {
+            "libraries" : ["uuid",
+                           "xrt_coreutil"
+               ]
+        }
+    },
+    "containers": [
+        {
+            "accelerators": [
+                {
+                    "name": "krnl_vadd", 
+                    "location": "src/krnl_vadd.cpp"
+                } 
+            ], 
+            "name": "krnl_vadd"
+        }
+    ],
+    "launch": [
+        {
+            "cmd_args": "-x BUILD/krnl_vadd.xclbin", 
+            "name": "generic launch for all flows"
+        }
+    ], 
+    "contributors": [
+        {
+            "url": "http://www.xilinx.com", 
+            "group": "Xilinx"
+        }
+    ],
+    "testinfo": {
+        "profile": "no",
+        "disable": false,
+        "jobs": [
+            {
+                "index": 0,
+                "dependency": [],
+                "env": "",
+                "cmd": "",
+                "max_memory_MB": 32768,
+                "max_time_min": 300
+            }
+        ],
+        "targets": [
+            "vitis_sw_emu",
+            "vitis_hw_emu",
+            "vitis_hw"
+        ],
+        "category": "canary"
+    }
+}

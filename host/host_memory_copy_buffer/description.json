@@ -1,0 +1,94 @@
+{
+    "name": "Host Memory Copy Buffer(C)", 
+    "description": [
+       "This is simple host memory example to describe how host-only memory can be copied to device-only memory and vice-versa." 
+    ],
+    "flow": "vitis",
+    "keywords": [
+        "XCL_MEM_EXT_HOST_ONLY",
+        "CL_MEM_HOST_NO_ACCESS",
+        "enqueueCopyBuffer"
+        ],
+    "key_concepts": [
+        "host memory"
+    ],
+    "platform_type": "pcie",
+    "platform_whitelist": [ 
+        "u50_gen3x16_nodma"
+    ], 
+    "platform_blacklist": [ 
+        "_u25_",
+        "u30",
+        "u50c",
+        "u50lv",
+        "u50_gen3x4",
+        "u55",
+        "u250",
+        "zc",
+        "vck", 
+        "2019",
+        "2018",  
+        "_u2_"
+    ], 
+    "os": [
+        "Linux"
+    ], 
+    "runtime": [
+        "OpenCL"
+    ], 
+    "host": {
+        "compiler": {
+            "sources": [
+                "REPO_DIR/common/includes/xcl2/xcl2.cpp",
+                "./src/host.cpp"
+            ], 
+            "includepaths": [
+                "REPO_DIR/common/includes/xcl2"
+            ]
+        }, 
+        "host_exe": "host_memory_copy_buffer.exe"
+    },
+    "containers": [
+        {
+            "accelerators": [
+                {
+                    "name": "krnl_vadd", 
+                    "location": "src/krnl_vadd.cpp"
+                } 
+            ], 
+            "name": "krnl_vadd"
+        }
+    ],
+    "launch": [
+        {
+            "cmd_args": "BUILD/krnl_vadd.xclbin", 
+            "name": "generic launch for all flows"
+        }
+    ], 
+    "contributors": [
+        {
+            "url": "http://www.xilinx.com", 
+            "group": "Xilinx"
+        }
+    ],
+    "testinfo": {
+        "profile": "no",
+        "disable": false,
+        "jobs": [
+            {
+                "index": 0,
+                "dependency": [],
+                "env": "",
+                "cmd": "",
+                "max_memory_MB": 32768,
+                "max_time_min": 300
+            }
+        ],
+        "targets": [
+            "vitis_sw_emu",
+            "vitis_hw_emu",
+            "vitis_hw"
+        ],
+        "category": "canary"
+    }
+}

@@ -1,0 +1,102 @@
+{
+    "name": "Host Memory Bandwidth(C)", 
+    "description": [
+       "This is host memory bandwidth example." 
+    ],
+    "flow": "vitis",
+    "keywords": [
+        "XCL_MEM_EXT_HOST_ONLY",
+        "HOST[0]"
+        ],
+    "key_concepts": [
+        "host memory", 
+        "bandwidth",
+        "address translation unit" 
+    ],
+    "platform_type": "pcie",
+    "platform_blacklist": [ 
+        "_u25_",
+        "u30",
+        "u50lv",
+        "u50_gen3x4",
+        "zc",
+        "vck", 
+        "2019",
+        "2018",
+        "samsung",
+        "_u2_"
+    ], 
+    "os": [
+        "Linux"
+    ], 
+    "runtime": [
+        "OpenCL"
+    ], 
+    "host": {
+        "compiler": {
+            "sources": [
+                "REPO_DIR/common/includes/xcl2/xcl2.cpp",
+                "./src/host.cpp"
+            ], 
+            "includepaths": [
+                "REPO_DIR/common/includes/xcl2"
+            ]
+        }, 
+        "host_exe": "host_memory_bw.exe"
+    },
+    "config_make": "config.mk",
+    "match_ini": "false",
+    "containers": [
+        {
+            "accelerators": [
+                {
+                    "name": "bandwidth", 
+                    "location": "src/bandwidth.cpp"
+                },
+                {
+                    "name": "read_bandwidth", 
+                    "location": "src/read_bandwidth.cpp"
+                },
+                {
+                    "name": "write_bandwidth", 
+                    "location": "src/write_bandwidth.cpp"
+                }
+
+            ], 
+            "name": "bandwidth",
+            "ldclflags": "--config PROJECT/krnl_bandwidth.cfg"
+        }
+    ],
+    "launch": [
+        {
+            "cmd_args": "BUILD/bandwidth.xclbin", 
+            "name": "generic launch for all flows"
+        }
+    ], 
+    "contributors": [
+        {
+            "url": "http://www.xilinx.com", 
+            "group": "Xilinx"
+        }
+    ],
+   "testinfo": {
+        "profile": "no",
+        "disable": false,
+        "jobs": [
+            {
+                "index": 0,
+                "dependency": [],
+                "env": "",
+                "cmd": "",
+                "max_memory_MB": 32768,
+                "max_time_min": 300
+            }
+        ],
+        "targets": [
+            "vitis_sw_emu",
+            "vitis_hw_emu",
+            "vitis_hw"
+        ],
+        "category": "canary"
+    }
+}

@@ -1,0 +1,94 @@
+{
+    "name": "Host Memory Copy Kernel(C)", 
+    "description": [
+       "This is a Host Memory Example to describe how data can be copied between host-only buffer and device-only buffer using User Copy Kernel." 
+    ],
+    "flow": "vitis",
+    "keywords": [
+        "XCL_MEM_EXT_HOST_ONLY",
+        "CL_MEM_HOST_NO_ACCESS",
+        "enqueueMapBuffer"
+        ],
+    "key_concepts": [
+        "host memory"
+    ],
+    "platform_type": "pcie",
+    "platform_blacklist": [ 
+        "_u25_",
+        "u30",
+        "u50lv",
+        "u50_gen3x4",
+        "zc",
+        "vck", 
+        "2019",
+        "2018",  
+        "_u2_"
+    ], 
+    "os": [
+        "Linux"
+    ], 
+    "runtime": [
+        "OpenCL"
+    ], 
+    "host": {
+        "compiler": {
+            "sources": [
+                "REPO_DIR/common/includes/xcl2/xcl2.cpp",
+                "./src/host.cpp"
+            ], 
+            "includepaths": [
+                "REPO_DIR/common/includes/xcl2"
+            ]
+        }, 
+        "host_exe": "host_memory_copy_kernel.exe"
+    },
+    "config_make": "config.mk",
+    "containers": [
+        {
+            "accelerators": [
+                {
+                    "name": "krnl_vadd", 
+                    "location": "src/krnl_vadd.cpp"
+                },
+                {
+                    "name": "copy_kernel", 
+                    "location": "src/copy_kernel.cpp"
+                }  
+            ], 
+            "name": "krnl_vadd",
+            "ldclflags": "--config PROJECT/krnl_vadd.cfg"
+        }
+    ],
+    "launch": [
+        {
+            "cmd_args": "BUILD/krnl_vadd.xclbin", 
+            "name": "generic launch for all flows"
+        }
+    ], 
+    "contributors": [
+        {
+            "url": "http://www.xilinx.com", 
+            "group": "Xilinx"
+        }
+    ],
+    "testinfo": {
+        "profile": "no",
+        "disable": false,
+        "jobs": [
+            {
+                "index": 0,
+                "dependency": [],
+                "env": "",
+                "cmd": "",
+                "max_memory_MB": 32768,
+                "max_time_min": 300
+            }
+        ],
+        "targets": [
+            "vitis_sw_emu",
+            "vitis_hw_emu",
+            "vitis_hw"
+        ],
+        "category": "canary"
+    }   
+}

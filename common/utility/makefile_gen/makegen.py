@@ -707,10 +707,10 @@ def mk_help(target):
     target.write("\n")
     target.write("help::\n")
     target.write("\t$(ECHO) \"Makefile Usage:\"\n")
-    target.write("\t$(ECHO) \"  make all TARGET=<sw_emu/hw_emu/hw> DEVICE=<FPGA platform> ");
+    target.write("\t$(ECHO) \"  make all TARGET=<sw_emu/hw_emu/hw> DEVICE=<FPGA platform>");
     if not ("platform_type" in data and data["platform_type"] == "pcie"):
-		target.write("HOST_ARCH=<aarch32/aarch64/x86> EDGE_COMMON_SW=<rootfs and kernel image path>\"")
-    target.write("\n")
+		target.write(" HOST_ARCH=<aarch32/aarch64/x86> EDGE_COMMON_SW=<rootfs and kernel image path>")
+    target.write("\"\n")
     target.write("\t$(ECHO) \"      Command to generate the design for specified Target and Shell.\"\n")
     target.write("\t$(ECHO) \"\"\n")
     target.write("\t$(ECHO) \"  make clean \"\n");
@@ -727,22 +727,22 @@ def mk_help(target):
         target.write("\t$(ECHO) \"  make sd_card TARGET=<sw_emu/hw_emu/hw> DEVICE=<FPGA platform> HOST_ARCH=<aarch32/aarch64/x86> EDGE_COMMON_SW=<rootfs and kernel image path>\"\n");
         target.write("\t$(ECHO) \"      Command to prepare sd_card files.\"\n")
         target.write("\t$(ECHO) \"\"\n")
-    target.write("\t$(ECHO) \"  make run TARGET=<sw_emu/hw_emu/hw> DEVICE=<FPGA platform> ");
+    target.write("\t$(ECHO) \"  make run TARGET=<sw_emu/hw_emu/hw> DEVICE=<FPGA platform>");
     if not ("platform_type" in data and data["platform_type"] == "pcie"):
-		target.write("HOST_ARCH=<aarch32/aarch64/x86> EDGE_COMMON_SW=<rootfs and kernel image path>\"")
-    target.write("\n")
+		target.write(" HOST_ARCH=<aarch32/aarch64/x86> EDGE_COMMON_SW=<rootfs and kernel image path>")
+    target.write("\"\n")
     target.write("\t$(ECHO) \"      Command to run application in emulation.\"\n")
     target.write("\t$(ECHO) \"\"\n")
-    target.write("\t$(ECHO) \"  make build TARGET=<sw_emu/hw_emu/hw> DEVICE=<FPGA platform> ");
+    target.write("\t$(ECHO) \"  make build TARGET=<sw_emu/hw_emu/hw> DEVICE=<FPGA platform>");
     if not ("platform_type" in data and data["platform_type"] == "pcie"):
-		target.write("HOST_ARCH=<aarch32/aarch64/x86> EDGE_COMMON_SW=<rootfs and kernel image path>\"")
-    target.write("\n")
+		target.write(" HOST_ARCH=<aarch32/aarch64/x86> EDGE_COMMON_SW=<rootfs and kernel image path>")
+    target.write("\"\n")
     target.write("\t$(ECHO) \"      Command to build xclbin application.\"\n")
     target.write("\t$(ECHO) \"\"\n")
-    target.write("\t$(ECHO) \"  make host ");
+    target.write("\t$(ECHO) \"  make host");
     if not ("platform_type" in data and data["platform_type"] == "pcie"):
-		target.write("HOST_ARCH=<aarch32/aarch64/x86> EDGE_COMMON_SW=<rootfs and kernel image path>\"")
-    target.write("\n")
+		target.write(" HOST_ARCH=<aarch32/aarch64/x86> EDGE_COMMON_SW=<rootfs and kernel image path>")
+    target.write("\"\n")
     target.write("\t$(ECHO) \"      Command to build host application.\"\n")
     if not ("platform_type" in data and data["platform_type"] == "pcie"):
     	target.write("\t$(ECHO) \"  By default, HOST_ARCH=x86. HOST_ARCH and EDGE_COMMON_SW is required for SoC shells\"\n")

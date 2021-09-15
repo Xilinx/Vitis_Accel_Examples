@@ -1,0 +1,110 @@
+{
+    "name": "Host Memory Bandwidth XRT (XRT Native API's)", 
+    "description": [
+       "This is host memory bandwidth example to describe host memory and kernel bandwidth test using native xrt api's." 
+    ],
+    "flow": "vitis",
+    "keywords": [
+        "host_only",
+        "HOST[0]"
+        ],
+    "key_concepts": [
+        "host memory", 
+        "bandwidth",
+        "address translation unit" 
+    ],
+    "platform_type": "pcie",
+    "platform_blacklist": [ 
+        "_u25_",
+        "u30",
+        "u50lv",
+        "u50_gen3x4",
+        "zc",
+        "vck", 
+        "2019",
+        "2018",
+        "samsung",
+        "_u2_"
+    ], 
+    "os": [
+        "Linux"
+    ], 
+    "runtime": [
+        "OpenCL"
+    ], 
+    "host": {
+        "host_exe": "host_memory_bandwidth_xrt",
+        "compiler": {
+            "sources": [
+                "REPO_DIR/common/includes/cmdparser/cmdlineparser.cpp",
+                "REPO_DIR/common/includes/logger/logger.cpp",
+                "REPO_DIR/common/includes/xcl2/xcl2.cpp",
+                "./src/host.cpp"
+            ], 
+            "includepaths": [
+                "REPO_DIR/common/includes/cmdparser",
+                "REPO_DIR/common/includes/logger",
+                "REPO_DIR/common/includes/xcl2"
+            ]
+        },
+        "linker" : {
+            "libraries" : ["uuid",
+                           "xrt_coreutil"
+               ]
+        }
+    },
+    "config_make": "config.mk",
+    "containers": [
+        {
+            "accelerators": [
+                {
+                    "name": "bandwidth", 
+                    "location": "src/bandwidth.cpp"
+                },
+                {
+                    "name": "read_bandwidth", 
+                    "location": "src/read_bandwidth.cpp"
+                },
+                {
+                    "name": "write_bandwidth", 
+                    "location": "src/write_bandwidth.cpp"
+                }
+
+            ], 
+            "name": "bandwidth",
+            "ldclflags": "--config PROJECT/bandwidth.cfg"
+        }
+    ],
+    "launch": [
+        {
+            "cmd_args": "-x BUILD/bandwidth.xclbin", 
+            "name": "generic launch for all flows"
+        }
+    ], 
+    "contributors": [
+        {
+            "url": "http://www.xilinx.com", 
+            "group": "Xilinx"
+        }
+    ],
+    "testinfo": {
+        "profile": "no",
+        "disable": false,
+        "jobs": [
+            {
+                "index": 0,
+                "dependency": [],
+                "env": "",
+                "cmd": "",
+                "max_memory_MB": 32768,
+                "max_time_min": 300
+            }
+        ],
+        "targets": [
+            "vitis_sw_emu",
+            "vitis_hw_emu",
+            "vitis_hw"
+        ],
+        "category": "canary"
+    }
+}
