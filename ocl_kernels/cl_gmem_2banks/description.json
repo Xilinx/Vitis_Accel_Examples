@@ -65,7 +65,7 @@
                 }
             ], 
             "name": "apply_watermark",
-            "ldclflags": "--config PROJECT/krnl_vadd.cfg"
+            "ldclflags": "--config PROJECT/apply_watermark.cfg"
         }
     ], 
     "launch": [
