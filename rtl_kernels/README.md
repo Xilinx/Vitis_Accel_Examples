@@ -13,7 +13,6 @@ Example        | Description           | Key Concepts / Keywords
 [rtl_vadd/][]|Simple example of vector addition using RTL Kernel|__Key__ __Concepts__<br> - [RTL Kernel](https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/devrtlkernel.html)<br>__Keywords__<br> - [kernel_files](https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/devrtlkernel.html#nuy1588349382079)
 [rtl_vadd_2clks/][]|This example shows vector addition with 2 kernel clocks using RTL Kernel.|__Key__ __Concepts__<br> - [RTL Kernel](https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/devrtlkernel.html)<br> - [Multiple Kernel Clocks](https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/vitiscommandcompiler.html#mcj1568640526180__section_bh5_dg4_bjb)<br>__Keywords__<br> - [clock](https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/vitiscommandcompiler.html#ans1568640653312)<br> - [freqHz](https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/vitiscommandcompiler.html#ans1568640653312__section_vh5_yf4_bjb)<br> - [ap_clk](https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/managing_interface_synthesis.html#opo1539734223038)<br> - ap_clk2
 [rtl_vadd_2kernels/][]|This example has two RTL Kernels. Both Kernel_0 and Kernel_1 perform vector addition. The Kernel_1 reads the output from Kernel_0 as one of two inputs.|__Key__ __Concepts__<br> - [Multiple RTL Kernels](https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/devrtlkernel.html)<br>
-[rtl_vadd_board_run/][]|Simple example of vector addition using RTL Kernel|__Key__ __Concepts__<br> - [RTL Kernel](https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/devrtlkernel.html)<br>
 [rtl_vadd_hw_debug/][]|This is an example that showcases the Hardware Debug of Vector Addition RTL Kernel in Hardware.|__Key__ __Concepts__<br> - [RTL Kernel Debug](https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/debuggingapplicationskernels.html#xey1524445482547)<br>
 [rtl_vadd_mixed_c_vadd/][]|This example has one RTL kernel and one C kernel. Both RTL kernel and C kernel perform vector addition. The C kernel reads the output from RTL kernel as one of two inputs.|__Key__ __Concepts__<br> - Mixed Kernels<br>
 
@@ -25,6 +24,5 @@ Example        | Description           | Key Concepts / Keywords
 [rtl_vadd/]:rtl_vadd/
 [rtl_vadd_2clks/]:rtl_vadd_2clks/
 [rtl_vadd_2kernels/]:rtl_vadd_2kernels/
-[rtl_vadd_board_run/]:rtl_vadd_board_run/
 [rtl_vadd_hw_debug/]:rtl_vadd_hw_debug/
 [rtl_vadd_mixed_c_vadd/]:rtl_vadd_mixed_c_vadd/
