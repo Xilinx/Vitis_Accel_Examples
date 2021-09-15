@@ -69,11 +69,11 @@ def create_cfg(data):
             if "raptor2" in data["hardwarePlatform"]["extensions"]:
                 if "feature_support" in data["hardwarePlatform"]["extensions"]["raptor2"]:
                     feature_support = data["hardwarePlatform"]["extensions"]["raptor2"]["feature_support"]
-                    if "DDR" in feature_support and (filename!='slavebridge'):
+                    if "DDR" in feature_support and (filename!='hostmemory'):
                         Memory_list[0] = int(feature_support["DDR"])
-                    if "HOST" in feature_support and (filename=='slavebridge'):
+                    if "HOST" in feature_support and (filename=='hostmemory'):
                         Memory_list[1] = int(feature_support["HOST"])
-                    if "HBM" in feature_support and (filename!='slavebridge'):
+                    if "HBM" in feature_support and (filename!='hostmemory'):
                         Memory_list[2] = int(feature_support["HBM"])
     
     Total_banks = Memory_list[0] + Memory_list[1]
