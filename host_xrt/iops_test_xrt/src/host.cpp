@@ -58,6 +58,7 @@ int main(int argc, char* argv[]) {
         cmds_per_run = {10, 20};
         std::cout << "Number of operations is reduced for faster execution on "
                      "emulation flow.\n";
+        expected_cmds = 20;
     }
     auto hello = xrt::kernel(device, uuid.get(), "hello");
 
