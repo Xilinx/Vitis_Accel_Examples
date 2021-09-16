@@ -11,10 +11,16 @@ RTL kernel interfaces must be clocked on the primary clock. Both primary
 and secondary clocks support independent automatic frequency scaling.
 
 These clock frequencies are specified at V++ linking stage in the
-following manner.
+following manner for SoC platforms -
 
 ::
 
    [clock]
    freqHz=150000000:krnl_vadd_2clk_rtl_1.ap_clk
    freqHz=250000000:krnl_vadd_2clk_rtl_1.ap_clk_2
+
+The same is specified in the following manner for PCIe platforms -
+
+::
+
+   kernel_frequency=0:150|1:250

@@ -79,6 +79,8 @@ CMD_ARGS = $(BUILD_DIR)/vadd.xclbin
 SDCARD := sd_card
 
 include $(XF_PROJ_ROOT)/common/includes/opencl/opencl.mk
+include config.mk
+
 CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++1y
 LDFLAGS += $(opencl_LDFLAGS)
 
@@ -105,11 +107,8 @@ VPP_FLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps
 ifneq ($(TARGET), hw)
 	VPP_FLAGS += -g
 endif
-VPP_FLAGS_vadd +=  --config vadd_vadd.cfg
 
 
-# Kernel linker flags
-VPP_LDFLAGS_vadd += --config vadd.cfg
 
 EXECUTABLE = ./advanced_config
 EMCONFIG_DIR = $(TEMP_DIR)
@@ -137,7 +136,7 @@ xclbin: build
 ############################## Setting Rules for Binary Containers (Building Kernels) ##############################
 $(TEMP_DIR)/vadd.xo: src/vadd.cpp
 	mkdir -p $(TEMP_DIR)
-	$(VPP) $(VPP_FLAGS) $(VPP_FLAGS_vadd) -c -k vadd --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
+	$(VPP) $(VPP_FLAGS) -c -k vadd --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
 $(BUILD_DIR)/vadd.xclbin: $(BINARY_CONTAINER_vadd_OBJS)
 	mkdir -p $(BUILD_DIR)
 ifeq ($(HOST_ARCH), x86)

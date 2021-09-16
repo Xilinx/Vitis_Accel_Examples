@@ -48,8 +48,7 @@
                     "name": "vadd"
                 }
             ], 
-            "name": "vadd",
-	    "ldclflags": "--config PROJECT/vadd.cfg"
+            "name": "vadd"
         }
     ], 
     "launch": [
