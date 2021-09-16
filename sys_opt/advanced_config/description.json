@@ -37,24 +37,21 @@
             ]
         }
     },
-   "v++": {
+    "v++": {
         "build_datafiles" : [            
-            "PROJECT/my_directives.tcl",
-            "PROJECT/vadd_vadd.cfg",
-            "PROJECT/vadd.cfg"
+            "PROJECT/my_directives.tcl"
         ]
-     }, 
+    },
+    "config_make": "config.mk", 
     "containers": [
         {
             "accelerators": [
                 {
                     "name": "vadd", 
-		    "clflags": "--config vadd_vadd.cfg",
                     "location": "src/vadd.cpp"
                 }
             ], 
-            "name": "vadd",
-            "ldclflags": "--config vadd.cfg"
+            "name": "vadd"
         }
     ],
     "launch": [

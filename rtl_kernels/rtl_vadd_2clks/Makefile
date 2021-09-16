@@ -108,8 +108,6 @@ ifneq ($(TARGET), hw)
 endif
 
 
-# Kernel linker flags
-VPP_LDFLAGS_vadd += --config ./vadd.cfg
 
 EXECUTABLE = ./rtl_vadd_2clks
 EMCONFIG_DIR = $(TEMP_DIR)
