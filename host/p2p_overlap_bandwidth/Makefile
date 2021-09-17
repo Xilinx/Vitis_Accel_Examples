@@ -161,7 +161,7 @@ $(TEMP_DIR)/copy.xo: src/copy_kernel.cpp
 	$(VPP) $(VPP_FLAGS) -c -k copy --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
 $(BUILD_DIR)/copy_kernel.xclbin: $(BINARY_CONTAINER_copy_kernel_OBJS)
 	mkdir -p $(BUILD_DIR)
-	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR)  -o'$(BUILD_DIR)/copy_kernel.link.xclbin' $(+)
+	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) -o'$(BUILD_DIR)/copy_kernel.link.xclbin' $(+)
 	$(VPP) -p $(BUILD_DIR)/copy_kernel.link.xclbin -t $(TARGET) --platform $(DEVICE) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/copy_kernel.xclbin
 
 ############################## Setting Rules for Host (Building Host Executable) ##############################

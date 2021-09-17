@@ -113,7 +113,7 @@ CXXFLAGS += -I./include/hw/xf_blas/helpers/utils
 CXXFLAGS += -I./include/
 CXXFLAGS += -I./include/sw
 CXXFLAGS += -I./include/sw/xcl2
-HOST_SRCS += ./src/sw/api_gemm.cpp  ./src/sw/xcl2/xcl2.cpp 
+HOST_SRCS += ./src/sw/api_gemm.cpp ./src/sw/xcl2/xcl2.cpp 
 # Host compiler global settings
 CXXFLAGS += -fmessage-length=0 -O3 -Wall -Wno-unknown-pragmas -Wno-unused-label -Wno-uninitialized -Wno-unused-value
 LDFLAGS += -lrt -lstdc++ 
@@ -168,7 +168,7 @@ $(TEMP_DIR)/blasKernel.xo: ./src/hw/kernel.cpp
 	$(VPP) $(VPP_FLAGS) $(VPP_FLAGS_blasKernel) -c -k blasKernel --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
 $(BUILD_DIR)/blas.xclbin: $(BINARY_CONTAINER_blas_OBJS)
 	mkdir -p $(BUILD_DIR)
-	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR)  $(VPP_LDFLAGS_blas) -o'$(BUILD_DIR)/blas.link.xclbin' $(+)
+	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) $(VPP_LDFLAGS_blas) -o'$(BUILD_DIR)/blas.link.xclbin' $(+)
 	$(VPP) -p $(BUILD_DIR)/blas.link.xclbin -t $(TARGET) --platform $(DEVICE) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/blas.xclbin
 
 ############################## Setting Rules for Host (Building Host Executable) ##############################

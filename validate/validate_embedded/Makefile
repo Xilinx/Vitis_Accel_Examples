@@ -163,7 +163,7 @@ $(TEMP_DIR)/bandwidth.xo: src/bandwidth.cpp
 $(BUILD_DIR)/validate.xclbin: $(BINARY_CONTAINER_validate_OBJS)
 	mkdir -p $(BUILD_DIR)
 ifeq ($(HOST_ARCH), x86)
-	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR)  -o'$(BUILD_DIR)/validate.link.xclbin' $(+)
+	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) -o'$(BUILD_DIR)/validate.link.xclbin' $(+)
 	$(VPP) -p $(BUILD_DIR)/validate.link.xclbin -t $(TARGET) --platform $(DEVICE) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/validate.xclbin
 else
 	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) -o'$(BUILD_DIR)/validate.xclbin' $(+)

@@ -157,7 +157,7 @@ $(TEMP_DIR)/krnl_vadd.xo: src/krnl_vadd.cpp
 	$(VPP) $(VPP_FLAGS) -c -k krnl_vadd --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
 $(BUILD_DIR)/krnl_vadd.xclbin: $(BINARY_CONTAINER_krnl_vadd_OBJS)
 	mkdir -p $(BUILD_DIR)
-	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR)  $(VPP_LDFLAGS_krnl_vadd) -o'$(BUILD_DIR)/krnl_vadd.link.xclbin' $(+)
+	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) $(VPP_LDFLAGS_krnl_vadd) -o'$(BUILD_DIR)/krnl_vadd.link.xclbin' $(+)
 	$(VPP) -p $(BUILD_DIR)/krnl_vadd.link.xclbin -t $(TARGET) --platform $(DEVICE) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/krnl_vadd.xclbin
 
 ############################## Setting Rules for Host (Building Host Executable) ##############################

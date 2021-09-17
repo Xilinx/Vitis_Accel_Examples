@@ -31,7 +31,7 @@
         "host_exe": "api_gemm.exe", 
         "compiler": {
             "sources": [
-                "PROJECT/src/sw/api_gemm.cpp ", 
+                "PROJECT/src/sw/api_gemm.cpp", 
                 "PROJECT/src/sw/xcl2/xcl2.cpp"
             ], 
             "includepaths": [

@@ -137,7 +137,7 @@ $(TEMP_DIR)/mmult.xo: src/mmult.cl
 $(BUILD_DIR)/mmult.xclbin: $(BINARY_CONTAINER_mmult_OBJS)
 	mkdir -p $(BUILD_DIR)
 ifeq ($(HOST_ARCH), x86)
-	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR)  -o'$(BUILD_DIR)/mmult.link.xclbin' $(+)
+	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) -o'$(BUILD_DIR)/mmult.link.xclbin' $(+)
 	$(VPP) -p $(BUILD_DIR)/mmult.link.xclbin -t $(TARGET) --platform $(DEVICE) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/mmult.xclbin
 else
 	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) -o'$(BUILD_DIR)/mmult.xclbin' $(+)
