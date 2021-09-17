@@ -21,3 +21,16 @@ Using the ``sp`` option  in the platform_hostmemory.cfg file, AXI-Master Port is
 
    sp=hostmemory_1.input:HOST[0]
    sp=hostmemory_1.output:HOST[0]
+
+Following is the real log reported when running the design on U250:
+
+:: 
+
+   Found Platform
+   Platform Name: Xilinx
+   INFO: Reading ./test/hostmemory.xclbin
+   Loading: './test/hostmemory.xclbin'
+   Trying to program device xilinx_u250_gen3x16_xdma_3_202020_1
+   Device program successful!
+   Throughput: 15220 MB/s
+   TEST PASSED

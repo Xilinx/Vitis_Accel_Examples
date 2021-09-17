@@ -138,8 +138,6 @@ int main(int argc, char** argv) {
             std::string cu_id = std::to_string(i + 1);
             std::string krnl_name_full = krnl_name + ":{" + "hostmemory_" + cu_id + "}";
 
-            printf("Creating a kernel [%s] for CU(%d)\n", krnl_name_full.c_str(), i + 1);
-
             // Here Kernel object is created by specifying kernel name along with
             // compute unit.
             // For such case, this kernel object can only access the specific
@@ -233,8 +231,8 @@ int main(int argc, char** argv) {
         for (int i = 0; i < NUM_KERNEL; i++) {
             for (uint32_t j = 0; j < DATA_SIZE; j++) {
                 if (map_output_buffer[i][j] != map_input_buffer[i][j]) {
-                    printf("ERROR : kernel failed to copy entry %i input %i output %i\n", j, map_input_buffer[i][j],
-                           map_output_buffer[i][j]);
+                    std::cout << "ERROR : kernel failed to copy entry " << j << " input " << map_input_buffer[i][j]
+                              << " output " << map_output_buffer[i][j] << std::endl;
                     return EXIT_FAILURE;
                 }
             }
@@ -255,7 +253,7 @@ int main(int argc, char** argv) {
 
         if (mbpersec > max_throughput) max_throughput = mbpersec;
     }
-    std::cout << "Maximum throughput: " << max_throughput << "MB/s\n";
+    std::cout << "Throughput: " << max_throughput << "MB/s\n";
 
     std::cout << "TEST PASSED\n";
 

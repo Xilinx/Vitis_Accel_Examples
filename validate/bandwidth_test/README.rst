@@ -61,4 +61,17 @@ Using the ``sp`` option  in the platform_bandwidth.cfg file AXI-Master Port is c
    sp=bandwidth_4.input:DDR[3]
    sp=bandwidth_4.output:DDR[3]
 
+Following is the real log reported when running the design on U250:
+
+:: 
+
+   Found Platform
+   Platform Name: Xilinx
+   INFO: Reading ./test/bandwidth.xclbin
+   Loading: './test/bandwidth.xclbin'
+   Trying to program device xilinx_u250_gen3x16_xdma_3_202020_1
+   Device program successful!
+   Overall DDRs (Total 4) Throughput: 52207 MB/s
+   TEST PASSED
+
 For more comprehensive documentation, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.
