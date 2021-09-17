@@ -153,7 +153,7 @@ $(TEMP_DIR)/bandwidth.xo: src/kernel.cpp
 $(BUILD_DIR)/krnl_kernel_global.xclbin: $(BINARY_CONTAINER_krnl_kernel_global_OBJS)
 	mkdir -p $(BUILD_DIR)
 ifeq ($(HOST_ARCH), x86)
-	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR)  -o'$(BUILD_DIR)/krnl_kernel_global.link.xclbin' $(+)
+	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) -o'$(BUILD_DIR)/krnl_kernel_global.link.xclbin' $(+)
 	$(VPP) -p $(BUILD_DIR)/krnl_kernel_global.link.xclbin -t $(TARGET) --platform $(DEVICE) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/krnl_kernel_global.xclbin
 else
 	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) -o'$(BUILD_DIR)/krnl_kernel_global.xclbin' $(+)

@@ -155,11 +155,11 @@ $(TEMP_DIR)/krnl_madd.xo: src/krnl_madd.cpp
 	$(VPP) $(VPP_FLAGS) -c -k krnl_madd --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
 $(BUILD_DIR)/krnl_mmult.xclbin: $(BINARY_CONTAINER_krnl_mmult_OBJS)
 	mkdir -p $(BUILD_DIR)
-	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR)  -o'$(BUILD_DIR)/krnl_mmult.link.xclbin' $(+)
+	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) -o'$(BUILD_DIR)/krnl_mmult.link.xclbin' $(+)
 	$(VPP) -p $(BUILD_DIR)/krnl_mmult.link.xclbin -t $(TARGET) --platform $(DEVICE) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/krnl_mmult.xclbin
 $(BUILD_DIR)/krnl_madd.xclbin: $(BINARY_CONTAINER_krnl_madd_OBJS)
 	mkdir -p $(BUILD_DIR)
-	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR)  -o'$(BUILD_DIR)/krnl_madd.link.xclbin' $(+)
+	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) -o'$(BUILD_DIR)/krnl_madd.link.xclbin' $(+)
 	$(VPP) -p $(BUILD_DIR)/krnl_madd.link.xclbin -t $(TARGET) --platform $(DEVICE) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/krnl_madd.xclbin
 
 ############################## Setting Rules for Host (Building Host Executable) ##############################

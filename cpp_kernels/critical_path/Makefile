@@ -141,7 +141,7 @@ $(TEMP_DIR)/apply_watermark.xo: src/apply_watermark.cpp
 $(BUILD_DIR)/apply_watermark_GOOD.xclbin: $(BINARY_CONTAINER_apply_watermark_GOOD_OBJS)
 	mkdir -p $(BUILD_DIR)
 ifeq ($(HOST_ARCH), x86)
-	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR)  -o'$(BUILD_DIR)/apply_watermark_GOOD.link.xclbin' $(+)
+	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) -o'$(BUILD_DIR)/apply_watermark_GOOD.link.xclbin' $(+)
 	$(VPP) -p $(BUILD_DIR)/apply_watermark_GOOD.link.xclbin -t $(TARGET) --platform $(DEVICE) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/apply_watermark_GOOD.xclbin
 else
 	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) -o'$(BUILD_DIR)/apply_watermark_GOOD.xclbin' $(+)

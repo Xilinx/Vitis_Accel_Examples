@@ -140,7 +140,7 @@ $(TEMP_DIR)/rgb_to_hsv.xo: src/rgb_to_hsv.cpp
 $(BUILD_DIR)/rgb_to_hsv.xclbin: $(BINARY_CONTAINER_rgb_to_hsv_OBJS)
 	mkdir -p $(BUILD_DIR)
 ifeq ($(HOST_ARCH), x86)
-	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR)  -o'$(BUILD_DIR)/rgb_to_hsv.link.xclbin' $(+)
+	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) -o'$(BUILD_DIR)/rgb_to_hsv.link.xclbin' $(+)
 	$(VPP) -p $(BUILD_DIR)/rgb_to_hsv.link.xclbin -t $(TARGET) --platform $(DEVICE) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/rgb_to_hsv.xclbin
 else
 	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) -o'$(BUILD_DIR)/rgb_to_hsv.xclbin' $(+)

@@ -336,7 +336,7 @@ def building_kernel(target, data):
                 target.write("ifeq ($(HOST_ARCH), x86)\n")
             target.write("\t$(VPP) $(VPP_FLAGS) ")
             target.write("-l $(VPP_LDFLAGS) --temp_dir ")
-            target.write("$(TEMP_DIR) ")
+            target.write("$(TEMP_DIR)")
 
             if "ldclflags" in con:
                 target.write(" $(VPP_LDFLAGS_"+con["name"]+")")
@@ -346,10 +346,10 @@ def building_kernel(target, data):
             target.write("--package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/" + con["name"] + ".xclbin\n")
             if not ("platform_type" in data and data["platform_type"] == "pcie"):
                 target.write("else\n")
-                target.write("\t$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) ")
+                target.write("\t$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR)")
                 if "ldclflags" in con:
-                    target.write(" $(VPP_LDFLAGS_"+con["name"]+") ")
-                target.write("-o'$(BUILD_DIR)/" + con["name"] + ".xclbin' $(+)\n")
+                    target.write(" $(VPP_LDFLAGS_"+con["name"]+")")
+                target.write(" -o'$(BUILD_DIR)/" + con["name"] + ".xclbin' $(+)\n")
                 target.write("endif\n")
     target.write("\n")
     return
@@ -368,7 +368,7 @@ def building_kernel_rtl(target, data):
             target.write("ifeq ($(HOST_ARCH), x86)\n")
             target.write("\t$(VPP) $(VPP_FLAGS) ")
             target.write("-l $(VPP_LDFLAGS) --temp_dir ")
-            target.write("$(TEMP_DIR) ")
+            target.write("$(TEMP_DIR)")
 
             if "ldclflags" in con:
                 target.write(" $(VPP_LDFLAGS_"+con["name"]+")")
@@ -377,10 +377,10 @@ def building_kernel_rtl(target, data):
             target.write("\t$(VPP) -p $(BUILD_DIR)/" + con["name"] + ".link.xclbin -t $(TARGET) --platform $(DEVICE) ")
             target.write("--package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/" + con["name"] + ".xclbin\n")
             target.write("else\n")
-            target.write("\t$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) ")
+            target.write("\t$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR)")
             if "ldclflags" in con:
                 target.write(" $(VPP_LDFLAGS_"+con["name"]+")")
-            target.write("-o'$(BUILD_DIR)/" + con["name"] + ".xclbin' $(+)\n")
+            target.write(" -o'$(BUILD_DIR)/" + con["name"] + ".xclbin' $(+)\n")
             target.write("endif\n")
     return
 
@@ -411,19 +411,19 @@ def building_kernel_systemc(target, data):
             target.write("ifeq ($(HOST_ARCH), x86)\n")
             target.write("\t$(VPP) $(VPP_FLAGS) ")
             target.write("-l $(VPP_LDFLAGS) --temp_dir ")
-            target.write("$(TEMP_DIR) ")
+            target.write("$(TEMP_DIR)")
 
-            if "ldclflags" in acc:
+            if "ldclflags" in con:
                 target.write(" $(VPP_LDFLAGS_"+con["name"]+")")
             target.write(" -o'$(BUILD_DIR)/" + con["name"] + ".link.xclbin' $(+)\n")
 
             target.write("\t$(VPP) -p $(BUILD_DIR)/" + con["name"] + ".link.xclbin -t $(TARGET) --platform $(DEVICE) ")
             target.write("--package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/" + con["name"] + ".xclbin\n")
             target.write("else\n")
-            target.write("\t$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) ")
-            if "ldclflags" in acc:
+            target.write("\t$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR)")
+            if "ldclflags" in con:
                 target.write(" $(VPP_LDFLAGS_"+con["name"]+")")
-            target.write("-o'$(BUILD_DIR)/" + con["name"] + ".xclbin' $(+)\n")
+            target.write(" -o'$(BUILD_DIR)/" + con["name"] + ".xclbin' $(+)\n")
             target.write("endif\n")
     target.write("\n")
     return

@@ -152,7 +152,7 @@ $(TEMP_DIR)/bandwidth.xo: src/kernel.cpp
 	$(VPP) $(VPP_FLAGS) -c -k bandwidth --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
 $(BUILD_DIR)/krnl_host_global.xclbin: $(BINARY_CONTAINER_krnl_host_global_OBJS)
 	mkdir -p $(BUILD_DIR)
-	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR)  $(VPP_LDFLAGS_krnl_host_global) -o'$(BUILD_DIR)/krnl_host_global.link.xclbin' $(+)
+	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) $(VPP_LDFLAGS_krnl_host_global) -o'$(BUILD_DIR)/krnl_host_global.link.xclbin' $(+)
 	$(VPP) -p $(BUILD_DIR)/krnl_host_global.link.xclbin -t $(TARGET) --platform $(DEVICE) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/krnl_host_global.xclbin
 
 ############################## Setting Rules for Host (Building Host Executable) ##############################
