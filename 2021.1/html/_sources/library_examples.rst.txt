@@ -10,5 +10,4 @@ This page contains library examples for AWS users.
    anti_money_laundering.rst
    MCEuropeanEngine.rst
    gzip_app.rst
-   transp.rst
    gemm.rst

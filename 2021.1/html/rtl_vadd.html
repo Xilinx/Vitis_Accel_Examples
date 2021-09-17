@@ -452,6 +452,7 @@
 <h1>Vadd Simple (RTL Kernel)<a class="headerlink" href="#vadd-simple-rtl-kernel" title="Permalink to this headline">¶</a></h1>
 <p>Simple example of vector addition using RTL Kernel</p>
 <p><strong>KEY CONCEPTS:</strong> <a class="reference external" href="https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/devrtlkernel.html">RTL Kernel</a></p>
+<p><strong>KEYWORDS:</strong> <a class="reference external" href="https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/devrtlkernel.html#nuy1588349382079">kernel_files</a></p>
 <p>This example demonstrates simple vector addition with RTL kernel. Two
 vectors are transferred from host to kernel, added and the result is
 written back to host and verified.</p>
@@ -462,6 +463,10 @@ with a void return value, scalar arguments, and pointer arguments.</p>
 <p>The RTL Kernel Wizard automates some of the steps that need to be taken
 to ensure that the RTL IP is packaged into a kernel that can be
 integrated into a system in Vitis environment.</p>
+<p>The example also supports sw_emu by running the vadd.cpp code provided in the <code class="docutils literal notranslate"><span class="pre">package_xo</span></code> command as follows:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>package_xo -xo_path ${xoname} -kernel_name krnl_vadd_rtl -ip_directory ./packaged_kernel_${suffix} -kernel_files src/vadd.cpp
+</pre></div>
+</div>
 <div class="section" id="excluded-platforms">
 <h2>EXCLUDED PLATFORMS<a class="headerlink" href="#excluded-platforms" title="Permalink to this headline">¶</a></h2>
 <p>Platforms containing following strings in their names are not supported for this example :</p>
@@ -480,6 +485,7 @@ integrated into a system in Vitis environment.</p>
 <span class="n">src</span><span class="o">/</span><span class="n">hdl</span><span class="o">/</span><span class="n">krnl_vadd_rtl_counter</span><span class="o">.</span><span class="n">sv</span>
 <span class="n">src</span><span class="o">/</span><span class="n">hdl</span><span class="o">/</span><span class="n">krnl_vadd_rtl_int</span><span class="o">.</span><span class="n">sv</span>
 <span class="n">src</span><span class="o">/</span><span class="n">host</span><span class="o">.</span><span class="n">cpp</span>
+<span class="n">src</span><span class="o">/</span><span class="n">vadd</span><span class="o">.</span><span class="n">cpp</span>
 </pre></div>
 </div>
 <p>Access these files in the github repo by <a class="reference external" href="https://github.com/Xilinx/Vitis_Accel_Examples/tree/master/rtl_kernels/rtl_vadd">clicking here</a>.</p>

@@ -57,8 +57,8 @@
   <link rel="stylesheet" href="_static/css/pro.min.css" media="all" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Slave Bridge Copy Kernel" href="slave_bridge_copy_kernel.html" />
-    <link rel="prev" title="Slave Bridge Bandwidth" href="slave_bridge_bandwidth.html" /> 
+    <link rel="next" title="Stream Free Running Kernel (XRT Native API’s)" href="streaming_free_running_k2k_xrt.html" />
+    <link rel="prev" title="Host Memory Copy Buffer XRT (XRT Native API’s)" href="host_memory_copy_buffer_xrt.html" /> 
 	</head>
 	<body>
 		<div class="xilinx-bs3"/>
@@ -341,45 +341,33 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="hello_world.html">Hello World</a></li>
 <li class="toctree-l1"><a class="reference internal" href="aie_kernels.html">AIE Examples</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="host.html">Host</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="concurrent_kernel_execution.html">Concurrent Kernel Execution</a></li>
-<li class="toctree-l2"><a class="reference internal" href="copy_buffer.html">Copy Buffer</a></li>
-<li class="toctree-l2"><a class="reference internal" href="data_transfer.html">Data Transfer</a></li>
-<li class="toctree-l2"><a class="reference internal" href="device_query.html">Device Query (CPP)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="debug_profile.html">Debug Profile</a></li>
-<li class="toctree-l2"><a class="reference internal" href="errors.html">Error Handling</a></li>
-<li class="toctree-l2"><a class="reference internal" href="errors_cpp.html">Error Handling (CPP)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="hbm_bandwidth.html">HBM Bandwidth</a></li>
-<li class="toctree-l2"><a class="reference internal" href="hbm_bandwidth_pseudo_random.html">HBM Bandwidth - Pseudo Random Ethash</a></li>
-<li class="toctree-l2"><a class="reference internal" href="hbm_simple.html">HBM Simple</a></li>
-<li class="toctree-l2"><a class="reference internal" href="hbm_large_buffers.html">HBM Large Buffers</a></li>
-<li class="toctree-l2"><a class="reference internal" href="hbm_rama_ip.html">HBM Bandwidth for large buffers using RAMA IP</a></li>
-<li class="toctree-l2"><a class="reference internal" href="host_global_bandwidth.html">Host Global Bandwidth</a></li>
-<li class="toctree-l2"><a class="reference internal" href="iops_test.html">IOPS Test</a></li>
-<li class="toctree-l2"><a class="reference internal" href="multiple_cus_asymmetrical.html">Multiple Compute Units (Asymmetrical)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="mult_compute_units.html">Multiple Compute Units</a></li>
-<li class="toctree-l2"><a class="reference internal" href="overlap.html">Overlap Host and Kernel</a></li>
-<li class="toctree-l2"><a class="reference internal" href="p2p_simple.html">P2P Simple Example</a></li>
-<li class="toctree-l2"><a class="reference internal" href="p2p_bandwidth.html">P2P bandwidth Example</a></li>
-<li class="toctree-l2"><a class="reference internal" href="p2p_overlap_bandwidth.html">P2P overlap bandwidth Example</a></li>
-<li class="toctree-l2"><a class="reference internal" href="p2p_fpga2fpga.html">P2P FPGA to FPGA Example</a></li>
-<li class="toctree-l2"><a class="reference internal" href="p2p_fpga2fpga_bandwidth.html">P2P FPGA to FPGA Bandwidth Example</a></li>
-<li class="toctree-l2"><a class="reference internal" href="slave_bridge_simple.html">Slave Bridge Simple</a></li>
-<li class="toctree-l2"><a class="reference internal" href="slave_bridge_bandwidth.html">Slave Bridge Bandwidth</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Slave Bridge Copy Buffer</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="host.html">Host</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="host_xrt.html">Native XRT</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="copy_buffer_xrt.html">Copy Buffer XRT (XRT native API’s)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="data_transfer_xrt.html">Data Transfer XRT (XRT Native API’s)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="device_only_buffer_xrt.html">Device Only Buffer XRT (XRT Native API’s)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="device_query_xrt.html">Device Query XRT (XRT Native API’s)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hbm_simple_xrt.html">HBM Simple XRT (XRT Native API’s)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hello_world_xrt.html">Hello World XRT (XRT Native API’s)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="iops_fast_adapter_xrt.html">IOPS Fast Adapter (XRT Native API’s)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="iops_test_xrt.html">IOPS Test XRT (XRT Native API’s)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mult_compute_units_xrt.html">Multiple Compute Units XRT (XRT Native API’s)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="multiple_cus_asymmetrical_xrt.html">Multiple Compute Units (Asymmetrical) XRT (XRT Native API’s)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p2p_simple_xrt.html">P2P Simple Example XRT (XRT Native API’s)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="register_access_xrt.html">Register access (XRT Native API’s)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="host_memory_simple_xrt.html">Host Memory Simple XRT (XRT Native API’s)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="host_memory_bandwidth_xrt.html">Host Memory Bandwidth XRT (XRT Native API’s)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="host_memory_copy_buffer_xrt.html">Host Memory Copy Buffer XRT (XRT Native API’s)</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Kernel XRT (XRT Native API’s)</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#excluded-platforms">EXCLUDED PLATFORMS</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#design-files">DESIGN FILES</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#command-line-arguments">COMMAND LINE ARGUMENTS</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="slave_bridge_copy_kernel.html">Slave Bridge Copy Kernel</a></li>
-<li class="toctree-l2"><a class="reference internal" href="streaming_free_running_k2k.html">Stream Free Running Kernel (HLS C/C++)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="streaming_reg_access.html">Control and Status Register access continuously streaming kernel (HLS C/C++)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="device_only_buffer.html">Device Only Buffer</a></li>
-<li class="toctree-l2"><a class="reference internal" href="streaming_k2k_mm.html">Stream Kernel to Kernel Memory Mapped</a></li>
+<li class="toctree-l2"><a class="reference internal" href="streaming_free_running_k2k_xrt.html">Stream Free Running Kernel (XRT Native API’s)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="streaming_k2k_mm_xrt.html">Stream Kernel to Kernel Memory Mapped XRT (XRT Native API’s)</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="host_xrt.html">Native XRT</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cpp.html">C++ Kernels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="demo.html">Demos</a></li>
 <li class="toctree-l1"><a class="reference internal" href="emulation.html">Emulation Examples</a></li>
@@ -403,7 +391,7 @@
 			
 			<p class="caption"><span class="caption-text">This Page</span></p>
 				<ul class="current">
-				  <li class="toctree-l1"><a href="_sources/slave_bridge_copy_buffer.rst.txt"
+				  <li class="toctree-l1"><a href="_sources/host_memory_copy_kernel_xrt.rst.txt"
 						rel="nofollow">Show Source</a></li>
 				</ul>
           
@@ -449,15 +437,15 @@
     
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
-          <li><a href="host.html">Host</a> &raquo;</li>
+          <li><a href="host_xrt.html">Native XRT</a> &raquo;</li>
         
-      <li>Slave Bridge Copy Buffer</li>
+      <li>Kernel XRT (XRT Native API’s)</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="_sources/slave_bridge_copy_buffer.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/host_memory_copy_kernel_xrt.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -470,51 +458,28 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="slave-bridge-copy-buffer">
-<h1>Slave Bridge Copy Buffer<a class="headerlink" href="#slave-bridge-copy-buffer" title="Permalink to this headline">¶</a></h1>
-<p>This is simple slave bridge example to describe how host-only memory can be copied to device-only memory and vice-versa.</p>
-<p><strong>KEY CONCEPTS:</strong> slave bridge</p>
-<p><strong>KEYWORDS:</strong> XCL_MEM_EXT_HOST_ONLY, CL_MEM_HOST_NO_ACCESS, enqueueCopyBuffer</p>
-<p>This example illustrates how host only memory can be copied to device only memory and vice-versa using <code class="docutils literal notranslate"><span class="pre">EnqueueCopyBuffer</span></code> API.</p>
-<p>Host only buffer is created using <code class="docutils literal notranslate"><span class="pre">XCL_MEM_EXT_HOST_ONLY</span></code> flag whereas device only buffer is created using <code class="docutils literal notranslate"><span class="pre">CL_MEM_HOST_NO_ACCESS</span></code> flag. The following data transfers take place in the example -</p>
+  <div class="section" id="kernel-xrt-xrt-native-api-s">
+<h1>Kernel XRT (XRT Native API’s)<a class="headerlink" href="#kernel-xrt-xrt-native-api-s" title="Permalink to this headline">¶</a></h1>
+<p>This is a Host Memory Example to describe how data can be copied using xrt native api’s between host-only buffer and device-only buffer using User Copy Kernel.</p>
+<p><strong>KEY CONCEPTS:</strong> host memory</p>
+<p><strong>KEYWORDS:</strong> host_only, device_only</p>
+<p>Here a user copy kernel is instantiated inside container which copies data between host and device memory.</p>
+<p>Host only buffer is created using <code class="docutils literal notranslate"><span class="pre">host_only</span></code> flag whereas device only buffer is created using <code class="docutils literal notranslate"><span class="pre">device_only</span></code> flag. The following data transfers take place in the example -</p>
 <ol class="arabic simple">
-<li><p>Copy the HOST_ONLY input buffer <code class="docutils literal notranslate"><span class="pre">buffer_in_host</span></code> into  DEVICE_ONLY input buffer <code class="docutils literal notranslate"><span class="pre">buffer_in_dev</span></code> using M2M.</p></li>
+<li><p>Enqueue kernel <code class="docutils literal notranslate"><span class="pre">copy_kernel</span></code> to copy the HOST_ONLY input buffer <code class="docutils literal notranslate"><span class="pre">hostonly_bo</span></code> into  DEVICE_ONLY input buffer <code class="docutils literal notranslate"><span class="pre">deviceonly_bo</span></code>.</p></li>
+<li><p>Enqueue kernel <code class="docutils literal notranslate"><span class="pre">krnl_vadd</span></code> to do computations on DEVICE_ONLY input buffer <code class="docutils literal notranslate"><span class="pre">deviceonly_bo</span></code> and put output in DEVICE_ONLY output buffer <code class="docutils literal notranslate"><span class="pre">deviceonly_bo_out</span></code>.</p></li>
+<li><p>Enqueue kernel <code class="docutils literal notranslate"><span class="pre">copy_kernel</span></code> to copy the DEVICE_ONLY output buffer <code class="docutils literal notranslate"><span class="pre">deviceonly_bo_out</span></code> into  HOST_ONLY output buffer <code class="docutils literal notranslate"><span class="pre">hostonly_bo_out</span></code>.</p></li>
 </ol>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">OCL_CHECK</span><span class="p">(</span><span class="n">err</span><span class="p">,</span>
-          <span class="n">err</span> <span class="o">=</span> <span class="n">q</span><span class="p">.</span><span class="n">enqueueCopyBuffer</span><span class="p">(</span><span class="n">buffer_in_host_a</span><span class="p">,</span> <span class="n">buffer_in_dev_a</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span>
-                                    <span class="n">size_in_bytes</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="k">nullptr</span><span class="p">));</span> <span class="c1">// transfer</span>
-<span class="n">OCL_CHECK</span><span class="p">(</span><span class="n">err</span><span class="p">,</span>
-          <span class="n">err</span> <span class="o">=</span> <span class="n">q</span><span class="p">.</span><span class="n">enqueueCopyBuffer</span><span class="p">(</span><span class="n">buffer_in_host_b</span><span class="p">,</span> <span class="n">buffer_in_dev_b</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span>
-                                    <span class="n">size_in_bytes</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="k">nullptr</span><span class="p">));</span> <span class="c1">// transfer</span>
-</pre></div>
-</div>
-<ol class="arabic simple" start="2">
-<li><p>Enqueue kernel to do computations on DEVICE_ONLY input buffer <code class="docutils literal notranslate"><span class="pre">buffer_in_dev</span></code> and put output in DEVICE_ONLY output buffer <code class="docutils literal notranslate"><span class="pre">buffer_out_dev</span></code>.</p></li>
-</ol>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">q</span><span class="p">.</span><span class="n">enqueueTask</span><span class="p">(</span><span class="n">krnl</span><span class="p">);</span>
-</pre></div>
-</div>
-<ol class="arabic simple" start="3">
-<li><p>Copy the DEVICE_ONLY output buffer <code class="docutils literal notranslate"><span class="pre">buffer_out_dev</span></code> into  HOST_ONLY output buffer <code class="docutils literal notranslate"><span class="pre">buffer_out_host</span></code> using M2M.</p></li>
-</ol>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">OCL_CHECK</span><span class="p">(</span><span class="n">err</span><span class="p">,</span>
-          <span class="n">err</span> <span class="o">=</span> <span class="n">q</span><span class="p">.</span><span class="n">enqueueCopyBuffer</span><span class="p">(</span><span class="n">buffer_out_dev</span><span class="p">,</span> <span class="n">buffer_out_host</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span>
-                                    <span class="n">size_in_bytes</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="k">nullptr</span><span class="p">));</span> <span class="c1">// transfer</span>
-</pre></div>
-</div>
 <div class="section" id="excluded-platforms">
 <h2>EXCLUDED PLATFORMS<a class="headerlink" href="#excluded-platforms" title="Permalink to this headline">¶</a></h2>
 <p>Platforms containing following strings in their names are not supported for this example :</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">_u25_</span>
 <span class="n">u30</span>
-<span class="n">u50c</span>
 <span class="n">u50lv</span>
 <span class="n">u50_gen3x4</span>
-<span class="n">u55</span>
-<span class="n">u250</span>
 <span class="n">zc</span>
 <span class="n">vck</span>
-<span class="n">aws</span><span class="o">-</span><span class="n">vu9p</span><span class="o">-</span><span class="n">f1</span>
+<span class="n">aws</span>
 <span class="mi">2019</span>
 <span class="mi">2018</span>
 <span class="n">_u2_</span>
@@ -524,16 +489,17 @@
 <div class="section" id="design-files">
 <h2>DESIGN FILES<a class="headerlink" href="#design-files" title="Permalink to this headline">¶</a></h2>
 <p>Application code is located in the src directory. Accelerator binary files will be compiled to the xclbin directory. The xclbin directory is required by the Makefile and its contents will be filled during compilation. A listing of all the files in this example is shown below</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">src</span><span class="o">/</span><span class="n">host</span><span class="o">.</span><span class="n">cpp</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">src</span><span class="o">/</span><span class="n">copy_kernel</span><span class="o">.</span><span class="n">cpp</span>
+<span class="n">src</span><span class="o">/</span><span class="n">host</span><span class="o">.</span><span class="n">cpp</span>
 <span class="n">src</span><span class="o">/</span><span class="n">krnl_vadd</span><span class="o">.</span><span class="n">cpp</span>
 </pre></div>
 </div>
-<p>Access these files in the github repo by <a class="reference external" href="https://github.com/Xilinx/Vitis_Accel_Examples/tree/master/host/slave_bridge_copy_buffer">clicking here</a>.</p>
+<p>Access these files in the github repo by <a class="reference external" href="https://github.com/Xilinx/Vitis_Accel_Examples/tree/master/host_xrt/host_memory_copy_kernel_xrt">clicking here</a>.</p>
 </div>
 <div class="section" id="command-line-arguments">
 <h2>COMMAND LINE ARGUMENTS<a class="headerlink" href="#command-line-arguments" title="Permalink to this headline">¶</a></h2>
 <p>Once the environment has been configured, the application can be executed by</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">slave_bridge_copy_buffer</span><span class="o">.</span><span class="n">exe</span> <span class="o">&lt;</span><span class="n">krnl_vadd</span> <span class="n">XCLBIN</span><span class="o">&gt;</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">host_memory_copy_kernel_xrt</span> <span class="o">-</span><span class="n">x</span> <span class="o">&lt;</span><span class="n">krnl_vadd</span> <span class="n">XCLBIN</span><span class="o">&gt;</span>
 </pre></div>
 </div>
 </div>
@@ -555,10 +521,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="slave_bridge_copy_kernel.html" class="btn btn-neutral float-right" title="Slave Bridge Copy Kernel" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="streaming_free_running_k2k_xrt.html" class="btn btn-neutral float-right" title="Stream Free Running Kernel (XRT Native API’s)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="slave_bridge_bandwidth.html" class="btn btn-neutral float-left" title="Slave Bridge Bandwidth" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="host_memory_copy_buffer_xrt.html" class="btn btn-neutral float-left" title="Host Memory Copy Buffer XRT (XRT Native API’s)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

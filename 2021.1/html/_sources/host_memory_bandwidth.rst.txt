@@ -1,14 +1,14 @@
-Slave Bridge Bandwidth
-======================
+Host Memory Bandwidth
+=====================
 
-This is slave bridge bandwidth example to describe host memory and kernel bandwidth test.
+This is host memory bandwidth example.
 
-**KEY CONCEPTS:** slave bridge, bandwidth, address translation unit
+**KEY CONCEPTS:** host memory, bandwidth, address translation unit
 
 **KEYWORDS:** XCL_MEM_EXT_HOST_ONLY, HOST[0]
 
 
-This is a host application to test Slavebridge bandwidth. It contains 3 kernels namely read_bandwidth, write_bandwidth and bandwidth (for concurrent read and write).The host application runs all 3 kernels with variable buffer sizes and measures the bandwidth for each case. Finally the design reports the maximum bandwidth achieved for each case.
+This is a host application to test host memory bandwidth. It contains 3 kernels namely read_bandwidth, write_bandwidth and bandwidth (for concurrent read and write).The host application runs all 3 kernels with variable buffer sizes and measures the bandwidth for each case. Finally the design reports the maximum bandwidth achieved for each case.
 
 The host allocates a buffer into specific host-only buffer using ``XCL_MEM_EXT_HOST_ONLY``. The ``cl_mem_ext_ptr`` object needs to be used in cases where memory assignment is done by user explicitly:
 
@@ -148,7 +148,7 @@ Application code is located in the src directory. Accelerator binary files will 
    src/read_bandwidth.cpp
    src/write_bandwidth.cpp
    
-Access these files in the github repo by `clicking here <https://github.com/Xilinx/Vitis_Accel_Examples/tree/master/host/slave_bridge_bandwidth>`__.
+Access these files in the github repo by `clicking here <https://github.com/Xilinx/Vitis_Accel_Examples/tree/master/host/host_memory_bandwidth>`__.
 
 COMMAND LINE ARGUMENTS
 ----------------------
@@ -157,5 +157,5 @@ Once the environment has been configured, the application can be executed by
 
 ::
 
-   ./slave_bridge_bw.exe <bandwidth XCLBIN>
+   ./host_memory_bw.exe <bandwidth XCLBIN>
 

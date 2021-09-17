@@ -27,15 +27,15 @@
   
 
   
-      <script type="text/javascript" src="_static/js/jquery.min.js"></script>	
+      <script type="text/javascript" src="_static/js/jquery.min.js"></script>
 	  <script type="text/javascript" src="_static/js/gtm.js"></script>
   <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
     <script type="text/javascript" src="_static/js/d3dd8c60ed.js"></script>
-    <script type="text/javascript" src="_static/js/common-ui-all.min.js"></script>		
-    <script type="text/javascript" src="_static/js/header-footer.min.js"></script>	
-    <script type="text/javascript" src="_static/js/jquery-ui.min.js"></script>	
-    <script type="text/javascript" src="_static/js/CoveoJsSearch.Lazy.min.js"></script>	
-    <script type="text/javascript" src="_static/js/linkid.js"></script>		
+    <script type="text/javascript" src="_static/js/common-ui-all.min.js"></script>
+    <script type="text/javascript" src="_static/js/header-footer.min.js"></script>
+    <script type="text/javascript" src="_static/js/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="_static/js/CoveoJsSearch.Lazy.min.js"></script>
+    <script type="text/javascript" src="_static/js/linkid.js"></script>
     <script type="text/javascript" src="_static/js/Searchbox.min.js"></script>
   
     
@@ -57,8 +57,8 @@
   <link rel="stylesheet" href="_static/css/pro.min.css" media="all" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Stream Free Running Kernel (HLS C/C++)" href="streaming_free_running_k2k.html" />
-    <link rel="prev" title="Streaming Host to Kernel Bandwidth" href="streaming_host_bandwidth.html" /> 
+    <link rel="next" title="Host Memory Bandwidth" href="host_memory_bandwidth.html" />
+    <link rel="prev" title="P2P FPGA to FPGA Bandwidth Example" href="p2p_fpga2fpga_bandwidth.html" /> 
 	</head>
 	<body>
 		<div class="xilinx-bs3"/>
@@ -78,7 +78,7 @@
 															<div class="logo-column">
 																<div class="logo">
 																	<a href="https://www.xilinx.com/">
-																	<img src="https://www.xilinx.com/etc.clientlibs/site/clientlibs/xilinx/all/resources/imgs/header/xilinx-header-logo.svg" title="Xilinx Inc"/>
+																	<img src="https://github.com/Xilinx/Image-Collateral/blob/main/xilinx-header-logo.svg?raw=true" title="Xilinx Inc"/>
 																	</a>
 																</div>
 															</div>
@@ -86,7 +86,7 @@
 																<div class="navbar navbar-collapse collapse" id="xilinx-main-menu">
 																	<div class="mobile-search-container">
 																		<div id="headerSearchBox" class="headerSearch"
-																			data-component="header-search" 
+																			data-component="header-search"
 																			data-redirect-if-empty="false"
 																			data-coveo-access-token="xxa237d4dd-f0aa-47fc-9baa-af9121851b33"
 																			data-coveo-organization-id="xilinxcomprode2rjoqok">
@@ -148,23 +148,23 @@
 																	<ul class="nav navbar-nav nav-justified">
 																		<li class="accordion-toggle-icons" data-component="toggle-dropdown">
 																			<a href="https://www.xilinx.com/applications.html">
-																			Applications</a> 
+																			Applications</a>
 																		</li>
 																		<li class="accordion-toggle-icons" data-component="toggle-dropdown">
 																			<a href="https://www.xilinx.com/products/silicon-devices.html">
-																			Products</a> 
+																			Products</a>
 																		</li>
 																		<li class="accordion-toggle-icons" data-component="toggle-dropdown">
 																			<a href="https://developer.xilinx.com/">
-																			Developers</a> 
+																			Developers</a>
 																		</li>
 																		<li class="accordion-toggle-icons" data-component="toggle-dropdown">
 																			<a href="https://www.xilinx.com/support.html">
-																			Support</a> 
+																			Support</a>
 																		</li>
 																		<li class="accordion-toggle-icons" data-component="toggle-dropdown">
 																			<a href="https://www.xilinx.com/about/company-overview.html">
-																			About</a> 
+																			About</a>
 																		</li>
 																	</ul>
 																</div>
@@ -209,7 +209,7 @@
 															-->
 															<div class="search-container">
 																<div id="headerSearchBox" class="headerSearch"
-																	data-component="header-search" 
+																	data-component="header-search"
 																	data-redirect-if-empty="false"
 																	data-coveo-access-token="xxa237d4dd-f0aa-47fc-9baa-af9121851b33"
 																	data-coveo-organization-id="xilinxcomprode2rjoqok">
@@ -306,7 +306,7 @@
             
             
               <div class="version">
-                2020.1
+                2021.1
               </div>
             
           
@@ -323,9 +323,9 @@
           
         </div>
 
-        
+      
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
+            
             
             
               
@@ -340,6 +340,7 @@
 <p class="caption"><span class="caption-text">Category of Examples</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="hello_world.html">Hello World</a></li>
+<li class="toctree-l1"><a class="reference internal" href="aie_kernels.html">AIE Examples</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="host.html">Host</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="concurrent_kernel_execution.html">Concurrent Kernel Execution</a></li>
 <li class="toctree-l2"><a class="reference internal" href="copy_buffer.html">Copy Buffer</a></li>
@@ -351,6 +352,8 @@
 <li class="toctree-l2"><a class="reference internal" href="hbm_bandwidth.html">HBM Bandwidth</a></li>
 <li class="toctree-l2"><a class="reference internal" href="hbm_bandwidth_pseudo_random.html">HBM Bandwidth - Pseudo Random Ethash</a></li>
 <li class="toctree-l2"><a class="reference internal" href="hbm_simple.html">HBM Simple</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hbm_large_buffers.html">HBM Large Buffers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hbm_rama_ip.html">HBM Bandwidth for large buffers using RAMA IP</a></li>
 <li class="toctree-l2"><a class="reference internal" href="host_global_bandwidth.html">Host Global Bandwidth</a></li>
 <li class="toctree-l2"><a class="reference internal" href="iops_test.html">IOPS Test</a></li>
 <li class="toctree-l2"><a class="reference internal" href="multiple_cus_asymmetrical.html">Multiple Compute Units (Asymmetrical)</a></li>
@@ -361,31 +364,27 @@
 <li class="toctree-l2"><a class="reference internal" href="p2p_overlap_bandwidth.html">P2P overlap bandwidth Example</a></li>
 <li class="toctree-l2"><a class="reference internal" href="p2p_fpga2fpga.html">P2P FPGA to FPGA Example</a></li>
 <li class="toctree-l2"><a class="reference internal" href="p2p_fpga2fpga_bandwidth.html">P2P FPGA to FPGA Bandwidth Example</a></li>
-<li class="toctree-l2"><a class="reference internal" href="slave_bridge_simple.html">Slave Bridge Simple</a></li>
-<li class="toctree-l2"><a class="reference internal" href="slave_bridge_bandwidth.html">Slave Bridge Bandwidth</a></li>
-<li class="toctree-l2"><a class="reference internal" href="slave_bridge_copy_buffer.html">Slave Bridge Copy Buffer</a></li>
-<li class="toctree-l2"><a class="reference internal" href="slave_bridge_copy_kernel.html">Slave Bridge Copy Kernel</a></li>
-<li class="toctree-l2"><a class="reference internal" href="streaming_chain.html">Stream Chain Matrix Multiplication</a></li>
-<li class="toctree-l2"><a class="reference internal" href="streaming_custom_datatype.html">Streaming Custom Data Type</a></li>
-<li class="toctree-l2"><a class="reference internal" href="streaming_host_bandwidth.html">Streaming Host to Kernel Bandwidth</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Stream Free Running Host to Kernel(HLS C/C++)</a><ul>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Host Memory Simple</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#kernel-compilation">Kernel Compilation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#host-code-guidelines">Host code Guidelines</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#excluded-platforms">EXCLUDED PLATFORMS</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#design-files">DESIGN FILES</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#command-line-arguments">COMMAND LINE ARGUMENTS</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="host_memory_bandwidth.html">Host Memory Bandwidth</a></li>
+<li class="toctree-l2"><a class="reference internal" href="host_memory_copy_buffer.html">Host Memory Copy Buffer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="host_memory_copy_kernel.html">Host Memory Copy Kernel</a></li>
 <li class="toctree-l2"><a class="reference internal" href="streaming_free_running_k2k.html">Stream Free Running Kernel (HLS C/C++)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="streaming_reg_access.html">Control and Status Register access continuously streaming kernel (HLS C/C++)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="device_only_buffer.html">Device Only Buffer</a></li>
-<li class="toctree-l2"><a class="reference internal" href="streaming_k2k.html">Stream Kernel to Kernel</a></li>
 <li class="toctree-l2"><a class="reference internal" href="streaming_k2k_mm.html">Stream Kernel to Kernel Memory Mapped</a></li>
-<li class="toctree-l2"><a class="reference internal" href="streaming_mm_mixed.html">Stream Memory Map Mixed</a></li>
-<li class="toctree-l2"><a class="reference internal" href="streaming_multi_cus.html">Stream Multiple Compute Units</a></li>
-<li class="toctree-l2"><a class="reference internal" href="streaming_simple.html">Stream Simple</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="host_xrt.html">Native XRT</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cpp.html">C++ Kernels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="demo.html">Demos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="emulation.html">Emulation Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="library_examples.html">Library Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sys_opt.html">System Optimization Kernels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="rtl.html">RTL Kernels</a></li>
@@ -398,15 +397,16 @@
 </ul>
 <p class="caption"><span class="caption-text">Versions</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="master.html">Master (2020.2)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="master.html">Master (2021.1)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="versions.html">Previous Versions</a></li>
 </ul>
 
             
+			
 			<p class="caption"><span class="caption-text">This Page</span></p>
 				<ul class="current">
-				  <li class="toctree-l1"><a href="_sources/streaming_free_running_h2k.rst.txt"
-						rel="nofollow">Show Source</a></li>						
+				  <li class="toctree-l1"><a href="_sources/host_memory_simple.rst.txt"
+						rel="nofollow">Show Source</a></li>
 				</ul>
           
         </div>
@@ -453,13 +453,13 @@
         
           <li><a href="host.html">Host</a> &raquo;</li>
         
-      <li>Stream Free Running Host to Kernel(HLS C/C++)</li>
+      <li>Host Memory Simple</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="_sources/streaming_free_running_h2k.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/host_memory_simple.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -472,112 +472,48 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="stream-free-running-host-to-kernel-hls-c-c">
-<h1>Stream Free Running Host to Kernel(HLS C/C++)<a class="headerlink" href="#stream-free-running-host-to-kernel-hls-c-c" title="Permalink to this headline">¶</a></h1>
-<p>This is a simple streaming free running kernel that demonstrates how to interact with the host. In this design we showcase multiple stream requests in parallel.</p>
-<p><strong>KEY CONCEPTS:</strong> Free Running Kernel</p>
-<p><strong>KEYWORDS:</strong> cl_stream, CL_STREAM_EOT, CL_STREAM_NONBLOCKING</p>
-<p>This example demonstrates how host and kernel can communicate through a
-stream interface. Rather than loading the data from host to global
-memory and then to consumer kernel <code class="docutils literal notranslate"><span class="pre">increment</span></code> we can use stream to
-transfer this data directly. It reduces the latency of the application
-and also reduces the memory utilization. This is a simple increment
-Kernel design in which streams of kernel are directly communicating with
-host using stream interfaces.</p>
-<p>For free running kernel, user needs to specify ap_ctrl_none for return
-port. This will create the kernel without AXI lite interface. Kernel
-will always be in running states.</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#pragma HLS interface ap_ctrl_none port=return</span>
+  <div class="section" id="host-memory-simple">
+<h1>Host Memory Simple<a class="headerlink" href="#host-memory-simple" title="Permalink to this headline">¶</a></h1>
+<p>This is simple host memory example to describe how a user kernel can access the host memory. The host memory allocation is done through the host code. The kernel reads data from host memory and writes result to host memory.</p>
+<p><strong>KEY CONCEPTS:</strong> host memory, address translation unit</p>
+<p><strong>KEYWORDS:</strong> XCL_MEM_EXT_HOST_ONLY, HOST[0]</p>
+<p>Host Memory IP is used by the kernels to read and write data directly from/to the Host Memory. Unlike the XDMA data transfer, this data transfer mechanism does not utlize global memories (DDR, HBM, PLRAM ,etc) on the card. Host-memory provides DMA bypass capability that is primarily used for data transfer on a No-DMA platform.</p>
+<div class="section" id="kernel-compilation">
+<h2>Kernel Compilation<a class="headerlink" href="#kernel-compilation" title="Permalink to this headline">¶</a></h2>
+<p>Use the following V++ configuration option to connect a kernel AXI-Master Port to Host-memory IP.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="o">[</span>connectivity<span class="o">]</span>
+<span class="nv">sp</span><span class="o">=</span>krnl_vadd_1.m_axi_gmem:HOST<span class="o">[</span><span class="m">0</span><span class="o">]</span>
 </pre></div>
 </div>
-<p>Following is the log reported while running the design on U200 platform:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Platform Name: Xilinx
-INFO: Reading increment.xclbin
-Loading: &#39;increment.xclbin&#39;
-Trying to program device[0]: xilinx_u200_qdma_201920_1
-Device[0]: program successful!
+</div>
+<div class="section" id="host-code-guidelines">
+<h2>Host code Guidelines<a class="headerlink" href="#host-code-guidelines" title="Permalink to this headline">¶</a></h2>
+<p>XRT OpenCL introduces a new buffer extension Flag <code class="docutils literal notranslate"><span class="pre">XCL_MEM_EXT_HOST_ONLY</span></code> that should be used to denote a Host-only buffer</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">cl_mem_ext_ptr_t</span> <span class="n">host_buffer_ext</span><span class="p">;</span>
+<span class="n">host_buffer_ext</span><span class="p">.</span><span class="n">flags</span> <span class="o">=</span> <span class="n">XCL_MEM_EXT_HOST_ONLY</span><span class="p">;</span>
+<span class="n">host_buffer_ext</span><span class="p">.</span><span class="n">obj</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">;</span>
+<span class="n">host_buffer_ext</span><span class="p">.</span><span class="n">param</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
 
- Writing Stream h2c_stream_a[0]
- Reading Stream c2h_stream[0]
- Writing Stream h2c_stream_a[1]
- Reading Stream c2h_stream[1]
- Writing Stream h2c_stream_a[2]
- Reading Stream c2h_stream[2]
- Writing Stream h2c_stream_a[3]
- Reading Stream c2h_stream[3]
- Writing Stream h2c_stream_a[4]
- Reading Stream c2h_stream[4]
- Writing Stream h2c_stream_a[5]
- Reading Stream c2h_stream[5]
- Writing Stream h2c_stream_a[6]
- Reading Stream c2h_stream[6]
- Writing Stream h2c_stream_a[7]
- Reading Stream c2h_stream[7]
- Writing Stream h2c_stream_a[8]
- Reading Stream c2h_stream[8]
- Writing Stream h2c_stream_a[9]
- Reading Stream c2h_stream[9]
- Writing Stream h2c_stream_a[10]
- Reading Stream c2h_stream[10]
- Writing Stream h2c_stream_a[11]
- Reading Stream c2h_stream[11]
- Writing Stream h2c_stream_a[12]
- Reading Stream c2h_stream[12]
- Writing Stream h2c_stream_a[13]
- Reading Stream c2h_stream[13]
- Writing Stream h2c_stream_a[14]
- Reading Stream c2h_stream[14]
- Writing Stream h2c_stream_a[15]
- Reading Stream c2h_stream[15]
- Writing Stream h2c_stream_a[16]
- Reading Stream c2h_stream[16]
- Writing Stream h2c_stream_a[17]
- Reading Stream c2h_stream[17]
- Writing Stream h2c_stream_a[18]
- Reading Stream c2h_stream[18]
- Writing Stream h2c_stream_a[19]
- Reading Stream c2h_stream[19]
- Writing Stream h2c_stream_a[20]
- Reading Stream c2h_stream[20]
- Writing Stream h2c_stream_a[21]
- Reading Stream c2h_stream[21]
- Writing Stream h2c_stream_a[22]
- Reading Stream c2h_stream[22]
- Writing Stream h2c_stream_a[23]
- Reading Stream c2h_stream[23]
- Writing Stream h2c_stream_a[24]
- Reading Stream c2h_stream[24]
- Writing Stream h2c_stream_a[25]
- Reading Stream c2h_stream[25]
- Writing Stream h2c_stream_a[26]
- Reading Stream c2h_stream[26]
- Writing Stream h2c_stream_a[27]
- Reading Stream c2h_stream[27]
- Writing Stream h2c_stream_a[28]
- Reading Stream c2h_stream[28]
- Writing Stream h2c_stream_a[29]
- Reading Stream c2h_stream[29]
- Writing Stream h2c_stream_a[30]
- Reading Stream c2h_stream[30]
- Writing Stream h2c_stream_a[31]
- Reading Stream c2h_stream[31]
- clPollStreams for (64) events (CU: 32, axis_in: 1, axis_out: 1)
-[ Case: 1 ] -&gt; Throughput = 2.38802 GB/s
-TEST PASSED
+<span class="n">OCL_CHECK</span><span class="p">(</span><span class="n">err</span><span class="p">,</span> <span class="n">cl</span><span class="o">::</span><span class="n">Buffer</span> <span class="n">buffer_in_a</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">CL_MEM_READ_ONLY</span> <span class="o">|</span>
+                                                 <span class="n">CL_MEM_EXT_PTR_XILINX</span><span class="p">,</span>
+                                    <span class="n">size_in_bytes</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">host_buffer_ext</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">err</span><span class="p">));</span>
 </pre></div>
+</div>
 </div>
 <div class="section" id="excluded-platforms">
 <h2>EXCLUDED PLATFORMS<a class="headerlink" href="#excluded-platforms" title="Permalink to this headline">¶</a></h2>
 <p>Platforms containing following strings in their names are not supported for this example :</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">u30</span>
-<span class="n">u250</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">_u25_</span>
+<span class="n">u30</span>
+<span class="n">u50lv</span>
+<span class="n">u50_gen3x4</span>
 <span class="n">zc</span>
 <span class="n">vck</span>
-<span class="n">xdma</span>
-<span class="n">qep</span>
-<span class="n">aws</span>
+<span class="n">aws</span><span class="o">-</span><span class="n">vu9p</span><span class="o">-</span><span class="n">f1</span>
+<span class="mi">2019</span>
+<span class="mi">2018</span>
 <span class="n">samsung</span>
-<span class="n">nodma</span>
+<span class="n">_u2_</span>
 </pre></div>
 </div>
 </div>
@@ -585,14 +521,15 @@ TEST PASSED
 <h2>DESIGN FILES<a class="headerlink" href="#design-files" title="Permalink to this headline">¶</a></h2>
 <p>Application code is located in the src directory. Accelerator binary files will be compiled to the xclbin directory. The xclbin directory is required by the Makefile and its contents will be filled during compilation. A listing of all the files in this example is shown below</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">src</span><span class="o">/</span><span class="n">host</span><span class="o">.</span><span class="n">cpp</span>
-<span class="n">src</span><span class="o">/</span><span class="n">increment</span><span class="o">.</span><span class="n">cpp</span>
+<span class="n">src</span><span class="o">/</span><span class="n">kernel</span><span class="o">.</span><span class="n">cpp</span>
 </pre></div>
 </div>
+<p>Access these files in the github repo by <a class="reference external" href="https://github.com/Xilinx/Vitis_Accel_Examples/tree/master/host/host_memory_simple">clicking here</a>.</p>
 </div>
 <div class="section" id="command-line-arguments">
 <h2>COMMAND LINE ARGUMENTS<a class="headerlink" href="#command-line-arguments" title="Permalink to this headline">¶</a></h2>
 <p>Once the environment has been configured, the application can be executed by</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">streaming_free_running_h2k</span> <span class="o">-</span><span class="n">x</span> <span class="o">&lt;</span><span class="n">increment</span> <span class="n">XCLBIN</span><span class="o">&gt;</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">host_memory_simple</span><span class="o">.</span><span class="n">exe</span> <span class="o">&lt;</span><span class="n">krnl_vadd</span> <span class="n">XCLBIN</span><span class="o">&gt;</span>
 </pre></div>
 </div>
 </div>
@@ -608,16 +545,16 @@ TEST PASSED
 
         </div>
       </div>
-	  
-	  
+
+
 	  <!-- Sphinx Page Footer block -->
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="streaming_free_running_k2k.html" class="btn btn-neutral float-right" title="Stream Free Running Kernel (HLS C/C++)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="host_memory_bandwidth.html" class="btn btn-neutral float-right" title="Host Memory Bandwidth" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="streaming_host_bandwidth.html" class="btn btn-neutral float-left" title="Streaming Host to Kernel Bandwidth" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="p2p_fpga2fpga_bandwidth.html" class="btn btn-neutral float-left" title="P2P FPGA to FPGA Bandwidth Example" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -628,7 +565,8 @@ TEST PASSED
     <p class="footerinfo">
 
     </p>
-  </div>	  
+	<br>
+  </div>
       </div>
     </section>
 
@@ -645,16 +583,16 @@ TEST PASSED
     jQuery(function() { Search.loadIndex("searchindex.js"); });
   </script>
 
-  <script type="text/javascript" id="searchindexloader"></script>     	    
-	    
-	    
+  <script type="text/javascript" id="searchindexloader"></script>
+
+
   
   
     
   
-  
 
-  
+
+
   <!--  Xilinx template footer block -->
 							</div>
 						</div>
@@ -665,6 +603,16 @@ TEST PASSED
 						<div class="aem-Grid aem-Grid--16 aem-Grid--default--16 ">
 							<div class="footer parbase aem-GridColumn--default--none aem-GridColumn aem-GridColumn--offset--default--0 aem-GridColumn--default--16">
 								<noindex>
+                  <!-- make footer fixed - NileshP -->
+                  <style>
+                        .footer {
+                        position: fixed;
+                        left: 0;
+                        bottom: 0;
+                        width: 100%;
+                        }
+                  </style>
+                  <!-- make footer fixed NileshP-->
 									<footer>
 										<div class="aem-Grid aem-Grid--16">
 											<div class="aem-GridColumn aem-GridColumn--xxxlarge--none aem-GridColumn--xsmall--16 aem-GridColumn--offset--xsmall--0 aem-GridColumn--xlarge--none aem-GridColumn--xxlarge--none aem-GridColumn--default--none aem-GridColumn--offset--large--1 aem-GridColumn--xlarge--12 aem-GridColumn--offset--default--0 aem-GridColumn--xxlarge--10 aem-GridColumn--offset--xlarge--2 aem-GridColumn--offset--xxlarge--3 aem-GridColumn--offset--xxxlarge--4 aem-GridColumn--xsmall--none aem-GridColumn--large--none aem-GridColumn aem-GridColumn--large--14 aem-GridColumn--xxxlarge--8 aem-GridColumn--default--16">
@@ -756,7 +704,7 @@ TEST PASSED
 			  _.templateSettings.evaluate = /\{\{([^-=][\S\s]+?)\}\}/g;
 			  _.templateSettings.escape = /\{\{-([^=][\S\s]+?)\}\}/g;
 			}
-			
+
 			underscoreSetup();
 		</script>
 	</body>

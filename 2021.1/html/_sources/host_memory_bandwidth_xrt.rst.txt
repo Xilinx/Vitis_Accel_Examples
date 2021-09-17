@@ -1,14 +1,14 @@
-Slave Bridge Bandwidth XRT (XRT Native API's)
-=============================================
+Host Memory Bandwidth XRT (XRT Native API's)
+============================================
 
-This is slave bridge bandwidth example to describe host memory and kernel bandwidth test using native xrt api's.
+This is host memory bandwidth example to describe host memory and kernel bandwidth test using native xrt api's.
 
-**KEY CONCEPTS:** slave bridge, bandwidth, address translation unit
+**KEY CONCEPTS:** host memory, bandwidth, address translation unit
 
 **KEYWORDS:** host_only, HOST[0]
 
 
-This is a host application to test Slavebridge bandwidth. It contains 3 kernels namely read_bandwidth, write_bandwidth and bandwidth (for concurrent read and write).The host application runs all 3 kernels with variable buffer sizes and measures the bandwidth for each case. Finally the design reports the maximum bandwidth achieved for each case.
+This is a host application to test Host Memory bandwidth. It contains 3 kernels namely read_bandwidth, write_bandwidth and bandwidth (for concurrent read and write).The host application runs all 3 kernels with variable buffer sizes and measures the bandwidth for each case. Finally the design reports the maximum bandwidth achieved for each case.
 
 The host allocates a buffer into specific host-only buffer using ``host_only`` flag.
 
@@ -131,7 +131,7 @@ Application code is located in the src directory. Accelerator binary files will 
    src/read_bandwidth.cpp
    src/write_bandwidth.cpp
    
-Access these files in the github repo by `clicking here <https://github.com/Xilinx/Vitis_Accel_Examples/tree/master/host_xrt/slave_bridge_bandwidth_xrt>`__.
+Access these files in the github repo by `clicking here <https://github.com/Xilinx/Vitis_Accel_Examples/tree/master/host_xrt/host_memory_bandwidth_xrt>`__.
 
 COMMAND LINE ARGUMENTS
 ----------------------
@@ -140,5 +140,5 @@ Once the environment has been configured, the application can be executed by
 
 ::
 
-   ./slave_bridge_bandwidth_xrt -x <bandwidth XCLBIN>
+   ./host_memory_bandwidth_xrt -x <bandwidth XCLBIN>
 

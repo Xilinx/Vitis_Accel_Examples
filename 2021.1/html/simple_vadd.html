@@ -465,6 +465,23 @@
   <div class="section" id="vector-addition">
 <h1>Vector Addition<a class="headerlink" href="#vector-addition" title="Permalink to this headline">¶</a></h1>
 <p>This is a simple example of vector addition.The purpose of this code is to introduce the user to application development in the Vitis tools.</p>
+<p>This is a simple example of vector addition. The kernel uses HLS Dataflow which allows the user to schedule multiple task together to achieve higher throughput.</p>
+<p>Vitis kernel can have one s_axilite interface which will be used by host application to configure the kernel. All the global memory access arguments are associated to m_axi(AXI Master Interface) as below:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#pragma HLS INTERFACE m_axi port = in1 bundle = gmem0</span>
+<span class="cp">#pragma HLS INTERFACE m_axi port = in2 bundle = gmem1</span>
+<span class="cp">#pragma HLS INTERFACE m_axi port = out bundle = gmem0</span>
+</pre></div>
+</div>
+<p>Multiple interfaces can be created based on the requirements. For example when multiple memory accessing arguments need access to global memory simultaneously, user can create multiple master interfaces and can connect to different arguments.</p>
+<p>Usually data stored in the array is consumed or produced in a sequential manner, a more efficient communication mechanism is to use streaming data as specified by the STREAM pragma, where FIFOs are used instead of RAMs.</p>
+<p>Vector addition in kernel is divided into 4 sub-tasks(read input 1, read input 2 , compute_add and write) which are then performed concurrently using <code class="docutils literal notranslate"><span class="pre">Dataflow</span></code>.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#pragma HLS dataflow</span>
+    <span class="n">load_input</span><span class="p">(</span><span class="n">in1</span><span class="p">,</span> <span class="n">in1_stream</span><span class="p">,</span> <span class="n">size</span><span class="p">);</span>
+    <span class="n">load_input</span><span class="p">(</span><span class="n">in2</span><span class="p">,</span> <span class="n">in2_stream</span><span class="p">,</span> <span class="n">size</span><span class="p">);</span>
+    <span class="n">compute_add</span><span class="p">(</span><span class="n">in1_stream</span><span class="p">,</span> <span class="n">in2_stream</span><span class="p">,</span> <span class="n">out_stream</span><span class="p">,</span> <span class="n">size</span><span class="p">);</span>
+    <span class="n">store_result</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="n">out_stream</span><span class="p">,</span> <span class="n">size</span><span class="p">);</span>
+</pre></div>
+</div>
 <div class="section" id="excluded-platforms">
 <h2>EXCLUDED PLATFORMS<a class="headerlink" href="#excluded-platforms" title="Permalink to this headline">¶</a></h2>
 <p>Platforms containing following strings in their names are not supported for this example :</p>

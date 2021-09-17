@@ -1,9 +1,9 @@
-Slave Bridge Copy Kernel
-========================
+Host Memory Copy Kernel
+=======================
 
-This is a Slave Bridge Example to describe how data can be copied between host-only buffer and device-only buffer using User Copy Kernel.
+This is a Host Memory Example to describe how data can be copied between host-only buffer and device-only buffer using User Copy Kernel.
 
-**KEY CONCEPTS:** slave bridge
+**KEY CONCEPTS:** host memory
 
 **KEYWORDS:** XCL_MEM_EXT_HOST_ONLY, CL_MEM_HOST_NO_ACCESS, `enqueueMapBuffer <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/opencl_programming.html#czb1555520653128>`__
 
@@ -47,7 +47,7 @@ Application code is located in the src directory. Accelerator binary files will 
    src/host.cpp
    src/krnl_vadd.cpp
    
-Access these files in the github repo by `clicking here <https://github.com/Xilinx/Vitis_Accel_Examples/tree/master/host/slave_bridge_copy_kernel>`__.
+Access these files in the github repo by `clicking here <https://github.com/Xilinx/Vitis_Accel_Examples/tree/master/host/host_memory_copy_kernel>`__.
 
 COMMAND LINE ARGUMENTS
 ----------------------
@@ -56,5 +56,5 @@ Once the environment has been configured, the application can be executed by
 
 ::
 
-   ./slave_bridge_copy_kernel.exe <krnl_vadd XCLBIN>
+   ./host_memory_copy_kernel.exe <krnl_vadd XCLBIN>
 

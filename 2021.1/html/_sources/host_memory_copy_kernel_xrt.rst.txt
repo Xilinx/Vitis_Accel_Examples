@@ -1,9 +1,9 @@
-Slave Bridge Copy Kernel XRT (XRT Native API's)
-===============================================
+Kernel XRT (XRT Native API's)
+=============================
 
-This is a Slave Bridge Example to describe how data can be copied using xrt native api's between host-only buffer and device-only buffer using User Copy Kernel.
+This is a Host Memory Example to describe how data can be copied using xrt native api's between host-only buffer and device-only buffer using User Copy Kernel.
 
-**KEY CONCEPTS:** slave bridge
+**KEY CONCEPTS:** host memory
 
 **KEYWORDS:** host_only, device_only
 
@@ -47,7 +47,7 @@ Application code is located in the src directory. Accelerator binary files will 
    src/host.cpp
    src/krnl_vadd.cpp
    
-Access these files in the github repo by `clicking here <https://github.com/Xilinx/Vitis_Accel_Examples/tree/master/host_xrt/slave_bridge_copy_kernel_xrt>`__.
+Access these files in the github repo by `clicking here <https://github.com/Xilinx/Vitis_Accel_Examples/tree/master/host_xrt/host_memory_copy_kernel_xrt>`__.
 
 COMMAND LINE ARGUMENTS
 ----------------------
@@ -56,5 +56,5 @@ Once the environment has been configured, the application can be executed by
 
 ::
 
-   ./slave_bridge_copy_kernel_xrt -x <krnl_vadd XCLBIN>
+   ./host_memory_copy_kernel_xrt -x <krnl_vadd XCLBIN>
 

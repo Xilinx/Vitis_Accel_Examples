@@ -19,9 +19,9 @@ XRT Native API's for optimized interfacing with Xilinx Devices.
    multiple_cus_asymmetrical_xrt.rst
    p2p_simple_xrt.rst
    register_access_xrt.rst
-   slave_bridge_simple_xrt.rst
-   slave_bridge_bandwidth_xrt.rst
-   slave_bridge_copy_buffer_xrt.rst
-   slave_bridge_copy_kernel_xrt.rst
+   host_memory_simple_xrt.rst
+   host_memory_bandwidth_xrt.rst
+   host_memory_copy_buffer_xrt.rst
+   host_memory_copy_kernel_xrt.rst
    streaming_free_running_k2k_xrt.rst
    streaming_k2k_mm_xrt.rst

@@ -8,6 +8,6 @@ Validate OpenCL designs.
    :caption: List of Examples
 
    bandwidth_test.rst
-   slavebridge_test.rst
+   hostmemory_test.rst
    verify_test.rst
    validate_embedded.rst

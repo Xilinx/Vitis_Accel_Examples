@@ -452,7 +452,7 @@
 <h1>Vadd 2 Kernel Clocks (RTL Kernel)<a class="headerlink" href="#vadd-2-kernel-clocks-rtl-kernel" title="Permalink to this headline">¶</a></h1>
 <p>This example shows vector addition with 2 kernel clocks using RTL Kernel.</p>
 <p><strong>KEY CONCEPTS:</strong> <a class="reference external" href="https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/devrtlkernel.html">RTL Kernel</a>, <a class="reference external" href="https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/vitiscommandcompiler.html#mcj1568640526180__section_bh5_dg4_bjb">Multiple Kernel Clocks</a></p>
-<p><strong>KEYWORDS:</strong> <a class="reference external" href="https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/vitiscommandcompiler.html#qcm1528577331870__section_frk_xtr_t3b">kernel_frequency</a></p>
+<p><strong>KEYWORDS:</strong> <a class="reference external" href="https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/vitiscommandcompiler.html#ans1568640653312">clock</a>, <a class="reference external" href="https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/vitiscommandcompiler.html#ans1568640653312__section_vh5_yf4_bjb">freqHz</a>, <a class="reference external" href="https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/managing_interface_synthesis.html#opo1539734223038">ap_clk</a>, ap_clk2</p>
 <p>This example demonstrates the use of <code class="docutils literal notranslate"><span class="pre">two</span> <span class="pre">kernel</span> <span class="pre">clocks</span></code> for a simple
 case of vector addition.</p>
 <p>An RTL kernel can have up to two external clock interfaces; a primary
@@ -461,16 +461,20 @@ clocks can be used for clocking internal logic. However, all external
 RTL kernel interfaces must be clocked on the primary clock. Both primary
 and secondary clocks support independent automatic frequency scaling.</p>
 <p>These clock frequencies are specified at V++ linking stage in the
-following manner.</p>
+following manner for SoC platforms -</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">clock</span><span class="p">]</span>
+<span class="n">freqHz</span><span class="o">=</span><span class="mi">150000000</span><span class="p">:</span><span class="n">krnl_vadd_2clk_rtl_1</span><span class="o">.</span><span class="n">ap_clk</span>
+<span class="n">freqHz</span><span class="o">=</span><span class="mi">250000000</span><span class="p">:</span><span class="n">krnl_vadd_2clk_rtl_1</span><span class="o">.</span><span class="n">ap_clk_2</span>
+</pre></div>
+</div>
+<p>The same is specified in the following manner for PCIe platforms -</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">kernel_frequency</span><span class="o">=</span><span class="mi">0</span><span class="p">:</span><span class="mi">150</span><span class="o">|</span><span class="mi">1</span><span class="p">:</span><span class="mi">250</span>
 </pre></div>
 </div>
 <div class="section" id="excluded-platforms">
 <h2>EXCLUDED PLATFORMS<a class="headerlink" href="#excluded-platforms" title="Permalink to this headline">¶</a></h2>
 <p>Platforms containing following strings in their names are not supported for this example :</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">zc</span>
-<span class="n">vck</span>
-<span class="n">nodma</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">nodma</span>
 </pre></div>
 </div>
 </div>
