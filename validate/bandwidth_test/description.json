@@ -30,6 +30,12 @@
             "includepaths": [
                 "REPO_DIR/common/includes/xcl2"
             ]
+        },
+        "linker" : {
+            "libraries" : [
+                "boost_filesystem",
+                "boost_system"
+            ]
         }, 
         "host_exe": "kernel_bw.exe"
     },
