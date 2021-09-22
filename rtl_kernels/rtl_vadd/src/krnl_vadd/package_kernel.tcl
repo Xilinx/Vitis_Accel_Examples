@@ -14,7 +14,7 @@
 # under the License.
 #
 
-set path_to_hdl "./src/hdl"
+set path_to_hdl "./src/krnl_vadd/hdl"
 set path_to_packaged "./packaged_kernel_${suffix}"
 set path_to_tmp_project "./tmp_kernel_pack_${suffix}"
 
