@@ -146,6 +146,7 @@
         "SLR Assignments": "https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/migrating_new_target_platform.html#img1535745661571",
         "SystemC": "https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/runemulation1.html#cmo1619037605921",
         "XRT Native API": "https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/devhostapp.html#jln1620691667890",
-        "P2P": "https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/Chunk938767849.html#qex1558551641915" 
+        "P2P": "https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/Chunk938767849.html#qex1558551641915",
+        "RTL C-Model": "https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/rtl_kernel_wizard.html#wnd1523535864477"
     }
 }

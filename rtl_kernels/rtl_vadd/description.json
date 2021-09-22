@@ -1,14 +1,15 @@
 {
     "name": "Vadd Simple (RTL Kernel)", 
     "description": [
-        "Simple example of vector addition using RTL Kernel"
+        "This is a simple example of vector addition using RTL kernel and supports all flows including sw_emu using C-Model."
     ], 
     "flow": "vitis",
     "keywords": [
         "kernel_files"
     ],
     "key_concepts": [
-        "RTL Kernel"
+        "RTL Kernel",
+        "RTL C-Model"
     ],
     "platform_blacklist": [
         "nodma"

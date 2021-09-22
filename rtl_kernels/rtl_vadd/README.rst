@@ -1,9 +1,9 @@
 Vadd Simple (RTL Kernel)
 ========================
 
-Simple example of vector addition using RTL Kernel
+This is a simple example of vector addition using RTL kernel and supports all flows including sw_emu using C-Model.
 
-**KEY CONCEPTS:** `RTL Kernel <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/devrtlkernel.html>`__
+**KEY CONCEPTS:** `RTL Kernel <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/devrtlkernel.html>`__, `RTL C-Model <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/rtl_kernel_wizard.html#wnd1523535864477>`__
 
 **KEYWORDS:** `kernel_files <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/devrtlkernel.html#nuy1588349382079>`__
 
@@ -23,15 +23,17 @@ Application code is located in the src directory. Accelerator binary files will 
 
 ::
 
-   src/hdl/krnl_vadd_rtl.v
-   src/hdl/krnl_vadd_rtl_adder.sv
-   src/hdl/krnl_vadd_rtl_axi_read_master.sv
-   src/hdl/krnl_vadd_rtl_axi_write_master.sv
-   src/hdl/krnl_vadd_rtl_control_s_axi.v
-   src/hdl/krnl_vadd_rtl_counter.sv
-   src/hdl/krnl_vadd_rtl_int.sv
    src/host.cpp
-   src/vadd.cpp
+   src/krnl_vadd/gen_xo.tcl
+   src/krnl_vadd/hdl/krnl_vadd_rtl.v
+   src/krnl_vadd/hdl/krnl_vadd_rtl_adder.sv
+   src/krnl_vadd/hdl/krnl_vadd_rtl_axi_read_master.sv
+   src/krnl_vadd/hdl/krnl_vadd_rtl_axi_write_master.sv
+   src/krnl_vadd/hdl/krnl_vadd_rtl_control_s_axi.v
+   src/krnl_vadd/hdl/krnl_vadd_rtl_counter.sv
+   src/krnl_vadd/hdl/krnl_vadd_rtl_int.sv
+   src/krnl_vadd/package_kernel.tcl
+   src/krnl_vadd/vadd_CModel.cpp
    
 COMMAND LINE ARGUMENTS
 ----------------------
@@ -62,6 +64,6 @@ The example also supports sw_emu by running the vadd.cpp code provided in the ``
 
 ::
 
-   package_xo -xo_path ${xoname} -kernel_name krnl_vadd_rtl -ip_directory ./packaged_kernel_${suffix} -kernel_files src/vadd.cpp
+   package_xo -xo_path ${xoname} -kernel_name krnl_vadd_rtl -ip_directory ./packaged_kernel_${suffix} -kernel_files src/krnl_vadd/vadd_CModel.cpp
 
 For more comprehensive documentation, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.
