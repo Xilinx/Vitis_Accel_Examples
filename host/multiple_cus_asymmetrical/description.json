@@ -5,7 +5,8 @@
     ],
     "flow": "vitis",
     "key_concepts": [
-        "Multiple Compute Units"
+        "Multiple Compute Units",
+        "Task Level Parallelism"
     ], 
     "platform_blacklist": [
         "_u25_",

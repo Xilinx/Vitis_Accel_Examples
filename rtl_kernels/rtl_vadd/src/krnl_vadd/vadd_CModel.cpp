@@ -42,7 +42,6 @@ extern "C" {
 */
 
 void krnl_vadd_rtl(uint32_t* a, uint32_t* b, uint32_t* c, ap_uint<32> length_r) {
-
     for (int i = 0; i < length_r; i++) c[i] = a[i] + b[i];
 }
 }
