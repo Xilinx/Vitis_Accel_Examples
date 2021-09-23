@@ -5,10 +5,10 @@ USR_VPP_LDFLAGS:=
 platform_test:
 	platforminfo -j -d $(DEVICE) > platform_info.json
 	$(XF_PROJ_ROOT)/common/utility/platform_gen.py platform_info.json bandwidth
-	$(XF_PROJ_ROOT)/common/utility/platform_gen.py platform_info.json slavebridge
+	$(XF_PROJ_ROOT)/common/utility/platform_gen.py platform_info.json hostmemory 
 
 VPP_LDFLAGS+= --config platform_bandwidth.cfg
-VPP_LDFLAGS+= --config platform_slavebridge.cfg
+VPP_LDFLAGS+= --config platform_hostmemory.cfg
 ifneq ($(USR_VPP_FLAGS), )      
 VPP_FLAGS += $(USR_VPP_FLAGS)
 endif

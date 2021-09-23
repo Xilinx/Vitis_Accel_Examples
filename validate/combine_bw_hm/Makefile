@@ -49,7 +49,7 @@ help::
 ############################## Setting up Project Variables ##############################
 # Points to top directory of Git repository
 MK_PATH := $(abspath $(lastword $(MAKEFILE_LIST)))
-COMMON_REPO ?= $(shell bash -c 'export MK_PATH=$(MK_PATH); echo $${MK_PATH%validate/combine_bw_sb/*}')
+COMMON_REPO ?= $(shell bash -c 'export MK_PATH=$(MK_PATH); echo $${MK_PATH%validate/combine_bw_hm/*}')
 PWD = $(shell readlink -f .)
 XF_PROJ_ROOT = $(shell readlink -f $(COMMON_REPO))
 
@@ -140,14 +140,14 @@ endif
 
 
 
-EXECUTABLE = ./combine_bw_sb.exe
+EXECUTABLE = ./combine_bw_hm.exe
 EMCONFIG_DIR = $(TEMP_DIR)
 
 ############################## Declaring Binary Containers ##############################
-BINARY_CONTAINERS += $(BUILD_DIR)/combine_bw_sb.xclbin
-BINARY_CONTAINER_combine_bw_sb_OBJS += $(TEMP_DIR)/verify.xo
-BINARY_CONTAINER_combine_bw_sb_OBJS += $(TEMP_DIR)/bandwidth.xo
-BINARY_CONTAINER_combine_bw_sb_OBJS += $(TEMP_DIR)/slavebridge.xo
+BINARY_CONTAINERS += $(BUILD_DIR)/combine_bw_hm.xclbin
+BINARY_CONTAINER_combine_bw_hm_OBJS += $(TEMP_DIR)/verify.xo
+BINARY_CONTAINER_combine_bw_hm_OBJS += $(TEMP_DIR)/bandwidth.xo
+BINARY_CONTAINER_combine_bw_hm_OBJS += $(TEMP_DIR)/hostmemory.xo
 
 ############################## Setting Targets ##############################
 CP = cp -rf
@@ -171,18 +171,18 @@ $(TEMP_DIR)/verify.xo: src/verify.cpp
 $(TEMP_DIR)/bandwidth.xo: src/bandwidth.cpp
 	mkdir -p $(TEMP_DIR)
 	$(VPP) $(VPP_FLAGS) -c -k bandwidth --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
-$(TEMP_DIR)/slavebridge.xo: src/slavebridge.cpp
+$(TEMP_DIR)/hostmemory.xo: src/hostmemory.cpp
 	mkdir -p $(TEMP_DIR)
-	$(VPP) $(VPP_FLAGS) -c -k slavebridge --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
-$(BUILD_DIR)/combine_bw_sb.xclbin: $(BINARY_CONTAINER_combine_bw_sb_OBJS)
+	$(VPP) $(VPP_FLAGS) -c -k hostmemory --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
+$(BUILD_DIR)/combine_bw_hm.xclbin: $(BINARY_CONTAINER_combine_bw_hm_OBJS)
 	mkdir -p $(BUILD_DIR)
 ifeq ($(HOST_ARCH), x86)
-	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR)  -o'$(BUILD_DIR)/combine_bw_sb.link.xclbin' $(+)
-	$(VPP) -p $(BUILD_DIR)/combine_bw_sb.link.xclbin -t $(TARGET) --platform $(DEVICE) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/combine_bw_sb.xclbin
-	mkdir -p $(GEN_DIR) && $(CP) $(BUILD_DIR)/combine_bw_sb.xclbin $(GEN_DIR)
+	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR)  -o'$(BUILD_DIR)/combine_bw_hm.link.xclbin' $(+)
+	$(VPP) -p $(BUILD_DIR)/combine_bw_hm.link.xclbin -t $(TARGET) --platform $(DEVICE) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/combine_bw_hm.xclbin
+	mkdir -p $(GEN_DIR) && $(CP) $(BUILD_DIR)/combine_bw_hm.xclbin $(GEN_DIR)
 	$(CP) $(PLATFORM_JSON) $(GEN_DIR)
 else
-	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) -o'$(BUILD_DIR)/combine_bw_sb.xclbin' $(+)
+	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) -o'$(BUILD_DIR)/combine_bw_hm.xclbin' $(+)
 endif
 
 ############################## Setting Rules for Host (Building Host Executable) ##############################

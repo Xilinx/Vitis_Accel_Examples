@@ -1,7 +1,7 @@
 {
-    "name": "Combine_Bandwidth_Slavebridge(C)", 
+    "name": "Combine_Bandwidth_Hostmemory(C)", 
     "description": [
-        "This is a simple design that verifies if the platform has basic functionalities It also tests the possible bandwidth between Kernel and Global Memory and validates direct host memory access from kernel using slave bridge."
+        "This is a simple design that verifies if the platform has basic functionalities It also tests the possible bandwidth between Kernel and Global Memory and validates direct host memory access from kernel."
     ],
     "flow": "vitis",
     "os": [
@@ -37,7 +37,7 @@
                 "REPO_DIR/common/includes/logger"
             ]
         }, 
-        "host_exe": "combine_bw_sb.exe"
+        "host_exe": "combine_bw_hm.exe"
     },    
     "match_makefile": "false",
     "containers": [
@@ -52,11 +52,11 @@
                     "location": "src/bandwidth.cpp"
                 },
                 {
-                    "name": "slavebridge", 
-                    "location": "src/slavebridge.cpp"
+                    "name": "hostmemory", 
+                    "location": "src/hostmemory.cpp"
                 } 
             ], 
-            "name": "combine_bw_sb"
+            "name": "combine_bw_hm"
         }
     ],
     "config_make": "config.mk",

@@ -1,7 +1,7 @@
-Combine Bandwidth & Slavebrige(C)
+Combine Bandwidth & Hostmemory(C)
 =================================
 
-This example contains verify test, bandwidth test and slavebridge test kernels to validate FPGA.
+This example contains verify test, bandwidth test and host memory test kernels to validate FPGA.
 
 In the verify test we have extremely simple HLS C Kernel to verify that the platform has basic functionality. It will make a call to the kernel with an empty global buffer. The kernel will then write the string of characters "Hello World" into the buffer and return. The host will copy this buffer locally and then print out the resulting buffer contents.
 
@@ -20,7 +20,7 @@ Using the ``sp`` option  in the platform_bandwidth.cfg file AXI-Master Port is c
    sp=bandwidth_1.input:DDR[0]
    sp=bandwidth_1.output:DDR[0]
 
-slavebridge test is to validate direct host memory access from kernel using slave bridge.
+hostmemory test is to validate direct host memory access from kernel using slave bridge.
 
 The host allocates a buffer into specific host-only buffer using ``XCL_MEM_EXT_HOST_ONLY``. The ``cl_mem_ext_ptr`` object needs to be used in cases where memory assignment is done by user explicitly:
 
@@ -34,9 +34,9 @@ The host allocates a buffer into specific host-only buffer using ``XCL_MEM_EXT_H
    OCL_CHECK(err, input_buffer[i] = new cl::Buffer(context, CL_MEM_READ_WRITE | CL_MEM_EXT_PTR_XILINX, vector_size_bytes,
                                              &input_buffer_ext, &err));
 
-Using the ``sp`` option  in the platform_slavebridge.cfg file, AXI-Master Port is connected to the Slave-Bridge IP:
+Using the ``sp`` option  in the platform_hostmemory.cfg file, AXI-Master Port is connected to the Slave-Bridge IP:
 
 ::
 
-   sp=slavebridge_1.input:HOST[0]
-   sp=slavebridge_1.output:HOST[0]
+   sp=hostmemory.input:HOST[0]
+   sp=hostmemory.output:HOST[0]

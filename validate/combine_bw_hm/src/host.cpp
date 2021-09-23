@@ -46,7 +46,7 @@ int main(int argc, char** argv) {
 
     std::string test_path = argv[1];
 
-    std::string b_file = "/combine_bw_sb.xclbin";
+    std::string b_file = "/combine_bw_hm.xclbin";
     std::string binaryFile = test_path + b_file;
     std::ifstream infile(binaryFile);
     if (!infile.good()) {
@@ -264,7 +264,7 @@ int main(int argc, char** argv) {
 
     std::cout << "Concurrent read and write throughput: " << max_throughput << "MB/s\n";
 
-    std::cout << "\nStarting the slavebridge test....\n";
+    std::cout << "\nStarting the host memory test....\n";
     int NUM_KERNEL_HOST;
 
     try {
@@ -281,12 +281,12 @@ int main(int argc, char** argv) {
         msg += ").";
         std::cout << msg;
     }
-    krnl_name = "slavebridge";
+    krnl_name = "hostmemory";
     std::vector<cl::Kernel> krnls_host(NUM_KERNEL_HOST);
 
     for (int i = 0; i < NUM_KERNEL_HOST; i++) {
         std::string cu_id = std::to_string(i + 1);
-        std::string krnl_name_full = krnl_name + ":{" + "slavebridge_" + cu_id + "}";
+        std::string krnl_name_full = krnl_name + ":{" + "hostmemory_" + cu_id + "}";
 
         printf("Creating a kernel [%s] for CU(%d)\n", krnl_name_full.c_str(), i + 1);
 

@@ -1,7 +1,7 @@
 {
     "containers": [
         {
-            "name": "combine_bw_sb", 
+            "name": "combine_bw_hm", 
             "meet_system_timing": "true", 
             "accelerators": [
                 {
@@ -25,7 +25,7 @@
                     ]
                 },
                 {
-                    "name": "slavebridge", 
+                    "name": "hostmemory", 
                     "check_timing": "true", 
                     "PipelineType": "none", 
                     "check_latency": "true", 
