@@ -13,78 +13,102 @@
 * License for the specific language governing permissions and limitations
 * under the License.
 */
-// Work load of each CU
-#define BUFFER_SIZE 1024
+
+/*******************************************************************************
+Description:
+    This example uses the load/compute/store coding style which is generally
+    the most efficient for implementing kernels using HLS. The load and store
+    functions are responsible for moving data in and out of the kernel as
+    efficiently as possible. The core functionality is decomposed across one
+    of more compute functions. Whenever possible, the compute function should
+    pass data through HLS streams and should contain a single set of nested loops.
+    HLS stream objects are used to pass data between producer and consumer
+    functions. Stream read and write operations have a blocking behavior which
+    allows consumers and producers to synchronize with each other automatically.
+    The dataflow pragma instructs the compiler to enable task-level pipelining.
+    This is required for to load/compute/store functions to execute in a parallel
+    and pipelined manner. Here the kernel loads, computes and stores NUM_WORDS integer values per
+    clock cycle and is implemented as below:
+                                       _____________
+                                      |             |<----- Input Vector 1 from Global Memory
+                                      |  load_input |       __
+                                      |_____________|----->|  |
+                                       _____________       |  | in1_stream
+Input Vector 2 from Global Memory --->|             |      |__|
+                               __     |  load_input |        |
+                              |  |<---|_____________|        |
+                   in2_stream |  |     _____________         |
+                              |__|--->|             |<--------
+                                      | compute_add |      __
+                                      |_____________|---->|  |
+                                       ______________     |  | out_stream
+                                      |              |<---|__|
+                                      | store_result |
+                                      |______________|-----> Output result to Global Memory
+
+*******************************************************************************/
+
+#include <stdint.h>
+#include <hls_stream.h>
+
 #define DATA_SIZE 4096
 
-// TRIPCOUNT indentifier
-const unsigned int c_len = DATA_SIZE / BUFFER_SIZE;
-const unsigned int c_size = BUFFER_SIZE;
+// TRIPCOUNT identifier
+const int c_size = DATA_SIZE;
 
-/*
-    Vector Addition Kernel Implementation
-    Arguments:
-        in1   (input)     --> Input Vector1
-        in2   (input)     --> Input Vector2
-        out_r   (output)    --> Output Vector
-        size  (input)     --> Size of Vector in Integer
-*/
+static void read_input(unsigned int* in, hls::stream<unsigned int>& inStream, int size) {
+// Auto-pipeline is going to apply pipeline to this loop
+mem_rd:
+    for (int i = 0; i < size; i++) {
+#pragma HLS LOOP_TRIPCOUNT min = c_size max = c_size
+        inStream << in[i];
+    }
+}
+
+static void compute_add(hls::stream<unsigned int>& inStream1,
+                        hls::stream<unsigned int>& inStream2,
+                        hls::stream<unsigned int>& outStream,
+                        int size) {
+// Auto-pipeline is going to apply pipeline to this loop
+execute:
+    for (int i = 0; i < size; i++) {
+#pragma HLS LOOP_TRIPCOUNT min = c_size max = c_size
+        outStream << (inStream1.read() + inStream2.read());
+    }
+}
+
+static void write_result(unsigned int* out, hls::stream<unsigned int>& outStream, int size) {
+// Auto-pipeline is going to apply pipeline to this loop
+mem_wr:
+    for (int i = 0; i < size; i++) {
+#pragma HLS LOOP_TRIPCOUNT min = c_size max = c_size
+        out[i] = outStream.read();
+    }
+}
 
 extern "C" {
-void vadd(const unsigned int* in1, // Read-Only Vector 1
-          const unsigned int* in2, // Read-Only Vector 2
-          unsigned int* out_r,     // Output Result
-          int size                 // Size in integer
-          ) {
-    unsigned int v1_buffer[BUFFER_SIZE];   // Local memory to store vector1
-    unsigned int v2_buffer[BUFFER_SIZE];   // Local memory to store vector2
-    unsigned int vout_buffer[BUFFER_SIZE]; // Local Memory to store result
+/*
+    Vector Addition Kernel Implementation using dataflow
+    Arguments:
+        in1   (input)  --> Input Vector 1
+        in2   (input)  --> Input Vector 2
+        out  (output) --> Output Vector
+        size (input)  --> Size of Vector in Integer
+   */
+void vadd(unsigned int* in1, unsigned int* in2, unsigned int* out, int size) {
+    static hls::stream<unsigned int> inStream1("input_stream_1");
+    static hls::stream<unsigned int> inStream2("input_stream_2");
+    static hls::stream<unsigned int> outStream("output_stream");
 
-    // Per iteration of this loop perform BUFFER_SIZE vector addition
-    for (int i = 0; i < size; i += BUFFER_SIZE) {
-#pragma HLS LOOP_TRIPCOUNT min = c_len max = c_len
-        int chunk_size = BUFFER_SIZE;
-        // boundary checks
-        if ((i + BUFFER_SIZE) > size) chunk_size = size - i;
+#pragma HLS INTERFACE m_axi port = in1 bundle = gmem0
+#pragma HLS INTERFACE m_axi port = in2 bundle = gmem1
+#pragma HLS INTERFACE m_axi port = out bundle = gmem0
 
-    // Transferring data in bursts hides the memory access latency as well as
-    // improves bandwidth utilization and efficiency of the memory controller.
-    // It is recommended to infer burst transfers from successive requests of data
-    // from consecutive address locations.
-    // A local memory vl_local is used for buffering the data from a single burst.
-    // The entire input vector is read in multiple bursts.
-    // The choice of LOCAL_MEM_SIZE depends on the specific applications and
-    // available on-chip memory on target FPGA.
-    // burst read of v1 and v2 vector from global memory
-
-    // Auto-pipeline is going to apply pipeline to these loops
-    read1:
-        for (int j = 0; j < chunk_size; j++) {
-#pragma HLS LOOP_TRIPCOUNT min = c_size max = c_size
-            v1_buffer[j] = in1[i + j];
-        }
-
-    read2:
-        for (int j = 0; j < chunk_size; j++) {
-#pragma HLS LOOP_TRIPCOUNT min = c_size max = c_size
-            v2_buffer[j] = in2[i + j];
-        }
-
-    // PIPELINE pragma reduces the initiation interval for loop by allowing the
-    // concurrent executions of operations
-    vadd:
-        for (int j = 0; j < chunk_size; j++) {
-#pragma HLS LOOP_TRIPCOUNT min = c_size max = c_size
-            // perform vector addition
-            vout_buffer[j] = v1_buffer[j] + v2_buffer[j];
-        }
-
-    // burst write the result
-    write:
-        for (int j = 0; j < chunk_size; j++) {
-#pragma HLS LOOP_TRIPCOUNT min = c_size max = c_size
-            out_r[i + j] = vout_buffer[j];
-        }
-    }
+#pragma HLS dataflow
+    // dataflow pragma instruct compiler to run following three APIs in parallel
+    read_input(in1, inStream1, size);
+    read_input(in2, inStream2, size);
+    compute_add(inStream1, inStream2, outStream, size);
+    write_result(out, outStream, size);
 }
 }
