@@ -33,7 +33,7 @@ Application code is located in the src directory. Accelerator binary files will 
    src/krnl_vadd/hdl/krnl_vadd_rtl_counter.sv
    src/krnl_vadd/hdl/krnl_vadd_rtl_int.sv
    src/krnl_vadd/package_kernel.tcl
-   src/krnl_vadd/vadd_CModel.cpp
+   src/krnl_vadd/vadd_cmodel.cpp
    
 COMMAND LINE ARGUMENTS
 ----------------------
