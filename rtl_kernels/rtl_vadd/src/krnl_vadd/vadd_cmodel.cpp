@@ -42,6 +42,11 @@ extern "C" {
 */
 
 void krnl_vadd_rtl(uint32_t* a, uint32_t* b, uint32_t* c, ap_uint<32> length_r) {
+#pragma HLS INTERFACE m_axi port = a bundle = gmem
+#pragma HLS INTERFACE m_axi port = b bundle = gmem
+#pragma HLS INTERFACE m_axi port = c bundle = gmem
+#pragma HLS INTERFACE ap_ctrl_hs port = return
+
     for (int i = 0; i < length_r; i++) c[i] = a[i] + b[i];
 }
 }
