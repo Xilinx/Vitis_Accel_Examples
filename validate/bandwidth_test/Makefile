@@ -99,7 +99,7 @@ HOST_SRCS += $(XF_PROJ_ROOT)/common/includes/xcl2/xcl2.cpp ./src/host.cpp
 # Host compiler global settings
 CXXFLAGS += -fmessage-length=0
 LDFLAGS += -lrt -lstdc++ 
-LDFLAGS += -lboost_filesystem -l boost_system
+LDFLAGS += -lboost_filesystem -lboost_system
 
 ############################## Setting up Kernel Variables ##############################
 # Kernel compiler global settings
