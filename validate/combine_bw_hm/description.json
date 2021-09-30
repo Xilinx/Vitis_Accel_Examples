@@ -23,6 +23,7 @@
         "samsung",
         "_u2_"
     ],
+    "gui": false,
     "host": {
         "compiler": {
             "sources": [
