@@ -16,7 +16,8 @@
         "2019",
         "2018"
     ],
-    "platform_type": "pcie",	
+    "platform_type": "pcie",
+    "gui": false,        
     "host": {
         "compiler": {
             "sources": [

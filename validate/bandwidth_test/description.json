@@ -20,7 +20,8 @@
         "vck190",
         "2019",
         "2018"
-    ], 
+    ],
+    "gui": false,     
     "host": {
         "compiler": {
             "sources": [
