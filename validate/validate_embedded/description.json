@@ -22,6 +22,7 @@
         "2018",
         "vck5000"
     ],
+    "gui": false,    
     "platform_type": "soc", 
     "host": {
         "compiler": {

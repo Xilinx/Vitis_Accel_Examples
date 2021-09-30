@@ -30,7 +30,8 @@
     ], 
     "runtime": [
         "OpenCL"
-    ], 
+    ],
+    "gui": false,    
     "host": {
         "compiler": {
             "sources": [
