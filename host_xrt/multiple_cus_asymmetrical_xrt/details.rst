@@ -13,16 +13,16 @@ Kernel can be connected to different banks using vadd.cfg file as below:
    nk=vadd:4:vadd_1.vadd_2.vadd_3.vadd_4
    sp=vadd_1.in1:DDR[0]
    sp=vadd_1.in2:DDR[0]
-   sp=vadd_1.out_r:DDR[0]
+   sp=vadd_1.out:DDR[0]
    sp=vadd_2.in1:DDR[1]
    sp=vadd_2.in2:DDR[1]
-   sp=vadd_2.out_r:DDR[1]
+   sp=vadd_2.out:DDR[1]
    sp=vadd_3.in1:PLRAM[0]
    sp=vadd_3.in2:PLRAM[0]
-   sp=vadd_3.out_r:PLRAM[0]
+   sp=vadd_3.out:PLRAM[0]
    sp=vadd_4.in1:PLRAM[1]
    sp=vadd_4.in2:PLRAM[1]
-   sp=vadd_4.out_r:PLRAM[1]
+   sp=vadd_4.out:PLRAM[1]
 
 Some of the vadd compute units are connected to DDR banks and some are
 connected to PLRAMs. ``nk`` option can be used to specify how many

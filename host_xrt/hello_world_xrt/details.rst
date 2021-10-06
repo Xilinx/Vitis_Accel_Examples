@@ -40,7 +40,4 @@ This is a simple hello world example to explain the XRT Native API's
     A kernel object represents a set of instances matching a specified name.
     The kernel is created by finding matching kernel instances in the 
     currently loaded xclbin. Most interaction with kernel objects are through
-    xrt::run objects created from the kernel object to represent an execution of the kernel
-
-
-    
+    xrt::run objects created from the kernel object to represent an execution of the kernel 

@@ -1,7 +1,7 @@
 {
     "name": "Hello World XRT (XRT Native API's)", 
     "description": [
-        "This is simple example of vector addition to describe the usage of XRT Native API's."
+        "This is simple example of vector addition to describe the usage of XRT Native API's. The kernel uses HLS Dataflow which allows the user to schedule multiple task together to achieve higher throughput."
     ],
     "flow": "vitis",
     "keywords": [
@@ -12,10 +12,15 @@
         "map", 
         "sync",
         "XCL_BO_SYNC_BO_TO_DEVICE",
-        "XCL_BO_SYNC_BO_FROM_DEVICE"
+        "XCL_BO_SYNC_BO_FROM_DEVICE",
+        "gmem",
+        "#pragma HLS INTERFACE",
+        "dataflow",
+        "hls::stream"
     ], 
     "key_concepts": [
-        "XRT Native API"
+        "XRT Native API",
+        "Task Level Parallelism"
     ],
     "platform_blacklist": [
         "nodma"

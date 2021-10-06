@@ -1,11 +1,11 @@
 Hello World XRT (XRT Native API's)
 ==================================
 
-This is simple example of vector addition to describe the usage of XRT Native API's.
+This is simple example of vector addition to describe the usage of XRT Native API's. The kernel uses HLS Dataflow which allows the user to schedule multiple task together to achieve higher throughput.
 
-**KEY CONCEPTS:** `XRT Native API <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/devhostapp.html#jln1620691667890>`__
+**KEY CONCEPTS:** `XRT Native API <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/devhostapp.html#jln1620691667890>`__, `Task Level Parallelism <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/optimizingperformance.html#cvc1523913889499>`__
 
-**KEYWORDS:** `xrt::device <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/devhostapp.html#zja1524097906844>`__, load_xclbin, `xrt::bo <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/devhostapp.html#yaz1622072496185>`__, `xrt::kernel <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/devhostapp.html#lqq1622157666187>`__, `map <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/devhostapp.html#yaz1622072496185>`__, `sync <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/devhostapp.html#yaz1622072496185>`__, XCL_BO_SYNC_BO_TO_DEVICE, XCL_BO_SYNC_BO_FROM_DEVICE
+**KEYWORDS:** `xrt::device <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/devhostapp.html#zja1524097906844>`__, load_xclbin, `xrt::bo <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/devhostapp.html#yaz1622072496185>`__, `xrt::kernel <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/devhostapp.html#lqq1622157666187>`__, `map <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/devhostapp.html#yaz1622072496185>`__, `sync <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/devhostapp.html#yaz1622072496185>`__, XCL_BO_SYNC_BO_TO_DEVICE, XCL_BO_SYNC_BO_FROM_DEVICE, `gmem <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/devckernels.html#hxx1556235054362>`__, `#pragma HLS INTERFACE <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/hls_pragmas.html#jit1504034365862>`__, `dataflow <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/vitis_hls_optimization_techniques.html#bmx1539734225930>`__, `hls::stream <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/hls_stream_library.html>`__
 
 EXCLUDED PLATFORMS
 ------------------
@@ -77,9 +77,6 @@ This is a simple hello world example to explain the XRT Native API's
     A kernel object represents a set of instances matching a specified name.
     The kernel is created by finding matching kernel instances in the 
     currently loaded xclbin. Most interaction with kernel objects are through
-    xrt::run objects created from the kernel object to represent an execution of the kernel
-
-
-    
+    xrt::run objects created from the kernel object to represent an execution of the kernel 
 
 For more comprehensive documentation, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.
