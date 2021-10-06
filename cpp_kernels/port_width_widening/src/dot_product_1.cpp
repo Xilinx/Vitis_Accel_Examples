@@ -26,6 +26,8 @@ loop_reps:
     for (int i = 0; i < reps; i++) {
     dot_product:
         for (int j = 0; j < size; j++) {
+// As the outer loop is not a perfect loop
+#pragma HLS loop_flatten off
             res[j] = a[j] * b[j];
         }
     }

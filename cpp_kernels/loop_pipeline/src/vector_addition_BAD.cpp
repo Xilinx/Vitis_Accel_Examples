@@ -36,6 +36,8 @@ count_loop:
     for (int i = 0; i < rep_count; i++) {
     vadd_loop:
         for (int x = 0; x < len; ++x) {
+// As the outer loop is not a perfect loop
+#pragma HLS loop_flatten off
 #pragma HLS LOOP_TRIPCOUNT min = c_len max = c_len
             c[x] = a[x] + b[x];
         }

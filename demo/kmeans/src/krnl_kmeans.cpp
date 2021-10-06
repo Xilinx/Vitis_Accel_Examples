@@ -352,7 +352,7 @@ void kmeans(ap_int<512>* features,
     static hls::stream<unsigned int> index_str[PARALLEL_POINTS];
     static hls::stream<unsigned int> feature_str[PARALLEL_POINTS];
 
-#pragma HLS stream variable = index_str depth = 1
+#pragma HLS stream variable = index_str depth = 2
 #pragma HLS stream variable = feature_str depth = c_nfeatures
 
 // The DATAFLOW optimization creates a kernel where the two functions

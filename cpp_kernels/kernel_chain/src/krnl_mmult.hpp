@@ -80,6 +80,8 @@ mmult_strm_1:
             int result = 0;
         mmult_strm_3:
             for (int l = 0; l < dim; l++) {
+// As the outer loop is not a perfect loop
+#pragma HLS loop_flatten off
                 result += buf_a[row][l] * buf_b[l][col];
             }
             buf_out[row][col] = result;

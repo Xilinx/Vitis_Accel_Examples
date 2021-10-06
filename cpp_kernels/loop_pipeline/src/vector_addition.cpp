@@ -58,6 +58,8 @@ loop_count:
     for (int k = 0; k < rep_count; k++) {
     vadd_pipeline:
         for (int i = 0; i < iterations; i++) {
+// As the outer loop is not a perfect loop
+#pragma HLS loop_flatten off
 #pragma HLS LOOP_TRIPCOUNT min = c_len / c_n max = c_len / c_n
 
         // Pipelining loops that access only one variable is the ideal way to

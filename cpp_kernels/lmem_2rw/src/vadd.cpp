@@ -82,6 +82,8 @@ void vadd(const unsigned int* in1, // Read-Only Vector 1
     // Auto-pipeline is going to apply pipeline to this loop
     vadd:
         for (int j = 0; j < chunk_size; j++) {
+// As the outer loop is not a perfect loop
+#pragma HLS loop_flatten off
 #pragma HLS UNROLL FACTOR = 2
 #pragma HLS LOOP_TRIPCOUNT min = c_chunk_sz max = c_chunk_sz
             // perform vector addition

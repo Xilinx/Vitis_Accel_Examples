@@ -63,6 +63,8 @@ void vadd(const unsigned int* in1, // Read-Only Vector 1
 
     vadd:
         for (int j = 0; j < chunk_size; j++) {
+// As the outer loop is not a perfect loop
+#pragma HLS loop_flatten off
 #pragma HLS LOOP_TRIPCOUNT min = c_size max = c_size
             // perform vector addition
             vout_buffer[j] = v1_buffer[j] + v2_buffer[j];

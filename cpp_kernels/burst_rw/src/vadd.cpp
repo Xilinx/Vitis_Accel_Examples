@@ -55,6 +55,8 @@ read_buf:
         // burst read
         // Auto-pipeline is going to apply pipeline to these loops
         for (int j = 0; j < chunk_size; j++) {
+// As the outer loop is not a perfect loop
+#pragma HLS loop_flatten off
 #pragma HLS LOOP_TRIPCOUNT min = c_size_min max = c_size_max
             burstbuffer[j] = a[i + j];
         }

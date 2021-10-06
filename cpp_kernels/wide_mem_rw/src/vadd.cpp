@@ -61,6 +61,8 @@ void vadd(const uint512_dt* in1, // Read-Only Vector 1
 
     // Per iteration of this loop perform BUFFER_SIZE vector addition
     for (int i = 0; i < size_in16; i += BUFFER_SIZE) {
+// As the outer loop is not a perfect loop
+#pragma HLS loop_flatten off
 #pragma HLS LOOP_TRIPCOUNT min = c_chunk_sz / c_size max = c_chunk_sz / c_size
         int chunk_size = BUFFER_SIZE;
 
