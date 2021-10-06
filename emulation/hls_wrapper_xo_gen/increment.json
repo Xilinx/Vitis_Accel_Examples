@@ -1,0 +1,35 @@
+{
+  "name": "increment",
+  "xsc_protocol": "xtlm_ap_ctrl_none",
+  "kernel_args":
+  [
+    {
+      "name": "input",
+      "direction": "in",
+      "protocol": "stream",
+      "type": "hls::stream",
+      "data_type": "ap_axiu",
+      "sub_type":
+      {
+        "data_width": "32",
+        "user_width": "0",
+        "id_width": "0",
+        "dest_width": "0"
+      }
+    },
+    {
+      "name": "output",
+      "direction": "out",
+      "protocol": "stream",
+      "type": "hls::stream",
+      "data_type": "ap_axiu",
+      "sub_type":
+      {
+        "data_width": "32",
+        "user_width": "0",
+        "id_width": "0",
+        "dest_width": "0"
+      }
+    }
+  ]
+}

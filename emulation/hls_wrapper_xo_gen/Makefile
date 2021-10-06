@@ -49,7 +49,7 @@ help::
 ############################## Setting up Project Variables ##############################
 # Points to top directory of Git repository
 MK_PATH := $(abspath $(lastword $(MAKEFILE_LIST)))
-COMMON_REPO ?= $(shell bash -c 'export MK_PATH=$(MK_PATH); echo $${MK_PATH%rtl_kernels/rtl_vadd_hw_debug/*}')
+COMMON_REPO ?= $(shell bash -c 'export MK_PATH=$(MK_PATH); echo $${MK_PATH%emulation/hls_wrapper_xo_gen/*}')
 PWD = $(shell readlink -f .)
 XF_PROJ_ROOT = $(shell readlink -f $(COMMON_REPO))
 
@@ -75,7 +75,7 @@ RESULT_STRING = TEST PASSED
 
 VPP := v++
 VPP_PFLAGS := 
-CMD_ARGS = $(BUILD_DIR)/vadd.xclbin
+CMD_ARGS = $(BUILD_DIR)/krnl_incr.xclbin
 SDCARD := sd_card
 
 include $(XF_PROJ_ROOT)/common/includes/opencl/opencl.mk
@@ -84,7 +84,16 @@ include config.mk
 CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++1y
 LDFLAGS += $(opencl_LDFLAGS)
 
-ifeq ($(findstring vck, $(DEVICE)), vck)
+ifeq ($(findstring 2018, $(DEVICE)), 2018)
+$(error [ERROR]: This example is not supported for $(DEVICE).)
+endif
+ifeq ($(findstring aws, $(DEVICE)), aws)
+$(error [ERROR]: This example is not supported for $(DEVICE).)
+endif
+ifeq ($(findstring _u2_, $(DEVICE)), _u2_)
+$(error [ERROR]: This example is not supported for $(DEVICE).)
+endif
+ifeq ($(findstring zc702, $(DEVICE)), zc702)
 $(error [ERROR]: This example is not supported for $(DEVICE).)
 endif
 ifeq ($(findstring nodma, $(DEVICE)), nodma)
@@ -94,7 +103,7 @@ endif
 ############################## Setting up Host Variables ##############################
 #Include Required Host Source Files
 CXXFLAGS += -I$(XF_PROJ_ROOT)/common/includes/xcl2
-HOST_SRCS += $(XF_PROJ_ROOT)/common/includes/xcl2/xcl2.cpp src/host.cpp 
+HOST_SRCS += $(XF_PROJ_ROOT)/common/includes/xcl2/xcl2.cpp ./src/host.cpp 
 # Host compiler global settings
 CXXFLAGS += -fmessage-length=0
 LDFLAGS += -lrt -lstdc++ 
@@ -105,23 +114,21 @@ endif
 
 ############################## Setting up Kernel Variables ##############################
 # Kernel compiler global settings
-VPP_FLAGS += 
 VPP_FLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps 
 ifneq ($(TARGET), hw)
 	VPP_FLAGS += -g
 endif
 
 
-# Kernel linker flags
-VPP_LDFLAGS_vadd += --config myconfig_hw.cfg
 
-EXECUTABLE = ./rtl_vadd_hw_debug
+EXECUTABLE = ./hls_wrapper_xo_gen
 EMCONFIG_DIR = $(TEMP_DIR)
 EMU_DIR = $(SDCARD)/data/emulation
 
 ############################## Declaring Binary Containers ##############################
-BINARY_CONTAINERS += $(BUILD_DIR)/vadd.xclbin
-BINARY_CONTAINER_vadd_OBJS += $(TEMP_DIR)/vadd.xo
+BINARY_CONTAINERS += $(BUILD_DIR)/krnl_incr.xclbin
+BINARY_CONTAINER_krnl_incr_OBJS += $(TEMP_DIR)/mem_read.xo
+BINARY_CONTAINER_krnl_incr_OBJS += $(TEMP_DIR)/mem_write.xo
 
 ############################## Setting Targets ##############################
 CP = cp -rf
@@ -138,15 +145,22 @@ build: check-vitis $(BINARY_CONTAINERS)
 .PHONY: xclbin
 xclbin: build
 
-# Building kernel
-$(BUILD_DIR)/vadd.xclbin: $(BINARY_CONTAINER_vadd_OBJS)
+############################## Setting Rules for Binary Containers (Building Kernels) ##############################
+$(TEMP_DIR)/mem_read.xo: src/mem_read.cpp
+	mkdir -p $(TEMP_DIR)
+	$(VPP) $(VPP_FLAGS) -c -k mem_read --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
+$(TEMP_DIR)/mem_write.xo: src/mem_write.cpp
+	mkdir -p $(TEMP_DIR)
+	$(VPP) $(VPP_FLAGS) -c -k mem_write --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
+$(BUILD_DIR)/krnl_incr.xclbin: $(BINARY_CONTAINER_krnl_incr_OBJS)
 	mkdir -p $(BUILD_DIR)
 ifeq ($(HOST_ARCH), x86)
-	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) $(VPP_LDFLAGS_vadd) -o'$(BUILD_DIR)/vadd.link.xclbin' $(+)
-	$(VPP) -p $(BUILD_DIR)/vadd.link.xclbin -t $(TARGET) --platform $(DEVICE) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/vadd.xclbin
+	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) -o'$(BUILD_DIR)/krnl_incr.link.xclbin' $(+)
+	$(VPP) -p $(BUILD_DIR)/krnl_incr.link.xclbin -t $(TARGET) --platform $(DEVICE) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/krnl_incr.xclbin
 else
-	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) $(VPP_LDFLAGS_vadd) -o'$(BUILD_DIR)/vadd.xclbin' $(+)
+	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) -o'$(BUILD_DIR)/krnl_incr.xclbin' $(+)
 endif
+
 ############################## Setting Rules for Host (Building Host Executable) ##############################
 $(EXECUTABLE): $(HOST_SRCS) | check-xrt
 		$(CXX) -o $@ $^ $(CXXFLAGS) $(LDFLAGS)
@@ -169,9 +183,6 @@ ifeq ($(HOST_ARCH), x86)
 	$(EXECUTABLE) $(CMD_ARGS)
 endif
 endif
-ifneq ($(TARGET),$(findstring $(TARGET), hw))
-$(error Application supports only hw TARGET. Please use the target for running the application)
-endif
 
 
 .PHONY: test
@@ -189,16 +200,12 @@ else
 	$(ECHO) "Please copy the content of sd_card folder and data to an SD Card and run on the board"
 endif
 endif
-ifneq ($(TARGET),$(findstring $(TARGET), hw))
-$(warning WARNING:Application supports only hw TARGET. Please use the target for running the application)
-endif
-
 
 
 ############################## Preparing sdcard ##############################
 sd_card: $(BINARY_CONTAINERS) $(EXECUTABLE) gen_run_app
 ifneq ($(HOST_ARCH), x86)
-	$(VPP) $(VPP_PFLAGS) -p $(BUILD_DIR)/vadd.xclbin -t $(TARGET) --platform $(DEVICE) --package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.sd_file $(SD_IMAGE_FILE) --package.sd_file xrt.ini --package.sd_file $(RUN_APP_SCRIPT) --package.sd_file $(EXECUTABLE) -o vadd.xclbin
+	$(VPP) $(VPP_PFLAGS) -p $(BUILD_DIR)/krnl_incr.xclbin -t $(TARGET) --platform $(DEVICE) --package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.sd_file $(SD_IMAGE_FILE) --package.sd_file xrt.ini --package.sd_file $(RUN_APP_SCRIPT) --package.sd_file $(EXECUTABLE) -o krnl_incr.xclbin
 endif
 
 ############################## Cleaning Rules ##############################
@@ -212,4 +219,4 @@ cleanall: clean
 	-$(RMDIR) build_dir* sd_card*
 	-$(RMDIR) package.*
 	-$(RMDIR) _x* *xclbin.run_summary qemu-memory-_* emulation _vimage pl* start_simulation.sh *.xclbin
-	-$(RMDIR) ./tmp_kernel_pack* ./packaged_kernel* 
+

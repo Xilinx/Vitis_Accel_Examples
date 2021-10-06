@@ -1,0 +1,87 @@
+{
+    "name": "HLS Wrapper XO Generator (C)", 
+    "description": [
+        "This is an example of systemC TLM wrapper and XO generation for a given HLS kernel function."
+    ],
+    "flow": "vitis",
+    "keywords": [
+        "create_sc_xo",
+        "ap_ctrl_none"
+    ], 
+    "key_concepts": [
+        "SystemC" 
+    ],
+    "platform_blacklist": [
+        "2018",
+        "aws",
+        "_u2_",
+        "zc702",
+        "nodma"
+    ], 
+    "os": [
+        "Linux"
+    ], 
+    "runtime": [
+        "OpenCL"
+    ], 
+    "config_make": "config.mk",
+    "gui": false,
+    "host": {
+        "host_exe": "hls_wrapper_xo_gen",
+        "compiler": {
+            "sources": [
+                "REPO_DIR/common/includes/xcl2/xcl2.cpp",
+                "./src/host.cpp"
+            ], 
+            "includepaths": [
+                "REPO_DIR/common/includes/xcl2"
+            ]
+        }
+    }, 
+    "containers": [
+        {
+            "accelerators": [
+                {
+                    "name": "mem_read", 
+                    "location": "src/mem_read.cpp"
+                },
+                {
+                    "name": "mem_write", 
+                    "location": "src/mem_write.cpp"
+                }
+            ], 
+            "name": "krnl_incr"
+        }
+    ],
+    "launch": [
+        {
+            "cmd_args": "BUILD/krnl_incr.xclbin", 
+            "name": "generic launch for all flows"
+        }
+    ],
+    "contributors": [
+        {
+            "url": "http://www.xilinx.com", 
+            "group": "Xilinx"
+        }
+    ],
+    "testinfo": {
+        "disable": false,
+        "jobs": [
+            {
+                "index": 0,
+                "dependency": [],
+                "env": "",
+                "cmd": "",
+                "max_memory_MB": 32768,
+                "max_time_min": 300
+            }
+        ],
+        "targets": [
+            "vitis_sw_emu",
+            "vitis_hw_emu",
+            "vitis_hw"
+        ],
+        "category": "canary"
+    }
+}
