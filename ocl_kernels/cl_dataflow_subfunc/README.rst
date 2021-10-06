@@ -7,14 +7,9 @@ This is simple example of vector addition to demonstrate how OpenCL Dataflow all
 
 **KEYWORDS:** `xcl_dataflow <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/opencl_programming.html#dmj1504034358681>`__, `xclDataflowFifoDepth <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/vitiscommandcompiler.html#fgh1568640841739__section_mh4_qf4_bjb>`__
 
-EXCLUDED PLATFORMS
-------------------
+**EXCLUDED PLATFORMS:** 
 
-Platforms containing following strings in their names are not supported for this example :
-
-::
-
-   nodma
+ - All NoDMA Platforms, i.e u50 nodma etc
 
 DESIGN FILES
 ------------

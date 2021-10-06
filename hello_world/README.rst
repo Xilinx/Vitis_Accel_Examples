@@ -7,14 +7,9 @@ This is simple example of vector addition to describe how to use HLS kernels in 
 
 **KEYWORDS:** `gmem <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/devckernels.html#hxx1556235054362>`__, `#pragma HLS INTERFACE <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/hls_pragmas.html#jit1504034365862>`__, `m_axi <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/managing_interface_synthesis.html#qoa1585574520885>`__, `dataflow <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/vitis_hls_optimization_techniques.html#bmx1539734225930>`__, `hls::stream <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/hls_stream_library.html>`__
 
-EXCLUDED PLATFORMS
-------------------
+**EXCLUDED PLATFORMS:** 
 
-Platforms containing following strings in their names are not supported for this example :
-
-::
-
-   nodma
+ - All NoDMA Platforms, i.e u50 nodma etc
 
 DESIGN FILES
 ------------

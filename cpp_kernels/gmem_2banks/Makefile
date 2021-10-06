@@ -80,9 +80,6 @@ LDFLAGS += $(opencl_LDFLAGS)
 ifeq ($(findstring zc, $(DEVICE)), zc)
 $(error [ERROR]: This example is not supported for $(DEVICE).)
 endif
-ifeq ($(findstring zed, $(DEVICE)), zed)
-$(error [ERROR]: This example is not supported for $(DEVICE).)
-endif
 ifeq ($(findstring vck, $(DEVICE)), vck)
 $(error [ERROR]: This example is not supported for $(DEVICE).)
 endif

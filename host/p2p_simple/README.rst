@@ -7,20 +7,15 @@ This is simple example of vector increment to describe P2P between FPGA and NVMe
 
 **KEYWORDS:** XCL_MEM_EXT_P2P_BUFFER, pread, pwrite, O_DIRECT, O_RDWR
 
-EXCLUDED PLATFORMS
-------------------
+**EXCLUDED PLATFORMS:** 
 
-Platforms containing following strings in their names are not supported for this example :
-
-::
-
-   zc
-   _u25_
-   u30
-   vck
-   aws-vu9p-f1
-   201910
-   u50_gen3x16_xdma_2019
+ - All Embedded Zynq Platforms, i.e zc702, zcu102 etc
+ - Alveo U25 SmartNIC
+ - Alveo U30
+ - All Versal Platforms, i.e vck190 etc
+ - AWS VU9P F1
+ - All Platforms with 201910 Version
+ - Alveo U50 gen3x16 xdma 2019 Version
 
 DESIGN FILES
 ------------

@@ -3,17 +3,12 @@ Verify Kernel (C)
 
 This is a simple design to verify that the platform has basic functionality.
 
-EXCLUDED PLATFORMS
-------------------
+**EXCLUDED PLATFORMS:** 
 
-Platforms containing following strings in their names are not supported for this example :
-
-::
-
-   zc
-   vck190
-   2019
-   2018
+ - All Embedded Zynq Platforms, i.e zc702, zcu102 etc
+ - Versal VCK190
+ - All Platforms with 2019 Version
+ - All Platforms with 2018 Version
 
 DESIGN FILES
 ------------

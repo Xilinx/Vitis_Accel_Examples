@@ -7,22 +7,18 @@ This is simple example which demonstrate streaming free-running kernel with scal
 
 **KEYWORDS:** `xclRegRead <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/xrtini.html#tpi1504034339424__section_tnh_pks_rx>`__, `xclRegWrite <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/obl1532064985142.html#tpi1504034339424__section_tnh_pks_rx>`__
 
-EXCLUDED PLATFORMS
-------------------
+**EXCLUDED PLATFORMS:** 
 
-Platforms containing following strings in their names are not supported for this example :
-
-::
-
-   u30
-   u250
-   zc
-   vck
-   xdma
-   qep
-   aws-vu9p-f1
-   samsung
-   nodma
+ - Alveo U30
+ - Alveo U250
+ - All Embedded Zynq Platforms, i.e zc702, zcu102 etc
+ - All Versal Platforms, i.e vck190 etc
+ - All Xilinx DMA Platforms
+ - qep
+ - AWS VU9P F1
+ - Samsung SmartSSD Computation Storage Drive
+ - Samsung U.2 SmartSSD
+ - All NoDMA Platforms, i.e u50 nodma etc
 
 DESIGN FILES
 ------------

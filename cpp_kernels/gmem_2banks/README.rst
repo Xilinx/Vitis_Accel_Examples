@@ -7,22 +7,16 @@ This example of 2ddr is to demonstrate how to use multiple ddr and create buffer
 
 **KEYWORDS:** `m_axi_auto_max_ports <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/migrating_to_vitis_hls.html#jsk1590553271532>`__, `sp <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/vitiscommandcompiler.html#clt1568640709907__section_tfc_zxm_1jb>`__, `connectivity <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/vitiscommandcompiler.html#qcm1528577331870__section_wgd_dxf_dnb>`__
 
-EXCLUDED PLATFORMS
-------------------
+**EXCLUDED PLATFORMS:** 
 
-Platforms containing following strings in their names are not supported for this example :
-
-::
-
-   zc
-   zed
-   vck
-   u30
-   u50
-   u55
-   samsung
-   _u2_
-   nodma
+ - All Embedded Zynq Platforms, i.e zc702, zcu102 etc
+ - All Versal Platforms, i.e vck190 etc
+ - Alveo U30
+ - Alveo U50
+ - Alveo U55
+ - Samsung SmartSSD Computation Storage Drive
+ - Samsung U.2 SmartSSD
+ - All NoDMA Platforms, i.e u50 nodma etc
 
 DESIGN FILES
 ------------

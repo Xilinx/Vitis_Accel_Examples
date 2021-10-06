@@ -7,20 +7,15 @@ This example showcases how to configure various PLRAM parameters like Memory Siz
 
 **KEYWORDS:** `PLRAM <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/buildingdevicebinary.html#wsi1614020986106>`__, BRAM, URAM
 
-EXCLUDED PLATFORMS
-------------------
+**EXCLUDED PLATFORMS:** 
 
-Platforms containing following strings in their names are not supported for this example :
-
-::
-
-   _u25_
-   u30
-   zc
-   vck
-   samsung
-   _u2_
-   nodma
+ - Alveo U25 SmartNIC
+ - Alveo U30
+ - All Embedded Zynq Platforms, i.e zc702, zcu102 etc
+ - All Versal Platforms, i.e vck190 etc
+ - Samsung SmartSSD Computation Storage Drive
+ - Samsung U.2 SmartSSD
+ - All NoDMA Platforms, i.e u50 nodma etc
 
 DESIGN FILES
 ------------

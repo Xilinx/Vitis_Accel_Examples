@@ -7,15 +7,10 @@ This example shows how to use array block and cyclic partitioning to improve per
 
 **KEYWORDS:** `xcl_array_partition <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/opencl_programming.html#kal1504034361186>`__, `cyclic <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/hls_pragmas.html#gle1504034361378__ad410829>`__, `block <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/hls_pragmas.html#gle1504034361378__ad410829>`__
 
-EXCLUDED PLATFORMS
-------------------
+**EXCLUDED PLATFORMS:** 
 
-Platforms containing following strings in their names are not supported for this example :
-
-::
-
-   zc702
-   nodma
+ - Embedded ZC702
+ - All NoDMA Platforms, i.e u50 nodma etc
 
 DESIGN FILES
 ------------

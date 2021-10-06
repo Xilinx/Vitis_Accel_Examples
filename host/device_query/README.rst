@@ -5,15 +5,10 @@ This Example prints the OpenCL properties of the platform and its devices using 
 
 **KEY CONCEPTS:** OpenCL API, Querying device properties
 
-EXCLUDED PLATFORMS
-------------------
+**EXCLUDED PLATFORMS:** 
 
-Platforms containing following strings in their names are not supported for this example :
-
-::
-
-   zc
-   vck
+ - All Embedded Zynq Platforms, i.e zc702, zcu102 etc
+ - All Versal Platforms, i.e vck190 etc
 
 DESIGN FILES
 ------------

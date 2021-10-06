@@ -21,19 +21,14 @@ Command line argument flags:
 
 **KEYWORDS:** DATAFLOW, ARRAY PARTITION
 
-EXCLUDED PLATFORMS
-------------------
+**EXCLUDED PLATFORMS:** 
 
-Platforms containing following strings in their names are not supported for this example :
-
-::
-
-   zc
-   vck
-   u200_gen3x16
-   u30
-   nodma
-   samsung
+ - All Embedded Zynq Platforms, i.e zc702, zcu102 etc
+ - All Versal Platforms, i.e vck190 etc
+ - u200_gen3x16
+ - Alveo U30
+ - All NoDMA Platforms, i.e u50 nodma etc
+ - Samsung SmartSSD Computation Storage Drive
 
 DESIGN FILES
 ------------

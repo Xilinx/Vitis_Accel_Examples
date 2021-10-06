@@ -3,23 +3,18 @@ HBM Bandwidth
 
 This is a HBM bandwidth check design. Design contains 3 compute units of a kernel which has access to all HBM pseudo-channels (0:31). Host application allocate buffer into all HBM banks and run these 3 compute units concurrently and measure the overall bandwidth between Kernel and HBM Memory.
 
-EXCLUDED PLATFORMS
-------------------
+**EXCLUDED PLATFORMS:** 
 
-Platforms containing following strings in their names are not supported for this example :
-
-::
-
-   _u25_
-   u30
-   u200
-   zc
-   vck
-   u250
-   aws-vu9p-f1
-   samsung
-   _u2_
-   nodma
+ - Alveo U25 SmartNIC
+ - Alveo U30
+ - Alveo U200
+ - All Embedded Zynq Platforms, i.e zc702, zcu102 etc
+ - All Versal Platforms, i.e vck190 etc
+ - Alveo U250
+ - AWS VU9P F1
+ - Samsung SmartSSD Computation Storage Drive
+ - Samsung U.2 SmartSSD
+ - All NoDMA Platforms, i.e u50 nodma etc
 
 DESIGN FILES
 ------------

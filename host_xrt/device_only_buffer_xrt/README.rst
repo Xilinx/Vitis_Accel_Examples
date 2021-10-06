@@ -7,14 +7,9 @@ This example will demonstrate how to create buffers in global memory which are n
 
 **KEYWORDS:** xrt::bo::flags::device_only
 
-EXCLUDED PLATFORMS
-------------------
+**EXCLUDED PLATFORMS:** 
 
-Platforms containing following strings in their names are not supported for this example :
-
-::
-
-   nodma
+ - All NoDMA Platforms, i.e u50 nodma etc
 
 DESIGN FILES
 ------------

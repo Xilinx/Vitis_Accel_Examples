@@ -7,16 +7,11 @@ This is simple example of vector addition to describe how to use BIND OP and STO
 
 **KEYWORDS:** `BIND_OP <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/hls_pragmas.html#ttl1584844636775>`__, `BIND_STORAGE <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/hls_pragmas.html#chr1584844747152>`__, `impl <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/hls_pragmas.html#ttl1584844636775__ad411605>`__, `op <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/hls_pragmas.html#ttl1584844636775__ad411605>`__, `type <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/hls_pragmas.html#ttl1584844636775__ad411605>`__, `latency <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/hls_pragmas.html#ttl1584844636775__ad411605>`__
 
-EXCLUDED PLATFORMS
-------------------
+**EXCLUDED PLATFORMS:** 
 
-Platforms containing following strings in their names are not supported for this example :
-
-::
-
-   zcu102
-   zc706
-   nodma
+ - Embedded ZCU102
+ - ZC706 Evaluation board
+ - All NoDMA Platforms, i.e u50 nodma etc
 
 DESIGN FILES
 ------------

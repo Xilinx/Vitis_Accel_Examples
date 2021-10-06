@@ -7,14 +7,9 @@ This is simple example of vector addition to describe usage of custom SystemC in
 
 **KEYWORDS:** `create_sc_xo <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/runemulation1.html#rgl1621883070991>`__, `xtlm_ap_ctrl_hs <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/runemulation1.html#pkt1621882955152>`__
 
-EXCLUDED PLATFORMS
-------------------
+**EXCLUDED PLATFORMS:** 
 
-Platforms containing following strings in their names are not supported for this example :
-
-::
-
-   nodma
+ - All NoDMA Platforms, i.e u50 nodma etc
 
 DESIGN FILES
 ------------

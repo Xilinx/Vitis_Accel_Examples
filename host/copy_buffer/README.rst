@@ -7,14 +7,9 @@ This Copy Buffer example demonstrate how one buffer can be copied from another b
 
 **KEYWORDS:** `cl::CommandQueue <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/opencl_programming.html#llr1524522915783>`__, enqueueCopyBuffer, `enqueueWriteBuffer <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/opencl_programming.html#xio1524524087132>`__, `enqueueReadBuffer <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/opencl_programming.html#xio1524524087132>`__, `enqueueMigrateMemObjects <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/opencl_programming.html#xio1524524087132>`__
 
-EXCLUDED PLATFORMS
-------------------
+**EXCLUDED PLATFORMS:** 
 
-Platforms containing following strings in their names are not supported for this example :
-
-::
-
-   nodma
+ - All NoDMA Platforms, i.e u50 nodma etc
 
 DESIGN FILES
 ------------

@@ -3,23 +3,18 @@ Xilinx AML
 
 Anti Money Laundering checking against deny-lists
 
-EXCLUDED PLATFORMS
-------------------
+**EXCLUDED PLATFORMS:** 
 
-Platforms containing following strings in their names are not supported for this example :
-
-::
-
-   _u2_
-   _u25_
-   u30
-   u50
-   u200
-   u280
-   u250
-   zc
-   vck
-   nodma
+ - Samsung U.2 SmartSSD
+ - Alveo U25 SmartNIC
+ - Alveo U30
+ - Alveo U50
+ - Alveo U200
+ - Alveo U280
+ - Alveo U250
+ - All Embedded Zynq Platforms, i.e zc702, zcu102 etc
+ - All Versal Platforms, i.e vck190 etc
+ - All NoDMA Platforms, i.e u50 nodma etc
 
 DESIGN FILES
 ------------

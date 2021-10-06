@@ -10,15 +10,10 @@ This is an example that showcases the Hardware Debug of Vector Addition RTL Kern
 
 **KEY CONCEPTS:** `RTL Kernel Debug <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/debuggingapplicationskernels.html#xey1524445482547>`__
 
-EXCLUDED PLATFORMS
-------------------
+**EXCLUDED PLATFORMS:** 
 
-Platforms containing following strings in their names are not supported for this example :
-
-::
-
-   vck
-   nodma
+ - All Versal Platforms, i.e vck190 etc
+ - All NoDMA Platforms, i.e u50 nodma etc
 
 DESIGN FILES
 ------------

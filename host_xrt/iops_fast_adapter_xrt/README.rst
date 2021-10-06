@@ -7,19 +7,14 @@ This is simple test design to measure Input/Output Operations per second using F
 
 **KEYWORDS:** nextDescriptorAddr
 
-EXCLUDED PLATFORMS
-------------------
+**EXCLUDED PLATFORMS:** 
 
-Platforms containing following strings in their names are not supported for this example :
-
-::
-
-   nodma
-   zc
-   vck
-   u200
-   u250
-   2019
+ - All NoDMA Platforms, i.e u50 nodma etc
+ - All Embedded Zynq Platforms, i.e zc702, zcu102 etc
+ - All Versal Platforms, i.e vck190 etc
+ - Alveo U200
+ - Alveo U250
+ - All Platforms with 2019 Version
 
 DESIGN FILES
 ------------

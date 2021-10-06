@@ -7,22 +7,17 @@ This example shows the usage of PLRAM and how to use it with simple matrix multi
 
 **KEYWORDS:** `PLRAM <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/buildingdevicebinary.html#wsi1614020986106>`__
 
-EXCLUDED PLATFORMS
-------------------
+**EXCLUDED PLATFORMS:** 
 
-Platforms containing following strings in their names are not supported for this example :
-
-::
-
-   _u25_
-   u30
-   zc
-   vck
-   u50
-   u55
-   samsung
-   _u2_
-   nodma
+ - Alveo U25 SmartNIC
+ - Alveo U30
+ - All Embedded Zynq Platforms, i.e zc702, zcu102 etc
+ - All Versal Platforms, i.e vck190 etc
+ - Alveo U50
+ - Alveo U55
+ - Samsung SmartSSD Computation Storage Drive
+ - Samsung U.2 SmartSSD
+ - All NoDMA Platforms, i.e u50 nodma etc
 
 DESIGN FILES
 ------------

@@ -12,6 +12,7 @@
         "samsung",
         "vck",
         "zc",
+        "_u2_",
         "nodma"
     ], 
     "os": [

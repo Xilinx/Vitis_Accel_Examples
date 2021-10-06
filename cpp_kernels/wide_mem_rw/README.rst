@@ -7,15 +7,10 @@ This is simple example of vector addition to demonstrate Wide Memory Access usin
 
 **KEYWORDS:** `ap_uint<> <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/integer_types.html#kcn1539734233458>`__, `ap_int.h <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/integer_types.html>`__
 
-EXCLUDED PLATFORMS
-------------------
+**EXCLUDED PLATFORMS:** 
 
-Platforms containing following strings in their names are not supported for this example :
-
-::
-
-   zc702
-   nodma
+ - Embedded ZC702
+ - All NoDMA Platforms, i.e u50 nodma etc
 
 DESIGN FILES
 ------------

@@ -3,16 +3,11 @@ Systolic Array (C)
 
 This is a simple example of matrix multiplication (Row x Col) to help developers learn systolic array based algorithm design. Note : Systolic array based algorithm design is well suited for FPGA.
 
-EXCLUDED PLATFORMS
-------------------
+**EXCLUDED PLATFORMS:** 
 
-Platforms containing following strings in their names are not supported for this example :
-
-::
-
-   zcu104_base
-   zc702_base
-   nodma
+ - Embedded ZCU104
+ - Embedded ZC702
+ - All NoDMA Platforms, i.e u50 nodma etc
 
 DESIGN FILES
 ------------

@@ -7,20 +7,16 @@ This is simple example which demonstrate how to use and configure a free running
 
 **KEYWORDS:** `ap_ctrl_none <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/managing_interface_synthesis.html#qls1539734256651__ae476284>`__, `stream_connect <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/buildingdevicebinary.html#yha1565541199876>`__
 
-EXCLUDED PLATFORMS
-------------------
+**EXCLUDED PLATFORMS:** 
 
-Platforms containing following strings in their names are not supported for this example :
-
-::
-
-   2018
-   qep
-   aws-vu9p-f1
-   samsung
-   vck
-   zc
-   nodma
+ - All Platforms with 2018 Version
+ - qep
+ - AWS VU9P F1
+ - Samsung SmartSSD Computation Storage Drive
+ - All Versal Platforms, i.e vck190 etc
+ - All Embedded Zynq Platforms, i.e zc702, zcu102 etc
+ - Samsung U.2 SmartSSD
+ - All NoDMA Platforms, i.e u50 nodma etc
 
 DESIGN FILES
 ------------

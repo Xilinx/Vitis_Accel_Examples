@@ -7,15 +7,10 @@ This is simple example of vector addition to demonstrate Wide Memory Access usin
 
 **KEYWORDS:** uint16, `xcl_pipeline_loop <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/opencl_programming.html#sgo1504034359903>`__
 
-EXCLUDED PLATFORMS
-------------------
+**EXCLUDED PLATFORMS:** 
 
-Platforms containing following strings in their names are not supported for this example :
-
-::
-
-   zc702
-   nodma
+ - Embedded ZC702
+ - All NoDMA Platforms, i.e u50 nodma etc
 
 DESIGN FILES
 ------------

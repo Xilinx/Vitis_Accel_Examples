@@ -7,14 +7,9 @@ This example shows vector addition with 2 kernel clocks using RTL Kernel.
 
 **KEYWORDS:** `clock <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/vitiscommandcompiler.html#ans1568640653312>`__, `freqHz <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/vitiscommandcompiler.html#ans1568640653312__section_vh5_yf4_bjb>`__, `ap_clk <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/managing_interface_synthesis.html#opo1539734223038>`__, ap_clk2
 
-EXCLUDED PLATFORMS
-------------------
+**EXCLUDED PLATFORMS:** 
 
-Platforms containing following strings in their names are not supported for this example :
-
-::
-
-   nodma
+ - All NoDMA Platforms, i.e u50 nodma etc
 
 DESIGN FILES
 ------------

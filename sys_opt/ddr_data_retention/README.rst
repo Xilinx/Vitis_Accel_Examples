@@ -7,21 +7,16 @@ This example demonstrates how DDR can hold the data between successive XCLBIN lo
 
 **KEYWORDS:** `enable_memory_persistence <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/xrtini.html#tpi1504034339424__section_tnh_pks_rx>`__
 
-EXCLUDED PLATFORMS
-------------------
+**EXCLUDED PLATFORMS:** 
 
-Platforms containing following strings in their names are not supported for this example :
-
-::
-
-   _u2_
-   u50
-   u55
-   2018
-   2019
-   vck
-   zc
-   nodma
+ - Samsung U.2 SmartSSD
+ - Alveo U50
+ - Alveo U55
+ - All Platforms with 2018 Version
+ - All Platforms with 2019 Version
+ - All Versal Platforms, i.e vck190 etc
+ - All Embedded Zynq Platforms, i.e zc702, zcu102 etc
+ - All NoDMA Platforms, i.e u50 nodma etc
 
 DESIGN FILES
 ------------

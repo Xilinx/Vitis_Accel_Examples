@@ -7,21 +7,16 @@ This example of 2ddr to demonstrate on how to use 2ddr XSA. How to create buffer
 
 **KEYWORDS:** `sp <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/vitiscommandcompiler.html#clt1568640709907__section_tfc_zxm_1jb>`__, `connectivity <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/vitiscommandcompiler.html#qcm1528577331870__section_wgd_dxf_dnb>`__
 
-EXCLUDED PLATFORMS
-------------------
+**EXCLUDED PLATFORMS:** 
 
-Platforms containing following strings in their names are not supported for this example :
-
-::
-
-   u30
-   u50
-   u55
-   vck
-   zc
-   samsung
-   _u2_
-   nodma
+ - Alveo U30
+ - Alveo U50
+ - Alveo U55
+ - All Versal Platforms, i.e vck190 etc
+ - All Embedded Zynq Platforms, i.e zc702, zcu102 etc
+ - Samsung SmartSSD Computation Storage Drive
+ - Samsung U.2 SmartSSD
+ - All NoDMA Platforms, i.e u50 nodma etc
 
 DESIGN FILES
 ------------

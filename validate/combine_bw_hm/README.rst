@@ -3,24 +3,19 @@ Combine_Bandwidth_Hostmemory(C)
 
 This is a simple design that verifies if the platform has basic functionalities It also tests the possible bandwidth between Kernel and Global Memory and validates direct host memory access from kernel.
 
-EXCLUDED PLATFORMS
-------------------
+**EXCLUDED PLATFORMS:** 
 
-Platforms containing following strings in their names are not supported for this example :
-
-::
-
-   _u25_
-   u30
-   u50lv
-   u50_gen3x4
-   zc
-   vck
-   aws-vu9p-f1
-   2019
-   2018
-   samsung
-   _u2_
+ - Alveo U25 SmartNIC
+ - Alveo U30
+ - Alveo U50lv
+ - Alveo U50 gen3x4
+ - All Embedded Zynq Platforms, i.e zc702, zcu102 etc
+ - All Versal Platforms, i.e vck190 etc
+ - AWS VU9P F1
+ - All Platforms with 2019 Version
+ - All Platforms with 2018 Version
+ - Samsung SmartSSD Computation Storage Drive
+ - Samsung U.2 SmartSSD
 
 DESIGN FILES
 ------------

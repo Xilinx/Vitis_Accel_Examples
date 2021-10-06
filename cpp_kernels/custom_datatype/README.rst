@@ -7,14 +7,9 @@ This is simple example of RGB to HSV conversion to demonstrate Custom DATA Type 
 
 **KEYWORDS:** `struct <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/vitis_hls_coding_styles.html#ghc1585180876264>`__, `#pragma HLS LOOP_TRIPCOUNT <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/hls_pragmas.html#sty1504034367099>`__
 
-EXCLUDED PLATFORMS
-------------------
+**EXCLUDED PLATFORMS:** 
 
-Platforms containing following strings in their names are not supported for this example :
-
-::
-
-   nodma
+ - All NoDMA Platforms, i.e u50 nodma etc
 
 DESIGN FILES
 ------------

@@ -5,14 +5,9 @@ This example has two RTL Kernels. Both Kernel_0 and Kernel_1 perform vector addi
 
 **KEY CONCEPTS:** `Multiple RTL Kernels <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/devrtlkernel.html>`__
 
-EXCLUDED PLATFORMS
-------------------
+**EXCLUDED PLATFORMS:** 
 
-Platforms containing following strings in their names are not supported for this example :
-
-::
-
-   nodma
+ - All NoDMA Platforms, i.e u50 nodma etc
 
 DESIGN FILES
 ------------

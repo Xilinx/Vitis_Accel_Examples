@@ -5,14 +5,9 @@ This is simple test design to measure Input/Output Operations per second. In thi
 
 **KEY CONCEPTS:** Input/Output Operations per second
 
-EXCLUDED PLATFORMS
-------------------
+**EXCLUDED PLATFORMS:** 
 
-Platforms containing following strings in their names are not supported for this example :
-
-::
-
-   nodma
+ - All NoDMA Platforms, i.e u50 nodma etc
 
 DESIGN FILES
 ------------

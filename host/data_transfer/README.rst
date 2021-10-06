@@ -7,14 +7,9 @@ This example illustrates several ways to use the OpenCL API to transfer data to 
 
 **KEYWORDS:** `enqueueWriteBuffer <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/opencl_programming.html#xio1524524087132>`__, `enqueueReadBuffer <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/opencl_programming.html#xio1524524087132>`__, `enqueueMapBuffer <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/opencl_programming.html#czb1555520653128>`__, enqueueUnmapMemObject, `enqueueMigrateMemObjects <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/opencl_programming.html#xio1524524087132>`__
 
-EXCLUDED PLATFORMS
-------------------
+**EXCLUDED PLATFORMS:** 
 
-Platforms containing following strings in their names are not supported for this example :
-
-::
-
-   nodma
+ - All NoDMA Platforms, i.e u50 nodma etc
 
 DESIGN FILES
 ------------

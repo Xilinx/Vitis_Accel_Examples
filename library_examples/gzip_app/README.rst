@@ -3,20 +3,15 @@ Xilinx GZIP Application
 
 GZip application for DDR resides in `library_examples/gzip_app` directory.
 
-EXCLUDED PLATFORMS
-------------------
+**EXCLUDED PLATFORMS:** 
 
-Platforms containing following strings in their names are not supported for this example :
-
-::
-
-   _u2_
-   zc
-   vck
-   u30
-   u50
-   u280
-   nodma
+ - Samsung U.2 SmartSSD
+ - All Embedded Zynq Platforms, i.e zc702, zcu102 etc
+ - All Versal Platforms, i.e vck190 etc
+ - Alveo U30
+ - Alveo U50
+ - Alveo U280
+ - All NoDMA Platforms, i.e u50 nodma etc
 
 DESIGN FILES
 ------------

@@ -3,21 +3,16 @@ Xilinx XF_BLAS GEMM Example
 
 Xilinx XF_BLAS GEMM Implementation for FP32 data type
 
-EXCLUDED PLATFORMS
-------------------
+**EXCLUDED PLATFORMS:** 
 
-Platforms containing following strings in their names are not supported for this example :
-
-::
-
-   _u2_
-   u25
-   u30
-   u50
-   zc
-   vck
-   nodma
-   u250
+ - Samsung U.2 SmartSSD
+ - u25
+ - Alveo U30
+ - Alveo U50
+ - All Embedded Zynq Platforms, i.e zc702, zcu102 etc
+ - All Versal Platforms, i.e vck190 etc
+ - All NoDMA Platforms, i.e u50 nodma etc
+ - Alveo U250
 
 DESIGN FILES
 ------------

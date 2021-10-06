@@ -7,14 +7,9 @@ This examples demonstrates techniques that allow user to overlap Host(CPU) and F
 
 **KEYWORDS:** `cl_event <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/opencl_programming.html#usz1524526733752>`__, `cl::CommandQueue <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/opencl_programming.html#llr1524522915783>`__, `CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/optimizingperformance.html#nzy1504034306881>`__, `enqueueMigrateMemObjects <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/opencl_programming.html#xio1524524087132>`__
 
-EXCLUDED PLATFORMS
-------------------
+**EXCLUDED PLATFORMS:** 
 
-Platforms containing following strings in their names are not supported for this example :
-
-::
-
-   nodma
+ - All NoDMA Platforms, i.e u50 nodma etc
 
 DESIGN FILES
 ------------

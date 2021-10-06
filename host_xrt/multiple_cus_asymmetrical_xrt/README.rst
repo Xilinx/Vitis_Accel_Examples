@@ -5,22 +5,17 @@ This is simple example of vector addition to demonstrate how to connect each com
 
 **KEY CONCEPTS:** `Multiple compute units <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/opencl_programming.html#dqz1555367565037>`__, `Task Level Parallelism <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/optimizingperformance.html#cvc1523913889499>`__
 
-EXCLUDED PLATFORMS
-------------------
+**EXCLUDED PLATFORMS:** 
 
-Platforms containing following strings in their names are not supported for this example :
-
-::
-
-   _u25_
-   u30
-   u50
-   u55
-   vck
-   samsung
-   _u2_
-   zc
-   nodma
+ - Alveo U25 SmartNIC
+ - Alveo U30
+ - Alveo U50
+ - Alveo U55
+ - All Versal Platforms, i.e vck190 etc
+ - Samsung SmartSSD Computation Storage Drive
+ - Samsung U.2 SmartSSD
+ - All Embedded Zynq Platforms, i.e zc702, zcu102 etc
+ - All NoDMA Platforms, i.e u50 nodma etc
 
 DESIGN FILES
 ------------

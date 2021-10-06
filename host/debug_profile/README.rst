@@ -5,14 +5,9 @@ This is simple example of vector addition and printing profile data (wall clock 
 
 **KEY CONCEPTS:** `Use of Profile API <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/profilingapplication.html#vfc1586356138757>`__, `Waveform Dumping and loading <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/profilingapplication.html#ffv1523643432801>`__
 
-EXCLUDED PLATFORMS
-------------------
+**EXCLUDED PLATFORMS:** 
 
-Platforms containing following strings in their names are not supported for this example :
-
-::
-
-   nodma
+ - All NoDMA Platforms, i.e u50 nodma etc
 
 DESIGN FILES
 ------------

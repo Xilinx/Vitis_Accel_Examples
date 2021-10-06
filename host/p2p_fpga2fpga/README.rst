@@ -7,21 +7,16 @@ This is simple example to explain P2P transfer between two FPGA devices.
 
 **KEYWORDS:** XCL_MEM_EXT_P2P_BUFFER
 
-EXCLUDED PLATFORMS
-------------------
+**EXCLUDED PLATFORMS:** 
 
-Platforms containing following strings in their names are not supported for this example :
-
-::
-
-   flat
-   zc
-   201910
-   vck
-   aws-vu9p-f1
-   _u25_
-   u30
-   u50_gen3x16_xdma_2019
+ - All Samsung U.2 flat
+ - All Embedded Zynq Platforms, i.e zc702, zcu102 etc
+ - All Platforms with 201910 Version
+ - All Versal Platforms, i.e vck190 etc
+ - AWS VU9P F1
+ - Alveo U25 SmartNIC
+ - Alveo U30
+ - Alveo U50 gen3x16 xdma 2019 Version
 
 DESIGN FILES
 ------------

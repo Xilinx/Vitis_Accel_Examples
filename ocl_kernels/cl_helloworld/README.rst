@@ -5,14 +5,9 @@ This example is a simple OpenCL application. It will highlight the basic flow of
 
 **KEY CONCEPTS:** `OpenCL Host APIs <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/opencl_programming.html>`__
 
-EXCLUDED PLATFORMS
-------------------
+**EXCLUDED PLATFORMS:** 
 
-Platforms containing following strings in their names are not supported for this example :
-
-::
-
-   nodma
+ - All NoDMA Platforms, i.e u50 nodma etc
 
 DESIGN FILES
 ------------

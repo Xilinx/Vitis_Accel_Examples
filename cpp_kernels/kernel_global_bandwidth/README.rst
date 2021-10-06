@@ -3,18 +3,13 @@ Kernel Global Bandwidth
 
 Bandwidth test of global to local memory.
 
-EXCLUDED PLATFORMS
-------------------
+**EXCLUDED PLATFORMS:** 
 
-Platforms containing following strings in their names are not supported for this example :
-
-::
-
-   _u2_
-   u30
-   u50
-   u55
-   vck5000
+ - Samsung U.2 SmartSSD
+ - Alveo U30
+ - Alveo U50
+ - Alveo U55
+ - Versal VCK5000
 
 DESIGN FILES
 ------------

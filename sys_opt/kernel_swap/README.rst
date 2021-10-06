@@ -7,19 +7,14 @@ This example shows how host can swap the kernels and share same buffer between t
 
 **KEYWORDS:** `enqueueMigrateMemObjects <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/opencl_programming.html#xio1524524087132>`__, `CL_MIGRATE_MEM_OBJECT_HOST <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/opencl_programming.html#kcd1556227380924>`__
 
-EXCLUDED PLATFORMS
-------------------
+**EXCLUDED PLATFORMS:** 
 
-Platforms containing following strings in their names are not supported for this example :
-
-::
-
-   flat
-   zcu102_base_20
-   zcu104_base_20
-   vck
-   zc7
-   nodma
+ - All Samsung U.2 flat
+ - All ZCU102 Platforms except DFX
+ - All ZCU104 Platforms except DFX
+ - All Versal Platforms, i.e vck190 etc
+ - ZC706 Evaluation board
+ - All NoDMA Platforms, i.e u50 nodma etc
 
 DESIGN FILES
 ------------

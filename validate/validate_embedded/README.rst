@@ -5,20 +5,16 @@ This is a simple design that verifies if the platform has basic functionalities.
 
 **KEY CONCEPTS:** Bandwidth
 
-EXCLUDED PLATFORMS
-------------------
+**EXCLUDED PLATFORMS:** 
 
-Platforms containing following strings in their names are not supported for this example :
-
-::
-
-   dma
-   u30
-   aws
-   samsung
-   2019
-   2018
-   vck5000
+ - All Xilinx DMA Platforms
+ - Alveo U30
+ - AWS VU9P F1
+ - Samsung SmartSSD Computation Storage Drive
+ - Samsung U.2 SmartSSD
+ - All Platforms with 2019 Version
+ - All Platforms with 2018 Version
+ - Versal VCK5000
 
 DESIGN FILES
 ------------

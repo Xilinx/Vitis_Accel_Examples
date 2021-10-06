@@ -5,14 +5,9 @@ This is simple example which demonstrate register read & write using native xrt 
 
 **KEYWORDS:** read_register, write_register, cu_access_mode, exclusive
 
-EXCLUDED PLATFORMS
-------------------
+**EXCLUDED PLATFORMS:** 
 
-Platforms containing following strings in their names are not supported for this example :
-
-::
-
-   nodma
+ - All NoDMA Platforms, i.e u50 nodma etc
 
 DESIGN FILES
 ------------

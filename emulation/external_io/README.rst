@@ -7,18 +7,13 @@ This example will demonstrate emulation of Xilinx Device's IO with an external p
 
 **KEYWORDS:** `sim_ipc_axis_master <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/runemulation1.html#sbn1601597712644__section_g3t_2s2_nnb>`__, `sim_ipc_axis_slave <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/runemulation1.html#sbn1601597712644__section_g3t_2s2_nnb>`__, `gt_master <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/runemulation1.html#sbn1601597712644__section_gsg_11m_nnb>`__, `gt_slave <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/runemulation1.html#sbn1601597712644__section_c3g_pzl_nnb>`__
 
-EXCLUDED PLATFORMS
-------------------
+**EXCLUDED PLATFORMS:** 
 
-Platforms containing following strings in their names are not supported for this example :
-
-::
-
-   dma
-   vck5000
-   aws-vu9p-f1
-   samsung
-   _u2_
+ - All Xilinx DMA Platforms
+ - Versal VCK5000
+ - AWS VU9P F1
+ - Samsung SmartSSD Computation Storage Drive
+ - Samsung U.2 SmartSSD
 
 DESIGN FILES
 ------------

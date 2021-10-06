@@ -7,19 +7,14 @@ This simple example demonstrate the flow to create aie Kernel and how to connect
 
 **KEYWORDS:** `aiecompiler <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/compile_graph_application.html>`__, `aiesimulator <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/simulate_graph_application.html#pmy1512608736116>`__, `stream_connect <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/buildingdevicebinary.html#yha1565541199876>`__
 
-EXCLUDED PLATFORMS
-------------------
+**EXCLUDED PLATFORMS:** 
 
-Platforms containing following strings in their names are not supported for this example :
-
-::
-
-   zc
-   aws-vu9p-f1
-   samsung
-   _u2_
-   vck5000
-   dma
+ - All Embedded Zynq Platforms, i.e zc702, zcu102 etc
+ - AWS VU9P F1
+ - Samsung SmartSSD Computation Storage Drive
+ - Samsung U.2 SmartSSD
+ - Versal VCK5000
+ - All Xilinx DMA Platforms
 
 DESIGN FILES
 ------------

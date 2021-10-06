@@ -7,17 +7,12 @@ This is simple example which demonstrate how to use and configure a free running
 
 **KEYWORDS:** `ap_axiu <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/streamingconnections.html#tzq1555344621950>`__, `hls::stream <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/hls_stream_library.html>`__
 
-EXCLUDED PLATFORMS
-------------------
+**EXCLUDED PLATFORMS:** 
 
-Platforms containing following strings in their names are not supported for this example :
-
-::
-
-   2018
-   vck
-   zc706
-   nodma
+ - All Platforms with 2018 Version
+ - All Versal Platforms, i.e vck190 etc
+ - ZC706 Evaluation board
+ - All NoDMA Platforms, i.e u50 nodma etc
 
 DESIGN FILES
 ------------

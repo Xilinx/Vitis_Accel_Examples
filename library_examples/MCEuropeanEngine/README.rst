@@ -3,24 +3,19 @@ Xilinx MC European Engine Benchmark
 
 Xilinx XF_FINTECH Test
 
-EXCLUDED PLATFORMS
-------------------
+**EXCLUDED PLATFORMS:** 
 
-Platforms containing following strings in their names are not supported for this example :
-
-::
-
-   _u25_
-   u30
-   u50
-   u200
-   u280
-   zc
-   qdma
-   vck
-   samsung
-   _u2_
-   nodma
+ - Alveo U25 SmartNIC
+ - Alveo U30
+ - Alveo U50
+ - Alveo U200
+ - Alveo U280
+ - All Embedded Zynq Platforms, i.e zc702, zcu102 etc
+ - qdma
+ - All Versal Platforms, i.e vck190 etc
+ - Samsung SmartSSD Computation Storage Drive
+ - Samsung U.2 SmartSSD
+ - All NoDMA Platforms, i.e u50 nodma etc
 
 DESIGN FILES
 ------------

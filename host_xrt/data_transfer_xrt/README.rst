@@ -7,14 +7,9 @@ This example illustrates transferring of data to and from the FPGA using xrt nat
 
 **KEYWORDS:** `xrt::bo::write <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/devhostapp.html#yaz1622072496185>`__, `xrt::bo::read <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/devhostapp.html#yaz1622072496185>`__
 
-EXCLUDED PLATFORMS
-------------------
+**EXCLUDED PLATFORMS:** 
 
-Platforms containing following strings in their names are not supported for this example :
-
-::
-
-   nodma
+ - All NoDMA Platforms, i.e u50 nodma etc
 
 DESIGN FILES
 ------------

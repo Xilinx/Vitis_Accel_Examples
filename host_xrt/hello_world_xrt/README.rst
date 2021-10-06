@@ -7,14 +7,9 @@ This is simple example of vector addition to describe the usage of XRT Native AP
 
 **KEYWORDS:** `xrt::device <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/devhostapp.html#zja1524097906844>`__, load_xclbin, `xrt::bo <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/devhostapp.html#yaz1622072496185>`__, `xrt::kernel <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/devhostapp.html#lqq1622157666187>`__, `map <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/devhostapp.html#yaz1622072496185>`__, `sync <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/devhostapp.html#yaz1622072496185>`__, XCL_BO_SYNC_BO_TO_DEVICE, XCL_BO_SYNC_BO_FROM_DEVICE, `gmem <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/devckernels.html#hxx1556235054362>`__, `#pragma HLS INTERFACE <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/hls_pragmas.html#jit1504034365862>`__, `dataflow <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/vitis_hls_optimization_techniques.html#bmx1539734225930>`__, `hls::stream <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/hls_stream_library.html>`__
 
-EXCLUDED PLATFORMS
-------------------
+**EXCLUDED PLATFORMS:** 
 
-Platforms containing following strings in their names are not supported for this example :
-
-::
-
-   nodma
+ - All NoDMA Platforms, i.e u50 nodma etc
 
 DESIGN FILES
 ------------

@@ -7,14 +7,9 @@ This is simple example of using AXI4-master interface for burst read and write
 
 **KEYWORDS:** `compiler.interfaceRdBurstLen <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/vitiscommandcompiler.html#fgh1568640841739__section_mh4_qf4_bjb>`__, `compiler.interfaceWrBurstLen <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/vitiscommandcompiler.html#fgh1568640841739__section_mh4_qf4_bjb>`__
 
-EXCLUDED PLATFORMS
-------------------
+**EXCLUDED PLATFORMS:** 
 
-Platforms containing following strings in their names are not supported for this example :
-
-::
-
-   nodma
+ - All NoDMA Platforms, i.e u50 nodma etc
 
 DESIGN FILES
 ------------

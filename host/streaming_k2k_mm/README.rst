@@ -7,17 +7,13 @@ This is a simple kernel to kernel streaming Vector Add and Vector Multiply C Ker
 
 **KEYWORDS:** `stream_connect <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/buildingdevicebinary.html#yha1565541199876>`__
 
-EXCLUDED PLATFORMS
-------------------
+**EXCLUDED PLATFORMS:** 
 
-Platforms containing following strings in their names are not supported for this example :
-
-::
-
-   samsung
-   vck
-   zc
-   nodma
+ - Samsung SmartSSD Computation Storage Drive
+ - Samsung U.2 SmartSSD
+ - All Versal Platforms, i.e vck190 etc
+ - All Embedded Zynq Platforms, i.e zc702, zcu102 etc
+ - All NoDMA Platforms, i.e u50 nodma etc
 
 DESIGN FILES
 ------------

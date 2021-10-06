@@ -7,14 +7,9 @@ This is simple example of vector addition to demonstrate how to utilize both por
 
 **KEYWORDS:** `#pragma HLS UNROLL FACTOR=2 <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/hls_pragmas.html#uyd1504034366571>`__
 
-EXCLUDED PLATFORMS
-------------------
+**EXCLUDED PLATFORMS:** 
 
-Platforms containing following strings in their names are not supported for this example :
-
-::
-
-   nodma
+ - All NoDMA Platforms, i.e u50 nodma etc
 
 DESIGN FILES
 ------------

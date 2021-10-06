@@ -7,22 +7,17 @@ This is a Host Memory Example to describe how data can be copied using xrt nativ
 
 **KEYWORDS:** host_only, device_only
 
-EXCLUDED PLATFORMS
-------------------
+**EXCLUDED PLATFORMS:** 
 
-Platforms containing following strings in their names are not supported for this example :
-
-::
-
-   _u25_
-   u30
-   u50lv
-   u50_gen3x4
-   zc
-   vck
-   2019
-   2018
-   _u2_
+ - Alveo U25 SmartNIC
+ - Alveo U30
+ - Alveo U50lv
+ - Alveo U50 gen3x4
+ - All Embedded Zynq Platforms, i.e zc702, zcu102 etc
+ - All Versal Platforms, i.e vck190 etc
+ - All Platforms with 2019 Version
+ - All Platforms with 2018 Version
+ - Samsung U.2 SmartSSD
 
 DESIGN FILES
 ------------

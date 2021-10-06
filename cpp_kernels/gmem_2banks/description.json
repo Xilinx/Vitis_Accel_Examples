@@ -1,7 +1,6 @@
 {
     "platform_blacklist": [
         "zc", 
-        "zed",
         "vck",
         "u30",
         "u50",

@@ -5,14 +5,9 @@ This example shows a normal coding style which could lead to critical path issue
 
 **KEY CONCEPTS:** Critical Path handling, Improve Timing
 
-EXCLUDED PLATFORMS
-------------------
+**EXCLUDED PLATFORMS:** 
 
-Platforms containing following strings in their names are not supported for this example :
-
-::
-
-   nodma
+ - All NoDMA Platforms, i.e u50 nodma etc
 
 DESIGN FILES
 ------------
