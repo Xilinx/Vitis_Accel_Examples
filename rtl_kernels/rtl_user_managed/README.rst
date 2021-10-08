@@ -34,7 +34,7 @@ Once the environment has been configured, the application can be executed by
 
 ::
 
-   ./rtl_user_ip -x <vadd XCLBIN>
+   ./rtl_user_managed -x <vadd XCLBIN>
 
 DETAILS
 -------
@@ -45,30 +45,28 @@ This example demonstrates how a user can create a User-Managed RTL IP. The RTL I
 
    package_xo -ctrl_protocol user_managed -xo_path ${xoname} -kernel_name krnl_vadd_rtl -ip_directory ./packaged_kernel_${suffix}
 
-The IP is first created and the memory index and register offset determined as below:  
+The IP is first created, the CU information fetched and the memory index determined as below:  
 
 .. code:: cpp
 
-   int reg_offset[4];
+   std::vector<xrt::xclbin::ip> cu;
    auto ip = xrt::ip(device, uuid, "krnl_vadd_rtl");
    auto xclbin = xrt::xclbin(binaryFile);
-   std::cout << "Determine buffer offsets\n";
+   std::cout << "Fetch compute Units" << std::endl;
    for (auto& kernel : xclbin.get_kernels()) {
-       for (auto& cu : kernel.get_cus()) {
-           int i = 0;
-           for (auto& arg : cu.get_args()) {
-               reg_offset[i] = arg.get_offset();
-               i++;
-           }
+       if (kernel.get_name() == "krnl_vadd_rtl") {
+           cu = kernel.get_cus();
        }
    }
    
+   if (cu.empty()) throw std::runtime_error("IP krnl_vadd_rtl not found in the provided xclbin");
+   
    std::cout << "Determine memory index\n";
    for (auto& mem : xclbin.get_mems()) {
-   if (mem.get_used()) {
-      mem_used = mem;
-      break;
-   }
+       if (mem.get_used()) {
+           mem_used = mem;
+           break;
+       }
    }
 
 All the IP settings are achieved using the ``write_register`` and ``read_register`` calls as below:
@@ -77,12 +75,22 @@ All the IP settings are achieved using the ``write_register`` and ``read_registe
 
    std::cout << "INFO: Setting IP Data" << std::endl;
    
-   for (int i = 0; i < 3; i++) {
-   ip.write_register(reg_offset[i], buf_addr[i]);
-   ip.write_register(reg_offset[i] + 4, buf_addr[i] >> 32);
-   }
+   auto args = cu[0].get_args();
    
-   ip.write_register(reg_offset[3], DATA_SIZE);
+   std::cout << "Setting the 1st Register \"a\" (Input Address)" << std::endl;
+   ip.write_register(args[0].get_offset(), buf_addr[0]);
+   ip.write_register(args[0].get_offset() + 4, buf_addr[0] >> 32);
+   
+   std::cout << "Setting the 2nd Register \"b\" (Input Address)" << std::endl;
+   ip.write_register(args[1].get_offset(), buf_addr[1]);
+   ip.write_register(args[1].get_offset() + 4, buf_addr[1] >> 32);
+   
+   std::cout << "Setting the 3rd Register \"c\" (Output Address)" << std::endl;
+   ip.write_register(args[2].get_offset(), buf_addr[2]);
+   ip.write_register(args[2].get_offset() + 4, buf_addr[2] >> 32);
+   
+   std::cout << "Setting the 4th Register \"length_r\"" << std::endl;
+   ip.write_register(args[3].get_offset(), DATA_SIZE);
    
    uint32_t axi_ctrl = 0;
    

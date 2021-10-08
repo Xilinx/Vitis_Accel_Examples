@@ -111,7 +111,7 @@ endif
 
 
 
-EXECUTABLE = ./rtl_user_ip
+EXECUTABLE = ./rtl_user_managed
 EMCONFIG_DIR = $(TEMP_DIR)
 EMU_DIR = $(SDCARD)/data/emulation
 
