@@ -28,6 +28,7 @@ Command line argument flags:
  - u200_gen3x16
  - Alveo U30
  - All NoDMA Platforms, i.e u50 nodma etc
+ - Samsung U.2 SmartSSD
  - Samsung SmartSSD Computation Storage Drive
 
 DESIGN FILES

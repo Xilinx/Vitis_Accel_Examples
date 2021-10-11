@@ -7,18 +7,13 @@ This is an example of systemC TLM wrapper and XO generation for a given HLS kern
 
 **KEYWORDS:** `create_sc_xo <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/runemulation1.html#rgl1621883070991>`__, `ap_ctrl_none <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/managing_interface_synthesis.html#qls1539734256651__ae476284>`__
 
-EXCLUDED PLATFORMS
-------------------
+**EXCLUDED PLATFORMS:** 
 
-Platforms containing following strings in their names are not supported for this example :
-
-::
-
-   2018
-   aws
-   _u2_
-   zc702
-   nodma
+ - All Platforms with 2018 Version
+ - AWS VU9P F1
+ - Samsung U.2 SmartSSD
+ - Embedded ZC702
+ - All NoDMA Platforms, i.e u50 nodma etc
 
 DESIGN FILES
 ------------

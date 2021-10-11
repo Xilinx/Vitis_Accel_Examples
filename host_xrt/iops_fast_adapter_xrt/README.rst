@@ -12,6 +12,7 @@ This is simple test design to measure Input/Output Operations per second using F
  - All NoDMA Platforms, i.e u50 nodma etc
  - All Embedded Zynq Platforms, i.e zc702, zcu102 etc
  - All Versal Platforms, i.e vck190 etc
+ - Alveo U50 gen3x4
  - Alveo U200
  - Alveo U250
  - All Platforms with 2019 Version
