@@ -6,6 +6,7 @@
         "u250": "Alveo U250",
         "aws": "AWS VU9P F1",
         "aws-vu9p-f1": "AWS VU9P F1",
+        "aws-vu9p-f1_shell": "AWS VU9P F1",
         "zc": "All Embedded Zynq Platforms, i.e zc702, zcu102 etc", 
         "vck": "All Versal Platforms, i.e vck190 etc",
         "samsung": "Samsung SmartSSD Computation Storage Drive",

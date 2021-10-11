@@ -16,7 +16,7 @@
     "platform_blacklist": [ 
         "zc",
         "vck", 
-        "aws-vu9p-f1",
+        "aws-vu9p-f1_shell",
         "2019",
         "2018",
         "_u2_",
