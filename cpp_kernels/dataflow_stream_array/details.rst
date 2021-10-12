@@ -1,8 +1,16 @@
 Dataflow Stream Array
 =====================
 
-This example demontrates the use of an array of ``HLS streams`` in
-kernels.
+This example demonstrates the use of an array of ``HLS streams`` in
+kernels, with different depth set for each of the streams.
+
+.. code:: cpp
+   
+   static hls::stream<int> streamArray[STAGES + 1];
+   #pragma HLS STREAM variable=streamArray[0] depth=4
+   #pragma HLS STREAM variable=streamArray[1] depth=16
+   #pragma HLS STREAM variable=streamArray[2] depth=8
+
 
 Kernel performs a number of vector additions. Initial vector is taken
 from the global memory and is written into a stream. Operator ``<<`` is

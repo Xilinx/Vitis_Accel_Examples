@@ -130,6 +130,10 @@ extern "C" {
 void N_stage_Adders(int* input, int* output, int incr, int size) {
     // array of stream declaration
     static hls::stream<int> streamArray[STAGES + 1];
+#pragma HLS STREAM variable = streamArray[0] depth = 4
+#pragma HLS STREAM variable = streamArray[1] depth = 16
+#pragma HLS STREAM variable = streamArray[2] depth = 8
+// As the depth of streamArray[3] and streamArray[4] is not specified, it will take default depth i.e. 2
 
 #pragma HLS dataflow
     // one read input unit for data read
