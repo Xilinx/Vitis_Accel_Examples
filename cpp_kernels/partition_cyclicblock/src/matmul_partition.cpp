@@ -24,7 +24,8 @@ extern "C" {
 void matmul_partition(const int* in1, // Read-Only Matrix 1
                       const int* in2, // Read-Only Matrix 2
                       int* out_r,     // Output Result
-                      int dim) {      // Matrix Dimension. Assuming Square Matrix
+                      int dim,
+                      int rep_count) { // Matrix Dimension. Assuming Square Matrix
 #pragma HLS INTERFACE m_axi port = in1 offset = slave bundle = gmem
 #pragma HLS INTERFACE m_axi port = in2 offset = slave bundle = gmem
 #pragma HLS INTERFACE m_axi port = out_r offset = slave bundle = gmem
@@ -71,21 +72,25 @@ readB:
         B[i * MAX_DIM + j] = in2[itr];
     }
 
-lreorder1:
-    for (int i = 0; i < dim; i++) {
+loop2:
+    for (int x = 0; x < rep_count; x++) {
+#pragma HLS LOOP_TRIPCOUNT min = 1 max = 1
+    lreorder1:
+        for (int i = 0; i < dim; i++) {
 #pragma HLS LOOP_TRIPCOUNT min = c_dim max = c_dim
-    // As A and B are partition correctly so loop pipelining is applied
-    // at 2nd level loop and which will eventually unroll the lower loop
-    lreorder2:
-        for (int j = 0; j < dim; j++) {
+        // As A and B are partition correctly so loop pipelining is applied
+        // at 2nd level loop and which will eventually unroll the lower loop
+        lreorder2:
+            for (int j = 0; j < dim; j++) {
 #pragma HLS LOOP_TRIPCOUNT min = c_dim max = c_dim
-            int result = 0;
-        lreorder3:
-            for (int k = 0; k < MAX_DIM; k++) {
-#pragma HLS LOOP_TRIPCOUNT min = c_dim max = c_dim
-                result += A[i * MAX_DIM + k] * B[k * MAX_DIM + j];
+                int result = 0;
+            lreorder3:
+                for (int k = 0; k < MAX_DIM; k++) {
+                    //#pragma HLS LOOP_TRIPCOUNT min = c_dim max = c_dim
+                    result += A[i * MAX_DIM + k] * B[k * MAX_DIM + j];
+                }
+                C[i * MAX_DIM + j] = result;
             }
-            C[i * MAX_DIM + j] = result;
         }
     }
 

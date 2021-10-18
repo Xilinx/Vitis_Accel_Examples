@@ -28,6 +28,7 @@
 #include <random>
 #include <string>
 #include <vector>
+#include <iomanip>
 
 #define SIGNAL_SIZE (1024 * 1024)
 #define SIGNAL_SIZE_IN_EMU 1024
@@ -121,7 +122,7 @@ int main(int argc, char** argv) {
     OCL_CHECK(err, err = q.enqueueMigrateMemObjects({buffer_signal, buffer_coeff}, 0 /* 0 means from host*/));
 
     cl::Event event;
-    int iterations = xcl::is_emulation() ? 2 : 100;
+    uint32_t iterations = xcl::is_emulation() ? 2 : 100;
     uint64_t fir_naive_time = 0;
     // Running naive kernel iterations times
     for (int i = 0; i < iterations; i++) {
@@ -131,8 +132,9 @@ int main(int argc, char** argv) {
         fir_naive_time += get_duration_ns(event);
         verify(gold, out);
     }
+    fir_naive_time /= iterations;
 
-    // Creating FIR Shift Register Kernel object and setting args
+    //  Creating FIR Shift Register Kernel object and setting args
     OCL_CHECK(err, cl::Kernel fir_sr_kernel(program, "fir_shift_register", &err));
 
     OCL_CHECK(err, err = fir_sr_kernel.setArg(0, buffer_output));
@@ -149,9 +151,11 @@ int main(int argc, char** argv) {
         fir_sr_time += get_duration_ns(event);
         verify(gold, out);
     }
-    printf("Example Testdata Signal_Length=%u for %d iteration\n", signal_size, iterations);
+    fir_sr_time /= iterations;
+
+    std::cout << "Example Testdata Signal_Length=" << signal_size << " for " << iterations << " iteration\n";
     print_summary("fir_naive", "fir_shift_register", fir_naive_time, fir_sr_time, iterations);
-    printf("TEST PASSED\n");
+    std::cout << "TEST PASSED\n";
     return EXIT_SUCCESS;
 }
 
@@ -180,7 +184,7 @@ int gen_random() {
 void verify(const vector<int, aligned_allocator<int> >& gold, const vector<int, aligned_allocator<int> >& out) {
     bool match = equal(begin(gold), end(gold), begin(out));
     if (!match) {
-        printf("TEST FAILED\n");
+        std::cout << "TEST FAILED\n";
         exit(EXIT_FAILURE);
     }
 }
@@ -193,27 +197,23 @@ uint64_t get_duration_ns(const cl::Event& event) {
     return (nstimeend - nstimestart);
 }
 void print_summary(std::string k1, std::string k2, uint64_t t1, uint64_t t2, int iterations) {
-    double speedup = (double)t1 / (double)t2;
-    printf(
-        "|-------------------------+-------------------------|\n"
-        "| Kernel(%3d iterations)  |    Wall-Clock Time (ns) |\n"
-        "|-------------------------+-------------------------|\n",
-        iterations);
-    printf("| %-23s | %23lu |\n", k1.c_str(), t1);
-    printf("| %-23s | %23lu |\n", k2.c_str(), t2);
-    printf("|-------------------------+-------------------------|\n");
-    printf("| Speedup: | %23lf |\n", speedup);
-    printf("|-------------------------+-------------------------|\n");
-    printf(
-        "Note: Wall Clock Time is meaningful for real hardware execution "
-        "only, not for emulation.\n");
-    printf(
-        "Please refer to profile summary for kernel execution time for "
-        "hardware emulation.\n");
+    std::cout << "|-------------------------+-------------------------|\n"
+              << "| Kernel (per iteration)  |    Wall-Clock Time (ns) |\n"
+              << "|-------------------------+-------------------------|\n";
+    std::cout << "| " << std::left << std::setw(24) << k1.c_str() << "|" << std::right << std::setw(24) << t1 << " |\n";
+    std::cout << "| " << std::left << std::setw(24) << k2.c_str() << "|" << std::right << std::setw(24) << t2 << " |\n";
+    std::cout << "|-------------------------+-------------------------|\n";
+    std::cout << "| " << std::left << std::setw(24) << "Speedup"
+              << "|" << std::right << std::setw(24) << (double)t1 / (double)t2 << " |\n";
+    std::cout << "|-------------------------+-------------------------|\n";
+    std::cout << "Note: Wall Clock Time is meaningful for real hardware execution "
+              << "only, not for emulation.\n";
+    std::cout << "Please refer to profile summary for kernel execution time for "
+              << "hardware emulation.\n";
 
     // Performance check for real hardware. t2 must be less than t1.
     if (!xcl::is_emulation() && (t1 < t2)) {
-        printf("ERROR: Unexpected Performance is observed\n");
+        std::cout << "ERROR: Unexpected Performance is observed\n";
         exit(EXIT_FAILURE);
     }
 }

@@ -98,21 +98,23 @@ automatically applies ``loop unrolling`` to the ``shift_loop``.
           output_r[j] = acc;
       }
 
-Following is the log reported while running the design on U200 platform:
+Following is the log reported while running the design on U250 platform:
 
 ::
 
    Platform Name: Xilinx
-   INFO: Reading ./build_dir.hw.xilinx_u200_xdma_201830_2/fir.xclbin
-   Loading: './build_dir.hw.xilinx_u200_xdma_201830_2/fir.xclbin'
-   Example Testdata Signal_Length=1048576 for 100 iteration
+   INFO: Reading build_dir.hw.xilinx_u250_gen3x16_xdma_3_1_202020_1/fir.xclbin
+   Loading: 'build_dir.hw.xilinx_u250_gen3x16_xdma_3_1_202020_1/fir.xclbin'
+   Trying to program device[0]: xilinx_u250_gen3x16_xdma_shell_3_1
+   Device[0]: program successful!
+   Example Testdata Signal_Length=1048576 for 1000 iteration
    |-------------------------+-------------------------|
-   | Kernel(100 iterations) | Wall-Clock Time (ns) |
+   | Kernel (per iteration)  |    Wall-Clock Time (ns) |
    |-------------------------+-------------------------|
-   | fir_naive | 85649415155 |
-   | fir_shift_register | 12083476500 |
+   | fir_naive               |               327299834 |
+   | fir_shift_register      |                 4537361 |
    |-------------------------+-------------------------|
-   | Speedup: | 7.088143 |
+   | Speedup                 |                 72.1344 |
    |-------------------------+-------------------------|
    Note: Wall Clock Time is meaningful for real hardware execution only, not for emulation.
    Please refer to profile summary for kernel execution time for hardware emulation.

@@ -26,7 +26,8 @@ extern "C" {
 void matmul_naive(const int* in1, // Read-Only Matrix 1
                   const int* in2, // Read-Only Matrix 2
                   int* out_r,     // Output Result
-                  int dim)        // Matrix Dimension (assuming square matrix)
+                  int dim,
+                  int rep_count) // Matrix Dimension (assuming square matrix)
 {
 #pragma HLS INTERFACE m_axi port = in1 offset = slave bundle = gmem
 #pragma HLS INTERFACE m_axi port = in2 offset = slave bundle = gmem
@@ -56,20 +57,23 @@ readB:
 #pragma HLS LOOP_TRIPCOUNT min = c_dim* c_dim max = c_dim * c_dim
         B[i] = in2[i];
     }
-
-lreorder1:
-    for (int i = 0; i < dim; i++) {
+loop1:
+    for (int x = 0; x < rep_count; x++) {
+#pragma HLS LOOP_TRIPCOUNT min = 1 max = 1
+    lreorder1:
+        for (int i = 0; i < dim; i++) {
 #pragma HLS LOOP_TRIPCOUNT min = c_dim max = c_dim
-    lreorder2:
-        for (int j = 0; j < MAX_DIM; j++) {
+        lreorder2:
+            for (int j = 0; j < MAX_DIM; j++) {
 #pragma HLS LOOP_TRIPCOUNT min = c_dim max = c_dim
-            int result = 0;
-        lreorder3:
-            for (int k = 0; k < dim; k++) {
-#pragma HLS LOOP_TRIPCOUNT min = c_dim max = c_dim
-                result += A[i * dim + k] * B[k * dim + j];
+                int result = 0;
+            lreorder3:
+                for (int k = 0; k < dim; k++) {
+                    //#pragma HLS LOOP_TRIPCOUNT min = c_dim max = c_dim
+                    result += A[i * dim + k] * B[k * dim + j];
+                }
+                C[i * dim + j] = result;
             }
-            C[i * dim + j] = result;
         }
     }
 

@@ -65,9 +65,11 @@ read_coef:
 
 outer_loop:
     for (int j = 0; j < signal_length; j++) {
+#pragma HLS LOOP_TRIPCOUNT min = 1 max = 1
         int acc = 0;
     shift_loop:
         for (int i = min(j, N_COEFF - 1); i >= 0; i--) {
+#pragma HLS LOOP_TRIPCOUNT min = 1 max = 1
 #pragma HLS PIPELINE II = 1
             acc += signal_r[j - i] * coeff_reg[i];
         }

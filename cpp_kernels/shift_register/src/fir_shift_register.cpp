@@ -75,6 +75,7 @@ init_loop:
 
 outer_loop:
     for (int j = 0; j < signal_length; j++) {
+#pragma HLS LOOP_TRIPCOUNT min = 1 max = 1
 #pragma HLS PIPELINE II = 1
         int acc = 0;
         int x = signal_r[j];

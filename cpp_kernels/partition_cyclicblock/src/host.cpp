@@ -18,6 +18,7 @@
 #include <cstdio>
 #include <random>
 #include <vector>
+#include <iomanip>
 
 using std::default_random_engine;
 using std::generate;
@@ -48,20 +49,19 @@ void print(vector<int, aligned_allocator<int> >& data, int dims) {
     vector<int> out(dims * dims);
     for (int r = 0; r < 10; r++) {
         for (int c = 0; c < 10; c++) {
-            printf("%4d ", data[r * dims + c]);
+            std::cout << std::setw(4) << data[r * dims + c] << " ";
         }
-        printf("…\n");
+        std::cout << "…\n";
     }
     for (int r = 0; r < 10; r++) {
-        printf("   %s ", "…");
+        std::cout << "   … ";
     }
-    printf("⋱\n\n");
+    std::cout << "⋱\n\n";
 }
-
 void verify(vector<int, aligned_allocator<int> >& gold, vector<int, aligned_allocator<int> >& output) {
     for (int i = 0; i < (int)output.size(); i++) {
         if (output[i] != gold[i]) {
-            printf("Mismatch %d: gold: %d device: %d\n", i, gold[i], output[i]);
+            std::cout << "Mismatch " << i << ": gold: " << gold[i] << " device: " << output[i] << "\n";
             exit(EXIT_FAILURE);
         }
     }
@@ -83,7 +83,7 @@ int main(int argc, char** argv) {
     cl::Context context;
 
     /* less iteration for emulation mode */
-    int iteration = xcl::is_emulation() ? 2 : 100;
+    uint32_t repeat_counter = xcl::is_emulation() ? 2 : 10000;
 
     vector<int, aligned_allocator<int> > A(dims * dims);
     vector<int, aligned_allocator<int> > B(dims * dims);
@@ -92,13 +92,13 @@ int main(int argc, char** argv) {
     generate(begin(A), end(A), gen_random);
     generate(begin(B), end(B), gen_random);
 
-    printf("A:\n");
+    std::cout << "A:\n";
     print(A, dims);
-    printf("B:\n");
+    std::cout << "B:\n";
     print(B, dims);
     matmul(gold, A, B, dims);
 
-    printf("Gold:\n");
+    std::cout << "Gold:\n";
     print(gold, dims);
     auto devices = xcl::get_xil_devices();
 
@@ -143,56 +143,55 @@ int main(int argc, char** argv) {
     OCL_CHECK(err, err = matmul_kernel.setArg(1, buffer_b));
     OCL_CHECK(err, err = matmul_kernel.setArg(2, buffer_c));
     OCL_CHECK(err, err = matmul_kernel.setArg(3, dims));
+    OCL_CHECK(err, err = matmul_kernel.setArg(4, repeat_counter));
 
-    // Copy input data to device global memory
     OCL_CHECK(err, err = q.enqueueMigrateMemObjects({buffer_a, buffer_b}, 0 /* 0 means from host*/));
 
     cl::Event event;
     uint64_t nstimestart, nstimeend;
-    uint64_t matmul_time = 0;
-    for (int i = 0; i < iteration; i++) {
-        OCL_CHECK(err, err = q.enqueueTask(matmul_kernel, nullptr, &event));
-        OCL_CHECK(err, err = q.enqueueMigrateMemObjects({buffer_c}, CL_MIGRATE_MEM_OBJECT_HOST));
-        q.finish();
-        OCL_CHECK(err, err = event.getProfilingInfo<uint64_t>(CL_PROFILING_COMMAND_START, &nstimestart));
-        OCL_CHECK(err, err = event.getProfilingInfo<uint64_t>(CL_PROFILING_COMMAND_END, &nstimeend));
-        matmul_time += nstimeend - nstimestart;
-        verify(gold, C);
-    }
 
+    OCL_CHECK(err, err = q.enqueueTask(matmul_kernel, nullptr, &event));
+    OCL_CHECK(err, err = q.enqueueMigrateMemObjects({buffer_c}, CL_MIGRATE_MEM_OBJECT_HOST));
+    q.finish();
+
+    OCL_CHECK(err, err = event.getProfilingInfo<uint64_t>(CL_PROFILING_COMMAND_START, &nstimestart));
+    OCL_CHECK(err, err = event.getProfilingInfo<uint64_t>(CL_PROFILING_COMMAND_END, &nstimeend));
+    auto matmul_time = (nstimeend - nstimestart) / repeat_counter;
+
+    verify(gold, C);
     OCL_CHECK(err, cl::Kernel matmul_partition_kernel(program, "matmul_partition", &err));
 
     OCL_CHECK(err, err = matmul_partition_kernel.setArg(0, buffer_a));
     OCL_CHECK(err, err = matmul_partition_kernel.setArg(1, buffer_b));
     OCL_CHECK(err, err = matmul_partition_kernel.setArg(2, buffer_c));
     OCL_CHECK(err, err = matmul_partition_kernel.setArg(3, dims));
+    OCL_CHECK(err, err = matmul_partition_kernel.setArg(4, repeat_counter));
 
-    uint64_t matmul_partition_time = 0;
-    for (int i = 0; i < iteration; i++) {
-        OCL_CHECK(err, err = q.enqueueTask(matmul_partition_kernel, nullptr, &event));
-        OCL_CHECK(err, err = q.enqueueMigrateMemObjects({buffer_c}, CL_MIGRATE_MEM_OBJECT_HOST));
-        q.finish();
-        OCL_CHECK(err, err = event.getProfilingInfo<uint64_t>(CL_PROFILING_COMMAND_START, &nstimestart));
-        OCL_CHECK(err, err = event.getProfilingInfo<uint64_t>(CL_PROFILING_COMMAND_END, &nstimeend));
-        matmul_partition_time += nstimeend - nstimestart;
-        verify(gold, C);
-    }
+    OCL_CHECK(err, err = q.enqueueTask(matmul_partition_kernel, nullptr, &event));
+    OCL_CHECK(err, err = q.enqueueMigrateMemObjects({buffer_c}, CL_MIGRATE_MEM_OBJECT_HOST));
+    q.finish();
 
-    printf(
-        "|-------------------------+-------------------------|\n"
-        "| Kernel(%3d iterations)  |    Wall-Clock Time (ns) |\n"
-        "|-------------------------+-------------------------|\n",
-        iteration);
-    printf("| %-23s | %23lu |\n", "matmul: naive", matmul_time);
-    printf("| %-23s | %23lu |\n", "matmul: partition", matmul_partition_time);
-    printf("|-------------------------+-------------------------|\n");
-    printf(
-        "Note: Wall Clock Time is meaningful for real hardware execution "
-        "only, not for emulation.\n");
-    printf(
-        "Please refer to profile summary for kernel execution time for "
-        "hardware emulation.\n");
-    printf("TEST PASSED\n\n");
+    OCL_CHECK(err, err = event.getProfilingInfo<uint64_t>(CL_PROFILING_COMMAND_START, &nstimestart));
+    OCL_CHECK(err, err = event.getProfilingInfo<uint64_t>(CL_PROFILING_COMMAND_END, &nstimeend));
+    auto matmul_partition_time = (nstimeend - nstimestart) / repeat_counter;
+
+    verify(gold, C);
+    std::cout << "|-------------------------+-------------------------|\n"
+              << "| Kernel                  |    Wall-Clock Time (ns) |\n"
+              << "|-------------------------+-------------------------|\n";
+    std::cout << "| " << std::left << std::setw(24) << "matmul: naive"
+              << "|" << std::right << std::setw(24) << matmul_time << " |\n";
+    std::cout << "| " << std::left << std::setw(24) << "matmul: partition"
+              << "|" << std::right << std::setw(24) << matmul_partition_time << " |\n";
+    std::cout << "|-------------------------+-------------------------|\n";
+    std::cout << "| " << std::left << std::setw(24) << "Speedup"
+              << "|" << std::right << std::setw(24) << (double)matmul_time / (double)matmul_partition_time << " |\n";
+    std::cout << "|-------------------------+-------------------------|\n";
+    std::cout << "Note: Wall Clock Time is meaningful for real hardware execution "
+              << "only, not for emulation.\n";
+    std::cout << "Please refer to profile summary for kernel execution time for "
+              << "hardware emulation.\n";
+    std::cout << "TEST PASSED\n\n";
 
     return EXIT_SUCCESS;
 }
