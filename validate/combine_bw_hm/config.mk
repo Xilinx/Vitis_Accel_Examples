@@ -7,6 +7,12 @@ platform_test:
 	$(XF_PROJ_ROOT)/common/utility/platform_gen.py platform_info.json bandwidth
 	$(XF_PROJ_ROOT)/common/utility/platform_gen.py platform_info.json hostmemory 
 
+ifeq ($(TARGET),$(filter $(TARGET),hw_emu))
+ifeq ($(findstring 202010, $(DEVICE)), 202010)
+$(error [ERROR]: This example is not supported for $(DEVICE) when targeting hw_emu.)
+endif
+endif
+
 VPP_LDFLAGS+= --config platform_bandwidth.cfg
 VPP_LDFLAGS+= --config platform_hostmemory.cfg
 ifneq ($(USR_VPP_FLAGS), )      
