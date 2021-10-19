@@ -186,10 +186,10 @@ int main(int argc, char* argv[]) {
 
     // -----------------------------------------------------------------------
     std::cout << "Write input data to device global memory" << std::endl;
-    OCL_CHECK(err, err = clEnqueueMigrateMemObjects(queue[0], 1, &rbo1, CL_MIGRATE_MEM_OBJECT_CONTENT_UNDEFINED, 0,
-                                                    nullptr, nullptr)); // Send data to the regular buffer of Device1
-    OCL_CHECK(err, err = clEnqueueMigrateMemObjects(queue[1], 1, &rbo2, CL_MIGRATE_MEM_OBJECT_CONTENT_UNDEFINED, 0,
-                                                    nullptr, nullptr)); // Send data to the regular buffer of Device2
+    OCL_CHECK(err, err = clEnqueueMigrateMemObjects(queue[0], 1, &rbo1, 0, 0, nullptr,
+                                                    nullptr)); // Send data to the regular buffer of Device1
+    OCL_CHECK(err, err = clEnqueueMigrateMemObjects(queue[1], 1, &rbo2, 0, 0, nullptr,
+                                                    nullptr)); // Send data to the regular buffer of Device2
 
     //------------------------- P2P
     //-----------------------------------------------------------
