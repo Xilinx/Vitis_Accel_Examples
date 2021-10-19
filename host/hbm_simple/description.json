@@ -7,7 +7,10 @@
     "keywords": [
         "HBM", 
         "XCL_MEM_TOPOLOGY", 
-        "cl_mem_ext_ptr_t"
+        "cl_mem_ext_ptr_t",
+        "trace_memory",
+        "trace_buffer_size",
+        "opencl_trace"
     ], 
     "key_concepts": [
         "High Bandwidth Memory", 
@@ -30,7 +33,8 @@
     ], 
     "runtime": [
         "OpenCL"
-    ], 
+    ],
+    "match_ini": "false", 
     "platform_type": "pcie",
     "host": {
         "host_exe": "hbm_simple",

@@ -7,7 +7,7 @@ PROFILE := no
 
 #Generates profile summary report
 ifeq ($(PROFILE), yes)
-VPP_LDFLAGS += --profile.data all:all:all
+VPP_LDFLAGS += --profile.data all:all:all --profile.trace_memory HBM[0]
 endif
 
 DEBUG := no

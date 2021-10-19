@@ -5,7 +5,7 @@ This is a simple example of vector addition to describe how to use HLS kernels w
 
 **KEY CONCEPTS:** `High Bandwidth Memory <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/buildingdevicebinary.html#lgl1614021146997>`__, Multiple HBM pseudo-channels
 
-**KEYWORDS:** `HBM <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/buildingdevicebinary.html#lgl1614021146997>`__, `XCL_MEM_TOPOLOGY <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/optimizingperformance.html#utc1504034308941>`__, `cl_mem_ext_ptr_t <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/optimizingperformance.html#utc1504034308941>`__
+**KEYWORDS:** `HBM <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/buildingdevicebinary.html#lgl1614021146997>`__, `XCL_MEM_TOPOLOGY <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/optimizingperformance.html#utc1504034308941>`__, `cl_mem_ext_ptr_t <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/optimizingperformance.html#utc1504034308941>`__, `trace_memory <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/vitiscommandcompiler.html#lpy1600804966354__section_bmy_v3z_54b>`__, `trace_buffer_size <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/xrtini.html#tpi1504034339424__section_tnh_pks_rx>`__, `opencl_trace <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/xrtini.html#tpi1504034339424__section_tnh_pks_rx>`__
 
 **EXCLUDED PLATFORMS:** 
 
@@ -101,5 +101,24 @@ real log reported while running on U280 platform:
    output  -> PC 3 
    [CASE 2] THROUGHPUT = 24.4078 GB/s 
    TEST PASSED
+
+When building the hardware target, we have used the trace_memory option 
+to specify that trace data should be captured in ``HBM[0]`` memory. 
+
+.. code:: cpp
+
+   VPP_LDFLAGS += --profile.trace_memory HBM[0]
+
+The size of the buffer to allocate in memory for trace is captured in xrt.ini
+using ``trace_buffer_size``. The trace_buffer_size switch only has an effect
+if data_transfer_trace is off. Following is the content of xrt.ini file : 
+
+::
+
+   [Debug]
+   opencl_summary=true
+   opencl_device_counter=true
+   opencl_trace=true
+   trace_buffer_size=2M
 
 For more comprehensive documentation, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.
