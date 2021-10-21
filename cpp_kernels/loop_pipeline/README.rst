@@ -10,6 +10,7 @@ This example demonstrates how loop pipelining can be used to improve the perform
 **EXCLUDED PLATFORMS:** 
 
  - All NoDMA Platforms, i.e u50 nodma etc
+ - Embedded ZCU102
 
 DESIGN FILES
 ------------

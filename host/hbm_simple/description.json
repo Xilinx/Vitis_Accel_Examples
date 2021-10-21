@@ -34,7 +34,8 @@
     "runtime": [
         "OpenCL"
     ],
-    "match_ini": "false", 
+    "match_ini": "false",
+    "match_makefile": "false", 
     "platform_type": "pcie",
     "host": {
         "host_exe": "hbm_simple",

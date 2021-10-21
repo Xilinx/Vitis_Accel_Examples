@@ -13,7 +13,8 @@
         "two read/write Local Memory"
     ],
     "platform_blacklist": [
-        "nodma"
+        "nodma",
+        "_u2_"
     ], 
     "os": [
         "Linux"

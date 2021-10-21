@@ -85,6 +85,9 @@ LDFLAGS += $(opencl_LDFLAGS)
 ifeq ($(findstring nodma, $(DEVICE)), nodma)
 $(error [ERROR]: This example is not supported for $(DEVICE).)
 endif
+ifeq ($(findstring zcu102, $(DEVICE)), zcu102)
+$(error [ERROR]: This example is not supported for $(DEVICE).)
+endif
 
 ############################## Setting up Host Variables ##############################
 #Include Required Host Source Files

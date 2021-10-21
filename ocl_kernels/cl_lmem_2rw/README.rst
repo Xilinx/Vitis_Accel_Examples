@@ -10,6 +10,7 @@ This is simple example of vector addition to demonstrate how to utilized both po
 **EXCLUDED PLATFORMS:** 
 
  - All NoDMA Platforms, i.e u50 nodma etc
+ - Samsung U.2 SmartSSD
 
 DESIGN FILES
 ------------
