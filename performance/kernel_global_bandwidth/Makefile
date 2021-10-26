@@ -20,7 +20,7 @@
 
 help::
 	$(ECHO) "Makefile Usage:"
-	$(ECHO) "  make all TARGET=<sw_emu/hw_emu/hw> DEVICE=<FPGA platform>"
+	$(ECHO) "  make all TARGET=<sw_emu/hw_emu/hw> DEVICE=<FPGA platform> HOST_ARCH=<aarch32/aarch64/x86> EDGE_COMMON_SW=<rootfs and kernel image path>"
 	$(ECHO) "      Command to generate the design for specified Target and Shell."
 	$(ECHO) ""
 	$(ECHO) "  make clean "
@@ -32,20 +32,24 @@ help::
 	$(ECHO) "  make test DEVICE=<FPGA platform>"
 	$(ECHO) "      Command to run the application. This is same as 'run' target but does not have any makefile dependency."
 	$(ECHO) ""
-	$(ECHO) "  make run TARGET=<sw_emu/hw_emu/hw> DEVICE=<FPGA platform>"
+	$(ECHO) "  make sd_card TARGET=<sw_emu/hw_emu/hw> DEVICE=<FPGA platform> HOST_ARCH=<aarch32/aarch64/x86> EDGE_COMMON_SW=<rootfs and kernel image path>"
+	$(ECHO) "      Command to prepare sd_card files."
+	$(ECHO) ""
+	$(ECHO) "  make run TARGET=<sw_emu/hw_emu/hw> DEVICE=<FPGA platform> HOST_ARCH=<aarch32/aarch64/x86> EDGE_COMMON_SW=<rootfs and kernel image path>"
 	$(ECHO) "      Command to run application in emulation."
 	$(ECHO) ""
-	$(ECHO) "  make build TARGET=<sw_emu/hw_emu/hw> DEVICE=<FPGA platform>"
+	$(ECHO) "  make build TARGET=<sw_emu/hw_emu/hw> DEVICE=<FPGA platform> HOST_ARCH=<aarch32/aarch64/x86> EDGE_COMMON_SW=<rootfs and kernel image path>"
 	$(ECHO) "      Command to build xclbin application."
 	$(ECHO) ""
-	$(ECHO) "  make host"
+	$(ECHO) "  make host HOST_ARCH=<aarch32/aarch64/x86> EDGE_COMMON_SW=<rootfs and kernel image path>"
 	$(ECHO) "      Command to build host application."
+	$(ECHO) "  By default, HOST_ARCH=x86. HOST_ARCH and EDGE_COMMON_SW is required for SoC shells"
 	$(ECHO) ""
 
 ############################## Setting up Project Variables ##############################
 # Points to top directory of Git repository
 MK_PATH := $(abspath $(lastword $(MAKEFILE_LIST)))
-COMMON_REPO ?= $(shell bash -c 'export MK_PATH=$(MK_PATH); echo $${MK_PATH%host/host_global_bandwidth/*}')
+COMMON_REPO ?= $(shell bash -c 'export MK_PATH=$(MK_PATH); echo $${MK_PATH%performance/kernel_global_bandwidth/*}')
 PWD = $(shell readlink -f .)
 XF_PROJ_ROOT = $(shell readlink -f $(COMMON_REPO))
 
@@ -71,13 +75,16 @@ RESULT_STRING = TEST PASSED
 
 VPP := v++
 VPP_PFLAGS := 
-CMD_ARGS = $(BUILD_DIR)/krnl_host_global.xclbin
+CMD_ARGS = $(BUILD_DIR)/krnl_kernel_global.xclbin
+SDCARD := sd_card
 
 include $(XF_PROJ_ROOT)/common/includes/opencl/opencl.mk
+include config.mk
+
 CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++1y
 LDFLAGS += $(opencl_LDFLAGS)
 
-ifeq ($(findstring _u25_, $(DEVICE)), _u25_)
+ifeq ($(findstring _u2_, $(DEVICE)), _u2_)
 $(error [ERROR]: This example is not supported for $(DEVICE).)
 endif
 ifeq ($(findstring u30, $(DEVICE)), u30)
@@ -89,53 +96,46 @@ endif
 ifeq ($(findstring u55, $(DEVICE)), u55)
 $(error [ERROR]: This example is not supported for $(DEVICE).)
 endif
-ifeq ($(findstring u280, $(DEVICE)), u280)
-$(error [ERROR]: This example is not supported for $(DEVICE).)
-endif
-ifeq ($(findstring vck, $(DEVICE)), vck)
-$(error [ERROR]: This example is not supported for $(DEVICE).)
-endif
-ifeq ($(findstring samsung, $(DEVICE)), samsung)
-$(error [ERROR]: This example is not supported for $(DEVICE).)
-endif
-ifeq ($(findstring _u2_, $(DEVICE)), _u2_)
-$(error [ERROR]: This example is not supported for $(DEVICE).)
-endif
-ifeq ($(findstring zc, $(DEVICE)), zc)
+ifeq ($(findstring vck5000, $(DEVICE)), vck5000)
 $(error [ERROR]: This example is not supported for $(DEVICE).)
 endif
 
 ############################## Setting up Host Variables ##############################
 #Include Required Host Source Files
 CXXFLAGS += -I$(XF_PROJ_ROOT)/common/includes/xcl2
-HOST_SRCS += $(XF_PROJ_ROOT)/common/includes/xcl2/xcl2.cpp ./src/host.cpp 
+HOST_SRCS += $(XF_PROJ_ROOT)/common/includes/xcl2/xcl2.cpp src/kernel_global_bandwidth.cpp 
 # Host compiler global settings
 CXXFLAGS += -fmessage-length=0
 LDFLAGS += -lrt -lstdc++ 
 
+ifneq ($(HOST_ARCH), x86)
+	LDFLAGS += --sysroot=$(SYSROOT)
+endif
+
 ############################## Setting up Kernel Variables ##############################
 # Kernel compiler global settings
+VPP_FLAGS += 
 VPP_FLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps 
 ifneq ($(TARGET), hw)
 	VPP_FLAGS += -g
 endif
+VPP_FLAGS_bandwidth +=  --config ./bandwidth.cfg
 
 
-# Kernel linker flags
-VPP_LDFLAGS_krnl_host_global += --config ./krnl_host_global.cfg
 
-EXECUTABLE = ./host_global_bandwidth
+EXECUTABLE = ./kernel_global_bandwidth
 EMCONFIG_DIR = $(TEMP_DIR)
+EMU_DIR = $(SDCARD)/data/emulation
 
 ############################## Declaring Binary Containers ##############################
-BINARY_CONTAINERS += $(BUILD_DIR)/krnl_host_global.xclbin
-BINARY_CONTAINER_krnl_host_global_OBJS += $(TEMP_DIR)/bandwidth.xo
+BINARY_CONTAINERS += $(BUILD_DIR)/krnl_kernel_global.xclbin
+BINARY_CONTAINER_krnl_kernel_global_OBJS += $(TEMP_DIR)/bandwidth.xo
 
 ############################## Setting Targets ##############################
 CP = cp -rf
 
 .PHONY: all clean cleanall docs emconfig
-all: check-devices $(EXECUTABLE) $(BINARY_CONTAINERS) emconfig
+all: check-devices $(EXECUTABLE) $(BINARY_CONTAINERS) emconfig sd_card
 
 .PHONY: host
 host: $(EXECUTABLE)
@@ -149,11 +149,15 @@ xclbin: build
 ############################## Setting Rules for Binary Containers (Building Kernels) ##############################
 $(TEMP_DIR)/bandwidth.xo: src/kernel.cpp
 	mkdir -p $(TEMP_DIR)
-	$(VPP) $(VPP_FLAGS) -c -k bandwidth --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
-$(BUILD_DIR)/krnl_host_global.xclbin: $(BINARY_CONTAINER_krnl_host_global_OBJS)
+	$(VPP) $(VPP_FLAGS) $(VPP_FLAGS_bandwidth) -c -k bandwidth --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
+$(BUILD_DIR)/krnl_kernel_global.xclbin: $(BINARY_CONTAINER_krnl_kernel_global_OBJS)
 	mkdir -p $(BUILD_DIR)
-	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) $(VPP_LDFLAGS_krnl_host_global) -o'$(BUILD_DIR)/krnl_host_global.link.xclbin' $(+)
-	$(VPP) -p $(BUILD_DIR)/krnl_host_global.link.xclbin -t $(TARGET) --platform $(DEVICE) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/krnl_host_global.xclbin
+ifeq ($(HOST_ARCH), x86)
+	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) -o'$(BUILD_DIR)/krnl_kernel_global.link.xclbin' $(+)
+	$(VPP) -p $(BUILD_DIR)/krnl_kernel_global.link.xclbin -t $(TARGET) --platform $(DEVICE) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/krnl_kernel_global.xclbin
+else
+	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) -o'$(BUILD_DIR)/krnl_kernel_global.xclbin' $(+)
+endif
 
 ############################## Setting Rules for Host (Building Host Executable) ##############################
 $(EXECUTABLE): $(HOST_SRCS) | check-xrt
@@ -166,21 +170,41 @@ $(EMCONFIG_DIR)/emconfig.json:
 ############################## Setting Essential Checks and Running Rules ##############################
 run: all
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
+ifeq ($(HOST_ARCH), x86)
 	$(CP) $(EMCONFIG_DIR)/emconfig.json .
 	XCL_EMULATION_MODE=$(TARGET) $(EXECUTABLE) $(CMD_ARGS)
 else
+	$(LAUNCH_EMULATOR) -run-app $(RUN_APP_SCRIPT) | tee run_app.log; exit $${PIPESTATUS[0]}
+endif
+else
+ifeq ($(HOST_ARCH), x86)
 	$(EXECUTABLE) $(CMD_ARGS)
+endif
 endif
 
 
 .PHONY: test
 test: $(EXECUTABLE)
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
+ifeq ($(HOST_ARCH), x86)
 	XCL_EMULATION_MODE=$(TARGET) $(EXECUTABLE) $(CMD_ARGS)
 else
+	$(LAUNCH_EMULATOR) -run-app $(RUN_APP_SCRIPT) | tee run_app.log; exit $${PIPESTATUS[0]}
+endif
+else
+ifeq ($(HOST_ARCH), x86)
 	$(EXECUTABLE) $(CMD_ARGS)
+else
+	$(ECHO) "Please copy the content of sd_card folder and data to an SD Card and run on the board"
+endif
 endif
 
+
+############################## Preparing sdcard ##############################
+sd_card: $(BINARY_CONTAINERS) $(EXECUTABLE) gen_run_app
+ifneq ($(HOST_ARCH), x86)
+	$(VPP) $(VPP_PFLAGS) -p $(BUILD_DIR)/krnl_kernel_global.xclbin -t $(TARGET) --platform $(DEVICE) --package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.sd_file $(SD_IMAGE_FILE) --package.sd_file xrt.ini --package.sd_file $(RUN_APP_SCRIPT) --package.sd_file $(EXECUTABLE) -o krnl_kernel_global.xclbin
+endif
 
 ############################## Cleaning Rules ##############################
 # Cleaning stuff
@@ -190,7 +214,7 @@ clean:
 	-$(RMDIR) src/*.ll *v++* .Xil emconfig.json dltmp* xmltmp* *.log *.jou *.wcfg *.wdb
 
 cleanall: clean
-	-$(RMDIR) build_dir*
+	-$(RMDIR) build_dir* sd_card*
 	-$(RMDIR) package.*
 	-$(RMDIR) _x* *xclbin.run_summary qemu-memory-_* emulation _vimage pl* start_simulation.sh *.xclbin
-	-$(RMDIR) ./metric1.csv 
+

@@ -45,7 +45,7 @@ help::
 ############################## Setting up Project Variables ##############################
 # Points to top directory of Git repository
 MK_PATH := $(abspath $(lastword $(MAKEFILE_LIST)))
-COMMON_REPO ?= $(shell bash -c 'export MK_PATH=$(MK_PATH); echo $${MK_PATH%host/host_memory_bandwidth/*}')
+COMMON_REPO ?= $(shell bash -c 'export MK_PATH=$(MK_PATH); echo $${MK_PATH%performance/host_global_bandwidth/*}')
 PWD = $(shell readlink -f .)
 XF_PROJ_ROOT = $(shell readlink -f $(COMMON_REPO))
 
@@ -71,11 +71,9 @@ RESULT_STRING = TEST PASSED
 
 VPP := v++
 VPP_PFLAGS := 
-CMD_ARGS = $(BUILD_DIR)/bandwidth.xclbin
+CMD_ARGS = $(BUILD_DIR)/krnl_host_global.xclbin
 
 include $(XF_PROJ_ROOT)/common/includes/opencl/opencl.mk
-include config.mk
-
 CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++1y
 LDFLAGS += $(opencl_LDFLAGS)
 
@@ -85,28 +83,25 @@ endif
 ifeq ($(findstring u30, $(DEVICE)), u30)
 $(error [ERROR]: This example is not supported for $(DEVICE).)
 endif
-ifeq ($(findstring u50lv, $(DEVICE)), u50lv)
+ifeq ($(findstring u50, $(DEVICE)), u50)
 $(error [ERROR]: This example is not supported for $(DEVICE).)
 endif
-ifeq ($(findstring u50_gen3x4, $(DEVICE)), u50_gen3x4)
+ifeq ($(findstring u55, $(DEVICE)), u55)
 $(error [ERROR]: This example is not supported for $(DEVICE).)
 endif
-ifeq ($(findstring zc, $(DEVICE)), zc)
+ifeq ($(findstring u280, $(DEVICE)), u280)
 $(error [ERROR]: This example is not supported for $(DEVICE).)
 endif
 ifeq ($(findstring vck, $(DEVICE)), vck)
-$(error [ERROR]: This example is not supported for $(DEVICE).)
-endif
-ifeq ($(findstring 2019, $(DEVICE)), 2019)
-$(error [ERROR]: This example is not supported for $(DEVICE).)
-endif
-ifeq ($(findstring 2018, $(DEVICE)), 2018)
 $(error [ERROR]: This example is not supported for $(DEVICE).)
 endif
 ifeq ($(findstring samsung, $(DEVICE)), samsung)
 $(error [ERROR]: This example is not supported for $(DEVICE).)
 endif
 ifeq ($(findstring _u2_, $(DEVICE)), _u2_)
+$(error [ERROR]: This example is not supported for $(DEVICE).)
+endif
+ifeq ($(findstring zc, $(DEVICE)), zc)
 $(error [ERROR]: This example is not supported for $(DEVICE).)
 endif
 
@@ -127,16 +122,14 @@ endif
 
 
 # Kernel linker flags
-VPP_LDFLAGS_bandwidth += --config ./krnl_bandwidth.cfg
+VPP_LDFLAGS_krnl_host_global += --config ./krnl_host_global.cfg
 
-EXECUTABLE = ./host_memory_bw.exe
+EXECUTABLE = ./host_global_bandwidth
 EMCONFIG_DIR = $(TEMP_DIR)
 
 ############################## Declaring Binary Containers ##############################
-BINARY_CONTAINERS += $(BUILD_DIR)/bandwidth.xclbin
-BINARY_CONTAINER_bandwidth_OBJS += $(TEMP_DIR)/bandwidth.xo
-BINARY_CONTAINER_bandwidth_OBJS += $(TEMP_DIR)/read_bandwidth.xo
-BINARY_CONTAINER_bandwidth_OBJS += $(TEMP_DIR)/write_bandwidth.xo
+BINARY_CONTAINERS += $(BUILD_DIR)/krnl_host_global.xclbin
+BINARY_CONTAINER_krnl_host_global_OBJS += $(TEMP_DIR)/bandwidth.xo
 
 ############################## Setting Targets ##############################
 CP = cp -rf
@@ -154,19 +147,13 @@ build: check-vitis $(BINARY_CONTAINERS)
 xclbin: build
 
 ############################## Setting Rules for Binary Containers (Building Kernels) ##############################
-$(TEMP_DIR)/bandwidth.xo: src/bandwidth.cpp
+$(TEMP_DIR)/bandwidth.xo: src/kernel.cpp
 	mkdir -p $(TEMP_DIR)
 	$(VPP) $(VPP_FLAGS) -c -k bandwidth --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
-$(TEMP_DIR)/read_bandwidth.xo: src/read_bandwidth.cpp
-	mkdir -p $(TEMP_DIR)
-	$(VPP) $(VPP_FLAGS) -c -k read_bandwidth --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
-$(TEMP_DIR)/write_bandwidth.xo: src/write_bandwidth.cpp
-	mkdir -p $(TEMP_DIR)
-	$(VPP) $(VPP_FLAGS) -c -k write_bandwidth --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
-$(BUILD_DIR)/bandwidth.xclbin: $(BINARY_CONTAINER_bandwidth_OBJS)
+$(BUILD_DIR)/krnl_host_global.xclbin: $(BINARY_CONTAINER_krnl_host_global_OBJS)
 	mkdir -p $(BUILD_DIR)
-	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) $(VPP_LDFLAGS_bandwidth) -o'$(BUILD_DIR)/bandwidth.link.xclbin' $(+)
-	$(VPP) -p $(BUILD_DIR)/bandwidth.link.xclbin -t $(TARGET) --platform $(DEVICE) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/bandwidth.xclbin
+	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) $(VPP_LDFLAGS_krnl_host_global) -o'$(BUILD_DIR)/krnl_host_global.link.xclbin' $(+)
+	$(VPP) -p $(BUILD_DIR)/krnl_host_global.link.xclbin -t $(TARGET) --platform $(DEVICE) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/krnl_host_global.xclbin
 
 ############################## Setting Rules for Host (Building Host Executable) ##############################
 $(EXECUTABLE): $(HOST_SRCS) | check-xrt
@@ -206,4 +193,4 @@ cleanall: clean
 	-$(RMDIR) build_dir*
 	-$(RMDIR) package.*
 	-$(RMDIR) _x* *xclbin.run_summary qemu-memory-_* emulation _vimage pl* start_simulation.sh *.xclbin
-
+	-$(RMDIR) ./metric1.csv 

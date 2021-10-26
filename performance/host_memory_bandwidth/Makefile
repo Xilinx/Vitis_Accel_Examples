@@ -45,7 +45,7 @@ help::
 ############################## Setting up Project Variables ##############################
 # Points to top directory of Git repository
 MK_PATH := $(abspath $(lastword $(MAKEFILE_LIST)))
-COMMON_REPO ?= $(shell bash -c 'export MK_PATH=$(MK_PATH); echo $${MK_PATH%host/p2p_fpga2fpga_bandwidth/*}')
+COMMON_REPO ?= $(shell bash -c 'export MK_PATH=$(MK_PATH); echo $${MK_PATH%performance/host_memory_bandwidth/*}')
 PWD = $(shell readlink -f .)
 XF_PROJ_ROOT = $(shell readlink -f $(COMMON_REPO))
 
@@ -71,43 +71,49 @@ RESULT_STRING = TEST PASSED
 
 VPP := v++
 VPP_PFLAGS := 
-CMD_ARGS = -x1 $(BUILD_DIR)/bandwidth.xclbin -x2 $(BUILD_DIR)/bandwidth.xclbin
+CMD_ARGS = $(BUILD_DIR)/bandwidth.xclbin
 
 include $(XF_PROJ_ROOT)/common/includes/opencl/opencl.mk
+include config.mk
+
 CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++1y
 LDFLAGS += $(opencl_LDFLAGS)
 
-ifeq ($(findstring zc, $(DEVICE)), zc)
-$(error [ERROR]: This example is not supported for $(DEVICE).)
-endif
-ifeq ($(findstring 201910, $(DEVICE)), 201910)
-$(error [ERROR]: This example is not supported for $(DEVICE).)
-endif
-ifeq ($(findstring 2018, $(DEVICE)), 2018)
-$(error [ERROR]: This example is not supported for $(DEVICE).)
-endif
-ifeq ($(findstring vck, $(DEVICE)), vck)
-$(error [ERROR]: This example is not supported for $(DEVICE).)
-endif
-ifeq ($(findstring aws-vu9p-f1, $(DEVICE)), aws-vu9p-f1)
-$(error [ERROR]: This example is not supported for $(DEVICE).)
-endif
 ifeq ($(findstring _u25_, $(DEVICE)), _u25_)
 $(error [ERROR]: This example is not supported for $(DEVICE).)
 endif
 ifeq ($(findstring u30, $(DEVICE)), u30)
 $(error [ERROR]: This example is not supported for $(DEVICE).)
 endif
-ifeq ($(findstring u50_gen3x16_xdma_2019, $(DEVICE)), u50_gen3x16_xdma_2019)
+ifeq ($(findstring u50lv, $(DEVICE)), u50lv)
+$(error [ERROR]: This example is not supported for $(DEVICE).)
+endif
+ifeq ($(findstring u50_gen3x4, $(DEVICE)), u50_gen3x4)
+$(error [ERROR]: This example is not supported for $(DEVICE).)
+endif
+ifeq ($(findstring zc, $(DEVICE)), zc)
+$(error [ERROR]: This example is not supported for $(DEVICE).)
+endif
+ifeq ($(findstring vck, $(DEVICE)), vck)
+$(error [ERROR]: This example is not supported for $(DEVICE).)
+endif
+ifeq ($(findstring 2019, $(DEVICE)), 2019)
+$(error [ERROR]: This example is not supported for $(DEVICE).)
+endif
+ifeq ($(findstring 2018, $(DEVICE)), 2018)
+$(error [ERROR]: This example is not supported for $(DEVICE).)
+endif
+ifeq ($(findstring samsung, $(DEVICE)), samsung)
+$(error [ERROR]: This example is not supported for $(DEVICE).)
+endif
+ifeq ($(findstring _u2_, $(DEVICE)), _u2_)
 $(error [ERROR]: This example is not supported for $(DEVICE).)
 endif
 
 ############################## Setting up Host Variables ##############################
 #Include Required Host Source Files
 CXXFLAGS += -I$(XF_PROJ_ROOT)/common/includes/xcl2
-CXXFLAGS += -I$(XF_PROJ_ROOT)/common/includes/cmdparser
-CXXFLAGS += -I$(XF_PROJ_ROOT)/common/includes/logger
-HOST_SRCS += $(XF_PROJ_ROOT)/common/includes/xcl2/xcl2.cpp $(XF_PROJ_ROOT)/common/includes/cmdparser/cmdlineparser.cpp $(XF_PROJ_ROOT)/common/includes/logger/logger.cpp src/host.cpp 
+HOST_SRCS += $(XF_PROJ_ROOT)/common/includes/xcl2/xcl2.cpp ./src/host.cpp 
 # Host compiler global settings
 CXXFLAGS += -fmessage-length=0
 LDFLAGS += -lrt -lstdc++ 
@@ -120,13 +126,17 @@ ifneq ($(TARGET), hw)
 endif
 
 
+# Kernel linker flags
+VPP_LDFLAGS_bandwidth += --config ./krnl_bandwidth.cfg
 
-EXECUTABLE = ./p2p_fpga2fpga_bandwidth
+EXECUTABLE = ./host_memory_bw.exe
 EMCONFIG_DIR = $(TEMP_DIR)
 
 ############################## Declaring Binary Containers ##############################
 BINARY_CONTAINERS += $(BUILD_DIR)/bandwidth.xclbin
 BINARY_CONTAINER_bandwidth_OBJS += $(TEMP_DIR)/bandwidth.xo
+BINARY_CONTAINER_bandwidth_OBJS += $(TEMP_DIR)/read_bandwidth.xo
+BINARY_CONTAINER_bandwidth_OBJS += $(TEMP_DIR)/write_bandwidth.xo
 
 ############################## Setting Targets ##############################
 CP = cp -rf
@@ -147,9 +157,15 @@ xclbin: build
 $(TEMP_DIR)/bandwidth.xo: src/bandwidth.cpp
 	mkdir -p $(TEMP_DIR)
 	$(VPP) $(VPP_FLAGS) -c -k bandwidth --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
+$(TEMP_DIR)/read_bandwidth.xo: src/read_bandwidth.cpp
+	mkdir -p $(TEMP_DIR)
+	$(VPP) $(VPP_FLAGS) -c -k read_bandwidth --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
+$(TEMP_DIR)/write_bandwidth.xo: src/write_bandwidth.cpp
+	mkdir -p $(TEMP_DIR)
+	$(VPP) $(VPP_FLAGS) -c -k write_bandwidth --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
 $(BUILD_DIR)/bandwidth.xclbin: $(BINARY_CONTAINER_bandwidth_OBJS)
 	mkdir -p $(BUILD_DIR)
-	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) -o'$(BUILD_DIR)/bandwidth.link.xclbin' $(+)
+	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) $(VPP_LDFLAGS_bandwidth) -o'$(BUILD_DIR)/bandwidth.link.xclbin' $(+)
 	$(VPP) -p $(BUILD_DIR)/bandwidth.link.xclbin -t $(TARGET) --platform $(DEVICE) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/bandwidth.xclbin
 
 ############################## Setting Rules for Host (Building Host Executable) ##############################
@@ -158,7 +174,7 @@ $(EXECUTABLE): $(HOST_SRCS) | check-xrt
 
 emconfig:$(EMCONFIG_DIR)/emconfig.json
 $(EMCONFIG_DIR)/emconfig.json:
-	emconfigutil --platform $(DEVICE) --od $(EMCONFIG_DIR) --nd 2
+	emconfigutil --platform $(DEVICE) --od $(EMCONFIG_DIR)
 
 ############################## Setting Essential Checks and Running Rules ##############################
 run: all
