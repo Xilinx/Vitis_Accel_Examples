@@ -1,0 +1,45 @@
+Vitis Accel Examples Documentation
+===================================
+Welcome to the Vitis Accel Examples documentation. The repository contains
+the latest examples to get you started with application optimization targeting Xilinx
+PCIe FPGA acceleration boards and Xilinx SoC FPGA acceleration boards. All examples are
+ready to be compiled and executed on Vitis supported boards and accelerated cloud service partners.
+
+.. toctree::
+   :maxdepth: 1
+   :caption: Table of Contents
+
+   prerequisites.rst
+   shells.rst
+   compile_execute.rst
+
+.. toctree::
+   :maxdepth: 1
+   :caption: Category of Examples
+
+   hello_world.rst
+   aie_kernels.rst
+   host.rst
+   host_xrt.rst
+   cpp.rst
+   demo.rst
+   emulation.rst
+   performance.rst
+   sys_opt.rst
+   rtl.rst
+   ocl.rst
+   validate.rst
+   
+.. toctree::
+   :maxdepth: 1
+   :caption: Common Utilities
+
+   common.rst
+
+.. toctree::
+   :maxdepth: 3
+   :caption: Versions
+   :hidden:
+
+   master
+   versions

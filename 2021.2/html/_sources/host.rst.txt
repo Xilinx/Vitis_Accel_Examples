@@ -1,0 +1,34 @@
+Host
+====
+
+OpenCL host code for optimized interfacing with Xilinx Devices.
+
+.. toctree::
+   :maxdepth: 1
+   :caption: List of Examples
+
+   concurrent_kernel_execution.rst
+   copy_buffer.rst
+   data_transfer.rst
+   device_query.rst
+   debug_profile.rst
+   errors.rst
+   errors_cpp.rst
+   hbm_simple.rst
+   hbm_large_buffers.rst
+   hbm_rama_ip.rst
+   iops_test.rst
+   multiple_cus_asymmetrical.rst
+   mult_compute_units.rst
+   overlap.rst
+   p2p_simple.rst
+   p2p_bandwidth.rst
+   p2p_overlap_bandwidth.rst
+   p2p_fpga2fpga.rst
+   host_memory_simple.rst
+   host_memory_copy_buffer.rst
+   host_memory_copy_kernel.rst
+   streaming_free_running_k2k.rst
+   streaming_reg_access.rst
+   device_only_buffer.rst
+   streaming_k2k_mm.rst
