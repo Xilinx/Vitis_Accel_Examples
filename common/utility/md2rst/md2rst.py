@@ -196,7 +196,7 @@ else:
     print ("Generating the README for %s" % data["name"])
     target = open(name + ".rst","w")
     overview(target,data,ref_data)
-    requirements(target,data)
+    requirements(target,data,platform_ref_data)
     hierarchy(target)
     commandargs(target,data)
 
