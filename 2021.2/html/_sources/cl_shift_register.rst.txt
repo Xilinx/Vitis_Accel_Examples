@@ -72,14 +72,9 @@ compiler automatically applies ``loop unrolling`` to the ``shift_loop``.
            output_r[j] = acc;
        }
 
-EXCLUDED PLATFORMS
-------------------
+**EXCLUDED PLATFORMS:** 
 
-Platforms containing following strings in their names are not supported for this example :
-
-::
-
-   nodma
+ - All NoDMA Platforms, i.e u50 nodma etc
 
 DESIGN FILES
 ------------

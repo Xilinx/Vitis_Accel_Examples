@@ -356,7 +356,6 @@
 <li class="toctree-l2"><a class="reference internal" href="rtl_vadd_2clks.html">Vadd 2 Kernel Clocks (RTL Kernel)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="rtl_vadd_2kernels.html">Vadd 2 Kernels (RTL Kernel)</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Hardware Debug (RTL Kernel)</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#excluded-platforms">EXCLUDED PLATFORMS</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#design-files">DESIGN FILES</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#command-line-arguments">COMMAND LINE ARGUMENTS</a></li>
 </ul>
@@ -455,14 +454,13 @@
 <p><strong>For more information on the steps involved in debugging Vitis RTL Kernel Designs check the links below</strong></p>
 <p>[Debug Core setup in the RTL kernel design and host design modifications to allow setup of debug triggers prior to running the kernel](<a class="reference external" href="https://github.com/Xilinx/Vitis_Accel_Examples/wiki/rtl_kernel_debug">https://github.com/Xilinx/Vitis_Accel_Examples/wiki/rtl_kernel_debug</a>)</p>
 <p><strong>KEY CONCEPTS:</strong> <a class="reference external" href="https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/debuggingapplicationskernels.html#xey1524445482547">RTL Kernel Debug</a></p>
-<div class="section" id="excluded-platforms">
-<h2>EXCLUDED PLATFORMS<a class="headerlink" href="#excluded-platforms" title="Permalink to this headline">¶</a></h2>
-<p>Platforms containing following strings in their names are not supported for this example :</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">vck</span>
-<span class="n">nodma</span>
-</pre></div>
-</div>
-</div>
+<p><strong>EXCLUDED PLATFORMS:</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li><p>All Versal Platforms, i.e vck190 etc</p></li>
+<li><p>All NoDMA Platforms, i.e u50 nodma etc</p></li>
+</ul>
+</div></blockquote>
 <div class="section" id="design-files">
 <h2>DESIGN FILES<a class="headerlink" href="#design-files" title="Permalink to this headline">¶</a></h2>
 <p>Application code is located in the src directory. Accelerator binary files will be compiled to the xclbin directory. The xclbin directory is required by the Makefile and its contents will be filled during compilation. A listing of all the files in this example is shown below</p>

@@ -31,26 +31,21 @@ Host only buffer is created using ``host_only`` flag whereas device only buffer 
 
   hostonly_bo_out.copy(deviceonly_bo_out);
 
-EXCLUDED PLATFORMS
-------------------
+**EXCLUDED PLATFORMS:** 
 
-Platforms containing following strings in their names are not supported for this example :
-
-::
-
-   _u25_
-   u30
-   u50c
-   u50lv
-   u50_gen3x4
-   u55
-   zc
-   vck
-   2019
-   2018
-   samsung
-   u250
-   _u2_
+ - Alveo U25 SmartNIC
+ - Alveo U30
+ - Alveo U50c
+ - Alveo U50lv
+ - Alveo U50 gen3x4
+ - Alveo U55
+ - All Embedded Zynq Platforms, i.e zc702, zcu102 etc
+ - All Versal Platforms, i.e vck190 etc
+ - All Platforms with 2019 Version
+ - All Platforms with 2018 Version
+ - Samsung SmartSSD Computation Storage Drive
+ - Alveo U250
+ - Samsung U.2 SmartSSD
 
 DESIGN FILES
 ------------

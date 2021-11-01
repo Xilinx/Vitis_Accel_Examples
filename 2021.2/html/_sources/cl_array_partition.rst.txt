@@ -34,14 +34,9 @@ read/write ports.
 
        int temp_sum[MAX_SIZE]    __attribute__((xcl_array_partition(complete, 1)));
 
-EXCLUDED PLATFORMS
-------------------
+**EXCLUDED PLATFORMS:** 
 
-Platforms containing following strings in their names are not supported for this example :
-
-::
-
-   nodma
+ - All NoDMA Platforms, i.e u50 nodma etc
 
 DESIGN FILES
 ------------

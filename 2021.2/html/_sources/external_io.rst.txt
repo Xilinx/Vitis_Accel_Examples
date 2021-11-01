@@ -30,18 +30,13 @@ Connections to the Custom IP's specified in xo's are made using ``krnl_incr.cfg`
 
 Note : xo instance name specified on v++ command line  becomes a key which will be used by the external process to refer to a particular stream port 
 
-EXCLUDED PLATFORMS
-------------------
+**EXCLUDED PLATFORMS:** 
 
-Platforms containing following strings in their names are not supported for this example :
-
-::
-
-   dma
-   vck5000
-   aws-vu9p-f1
-   samsung
-   _u2_
+ - All Xilinx DMA Platforms
+ - Versal VCK5000
+ - AWS VU9P F1
+ - Samsung SmartSSD Computation Storage Drive
+ - Samsung U.2 SmartSSD
 
 DESIGN FILES
 ------------

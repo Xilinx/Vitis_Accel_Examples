@@ -30,15 +30,10 @@ are executed concurrently. In this case, two ports of BRAM will be
 utilized rather than 1 reducing the total loop latency by half
 approximately.
 
-EXCLUDED PLATFORMS
-------------------
+**EXCLUDED PLATFORMS:** 
 
-Platforms containing following strings in their names are not supported for this example :
-
-::
-
-   nodma
-   _u2_
+ - All NoDMA Platforms, i.e u50 nodma etc
+ - Samsung U.2 SmartSSD
 
 DESIGN FILES
 ------------

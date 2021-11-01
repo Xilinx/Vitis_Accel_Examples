@@ -180,21 +180,16 @@ Following is the real log reported while running the design on U200 platform for
    
    TEST PASSED
 
-EXCLUDED PLATFORMS
-------------------
+**EXCLUDED PLATFORMS:** 
 
-Platforms containing following strings in their names are not supported for this example :
-
-::
-
-   zcu102_base_20
-   zcu104_base_20
-   vck
-   zc7
-   aws-vu9p-f1
-   samsung
-   _u2_
-   nodma
+ - All ZCU102 Platforms except DFX
+ - All ZCU104 Platforms except DFX
+ - All Versal Platforms, i.e vck190 etc
+ - ZC706 Evaluation board
+ - AWS VU9P F1
+ - Samsung SmartSSD Computation Storage Drive
+ - Samsung U.2 SmartSSD
+ - All NoDMA Platforms, i.e u50 nodma etc
 
 DESIGN FILES
 ------------

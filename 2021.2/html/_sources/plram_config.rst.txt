@@ -39,20 +39,15 @@ PLRAM can be assigned to a buffer by using ``sp`` tags in the vadd.cfg file alon
    sp=vadd_1.in2:PLRAM[1]
    sp=vadd_1.out:PLRAM[1]
 
-EXCLUDED PLATFORMS
-------------------
+**EXCLUDED PLATFORMS:** 
 
-Platforms containing following strings in their names are not supported for this example :
-
-::
-
-   _u25_
-   u30
-   zc
-   vck
-   samsung
-   _u2_
-   nodma
+ - Alveo U25 SmartNIC
+ - Alveo U30
+ - All Embedded Zynq Platforms, i.e zc702, zcu102 etc
+ - All Versal Platforms, i.e vck190 etc
+ - Samsung SmartSSD Computation Storage Drive
+ - Samsung U.2 SmartSSD
+ - All NoDMA Platforms, i.e u50 nodma etc
 
 DESIGN FILES
 ------------

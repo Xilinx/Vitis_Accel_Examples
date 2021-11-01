@@ -32,14 +32,9 @@ and write) which are then performed concurrently using ``Dataflow``.
        compute_add(inStream, outStream, inc, size);
        write_result(out, outStream, size);
 
-EXCLUDED PLATFORMS
-------------------
+**EXCLUDED PLATFORMS:** 
 
-Platforms containing following strings in their names are not supported for this example :
-
-::
-
-   nodma
+ - All NoDMA Platforms, i.e u50 nodma etc
 
 DESIGN FILES
 ------------

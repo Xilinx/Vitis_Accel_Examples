@@ -32,14 +32,9 @@ Vector addition in kernel is divided into 4 sub-tasks(read input 1, read input 2
        compute_add(in1_stream, in2_stream, out_stream, vSize);
        store_result(out, out_stream, vSize);
 
-EXCLUDED PLATFORMS
-------------------
+**EXCLUDED PLATFORMS:** 
 
-Platforms containing following strings in their names are not supported for this example :
-
-::
-
-   nodma
+ - All NoDMA Platforms, i.e u50 nodma etc
 
 DESIGN FILES
 ------------

@@ -8,16 +8,11 @@ This example uses two simple increment RTL kernels connected to each other via s
 **KEYWORDS:** `ap_axiu <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/streamingconnections.html#tzq1555344621950>`__, `hls::stream <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/hls_stream_library.html>`__
 
 
-EXCLUDED PLATFORMS
-------------------
+**EXCLUDED PLATFORMS:** 
 
-Platforms containing following strings in their names are not supported for this example :
-
-::
-
-   vck
-   zc706
-   nodma
+ - All Versal Platforms, i.e vck190 etc
+ - ZC706 Evaluation board
+ - All NoDMA Platforms, i.e u50 nodma etc
 
 DESIGN FILES
 ------------

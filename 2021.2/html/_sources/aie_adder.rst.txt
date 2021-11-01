@@ -88,19 +88,14 @@ The stream_connect (sc) options defines connections between the ports of the AI 
 
 From the config file, we define connections between the streaming outputs of mm2s_1 & mm2s_2 and the DataIn0 & Datain1 input port of the AI Engine graph respectively. The output port DataOut of the AI Engine graph is connected to the streaming input port of s2mm.   
 
-EXCLUDED PLATFORMS
-------------------
+**EXCLUDED PLATFORMS:** 
 
-Platforms containing following strings in their names are not supported for this example :
-
-::
-
-   zc
-   aws-vu9p-f1
-   samsung
-   _u2_
-   vck5000
-   dma
+ - All Embedded Zynq Platforms, i.e zc702, zcu102 etc
+ - AWS VU9P F1
+ - Samsung SmartSSD Computation Storage Drive
+ - Samsung U.2 SmartSSD
+ - Versal VCK5000
+ - All Xilinx DMA Platforms
 
 DESIGN FILES
 ------------

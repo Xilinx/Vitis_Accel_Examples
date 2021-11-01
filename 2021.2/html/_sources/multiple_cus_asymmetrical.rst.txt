@@ -52,22 +52,17 @@ The kernel object which is created above is very specific to ``vadd_1``
 compute unit. Using this Kernel Object, host can directly access to this
 fix compute unit.
 
-EXCLUDED PLATFORMS
-------------------
+**EXCLUDED PLATFORMS:** 
 
-Platforms containing following strings in their names are not supported for this example :
-
-::
-
-   _u25_
-   u30
-   u50
-   u55
-   vck
-   samsung
-   _u2_
-   zc
-   nodma
+ - Alveo U25 SmartNIC
+ - Alveo U30
+ - Alveo U50
+ - Alveo U55
+ - All Versal Platforms, i.e vck190 etc
+ - Samsung SmartSSD Computation Storage Drive
+ - Samsung U.2 SmartSSD
+ - All Embedded Zynq Platforms, i.e zc702, zcu102 etc
+ - All NoDMA Platforms, i.e u50 nodma etc
 
 DESIGN FILES
 ------------

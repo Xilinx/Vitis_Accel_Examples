@@ -49,18 +49,13 @@ platform with 10 iterations:
      Speedup:                | 1.74657	                
     -------------------------+-------------------------
 
-EXCLUDED PLATFORMS
-------------------
+**EXCLUDED PLATFORMS:** 
 
-Platforms containing following strings in their names are not supported for this example :
-
-::
-
-   samsung
-   vck
-   zc
-   _u2_
-   nodma
+ - Samsung SmartSSD Computation Storage Drive
+ - All Versal Platforms, i.e vck190 etc
+ - All Embedded Zynq Platforms, i.e zc702, zcu102 etc
+ - Samsung U.2 SmartSSD
+ - All NoDMA Platforms, i.e u50 nodma etc
 
 DESIGN FILES
 ------------

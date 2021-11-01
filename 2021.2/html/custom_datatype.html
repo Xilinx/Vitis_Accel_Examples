@@ -349,7 +349,6 @@
 <li class="toctree-l2"><a class="reference internal" href="bind_op_storage.html">BIND OP and STORAGE</a></li>
 <li class="toctree-l2"><a class="reference internal" href="critical_path.html">Critical Path</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Custom Data Type</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#excluded-platforms">EXCLUDED PLATFORMS</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#design-files">DESIGN FILES</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#command-line-arguments">COMMAND LINE ARGUMENTS</a></li>
 </ul>
@@ -497,13 +496,12 @@ input and output ports.</p>
 <code class="docutils literal notranslate"><span class="pre">kernel</span> <span class="pre">arguments</span></code> thus reducing the number of interfaces between
 kernels and memory. It can also help to reduce execution time to set
 kernel arguments if number of kernel arguments is large.</p>
-<div class="section" id="excluded-platforms">
-<h2>EXCLUDED PLATFORMS<a class="headerlink" href="#excluded-platforms" title="Permalink to this headline">¶</a></h2>
-<p>Platforms containing following strings in their names are not supported for this example :</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">nodma</span>
-</pre></div>
-</div>
-</div>
+<p><strong>EXCLUDED PLATFORMS:</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li><p>All NoDMA Platforms, i.e u50 nodma etc</p></li>
+</ul>
+</div></blockquote>
 <div class="section" id="design-files">
 <h2>DESIGN FILES<a class="headerlink" href="#design-files" title="Permalink to this headline">¶</a></h2>
 <p>Application code is located in the src directory. Accelerator binary files will be compiled to the xclbin directory. The xclbin directory is required by the Makefile and its contents will be filled during compilation. A listing of all the files in this example is shown below</p>

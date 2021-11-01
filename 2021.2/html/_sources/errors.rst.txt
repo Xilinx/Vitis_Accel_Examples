@@ -100,14 +100,9 @@ pointer is correct and that you are transferring less than the size of
 the buffer. Here we tried to transfer data that was larger than the size
 of the buffer.
 
-EXCLUDED PLATFORMS
-------------------
+**EXCLUDED PLATFORMS:** 
 
-Platforms containing following strings in their names are not supported for this example :
-
-::
-
-   nodma
+ - All NoDMA Platforms, i.e u50 nodma etc
 
 DESIGN FILES
 ------------

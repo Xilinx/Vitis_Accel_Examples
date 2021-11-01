@@ -21,15 +21,10 @@ This example is to get the details of all the devices connected to a system. . T
    TEST PASSED
 
 
-EXCLUDED PLATFORMS
-------------------
+**EXCLUDED PLATFORMS:** 
 
-Platforms containing following strings in their names are not supported for this example :
-
-::
-
-   zc
-   vck
+ - All Embedded Zynq Platforms, i.e zc702, zcu102 etc
+ - All Versal Platforms, i.e vck190 etc
 
 DESIGN FILES
 ------------

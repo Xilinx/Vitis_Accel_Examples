@@ -349,7 +349,6 @@
 <li class="toctree-l2 current"><a class="current reference internal" href="#">BIND OP and STORAGE</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#bind-op-pragma">bind_op pragma</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#bind-storage-pragma">bind_storage pragma</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#excluded-platforms">EXCLUDED PLATFORMS</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#design-files">DESIGN FILES</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#command-line-arguments">COMMAND LINE ARGUMENTS</a></li>
 </ul>
@@ -498,15 +497,14 @@ this example we are using RAM_1P with latency 2 for input buffers.</p>
 <span class="c1">#pragma HLS BIND_STORAGE variable=vout_buffer type=RAM_1P impl=URAM</span>
 </pre></div>
 </div>
-<div class="section" id="excluded-platforms">
-<h3>EXCLUDED PLATFORMS<a class="headerlink" href="#excluded-platforms" title="Permalink to this headline">¶</a></h3>
-<p>Platforms containing following strings in their names are not supported for this example :</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">zcu102</span>
-<span class="n">zc706</span>
-<span class="n">nodma</span>
-</pre></div>
-</div>
-</div>
+<p><strong>EXCLUDED PLATFORMS:</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Embedded ZCU102</p></li>
+<li><p>ZC706 Evaluation board</p></li>
+<li><p>All NoDMA Platforms, i.e u50 nodma etc</p></li>
+</ul>
+</div></blockquote>
 <div class="section" id="design-files">
 <h3>DESIGN FILES<a class="headerlink" href="#design-files" title="Permalink to this headline">¶</a></h3>
 <p>Application code is located in the src directory. Accelerator binary files will be compiled to the xclbin directory. The xclbin directory is required by the Makefile and its contents will be filled during compilation. A listing of all the files in this example is shown below</p>

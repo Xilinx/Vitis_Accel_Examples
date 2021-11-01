@@ -55,14 +55,9 @@ device. Until all the child processes are finished, parent process
 **LIMITATION**: In Emulation flow, Debug and Profile will not function
 correctly when multi-process has been enabled.
 
-EXCLUDED PLATFORMS
-------------------
+**EXCLUDED PLATFORMS:** 
 
-Platforms containing following strings in their names are not supported for this example :
-
-::
-
-   nodma
+ - All NoDMA Platforms, i.e u50 nodma etc
 
 DESIGN FILES
 ------------

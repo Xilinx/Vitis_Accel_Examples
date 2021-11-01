@@ -39,18 +39,13 @@ To generate the TLM wrapper source and its XO do:
         cd xo_build
         create_sc_xo <path-to-hls-kernel.cpp> <path-to-hls-kernel.json>
 
-EXCLUDED PLATFORMS
-------------------
+**EXCLUDED PLATFORMS:** 
 
-Platforms containing following strings in their names are not supported for this example :
-
-::
-
-   2018
-   aws
-   _u2_
-   zc702
-   nodma
+ - All Platforms with 2018 Version
+ - AWS VU9P F1
+ - Samsung U.2 SmartSSD
+ - Embedded ZC702
+ - All NoDMA Platforms, i.e u50 nodma etc
 
 DESIGN FILES
 ------------

@@ -21,14 +21,9 @@ Using device_only flag we mention that the buffer is device only buffer
 and the flag is passed as argument during buffer creation.
 
 
-EXCLUDED PLATFORMS
-------------------
+**EXCLUDED PLATFORMS:** 
 
-Platforms containing following strings in their names are not supported for this example :
-
-::
-
-   nodma
+ - All NoDMA Platforms, i.e u50 nodma etc
 
 DESIGN FILES
 ------------

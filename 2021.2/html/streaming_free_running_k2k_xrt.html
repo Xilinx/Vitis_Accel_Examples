@@ -358,7 +358,6 @@
 <li class="toctree-l2"><a class="reference internal" href="host_memory_copy_buffer_xrt.html">Host Memory Copy Buffer XRT (XRT Native API’s)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="host_memory_copy_kernel_xrt.html">Kernel XRT (XRT Native API’s)</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Stream Free Running Kernel (XRT Native API’s)</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#excluded-platforms">EXCLUDED PLATFORMS</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#design-files">DESIGN FILES</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#command-line-arguments">COMMAND LINE ARGUMENTS</a></li>
 </ul>
@@ -505,20 +504,19 @@ connection. This connectivity file is provided to v++ command as below:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">--</span><span class="n">config</span> <span class="n">krnl_incr</span><span class="o">.</span><span class="n">cfg</span>
 </pre></div>
 </div>
-<div class="section" id="excluded-platforms">
-<h2>EXCLUDED PLATFORMS<a class="headerlink" href="#excluded-platforms" title="Permalink to this headline">¶</a></h2>
-<p>Platforms containing following strings in their names are not supported for this example :</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">2018</span>
-<span class="n">qep</span>
-<span class="n">aws</span><span class="o">-</span><span class="n">vu9p</span><span class="o">-</span><span class="n">f1</span>
-<span class="n">samsung</span>
-<span class="n">vck</span>
-<span class="n">zc</span>
-<span class="n">_u2_</span>
-<span class="n">nodma</span>
-</pre></div>
-</div>
-</div>
+<p><strong>EXCLUDED PLATFORMS:</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li><p>All Platforms with 2018 Version</p></li>
+<li><p>qep</p></li>
+<li><p>AWS VU9P F1</p></li>
+<li><p>Samsung SmartSSD Computation Storage Drive</p></li>
+<li><p>All Versal Platforms, i.e vck190 etc</p></li>
+<li><p>All Embedded Zynq Platforms, i.e zc702, zcu102 etc</p></li>
+<li><p>Samsung U.2 SmartSSD</p></li>
+<li><p>All NoDMA Platforms, i.e u50 nodma etc</p></li>
+</ul>
+</div></blockquote>
 <div class="section" id="design-files">
 <h2>DESIGN FILES<a class="headerlink" href="#design-files" title="Permalink to this headline">¶</a></h2>
 <p>Application code is located in the src directory. Accelerator binary files will be compiled to the xclbin directory. The xclbin directory is required by the Makefile and its contents will be filled during compilation. A listing of all the files in this example is shown below</p>

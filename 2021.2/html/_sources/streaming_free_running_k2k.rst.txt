@@ -60,20 +60,15 @@ connection. This connectivity file is provided to v++ command as below:
 
     --config krnl_incr.cfg
 
-EXCLUDED PLATFORMS
-------------------
+**EXCLUDED PLATFORMS:** 
 
-Platforms containing following strings in their names are not supported for this example :
-
-::
-
-   2018
-   qep
-   aws-vu9p-f1
-   samsung
-   _u2_
-   zc702
-   nodma
+ - All Platforms with 2018 Version
+ - qep
+ - AWS VU9P F1
+ - Samsung SmartSSD Computation Storage Drive
+ - Samsung U.2 SmartSSD
+ - Embedded ZC702
+ - All NoDMA Platforms, i.e u50 nodma etc
 
 DESIGN FILES
 ------------

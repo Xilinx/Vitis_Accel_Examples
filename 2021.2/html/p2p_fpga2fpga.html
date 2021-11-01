@@ -581,20 +581,19 @@ Computed &#39;65536/65536&#39; correct values!
 Test passed!
 </pre></div>
 </div>
-<div class="section" id="excluded-platforms">
-<h4>EXCLUDED PLATFORMS<a class="headerlink" href="#excluded-platforms" title="Permalink to this headline">¶</a></h4>
-<p>Platforms containing following strings in their names are not supported for this example :</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">flat</span>
-<span class="n">zc</span>
-<span class="mi">201910</span>
-<span class="n">vck</span>
-<span class="n">aws</span><span class="o">-</span><span class="n">vu9p</span><span class="o">-</span><span class="n">f1</span>
-<span class="n">_u25_</span>
-<span class="n">u30</span>
-<span class="n">u50_gen3x16_xdma_2019</span>
-</pre></div>
-</div>
-</div>
+<p><strong>EXCLUDED PLATFORMS:</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li><p>All Samsung U.2 flat</p></li>
+<li><p>All Embedded Zynq Platforms, i.e zc702, zcu102 etc</p></li>
+<li><p>All Platforms with 201910 Version</p></li>
+<li><p>All Versal Platforms, i.e vck190 etc</p></li>
+<li><p>AWS VU9P F1</p></li>
+<li><p>Alveo U25 SmartNIC</p></li>
+<li><p>Alveo U30</p></li>
+<li><p>Alveo U50 gen3x16 xdma 2019 Version</p></li>
+</ul>
+</div></blockquote>
 <div class="section" id="design-files">
 <h4>DESIGN FILES<a class="headerlink" href="#design-files" title="Permalink to this headline">¶</a></h4>
 <p>Application code is located in the src directory. Accelerator binary files will be compiled to the xclbin directory. The xclbin directory is required by the Makefile and its contents will be filled during compilation. A listing of all the files in this example is shown below</p>

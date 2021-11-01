@@ -22,14 +22,9 @@ The API xrt::bo::copy also has overloaded version to provide a different
 offset than 0 for both the source and the destination buffer.
 
 
-EXCLUDED PLATFORMS
-------------------
+**EXCLUDED PLATFORMS:** 
 
-Platforms containing following strings in their names are not supported for this example :
-
-::
-
-   nodma
+ - All NoDMA Platforms, i.e u50 nodma etc
 
 DESIGN FILES
 ------------

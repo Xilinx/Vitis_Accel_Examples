@@ -122,14 +122,9 @@ Generating XO from source file has many intermediate steps like generating packa
         vadd.xo: vadd.cpp
             create_sc_xo vadd.cpp
 
-EXCLUDED PLATFORMS
-------------------
+**EXCLUDED PLATFORMS:** 
 
-Platforms containing following strings in their names are not supported for this example :
-
-::
-
-   nodma
+ - All NoDMA Platforms, i.e u50 nodma etc
 
 DESIGN FILES
 ------------

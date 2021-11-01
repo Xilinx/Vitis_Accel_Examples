@@ -358,7 +358,6 @@
 <li class="toctree-l2"><a class="reference internal" href="rtl_vadd_hw_debug.html">Hardware Debug (RTL Kernel)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="rtl_vadd_mixed_c_vadd.html">Mixed Kernels (RTL &amp; C)</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">User Managed IP (RTL Kernel)</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#excluded-platforms">EXCLUDED PLATFORMS</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#design-files">DESIGN FILES</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#command-line-arguments">COMMAND LINE ARGUMENTS</a></li>
 </ul>
@@ -523,13 +522,12 @@ with a void return value, scalar arguments, and pointer arguments.</p>
 <p>The RTL Kernel Wizard automates some of the steps that need to be taken
 to ensure that the RTL IP is packaged into a kernel that can be
 integrated into a system in Vitis environment.</p>
-<div class="section" id="excluded-platforms">
-<h2>EXCLUDED PLATFORMS<a class="headerlink" href="#excluded-platforms" title="Permalink to this headline">¶</a></h2>
-<p>Platforms containing following strings in their names are not supported for this example :</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">nodma</span>
-</pre></div>
-</div>
-</div>
+<p><strong>EXCLUDED PLATFORMS:</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li><p>All NoDMA Platforms, i.e u50 nodma etc</p></li>
+</ul>
+</div></blockquote>
 <div class="section" id="design-files">
 <h2>DESIGN FILES<a class="headerlink" href="#design-files" title="Permalink to this headline">¶</a></h2>
 <p>Application code is located in the src directory. Accelerator binary files will be compiled to the xclbin directory. The xclbin directory is required by the Makefile and its contents will be filled during compilation. A listing of all the files in this example is shown below</p>

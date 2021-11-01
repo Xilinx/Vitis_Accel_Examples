@@ -78,22 +78,17 @@ platform:
 
    TEST PASSED
 
-EXCLUDED PLATFORMS
-------------------
+**EXCLUDED PLATFORMS:** 
 
-Platforms containing following strings in their names are not supported for this example :
-
-::
-
-   _u25_
-   u30
-   u50
-   u55
-   u280
-   vck
-   samsung
-   _u2_
-   zc
+ - Alveo U25 SmartNIC
+ - Alveo U30
+ - Alveo U50
+ - Alveo U55
+ - Alveo U280
+ - All Versal Platforms, i.e vck190 etc
+ - Samsung SmartSSD Computation Storage Drive
+ - Samsung U.2 SmartSSD
+ - All Embedded Zynq Platforms, i.e zc702, zcu102 etc
 
 DESIGN FILES
 ------------

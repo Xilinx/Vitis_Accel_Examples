@@ -49,14 +49,9 @@ This is a simple hello world example to explain the XRT Native API's
     currently loaded xclbin. Most interaction with kernel objects are through
     xrt::run objects created from the kernel object to represent an execution of the kernel 
 
-EXCLUDED PLATFORMS
-------------------
+**EXCLUDED PLATFORMS:** 
 
-Platforms containing following strings in their names are not supported for this example :
-
-::
-
-   nodma
+ - All NoDMA Platforms, i.e u50 nodma etc
 
 DESIGN FILES
 ------------

@@ -29,14 +29,9 @@ global memory, ``compute_add`` for addition of these inputs and
        write_result(out,buffer_out,size);
    }
 
-EXCLUDED PLATFORMS
-------------------
+**EXCLUDED PLATFORMS:** 
 
-Platforms containing following strings in their names are not supported for this example :
-
-::
-
-   nodma
+ - All NoDMA Platforms, i.e u50 nodma etc
 
 DESIGN FILES
 ------------

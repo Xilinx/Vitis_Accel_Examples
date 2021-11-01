@@ -99,15 +99,10 @@ details as below:
      device printf buffer size              : 0
    TEST PASSED
 
-EXCLUDED PLATFORMS
-------------------
+**EXCLUDED PLATFORMS:** 
 
-Platforms containing following strings in their names are not supported for this example :
-
-::
-
-   zc
-   vck
+ - All Embedded Zynq Platforms, i.e zc702, zcu102 etc
+ - All Versal Platforms, i.e vck190 etc
 
 DESIGN FILES
 ------------

@@ -44,20 +44,15 @@ platform:
    Commands: 1000000 iops: 714332
    TEST PASSED
 
-EXCLUDED PLATFORMS
-------------------
+**EXCLUDED PLATFORMS:** 
 
-Platforms containing following strings in their names are not supported for this example :
-
-::
-
-   nodma
-   zc
-   vck
-   u50_gen3x4
-   u200
-   u250
-   2019
+ - All NoDMA Platforms, i.e u50 nodma etc
+ - All Embedded Zynq Platforms, i.e zc702, zcu102 etc
+ - All Versal Platforms, i.e vck190 etc
+ - Alveo U50 gen3x4
+ - Alveo U200
+ - Alveo U250
+ - All Platforms with 2019 Version
 
 DESIGN FILES
 ------------

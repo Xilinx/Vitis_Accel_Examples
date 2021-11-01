@@ -46,18 +46,13 @@ Content of ``krnl_stream_vadd_vmult.cfg`` file is below:
 Above specify that ``out`` port of ``krnl_stream_vadd_1`` kernel is
 connected to ``in2`` port of ``krnl_stream_vmult_1``. The FIFO depth of this stream is 64.
 
-EXCLUDED PLATFORMS
-------------------
+**EXCLUDED PLATFORMS:** 
 
-Platforms containing following strings in their names are not supported for this example :
-
-::
-
-   samsung
-   _u2_
-   vck
-   zc
-   nodma
+ - Samsung SmartSSD Computation Storage Drive
+ - Samsung U.2 SmartSSD
+ - All Versal Platforms, i.e vck190 etc
+ - All Embedded Zynq Platforms, i.e zc702, zcu102 etc
+ - All NoDMA Platforms, i.e u50 nodma etc
 
 DESIGN FILES
 ------------

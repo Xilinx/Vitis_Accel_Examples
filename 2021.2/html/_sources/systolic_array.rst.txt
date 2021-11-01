@@ -49,16 +49,11 @@ the FPGA.
            }
        }
 
-EXCLUDED PLATFORMS
-------------------
+**EXCLUDED PLATFORMS:** 
 
-Platforms containing following strings in their names are not supported for this example :
-
-::
-
-   zcu104_base
-   zc702_base
-   nodma
+ - Embedded ZCU104
+ - Embedded ZC702
+ - All NoDMA Platforms, i.e u50 nodma etc
 
 DESIGN FILES
 ------------

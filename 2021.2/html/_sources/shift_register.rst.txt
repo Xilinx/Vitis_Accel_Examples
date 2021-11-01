@@ -94,14 +94,9 @@ Following is the log reported while running the design on U250 platform:
    Please refer to profile summary for kernel execution time for hardware emulation.
    TEST PASSED
 
-EXCLUDED PLATFORMS
-------------------
+**EXCLUDED PLATFORMS:** 
 
-Platforms containing following strings in their names are not supported for this example :
-
-::
-
-   nodma
+ - All NoDMA Platforms, i.e u50 nodma etc
 
 DESIGN FILES
 ------------

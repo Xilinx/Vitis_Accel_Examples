@@ -351,7 +351,6 @@
 <li class="toctree-l2"><a class="reference internal" href="advanced_config.html">Advanced Configuration</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ddr_data_retention.html">DDR Data Retention</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Kernel Swap</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#excluded-platforms">EXCLUDED PLATFORMS</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#design-files">DESIGN FILES</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#command-line-arguments">COMMAND LINE ARGUMENTS</a></li>
 </ul>
@@ -487,18 +486,17 @@ execution.</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">q</span><span class="p">.</span><span class="n">enqueueMigrateMemObjects</span><span class="p">({</span><span class="n">d_temp</span><span class="p">},</span> <span class="mi">0</span><span class="cm">/* 0 means from host*/</span><span class="p">);</span>
 </pre></div>
 </div>
-<div class="section" id="excluded-platforms">
-<h2>EXCLUDED PLATFORMS<a class="headerlink" href="#excluded-platforms" title="Permalink to this headline">¶</a></h2>
-<p>Platforms containing following strings in their names are not supported for this example :</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">flat</span>
-<span class="n">zcu102_base_20</span>
-<span class="n">zcu104_base_20</span>
-<span class="n">vck</span>
-<span class="n">zc7</span>
-<span class="n">nodma</span>
-</pre></div>
-</div>
-</div>
+<p><strong>EXCLUDED PLATFORMS:</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li><p>All Samsung U.2 flat</p></li>
+<li><p>All ZCU102 Platforms except DFX</p></li>
+<li><p>All ZCU104 Platforms except DFX</p></li>
+<li><p>All Versal Platforms, i.e vck190 etc</p></li>
+<li><p>ZC706 Evaluation board</p></li>
+<li><p>All NoDMA Platforms, i.e u50 nodma etc</p></li>
+</ul>
+</div></blockquote>
 <div class="section" id="design-files">
 <h2>DESIGN FILES<a class="headerlink" href="#design-files" title="Permalink to this headline">¶</a></h2>
 <p>Application code is located in the src directory. Accelerator binary files will be compiled to the xclbin directory. The xclbin directory is required by the Makefile and its contents will be filled during compilation. A listing of all the files in this example is shown below</p>

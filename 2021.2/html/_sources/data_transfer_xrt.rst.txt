@@ -46,14 +46,9 @@ The following APIs are used for the above tasks
     std::cout << "Read the output data\n";
     output_buffer.read(buff_out_data);
 
-EXCLUDED PLATFORMS
-------------------
+**EXCLUDED PLATFORMS:** 
 
-Platforms containing following strings in their names are not supported for this example :
-
-::
-
-   nodma
+ - All NoDMA Platforms, i.e u50 nodma etc
 
 DESIGN FILES
 ------------

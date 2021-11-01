@@ -81,21 +81,16 @@ Disable P2P
    GEN 3x16        2               true            false
    ...
 
-EXCLUDED PLATFORMS
-------------------
+**EXCLUDED PLATFORMS:** 
 
-Platforms containing following strings in their names are not supported for this example :
-
-::
-
-   zc
-   201910
-   2018
-   vck
-   aws-vu9p-f1
-   _u25_
-   u30
-   u50_gen3x16_xdma_2019
+ - All Embedded Zynq Platforms, i.e zc702, zcu102 etc
+ - All Platforms with 201910 Version
+ - All Platforms with 2018 Version
+ - All Versal Platforms, i.e vck190 etc
+ - AWS VU9P F1
+ - Alveo U25 SmartNIC
+ - Alveo U30
+ - Alveo U50 gen3x16 xdma 2019 Version
 
 DESIGN FILES
 ------------

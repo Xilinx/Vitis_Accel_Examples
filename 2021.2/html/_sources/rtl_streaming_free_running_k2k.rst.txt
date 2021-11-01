@@ -35,17 +35,12 @@ This stream connection specifies that ``stream`` streaming port of ``mem_read`` 
 
     --config myadder.cfg
 
-EXCLUDED PLATFORMS
-------------------
+**EXCLUDED PLATFORMS:** 
 
-Platforms containing following strings in their names are not supported for this example :
-
-::
-
-   2018
-   vck
-   zc706
-   nodma
+ - All Platforms with 2018 Version
+ - All Versal Platforms, i.e vck190 etc
+ - ZC706 Evaluation board
+ - All NoDMA Platforms, i.e u50 nodma etc
 
 DESIGN FILES
 ------------

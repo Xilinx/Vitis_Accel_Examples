@@ -363,7 +363,6 @@
 <li class="toctree-l2"><a class="reference internal" href="host_memory_simple.html">Host Memory Simple</a></li>
 <li class="toctree-l2"><a class="reference internal" href="host_memory_copy_buffer.html">Host Memory Copy Buffer</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Host Memory Copy Kernel</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#excluded-platforms">EXCLUDED PLATFORMS</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#design-files">DESIGN FILES</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#command-line-arguments">COMMAND LINE ARGUMENTS</a></li>
 </ul>
@@ -477,21 +476,20 @@
 <li><p>Enqueue kernel <code class="docutils literal notranslate"><span class="pre">krnl_vadd</span></code> to do computations on DEVICE_ONLY input buffer <code class="docutils literal notranslate"><span class="pre">buffer_in_dev</span></code> and put output in DEVICE_ONLY output buffer <code class="docutils literal notranslate"><span class="pre">buffer_out_dev</span></code>.</p></li>
 <li><p>Enqueue kernel <code class="docutils literal notranslate"><span class="pre">copy_kernel</span></code> to copy the DEVICE_ONLY output buffer <code class="docutils literal notranslate"><span class="pre">buffer_out_dev</span></code> into  HOST_ONLY output buffer <code class="docutils literal notranslate"><span class="pre">buffer_out_host</span></code>.</p></li>
 </ol>
-<div class="section" id="excluded-platforms">
-<h2>EXCLUDED PLATFORMS<a class="headerlink" href="#excluded-platforms" title="Permalink to this headline">¶</a></h2>
-<p>Platforms containing following strings in their names are not supported for this example :</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">_u25_</span>
-<span class="n">u30</span>
-<span class="n">u50lv</span>
-<span class="n">u50_gen3x4</span>
-<span class="n">zc</span>
-<span class="n">vck</span>
-<span class="mi">2019</span>
-<span class="mi">2018</span>
-<span class="n">_u2_</span>
-</pre></div>
-</div>
-</div>
+<p><strong>EXCLUDED PLATFORMS:</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Alveo U25 SmartNIC</p></li>
+<li><p>Alveo U30</p></li>
+<li><p>Alveo U50lv</p></li>
+<li><p>Alveo U50 gen3x4</p></li>
+<li><p>All Embedded Zynq Platforms, i.e zc702, zcu102 etc</p></li>
+<li><p>All Versal Platforms, i.e vck190 etc</p></li>
+<li><p>All Platforms with 2019 Version</p></li>
+<li><p>All Platforms with 2018 Version</p></li>
+<li><p>Samsung U.2 SmartSSD</p></li>
+</ul>
+</div></blockquote>
 <div class="section" id="design-files">
 <h2>DESIGN FILES<a class="headerlink" href="#design-files" title="Permalink to this headline">¶</a></h2>
 <p>Application code is located in the src directory. Accelerator binary files will be compiled to the xclbin directory. The xclbin directory is required by the Makefile and its contents will be filled during compilation. A listing of all the files in this example is shown below</p>

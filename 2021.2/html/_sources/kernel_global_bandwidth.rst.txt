@@ -81,18 +81,13 @@ Note: The selected platform must support 4DDR.
       ../src/<config_file.cfg> 5.Define NDDR_BANKS 4 in kernel “#define
       NDDR_BANKS 4” at the top of kernel.cl
 
-EXCLUDED PLATFORMS
-------------------
+**EXCLUDED PLATFORMS:** 
 
-Platforms containing following strings in their names are not supported for this example :
-
-::
-
-   _u2_
-   u30
-   u50
-   u55
-   vck5000
+ - Samsung U.2 SmartSSD
+ - Alveo U30
+ - Alveo U50
+ - Alveo U55
+ - Versal VCK5000
 
 DESIGN FILES
 ------------

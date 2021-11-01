@@ -45,14 +45,9 @@ Custom datatypes can be used to reduce the number of
 kernels and memory. It can also help to reduce execution time to set
 kernel arguments if number of kernel arguments is large.
 
-EXCLUDED PLATFORMS
-------------------
+**EXCLUDED PLATFORMS:** 
 
-Platforms containing following strings in their names are not supported for this example :
-
-::
-
-   nodma
+ - All NoDMA Platforms, i.e u50 nodma etc
 
 DESIGN FILES
 ------------

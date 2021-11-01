@@ -343,7 +343,6 @@
 <li class="toctree-l1 current"><a class="reference internal" href="aie_kernels.html">AIE Examples</a><ul class="current">
 <li class="toctree-l2 current"><a class="current reference internal" href="#">AIE Adder</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#aie-graph">AIE Graph</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#excluded-platforms">EXCLUDED PLATFORMS</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#design-files">DESIGN FILES</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#command-line-arguments">COMMAND LINE ARGUMENTS</a></li>
 </ul>
@@ -522,18 +521,17 @@ An AI Engine program consists of a Data Flow Graph Specification written in C++.
 <p>We specify two CUs of mm2s called mm2s_1 and mm2s_2, and one CU of s2mm.</p>
 <p>The stream_connect (sc) options defines connections between the ports of the AI Engine graph and streaming ports of PL kernels that are not included in the graph.</p>
 <p>From the config file, we define connections between the streaming outputs of mm2s_1 &amp; mm2s_2 and the DataIn0 &amp; Datain1 input port of the AI Engine graph respectively. The output port DataOut of the AI Engine graph is connected to the streaming input port of s2mm.</p>
-</div>
-<div class="section" id="excluded-platforms">
-<h2>EXCLUDED PLATFORMS<a class="headerlink" href="#excluded-platforms" title="Permalink to this headline">¶</a></h2>
-<p>Platforms containing following strings in their names are not supported for this example :</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">zc</span>
-<span class="n">aws</span><span class="o">-</span><span class="n">vu9p</span><span class="o">-</span><span class="n">f1</span>
-<span class="n">samsung</span>
-<span class="n">_u2_</span>
-<span class="n">vck5000</span>
-<span class="n">dma</span>
-</pre></div>
-</div>
+<p><strong>EXCLUDED PLATFORMS:</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li><p>All Embedded Zynq Platforms, i.e zc702, zcu102 etc</p></li>
+<li><p>AWS VU9P F1</p></li>
+<li><p>Samsung SmartSSD Computation Storage Drive</p></li>
+<li><p>Samsung U.2 SmartSSD</p></li>
+<li><p>Versal VCK5000</p></li>
+<li><p>All Xilinx DMA Platforms</p></li>
+</ul>
+</div></blockquote>
 </div>
 <div class="section" id="design-files">
 <h2>DESIGN FILES<a class="headerlink" href="#design-files" title="Permalink to this headline">¶</a></h2>

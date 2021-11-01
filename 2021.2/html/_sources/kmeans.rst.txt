@@ -48,20 +48,15 @@ platform with 8 compute units:
      Total K-Means Compute Time :   15208.3733 ms
    ------------------------------------------------------
 
-EXCLUDED PLATFORMS
-------------------
+**EXCLUDED PLATFORMS:** 
 
-Platforms containing following strings in their names are not supported for this example :
-
-::
-
-   zc
-   vck
-   u200_gen3x16
-   u30
-   nodma
-   _u2_
-   samsung
+ - All Embedded Zynq Platforms, i.e zc702, zcu102 etc
+ - All Versal Platforms, i.e vck190 etc
+ - u200_gen3x16
+ - Alveo U30
+ - All NoDMA Platforms, i.e u50 nodma etc
+ - Samsung U.2 SmartSSD
+ - Samsung SmartSSD Computation Storage Drive
 
 DESIGN FILES
 ------------

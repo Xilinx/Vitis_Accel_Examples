@@ -45,16 +45,11 @@ this example we are using RAM_1P with latency 2 for input buffers.
    #pragma HLS BIND_STORAGE variable=v2_buffer type=RAM_1P impl=LUTRAM latency=2
    #pragma HLS BIND_STORAGE variable=vout_buffer type=RAM_1P impl=URAM
 
-EXCLUDED PLATFORMS
-------------------
+**EXCLUDED PLATFORMS:** 
 
-Platforms containing following strings in their names are not supported for this example :
-
-::
-
-   zcu102
-   zc706
-   nodma
+ - Embedded ZCU102
+ - ZC706 Evaluation board
+ - All NoDMA Platforms, i.e u50 nodma etc
 
 DESIGN FILES
 ------------
