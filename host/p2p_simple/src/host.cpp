@@ -146,11 +146,13 @@ int main(int argc, char** argv) {
     parser.addSwitch("--xclbin_file", "-x", "input binary file string", "");
     parser.addSwitch("--file_path", "-p", "file path string", "");
     parser.addSwitch("--input_file", "-f", "input file string", "");
+    parser.addSwitch("--device", "-d", "device id", "0");
     parser.parse(argc, argv);
 
     // Read settings
     auto binaryFile = parser.value("xclbin_file");
     std::string filepath = parser.value("file_path");
+    int dev_id = stoi(parser.value("device"));
     std::string filename;
 
     if (argc < 5) {
@@ -189,36 +191,27 @@ int main(int argc, char** argv) {
     // and will return the pointer to file buffer.
     auto fileBuf = xcl::read_binary_file(binaryFile);
     cl::Program::Binaries bins{{fileBuf.data(), fileBuf.size()}};
-    bool valid_device = false;
     cl::Program program;
 
-    for (unsigned int i = 0; i < devices.size(); i++) {
-        auto device = devices[i];
-        if (xcl::is_hw_emulation()) {
-            auto device_name = device.getInfo<CL_DEVICE_NAME>();
-            if (device_name.find("2018") != std::string::npos) {
-                std::cout << "[INFO]: The example is not supported for " << device_name
-                          << " this platform for hw_emu. Please try other flows." << '\n';
-                return EXIT_SUCCESS;
-            }
-        }
-        // Creating Context and Command Queue for selected Device
-        OCL_CHECK(err, context = cl::Context(device, nullptr, nullptr, nullptr, &err));
-        OCL_CHECK(err, q = cl::CommandQueue(context, device, CL_QUEUE_PROFILING_ENABLE, &err));
-        std::cout << "Trying to program device[" << i << "]: " << device.getInfo<CL_DEVICE_NAME>() << std::endl;
-        program = cl::Program(context, {device}, bins, nullptr, &err);
-        if (err != CL_SUCCESS) {
-            std::cout << "Failed to program device[" << i << "] with xclbin file!\n";
-        } else {
-            std::cout << "Device[" << i << "]: program successful!\n";
-            valid_device = true;
-            break; // we break because we found a valid device
+    auto device = devices[dev_id];
+    if (xcl::is_hw_emulation()) {
+        auto device_name = device.getInfo<CL_DEVICE_NAME>();
+        if (device_name.find("2018") != std::string::npos) {
+            std::cout << "[INFO]: The example is not supported for " << device_name
+                      << " this platform for hw_emu. Please try other flows." << '\n';
+            return EXIT_SUCCESS;
         }
     }
-    if (!valid_device) {
-        std::cerr << "Failed to program any device found, exit!\n";
+    // Creating Context and Command Queue for selected Device
+    OCL_CHECK(err, context = cl::Context(device, nullptr, nullptr, nullptr, &err));
+    OCL_CHECK(err, q = cl::CommandQueue(context, device, CL_QUEUE_PROFILING_ENABLE, &err));
+    std::cout << "Trying to program device[" << dev_id << "]: " << device.getInfo<CL_DEVICE_NAME>() << std::endl;
+    program = cl::Program(context, {device}, bins, nullptr, &err);
+    if (err != CL_SUCCESS) {
+        std::cout << "Failed to program device[" << dev_id << "] with xclbin file!\n";
         exit(EXIT_FAILURE);
-    }
+    } else
+        std::cout << "Device[" << dev_id << "]: program successful!\n";
 
     // P2P transfer from host to SSD
     std::cout << "############################################################\n";
