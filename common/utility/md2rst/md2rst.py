@@ -88,17 +88,20 @@ def overview(target,data,ref_data):
     target.write("\n")
     return
 
-def requirements(target,data):
+def requirements(target,data,plt_ref_data):
     if 'platform_blacklist' in data:
-        target.write("EXCLUDED PLATFORMS\n")
-        target.write("-" * len("EXCLUDED PLATFORMS"))
+        target.write("**EXCLUDED PLATFORMS:** ")
+        plat_count = len(data["platform_blacklist"])
         target.write("\n\n")
-        target.write("Platforms containing following strings in their names are not supported for this example :\n\n")
-        target.write("::\n\n")
-        for board in data['platform_blacklist']:
-            target.write("   ")
-            target.write(board)
-            target.write("\n")
+        for result in data['platform_blacklist']:
+            plat_count -= 1
+            if "platform_blacklist"  in plt_ref_data:
+                target.write(" - ")
+                if result in plt_ref_data["platform_blacklist"]:
+                    target.write(plt_ref_data["platform_blacklist"][result])
+                else:
+                    target.write(result)
+                target.write("\n")
         target.write("\n")
     return
 
@@ -163,6 +166,7 @@ file_name = "LICENSE.txt" # file to be searched
 cur_dir = os.getcwd()      # Dir from where search starts can be replaced with any path
 init_cur_dir = cur_dir
 ref_data = ""
+platform_ref_data = ""
 
 while True:
     file_list = os.listdir(cur_dir)
@@ -172,6 +176,10 @@ while True:
         ref_file = open(path,'r')
         ref_data = json.load(ref_file)
         ref_file.close()
+        platform_path = cur_dir + '/common/utility/platform_ref.json'
+        platform_ref_file = open(platform_path,'r')
+        platform_ref_data = json.load(platform_ref_file)
+        platform_ref_file.close()
         break
     else:
         if cur_dir == parent_dir:         # if dir is root dir
