@@ -197,6 +197,7 @@ ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 		--package.boot_mode=sd \
 		--package.kernel_image $(SD_IMAGE_FILE) \
 		--package.defer_aie_run \
+		--package.sd_dir /proj/xbuilds/2022.1_daily_latest/internal_platforms/sw/versal/xrt \
 		--package.sd_file $(RUN_APP_SCRIPT) \
 		--package.sd_file aie_adder $(XCLBIN) $(GRAPH_O) -o krnl_adder.xclbin
 	@echo "COMPLETE: emulation package created."
@@ -209,6 +210,7 @@ else
 		--package.boot_mode=sd \
 		--package.kernel_image=$(SD_IMAGE_FILE) \
 		--package.defer_aie_run \
+		--package.sd_dir /proj/xbuilds/2022.1_daily_latest/internal_platforms/sw/versal/xrt \
 		--package.sd_file $(RUN_APP_SCRIPT) \
 		--package.sd_file aie_adder $(XCLBIN) $(GRAPH_O) -o krnl_adder.xclbin
 	@echo "COMPLETE: hw package created."
