@@ -152,7 +152,7 @@ int main(int argc, char** argv) {
     // Read settings
     auto binaryFile = parser.value("xclbin_file");
     std::string filepath = parser.value("file_path");
-    int dev_id = stoi(parser.value("device"));
+    std::string dev_id = parser.value("device");
     std::string filename;
 
     if (argc < 5) {
@@ -193,7 +193,24 @@ int main(int argc, char** argv) {
     cl::Program::Binaries bins{{fileBuf.data(), fileBuf.size()}};
     cl::Program program;
 
-    auto device = devices[dev_id];
+    auto pos = dev_id.find(":");
+    cl::Device device;
+    if (pos == std::string::npos) {
+        uint32_t device_index = stoi(dev_id);
+        if (device_index >= devices.size()) {
+            std::cout << "The device_index provided using -d flag is outside the range of "
+                         "available devices\n";
+            return EXIT_FAILURE;
+        }
+        device = devices[device_index];
+    } else {
+        if (xcl::is_emulation()) {
+            std::cout << "Device bdf is not supported for the emulation flow\n";
+            return EXIT_FAILURE;
+        }
+        device = xcl::find_device_bdf(devices, dev_id);
+    }
+
     if (xcl::is_hw_emulation()) {
         auto device_name = device.getInfo<CL_DEVICE_NAME>();
         if (device_name.find("2018") != std::string::npos) {
@@ -202,6 +219,7 @@ int main(int argc, char** argv) {
             return EXIT_SUCCESS;
         }
     }
+
     // Creating Context and Command Queue for selected Device
     OCL_CHECK(err, context = cl::Context(device, nullptr, nullptr, nullptr, &err));
     OCL_CHECK(err, q = cl::CommandQueue(context, device, CL_QUEUE_PROFILING_ENABLE, &err));
