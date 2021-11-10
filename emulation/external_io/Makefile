@@ -20,7 +20,7 @@
 
 help::
 	$(ECHO) "Makefile Usage:"
-	$(ECHO) "  make all TARGET=<sw_emu/hw_emu/hw> DEVICE=<FPGA platform> HOST_ARCH=<aarch32/aarch64/x86> EDGE_COMMON_SW=<rootfs and kernel image path>"
+	$(ECHO) "  make all TARGET=<sw_emu/hw_emu/hw> PLATFORM=<FPGA platform> HOST_ARCH=<aarch32/aarch64/x86> EDGE_COMMON_SW=<rootfs and kernel image path>"
 	$(ECHO) "      Command to generate the design for specified Target and Shell."
 	$(ECHO) ""
 	$(ECHO) "  make clean "
@@ -29,16 +29,16 @@ help::
 	$(ECHO) "  make cleanall"
 	$(ECHO) "      Command to remove all the generated files."
 	$(ECHO) ""
-	$(ECHO) "  make test DEVICE=<FPGA platform>"
+	$(ECHO) "  make test PLATFORM=<FPGA platform>"
 	$(ECHO) "     Command to run the application. This is same as 'run' target but does not have any makefile dependency."
 	$(ECHO) ""
-	$(ECHO) "  make sd_card TARGET=<sw_emu/hw_emu/hw> DEVICE=<FPGA platform> HOST_ARCH=<aarch32/aarch64/x86> EDGE_COMMON_SW=<rootfs and kernel image path>"
+	$(ECHO) "  make sd_card TARGET=<sw_emu/hw_emu/hw> PLATFORM=<FPGA platform> HOST_ARCH=<aarch32/aarch64/x86> EDGE_COMMON_SW=<rootfs and kernel image path>"
 	$(ECHO) "      Command to prepare sd_card files."
 	$(ECHO) ""
-	$(ECHO) "  make run TARGET=<sw_emu/hw_emu/hw> DEVICE=<FPGA platform> HOST_ARCH=<aarch32/aarch64/x86> EDGE_COMMON_SW=<rootfs and kernel image path>"
+	$(ECHO) "  make run TARGET=<sw_emu/hw_emu/hw> PLATFORM=<FPGA platform> HOST_ARCH=<aarch32/aarch64/x86> EDGE_COMMON_SW=<rootfs and kernel image path>"
 	$(ECHO) "      Command to run application in emulation."
 	$(ECHO) ""
-	$(ECHO) "  make build TARGET=<sw_emu/hw_emu/hw> DEVICE=<FPGA platform> HOST_ARCH=<aarch32/aarch64/x86> EDGE_COMMON_SW=<rootfs and kernel image path>"
+	$(ECHO) "  make build TARGET=<sw_emu/hw_emu/hw> PLATFORM=<FPGA platform> HOST_ARCH=<aarch32/aarch64/x86> EDGE_COMMON_SW=<rootfs and kernel image path>"
 	$(ECHO) "      Command to build xclbin application."
 	$(ECHO) ""
 	$(ECHO) "  make host HOST_ARCH=<aarch32/aarch64/x86> EDGE_COMMON_SW=<rootfs and kernel image path>"
@@ -60,8 +60,8 @@ SYSROOT :=
 include ./utils.mk
 
 XSA := 
-ifneq ($(DEVICE), )
-XSA := $(call device2xsa, $(DEVICE))
+ifneq ($(PLATFORM), )
+XSA := $(call device2xsa, $(PLATFORM))
 endif
 TEMP_DIR := ./_x.$(TARGET).$(XSA)
 BUILD_DIR := ./build_dir.$(TARGET).$(XSA)
@@ -84,25 +84,25 @@ include $(XF_PROJ_ROOT)/common/includes/opencl/opencl.mk
 CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++11
 LDFLAGS += $(opencl_LDFLAGS)
 
-ifeq ($(findstring dma, $(DEVICE)), dma)
-$(error [ERROR]: This example is not supported for $(DEVICE).)
+ifeq ($(findstring dma, $(PLATFORM)), dma)
+$(error [ERROR]: This example is not supported for $(PLATFORM).)
 endif
-ifeq ($(findstring vck5000, $(DEVICE)), vck5000)
-$(error [ERROR]: This example is not supported for $(DEVICE).)
+ifeq ($(findstring vck5000, $(PLATFORM)), vck5000)
+$(error [ERROR]: This example is not supported for $(PLATFORM).)
 endif
-ifeq ($(findstring aws-vu9p-f1, $(DEVICE)), aws-vu9p-f1)
-$(error [ERROR]: This example is not supported for $(DEVICE).)
+ifeq ($(findstring aws-vu9p-f1, $(PLATFORM)), aws-vu9p-f1)
+$(error [ERROR]: This example is not supported for $(PLATFORM).)
 endif
-ifeq ($(findstring samsung, $(DEVICE)), samsung)
-$(error [ERROR]: This example is not supported for $(DEVICE).)
+ifeq ($(findstring samsung, $(PLATFORM)), samsung)
+$(error [ERROR]: This example is not supported for $(PLATFORM).)
 endif
-ifeq ($(findstring _u2_, $(DEVICE)), _u2_)
-$(error [ERROR]: This example is not supported for $(DEVICE).)
+ifeq ($(findstring _u2_, $(PLATFORM)), _u2_)
+$(error [ERROR]: This example is not supported for $(PLATFORM).)
 endif
 
-ifneq ($(findstring vck190, $(DEVICE)), vck190)
-ifneq ($(findstring zc, $(DEVICE)), zc)
-$(warning [WARNING]: This example has not been tested for $(DEVICE). It may or may not work.)
+ifneq ($(findstring vck190, $(PLATFORM)), vck190)
+ifneq ($(findstring zc, $(PLATFORM)), zc)
+$(warning [WARNING]: This example has not been tested for $(PLATFORM). It may or may not work.)
 endif
 endif
 
@@ -120,7 +120,7 @@ endif
 
 ############################## Setting up Kernel Variables ##############################
 # Kernel compiler global settings
-VPP_FLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps 
+VPP_FLAGS += -t $(TARGET) --platform $(PLATFORM) --save-temps 
 ifneq ($(TARGET), hw)
 	VPP_FLAGS += -g
 endif
@@ -141,7 +141,7 @@ BINARY_CONTAINER_increment_OBJS += $(TEMP_DIR)/increment.xo
 CP = cp -rf
 
 .PHONY: all clean cleanall docs emconfig
-all: check-devices $(EXECUTABLE) $(BINARY_CONTAINERS) emconfig sd_card
+all: check-platform $(EXECUTABLE) $(BINARY_CONTAINERS) emconfig sd_card
 
 .PHONY: host
 host: $(EXECUTABLE)
@@ -160,7 +160,7 @@ $(BUILD_DIR)/increment.xclbin: $(BINARY_CONTAINER_increment_OBJS)
 	mkdir -p $(BUILD_DIR)
 ifeq ($(HOST_ARCH), x86)
 	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) $(XOS) --temp_dir $(TEMP_DIR)  -o'$(BUILD_DIR)/increment.link.xclbin' $(+)
-	$(VPP) -p $(BUILD_DIR)/increment.link.xclbin -t $(TARGET) --platform $(DEVICE) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/increment.xclbin
+	$(VPP) -p $(BUILD_DIR)/increment.link.xclbin -t $(TARGET) --platform $(PLATFORM) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/increment.xclbin
 else
 	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) $(XOS) --temp_dir $(TEMP_DIR) -o'$(BUILD_DIR)/increment.xclbin' $(+)
 endif
@@ -171,7 +171,7 @@ $(EXECUTABLE): $(HOST_SRCS) | check-xrt
 
 emconfig:$(EMCONFIG_DIR)/emconfig.json
 $(EMCONFIG_DIR)/emconfig.json:
-	emconfigutil --platform $(DEVICE) --od $(EMCONFIG_DIR)
+	emconfigutil --platform $(PLATFORM) --od $(EMCONFIG_DIR)
 
 ############################## Setting Essential Checks and Running Rules ##############################
 run: all
@@ -219,7 +219,7 @@ endif
 ############################## Preparing sdcard ##############################
 sd_card: $(BINARY_CONTAINERS) $(EXECUTABLE) gen_run_app
 ifneq ($(HOST_ARCH), x86)
-	$(VPP) $(VPP_PFLAGS) -p $(BUILD_DIR)/increment.xclbin -t $(TARGET) --platform $(DEVICE) --package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.sd_file $(SD_IMAGE_FILE) --package.sd_file xrt.ini --package.sd_file $(RUN_APP_SCRIPT) --package.sd_file $(EXECUTABLE) -o increment.xclbin
+	$(VPP) $(VPP_PFLAGS) -p $(BUILD_DIR)/increment.xclbin -t $(TARGET) --platform $(PLATFORM) --package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.sd_file $(SD_IMAGE_FILE) --package.sd_file xrt.ini --package.sd_file $(RUN_APP_SCRIPT) --package.sd_file $(EXECUTABLE) -o increment.xclbin
 endif
 
 ############################## Cleaning Rules ##############################

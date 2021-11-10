@@ -4,17 +4,17 @@
 ddr_banks := 2
 
 # Kernel linker config files
-ifeq ($(findstring samsung, $(DEVICE)), samsung)
+ifeq ($(findstring samsung, $(PLATFORM)), samsung)
 ddr_banks := 1
 endif
 
-ifeq ($(findstring vck190, $(DEVICE)), vck190)
+ifeq ($(findstring vck190, $(PLATFORM)), vck190)
 VPP_LDFLAGS+= --config vck190.cfg
 else
-ifeq ($(findstring zc, $(DEVICE)), zc)
+ifeq ($(findstring zc, $(PLATFORM)), zc)
 VPP_LDFLAGS+= --config $(ddr_banks)bank_zc.cfg
 else
-ifeq ($(findstring samsung, $(DEVICE)), samsung)
+ifeq ($(findstring samsung, $(PLATFORM)), samsung)
 VPP_LDFLAGS+= --config samsung.cfg
 else
 VPP_LDFLAGS+= --config $(ddr_banks)bank.cfg

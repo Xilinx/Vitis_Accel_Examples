@@ -110,6 +110,14 @@ endif
 #Setting VPP
 VPP := v++
 
+#Setting PLATFORM
+ifeq ($(PLATFORM),)
+ifneq ($(DEVICE),)
+$(warning WARNING: DEVICE is deprecated in make command. Please use PLATFORM instead)
+PLATFORM := $(DEVICE)
+endif
+endif
+
 #Cheks for aiecompiler
 AIECXX := aiecompiler
 AIESIMULATOR := aiesimulator

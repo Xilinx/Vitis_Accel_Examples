@@ -20,7 +20,7 @@
 
 help::
 	$(ECHO) "Makefile Usage:"
-	$(ECHO) "  make all TARGET=<sw_emu/hw_emu/hw> DEVICE=<FPGA platform>"
+	$(ECHO) "  make all TARGET=<sw_emu/hw_emu/hw> PLATFORM=<FPGA platform>"
 	$(ECHO) "      Command to generate the design for specified Target and Shell."
 	$(ECHO) ""
 	$(ECHO) "  make clean "
@@ -29,13 +29,13 @@ help::
 	$(ECHO) "  make cleanall"
 	$(ECHO) "      Command to remove all the generated files."
 	$(ECHO) ""
-	$(ECHO) "  make test DEVICE=<FPGA platform>"
+	$(ECHO) "  make test PLATFORM=<FPGA platform>"
 	$(ECHO) "      Command to run the application. This is same as 'run' target but does not have any makefile dependency."
 	$(ECHO) ""
-	$(ECHO) "  make run TARGET=<sw_emu/hw_emu/hw> DEVICE=<FPGA platform>"
+	$(ECHO) "  make run TARGET=<sw_emu/hw_emu/hw> PLATFORM=<FPGA platform>"
 	$(ECHO) "      Command to run application in emulation."
 	$(ECHO) ""
-	$(ECHO) "  make build TARGET=<sw_emu/hw_emu/hw> DEVICE=<FPGA platform>"
+	$(ECHO) "  make build TARGET=<sw_emu/hw_emu/hw> PLATFORM=<FPGA platform>"
 	$(ECHO) "      Command to build xclbin application."
 	$(ECHO) ""
 	$(ECHO) "  make host"
@@ -56,8 +56,8 @@ SYSROOT :=
 include ./utils.mk
 
 XSA := 
-ifneq ($(DEVICE), )
-XSA := $(call device2xsa, $(DEVICE))
+ifneq ($(PLATFORM), )
+XSA := $(call device2xsa, $(PLATFORM))
 endif
 TEMP_DIR := ./_x.$(TARGET).$(XSA)
 BUILD_DIR := ./build_dir.$(TARGET).$(XSA)
@@ -79,39 +79,39 @@ include config.mk
 CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++1y
 LDFLAGS += $(opencl_LDFLAGS)
 
-ifeq ($(findstring zc, $(DEVICE)), zc)
-$(error [ERROR]: This example is not supported for $(DEVICE).)
+ifeq ($(findstring zc, $(PLATFORM)), zc)
+$(error [ERROR]: This example is not supported for $(PLATFORM).)
 endif
-ifeq ($(findstring vck, $(DEVICE)), vck)
-$(error [ERROR]: This example is not supported for $(DEVICE).)
+ifeq ($(findstring vck, $(PLATFORM)), vck)
+$(error [ERROR]: This example is not supported for $(PLATFORM).)
 endif
-ifeq ($(findstring _u25_, $(DEVICE)), _u25_)
-$(error [ERROR]: This example is not supported for $(DEVICE).)
+ifeq ($(findstring _u25_, $(PLATFORM)), _u25_)
+$(error [ERROR]: This example is not supported for $(PLATFORM).)
 endif
-ifeq ($(findstring u30, $(DEVICE)), u30)
-$(error [ERROR]: This example is not supported for $(DEVICE).)
+ifeq ($(findstring u30, $(PLATFORM)), u30)
+$(error [ERROR]: This example is not supported for $(PLATFORM).)
 endif
-ifeq ($(findstring u200, $(DEVICE)), u200)
-$(error [ERROR]: This example is not supported for $(DEVICE).)
+ifeq ($(findstring u200, $(PLATFORM)), u200)
+$(error [ERROR]: This example is not supported for $(PLATFORM).)
 endif
-ifeq ($(findstring u250, $(DEVICE)), u250)
-$(error [ERROR]: This example is not supported for $(DEVICE).)
+ifeq ($(findstring u250, $(PLATFORM)), u250)
+$(error [ERROR]: This example is not supported for $(PLATFORM).)
 endif
-ifeq ($(findstring u50, $(DEVICE)), u50)
-$(error [ERROR]: This example is not supported for $(DEVICE).)
+ifeq ($(findstring u50, $(PLATFORM)), u50)
+$(error [ERROR]: This example is not supported for $(PLATFORM).)
 endif
-ifeq ($(findstring u280, $(DEVICE)), u280)
-$(error [ERROR]: This example is not supported for $(DEVICE).)
+ifeq ($(findstring u280, $(PLATFORM)), u280)
+$(error [ERROR]: This example is not supported for $(PLATFORM).)
 endif
-ifeq ($(findstring aws-vu9p-f1, $(DEVICE)), aws-vu9p-f1)
-$(error [ERROR]: This example is not supported for $(DEVICE).)
+ifeq ($(findstring aws-vu9p-f1, $(PLATFORM)), aws-vu9p-f1)
+$(error [ERROR]: This example is not supported for $(PLATFORM).)
 endif
-ifeq ($(findstring nodma, $(DEVICE)), nodma)
-$(error [ERROR]: This example is not supported for $(DEVICE).)
+ifeq ($(findstring nodma, $(PLATFORM)), nodma)
+$(error [ERROR]: This example is not supported for $(PLATFORM).)
 endif
 
-ifneq ($(findstring samsung_u2, $(DEVICE)), samsung_u2)
-$(warning [WARNING]: This example has not been tested for $(DEVICE). It may or may not work.)
+ifneq ($(findstring samsung_u2, $(PLATFORM)), samsung_u2)
+$(warning [WARNING]: This example has not been tested for $(PLATFORM). It may or may not work.)
 endif
 
 ############################## Setting up Host Variables ##############################
@@ -126,7 +126,7 @@ LDFLAGS += -lrt -lstdc++
 
 ############################## Setting up Kernel Variables ##############################
 # Kernel compiler global settings
-VPP_FLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps 
+VPP_FLAGS += -t $(TARGET) --platform $(PLATFORM) --save-temps 
 ifneq ($(TARGET), hw)
 	VPP_FLAGS += -g
 endif
@@ -144,7 +144,7 @@ BINARY_CONTAINER_copy_kernel_OBJS += $(TEMP_DIR)/copy.xo
 CP = cp -rf
 
 .PHONY: all clean cleanall docs emconfig
-all: check-devices $(EXECUTABLE) $(BINARY_CONTAINERS) emconfig
+all: check-platform $(EXECUTABLE) $(BINARY_CONTAINERS) emconfig
 
 .PHONY: host
 host: $(EXECUTABLE)
@@ -162,7 +162,7 @@ $(TEMP_DIR)/copy.xo: src/copy_kernel.cpp
 $(BUILD_DIR)/copy_kernel.xclbin: $(BINARY_CONTAINER_copy_kernel_OBJS)
 	mkdir -p $(BUILD_DIR)
 	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) -o'$(BUILD_DIR)/copy_kernel.link.xclbin' $(+)
-	$(VPP) -p $(BUILD_DIR)/copy_kernel.link.xclbin -t $(TARGET) --platform $(DEVICE) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/copy_kernel.xclbin
+	$(VPP) -p $(BUILD_DIR)/copy_kernel.link.xclbin -t $(TARGET) --platform $(PLATFORM) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/copy_kernel.xclbin
 
 ############################## Setting Rules for Host (Building Host Executable) ##############################
 $(EXECUTABLE): $(HOST_SRCS) | check-xrt
@@ -170,7 +170,7 @@ $(EXECUTABLE): $(HOST_SRCS) | check-xrt
 
 emconfig:$(EMCONFIG_DIR)/emconfig.json
 $(EMCONFIG_DIR)/emconfig.json:
-	emconfigutil --platform $(DEVICE) --od $(EMCONFIG_DIR)
+	emconfigutil --platform $(PLATFORM) --od $(EMCONFIG_DIR)
 
 ############################## Setting Essential Checks and Running Rules ##############################
 run: all

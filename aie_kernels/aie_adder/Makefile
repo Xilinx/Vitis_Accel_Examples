@@ -20,7 +20,7 @@
 
 help::
 	$(ECHO) "Makefile Usage:"
-	$(ECHO) "  make all TARGET=<sw_emu/hw_emu/hw> DEVICE=<FPGA platform> HOST_ARCH=<aarch32/aarch64/x86> EDGE_COMMON_SW=<rootfs and kernel image path>"
+	$(ECHO) "  make all TARGET=<sw_emu/hw_emu/hw> PLATFORM=<FPGA platform> HOST_ARCH=<aarch32/aarch64/x86> EDGE_COMMON_SW=<rootfs and kernel image path>"
 	$(ECHO) "      Command to generate the design for specified Target and Shell."
 	$(ECHO) "      By default, HOST_ARCH=x86. HOST_ARCH and EDGE_COMMON_SW is required for SoC shells"
 	$(ECHO) ""
@@ -30,15 +30,15 @@ help::
 	$(ECHO) "  make cleanall"
 	$(ECHO) "      Command to remove all the generated files."
 	$(ECHO) ""
-	$(ECHO) "  make sd_card TARGET=<sw_emu/hw_emu/hw> DEVICE=<FPGA platform> HOST_ARCH=<aarch32/aarch64/x86> EDGE_COMMON_SW=<rootfs and kernel image path>"
+	$(ECHO) "  make sd_card TARGET=<sw_emu/hw_emu/hw> PLATFORM=<FPGA platform> HOST_ARCH=<aarch32/aarch64/x86> EDGE_COMMON_SW=<rootfs and kernel image path>"
 	$(ECHO) "      Command to prepare sd_card files."
 	$(ECHO) "      By default, HOST_ARCH=x86. HOST_ARCH and EDGE_COMMON_SW is required for SoC shells"
 	$(ECHO) ""
-	$(ECHO) "  make run TARGET=<sw_emu/hw_emu/hw> DEVICE=<FPGA platform> HOST_ARCH=<aarch32/aarch64/x86> EDGE_COMMON_SW=<rootfs and kernel image path>"
+	$(ECHO) "  make run TARGET=<sw_emu/hw_emu/hw> PLATFORM=<FPGA platform> HOST_ARCH=<aarch32/aarch64/x86> EDGE_COMMON_SW=<rootfs and kernel image path>"
 	$(ECHO) "      Command to run application in emulation."
 	$(ECHO) "      By default, HOST_ARCH=x86. HOST_ARCH and EDGE_COMMON_SW is required for SoC shells"
 	$(ECHO) ""
-	$(ECHO) "  make build TARGET=<sw_emu/hw_emu/hw> DEVICE=<FPGA platform> HOST_ARCH=<aarch32/aarch64/x86> EDGE_COMMON_SW=<rootfs and kernel image path>"
+	$(ECHO) "  make build TARGET=<sw_emu/hw_emu/hw> PLATFORM=<FPGA platform> HOST_ARCH=<aarch32/aarch64/x86> EDGE_COMMON_SW=<rootfs and kernel image path>"
 	$(ECHO) "      Command to build xclbin application."
 	$(ECHO) "      By default, HOST_ARCH=x86. HOST_ARCH and EDGE_COMMON_SW is required for SoC shells"
 	$(ECHO) ""
@@ -80,27 +80,27 @@ RESULT_STRING = TEST PASSED
 CONFIG_FILE := system.cfg
 include ./utils.mk
 
-ifeq ($(findstring zc, $(DEVICE)), zc)
-$(error [ERROR]: This example is not supported for $(DEVICE).)
+ifeq ($(findstring zc, $(PLATFORM)), zc)
+$(error [ERROR]: This example is not supported for $(PLATFORM).)
 endif
-ifeq ($(findstring vck5000, $(DEVICE)), vck5000)
-$(error [ERROR]: This example is not supported for $(DEVICE).)
+ifeq ($(findstring vck5000, $(PLATFORM)), vck5000)
+$(error [ERROR]: This example is not supported for $(PLATFORM).)
 endif
-ifeq ($(findstring aws-vu9p-f1, $(DEVICE)), aws-vu9p-f1)
-$(error [ERROR]: This example is not supported for $(DEVICE).)
+ifeq ($(findstring aws-vu9p-f1, $(PLATFORM)), aws-vu9p-f1)
+$(error [ERROR]: This example is not supported for $(PLATFORM).)
 endif
-ifeq ($(findstring samsung, $(DEVICE)), samsung)
-$(error [ERROR]: This example is not supported for $(DEVICE).)
+ifeq ($(findstring samsung, $(PLATFORM)), samsung)
+$(error [ERROR]: This example is not supported for $(PLATFORM).)
 endif
-ifeq ($(findstring _u2_, $(DEVICE)), _u2_)
-$(error [ERROR]: This example is not supported for $(DEVICE).)
+ifeq ($(findstring _u2_, $(PLATFORM)), _u2_)
+$(error [ERROR]: This example is not supported for $(PLATFORM).)
 endif
-ifeq ($(findstring dma, $(DEVICE)), dma)
-$(error [ERROR]: This example is not supported for $(DEVICE).)
+ifeq ($(findstring dma, $(PLATFORM)), dma)
+$(error [ERROR]: This example is not supported for $(PLATFORM).)
 endif
 
-ifneq ($(findstring vck190, $(DEVICE)), vck190)
-$(warning [WARNING]: This example has not been tested for $(DEVICE). It may or may not work.)
+ifneq ($(findstring vck190, $(PLATFORM)), vck190)
+$(warning [WARNING]: This example has not been tested for $(PLATFORM). It may or may not work.)
 endif
 
 # Command-line options
@@ -118,8 +118,8 @@ else
 	AIE_FLAGS += --target=hw
 endif
 
-VPP_XO_FLAGS := -c -t $(TARGET) --platform $(DEVICE) --save-temps -g
-VPP_LINK_FLAGS := -l --platform $(DEVICE) $(KERNEL_XO) $(GRAPH_O) -t $(TARGET) --save-temps -g --config $(CONFIG_FILE) -o $(XCLBIN)
+VPP_XO_FLAGS := -c -t $(TARGET) --platform $(PLATFORM) --save-temps -g
+VPP_LINK_FLAGS := -l --platform $(PLATFORM) $(KERNEL_XO) $(GRAPH_O) -t $(TARGET) --save-temps -g --config $(CONFIG_FILE) -o $(XCLBIN)
 
 GCC_FLAGS := -Wall -c \
 			 -std=c++14 \
@@ -190,7 +190,7 @@ host:
 sd_card: $(GRAPH_O) $(KERNEL_XO) host gen_run_app 
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 	v++ $(VPP_PFLAGS) -p -t $(TARGET) \
-		--platform $(DEVICE) \
+		--platform $(PLATFORM) \
 		--package.out_dir $(PACKAGE_OUT) \
 		--package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 \
 		--package.image_format=ext4 \
@@ -203,7 +203,7 @@ ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 	@echo "COMPLETE: emulation package created."
 else
 	v++ $(VPP_PFLAGS) -p -t hw \
-		--platform $(DEVICE) \
+		--platform $(PLATFORM) \
 		--package.out_dir $(PACKAGE_OUT) \
 		--package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 \
 		--package.image_format=ext4 \

@@ -49,8 +49,8 @@ def create_params(target,data):
     target.write("include ./utils.mk\n")
     target.write("\n")
     target.write("XSA := \n")
-    target.write("ifneq ($(DEVICE), )\n")
-    target.write("XSA := $(call device2xsa, $(DEVICE))\n")
+    target.write("ifneq ($(PLATFORM), )\n")
+    target.write("XSA := $(call device2xsa, $(PLATFORM))\n")
     target.write("endif\n")
     target.write("TEMP_DIR := ./_x.$(TARGET).$(XSA)\n")
     target.write("BUILD_DIR := ./build_dir.$(TARGET).$(XSA)\n")
@@ -97,10 +97,10 @@ def create_params(target,data):
             if board != "others":
                 target.write("ifeq ($(findstring ")
                 target.write(board)
-                target.write(", $(DEVICE)), ")
+                target.write(", $(PLATFORM)), ")
                 target.write(board)
                 target.write(")\n")
-                target.write("$(error [ERROR]: This example is not supported for $(DEVICE).)\n")
+                target.write("$(error [ERROR]: This example is not supported for $(PLATFORM).)\n")
                 target.write("endif\n")
             else:
                 forbid_others = True
@@ -110,13 +110,13 @@ def create_params(target,data):
         for board in whitelist:
             target.write("ifneq ($(findstring ")
             target.write(board)
-            target.write(", $(DEVICE)), ")
+            target.write(", $(PLATFORM)), ")
             target.write(board)
             target.write(")\n")
         if forbid_others:
-            target.write("$(error [ERROR]: This example is not supported for $(DEVICE).)\n")
+            target.write("$(error [ERROR]: This example is not supported for $(PLATFORM).)\n")
         else:
-            target.write("$(warning [WARNING]: This example has not been tested for $(DEVICE). It may or may not work.)\n")
+            target.write("$(warning [WARNING]: This example has not been tested for $(PLATFORM). It may or may not work.)\n")
         for board in whitelist:
             target.write("endif\n")
         target.write("\n")
@@ -188,7 +188,7 @@ def add_kernel_flags(target, data):
     if "v++" in data:
         target.write("VPP_FLAGS += \n")
     target.write("VPP_FLAGS += ")
-    target.write("-t $(TARGET) --platform $(DEVICE) --save-temps \n")   
+    target.write("-t $(TARGET) --platform $(PLATFORM) --save-temps \n")   
     target.write("ifneq ($(TARGET), hw)\n")
     target.write("\tVPP_FLAGS += -g\n")
     target.write("endif\n")
@@ -352,7 +352,7 @@ def building_kernel(target, data):
                 target.write(" $(VPP_LDFLAGS_"+con["name"]+")")
             target.write(" -o'$(BUILD_DIR)/" + con["name"] + ".link.xclbin' $(+)\n")
 
-            target.write("\t$(VPP) -p $(BUILD_DIR)/" + con["name"] + ".link.xclbin -t $(TARGET) --platform $(DEVICE) ")
+            target.write("\t$(VPP) -p $(BUILD_DIR)/" + con["name"] + ".link.xclbin -t $(TARGET) --platform $(PLATFORM) ")
             target.write("--package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/" + con["name"] + ".xclbin\n")
             if not ("platform_type" in data and data["platform_type"] == "pcie"):
                 target.write("else\n")
@@ -384,7 +384,7 @@ def building_kernel_rtl(target, data):
                 target.write(" $(VPP_LDFLAGS_"+con["name"]+")")
             target.write(" -o'$(BUILD_DIR)/" + con["name"] + ".link.xclbin' $(+)\n")
 
-            target.write("\t$(VPP) -p $(BUILD_DIR)/" + con["name"] + ".link.xclbin -t $(TARGET) --platform $(DEVICE) ")
+            target.write("\t$(VPP) -p $(BUILD_DIR)/" + con["name"] + ".link.xclbin -t $(TARGET) --platform $(PLATFORM) ")
             target.write("--package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/" + con["name"] + ".xclbin\n")
             target.write("else\n")
             target.write("\t$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR)")
@@ -402,7 +402,7 @@ def building_host(target, data):
     target.write("\n")
     target.write("emconfig:$(EMCONFIG_DIR)/emconfig.json\n")
     target.write("$(EMCONFIG_DIR)/emconfig.json:\n")
-    target.write("\temconfigutil --platform $(DEVICE) --od $(EMCONFIG_DIR)")
+    target.write("\temconfigutil --platform $(PLATFORM) --od $(EMCONFIG_DIR)")
     if "num_devices" in data:
         target.write(" --nd ")
         target.write(data["num_devices"])
@@ -460,7 +460,7 @@ def mk_build_all(target, data):
     target.write("\n")
 
     target.write(".PHONY: all clean cleanall docs emconfig\n")
-    target.write("all: check-devices $(EXECUTABLE) $(BINARY_CONTAINERS) emconfig")
+    target.write("all: check-platform $(EXECUTABLE) $(BINARY_CONTAINERS) emconfig")
     if not ("platform_type" in data and data["platform_type"] == "pcie"):
         target.write(" sd_card")
     target.write("\n\n")
@@ -637,7 +637,7 @@ def mk_sdcard(target, data):
         for con in data["containers"]:
             target.write("\t$(VPP) $(VPP_PFLAGS) -p $(BUILD_DIR)/")
             target.write(con["name"])
-            target.write(".xclbin -t $(TARGET) --platform $(DEVICE) ")
+            target.write(".xclbin -t $(TARGET) --platform $(PLATFORM) ")
             target.write("--package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.sd_file $(SD_IMAGE_FILE) --package.sd_file xrt.ini --package.sd_file $(RUN_APP_SCRIPT) --package.sd_file $(EXECUTABLE)")
             for extra_filename in extra_file_list:
                 if ('-' not in extra_filename):
@@ -668,7 +668,7 @@ def mk_help(target):
     target.write("\n")
     target.write("help::\n")
     target.write("\t$(ECHO) \"Makefile Usage:\"\n")
-    target.write("\t$(ECHO) \"  make all TARGET=<sw_emu/hw_emu/hw> DEVICE=<FPGA platform>");
+    target.write("\t$(ECHO) \"  make all TARGET=<sw_emu/hw_emu/hw> PLATFORM=<FPGA platform>");
     if not ("platform_type" in data and data["platform_type"] == "pcie"):
 		target.write(" HOST_ARCH=<aarch32/aarch64/x86> EDGE_COMMON_SW=<rootfs and kernel image path>")
     target.write("\"\n")
@@ -680,21 +680,21 @@ def mk_help(target):
     target.write("\t$(ECHO) \"  make cleanall\"\n")
     target.write("\t$(ECHO) \"      Command to remove all the generated files.\"\n")
     target.write("\t$(ECHO) \"\"\n")
-    target.write("\t$(ECHO) \"  make test DEVICE=<FPGA platform>\"\n")    
+    target.write("\t$(ECHO) \"  make test PLATFORM=<FPGA platform>\"\n")    
     target.write("\t$(ECHO) \"      Command to run the application. This is same as 'run' target but does not have any makefile dependency.\"\n")  
     target.write("\t$(ECHO) \"\"\n")
 
     if not ("platform_type" in data and data["platform_type"] == "pcie"):
-        target.write("\t$(ECHO) \"  make sd_card TARGET=<sw_emu/hw_emu/hw> DEVICE=<FPGA platform> HOST_ARCH=<aarch32/aarch64/x86> EDGE_COMMON_SW=<rootfs and kernel image path>\"\n");
+        target.write("\t$(ECHO) \"  make sd_card TARGET=<sw_emu/hw_emu/hw> PLATFORM=<FPGA platform> HOST_ARCH=<aarch32/aarch64/x86> EDGE_COMMON_SW=<rootfs and kernel image path>\"\n");
         target.write("\t$(ECHO) \"      Command to prepare sd_card files.\"\n")
         target.write("\t$(ECHO) \"\"\n")
-    target.write("\t$(ECHO) \"  make run TARGET=<sw_emu/hw_emu/hw> DEVICE=<FPGA platform>");
+    target.write("\t$(ECHO) \"  make run TARGET=<sw_emu/hw_emu/hw> PLATFORM=<FPGA platform>");
     if not ("platform_type" in data and data["platform_type"] == "pcie"):
 		target.write(" HOST_ARCH=<aarch32/aarch64/x86> EDGE_COMMON_SW=<rootfs and kernel image path>")
     target.write("\"\n")
     target.write("\t$(ECHO) \"      Command to run application in emulation.\"\n")
     target.write("\t$(ECHO) \"\"\n")
-    target.write("\t$(ECHO) \"  make build TARGET=<sw_emu/hw_emu/hw> DEVICE=<FPGA platform>");
+    target.write("\t$(ECHO) \"  make build TARGET=<sw_emu/hw_emu/hw> PLATFORM=<FPGA platform>");
     if not ("platform_type" in data and data["platform_type"] == "pcie"):
 		target.write(" HOST_ARCH=<aarch32/aarch64/x86> EDGE_COMMON_SW=<rootfs and kernel image path>")
     target.write("\"\n")
@@ -708,10 +708,10 @@ def mk_help(target):
     if not ("platform_type" in data and data["platform_type"] == "pcie"):
     	target.write("\t$(ECHO) \"  By default, HOST_ARCH=x86. HOST_ARCH and EDGE_COMMON_SW is required for SoC shells\"\n")
     target.write("\t$(ECHO) \"\"\n")
-    #target.write("\t$(ECHO) \"  make run_nimbix DEVICE=<FPGA platform>\"\n");
+    #target.write("\t$(ECHO) \"  make run_nimbix PLATFORM=<FPGA platform>\"\n");
     #target.write("\t$(ECHO) \"      Command to run application on Nimbix Cloud.\"\n")
     #target.write("\t$(ECHO) \"\"\n")
-    #target.write("\t$(ECHO) \"  make aws_build DEVICE=<FPGA platform>\"\n");
+    #target.write("\t$(ECHO) \"  make aws_build PLATFORM=<FPGA platform>\"\n");
     #target.write("\t$(ECHO) \"      Command to build AWS xclbin application on AWS Cloud.\"\n")
     #target.write("\t$(ECHO) \"\"\n")
     target.write("\n")
@@ -735,7 +735,6 @@ def report_gen(target, data):
         target.write("\n")
     
     target.write("DEBUG := no\n")
-    target.write("B_TEMP = `$(XF_PROJ_ROOT)/common/utility/parse_platform_list.py $(DEVICE)`\n")
     target.write("\n")
     target.write("#Generates debug summary report\n")
     target.write("ifeq ($(DEBUG), yes)\n")
@@ -746,15 +745,16 @@ def report_gen(target, data):
 def device2xsa_gen(target):
     target.write("#   device2xsa - create a filesystem friendly name from device name\n")
     target.write("#   $(1) - full name of device\n")
-    target.write("device2xsa = $(strip $(patsubst %.xpfm, % , $(shell basename $(DEVICE))))\n")
+    target.write("device2xsa = $(strip $(patsubst %.xpfm, % , $(shell basename $(PLATFORM))))\n")
     target.write("\n")
 
 def util_checks(target):
-    target.write("#Setting Platform Path\n")
-    target.write("ifeq ($(findstring xpfm, $(DEVICE)), xpfm)\n")
-    target.write("\tB_NAME = $(shell dirname $(DEVICE))\n")
-    target.write("else\n")
-    target.write("\tB_NAME = $(B_TEMP)/$(DEVICE)\n")
+    target.write("#Setting PLATFORM \n")
+    target.write("ifeq ($(PLATFORM),)\n")
+    target.write("ifneq ($(DEVICE),)\n")
+    target.write("$(warning WARNING: DEVICE is deprecated in make command. Please use PLATFORM instead)\n")
+    target.write("PLATFORM := $(DEVICE)\n")
+    target.write("endif\n")
     target.write("endif\n")
     target.write("\n")
 
@@ -862,9 +862,9 @@ def util_checks(target):
         target.write("\t$(ECHO) 'echo \"INFO: host run completed.\"' >> run_app.sh\n")
         target.write("endif\n")
     
-    target.write("check-devices:\n")
-    target.write("ifndef DEVICE\n")
-    target.write("\t$(error DEVICE not set. Please set the DEVICE properly and rerun. Run \"make help\" for more details.)\n")
+    target.write("check-platform:\n")
+    target.write("ifndef PLATFORM\n")
+    target.write("\t$(error PLATFORM not set. Please set the PLATFORM properly and rerun. Run \"make help\" for more details.)\n")
     target.write("endif\n")
     target.write("\n")
 

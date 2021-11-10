@@ -61,7 +61,6 @@
                ]
         }
     },
-    "config_make": "config.mk", 
     "containers": [
         {
             "accelerators": [
@@ -73,7 +72,6 @@
             "name": "adder"
         }
     ],
-    "config_make": "config.mk",
     "contributors": [
         {
             "url": "http://www.xilinx.com", 

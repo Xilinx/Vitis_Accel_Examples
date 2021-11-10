@@ -19,14 +19,14 @@ endif
 endif
 
 platform_test:
-	platforminfo -j -d $(DEVICE) > platform_info.json
+	platforminfo -j -d $(PLATFORM) > platform_info.json
 	$(XF_PROJ_ROOT)/common/utility/platform_gen.py platform_info.json hostmemory
 
 VPP_LDFLAGS:= --config platform_hostmemory.cfg
 
 ifeq ($(TARGET),$(filter $(TARGET),hw_emu))
-ifeq ($(findstring 202010, $(DEVICE)), 202010)
-$(error [ERROR]: This example is not supported for $(DEVICE) when targeting hw_emu.)
+ifeq ($(findstring 202010, $(PLATFORM)), 202010)
+$(error [ERROR]: This example is not supported for $(PLATFORM) when targeting hw_emu.)
 endif
 endif
 
