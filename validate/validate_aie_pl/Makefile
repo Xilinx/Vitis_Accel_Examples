@@ -20,7 +20,7 @@
 
 help::
 	$(ECHO) "Makefile Usage:"
-	$(ECHO) "  make all TARGET=<aiesim/x86sim/hw_emu/hw> DEVICE=<FPGA platform> HOST_ARCH=<aarch64>"
+	$(ECHO) "  make all TARGET=<aiesim/x86sim/hw_emu/hw> PLATFORM=<FPGA platform> HOST_ARCH=<aarch64>"
 	$(ECHO) "      Command to generate the design for specified Target and Shell."
 	$(ECHO) ""
 	$(ECHO) "  make clean "
@@ -29,14 +29,14 @@ help::
 	$(ECHO) "  make cleanall"
 	$(ECHO) "      Command to remove all the generated files."
 	$(ECHO) ""
-	$(ECHO) "  make sd_card TARGET=<aiesim/x86sim/hw_emu/hw> DEVICE=<FPGA platform> HOST_ARCH=<aarch64>"
+	$(ECHO) "  make sd_card TARGET=<aiesim/x86sim/hw_emu/hw> PLATFORM=<FPGA platform> HOST_ARCH=<aarch64>"
 	$(ECHO) "      Command to prepare sd_card files."
 	$(ECHO) "      This target is only used in embedded device."
 	$(ECHO) ""
-	$(ECHO) "  make run TARGET=<aiesim/x86sim/hw_emu/hw> DEVICE=<FPGA platform> HOST_ARCH=<aarch64>"
+	$(ECHO) "  make run TARGET=<aiesim/x86sim/hw_emu/hw> PLATFORM=<FPGA platform> HOST_ARCH=<aarch64>"
 	$(ECHO) "      Command to run application in emulation or on board."
 	$(ECHO) ""
-	$(ECHO) "  make build TARGET=<aiesim/x86sim/hw_emu/hw> DEVICE=<FPGA platform> HOST_ARCH=<aarch64>"
+	$(ECHO) "  make build TARGET=<aiesim/x86sim/hw_emu/hw> PLATFORM=<FPGA platform> HOST_ARCH=<aarch64>"
 	$(ECHO) "      Command to build xclbin application."
 	$(ECHO) ""
 	$(ECHO) "  make host HOST_ARCH=<aarch64>"
@@ -49,8 +49,8 @@ help::
 # ##################### Setting up default value of TARGET ##########################
 TARGET ?= aiesim
 
-# ################### Setting up default value of DEVICE ##############################
-DEVICE ?= xilinx_vck190_base_202110_1
+# ################### Setting up default value of PLATFORM ##############################
+PLATFORM ?= xilinx_vck190_base_202110_1
 
 # ###################### Setting up default value of HOST_ARCH ####################### 
 HOST_ARCH ?= aarch64
@@ -73,11 +73,11 @@ endif
 
 # ######################### Include environment variables in utils.mk ####################
 include ./utils.mk
-XDEVICE := $(call device2xsa, $(DEVICE))
-TEMP_DIR := _x_temp.$(TARGET).$(XDEVICE)
-TEMP_REPORT_DIR := $(CUR_DIR)/reports/_x.$(TARGET).$(XDEVICE)
-BUILD_DIR := build_dir.$(TARGET).$(XDEVICE)
-BUILD_REPORT_DIR := $(CUR_DIR)/reports/_build.$(TARGET).$(XDEVICE)
+XPLATFORM := $(call device2xsa, $(PLATFORM))
+TEMP_DIR := _x_temp.$(TARGET).$(XPLATFORM)
+TEMP_REPORT_DIR := $(CUR_DIR)/reports/_x.$(TARGET).$(XPLATFORM)
+BUILD_DIR := build_dir.$(TARGET).$(XPLATFORM)
+BUILD_REPORT_DIR := $(CUR_DIR)/reports/_build.$(TARGET).$(XPLATFORM)
 EMCONFIG_DIR := $(BUILD_DIR)
 XCLBIN_DIR := $(CUR_DIR)/$(BUILD_DIR)
 export XCL_BINDIR = $(XCLBIN_DIR)
@@ -294,7 +294,7 @@ endif
 	@echo 'if [ -f platform_desc.txt  ]; then' >> run_script.sh
 	@echo '         cp platform_desc.txt /etc/xocl.txt' >> run_script.sh
 	@echo 'fi'  >> run_script.sh
-	emconfigutil --platform $(DEVICE) --nd 1;
+	emconfigutil --platform $(PLATFORM) --nd 1;
 	@echo './$(EXE_NAME) $(PKG_HOST_ARGS)' >> run_script.sh
 	@echo 'return_code=$$?' >> run_script.sh
 	@echo 'if [ $$return_code -ne 0 ]; then' >> run_script.sh
@@ -303,7 +303,7 @@ endif
 	@echo 'echo "INFO: Embedded host run completed."' >> run_script.sh
 	@echo 'exit $$return_code' >> run_script.sh
 	chmod a+rx run_script.sh
-	$(VPP) -t $(TARGET) --platform $(DEVICE) -o $(BINARY_CONTAINERS_PKG) -p $(PACKAGE_FILES) --package.defer_aie_run --package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.kernel_image $(K_IMAGE) --package.boot_mode sd $(SD_FILES_WITH_PREFIX) $(SD_DIRS_WITH_PREFIX)
+	$(VPP) -t $(TARGET) --platform $(PLATFORM) -o $(BINARY_CONTAINERS_PKG) -p $(PACKAGE_FILES) --package.defer_aie_run --package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.kernel_image $(K_IMAGE) --package.boot_mode sd $(SD_FILES_WITH_PREFIX) $(SD_DIRS_WITH_PREFIX)
 	@echo "### ***** sd_card generation done! ***** ###"
 endif
 

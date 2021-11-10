@@ -25,7 +25,7 @@ int main(int argc, char** argv) {
     // Switches
     //**************//"<Full Arg>",  "<Short Arg>", "<Description>", "<Default>"
     parser.addSwitch("--xclbin_file", "-x", "input binary file string", "");
-    parser.addSwitch("--input_file", "-i", "input test data flie", "");
+    parser.addSwitch("--input_file", "-i", "input test data file", "");
     parser.addSwitch("--compare_file", "-c", "Compare File to compare result", "");
     parser.parse(argc, argv);
 

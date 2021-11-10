@@ -11,7 +11,6 @@ VPP_LDFLAGS += --profile.data all:all:all --profile.trace_memory HBM[0]
 endif
 
 DEBUG := no
-B_TEMP = `$(XF_PROJ_ROOT)/common/utility/parse_platform_list.py $(DEVICE)`
 
 #Generates debug summary report
 ifeq ($(DEBUG), yes)
@@ -19,10 +18,11 @@ VPP_LDFLAGS += --dk list_ports
 endif
 
 #Setting Platform Path
-ifeq ($(findstring xpfm, $(DEVICE)), xpfm)
-	B_NAME = $(shell dirname $(DEVICE))
-else
-	B_NAME = $(B_TEMP)/$(DEVICE)
+ifeq ($(PLATFORM),)
+ifneq ($(DEVICE),)
+$(warning WARNING: DEVICE is deprecated in make command. Please use PLATFORM instead)
+PLATFORM := $(DEVICE)
+endif
 endif
 
 #Checks for XILINX_VITIS
@@ -45,14 +45,14 @@ endif
 #Setting CXX
 CXX := g++
 
-check-devices:
-ifndef DEVICE
-	$(error DEVICE not set. Please set the DEVICE properly and rerun. Run "make help" for more details.)
+check-platform:
+ifndef PLATFORM
+	$(error PLATFORM not set. Please set the PLATFORM properly and rerun. Run "make help" for more details.)
 endif
 
 #   device2xsa - create a filesystem friendly name from device name
 #   $(1) - full name of device
-device2xsa = $(strip $(patsubst %.xpfm, % , $(shell basename $(DEVICE))))
+device2xsa = $(strip $(patsubst %.xpfm, % , $(shell basename $(PLATFORM))))
 
 ############################## Deprecated Checks and Running Rules ##############################
 check:

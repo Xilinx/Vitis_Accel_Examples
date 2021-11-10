@@ -1,3 +1,3 @@
-ifeq ($(findstring dfx, $(DEVICE)), dfx)
+ifeq ($(findstring dfx, $(PLATFORM)), dfx)
 CXXFLAGS += -Ddfx_device
 endif

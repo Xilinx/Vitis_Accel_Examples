@@ -19,7 +19,7 @@ endif
 endif
 
 platform_test:
-	platforminfo -j -d $(DEVICE) > platform_info.json
+	platforminfo -j -d $(PLATFORM) > platform_info.json
 	$(XF_PROJ_ROOT)/common/utility/platform_gen.py platform_info.json verify
 
 ifneq ($(USR_VPP_FLAGS), )      

@@ -20,7 +20,7 @@
 
 help::
 	$(ECHO) "Makefile Usage:"
-	$(ECHO) "  make all TARGET=<sw_emu/hw_emu/hw> DEVICE=<FPGA platform>"
+	$(ECHO) "  make all TARGET=<sw_emu/hw_emu/hw> PLATFORM=<FPGA platform>"
 	$(ECHO) "      Command to generate the design for specified Target and Shell."
 	$(ECHO) ""
 	$(ECHO) "  make clean "
@@ -29,13 +29,13 @@ help::
 	$(ECHO) "  make cleanall"
 	$(ECHO) "      Command to remove all the generated files."
 	$(ECHO) ""
-	$(ECHO) "  make test DEVICE=<FPGA platform>"
+	$(ECHO) "  make test PLATFORM=<FPGA platform>"
 	$(ECHO) "     Command to run the application. This is same as 'run' target but does not have any makefile dependency."
 	$(ECHO) ""
-	$(ECHO) "  make run TARGET=<sw_emu/hw_emu/hw> DEVICE=<FPGA platform>"
+	$(ECHO) "  make run TARGET=<sw_emu/hw_emu/hw> PLATFORM=<FPGA platform>"
 	$(ECHO) "      Command to run application in emulation."
 	$(ECHO) ""
-	$(ECHO) "  make build TARGET=<sw_emu/hw_emu/hw> DEVICE=<FPGA platform>"
+	$(ECHO) "  make build TARGET=<sw_emu/hw_emu/hw> PLATFORM=<FPGA platform>"
 	$(ECHO) "      Command to build xclbin application."
 	$(ECHO) ""
 	$(ECHO) "  make host"
@@ -56,8 +56,8 @@ SYSROOT :=
 include ./utils.mk
 
 XSA := 
-ifneq ($(DEVICE), )
-XSA := $(call device2xsa, $(DEVICE))
+ifneq ($(PLATFORM), )
+XSA := $(call device2xsa, $(PLATFORM))
 endif
 TEMP_DIR := ./_x.$(TARGET).$(XSA)
 BUILD_DIR := ./build_dir.$(TARGET).$(XSA)
@@ -79,35 +79,35 @@ include config.mk
 CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++1y
 LDFLAGS += $(opencl_LDFLAGS)
 
-ifeq ($(findstring zc, $(DEVICE)), zc)
-$(error [ERROR]: This example is not supported for $(DEVICE).)
+ifeq ($(findstring zc, $(PLATFORM)), zc)
+$(error [ERROR]: This example is not supported for $(PLATFORM).)
 endif
-ifeq ($(findstring vck, $(DEVICE)), vck)
-$(error [ERROR]: This example is not supported for $(DEVICE).)
+ifeq ($(findstring vck, $(PLATFORM)), vck)
+$(error [ERROR]: This example is not supported for $(PLATFORM).)
 endif
-ifeq ($(findstring aws-vu9p-f1_shell, $(DEVICE)), aws-vu9p-f1_shell)
-$(error [ERROR]: This example is not supported for $(DEVICE).)
+ifeq ($(findstring aws-vu9p-f1_shell, $(PLATFORM)), aws-vu9p-f1_shell)
+$(error [ERROR]: This example is not supported for $(PLATFORM).)
 endif
-ifeq ($(findstring 2019, $(DEVICE)), 2019)
-$(error [ERROR]: This example is not supported for $(DEVICE).)
+ifeq ($(findstring 2019, $(PLATFORM)), 2019)
+$(error [ERROR]: This example is not supported for $(PLATFORM).)
 endif
-ifeq ($(findstring 2018, $(DEVICE)), 2018)
-$(error [ERROR]: This example is not supported for $(DEVICE).)
+ifeq ($(findstring 2018, $(PLATFORM)), 2018)
+$(error [ERROR]: This example is not supported for $(PLATFORM).)
 endif
-ifeq ($(findstring _u2_, $(DEVICE)), _u2_)
-$(error [ERROR]: This example is not supported for $(DEVICE).)
+ifeq ($(findstring _u2_, $(PLATFORM)), _u2_)
+$(error [ERROR]: This example is not supported for $(PLATFORM).)
 endif
-ifeq ($(findstring _u25_, $(DEVICE)), _u25_)
-$(error [ERROR]: This example is not supported for $(DEVICE).)
+ifeq ($(findstring _u25_, $(PLATFORM)), _u25_)
+$(error [ERROR]: This example is not supported for $(PLATFORM).)
 endif
-ifeq ($(findstring u30, $(DEVICE)), u30)
-$(error [ERROR]: This example is not supported for $(DEVICE).)
+ifeq ($(findstring u30, $(PLATFORM)), u30)
+$(error [ERROR]: This example is not supported for $(PLATFORM).)
 endif
-ifeq ($(findstring u50lv, $(DEVICE)), u50lv)
-$(error [ERROR]: This example is not supported for $(DEVICE).)
+ifeq ($(findstring u50lv, $(PLATFORM)), u50lv)
+$(error [ERROR]: This example is not supported for $(PLATFORM).)
 endif
-ifeq ($(findstring u50_gen3x4, $(DEVICE)), u50_gen3x4)
-$(error [ERROR]: This example is not supported for $(DEVICE).)
+ifeq ($(findstring u50_gen3x4, $(PLATFORM)), u50_gen3x4)
+$(error [ERROR]: This example is not supported for $(PLATFORM).)
 endif
 
 ############################## Setting up Host Variables ##############################
@@ -121,7 +121,7 @@ LDFLAGS += -lboost_filesystem -lboost_system
 
 ############################## Setting up Kernel Variables ##############################
 # Kernel compiler global settings
-VPP_FLAGS += -t $(TARGET) --platform $(DEVICE) --save-temps 
+VPP_FLAGS += -t $(TARGET) --platform $(PLATFORM) --save-temps 
 ifneq ($(TARGET), hw)
 	VPP_FLAGS += -g
 endif
@@ -140,7 +140,7 @@ BINARY_CONTAINER_hostmemory_OBJS += $(TEMP_DIR)/hostmemory.xo
 CP = cp -rf
 
 .PHONY: all clean cleanall docs emconfig
-all: check-devices platform_test $(EXECUTABLE) $(BINARY_CONTAINERS) emconfig
+all: check-platform platform_test $(EXECUTABLE) $(BINARY_CONTAINERS) emconfig
 
 .PHONY: host
 host: $(EXECUTABLE)
@@ -158,7 +158,7 @@ $(TEMP_DIR)/hostmemory.xo: src/hostmemory.cpp
 $(BUILD_DIR)/hostmemory.xclbin: $(BINARY_CONTAINER_hostmemory_OBJS)
 	mkdir -p $(BUILD_DIR)
 	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR)  -o'$(BUILD_DIR)/hostmemory.link.xclbin' $(+)
-	$(VPP) -p $(BUILD_DIR)/hostmemory.link.xclbin -t $(TARGET) --platform $(DEVICE) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/hostmemory.xclbin
+	$(VPP) -p $(BUILD_DIR)/hostmemory.link.xclbin -t $(TARGET) --platform $(PLATFORM) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/hostmemory.xclbin
 	mkdir -p $(GEN_DIR) && $(CP) $(BUILD_DIR)/hostmemory.xclbin $(GEN_DIR)
 	$(CP) $(PLATFORM_JSON) $(GEN_DIR)	
 
@@ -168,7 +168,7 @@ $(EXECUTABLE): $(HOST_SRCS) | check-xrt
 
 emconfig:$(EMCONFIG_DIR)/emconfig.json
 $(EMCONFIG_DIR)/emconfig.json:
-	emconfigutil --platform $(DEVICE) --od $(EMCONFIG_DIR)
+	emconfigutil --platform $(PLATFORM) --od $(EMCONFIG_DIR)
 
 ############################## Setting Essential Checks and Running Rules ##############################
 run: all

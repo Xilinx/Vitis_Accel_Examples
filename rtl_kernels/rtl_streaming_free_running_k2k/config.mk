@@ -1,3 +1,12 @@
+B_TEMP = `$(XF_PROJ_ROOT)/common/utility/parse_platform_list.py $(PLATFORM)`
+
+#Setting Platform Path
+ifeq ($(findstring xpfm, $(PLATFORM)), xpfm)
+	B_NAME = $(shell dirname $(PLATFORM))
+else
+	B_NAME = $(B_TEMP)/$(PLATFORM)
+endif
+
 VIVADO := $(XILINX_VIVADO)/bin/vivado
 $(TEMP_DIR)/myadder.xo: 
 	mkdir -p $(TEMP_DIR)
