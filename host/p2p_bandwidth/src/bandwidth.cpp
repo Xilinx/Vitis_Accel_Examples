@@ -15,8 +15,9 @@
 */
 
 extern "C" {
-void bandwidth(unsigned int* buffer0) {
-    // Intentional empty kernel as this example doesn't require actual
-    // kernel to work.
+void bandwidth(unsigned int* buf0, unsigned int* buf1, long size) {
+    for (int i = 0; i < size; i++) {
+        buf1[i] = buf0[i];
+    }
 }
 }

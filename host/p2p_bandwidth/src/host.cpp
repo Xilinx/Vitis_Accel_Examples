@@ -29,16 +29,16 @@ size_t max_buffer = 16 * 1024 * 1024;
 size_t min_buffer = 4 * 1024;
 size_t max_size = 128 * 1024 * 1024; // 128MB
 
-void p2p_host_to_ssd(int& nvmeFd,
-                     cl::Context context,
-                     cl::CommandQueue q,
-                     cl::Program program,
-                     std::vector<int, aligned_allocator<int> > source_input_A) {
+int p2p_host_to_ssd(int& nvmeFd,
+                    cl::Context context,
+                    cl::CommandQueue q,
+                    cl::Program program,
+                    std::vector<int, aligned_allocator<int> > source_input_A) {
     int err;
     int ret = 0;
     size_t vector_size_bytes = sizeof(int) * max_buffer;
 
-    cl::Kernel krnl_adder;
+    cl::Kernel krnl;
     // Allocate Buffer in Global Memory
     cl_mem_ext_ptr_t outExt;
     outExt = {XCL_MEM_EXT_P2P_BUFFER, nullptr, 0};
@@ -46,7 +46,7 @@ void p2p_host_to_ssd(int& nvmeFd,
     OCL_CHECK(err, cl::Buffer input_a(context, CL_MEM_READ_ONLY, vector_size_bytes, nullptr, &err));
     OCL_CHECK(err,
               cl::Buffer p2pBo(context, CL_MEM_WRITE_ONLY | CL_MEM_EXT_PTR_XILINX, vector_size_bytes, &outExt, &err));
-    OCL_CHECK(err, krnl_adder = cl::Kernel(program, "bandwidth", &err));
+    OCL_CHECK(err, krnl = cl::Kernel(program, "bandwidth", &err));
 
     int* inputPtr = (int*)q.enqueueMapBuffer(input_a, CL_TRUE, CL_MAP_WRITE | CL_MAP_READ, 0, vector_size_bytes,
                                              nullptr, nullptr, &err);
@@ -57,13 +57,15 @@ void p2p_host_to_ssd(int& nvmeFd,
     q.finish();
 
     // Set the Kernel Arguments
-    OCL_CHECK(err, err = krnl_adder.setArg(0, input_a));
+    OCL_CHECK(err, err = krnl.setArg(0, input_a));
+    OCL_CHECK(err, err = krnl.setArg(1, p2pBo));
+    OCL_CHECK(err, err = krnl.setArg(2, max_buffer));
 
     // Copy input data to device global memory
     OCL_CHECK(err, err = q.enqueueMigrateMemObjects({input_a}, 0 /* 0 means from host*/));
 
     // Launch the Kernel
-    OCL_CHECK(err, err = q.enqueueTask(krnl_adder));
+    OCL_CHECK(err, err = q.enqueueTask(krnl));
 
     std::cout << "\nMap P2P device buffers to host access pointers\n" << std::endl;
     void* p2pPtr = q.enqueueMapBuffer(p2pBo,                      // buffer
@@ -85,7 +87,10 @@ void p2p_host_to_ssd(int& nvmeFd,
         std::chrono::high_resolution_clock::time_point p2pStart = std::chrono::high_resolution_clock::now();
         for (int i = 0; i < iter; i++) {
             ret = pwrite(nvmeFd, (void*)p2pPtr, bufsize, 0);
-            if (ret == -1) std::cout << "P2P: write() failed, err: " << ret << ", line: " << __LINE__ << std::endl;
+            if (ret == -1) {
+                std::cout << "P2P: write() failed, err: " << ret << ", line: " << __LINE__ << std::endl;
+                return EXIT_FAILURE;
+            }
         }
         std::chrono::high_resolution_clock::time_point p2pEnd = std::chrono::high_resolution_clock::now();
         cl_ulong p2pTime = std::chrono::duration_cast<std::chrono::microseconds>(p2pEnd - p2pStart).count();
@@ -96,6 +101,7 @@ void p2p_host_to_ssd(int& nvmeFd,
         std::cout << "Buffer = " << size_str << " Iterations = " << iter << " Throughput = " << std::setprecision(2)
                   << std::fixed << gbpersec << "GB/s\n";
     }
+    return 0;
 }
 
 void p2p_ssd_to_host(int& nvmeFd,
@@ -106,16 +112,12 @@ void p2p_ssd_to_host(int& nvmeFd,
     int err;
     size_t vector_size_bytes = sizeof(int) * max_buffer;
 
-    cl::Kernel krnl_adder1;
     // Allocate Buffer in Global Memory
     cl_mem_ext_ptr_t inExt;
     inExt = {XCL_MEM_EXT_P2P_BUFFER, nullptr, 0};
 
     OCL_CHECK(err, cl::Buffer buffer_input(context, CL_MEM_READ_ONLY | CL_MEM_EXT_PTR_XILINX, vector_size_bytes, &inExt,
                                            &err));
-    OCL_CHECK(err, krnl_adder1 = cl::Kernel(program, "bandwidth", &err));
-    // Set the Kernel Arguments
-    OCL_CHECK(err, err = krnl_adder1.setArg(0, buffer_input));
 
     std::cout << "\nMap P2P device buffers to host access pointers\n" << std::endl;
     void* p2pPtr1 = q.enqueueMapBuffer(buffer_input,      // buffer
@@ -254,8 +256,10 @@ int main(int argc, char** argv) {
         return EXIT_FAILURE;
     }
     std::cout << "INFO: Successfully opened NVME SSD " << filename << std::endl;
-    p2p_host_to_ssd(nvmeFd, context, q, program, source_input_A);
+    int ret = 0;
+    ret = p2p_host_to_ssd(nvmeFd, context, q, program, source_input_A);
     (void)close(nvmeFd);
+    if (ret != 0) return EXIT_FAILURE;
 
     // P2P transfer from SSD to host
     std::cout << "############################################################\n";
