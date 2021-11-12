@@ -1,6 +1,6 @@
 ifeq ($(findstring zc, $(PLATFORM)), zc)
 VPP_LDFLAGS += --config vadd_soc.cfg
-else ifeq ($(findstring vck, $(PLATFORM)), vck)
+else ifeq ($(findstring vck190, $(PLATFORM)), vck190)
 VPP_LDFLAGS += --config vadd_soc.cfg
 else
 VPP_LDFLAGS += --config vadd_pcie.cfg
