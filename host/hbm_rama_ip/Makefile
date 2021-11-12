@@ -121,9 +121,6 @@ LDFLAGS += -lrt -lstdc++
 # Kernel compiler global settings
 VPP_FLAGS += 
 VPP_FLAGS += -t $(TARGET) --platform $(PLATFORM) --save-temps 
-ifneq ($(TARGET), hw)
-	VPP_FLAGS += -g
-endif
 
 
 # Kernel linker flags
