@@ -101,6 +101,9 @@ endif
 ifeq ($(findstring _u2_, $(PLATFORM)), _u2_)
 $(error [ERROR]: This example is not supported for $(PLATFORM).)
 endif
+ifeq ($(findstring nodma, $(PLATFORM)), nodma)
+$(error [ERROR]: This example is not supported for $(PLATFORM).)
+endif
 ifeq ($(findstring zc, $(PLATFORM)), zc)
 $(error [ERROR]: This example is not supported for $(PLATFORM).)
 endif
