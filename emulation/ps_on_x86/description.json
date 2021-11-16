@@ -1,0 +1,75 @@
+{
+    "name": "Embedded SW-Emulation using x86 PS (HLS C/C++ Kernel)", 
+    "description": [
+        "This example demonstrates how a user can run the PS App as an x86 process instead of ARM process."
+    ],
+    "flow": "vitis",
+    "key_concepts": [
+        "Compiling and Linking for x86", 
+        "Compiling and Linking for Arm"
+    ],
+    "platform_blacklist": [
+        "nodma"
+    ], 
+    "os": [
+        "Linux"
+    ], 
+    "runtime": [
+        "OpenCL"
+    ], 
+    "host": {
+        "host_exe": "embedded_ps_x86",
+        "compiler": {
+            "sources": [
+                "REPO_DIR/common/includes/xcl2/xcl2.cpp",
+                "./src/host.cpp"
+            ], 
+            "includepaths": [
+                "REPO_DIR/common/includes/xcl2"
+            ]
+        }
+    }, 
+    "match_makefile": "false",
+    "containers": [
+        {
+            "accelerators": [
+                {
+                    "name": "vadd", 
+                    "location": "src/vadd.cpp"
+                }
+            ], 
+            "name": "vadd"
+        }
+    ],
+    "launch": [
+        {
+            "cmd_args": "BUILD/vadd.xclbin", 
+            "name": "generic launch for all flows"
+        }
+    ], 
+    "contributors": [
+        {
+            "url": "http://www.xilinx.com", 
+            "group": "Xilinx"
+        }
+    ],
+    "testinfo": {
+        "disable": false,
+        "jobs": [
+            {
+                "index": 0,
+                "dependency": [],
+                "env": "",
+                "cmd": "",
+                "max_memory_MB": 32768,
+                "max_time_min": 300
+            }
+        ],
+        "targets": [
+            "vitis_sw_emu",
+            "vitis_hw_emu",
+            "vitis_hw"
+        ],
+        "category": "canary"
+    }
+}
