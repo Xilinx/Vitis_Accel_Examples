@@ -17,6 +17,7 @@ This example shows the usage of PLRAM and how to use it with simple matrix multi
  - Alveo U55
  - Samsung SmartSSD Computation Storage Drive
  - Samsung U.2 SmartSSD
+ - X3 Compute Shell
  - All NoDMA Platforms, i.e u50 nodma etc
 
 DESIGN FILES
