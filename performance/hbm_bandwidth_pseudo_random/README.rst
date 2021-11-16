@@ -18,6 +18,7 @@ This is a HBM bandwidth example using a pseudo random 1024 bit data access patte
  - AWS VU9P F1
  - Samsung SmartSSD Computation Storage Drive
  - Samsung U.2 SmartSSD
+ - X3 Compute Shell
  - All NoDMA Platforms, i.e u50 nodma etc
 
 DESIGN FILES

@@ -15,6 +15,7 @@ This is simple example of vector addition to demonstrate how to connect each com
  - Samsung SmartSSD Computation Storage Drive
  - Samsung U.2 SmartSSD
  - All Embedded Zynq Platforms, i.e zc702, zcu102 etc
+ - X3 Compute Shell
  - All NoDMA Platforms, i.e u50 nodma etc
 
 DESIGN FILES

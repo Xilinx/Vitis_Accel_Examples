@@ -1,45 +1,24 @@
 {
-    "name": "HBM Simple", 
+    "name": "Embedded SW-Emulation using x86 PS (HLS C/C++ Kernel)", 
     "description": [
-        "This is a simple example of vector addition to describe how to use HLS kernels with HBM (High Bandwidth Memory) for achieving high throughput."
+        "This example demonstrates how a user can run the PS App as an x86 process instead of ARM process."
     ],
     "flow": "vitis",
-    "keywords": [
-        "HBM", 
-        "XCL_MEM_TOPOLOGY", 
-        "cl_mem_ext_ptr_t",
-        "trace_memory",
-        "trace_buffer_size",
-        "opencl_trace"
-    ], 
     "key_concepts": [
-        "High Bandwidth Memory", 
-        "Multiple HBM pseudo-channels"
-    ], 
-    "platform_blacklist": [
-        "_u25_",
-        "u30",
-        "u200",
-        "zc",
-        "vck",
-        "u250",
-        "aws-vu9p-f1",
-        "samsung",
-        "_u2_",
-        "x3522pv",
-        "nodma"
+        "Compiling and Linking for x86", 
+        "Compiling and Linking for Arm"
     ],
+    "platform_blacklist": [
+        "nodma"
+    ], 
     "os": [
         "Linux"
     ], 
     "runtime": [
         "OpenCL"
-    ],
-    "match_ini": "false",
-    "match_makefile": "false", 
-    "platform_type": "pcie",
+    ], 
     "host": {
-        "host_exe": "hbm_simple",
+        "host_exe": "embedded_ps_x86",
         "compiler": {
             "sources": [
                 "REPO_DIR/common/includes/xcl2/xcl2.cpp",
@@ -50,21 +29,21 @@
             ]
         }
     }, 
+    "match_makefile": "false",
     "containers": [
         {
             "accelerators": [
                 {
-                    "name": "krnl_vadd", 
-                    "location": "src/krnl_vadd.cpp"
+                    "name": "vadd", 
+                    "location": "src/vadd.cpp"
                 }
             ], 
-            "name": "krnl_vadd",
-            "ldclflags": "--config PROJECT/krnl_vadd.cfg"
+            "name": "vadd"
         }
     ],
     "launch": [
         {
-            "cmd_args": "BUILD/krnl_vadd.xclbin", 
+            "cmd_args": "BUILD/vadd.xclbin", 
             "name": "generic launch for all flows"
         }
     ], 

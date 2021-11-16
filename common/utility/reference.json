@@ -156,6 +156,8 @@
         "XRT Native API": "https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/devhostapp.html#jln1620691667890",
         "P2P": "https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/Chunk938767849.html#qex1558551641915",
         "User-Managed RTL Kernel": "https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/devrtlkernel.html#lvg1620349851355",
-        "RTL C-Model": "https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/rtl_kernel_wizard.html#wnd1523535864477"
+        "RTL C-Model": "https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/rtl_kernel_wizard.html#wnd1523535864477",
+        "Compiling and Linking for x86": "https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/buildinghostprogram.html#ariaid-title2", 
+        "Compiling and Linking for Arm": "https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/buildinghostprogram.html#ariaid-title3"
     }
 }

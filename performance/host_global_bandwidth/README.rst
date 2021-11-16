@@ -14,6 +14,7 @@ Host to global memory bandwidth test
  - Samsung SmartSSD Computation Storage Drive
  - Samsung U.2 SmartSSD
  - All NoDMA Platforms, i.e u50 nodma etc
+ - X3 Compute Shell
  - All Embedded Zynq Platforms, i.e zc702, zcu102 etc
 
 DESIGN FILES
