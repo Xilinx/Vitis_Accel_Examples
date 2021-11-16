@@ -33,13 +33,13 @@ cl_program xcl_import_binary_file(cl_device_id device_id, cl_context context, co
 //==================================================================================================
 
 void report_time(std::string label, cl_ulong totalTime, cl_ulong curTime) {
-    double total = LENGTH;
+    double total = sizeof(data_t) * LENGTH;
 
     total *= 1000000;     // convert us to s
     total /= 1024 * 1024; // convert to MB
 
     std::cout << std::setw(8) << label << "\t" << std::fixed << std::setprecision(2) << std::setw(8) << curTime
-              << "ms\t" << std::setw(8) << totalTime << "ms\t" << std::setw(8) << float(curTime) * 100 / totalTime
+              << "us\t" << std::setw(8) << totalTime << "us\t" << std::setw(8) << float(curTime) * 100 / totalTime
               << "%\t" << std::setw(8) << total / curTime << "MB/s\t" << std::endl;
 }
 
@@ -151,17 +151,17 @@ int main(int argc, char* argv[]) {
         return 0;
     }
 
-    cl_context context[device_count];
-    cl_command_queue queue[device_count];
+    cl_context context[2];
+    cl_command_queue queue[2];
     cl_kernel krnl_mmult_dev0, krnl_madd_dev1;
-    cl_program program[device_count];
+    cl_program program[2];
     int err;
 
     std::chrono::high_resolution_clock::time_point p2pStart;
     std::chrono::high_resolution_clock::time_point p2pEnd;
 
     std::cout << "Initializing OpenCL objects" << std::endl;
-    for (uint8_t i = 0; i < device_count; i++) {
+    for (uint8_t i = 0; i < 2; i++) {
         context[i] = clCreateContext(0, 1, &device_id[i], nullptr, nullptr, &err);
         if (err != CL_SUCCESS)
             std::cout << "clCreateContext call: Failed to create a compute context" << err << std::endl;
@@ -272,7 +272,7 @@ int main(int argc, char* argv[]) {
     clReleaseKernel(krnl_mmult_dev0);
     clReleaseKernel(krnl_madd_dev1);
     // ------------------------------------------------------------------------------------------------------------------------
-    for (uint8_t i = 0; i < device_count; i++) {
+    for (uint8_t i = 0; i < 2; i++) {
         clReleaseProgram(program[i]);
         clReleaseContext(context[i]);
         clReleaseCommandQueue(queue[i]);

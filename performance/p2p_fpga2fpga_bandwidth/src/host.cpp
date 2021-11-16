@@ -44,8 +44,9 @@ int main(int argc, char* argv[]) {
     // Read settings
     auto binaryFile1 = parser.value("xclbin_file1");
     auto binaryFile2 = parser.value("xclbin_file2");
-    cl_uint dev_id1 = stoi(parser.value("device0"));
-    cl_uint dev_id2 = stoi(parser.value("device1"));
+    std::string dev_id[2];
+    dev_id[0] = parser.value("device0");
+    dev_id[1] = parser.value("device1");
 
     if (argc < 5) {
         std::cout << "Options: <exe> <-x1> <first xclbin> <-x2> <second xclbin> "
@@ -99,23 +100,27 @@ int main(int argc, char* argv[]) {
     cl_device_id* device_id = (cl_device_id*)malloc(sizeof(cl_device_id) * device_count);
     clGetDeviceIDs(platform_id, CL_DEVICE_TYPE_ACCELERATOR, device_count, device_id, nullptr);
 
-    cl_device_id device1, device2;
-    if (dev_id1 <= device_count)
-        device1 = device_id[dev_id1];
-    else
-        std::cout << "The device_id1 provided using -d0 flag is outside the range of "
-                     "available devices\n";
-    if (dev_id2 <= device_count)
-        device2 = device_id[dev_id2];
-    else
-        std::cout << "The device_id2 provided using -d1 flag is outside the range of "
-                     "available devices\n";
+    cl_device_id device[2];
+
+    for (int i = 0; i < 2; i++) {
+        auto pos = dev_id[i].find(":");
+        if (pos == std::string::npos) {
+            uint32_t device_index = stoi(dev_id[i]);
+            if (device_index >= device_count) {
+                std::cout << "The device_index provided using -d flag is outside the range of "
+                             "available devices\n";
+                return EXIT_FAILURE;
+            }
+            device[i] = device_id[device_index];
+        } else
+            device[i] = xcl::find_device_bdf_c(device_id, dev_id[i], device_count);
+    }
 
     cl_bool is_nodma;
     uint8_t nodma_cnt = 0;
-    clGetDeviceInfo(device1, CL_DEVICE_NODMA, sizeof(is_nodma), &is_nodma, nullptr);
+    clGetDeviceInfo(device[0], CL_DEVICE_NODMA, sizeof(is_nodma), &is_nodma, nullptr);
     if (is_nodma) nodma_cnt++;
-    clGetDeviceInfo(device2, CL_DEVICE_NODMA, sizeof(is_nodma), &is_nodma, nullptr);
+    clGetDeviceInfo(device[1], CL_DEVICE_NODMA, sizeof(is_nodma), &is_nodma, nullptr);
     if (is_nodma) nodma_cnt++;
 
     if (nodma_cnt == 2) {
@@ -126,30 +131,30 @@ int main(int argc, char* argv[]) {
         return 0;
     }
 
-    cl_context context[device_count];
-    cl_command_queue queue[device_count];
+    cl_context context[2];
+    cl_command_queue queue[2];
     cl_kernel krnl_dev0, krnl_dev1;
-    cl_program program[device_count];
+    cl_program program[2];
     int err;
 
-    OCL_CHECK(err, context[0] = clCreateContext(0, 1, &device1, nullptr, nullptr, &err));
+    OCL_CHECK(err, context[0] = clCreateContext(0, 1, &device[0], nullptr, nullptr, &err));
     if (err != CL_SUCCESS) std::cout << "clCreateContext call: Failed to create a compute context" << err << std::endl;
-    OCL_CHECK(err, queue[0] = clCreateCommandQueue(context[0], device1, CL_QUEUE_PROFILING_ENABLE, &err));
+    OCL_CHECK(err, queue[0] = clCreateCommandQueue(context[0], device[0], CL_QUEUE_PROFILING_ENABLE, &err));
     if (err != CL_SUCCESS) std::cout << "clCreateCommandQueue call: Failed to create commandqueue" << err << std::endl;
 
-    OCL_CHECK(err, context[1] = clCreateContext(0, 1, &device2, nullptr, nullptr, &err));
+    OCL_CHECK(err, context[1] = clCreateContext(0, 1, &device[1], nullptr, nullptr, &err));
     if (err != CL_SUCCESS) std::cout << "clCreateContext call: Failed to create a compute context" << err << std::endl;
-    OCL_CHECK(err, queue[1] = clCreateCommandQueue(context[1], device2, CL_QUEUE_PROFILING_ENABLE, &err));
+    OCL_CHECK(err, queue[1] = clCreateCommandQueue(context[1], device[1], CL_QUEUE_PROFILING_ENABLE, &err));
     if (err != CL_SUCCESS) std::cout << "clCreateCommandQueue call: Failed to create commandqueue" << err << std::endl;
 
     size_t vector_size_bytes = sizeof(data_t) * max_buffer;
     //------------------------------- Program
     //-------------------------------------------
-    program[0] = xcl_import_binary_file(device1, context[0], binaryFile1.c_str());
-    std::cout << "device1 program successful" << std::endl;
+    program[0] = xcl_import_binary_file(device[0], context[0], binaryFile1.c_str());
+    std::cout << "device[0] program successful" << std::endl;
     OCL_CHECK(err, krnl_dev0 = clCreateKernel(program[0], "bandwidth", &err));
-    program[1] = xcl_import_binary_file(device2, context[1], binaryFile2.c_str());
-    std::cout << "device2 program successful" << std::endl;
+    program[1] = xcl_import_binary_file(device[1], context[1], binaryFile2.c_str());
+    std::cout << "device[1] program successful" << std::endl;
     OCL_CHECK(err, krnl_dev1 = clCreateKernel(program[1], "bandwidth", &err));
 
     xcl::P2P::init(platform_id);
@@ -197,13 +202,13 @@ int main(int argc, char* argv[]) {
     OCL_CHECK(err, err = xcl::P2P::getMemObjectFd(pbo1, &fd)); // Export p2p buffer to file descriptor (fd)
 
     cl_mem pbo1_imported;
-    OCL_CHECK(err, err = xcl::P2P::getMemObjectFromFd(context[1], device2, 0, fd, &pbo1_imported)); // Import
+    OCL_CHECK(err, err = xcl::P2P::getMemObjectFromFd(context[1], device[1], 0, fd, &pbo1_imported)); // Import
 
     int fd1 = -1;
     OCL_CHECK(err, err = xcl::P2P::getMemObjectFd(pbo2, &fd1)); // Export p2p buffer to file descriptor (fd)
 
     cl_mem pbo2_imported;
-    OCL_CHECK(err, err = xcl::P2P::getMemObjectFromFd(context[0], device1, 0, fd1, &pbo2_imported)); // Import
+    OCL_CHECK(err, err = xcl::P2P::getMemObjectFromFd(context[0], device[0], 0, fd1, &pbo2_imported)); // Import
 
     size_t max_size = 128 * 1024 * 1024; // 128MB size
     std::cout << "Start P2P copy of various Buffer sizes \n";
@@ -324,7 +329,7 @@ int main(int argc, char* argv[]) {
     clReleaseKernel(krnl_dev0);
     clReleaseKernel(krnl_dev1);
     // ------------------------------------------------------------------------------------------------------------------------
-    for (uint i = 0; i < device_count; i++) {
+    for (uint i = 0; i < 2; i++) {
         clReleaseProgram(program[i]);
         clReleaseContext(context[i]);
         clReleaseCommandQueue(queue[i]);

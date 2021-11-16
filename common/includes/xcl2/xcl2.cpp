@@ -81,6 +81,29 @@ cl::Device find_device_bdf(const std::vector<cl::Device>& devices, const std::st
     }
     return device;
 }
+cl_device_id find_device_bdf_c(cl_device_id* devices, const std::string& bdf, cl_uint device_count) {
+    char device_bdf[20];
+    cl_int err;
+    cl_device_id device;
+    int cnt = 0;
+    for (uint32_t i = 0; i < device_count; i++) {
+        err = clGetDeviceInfo(devices[i], CL_DEVICE_PCIE_BDF, sizeof(device_bdf), device_bdf, 0);
+        if (err != CL_SUCCESS) {
+            std::cout << "Unable to extract the device BDF details\n";
+            exit(EXIT_FAILURE);
+        }
+        if (bdf == device_bdf) {
+            device = devices[i];
+            cnt++;
+            break;
+        }
+    }
+    if (cnt == 0) {
+        std::cout << "Invalid device bdf. Please check and provide valid bdf\n";
+        exit(EXIT_FAILURE);
+    }
+    return device;
+}
 std::vector<unsigned char> read_binary_file(const std::string& xclbin_file_name) {
     std::cout << "INFO: Reading " << xclbin_file_name << std::endl;
     FILE* fp;
