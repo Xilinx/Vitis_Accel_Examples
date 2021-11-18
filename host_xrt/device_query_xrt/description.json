@@ -12,7 +12,8 @@
     ],
     "platform_blacklist": [
         "zc",
-        "vck"
+        "vck",
+        "aws-vu9p-f1_nodma"
     ],
     "os": [
         "Linux"

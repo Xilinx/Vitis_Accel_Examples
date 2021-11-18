@@ -82,6 +82,9 @@ endif
 ifeq ($(findstring vck, $(PLATFORM)), vck)
 $(error [ERROR]: This example is not supported for $(PLATFORM).)
 endif
+ifeq ($(findstring aws-vu9p-f1_nodma, $(PLATFORM)), aws-vu9p-f1_nodma)
+$(error [ERROR]: This example is not supported for $(PLATFORM).)
+endif
 
 ############################## Setting up Host Variables ##############################
 #Include Required Host Source Files

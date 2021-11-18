@@ -15,6 +15,7 @@ This is simple example to describe SLR assignment information for a platform des
  - All Versal Platforms, i.e vck190 etc
  - Samsung SmartSSD Computation Storage Drive
  - Samsung U.2 SmartSSD
+ - X3 Compute Shell
  - All NoDMA Platforms, i.e u50 nodma etc
 
 DESIGN FILES

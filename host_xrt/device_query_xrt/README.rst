@@ -11,6 +11,7 @@ This Example prints device properties using XRT Native APIs. It also displays th
 
  - All Embedded Zynq Platforms, i.e zc702, zcu102 etc
  - All Versal Platforms, i.e vck190 etc
+ - AWS VU9P F1 NoDMA
 
 DESIGN FILES
 ------------
