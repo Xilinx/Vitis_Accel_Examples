@@ -96,10 +96,6 @@ ifeq ($(findstring 2019, $(PLATFORM)), 2019)
 $(error [ERROR]: This example is not supported for $(PLATFORM).)
 endif
 
-ifneq ($(findstring u50, $(PLATFORM)), u50)
-$(warning [WARNING]: This example has not been tested for $(PLATFORM). It may or may not work.)
-endif
-
 ############################## Setting up Host Variables ##############################
 #Include Required Host Source Files
 CXXFLAGS += -I$(XF_PROJ_ROOT)/common/includes/cmdparser
