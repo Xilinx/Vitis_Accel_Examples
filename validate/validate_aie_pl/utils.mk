@@ -52,13 +52,6 @@ ifndef XILINX_VITIS
 endif
 endif
 
-#Checks for Device Family
-ifeq ($(HOST_ARCH), aarch32)
-	DEV_FAM = 7Series
-else ifeq ($(HOST_ARCH), aarch64)
-	DEV_FAM = Ultrascale
-endif
-
 B_NAME = $(shell dirname $(XPLATFORM))
 
 #Checks for Correct architecture
