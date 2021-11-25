@@ -1,0 +1,93 @@
+{
+    "name": "Mailbox and Auto-Restart (XRT Native API's)", 
+    "description": [
+        "This is a simple example demonstrating the Mailbox and Auto-restart features for writing registers to and reading registers from a never-ending kernel."
+    ],
+    "flow": "vitis",
+    "keywords": [
+        "set_arg",
+        "get_arg",
+        "write()",
+        "read()",
+        "STABLE"
+    ], 
+    "key_concepts": [
+        "Mailbox",
+        "Auto-restart"
+    ], 
+    "platform_blacklist": [
+        "nodma"
+    ], 
+    "os": [
+        "Linux"
+    ], 
+    "runtime": [
+        "OpenCL"
+    ],
+    "match_makefile": "false",
+    "host": {
+        "host_exe": "mailbox_auto_restart_xrt",
+        "compiler": {
+            "sources": [
+                "REPO_DIR/common/includes/cmdparser/cmdlineparser.cpp",
+                "REPO_DIR/common/includes/logger/logger.cpp",
+                "./src/host.cpp"
+            ], 
+            "includepaths": [
+                "REPO_DIR/common/includes/cmdparser",
+                "REPO_DIR/common/includes/logger"
+            ]
+        },
+        "linker" : {
+            "libraries" : ["uuid",
+                           "xrt_coreutil"
+               ]
+        }
+    },
+    "containers": [
+        {
+            "accelerators": [
+                {
+                    "name": "mbox_autorestart", 
+                    "clflags": "--config PROJECT/mailbox_auto_restart.cfg", 
+                    "location": "src/mbox_autorestart.cpp"
+                }
+            ], 
+            "name": "mbox_autorestart"
+        }
+    ],
+    "targets": [
+        "hw_emu",
+        "hw"
+    ],
+    "launch": [
+        {
+            "cmd_args": "-x BUILD/mbox_autorestart.xclbin", 
+            "name": "generic launch for all flows"
+        }
+    ], 
+    "contributors": [
+        {
+            "url": "http://www.xilinx.com", 
+            "group": "Xilinx"
+        }
+    ],
+    "testinfo": {
+        "disable": false,
+        "jobs": [
+            {
+                "index": 0,
+                "dependency": [],
+                "env": "",
+                "cmd": "",
+                "max_memory_MB": 32768,
+                "max_time_min": 300
+            }
+        ],
+        "targets": [
+            "vitis_hw_emu",
+            "vitis_hw"
+        ],
+        "category": "canary"
+    }
+}
