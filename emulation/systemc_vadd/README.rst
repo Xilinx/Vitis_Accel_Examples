@@ -19,6 +19,7 @@ Application code is located in the src directory. Accelerator binary files will 
 ::
 
    src/host.cpp
+   src/vadd.cpp
    
 COMMAND LINE ARGUMENTS
 ----------------------

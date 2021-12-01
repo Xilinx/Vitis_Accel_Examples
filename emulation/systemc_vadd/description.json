@@ -39,7 +39,7 @@
                 {
                     "name": "vadd",
                     "kernel_type": "SystemC", 
-                    "location": "vadd.cpp"
+                    "location": "src/vadd.cpp"
                 }
             ], 
             "name": "vadd"

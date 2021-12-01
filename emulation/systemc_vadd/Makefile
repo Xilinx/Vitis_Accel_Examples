@@ -128,9 +128,9 @@ build: check-vitis $(BINARY_CONTAINERS)
 xclbin: build
 
 ############################## Setting Rules for Binary Containers (Building Kernels) ##############################
-vadd.xo: vadd.cpp
+vadd.xo: src/vadd.cpp
 	mkdir -p $(TEMP_DIR)
-	create_sc_xo vadd.cpp
+	create_sc_xo src/vadd.cpp
 $(BUILD_DIR)/vadd.xclbin: $(BINARY_CONTAINER_vadd_OBJS)
 	mkdir -p $(BUILD_DIR)
 ifeq ($(HOST_ARCH), x86)
