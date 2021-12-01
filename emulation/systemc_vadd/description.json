@@ -19,7 +19,8 @@
     ], 
     "runtime": [
         "OpenCL"
-    ], 
+    ],
+    "gui": "false", 
     "host": {
         "host_exe": "systemc_vadd",
         "compiler": {
