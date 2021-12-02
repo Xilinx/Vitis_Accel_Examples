@@ -37,6 +37,28 @@ ifndef XILINX_XRT
 	$(error XILINX_XRT variable is not set, please set correctly and rerun)
 endif
 
+check-device:
+	@set -eu; \
+	inallowlist=False; \
+	inblocklist=False; \
+	if [ "$(PLATFORM_ALLOWLIST)" = "" ]; \
+	    then inallowlist=True; \
+	fi; \
+	for dev in $(PLATFORM_ALLOWLIST); \
+	    do if [[ $$(echo $(PLATFORM) | grep $$dev) != "" ]]; \
+	    then inallowlist=True; fi; \
+	done ;\
+	for dev in $(PLATFORM_BLOCKLIST); \
+	    do if [[ $$(echo $(PLATFORM) | grep $$dev) != "" ]]; \
+	    then inblocklist=True; fi; \
+	done ;\
+	if [[ $$inblocklist == True ]]; \
+	    then echo "[ERROR]: This example is not supported for $(PLATFORM)."; exit 1;\
+	fi; \
+	if [[ $$inallowlist == False ]]; \
+	    then echo "[Warning]: The platform $(PLATFORM) not in allowlist."; \
+	fi;
+
 #Checks for Correct architecture
 ifneq ($(HOST_ARCH), $(filter $(HOST_ARCH),x86))
 $(error HOST_ARCH variable not set correctly, supported HOST_ARCH is x86 only)

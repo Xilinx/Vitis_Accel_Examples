@@ -79,28 +79,9 @@ include config.mk
 CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++1y
 LDFLAGS += $(opencl_LDFLAGS)
 
-ifeq ($(findstring zc, $(PLATFORM)), zc)
-$(error [ERROR]: This example is not supported for $(PLATFORM).)
-endif
-ifeq ($(findstring vck, $(PLATFORM)), vck)
-$(error [ERROR]: This example is not supported for $(PLATFORM).)
-endif
-ifeq ($(findstring u200_gen3x16, $(PLATFORM)), u200_gen3x16)
-$(error [ERROR]: This example is not supported for $(PLATFORM).)
-endif
-ifeq ($(findstring u30, $(PLATFORM)), u30)
-$(error [ERROR]: This example is not supported for $(PLATFORM).)
-endif
-ifeq ($(findstring nodma, $(PLATFORM)), nodma)
-$(error [ERROR]: This example is not supported for $(PLATFORM).)
-endif
-ifeq ($(findstring _u2_, $(PLATFORM)), _u2_)
-$(error [ERROR]: This example is not supported for $(PLATFORM).)
-endif
-ifeq ($(findstring samsung, $(PLATFORM)), samsung)
-$(error [ERROR]: This example is not supported for $(PLATFORM).)
-endif
 
+########################## Checking if PLATFORM in whitelist #######################
+PLATFORM_BLOCKLIST += zc vck u200_gen3x16 u30 nodma _u2_ samsung 
 ############################## Setting up Host Variables ##############################
 #Include Required Host Source Files
 CXXFLAGS += -I$(XF_PROJ_ROOT)/common/includes/xcl2
@@ -133,13 +114,13 @@ BINARY_CONTAINER_krnl_kmeans_OBJS += $(TEMP_DIR)/kmeans.xo
 CP = cp -rf
 
 .PHONY: all clean cleanall docs emconfig
-all: check-platform $(EXECUTABLE) $(BINARY_CONTAINERS) emconfig
+all: check-platform check-device $(EXECUTABLE) $(BINARY_CONTAINERS) emconfig
 
 .PHONY: host
 host: $(EXECUTABLE)
 
 .PHONY: build
-build: check-vitis $(BINARY_CONTAINERS)
+build: check-vitis check-device $(BINARY_CONTAINERS)
 
 .PHONY: xclbin
 xclbin: build

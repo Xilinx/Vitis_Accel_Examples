@@ -77,39 +77,8 @@ include $(XF_PROJ_ROOT)/common/includes/opencl/opencl.mk
 CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++1y
 LDFLAGS += $(opencl_LDFLAGS)
 
-ifeq ($(findstring _u25_, $(PLATFORM)), _u25_)
-$(error [ERROR]: This example is not supported for $(PLATFORM).)
-endif
-ifeq ($(findstring u30, $(PLATFORM)), u30)
-$(error [ERROR]: This example is not supported for $(PLATFORM).)
-endif
-ifeq ($(findstring u200, $(PLATFORM)), u200)
-$(error [ERROR]: This example is not supported for $(PLATFORM).)
-endif
-ifeq ($(findstring zc, $(PLATFORM)), zc)
-$(error [ERROR]: This example is not supported for $(PLATFORM).)
-endif
-ifeq ($(findstring vck, $(PLATFORM)), vck)
-$(error [ERROR]: This example is not supported for $(PLATFORM).)
-endif
-ifeq ($(findstring u250, $(PLATFORM)), u250)
-$(error [ERROR]: This example is not supported for $(PLATFORM).)
-endif
-ifeq ($(findstring aws-vu9p-f1, $(PLATFORM)), aws-vu9p-f1)
-$(error [ERROR]: This example is not supported for $(PLATFORM).)
-endif
-ifeq ($(findstring samsung, $(PLATFORM)), samsung)
-$(error [ERROR]: This example is not supported for $(PLATFORM).)
-endif
-ifeq ($(findstring _u2_, $(PLATFORM)), _u2_)
-$(error [ERROR]: This example is not supported for $(PLATFORM).)
-endif
-ifeq ($(findstring x3522pv, $(PLATFORM)), x3522pv)
-$(error [ERROR]: This example is not supported for $(PLATFORM).)
-endif
-ifeq ($(findstring nodma, $(PLATFORM)), nodma)
-$(error [ERROR]: This example is not supported for $(PLATFORM).)
-endif
+########################## Checking if PLATFORM in whitelist #######################
+PLATFORM_BLOCKLIST += _u25_ u30 u200 zc vck u250 aws-vu9p-f1 samsung _u2_ x3522pv nodma 
 
 ############################## Setting up Host Variables ##############################
 #Include Required Host Source Files

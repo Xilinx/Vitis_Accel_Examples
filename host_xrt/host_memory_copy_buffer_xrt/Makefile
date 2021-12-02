@@ -77,49 +77,10 @@ include $(XF_PROJ_ROOT)/common/includes/opencl/opencl.mk
 CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++1y
 LDFLAGS += $(opencl_LDFLAGS)
 
-ifeq ($(findstring _u25_, $(PLATFORM)), _u25_)
-$(error [ERROR]: This example is not supported for $(PLATFORM).)
-endif
-ifeq ($(findstring u30, $(PLATFORM)), u30)
-$(error [ERROR]: This example is not supported for $(PLATFORM).)
-endif
-ifeq ($(findstring u50c, $(PLATFORM)), u50c)
-$(error [ERROR]: This example is not supported for $(PLATFORM).)
-endif
-ifeq ($(findstring u50lv, $(PLATFORM)), u50lv)
-$(error [ERROR]: This example is not supported for $(PLATFORM).)
-endif
-ifeq ($(findstring u50_gen3x4, $(PLATFORM)), u50_gen3x4)
-$(error [ERROR]: This example is not supported for $(PLATFORM).)
-endif
-ifeq ($(findstring u55, $(PLATFORM)), u55)
-$(error [ERROR]: This example is not supported for $(PLATFORM).)
-endif
-ifeq ($(findstring zc, $(PLATFORM)), zc)
-$(error [ERROR]: This example is not supported for $(PLATFORM).)
-endif
-ifeq ($(findstring vck, $(PLATFORM)), vck)
-$(error [ERROR]: This example is not supported for $(PLATFORM).)
-endif
-ifeq ($(findstring 2019, $(PLATFORM)), 2019)
-$(error [ERROR]: This example is not supported for $(PLATFORM).)
-endif
-ifeq ($(findstring 2018, $(PLATFORM)), 2018)
-$(error [ERROR]: This example is not supported for $(PLATFORM).)
-endif
-ifeq ($(findstring samsung, $(PLATFORM)), samsung)
-$(error [ERROR]: This example is not supported for $(PLATFORM).)
-endif
-ifeq ($(findstring u250, $(PLATFORM)), u250)
-$(error [ERROR]: This example is not supported for $(PLATFORM).)
-endif
-ifeq ($(findstring _u2_, $(PLATFORM)), _u2_)
-$(error [ERROR]: This example is not supported for $(PLATFORM).)
-endif
 
-ifneq ($(findstring u50_gen3x16_nodma, $(PLATFORM)), u50_gen3x16_nodma)
-$(warning [WARNING]: This example has not been tested for $(PLATFORM). It may or may not work.)
-endif
+########################## Checking if PLATFORM in whitelist #######################
+PLATFORM_BLOCKLIST += _u25_ u30 u50c u50lv u50_gen3x4 u55 zc vck 2019 2018 samsung u250 _u2_ 
+PLATFORM_ALLOWLIST += u50_gen3x16_nodma 
 
 ############################## Setting up Host Variables ##############################
 #Include Required Host Source Files
@@ -151,13 +112,13 @@ BINARY_CONTAINER_krnl_vadd_OBJS += $(TEMP_DIR)/krnl_vadd.xo
 CP = cp -rf
 
 .PHONY: all clean cleanall docs emconfig
-all: check-platform $(EXECUTABLE) $(BINARY_CONTAINERS) emconfig
+all: check-platform check-device $(EXECUTABLE) $(BINARY_CONTAINERS) emconfig
 
 .PHONY: host
 host: $(EXECUTABLE)
 
 .PHONY: build
-build: check-vitis $(BINARY_CONTAINERS)
+build: check-vitis check-device $(BINARY_CONTAINERS)
 
 .PHONY: xclbin
 xclbin: build

@@ -77,24 +77,8 @@ include $(XF_PROJ_ROOT)/common/includes/opencl/opencl.mk
 CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++1y
 LDFLAGS += $(opencl_LDFLAGS)
 
-ifeq ($(findstring nodma, $(PLATFORM)), nodma)
-$(error [ERROR]: This example is not supported for $(PLATFORM).)
-endif
-ifeq ($(findstring zc, $(PLATFORM)), zc)
-$(error [ERROR]: This example is not supported for $(PLATFORM).)
-endif
-ifeq ($(findstring vck, $(PLATFORM)), vck)
-$(error [ERROR]: This example is not supported for $(PLATFORM).)
-endif
-ifeq ($(findstring u200, $(PLATFORM)), u200)
-$(error [ERROR]: This example is not supported for $(PLATFORM).)
-endif
-ifeq ($(findstring u250, $(PLATFORM)), u250)
-$(error [ERROR]: This example is not supported for $(PLATFORM).)
-endif
-ifeq ($(findstring 2019, $(PLATFORM)), 2019)
-$(error [ERROR]: This example is not supported for $(PLATFORM).)
-endif
+########################## Checking if PLATFORM in whitelist #######################
+PLATFORM_BLOCKLIST += nodma zc vck u200 u250 2019
 
 ############################## Setting up Host Variables ##############################
 #Include Required Host Source Files
@@ -127,13 +111,13 @@ BINARY_CONTAINER_hello_OBJS += $(TEMP_DIR)/hello.xo
 CP = cp -rf
 
 .PHONY: all clean cleanall docs emconfig
-all: check-platform $(EXECUTABLE) $(BINARY_CONTAINERS) emconfig
+all: check-platform check-device $(EXECUTABLE) $(BINARY_CONTAINERS) emconfig
 
 .PHONY: host
 host: $(EXECUTABLE)
 
 .PHONY: build
-build: check-vitis $(BINARY_CONTAINERS)
+build: check-vitis check-device $(BINARY_CONTAINERS)
 
 .PHONY: xclbin
 xclbin: build
