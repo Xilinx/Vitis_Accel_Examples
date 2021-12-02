@@ -84,31 +84,9 @@ include config.mk
 CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++1y
 LDFLAGS += $(opencl_LDFLAGS)
 
-ifeq ($(findstring dma, $(PLATFORM)), dma)
-$(error [ERROR]: This example is not supported for $(PLATFORM).)
-endif
-ifeq ($(findstring u30, $(PLATFORM)), u30)
-$(error [ERROR]: This example is not supported for $(PLATFORM).)
-endif
-ifeq ($(findstring aws, $(PLATFORM)), aws)
-$(error [ERROR]: This example is not supported for $(PLATFORM).)
-endif
-ifeq ($(findstring samsung, $(PLATFORM)), samsung)
-$(error [ERROR]: This example is not supported for $(PLATFORM).)
-endif
-ifeq ($(findstring _u2_, $(PLATFORM)), _u2_)
-$(error [ERROR]: This example is not supported for $(PLATFORM).)
-endif
-ifeq ($(findstring 2019, $(PLATFORM)), 2019)
-$(error [ERROR]: This example is not supported for $(PLATFORM).)
-endif
-ifeq ($(findstring 2018, $(PLATFORM)), 2018)
-$(error [ERROR]: This example is not supported for $(PLATFORM).)
-endif
-ifeq ($(findstring vck5000, $(PLATFORM)), vck5000)
-$(error [ERROR]: This example is not supported for $(PLATFORM).)
-endif
 
+########################## Checking if PLATFORM in whitelist #######################
+PLATFORM_BLOCKLIST += dma u30 aws samsung _u2_ 2019 2018 vck5000 
 ############################## Setting up Host Variables ##############################
 #Include Required Host Source Files
 CXXFLAGS += -I$(XF_PROJ_ROOT)/common/includes/xcl2
@@ -142,13 +120,13 @@ BINARY_CONTAINER_validate_OBJS += $(TEMP_DIR)/bandwidth.xo
 CP = cp -rf
 
 .PHONY: all clean cleanall docs emconfig
-all: check-platform $(EXECUTABLE) $(BINARY_CONTAINERS) emconfig sd_card
+all: check-platform check-device $(EXECUTABLE) $(BINARY_CONTAINERS) emconfig sd_card
 
 .PHONY: host
 host: $(EXECUTABLE)
 
 .PHONY: build
-build: check-vitis $(BINARY_CONTAINERS)
+build: check-vitis check-device $(BINARY_CONTAINERS)
 
 .PHONY: xclbin
 xclbin: build

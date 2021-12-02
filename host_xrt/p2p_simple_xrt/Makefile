@@ -79,31 +79,10 @@ include config.mk
 CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++1y
 LDFLAGS += $(opencl_LDFLAGS)
 
-ifeq ($(findstring zc, $(PLATFORM)), zc)
-$(error [ERROR]: This example is not supported for $(PLATFORM).)
-endif
-ifeq ($(findstring _u25_, $(PLATFORM)), _u25_)
-$(error [ERROR]: This example is not supported for $(PLATFORM).)
-endif
-ifeq ($(findstring u30, $(PLATFORM)), u30)
-$(error [ERROR]: This example is not supported for $(PLATFORM).)
-endif
-ifeq ($(findstring vck, $(PLATFORM)), vck)
-$(error [ERROR]: This example is not supported for $(PLATFORM).)
-endif
-ifeq ($(findstring aws, $(PLATFORM)), aws)
-$(error [ERROR]: This example is not supported for $(PLATFORM).)
-endif
-ifeq ($(findstring 201910, $(PLATFORM)), 201910)
-$(error [ERROR]: This example is not supported for $(PLATFORM).)
-endif
-ifeq ($(findstring u50_gen3x16_xdma_2019, $(PLATFORM)), u50_gen3x16_xdma_2019)
-$(error [ERROR]: This example is not supported for $(PLATFORM).)
-endif
 
-ifneq ($(findstring samsung_u2, $(PLATFORM)), samsung_u2)
-$(warning [WARNING]: This example has not been tested for $(PLATFORM). It may or may not work.)
-endif
+########################## Checking if PLATFORM in whitelist #######################
+PLATFORM_BLOCKLIST += zc _u25_ u30 vck aws 201910 u50_gen3x16_xdma_2019 
+PLATFORM_ALLOWLIST += samsung_u2 
 
 ############################## Setting up Host Variables ##############################
 #Include Required Host Source Files
@@ -132,13 +111,13 @@ BINARY_CONTAINER_adder_OBJS += $(TEMP_DIR)/adder.xo
 CP = cp -rf
 
 .PHONY: all clean cleanall docs emconfig
-all: check-platform $(EXECUTABLE) $(BINARY_CONTAINERS) emconfig
+all: check-platform check-device $(EXECUTABLE) $(BINARY_CONTAINERS) emconfig
 
 .PHONY: host
 host: $(EXECUTABLE)
 
 .PHONY: build
-build: check-vitis $(BINARY_CONTAINERS)
+build: check-vitis check-device $(BINARY_CONTAINERS)
 
 .PHONY: xclbin
 xclbin: build

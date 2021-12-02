@@ -92,34 +92,23 @@ def create_params(target,data):
 
     blacklist = [board for board in data.get("platform_blacklist", [])]
     forbid_others = False
+    target.write("\n########################## Checking if PLATFORM in whitelist #######################")
     if blacklist:
+        target.write("\nPLATFORM_BLOCKLIST += ")        
         for board in blacklist:
-            if board != "others":
-                target.write("ifeq ($(findstring ")
-                target.write(board)
-                target.write(", $(PLATFORM)), ")
-                target.write(board)
-                target.write(")\n")
-                target.write("$(error [ERROR]: This example is not supported for $(PLATFORM).)\n")
-                target.write("endif\n")
-            else:
-                forbid_others = True
+          if board != "others":
+              target.write(board)
+              target.write(" ")
+          else:
+              forbid_others = True
         target.write("\n")
     whitelist = [board for board in data.get("platform_whitelist", [])]
     if whitelist:
+        target.write("PLATFORM_ALLOWLIST += ")
         for board in whitelist:
-            target.write("ifneq ($(findstring ")
             target.write(board)
-            target.write(", $(PLATFORM)), ")
-            target.write(board)
-            target.write(")\n")
-        if forbid_others:
-            target.write("$(error [ERROR]: This example is not supported for $(PLATFORM).)\n")
-        else:
-            target.write("$(warning [WARNING]: This example has not been tested for $(PLATFORM). It may or may not work.)\n")
-        for board in whitelist:
-            target.write("endif\n")
-        target.write("\n")
+            target.write(" ")
+        target.write("\n\n")
     return
 
 def add_host_flags(target, data):
@@ -460,7 +449,7 @@ def mk_build_all(target, data):
     target.write("\n")
 
     target.write(".PHONY: all clean cleanall docs emconfig\n")
-    target.write("all: check-platform $(EXECUTABLE) $(BINARY_CONTAINERS) emconfig")
+    target.write("all: check-platform check-device $(EXECUTABLE) $(BINARY_CONTAINERS) emconfig")
     if not ("platform_type" in data and data["platform_type"] == "pcie"):
         target.write(" sd_card")
     target.write("\n\n")
@@ -470,7 +459,7 @@ def mk_build_all(target, data):
     target.write("\n")
     
     target.write(".PHONY: build\n")
-    target.write("build: check-vitis $(BINARY_CONTAINERS)\n")
+    target.write("build: check-vitis check-device $(BINARY_CONTAINERS)\n")
     target.write("\n")
 
     target.write(".PHONY: xclbin\n")
@@ -778,6 +767,29 @@ def util_checks(target):
         target.write("\t$(error XILINX_VITIS variable is not set, please set correctly and rerun)\n")
         target.write("endif\n")
         target.write("endif\n")
+    target.write("\n")
+
+    target.write("check-device:\n")
+    target.write("\t@set -eu; \\\n")
+    target.write("\tinallowlist=False; \\\n")
+    target.write("\tinblocklist=False; \\\n")
+    target.write("\tif [ \"$(PLATFORM_ALLOWLIST)\" = \"\" ]; \\\n")
+    target.write("\t    then inallowlist=True; \\\n")
+    target.write("\tfi; \\\n")
+    target.write("\tfor dev in $(PLATFORM_ALLOWLIST); \\\n")
+    target.write("\t    do if [[ $$(echo $(PLATFORM) | grep $$dev) != \"\" ]]; \\\n")
+    target.write("\t    then inallowlist=True; fi; \\\n")
+    target.write("\tdone ;\\\n")
+    target.write("\tfor dev in $(PLATFORM_BLOCKLIST); \\\n")
+    target.write("\t    do if [[ $$(echo $(PLATFORM) | grep $$dev) != \"\" ]]; \\\n")
+    target.write("\t    then inblocklist=True; fi; \\\n")
+    target.write("\tdone ;\\\n")
+    target.write("\tif [[ $$inblocklist == True ]]; \\\n")
+    target.write("\t    then echo \"[ERROR]: This example is not supported for $(PLATFORM).\"; exit 1;\\\n")
+    target.write("\tfi; \\\n")
+    target.write("\tif [[ $$inallowlist == False ]]; \\\n")
+    target.write("\t    then echo \"[Warning]: The platform $(PLATFORM) not in allowlist.\"; \\\n")
+    target.write("\tfi;\n")
     target.write("\n")
 
     target.write("#Checks for Correct architecture\n")

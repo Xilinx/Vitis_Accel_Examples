@@ -82,10 +82,9 @@ include $(XF_PROJ_ROOT)/common/includes/opencl/opencl.mk
 CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++1y
 LDFLAGS += $(opencl_LDFLAGS)
 
-ifeq ($(findstring nodma, $(PLATFORM)), nodma)
-$(error [ERROR]: This example is not supported for $(PLATFORM).)
-endif
 
+########################## Checking if PLATFORM in whitelist #######################
+PLATFORM_BLOCKLIST += nodma 
 ############################## Setting up Host Variables ##############################
 #Include Required Host Source Files
 CXXFLAGS += -I$(XF_PROJ_ROOT)/common/includes/cmdparser
@@ -119,13 +118,13 @@ BINARY_CONTAINER_device_only_buf_OBJS += $(TEMP_DIR)/mmult.xo
 CP = cp -rf
 
 .PHONY: all clean cleanall docs emconfig
-all: check-platform $(EXECUTABLE) $(BINARY_CONTAINERS) emconfig sd_card
+all: check-platform check-device $(EXECUTABLE) $(BINARY_CONTAINERS) emconfig sd_card
 
 .PHONY: host
 host: $(EXECUTABLE)
 
 .PHONY: build
-build: check-vitis $(BINARY_CONTAINERS)
+build: check-vitis check-device $(BINARY_CONTAINERS)
 
 .PHONY: xclbin
 xclbin: build
