@@ -3,7 +3,7 @@ Bandwidth Kernel (C)
 
 This Bandwidth Example test the maximum possible bandwidth between Kernel and Global Memory.
 
-**KEY CONCEPTS:** Burst Read/Write, Bandwidth
+**KEY CONCEPTS:** `burst read and write <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/AXI-Burst-Transfers>`__, Bandwidth
 
 **EXCLUDED PLATFORMS:** 
 

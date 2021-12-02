@@ -5,7 +5,7 @@ This is simple example of Multiple Stages Vector Addition to demonstrate Array o
 
 **KEY CONCEPTS:** Array of Stream
 
-**KEYWORDS:** `dataflow <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/vitis_hls_optimization_techniques.html#bmx1539734225930>`__, `hls::stream <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/hls_stream_library.html>`__
+**KEYWORDS:** `dataflow <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/Optimization-Techniques-in-Vitis-HLS>`__, `hls::stream <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/HLS-Stream-Library>`__
 
 **EXCLUDED PLATFORMS:** 
 

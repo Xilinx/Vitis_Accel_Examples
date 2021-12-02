@@ -5,7 +5,7 @@
     ],
     "flow": "vitis",
     "key_concepts": [
-        "Burst Read/Write", 
+        "burst read and write", 
         "Bandwidth" 
     ], 
     "os": [

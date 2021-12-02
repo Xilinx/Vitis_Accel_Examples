@@ -3,7 +3,7 @@ Embedded SW-Emulation using x86 PS (HLS C/C++ Kernel)
 
 This example demonstrates how a user can run the PS App as an x86 process instead of ARM process.
 
-**KEY CONCEPTS:** `Compiling and Linking for x86 <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/buildinghostprogram.html#ariaid-title2>`__, `Compiling and Linking for Arm <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/buildinghostprogram.html#ariaid-title3>`__
+**KEY CONCEPTS:** `Compiling and Linking for x86 <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Compiling-and-Linking-for-x86>`__, `Compiling and Linking for Arm <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Compiling-and-Linking-for-Arm>`__
 
 **EXCLUDED PLATFORMS:** 
 

@@ -3,9 +3,9 @@ Two Parallel Read/Write on Local Memory (OpenCL Kernel)
 
 This is simple example of vector addition to demonstrate how to utilized both ports of Local Memory.
 
-**KEY CONCEPTS:** `Kernel Optimization <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/vitis_hls_optimization_techniques.html>`__, `2port BRAM Utilization <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/managing_interface_synthesis.html#gen1585145183590__ae401668>`__, two read/write Local Memory
+**KEY CONCEPTS:** `Kernel Optimization <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Kernel-Optimization>`__, `2port BRAM Utilization <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/Port-Level-I/O-Memory-Interface-Protocol>`__, two read/write Local Memory
 
-**KEYWORDS:** `opencl_unroll_hint <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/opencl_programming.html#put1504034360770>`__
+**KEYWORDS:** `opencl_unroll_hint <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/OpenCL-Attributes>`__
 
 **EXCLUDED PLATFORMS:** 
 

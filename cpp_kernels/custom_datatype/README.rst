@@ -3,9 +3,9 @@ Custom Data Type (C)
 
 This is simple example of RGB to HSV conversion to demonstrate Custom DATA Type usages in C Based Kernel. Xilinx HLS Compiler Supports Custom Data Type to use for operation as well as Memory Interface between Kernel and Global Memory.
 
-**KEY CONCEPTS:** `Custom Datatype <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/vitis_hls_coding_styles.html#cfk1539734244479>`__
+**KEY CONCEPTS:** `Custom Datatype <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/Composite-Data-Types>`__
 
-**KEYWORDS:** `struct <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/vitis_hls_coding_styles.html#ghc1585180876264>`__, `#pragma HLS LOOP_TRIPCOUNT <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/hls_pragmas.html#sty1504034367099>`__
+**KEYWORDS:** `struct <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/Structs>`__, `#pragma HLS LOOP_TRIPCOUNT <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/pragma-HLS-loop_tripcount>`__
 
 **EXCLUDED PLATFORMS:** 
 

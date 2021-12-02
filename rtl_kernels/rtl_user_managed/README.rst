@@ -3,9 +3,9 @@ User Managed IP (RTL Kernel)
 
 Simple example of user managed RTL Kernel.
 
-**KEY CONCEPTS:** `User-Managed RTL Kernel <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/devrtlkernel.html#lvg1620349851355>`__
+**KEY CONCEPTS:** `User-Managed RTL Kernel <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Creating-User-Managed-RTL-Kernels>`__
 
-**KEYWORDS:** `package_xo <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/package_xo.html#fsi1542298725587__section_zzf_f5y_q3b>`__, `ctrl_protocol <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/package_xo.html#fsi1542298725587__section_mhz_2p5_5fb>`__, `user_managed <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/devrtlkernel.html#lvg1620349851355>`__, `xrt::ip <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/devhostapp.html#jln1620691667890>`__, `xrt::xclbin <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/devhostapp.html#zja1524097906844>`__, xrt::kernel::get_kernels, xrt::kernel::get_cus, xrt::kernel::get_args, xrt::arg::get_offset, xrt::ip::write_register, xrt::ip::read_register
+**KEYWORDS:** `package_xo <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/package_xo-Command>`__, `ctrl_protocol <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/package_xo-Command>`__, `user_managed <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Creating-User-Managed-RTL-Kernels>`__, `xrt::ip <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Setting-Up-User-Managed-Kernels-and-Argument-Buffers>`__, `xrt::xclbin <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Specifying-the-Device-ID-and-Loading-the-XCLBIN>`__, xrt::kernel::get_kernels, xrt::kernel::get_cus, xrt::kernel::get_args, xrt::arg::get_offset, xrt::ip::write_register, xrt::ip::read_register
 
 **EXCLUDED PLATFORMS:** 
 

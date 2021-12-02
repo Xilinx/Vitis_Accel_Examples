@@ -3,9 +3,9 @@ Stream Free Running Kernel (HLS C/C++)
 
 This is simple example which demonstrate how to use and configure a free running kernel.
 
-**KEY CONCEPTS:** `Free Running Kernel <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/streamingconnections.html#uug1556136182736>`__
+**KEY CONCEPTS:** `Free Running Kernel <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Free-Running-Kernel>`__
 
-**KEYWORDS:** `ap_ctrl_none <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/managing_interface_synthesis.html#qls1539734256651__ae476284>`__, `stream_connect <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/buildingdevicebinary.html#yha1565541199876>`__
+**KEYWORDS:** `ap_ctrl_none <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/Block-Level-Control-Protocols>`__, `stream_connect <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Specifying-Streaming-Connections-between-Compute-Units>`__
 
 **EXCLUDED PLATFORMS:** 
 

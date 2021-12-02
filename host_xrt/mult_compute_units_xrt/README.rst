@@ -3,9 +3,9 @@ Multiple Compute Units XRT (XRT Native API's)
 
 This is simple Example of Multiple Compute units to showcase how a single kernel can be instantiated into Multiple compute units. Host code will show how to use multiple compute units and run them concurrently using XRT Native api's.
 
-**KEY CONCEPTS:** `Multiple compute units <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/opencl_programming.html#dqz1555367565037>`__
+**KEY CONCEPTS:** `Multiple compute units <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Symmetrical-and-Asymmetrical-Compute-Units>`__
 
-**KEYWORDS:** `nk <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/vitiscommandcompiler.html#clt1568640709907__section_wtp_zvm_1jb>`__
+**KEYWORDS:** `nk <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/connectivity-Options>`__
 
 **EXCLUDED PLATFORMS:** 
 

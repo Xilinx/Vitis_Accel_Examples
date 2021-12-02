@@ -3,9 +3,9 @@ Loop Pipelining (C)
 
 This example demonstrates how loop pipelining can be used to improve the performance of a kernel.
 
-**KEY CONCEPTS:** `Kernel Optimization <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/vitis_hls_optimization_techniques.html>`__, `Loop Pipelining <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/vitis_hls_optimization_techniques.html#kcq1539734224846>`__
+**KEY CONCEPTS:** `Kernel Optimization <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Kernel-Optimization>`__, `Loop Pipelining <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/Function-and-Loop-Pipelining>`__
 
-**KEYWORDS:** `pragma HLS PIPELINE <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/hls_pragmas.html#fde1504034360078>`__
+**KEYWORDS:** `pragma HLS PIPELINE <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/pragma-HLS-pipeline>`__
 
 **EXCLUDED PLATFORMS:** 
 
