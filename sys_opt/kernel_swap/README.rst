@@ -5,7 +5,7 @@ This example shows how host can swap the kernels and share same buffer between t
 
 **KEY CONCEPTS:** Handling Buffer sharing across multiple binaries, Multiple Kernel Binaries
 
-**KEYWORDS:** `enqueueMigrateMemObjects <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/opencl_programming.html#xio1524524087132>`__, `CL_MIGRATE_MEM_OBJECT_HOST <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/opencl_programming.html#kcd1556227380924>`__
+**KEYWORDS:** `enqueueMigrateMemObjects <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Buffer-Creation-and-Data-Transfer>`__, `CL_MIGRATE_MEM_OBJECT_HOST <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Sub-Buffers>`__
 
 **EXCLUDED PLATFORMS:** 
 

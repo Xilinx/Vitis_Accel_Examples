@@ -5,7 +5,7 @@ This Example prints device properties using XRT Native APIs. It also displays th
 
 **KEY CONCEPTS:** Querying device properties
 
-**KEYWORDS:** `xrt::device <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/devhostapp.html#zja1524097906844>`__
+**KEYWORDS:** `xrt::device <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Specifying-the-Device-ID-and-Loading-the-XCLBIN>`__
 
 **EXCLUDED PLATFORMS:** 
 

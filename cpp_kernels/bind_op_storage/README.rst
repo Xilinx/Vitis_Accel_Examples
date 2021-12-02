@@ -3,9 +3,9 @@ BIND OP and STORAGE (HLS C/C++ Kernel)
 
 This is simple example of vector addition to describe how to use BIND OP and STORAGE for better implementation style.
 
-**KEY CONCEPTS:** `BIND OP <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/vitis_hls_optimization_techniques.html#yew1585574779610>`__, `BIND STORAGE <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/vitis_hls_optimization_techniques.html#yew1585574779610>`__
+**KEY CONCEPTS:** `BIND OP <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/pragma-HLS-bind_op>`__, `BIND STORAGE <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/pragma-HLS-bind_storage>`__
 
-**KEYWORDS:** `BIND_OP <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/hls_pragmas.html#ttl1584844636775>`__, `BIND_STORAGE <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/hls_pragmas.html#chr1584844747152>`__, `impl <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/hls_pragmas.html#ttl1584844636775__ad411605>`__, `op <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/hls_pragmas.html#ttl1584844636775__ad411605>`__, `type <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/hls_pragmas.html#ttl1584844636775__ad411605>`__, `latency <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/hls_pragmas.html#ttl1584844636775__ad411605>`__
+**KEYWORDS:** `BIND_OP <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/pragma-HLS-bind_op>`__, `BIND_STORAGE <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/pragma-HLS-bind_storage>`__, `impl <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/pragma-HLS-bind_op>`__, `op <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/pragma-HLS-bind_op>`__, `type <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/pragma-HLS-bind_op>`__, `latency <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/pragma-HLS-bind_op>`__
 
 **EXCLUDED PLATFORMS:** 
 

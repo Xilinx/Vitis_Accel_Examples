@@ -3,7 +3,7 @@ Hello World (OpenCL Kernel)
 
 This example is a simple OpenCL application. It will highlight the basic flow of an OpenCL application.
 
-**KEY CONCEPTS:** `OpenCL Host APIs <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/opencl_programming.html>`__
+**KEY CONCEPTS:** `OpenCL Host APIs <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/OpenCL-Programming>`__
 
 **EXCLUDED PLATFORMS:** 
 

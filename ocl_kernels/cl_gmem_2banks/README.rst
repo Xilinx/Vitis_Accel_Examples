@@ -3,9 +3,9 @@ Global Memory Two Banks (OpenCL Kernel)
 
 This example of 2ddr to demonstrate on how to use 2ddr XSA. How to create buffers in each DDR.
 
-**KEY CONCEPTS:** `Multiple Banks <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/optimizingperformance.html#uuy1504034303412>`__
+**KEY CONCEPTS:** `Multiple Banks <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Using-Multiple-DDR-Banks>`__
 
-**KEYWORDS:** `sp <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/vitiscommandcompiler.html#clt1568640709907__section_tfc_zxm_1jb>`__, `connectivity <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/vitiscommandcompiler.html#qcm1528577331870__section_wgd_dxf_dnb>`__
+**KEYWORDS:** `sp <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/connectivity-Options>`__, `connectivity <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/connectivity-Options>`__
 
 **EXCLUDED PLATFORMS:** 
 

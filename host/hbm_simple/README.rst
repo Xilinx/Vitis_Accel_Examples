@@ -3,9 +3,9 @@ HBM Simple
 
 This is a simple example of vector addition to describe how to use HLS kernels with HBM (High Bandwidth Memory) for achieving high throughput.
 
-**KEY CONCEPTS:** `High Bandwidth Memory <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/buildingdevicebinary.html#lgl1614021146997>`__, Multiple HBM pseudo-channels
+**KEY CONCEPTS:** `High Bandwidth Memory <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/HBM-Configuration-and-Use>`__, Multiple HBM pseudo-channels
 
-**KEYWORDS:** `HBM <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/buildingdevicebinary.html#lgl1614021146997>`__, `XCL_MEM_TOPOLOGY <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/optimizingperformance.html#utc1504034308941>`__, `cl_mem_ext_ptr_t <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/optimizingperformance.html#utc1504034308941>`__, `trace_memory <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/vitiscommandcompiler.html#lpy1600804966354__section_bmy_v3z_54b>`__, `trace_buffer_size <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/xrtini.html#tpi1504034339424__section_tnh_pks_rx>`__, `opencl_trace <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/xrtini.html#tpi1504034339424__section_tnh_pks_rx>`__
+**KEYWORDS:** `HBM <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/HBM-Configuration-and-Use>`__, `XCL_MEM_TOPOLOGY <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Assigning-DDR-Bank-in-Host-Code>`__, `cl_mem_ext_ptr_t <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Assigning-DDR-Bank-in-Host-Code>`__, `trace_memory <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/profile-Options>`__, `trace_buffer_size <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/xrt.ini-File>`__, `opencl_trace <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/xrt.ini-File>`__
 
 **EXCLUDED PLATFORMS:** 
 

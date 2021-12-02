@@ -3,7 +3,7 @@ Multiple Devices (C)
 
 This example show how to take advantage of multiple FPGAs on a system. It will show how to initialized an OpenCL context, allocate memory on the two devices and execute a kernel on each FPGA.
 
-**KEY CONCEPTS:** `OpenCL Host APIs <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/opencl_programming.html>`__, Multi-FPGA Execution, `Event Handling <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/optimizingperformance.html#bsa1504034305860>`__
+**KEY CONCEPTS:** `OpenCL Host APIs <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/OpenCL-Programming>`__, Multi-FPGA Execution, `Event Handling <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Overlapping-Data-Transfers-with-Kernel-Computation>`__
 
 **KEYWORDS:** xcl::get_xil_devices
 

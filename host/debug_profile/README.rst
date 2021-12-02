@@ -3,7 +3,7 @@ Debug Profile (C)
 
 This is simple example of vector addition and printing profile data (wall clock time taken between start and stop). It also dump a waveform file which can be reloaded to vivado to see the waveform. Run command 'vivado -source ./scripts/open_waveform.tcl -tclargs <device_name>-<kernel_name>.<target>.<device_name>.wdb' to launch waveform viewer. User can also update batch to gui in xrt.ini file to see the live waveform while running application.
 
-**KEY CONCEPTS:** `Use of Profile API <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/profilingapplication.html#vfc1586356138757>`__, `Waveform Dumping and loading <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/profilingapplication.html#ffv1523643432801>`__
+**KEY CONCEPTS:** `Use of Profile API <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Profiling-the-Application>`__, `Waveform Dumping and loading <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Waveform-View-and-Live-Waveform-Viewer>`__
 
 **EXCLUDED PLATFORMS:** 
 
