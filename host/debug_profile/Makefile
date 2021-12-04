@@ -101,6 +101,9 @@ endif
 ############################## Setting up Kernel Variables ##############################
 # Kernel compiler global settings
 VPP_FLAGS += -t $(TARGET) --platform $(PLATFORM) --save-temps 
+ifneq ($(TARGET), hw)
+	VPP_FLAGS += -g
+endif
 VPP_FLAGS_krnl_vadd +=  --config ./vadd_krnl_vadd.cfg
 
 

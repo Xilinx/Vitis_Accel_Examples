@@ -94,6 +94,9 @@ LDFLAGS += -lboost_filesystem -lboost_system
 ############################## Setting up Kernel Variables ##############################
 # Kernel compiler global settings
 VPP_FLAGS += -t $(TARGET) --platform $(PLATFORM) --save-temps 
+ifneq ($(TARGET), hw)	
+	VPP_FLAGS += -g	
+endif
 
 EXECUTABLE = ./hostmemory.exe
 CMD_ARGS = -p $(GEN_DIR) 

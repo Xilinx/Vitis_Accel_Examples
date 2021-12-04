@@ -99,8 +99,8 @@ else
 	AIE_FLAGS += --target=hw
 endif
 
-VPP_XO_FLAGS := -c -t $(TARGET) --platform $(PLATFORM) --save-temps 
-VPP_LINK_FLAGS := -l --platform $(PLATFORM) $(KERNEL_XO) $(GRAPH_O) -t $(TARGET) --save-temps --config $(CONFIG_FILE) -o $(XCLBIN)
+VPP_XO_FLAGS := -c -t $(TARGET) --platform $(PLATFORM) --save-temps -g 
+VPP_LINK_FLAGS := -l --platform $(PLATFORM) $(KERNEL_XO) $(GRAPH_O) -t $(TARGET) --save-temps -g --config $(CONFIG_FILE) -o $(XCLBIN)
 
 GCC_FLAGS := -Wall -c \
 			 -std=c++14 \

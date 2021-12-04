@@ -93,6 +93,9 @@ LDFLAGS += -lrt -lstdc++
 ############################## Setting up Kernel Variables ##############################
 # Kernel compiler global settings
 VPP_FLAGS += -t $(TARGET) --platform $(PLATFORM) --save-temps 
+ifneq ($(TARGET), hw)
+	VPP_FLAGS += -g
+endif
 
 
 

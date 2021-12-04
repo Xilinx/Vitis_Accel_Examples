@@ -115,8 +115,6 @@ ifneq ($(TARGET), hw)
 	VPP_FLAGS += -g
 endif
 
-
-
 EXECUTABLE = ./embedded_ps_x86
 EMCONFIG_DIR = $(TEMP_DIR)
 EMU_DIR = $(SDCARD)/data/emulation

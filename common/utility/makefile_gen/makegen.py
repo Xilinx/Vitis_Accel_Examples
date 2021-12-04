@@ -178,9 +178,9 @@ def add_kernel_flags(target, data):
         target.write("VPP_FLAGS += \n")
     target.write("VPP_FLAGS += ")
     target.write("-t $(TARGET) --platform $(PLATFORM) --save-temps \n")   
-    #target.write("ifneq ($(TARGET), hw)\n")
-    #target.write("\tVPP_FLAGS += -g\n")
-    #target.write("endif\n")
+    target.write("ifneq ($(TARGET), hw)\n")
+    target.write("\tVPP_FLAGS += -g\n")
+    target.write("endif\n")
     if "containers" in data:
         for con in data["containers"]:
             for acc in con["accelerators"]:
