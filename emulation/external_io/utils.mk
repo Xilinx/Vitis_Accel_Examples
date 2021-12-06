@@ -99,7 +99,7 @@ ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 	$(ECHO) 'export XILINX_VITIS=$$PWD' >> run_app.sh
 	$(ECHO) 'export XCL_EMULATION_MODE=$(TARGET)' >> run_app.sh
 endif
-    $(ECHO) 'if [ -d xrt/aarch64-xilinx-linux/ ]' >> run_app.sh
+	$(ECHO) 'if [ -d xrt/aarch64-xilinx-linux/ ]' >> run_app.sh
 	$(ECHO) 'then' >> run_app.sh
 	$(ECHO) 'cd xrt/aarch64-xilinx-linux/' >> run_app.sh
 	$(ECHO) 'elif [ -d xrt/versal ]' >> run_app.sh
