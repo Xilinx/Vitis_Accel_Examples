@@ -93,9 +93,6 @@ LDFLAGS += -luuid -lxrt_coreutil
 ############################## Setting up Kernel Variables ##############################
 # Kernel compiler global settings
 VPP_FLAGS += -t $(TARGET) --platform $(PLATFORM) --save-temps 
-ifneq ($(TARGET), hw)
-	VPP_FLAGS += -g
-endif
 
 
 # Kernel linker flags
@@ -138,7 +135,7 @@ $(TEMP_DIR)/mem_write.xo: src/mem_write.cpp
 $(BUILD_DIR)/krnl_incr.xclbin: $(BINARY_CONTAINER_krnl_incr_OBJS)
 	mkdir -p $(BUILD_DIR)
 	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) $(VPP_LDFLAGS_krnl_incr) -o'$(BUILD_DIR)/krnl_incr.link.xclbin' $(+)
-	$(VPP) -p $(BUILD_DIR)/krnl_incr.link.xclbin -t $(TARGET) --platform $(PLATFORM) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/krnl_incr.xclbin
+	$(VPP) -p $(BUILD_DIR)/krnl_incr.link.xclbin $(VPP_FLAGS) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/krnl_incr.xclbin
 
 ############################## Setting Rules for Host (Building Host Executable) ##############################
 $(EXECUTABLE): $(HOST_SRCS) | check-xrt

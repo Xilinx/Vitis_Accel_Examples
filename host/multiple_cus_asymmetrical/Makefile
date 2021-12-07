@@ -91,9 +91,6 @@ LDFLAGS += -lrt -lstdc++
 ############################## Setting up Kernel Variables ##############################
 # Kernel compiler global settings
 VPP_FLAGS += -t $(TARGET) --platform $(PLATFORM) --save-temps 
-ifneq ($(TARGET), hw)
-	VPP_FLAGS += -g
-endif
 
 
 # Kernel linker flags
@@ -128,7 +125,7 @@ $(TEMP_DIR)/vadd.xo: src/vadd.cpp
 $(BUILD_DIR)/vadd.xclbin: $(BINARY_CONTAINER_vadd_OBJS)
 	mkdir -p $(BUILD_DIR)
 	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) $(VPP_LDFLAGS_vadd) -o'$(BUILD_DIR)/vadd.link.xclbin' $(+)
-	$(VPP) -p $(BUILD_DIR)/vadd.link.xclbin -t $(TARGET) --platform $(PLATFORM) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/vadd.xclbin
+	$(VPP) -p $(BUILD_DIR)/vadd.link.xclbin $(VPP_FLAGS) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/vadd.xclbin
 
 ############################## Setting Rules for Host (Building Host Executable) ##############################
 $(EXECUTABLE): $(HOST_SRCS) | check-xrt

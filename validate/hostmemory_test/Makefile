@@ -94,9 +94,6 @@ LDFLAGS += -lboost_filesystem -lboost_system
 ############################## Setting up Kernel Variables ##############################
 # Kernel compiler global settings
 VPP_FLAGS += -t $(TARGET) --platform $(PLATFORM) --save-temps 
-ifneq ($(TARGET), hw)	
-	VPP_FLAGS += -g	
-endif
 
 EXECUTABLE = ./hostmemory.exe
 CMD_ARGS = -p $(GEN_DIR) 
@@ -128,7 +125,7 @@ $(TEMP_DIR)/hostmemory.xo: src/hostmemory.cpp
 $(BUILD_DIR)/hostmemory.xclbin: $(BINARY_CONTAINER_hostmemory_OBJS)
 	mkdir -p $(BUILD_DIR)
 	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR)  -o'$(BUILD_DIR)/hostmemory.link.xclbin' $(+)
-	$(VPP) -p $(BUILD_DIR)/hostmemory.link.xclbin -t $(TARGET) --platform $(PLATFORM) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/hostmemory.xclbin
+	$(VPP) -p $(BUILD_DIR)/hostmemory.link.xclbin $(VPP_FLAGS) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/hostmemory.xclbin
 	mkdir -p $(GEN_DIR) && $(CP) $(BUILD_DIR)/hostmemory.xclbin $(GEN_DIR)
 	$(CP) $(PLATFORM_JSON) $(GEN_DIR)	
 

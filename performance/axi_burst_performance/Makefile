@@ -102,9 +102,6 @@ endif
 ############################## Setting up Kernel Variables ##############################
 # Kernel compiler global settings
 VPP_FLAGS += -t $(TARGET) --platform $(PLATFORM) --save-temps 
-ifneq ($(TARGET), hw)	
-	VPP_FLAGS += -g	
-endif
 
 EXECUTABLE = ./axi_burst_performance
 EMCONFIG_DIR = $(TEMP_DIR)
@@ -182,7 +179,7 @@ $(BUILD_DIR)/test_kernel_maxi_256bit.xclbin: $(BINARY_CONTAINER_test_kernel_maxi
 	mkdir -p $(BUILD_DIR)
 ifeq ($(HOST_ARCH), x86)
 	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR)  -o'$(BUILD_DIR)/test_kernel_maxi_256bit.link.xclbin' $(+)
-	$(VPP) -p $(BUILD_DIR)/test_kernel_maxi_256bit.link.xclbin -t $(TARGET) --platform $(PLATFORM) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/test_kernel_maxi_256bit.xclbin
+	$(VPP) -p $(BUILD_DIR)/test_kernel_maxi_256bit.link.xclbin $(VPP_FLAGS) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/test_kernel_maxi_256bit.xclbin
 else
 	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) -o'$(BUILD_DIR)/test_kernel_maxi_256bit.xclbin' $(+)
 endif
@@ -240,7 +237,7 @@ endif
 ############################## Preparing sdcard ##############################
 $(BUILD_DIR)/$(PACKAGE_OUT)/test_kernel_maxi_512bit.xclbin: $(BUILD_DIR)/test_kernel_maxi_256bit.xclbin $(BUILD_DIR)/test_kernel_maxi_512bit.xclbin $(EXECUTABLE)
 ifneq ($(HOST_ARCH), x86)
-	$(VPP) -p $(BUILD_DIR)/test_kernel_maxi_512bit.xclbin -t $(TARGET) --platform $(PLATFORM) --package.sd_file $(BUILD_DIR)/test_kernel_maxi_256bit.xclbin --package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.sd_file $(SD_IMAGE_FILE) --package.sd_file xrt.ini --package.sd_file $(RUN_APP_SCRIPT) --package.sd_file $(EXECUTABLE) -o $(BUILD_DIR)/$(PACKAGE_OUT)/test_kernel_maxi_512bit.xclbin
+	$(VPP) -p $(BUILD_DIR)/test_kernel_maxi_512bit.xclbin $(VPP_FLAGS) --package.sd_file $(BUILD_DIR)/test_kernel_maxi_256bit.xclbin --package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.sd_file $(SD_IMAGE_FILE) --package.sd_file xrt.ini --package.sd_file $(RUN_APP_SCRIPT) --package.sd_file $(EXECUTABLE) -o $(BUILD_DIR)/$(PACKAGE_OUT)/test_kernel_maxi_512bit.xclbin
 else
 	$(error package command not needed for x86 platform)
 endif

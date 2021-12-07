@@ -92,9 +92,6 @@ LDFLAGS += -pthread
 ############################## Setting up Kernel Variables ##############################
 # Kernel compiler global settings
 VPP_FLAGS += -t $(TARGET) --platform $(PLATFORM) --save-temps 
-ifneq ($(TARGET), hw)
-	VPP_FLAGS += -g
-endif
 
 
 
@@ -131,7 +128,7 @@ $(TEMP_DIR)/krnl_simple_mmult.xo: src/krnl_simple_mmult.cpp
 $(BUILD_DIR)/krnl_mmult.xclbin: $(BINARY_CONTAINER_krnl_mmult_OBJS)
 	mkdir -p $(BUILD_DIR)
 	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) -o'$(BUILD_DIR)/krnl_mmult.link.xclbin' $(+)
-	$(VPP) -p $(BUILD_DIR)/krnl_mmult.link.xclbin -t $(TARGET) --platform $(PLATFORM) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/krnl_mmult.xclbin
+	$(VPP) -p $(BUILD_DIR)/krnl_mmult.link.xclbin $(VPP_FLAGS) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/krnl_mmult.xclbin
 
 ############################## Setting Rules for Host (Building Host Executable) ##############################
 $(EXECUTABLE): $(HOST_SRCS) | check-xrt

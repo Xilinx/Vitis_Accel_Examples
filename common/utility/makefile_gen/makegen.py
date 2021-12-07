@@ -178,9 +178,6 @@ def add_kernel_flags(target, data):
         target.write("VPP_FLAGS += \n")
     target.write("VPP_FLAGS += ")
     target.write("-t $(TARGET) --platform $(PLATFORM) --save-temps \n")   
-    target.write("ifneq ($(TARGET), hw)\n")
-    target.write("\tVPP_FLAGS += -g\n")
-    target.write("endif\n")
     if "containers" in data:
         for con in data["containers"]:
             for acc in con["accelerators"]:
@@ -341,7 +338,7 @@ def building_kernel(target, data):
                 target.write(" $(VPP_LDFLAGS_"+con["name"]+")")
             target.write(" -o'$(BUILD_DIR)/" + con["name"] + ".link.xclbin' $(+)\n")
 
-            target.write("\t$(VPP) -p $(BUILD_DIR)/" + con["name"] + ".link.xclbin -t $(TARGET) --platform $(PLATFORM) ")
+            target.write("\t$(VPP) -p $(BUILD_DIR)/" + con["name"] + ".link.xclbin $(VPP_FLAGS) ")
             target.write("--package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/" + con["name"] + ".xclbin\n")
             if not ("platform_type" in data and data["platform_type"] == "pcie"):
                 target.write("else\n")
@@ -626,7 +623,7 @@ def mk_sdcard(target, data):
         for con in data["containers"]:
             target.write("\t$(VPP) $(VPP_PFLAGS) -p $(BUILD_DIR)/")
             target.write(con["name"])
-            target.write(".xclbin -t $(TARGET) --platform $(PLATFORM) ")
+            target.write(".xclbin $(VPP_FLAGS) ")
             target.write("--package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.sd_file $(SD_IMAGE_FILE) --package.sd_file xrt.ini --package.sd_file $(RUN_APP_SCRIPT) --package.sd_file $(EXECUTABLE)")
             for extra_filename in extra_file_list:
                 if ('-' not in extra_filename):
@@ -728,6 +725,10 @@ def report_gen(target, data):
     target.write("#Generates debug summary report\n")
     target.write("ifeq ($(DEBUG), yes)\n")
     target.write("VPP_LDFLAGS += --dk list_ports\n")
+    target.write("endif\n")
+    target.write("\n")
+    target.write("ifneq ($(TARGET), hw)\n")
+    target.write("VPP_FLAGS += -g\n")
     target.write("endif\n")
     target.write("\n")
 

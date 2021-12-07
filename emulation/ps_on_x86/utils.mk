@@ -24,6 +24,10 @@ ifeq ($(DEBUG), yes)
 VPP_LDFLAGS += --dk list_ports
 endif
 
+ifneq ($(TARGET), hw)
+VPP_FLAGS += -g
+endif
+
 #Setting PLATFORM 
 ifeq ($(PLATFORM),)
 ifneq ($(DEVICE),)

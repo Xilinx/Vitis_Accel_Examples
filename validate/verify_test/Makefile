@@ -94,9 +94,6 @@ LDFLAGS += -lboost_filesystem -lboost_system
 ############################## Setting up Kernel Variables ##############################
 # Kernel compiler global settings
 VPP_FLAGS += -t $(TARGET) --platform $(PLATFORM) --save-temps 
-ifneq ($(TARGET), hw)	
-	VPP_FLAGS += -g	
-endif
 
 EXECUTABLE = ./validate.exe
 EMCONFIG_DIR = $(TEMP_DIR)
@@ -127,7 +124,7 @@ $(TEMP_DIR)/verify.xo: src/verify.cpp
 $(BUILD_DIR)/verify.xclbin: $(BINARY_CONTAINER_verify_OBJS)
 	mkdir -p $(BUILD_DIR)
 	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR)  -o'$(BUILD_DIR)/verify.link.xclbin' $(+)
-	$(VPP) -p $(BUILD_DIR)/verify.link.xclbin -t $(TARGET) --platform $(PLATFORM) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/verify.xclbin
+	$(VPP) -p $(BUILD_DIR)/verify.link.xclbin $(VPP_FLAGS) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/verify.xclbin
 	mkdir -p $(GEN_DIR) && $(CP) $(BUILD_DIR)/verify.xclbin $(GEN_DIR)
 	$(CP) $(PLATFORM_JSON) $(GEN_DIR)	
 

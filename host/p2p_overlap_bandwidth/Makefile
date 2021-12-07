@@ -97,9 +97,6 @@ LDFLAGS += -lrt -lstdc++
 ############################## Setting up Kernel Variables ##############################
 # Kernel compiler global settings
 VPP_FLAGS += -t $(TARGET) --platform $(PLATFORM) --save-temps 
-ifneq ($(TARGET), hw)
-	VPP_FLAGS += -g
-endif
 
 
 
@@ -132,7 +129,7 @@ $(TEMP_DIR)/copy.xo: src/copy_kernel.cpp
 $(BUILD_DIR)/copy_kernel.xclbin: $(BINARY_CONTAINER_copy_kernel_OBJS)
 	mkdir -p $(BUILD_DIR)
 	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) -o'$(BUILD_DIR)/copy_kernel.link.xclbin' $(+)
-	$(VPP) -p $(BUILD_DIR)/copy_kernel.link.xclbin -t $(TARGET) --platform $(PLATFORM) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/copy_kernel.xclbin
+	$(VPP) -p $(BUILD_DIR)/copy_kernel.link.xclbin $(VPP_FLAGS) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/copy_kernel.xclbin
 
 ############################## Setting Rules for Host (Building Host Executable) ##############################
 $(EXECUTABLE): $(HOST_SRCS) | check-xrt

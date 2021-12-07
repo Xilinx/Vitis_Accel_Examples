@@ -94,9 +94,6 @@ LDFLAGS += -luuid -lxrt_coreutil
 ############################## Setting up Kernel Variables ##############################
 # Kernel compiler global settings
 VPP_FLAGS += -t $(TARGET) --platform $(PLATFORM) --save-temps 
-ifneq ($(TARGET), hw)	
-	VPP_FLAGS += -g	
-endif
 
 PART=$(shell platforminfo ${PLATFORM} -jhardwarePlatform.board.part | tail -1)
 
@@ -131,7 +128,7 @@ $(TEMP_DIR)/FA_hello.xo: $(TEMP_DIR)/hello.xo
 $(BUILD_DIR)/hello.xclbin: $(TEMP_DIR)/FA_hello.xo
 	mkdir -p $(BUILD_DIR)
 	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR)  -o'$(BUILD_DIR)/hello.link.xclbin' $(+)
-	$(VPP) -p $(BUILD_DIR)/hello.link.xclbin -t $(TARGET) --platform $(PLATFORM) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/hello.xclbin
+	$(VPP) -p $(BUILD_DIR)/hello.link.xclbin $(VPP_FLAGS) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/hello.xclbin
 
 ############################## Setting Rules for Host (Building Host Executable) ##############################
 $(EXECUTABLE): $(HOST_SRCS) | check-xrt

@@ -103,10 +103,6 @@ endif
 ############################## Setting up Kernel Variables ##############################
 # Kernel compiler global settings
 VPP_FLAGS += -t $(TARGET) --platform $(PLATFORM) --save-temps 
-ifneq ($(TARGET), hw)	
-	VPP_FLAGS += -g	
-endif
-
 EXECUTABLE = ./combine_bw_hm.exe
 EMCONFIG_DIR = $(TEMP_DIR)
 
@@ -145,7 +141,7 @@ $(BUILD_DIR)/combine_bw_hm.xclbin: $(BINARY_CONTAINER_combine_bw_hm_OBJS)
 	mkdir -p $(BUILD_DIR)
 ifeq ($(HOST_ARCH), x86)
 	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR)  -o'$(BUILD_DIR)/combine_bw_hm.link.xclbin' $(+)
-	$(VPP) -p $(BUILD_DIR)/combine_bw_hm.link.xclbin -t $(TARGET) --platform $(PLATFORM) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/combine_bw_hm.xclbin
+	$(VPP) -p $(BUILD_DIR)/combine_bw_hm.link.xclbin $(VPP_FLAGS) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/combine_bw_hm.xclbin
 	mkdir -p $(GEN_DIR) && $(CP) $(BUILD_DIR)/combine_bw_hm.xclbin $(GEN_DIR)
 	$(CP) $(PLATFORM_JSON) $(GEN_DIR)
 else
