@@ -77,6 +77,7 @@ VPP := v++
 VPP_PFLAGS := 
 CMD_ARGS = $(BUILD_DIR)/mmult.xclbin
 SDCARD := sd_card
+vck190_dfx_hw := false
 
 include $(XF_PROJ_ROOT)/common/includes/opencl/opencl.mk
 CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++1y
@@ -185,7 +186,16 @@ endif
 ############################## Preparing sdcard ##############################
 sd_card: $(BINARY_CONTAINERS) $(EXECUTABLE) gen_run_app
 ifneq ($(HOST_ARCH), x86)
+ifeq ($(findstring vck190_base_dfx, $(PLATFORM)), vck190_base_dfx)
+ifeq ($(TARGET),$(filter $(TARGET), hw))
+	$(VPP) $(VPP_FLAGS) -p $(BUILD_DIR)/mmult.xclbin -o $(BUILD_DIR)/mmult.pack.xclbin 
+	$(VPP) $(VPP_PFLAGS) $(VPP_FLAGS) -p --package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.sd_file $(SD_IMAGE_FILE) --package.sd_file xrt.ini --package.sd_file $(RUN_APP_SCRIPT) --package.sd_file $(EXECUTABLE) --package.sd_file mmult.pack.xclbin
+vck190_dfx_hw := true
+endif
+endif
+ifeq ($(vck190_dfx_hw), false)
 	$(VPP) $(VPP_PFLAGS) -p $(BUILD_DIR)/mmult.xclbin $(VPP_FLAGS) --package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.sd_file $(SD_IMAGE_FILE) --package.sd_file xrt.ini --package.sd_file $(RUN_APP_SCRIPT) --package.sd_file $(EXECUTABLE) -o mmult.xclbin
+endif
 endif
 
 ############################## Cleaning Rules ##############################

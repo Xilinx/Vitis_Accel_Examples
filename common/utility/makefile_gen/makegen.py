@@ -80,6 +80,7 @@ def create_params(target,data):
     if not ("platform_type" in data and data["platform_type"] == "pcie"):
         target.write("SDCARD := ")
         target.write("sd_card\n")
+        target.write("vck190_dfx_hw := false\n")
     target.write("\n")
     target.write("include $(XF_PROJ_ROOT)/common/includes/opencl/opencl.mk\n")
     if "config_make" in data:
@@ -619,6 +620,30 @@ def mk_sdcard(target, data):
                     arg = arg.replace('PROJECT', '.')
                     extra_file_list.append(arg)  
     target.write("ifneq ($(HOST_ARCH), x86)\n")
+    target.write("ifeq ($(findstring vck190_base_dfx, $(PLATFORM)), vck190_base_dfx)\n")
+    target.write("ifeq ($(TARGET),$(filter $(TARGET), hw))\n")
+    if "containers" in data:
+        for con in data["containers"]:
+            target.write("\t$(VPP) $(VPP_FLAGS) -p $(BUILD_DIR)/")
+            target.write(con["name"])
+            target.write(".xclbin -o $(BUILD_DIR)/")
+            target.write(con["name"])
+            target.write(".pack.xclbin \n")
+    if "containers" in data:
+        for con in data["containers"]:
+            target.write("\t$(VPP) $(VPP_PFLAGS) $(VPP_FLAGS) -p ")
+            target.write("--package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.sd_file $(SD_IMAGE_FILE) --package.sd_file xrt.ini --package.sd_file $(RUN_APP_SCRIPT) --package.sd_file $(EXECUTABLE)")
+            for extra_filename in extra_file_list:
+                if ('-' not in extra_filename):
+                    target.write(" --package.sd_file ")
+                    target.write(extra_filename)
+            target.write(" --package.sd_file ")
+            target.write(con["name"])
+            target.write(".pack.xclbin\n")
+    target.write("vck190_dfx_hw := true\n")
+    target.write("endif\n")
+    target.write("endif\n")
+    target.write("ifeq ($(vck190_dfx_hw), false)\n")
     if "containers" in data:
         for con in data["containers"]:
             target.write("\t$(VPP) $(VPP_PFLAGS) -p $(BUILD_DIR)/")
@@ -632,6 +657,7 @@ def mk_sdcard(target, data):
             target.write(" -o ")
             target.write(con["name"])
             target.write(".xclbin\n")
+    target.write("endif\n")
     target.write("endif\n")
     target.write("\n")
 
