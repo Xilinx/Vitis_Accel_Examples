@@ -637,7 +637,7 @@ def mk_sdcard(target, data):
                 if ('-' not in extra_filename):
                     target.write(" --package.sd_file ")
                     target.write(extra_filename)
-            target.write(" --package.sd_file ")
+            target.write(" --package.sd_file $(BUILD_DIR)/")
             target.write(con["name"])
             target.write(".pack.xclbin\n")
     target.write("vck190_dfx_hw := true\n")
