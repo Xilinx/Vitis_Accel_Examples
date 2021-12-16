@@ -14,26 +14,10 @@
 * under the License.
 */
 
-#include <ap_int.h>
+#ifndef FUNCTION_KERNELS_H
+#define FUNCTION_KERNELS_H
 #include <hls_stream.h>
-#include <ap_axi_sdata.h>
+#include <adf.h>
+void simple(input_window_int32* win, output_window_int32* wout, int num_samples);
 
-#define PTR_IN_WIDTH 32
-#define PTR_OUT_WIDTH 32
-
-extern "C" {
-
-void mm2s(ap_int<PTR_IN_WIDTH>* mem, hls::stream<qdma_axis<PTR_OUT_WIDTH, 0, 0, 0> >& s, int size) {
-#pragma HLS INTERFACE m_axi port = mem offset = slave bundle = gmem
-
-#pragma HLS interface axis port = s
-
-    for (int i = 0; i < size; i++) {
-#pragma HLS PIPELINE II = 1
-        qdma_axis<PTR_OUT_WIDTH, 0, 0, 0> x;
-        x.data = mem[i];
-        x.keep_all();
-        s.write(x);
-    }
-}
-}
+#endif

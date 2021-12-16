@@ -14,6 +14,22 @@
 * under the License.
 */
 
+/* A simple kernel
+ */
+#include "include.h"
 #include <adf.h>
 
-void forward(input_window_int32* input, output_window_int32* output);
+void simple(input_window_int32* win, output_window_int32* wout, int num_samples) {
+    int32 tmp;
+    printf("simple: Entering...\n");
+    printf("simple: Setting window size to %d\n", 4 * num_samples);
+    set_window_size(win, 4 * num_samples);
+    set_window_size(wout, 4 * num_samples);
+    for (unsigned i = 0; i < num_samples; i++) {
+        window_readincr(win, tmp);
+        printf("simple: i=%d, win=%d, wout=%d\n", i, tmp, tmp + 1);
+        tmp++;
+        window_writeincr(wout, tmp);
+    }
+    printf("simple: Returning...\n");
+}

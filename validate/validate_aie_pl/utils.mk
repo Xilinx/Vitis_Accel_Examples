@@ -12,6 +12,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+# vitis makefile-generator v2.0.4
 #
 #+-------------------------------------------------------------------------------
 # The following parameters are assigned with default values. These parameters can
@@ -31,7 +32,7 @@ endif
 
 #Generates profile summary report
 ifeq ($(PROFILE), yes)
-VPP_LDFLAGS += --profile.data all:all:all
+VPP_LDFLAGS += --profile_kernel data:all:all:all
 endif
 
 #Generates debug summary report
@@ -39,20 +40,52 @@ ifeq ($(DEBUG), yes)
 VPP_LDFLAGS += --dk protocol:all:all:all
 endif
 
-#Checks for XILINX_XRT
-ifeq ($(HOST_ARCH), x86)
-ifndef XILINX_XRT
-  XILINX_XRT = /opt/xilinx/xrt
-  export XILINX_XRT
-endif
-else
+#Check environment setup
 ifndef XILINX_VITIS
   XILINX_VITIS = /opt/xilinx/Vitis/$(TOOL_VERSION)
   export XILINX_VITIS
 endif
+ifndef XILINX_XRT
+  XILINX_XRT = /opt/xilinx/xrt
+  export XILINX_XRT
 endif
 
-B_NAME = $(shell dirname $(XPLATFORM))
+check_device:
+	@set -eu; \
+	inallowlist=False; \
+	inblocklist=False; \
+	for dev in $(PLATFORM_ALLOWLIST); \
+	    do if [[ $$(echo $(PLATFORM_NAME) | grep $$dev) != "" ]]; \
+		then inallowlist=True; fi; \
+	done ;\
+	for dev in $(PLATFORM_BLOCKLIST); \
+	    do if [[ $$(echo $(PLATFORM_NAME) | grep $$dev) != "" ]]; \
+		then inblocklist=True; fi; \
+	done ;\
+	if [[ $$inallowlist == False ]]; \
+	    then echo "[Warning]: The device $(PLATFORM_NAME) not in allowlist."; \
+	fi; \
+	if [[ $$inblocklist == True ]]; \
+	    then echo "[ERROR]: The device $(PLATFORM_NAME) in blocklist."; exit 1;\
+	fi;
+
+#get HOST_ARCH by PLATFORM
+HOST_ARCH_temp = $(shell platforminfo -p $(PLATFORM) | grep 'CPU Type' | sed 's/.*://' | sed '/ai_engine/d' | sed 's/^[[:space:]]*//')
+$(warning HOST_ARCH_temp:$(HOST_ARCH_temp))
+ifeq ($(HOST_ARCH_temp), x86)
+HOST_ARCH := x86
+else ifeq ($(HOST_ARCH_temp), cortex-a9)
+HOST_ARCH := aarch32
+else ifeq ($(HOST_ARCH_temp), cortex-a*)
+HOST_ARCH := aarch64
+endif
+
+#Checks for Device Family
+ifeq ($(HOST_ARCH), aarch32)
+	DEV_FAM = 7Series
+else ifeq ($(HOST_ARCH), aarch64)
+	DEV_FAM = Ultrascale
+endif
 
 #Checks for Correct architecture
 ifneq ($(HOST_ARCH), $(filter $(HOST_ARCH),aarch64 aarch32 x86))
@@ -66,17 +99,18 @@ ifneq (,$(wildcard $(XFLIB_DIR)/.git))
 endif
 endif
 
-check_edge_common_sw:
+#Checks for SYSROOT
+check_sysroot:
 ifneq ($(HOST_ARCH), x86)
-ifndef EDGE_COMMON_SW
-$(error [ERROR]:EDGE_COMMON_SW variable is not set, please set correctly and rerun)
+ifndef SYSROOT
+	$(error SYSROOT ENV variable is not set, please set ENV variable correctly and rerun)
 endif
 endif
 
 #Checks for g++
 CXX := g++
 ifeq ($(HOST_ARCH), x86)
-ifneq ($(shell expr $(shell g++ -dumpversion) \>= 5), 1)
+ifneq ($(shell expr $(shell echo "__GNUG__" | g++ -E -x c++ - | tail -1) \>= 5), 1)
 ifndef XILINX_VIVADO
 $(error [ERROR]: g++ version too old. Please use 5.0 or above)
 else
@@ -95,21 +129,20 @@ else ifeq ($(HOST_ARCH), aarch32)
 CXX := $(XILINX_VITIS)/gnu/aarch32/lin/gcc-arm-linux-gnueabi/bin/arm-linux-gnueabihf-g++
 endif
 
-#Checks for EDGE_COMMON_SW
-ifneq ($(HOST_ARCH), x86)
-SYSROOT := $(EDGE_COMMON_SW)/sysroots/aarch64-xilinx-linux
+#Check OS and setting env
+OSDIST = $(shell lsb_release -i |awk -F: '{print tolower($$2)}' | tr -d ' \t' )
+OSREL = $(shell lsb_release -r |awk -F: '{print tolower($$2)}' |tr -d ' \t')
+
+ifeq ($(OSDIST), centos)
+ifeq (7,$(shell echo $(OSREL) | awk -F. '{print tolower($$1)}' ))
+ifeq ($(HOST_ARCH), x86)
+CXXFLAGS += -D_GLIBCXX_USE_CXX11_ABI=0
+endif
+endif
 endif
 
 #Setting VPP
 VPP := v++
-
-#Setting PLATFORM
-ifeq ($(PLATFORM),)
-ifneq ($(DEVICE),)
-$(warning WARNING: DEVICE is deprecated in make command. Please use PLATFORM instead)
-PLATFORM := $(DEVICE)
-endif
-endif
 
 #Cheks for aiecompiler
 AIECXX := aiecompiler
@@ -130,10 +163,8 @@ endif
 
 .PHONY: check_xrt
 check_xrt:
-ifeq ($(HOST_ARCH), x86)
 ifeq (,$(wildcard $(XILINX_XRT)/lib/libxilinxopencl.so))
 	@echo "Cannot locate XRT installation. Please set XILINX_XRT variable." && false
-endif
 endif
 
 export PATH := $(XILINX_VITIS)/bin:$(XILINX_XRT)/bin:$(PATH)
@@ -143,82 +174,64 @@ LD_LIBRARY_PATH := $(XILINX_XRT)/lib
 else
 LD_LIBRARY_PATH := $(XILINX_XRT)/lib:$(LD_LIBRARY_PATH)
 endif
-else # aarch64
-ifeq (,$(LD_LIBRARY_PATH))
-LD_LIBRARY_PATH := $(SYSROOT)/usr/lib 
-else
-LD_LIBRARY_PATH := $(SYSROOT)/usr/lib:$(LD_LIBRARY_PATH) 
-endif
 endif
 
-# check target
-ifeq ($(filter $(TARGET),x86sim aiesim hw_emu hw),)
-$(error TARGET is not x86sim aiesim hw_emu or hw)
-endif
-
-ifneq (,$(wildcard $(DEVICE)))
-# Use DEVICE as a file path
-XPLATFORM := $(DEVICE)
+ifneq (,$(wildcard $(PLATFORM)))
+# Use PLATFORM as a file path
+XPLATFORM := $(PLATFORM)
 else
-# Use DEVICE as a file name pattern
+# Use PLATFORM as a file name pattern
 # 1. search paths specified by variable
 ifneq (,$(PLATFORM_REPO_PATHS))
 # 1.1 as exact name
-XPLATFORM := $(strip $(foreach p, $(subst :, ,$(PLATFORM_REPO_PATHS)), $(wildcard $(p)/$(DEVICE)/$(DEVICE).xpfm)))
+XPLATFORM := $(strip $(foreach p, $(subst :, ,$(PLATFORM_REPO_PATHS)), $(wildcard $(p)/$(PLATFORM)/$(PLATFORM).xpfm)))
 # 1.2 as a pattern
 ifeq (,$(XPLATFORM))
 XPLATFORMS := $(foreach p, $(subst :, ,$(PLATFORM_REPO_PATHS)), $(wildcard $(p)/*/*.xpfm))
-XPLATFORM := $(strip $(foreach p, $(XPLATFORMS), $(shell echo $(p) | awk '$$1 ~ /$(DEVICE)/')))
+XPLATFORM := $(strip $(foreach p, $(XPLATFORMS), $(shell echo $(p) | awk '$$1 ~ /$(PLATFORM)/')))
 endif # 1.2
 endif # 1
 # 2. search Vitis installation
 ifeq (,$(XPLATFORM))
 # 2.1 as exact name
-XPLATFORM := $(strip $(wildcard $(XILINX_VITIS)/platforms/$(DEVICE)/$(DEVICE).xpfm))
+XPLATFORM := $(strip $(wildcard $(XILINX_VITIS)/platforms/$(PLATFORM)/$(PLATFORM).xpfm))
 # 2.2 as a pattern
 ifeq (,$(XPLATFORM))
 XPLATFORMS := $(wildcard $(XILINX_VITIS)/platforms/*/*.xpfm)
-XPLATFORM := $(strip $(foreach p, $(XPLATFORMS), $(shell echo $(p) | awk '$$1 ~ /$(DEVICE)/')))
+XPLATFORM := $(strip $(foreach p, $(XPLATFORMS), $(shell echo $(p) | awk '$$1 ~ /$(PLATFORM)/')))
 endif # 2.2
 endif # 2
 # 3. search default locations
 ifeq (,$(XPLATFORM))
 # 3.1 as exact name
-XPLATFORM := $(strip $(wildcard /opt/xilinx/platforms/$(DEVICE)/$(DEVICE).xpfm))
+XPLATFORM := $(strip $(wildcard /opt/xilinx/platforms/$(PLATFORM)/$(PLATFORM).xpfm))
 # 3.2 as a pattern
 ifeq (,$(XPLATFORM))
 XPLATFORMS := $(wildcard /opt/xilinx/platforms/*/*.xpfm)
-XPLATFORM := $(strip $(foreach p, $(XPLATFORMS), $(shell echo $(p) | awk '$$1 ~ /$(DEVICE)/')))
+XPLATFORM := $(strip $(foreach p, $(XPLATFORMS), $(shell echo $(p) | awk '$$1 ~ /$(PLATFORM)/')))
 endif # 3.2
 endif # 3
 endif
 
 define MSG_PLATFORM
-No platform matched pattern '$(DEVICE)'.
+No platform matched pattern '$(PLATFORM)'.
 Available platforms are: $(XPLATFORMS)
-To add more platform directories, set the PLATFORM_REPO_PATHS variable or point DEVICE variable to the full path of platform .xpfm file.
+To add more platform directories, set the PLATFORM_REPO_PATHS variable or point PLATFORM variable to the full path of platform .xpfm file.
 endef
 export MSG_PLATFORM
 
-define MSG_DEVICE
-More than one platform matched: $(XPLATFORM)
-Please set DEVICE variable more accurately to select only one platform file, or set DEVICE variable to the full path of the platform .xpfm file.
-endef
-export MSG_DEVICE
 
 .PHONY: check_platform
 check_platform:
 ifeq (,$(XPLATFORM))
 	@echo "$${MSG_PLATFORM}" && false
 endif
-ifneq (,$(word 2,$(XPLATFORM)))
-	@echo "$${MSG_DEVICE}" && false
-endif
 #Check ends
 
 #   device2xsa - create a filesystem friendly name from device name
 #   $(1) - full name of device
-device2xsa = $(strip $(patsubst %.xpfm, % , $(shell basename $(DEVICE))))
+PLATFORM_NAME = $(strip $(patsubst %.xpfm, % , $(shell basename $(PLATFORM))))
+
 
 # Cleaning stuff
 RM = rm -f

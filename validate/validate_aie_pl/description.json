@@ -1,79 +1,80 @@
 {
-    "name": "Xilinx Accumulate AIE Codec Test",
-    "description": [ "Accumulate AIE function example"
+    "name": "Xilinx AIE Validate Test",
+    "description": [ "Xilinx AIE Validate example"
     ],
     "flow": "versal",
     "platform_whitelist": [ 
-        "vck190"
+        "vck5000"
     ],
     "launch": [
         {
             "name" : "hwemu-launch",
-            "target" : "hw_emu",
-            "pkg-dir": "$(WORK_DIR)",
-            "input-dir": "./",
-            "output-dir": "./"
+            "target" : "hw_emu"
         },
         {
-            "name" : "aiesim-launch",
-            "target" : "aiesim",
-            "pkg-dir": "$(WORK_DIR)",
-            "input-dir": "./",
-            "output-dir": "./"
-        },
-        {
-            "name" : "x86-launch",
-            "target" : "x86sim",
-            "pkg-dir": "$(WORK_DIR)",
-            "input-dir": "./",
-            "output-dir": "./"
+            "name" : "hw-launch"
         }
     ],
-    "runtime": [
-        "OpenCL"
-    ],
     "host": {
-        "host_exe": "host.elf", 
+        "host_exe": "host.exe", 
         "compiler": {
             "sources": [
-                "PROJECT/src/ps/host.cpp",
-            	"./Work/ps/c_rts/aie_control_xrt.cpp"
+                "PROJECT/pl_ctrl_aie_asyn/src/host/host.cpp",
+            	"PROJECT/pl_controller/L2/src/sw/pl_controller.cpp"
             ], 
             "includepaths": [
-                "$(SYSROOT)/usr/include/xrt", 
-                "PROJECT/src/ps",
-                "PROJECT/src/aie"
-            ], 
-	        "options": "--sysroot=$(SYSROOT)"
+                "PROJECT/pl_ctrl_aie_asyn/src/xclbin/pl_kernels", 
+                "PROJECT/pl_ctrl_aie_asyn/src/host",
+                "PROJECT/pl_controller/L1/include/hw",
+                "PROJECT/pl_controller/L2/include/hw",
+                "PROJECT/pl_controller/L2/include/sw"
+            ]
         },
         "linker" : {
-            "librarypaths" : [
-                "$(SYSROOT)/usr/lib/"
-            ],
-		    "options": "--sysroot=$(SYSROOT)"
+		    "options": "-lgcc -lc -lxrt_coreutil -lpthread -lrt -ldl -lcrypt -lstdc++ -L$(XILINX_XRT)/lib/  -Wl,-rpath-link,$(XILINX_XRT)/lib"
         }
     }, 
     "v++": {
         "compiler": {
             "includepaths": [
-                "PROJECT/src/pl" 
+                "PROJECT/pl_controller/L1/include/hw",
+                "PROJECT/pl_controller/L2/include/hw",
+                "PROJECT/pl_ctrl_aie_asyn/src/xclbin/pl_kernels",
+                "$(XILINX_VITIS)/aietools/include"
              ]
         },
         "linker": {
-			"cflags" : [
+			"ldclflags" : [
 				"--config PROJECT/system.cfg"
 			]
-		},
-        "package": {
-            "cflags": [
-                "--package.defer_aie_run"
-            ]
+		}
+    },
+    "containers": [
+        {
+            "name": "vck5000_pcie_pl_controller.xclbin",
+            "accelerators": [
+                {
+                    "location": "PROJECT/pl_controller/L2/src/hw/pl_controller_kernel.cpp", 
+                    "frequency": 251.0, 
+                    "clflags": "--verbose --save-temps", 
+                    "name": "pl_controller_kernel"
+                },
+                {
+                    "location": "PROJECT/pl_ctrl_aie_asyn/src/xclbin/pl_kernels/sender_receiver.cpp", 
+                    "frequency": 250.0, 
+                    "clflags": "--verbose --save-temps", 
+                    "name": "sender_receiver"
+                }
+            ], 
+            "frequency": 250.0
         }
-    }, 
+    ],
     "aiecompiler": {
         "compiler": {
             "includepaths": [
-              "PROJECT/src/aie"
+              "PROJECT/pl_ctrl_aie_asyn/src/aie",
+              "PROJECT/pl_ctrl_aie_asyn/src/kernels",
+              "PROJECT/pl_ctrl_aie_asyn/src"
             ]
         }
     }, 
@@ -81,34 +82,13 @@
         {
             "accelerators": [
                 {
-                    "location": "PROJECT/src/aie/graph.cpp", 
-                    "pl-freq": 100, 
+                    "location": "PROJECT/pl_ctrl_aie_asyn/src/aie/graph.cpp", 
                     "workdir": "./Work", 
-                    "option": "-pl-axi-lite=true",
+                    "option": "-use-async-rtp-locks=false -v --disable-dma-autostart",
                     "name": "libadf.a"
                 }
             ]
          }
-    ], 
-
-    "containers": [
-        {
-            "accelerators": [
-                {
-                    "location": "PROJECT/src/pl/mm2s.cpp", 
-                    "frequency": 100.0, 
-                    "clflags": " ", 
-                    "name": "mm2s"
-                },
-                {
-                    "location": "PROJECT/src/pl/s2mm.cpp", 
-                    "frequency": 100.0, 
-                    "clflags": " ", 
-                    "name": "s2mm"
-                }
-            ], 
-            "name": "kernel"
-        }
     ],
     "match_makefile": "false",
     "match_ini" : "false",
@@ -126,8 +106,6 @@
                 "cmd": "", 
                 "max_memory_MB": 32768, 
                 "max_time_min": {
-		            "vitis_aie_sim": 55,
-		            "vitis_aie_x86sim": 55,
                     "vitis_hw_build": 470, 
                     "vitis_hw_emu": 200, 
                     "vitis_hw_run": 30
@@ -135,8 +113,6 @@
             }
         ], 
         "targets": [
-	        "vitis_aie_sim",
-	        "vitis_aie_x86sim",
             "vitis_hw_emu", 
             "vitis_hw_build", 
             "vitis_hw_run"
