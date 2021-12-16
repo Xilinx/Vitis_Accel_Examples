@@ -1,7 +1,7 @@
-Xilinx Accumulate AIE Codec Test
-================================
+Xilinx AIE Validate Test
+========================
 
-Accumulate AIE function example
+Xilinx AIE Validate example
 
 DESIGN FILES
 ------------
@@ -10,14 +10,16 @@ Application code is located in the src directory. Accelerator binary files will 
 
 ::
 
-   data/input1.txt
-   src/aie/forward.cpp
-   src/aie/forward.hpp
-   src/aie/graph.cpp
-   src/aie/graph.h
-   src/pl/mm2s.cpp
-   src/pl/s2mm.cpp
-   src/ps/host.cpp
+   pl_controller/L2/src/hw/pl_controller_kernel.cpp
+   pl_controller/L2/src/sw/pl_controller.cpp
+   pl_ctrl_aie_asyn/src/aie/graph.cpp
+   pl_ctrl_aie_asyn/src/aie/graph.h
+   pl_ctrl_aie_asyn/src/aie/kernels.h
+   pl_ctrl_aie_asyn/src/aie/kernels/include.h
+   pl_ctrl_aie_asyn/src/aie/kernels/kernels.cc
+   pl_ctrl_aie_asyn/src/host/host.cpp
+   pl_ctrl_aie_asyn/src/xclbin/pl_kernels/sender_receiver.cpp
+   pl_ctrl_aie_asyn/src/xclbin/pl_kernels/sender_receiver.hpp
    
 COMMAND LINE ARGUMENTS
 ----------------------
@@ -26,6 +28,6 @@ Once the environment has been configured, the application can be executed by
 
 ::
 
-   ./host.elf
+   ./host.exe
 
 For more comprehensive documentation, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.
