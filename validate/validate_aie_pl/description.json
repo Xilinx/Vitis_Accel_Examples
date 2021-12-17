@@ -6,6 +6,19 @@
     "platform_whitelist": [ 
         "vck5000"
     ],
+    "platform_blacklist": [
+        "_u25_",
+        "u30",
+        "u200",
+        "zc",
+        "vck190",
+        "u250",
+        "aws-vu9p-f1",
+        "samsung",
+        "_u2_",
+        "x3522pv",
+        "nodma"
+    ],
     "launch": [
         {
             "name" : "hwemu-launch",

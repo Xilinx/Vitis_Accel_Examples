@@ -71,7 +71,7 @@ endif
 
 # #################### Checking if PLATFORM in whitelist ############################
 PLATFORM_ALLOWLIST +=  vck5000
-PLATFORM_BLOCKLIST += 
+PLATFORM_BLOCKLIST +=  _u25_ u30 u200 zc vck190 u250 aws-vu9p-f1 samsung _u2_ x3522pv nodma
 
 include ./utils.mk
 TEMP_DIR := _x_temp.$(TARGET).$(PLATFORM_NAME)
