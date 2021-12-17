@@ -346,7 +346,7 @@ def building_kernel(target, data):
                 target.write("\t$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR)")
                 if "ldclflags" in con:
                     target.write(" $(VPP_LDFLAGS_"+con["name"]+")")
-                target.write(" -o'$(BUILD_DIR)/" + con["name"] + ".xclbin' $(+)\n")
+                target.write(" -o'$(BUILD_DIR)/" + con["name"] + ".link.xclbin' $(+)\n")
                 target.write("endif\n")
     target.write("\n")
     return
@@ -626,9 +626,9 @@ def mk_sdcard(target, data):
         for con in data["containers"]:
             target.write("\t$(VPP) $(VPP_FLAGS) -p $(BUILD_DIR)/")
             target.write(con["name"])
-            target.write(".xclbin -o $(BUILD_DIR)/")
+            target.write(".link.xclbin -o ")
             target.write(con["name"])
-            target.write(".pack.xclbin \n")
+            target.write(".xclbin \n")
     if "containers" in data:
         for con in data["containers"]:
             target.write("\t$(VPP) $(VPP_PFLAGS) $(VPP_FLAGS) -p ")
@@ -637,9 +637,9 @@ def mk_sdcard(target, data):
                 if ('-' not in extra_filename):
                     target.write(" --package.sd_file ")
                     target.write(extra_filename)
-            target.write(" --package.sd_file $(BUILD_DIR)/")
+            target.write(" --package.sd_file ")
             target.write(con["name"])
-            target.write(".pack.xclbin\n")
+            target.write(".xclbin\n")
     target.write("vck190_dfx_hw := true\n")
     target.write("endif\n")
     target.write("endif\n")
@@ -648,7 +648,7 @@ def mk_sdcard(target, data):
         for con in data["containers"]:
             target.write("\t$(VPP) $(VPP_PFLAGS) -p $(BUILD_DIR)/")
             target.write(con["name"])
-            target.write(".xclbin $(VPP_FLAGS) ")
+            target.write(".link.xclbin $(VPP_FLAGS) ")
             target.write("--package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.sd_file $(SD_IMAGE_FILE) --package.sd_file xrt.ini --package.sd_file $(RUN_APP_SCRIPT) --package.sd_file $(EXECUTABLE)")
             for extra_filename in extra_file_list:
                 if ('-' not in extra_filename):
