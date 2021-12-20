@@ -377,7 +377,7 @@ def building_kernel_rtl(target, data):
             target.write("\t$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR)")
             if "ldclflags" in con:
                 target.write(" $(VPP_LDFLAGS_"+con["name"]+")")
-            target.write(" -o'$(BUILD_DIR)/" + con["name"] + ".xclbin' $(+)\n")
+            target.write(" -o'$(BUILD_DIR)/" + con["name"] + ".link.xclbin' $(+)\n")
             target.write("endif\n")
     return
 
