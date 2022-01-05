@@ -192,7 +192,7 @@ endif
 
 ############################## Preparing sdcard ##############################
 sd_card: $(BINARY_CONTAINERS) $(EXECUTABLE) gen_run_app
-ifneq ($(HOST_ARCH), x86)
+ifneq ($(PS_x86), yes)
 ifeq ($(findstring vck190_base_dfx, $(PLATFORM)), vck190_base_dfx)
 ifeq ($(TARGET),$(filter $(TARGET), hw))
 	$(VPP) $(VPP_FLAGS) -p $(BUILD_DIR)/vadd.link.xclbin -o vadd.xclbin 
