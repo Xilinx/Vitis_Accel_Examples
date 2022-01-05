@@ -79,7 +79,7 @@ LDFLAGS += $(opencl_LDFLAGS)
 
 
 ########################## Checking if PLATFORM in whitelist #######################
-PLATFORM_BLOCKLIST += _u25_ u30 u50 u55 u280 vck samsung _u2_ nodma x3522pv zc 
+PLATFORM_BLOCKLIST += vck nodma zc 
 ############################## Setting up Host Variables ##############################
 #Include Required Host Source Files
 CXXFLAGS += -I$(XF_PROJ_ROOT)/common/includes/xcl2
@@ -97,7 +97,36 @@ endif
 
 
 # Kernel linker flags
-VPP_LDFLAGS_krnl_host_global += --config ./krnl_host_global.cfg
+ifeq ($(findstring u250, $(PLATFORM)), u250)
+VPP_LDFLAGS += --config ./conn_u250.cfg
+endif
+ifeq ($(findstring _u2_, $(PLATFORM)), _u2_)
+VPP_LDFLAGS += --config ./conn_u2.cfg
+endif
+ifeq ($(findstring samsung, $(PLATFORM)), samsung)
+VPP_LDFLAGS += --config ./conn_u2.cfg
+endif
+ifeq ($(findstring u55, $(PLATFORM)), u55)
+VPP_LDFLAGS += --config ./conn_u55.cfg
+endif
+ifeq ($(findstring u280, $(PLATFORM)), u280)
+VPP_LDFLAGS += --config ./conn_u280.cfg
+endif
+ifeq ($(findstring u30, $(PLATFORM)), u30)
+VPP_LDFLAGS += --config ./conn_u30.cfg
+endif
+ifeq ($(findstring u50, $(PLATFORM)), u50)
+VPP_LDFLAGS += --config ./conn_u50.cfg
+endif
+ifeq ($(findstring u200, $(PLATFORM)), u200)
+VPP_LDFLAGS += --config ./conn_u200.cfg
+endif
+ifeq ($(findstring x3522pv, $(PLATFORM)), x3522pv)
+VPP_LDFLAGS += --config ./conn_x3522pv.cfg
+endif
+ifeq ($(findstring _u25_, $(PLATFORM)), _u25_)
+VPP_LDFLAGS += --config ./conn_u25.cfg
+endif
 
 EXECUTABLE = ./host_global_bandwidth
 EMCONFIG_DIR = $(TEMP_DIR)
@@ -127,7 +156,7 @@ $(TEMP_DIR)/bandwidth.xo: src/kernel.cpp
 	$(VPP) $(VPP_FLAGS) -c -k bandwidth --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
 $(BUILD_DIR)/krnl_host_global.xclbin: $(BINARY_CONTAINER_krnl_host_global_OBJS)
 	mkdir -p $(BUILD_DIR)
-	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) $(VPP_LDFLAGS_krnl_host_global) -o'$(BUILD_DIR)/krnl_host_global.link.xclbin' $(+)
+	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) -o'$(BUILD_DIR)/krnl_host_global.link.xclbin' $(+)
 	$(VPP) -p $(BUILD_DIR)/krnl_host_global.link.xclbin -t $(TARGET) --platform $(PLATFORM) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/krnl_host_global.xclbin
 
 ############################## Setting Rules for Host (Building Host Executable) ##############################

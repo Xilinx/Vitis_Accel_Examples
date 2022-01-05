@@ -5,16 +5,8 @@
     ],
     "flow": "vitis",
     "platform_blacklist": [
-        "_u25_",
-        "u30",
-        "u50",
-        "u55",
-        "u280",
         "vck",
-        "samsung",
-        "_u2_",
         "nodma",
-        "x3522pv",
         "zc"
     ], 
     "os": [
@@ -24,6 +16,88 @@
         "OpenCL"
     ], 
     "platform_type": "pcie",
+    "platform_properties": {
+        "u200": {
+            "v++": {
+                "linker": {
+                    "ldclflags": [ "--config PROJECT/conn_u200.cfg"
+                      ]
+                }
+            }
+        }, 
+        "u250": {
+            "v++": {
+                "linker": {
+                    "ldclflags": [ "--config PROJECT/conn_u250.cfg"
+                      ]
+                }
+            }
+        }, 
+        "_u25_": {
+            "v++": {
+                "linker": {
+                    "ldclflags": [ "--config PROJECT/conn_u25.cfg"
+                      ]
+                }
+            }
+        }, 
+        "u30": {
+            "v++": {
+                "linker": {
+                    "ldclflags": [ "--config PROJECT/conn_u30.cfg"
+                      ]
+                }
+            }
+        }, 
+        "x3522pv": {
+            "v++": {
+                "linker": {
+                    "ldclflags": [ "--config PROJECT/conn_x3522pv.cfg"
+                      ]
+                }
+            }
+        }, 
+        "u280": {
+            "v++": {
+                "linker": {
+                    "ldclflags": [ "--config PROJECT/conn_u280.cfg"
+                      ]
+                }
+            }
+        },
+        "_u2_": {
+            "v++": {
+                "linker": {
+                    "ldclflags": [ "--config PROJECT/conn_u2.cfg"
+                      ]
+                }
+            }
+        },
+        "samsung": {
+            "v++": {
+                "linker": {
+                    "ldclflags": [ "--config PROJECT/conn_u2.cfg"
+                      ]
+                }
+            }
+        },
+        "u55": {
+            "v++": {
+                "linker": {
+                    "ldclflags": [ "--config PROJECT/conn_u55.cfg"
+                      ]
+                }
+            }
+        },
+        "u50": {
+            "v++": {
+                "linker": {
+                    "ldclflags": [ "--config PROJECT/conn_u50.cfg"
+                      ]
+                }
+            }
+        }
+    },
     "host": {
         "host_exe": "host_global_bandwidth",
         "compiler": {
@@ -44,8 +118,7 @@
                     "location": "src/kernel.cpp"
                 }
             ], 
-            "name": "krnl_host_global",
-            "ldclflags": "--config PROJECT/krnl_host_global.cfg"
+            "name": "krnl_host_global"
         }
     ],
     "launch": [
