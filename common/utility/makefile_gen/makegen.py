@@ -222,7 +222,26 @@ def add_kernel_flags(target, data):
                     target.write(flg)
             target.write("\n")
 
-    target.write("\n")
+    if "platform_properties" in data:
+        target.write("# Kernel linker flags")
+        for key, value in data["platform_properties"].items():
+            if "v++" in value:
+                if "linker" in value["v++"]:
+                    if "ldclflags" in value["v++"]["linker"]:
+                        target.write("\nifeq ($(findstring ")
+                        target.write(key)
+                        target.write(", $(PLATFORM)), ")
+                        target.write(key)
+                        target.write(")\n")
+                        target.write("VPP_LDFLAGS +=") 
+                        ldclflags = value["v++"]["linker"]["ldclflags"][0].split(" ")
+                        for flg in ldclflags[0:]:
+                            target.write(" ")
+                            flg = flg.replace('PROJECT', '.')
+                            target.write(flg)
+                        target.write("\nendif")
+
+    target.write("\n\n")
     target.write("EXECUTABLE = ./")
     if "host_exe" in data["host"]:
         target.write(data["host"]["host_exe"])    
