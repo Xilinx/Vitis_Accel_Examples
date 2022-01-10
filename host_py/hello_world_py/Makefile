@@ -1,0 +1,133 @@
+#
+# Copyright 2019-2021 Xilinx, Inc.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# makefile-generator v1.0.3
+#
+
+############################## Help Section ##############################
+.PHONY: help
+
+help::
+	$(ECHO) "Makefile Usage:"
+	$(ECHO) "  make all PLATFORM=<FPGA platform>"
+	$(ECHO) "      Command to generate the design for specified Target and Shell."
+	$(ECHO) ""
+	$(ECHO) "  make clean "
+	$(ECHO) "      Command to remove the generated non-hardware files."
+	$(ECHO) ""
+	$(ECHO) "  make cleanall"
+	$(ECHO) "      Command to remove all the generated files."
+	$(ECHO) ""
+	$(ECHO) "  make test PLATFORM=<FPGA platform>"
+	$(ECHO) "      Command to run the application. This is same as 'run' target but does not have any makefile dependency."
+	$(ECHO) ""
+	$(ECHO) "  make run PLATFORM=<FPGA platform>"
+	$(ECHO) "      Command to run application in emulation."
+	$(ECHO) ""
+	$(ECHO) "  make build PLATFORM=<FPGA platform>"
+	$(ECHO) "      Command to build xclbin application."
+	$(ECHO) ""
+
+############################## Setting up Project Variables ##############################
+# Points to top directory of Git repository
+MK_PATH := $(abspath $(lastword $(MAKEFILE_LIST)))
+COMMON_REPO ?= $(shell bash -c 'export MK_PATH=$(MK_PATH); echo $${MK_PATH%host_py/hello_world_py/*}')
+PWD = $(shell readlink -f .)
+XF_PROJ_ROOT = $(shell readlink -f $(COMMON_REPO))
+
+TARGET := hw
+HOST_ARCH := x86
+
+include ./utils.mk
+
+XSA := 
+ifneq ($(PLATFORM), )
+XSA := $(call device2xsa, $(PLATFORM))
+endif
+TEMP_DIR := ./_x.$(TARGET).$(XSA)
+BUILD_DIR := ./build_dir.$(TARGET).$(XSA)
+
+# SoC variables
+RUN_APP_SCRIPT = ./run_app.sh
+PACKAGE_OUT = ./package.$(TARGET)
+
+VPP := v++
+VPP_PFLAGS := 
+CMD_ARGS = -k $(BUILD_DIR)/vadd.xclbin
+
+include $(XF_PROJ_ROOT)/common/includes/opencl/opencl.mk
+
+########################## Checking if PLATFORM in whitelist #######################
+PLATFORM_BLOCKLIST += nodma zc vck
+############################## Setting up Host Variables ##############################
+#Include Required Host Source Files
+HOST_SRCS += ./src/host.py 
+
+############################## Setting up Kernel Variables ##############################
+# Kernel compiler global settings
+VPP_FLAGS += -t $(TARGET) --platform $(PLATFORM) --save-temps 
+
+EMCONFIG_DIR = $(TEMP_DIR)
+
+############################## Declaring Binary Containers ##############################
+BINARY_CONTAINERS += $(BUILD_DIR)/vadd.xclbin
+BINARY_CONTAINER_vadd_OBJS += $(TEMP_DIR)/vadd.xo
+
+############################## Setting Targets ##############################
+CP = cp -rf
+
+.PHONY: all clean cleanall docs 
+all: check-platform check-device check-xrt $(BINARY_CONTAINERS) 
+
+.PHONY: build
+build: check-vitis check-device $(BINARY_CONTAINERS)
+
+.PHONY: xclbin
+xclbin: build
+
+############################## Setting Rules for Binary Containers (Building Kernels) ##############################
+$(TEMP_DIR)/vadd.xo: src/vadd.cpp
+	mkdir -p $(TEMP_DIR)
+	$(VPP) $(VPP_FLAGS) -c -k vadd --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
+$(BUILD_DIR)/vadd.xclbin: $(BINARY_CONTAINER_vadd_OBJS)
+	mkdir -p $(BUILD_DIR)
+	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) -o'$(BUILD_DIR)/vadd.link.xclbin' $(+)
+	$(VPP) -p $(BUILD_DIR)/vadd.link.xclbin $(VPP_FLAGS) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/vadd.xclbin
+
+############################## Setting Essential Checks and Running Rules ##############################
+run: all
+	python3 $(HOST_SRCS) $(CMD_ARGS)
+ifneq ($(TARGET),$(findstring $(TARGET), hw))
+$(error Application supports only hw TARGET. Please use the target for running the application)
+endif
+
+.PHONY: test
+test: 
+	python3 $(HOST_SRCS) $(CMD_ARGS)
+ifneq ($(TARGET),$(findstring $(TARGET), hw))
+$(error Application supports only hw TARGET. Please use the target for running the application)
+endif
+
+
+############################## Cleaning Rules ##############################
+# Cleaning stuff
+clean:
+	-$(RMDIR) $(XCLBIN)/{*sw_emu*,*hw_emu*} 
+	-$(RMDIR) profile_* TempConfig system_estimate.xtxt *.rpt *.csv 
+	-$(RMDIR) src/*.ll *v++* .Xil dltmp* xmltmp* *.log *.jou *.wcfg *.wdb
+
+cleanall: clean
+	-$(RMDIR) build_dir*
+	-$(RMDIR) package.*
+	-$(RMDIR) _x* *xclbin.run_summary qemu-memory-_* emulation _vimage pl* start_simulation.sh *.xclbin
