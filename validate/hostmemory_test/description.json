@@ -15,7 +15,9 @@
     "platform_type": "pcie",
     "platform_blacklist": [ 
         "zc",
-        "vck", 
+        "vck190",
+        "vck5000-es1",
+        "vck5000_gen3x16", 
         "aws-vu9p-f1_shell",
         "2019",
         "2018",

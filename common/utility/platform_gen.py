@@ -18,20 +18,9 @@ def create_cfg_u2(data):
 
 def create_json_u2(data):
     target = open("platform.json","w+")
-    target.write("{\n")
-    target.write("    \"meminfo\": [\n")
-    target.write("    {\n")
-    target.write("        \"type\": \"DDR\",\n")
-    target.write("        \"banks\": [\n")                    
-    target.write("            {\n")
-    target.write("                \"name\": \"bank0\"\n")
-    target.write("            }\n")
-    target.write("        ]\n")
-    target.write("    }")
-    target.write("\n    ],\n")
-    target.write("    \"total_ddr_banks\": \"1\",\n")
-    target.write("    \"version\": \"1.1\"\n")
-    target.write("}\n")
+    des_file = open(cur_dir+"/../../common/utility/platform_files/u2.json")
+    for line in des_file:
+        target.write(line)
     return
 
 def create_cfg_vck(data):    
@@ -44,20 +33,28 @@ def create_cfg_vck(data):
 
 def create_json_vck(data):
     target = open("platform.json","w+")
-    target.write("{\n")
-    target.write("    \"meminfo\": [\n")
-    target.write("    {\n")
-    target.write("        \"type\": \"DDR\",\n")
-    target.write("        \"banks\": [\n")                    
-    target.write("            {\n")
-    target.write("                \"name\": \"MC_NOC0\"\n")
-    target.write("            }\n")
-    target.write("        ]\n")
-    target.write("    }")
-    target.write("\n    ],\n")
-    target.write("    \"total_ddr_banks\": \"1\",\n")
-    target.write("    \"version\": \"1.1\"\n")
-    target.write("}\n")
+    des_file = open(cur_dir+"/../../common/utility/platform_files/vck_gen3x16.json")
+    for line in des_file:
+        target.write(line)
+    return
+
+def create_cfg_vck_gen4x8(data):    
+    target = open("platform_"+filename+".cfg","w+")
+    target.write("[connectivity]\n")
+    if filename!='hostmemory':      
+        target.write("sp=" + filename + "_1.input:MC_NOC0\n")
+        target.write("sp=" + filename + "_1.output:MC_NOC0\n")
+    else:        
+        target.write("sp=" + filename + "_1.input:HOST[0]\n")
+        target.write("sp=" + filename + "_1.output:HOST[0]\n")
+    target.write("nk=" + filename + ":1\n")
+    return
+
+def create_json_vck_gen4x8(data):
+    target = open("platform.json","w+")
+    des_file = open(cur_dir+"/../../common/utility/platform_files/vck_gen4x8.json")
+    for line in des_file:
+        target.write(line)
     return
 
 def create_cfg(data):
@@ -247,6 +244,7 @@ def create_json(data):
 
 plat_json_file = sys.argv[1]
 filename = sys.argv[2]
+cur_dir = os.getcwd()
 desc = open(plat_json_file,'r')
 data = json.load(desc)
 desc.close()
@@ -257,10 +255,14 @@ if "_u2_" in plat_name:
     if(filename!='verify'):
         create_cfg_u2(data)
     create_json_u2(data)
-elif "v65" in plat_name or "vck5000" in plat_name:
+elif "v65" in plat_name or "vck5000-es1" in plat_name or "vck5000_gen3x16" in plat_name:
     if(filename!='verify'):
         create_cfg_vck(data)
     create_json_vck(data)
+elif "vck5000_gen4x8" in plat_name:
+    if(filename!='verify'):
+        create_cfg_vck_gen4x8(data)
+    create_json_vck_gen4x8(data)
 else:    
     if(filename!='verify'):
         create_cfg(data)
