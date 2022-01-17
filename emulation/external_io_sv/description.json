@@ -1,0 +1,89 @@
+{
+    "name": "External IO System Verilog based generator(HLS C/C++ Kernel)", 
+    "description": [
+        "This example will demonstrate emulation of Xilinx Device's IO with a System Verilog based external process."
+    ],
+    "flow": "vitis",
+    "keywords": [
+        "ipc_axis_master_mirror",
+        "ipc_axis_slave_mirror"
+    ], 
+    "key_concepts": [
+        "Traffic Generator", 
+        "Traffic generation using SystemV"
+    ],
+    "platform_whitelist": [
+        "vck190",
+        "zc"
+    ],
+    "platform_blacklist": [
+        "dma",
+        "vck5000",
+        "aws-vu9p-f1",
+        "samsung",
+        "_u2_"
+    ], 
+    "os": [
+        "Linux"
+    ], 
+    "runtime": [
+        "OpenCL"
+    ], 
+    "host": {
+        "host_exe": "external_io_sv",
+        "compiler": {
+            "sources": [
+                "REPO_DIR/common/includes/xcl2/xcl2.cpp",
+                "./src/host.cpp"
+            ], 
+            "includepaths": [
+                "REPO_DIR/common/includes/xcl2"
+            ]
+        }
+    },
+    "targets": [
+        "hw_emu"
+    ],   
+    "match_makefile": "false",
+    "containers": [
+        {
+            "accelerators": [
+                {
+                    "name": "increment", 
+                    "location": "src/increment.cpp"
+                }
+            ], 
+            "name": "increment",
+            "ldclflags": "--config PROJECT/krnl_incr.cfg"
+        }
+    ],
+    "launch": [
+        {
+            "cmd_args": "BUILD/increment.xclbin", 
+            "name": "generic launch for all flows"
+        }
+    ], 
+    "contributors": [
+        {
+            "url": "http://www.xilinx.com", 
+            "group": "Xilinx"
+        }
+    ],
+    "testinfo": {
+        "disable": false,
+        "jobs": [
+            {
+                "index": 0,
+                "dependency": [],
+                "env": "",
+                "cmd": "",
+                "max_memory_MB": 32768,
+                "max_time_min": 300
+            }
+        ],
+        "targets": [
+            "vitis_hw_emu"
+        ],
+        "category": "canary"
+    }
+}

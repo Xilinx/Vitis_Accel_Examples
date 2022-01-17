@@ -5,16 +5,8 @@ Host to global memory bandwidth test
 
 **EXCLUDED PLATFORMS:** 
 
- - Alveo U25 SmartNIC
- - Alveo U30
- - Alveo U50
- - Alveo U55
- - Alveo U280
  - All Versal Platforms, i.e vck190 etc
- - Samsung SmartSSD Computation Storage Drive
- - Samsung U.2 SmartSSD
  - All NoDMA Platforms, i.e u50 nodma etc
- - X3 Compute Shell
  - All Embedded Zynq Platforms, i.e zc702, zcu102 etc
 
 DESIGN FILES

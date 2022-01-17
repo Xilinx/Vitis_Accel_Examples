@@ -24,7 +24,6 @@
         "vck5000"
     ],
     "gui": false,    
-    "platform_type": "soc", 
     "host": {
         "compiler": {
             "sources": [
