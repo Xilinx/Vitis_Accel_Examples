@@ -49,13 +49,13 @@ help::
 ############################## Setting up Project Variables ##############################
 # Points to top directory of Git repository
 MK_PATH := $(abspath $(lastword $(MAKEFILE_LIST)))
-COMMON_REPO ?= $(shell bash -c 'export MK_PATH=$(MK_PATH); echo $${MK_PATH%emulation/external_io/*}')
+COMMON_REPO ?= $(shell bash -c 'export MK_PATH=$(MK_PATH); echo $${MK_PATH%emulation/external_io_cpp/*}')
 PWD = $(shell readlink -f .)
 XF_PROJ_ROOT = $(shell readlink -f $(COMMON_REPO))
 
 TARGET := hw
 HOST_ARCH := x86
-SYSROOT := 
+SYSROOT :=
 
 include ./utils.mk
 
@@ -111,7 +111,7 @@ endif
 # Kernel linker flags
 VPP_LDFLAGS += --config ./krnl_incr.cfg
 
-EXECUTABLE = ./external_io
+EXECUTABLE = ./external_io_cpp
 EMCONFIG_DIR = $(TEMP_DIR)
 EMU_DIR = $(SDCARD)/data/emulation
 
@@ -156,17 +156,20 @@ $(EMCONFIG_DIR)/emconfig.json:
 	emconfigutil --platform $(PLATFORM) --od $(EMCONFIG_DIR)
 
 ############################## Setting Essential Checks and Running Rules ##############################
-run: all
-	./pre.sh
-	./py_exec.sh &
+run: run_blocking run_non_blocking
+
+run_blocking: all
+	$(ECHO) "Feeding the kernel with a Blocking External Traffic Genrator"
+	./scripts/pre.sh
+	./scripts/cpp_exec.sh BLOCKING &
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 ifeq ($(HOST_ARCH), x86)
 	$(CP) $(EMCONFIG_DIR)/emconfig.json .
 	XCL_EMULATION_MODE=$(TARGET) $(EXECUTABLE) $(CMD_ARGS)
 else
 	$(LAUNCH_EMULATOR) -disable-host-completion-check -run-app $(RUN_APP_SCRIPT) | tee run_app.log; exit $${PIPESTATUS[0]}
-	./post.sh
 endif
+	./scripts/post.sh BLOCKING
 else
 ifeq ($(HOST_ARCH), x86)
 	$(EXECUTABLE) $(CMD_ARGS)
@@ -175,7 +178,27 @@ endif
 ifneq ($(TARGET),$(findstring $(TARGET), sw_emu hw_emu))
 $(error Application supports only sw_emu hw_emu TARGET. Please use the target for running the application)
 endif
-
+	
+run_non_blocking: all
+	$(ECHO) "Feeding the kernel with a Non-blocking External Traffic Genrator"
+	./scripts/pre.sh
+	./scripts/cpp_exec.sh NON_BLOCKING &
+ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
+ifeq ($(HOST_ARCH), x86)
+	$(CP) $(EMCONFIG_DIR)/emconfig.json .
+	XCL_EMULATION_MODE=$(TARGET) $(EXECUTABLE) $(CMD_ARGS)
+else
+	$(LAUNCH_EMULATOR) -disable-host-completion-check -run-app $(RUN_APP_SCRIPT) | tee run_app.log; exit $${PIPESTATUS[0]}
+endif
+	./scripts/post.sh NON_BLOCKING
+else
+ifeq ($(HOST_ARCH), x86)
+	$(EXECUTABLE) $(CMD_ARGS)
+endif
+endif
+ifneq ($(TARGET),$(findstring $(TARGET), sw_emu hw_emu))
+$(error Application supports only sw_emu hw_emu TARGET. Please use the target for running the application)
+endif
 
 .PHONY: test
 test: $(EXECUTABLE)

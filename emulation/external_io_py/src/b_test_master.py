@@ -8,9 +8,9 @@ import struct
 import time
 
 #Stores data sent to Device
-send_file = open("send_data.txt", "w") 
+send_file = open("send_data_blocking.txt", "w") 
 #This is expected data from device [We know the functionality of kernel in this case]
-expected_file = open("expected_data.txt", "w") 
+expected_file = open("expected_data_blocking.txt", "w") 
 
 #Instantiating AXI Master Utilities 
 master_util = ipc_axis_master_util("gt_master")

@@ -1,7 +1,7 @@
 {
-    "name": "External IO (HLS C/C++ Kernel)", 
+    "name": "External IO Python based generator(HLS C/C++ Kernel)", 
     "description": [
-        "This example will demonstrate emulation of Xilinx Device's IO with an external process."
+        "This example will demonstrate emulation of Xilinx Device's IO with a Python based external process."
     ],
     "flow": "vitis",
     "keywords": [
@@ -11,8 +11,8 @@
         "gt_slave"
     ], 
     "key_concepts": [
-        "HLS C Kernel", 
-        "OpenCL Host APIs"
+        "Traffic Generator", 
+        "Traffic generation using Python"
     ],
     "platform_whitelist": [
         "vck190",
@@ -31,9 +31,8 @@
     "runtime": [
         "OpenCL"
     ], 
-    "platform_type": "soc",
     "host": {
-        "host_exe": "external_io",
+        "host_exe": "external_io_py",
         "compiler": {
             "sources": [
                 "REPO_DIR/common/includes/xcl2/xcl2.cpp",

@@ -92,7 +92,11 @@
         "trace_memory": "https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/profile-Options",
         "trace_buffer_size": "https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/xrt.ini-File",
         "opencl_trace": "https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/xrt.ini-File",
-        "kernel_files": "https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Packaging-the-RTL-Code-as-a-Vitis-XO"
+        "kernel_files": "https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Packaging-the-RTL-Code-as-a-Vitis-XO",
+        "sim_ipc_axis_master": "https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Adding-Traffic-Generators-to-Your-Design",
+        "sim_ipc_axis_slave": "https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Adding-Traffic-Generators-to-Your-Design",
+        "ipc_axis_master_mirror": "https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Manually-Creating-Sources-for-Mirror-Modules",
+        "ipc_axis_slave_mirror": "https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Manually-Creating-Sources-for-Mirror-Modules"
     },
     "key_concepts": {
         "HLS C Kernel": "https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Interfaces",
@@ -158,6 +162,10 @@
         "User-Managed RTL Kernel": "https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Creating-User-Managed-RTL-Kernels",
         "RTL C-Model": "https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Software-Model-and-Host-Code-Example",
         "Compiling and Linking for x86": "https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Compiling-and-Linking-for-x86", 
-        "Compiling and Linking for Arm": "https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Compiling-and-Linking-for-Arm"
+        "Compiling and Linking for Arm": "https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Compiling-and-Linking-for-Arm",
+        "Traffic Generator": "https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Using-I/O-Traffic-Generators",
+        "Traffic generation using Python": "https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Writing-Traffic-Generators-in-Python", 
+        "Traffic generation using C++": "https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Writing-Traffic-Generators-in-C",
+        "Traffic generation using SystemV": "https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Writing-Traffic-Generators-in-SV/Verilog"
     }
 }

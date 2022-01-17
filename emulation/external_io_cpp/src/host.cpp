@@ -84,8 +84,8 @@ int main(int argc, char** argv) {
     for (unsigned int i = 0; i < devices.size(); i++) {
         device = devices[i];
         // Creating Context and Command Queue for selected Device
-        OCL_CHECK(err, context = cl::Context({device}, nullptr, nullptr, nullptr, &err));
-        OCL_CHECK(err, q = cl::CommandQueue(context, {device}, CL_QUEUE_PROFILING_ENABLE, &err));
+        OCL_CHECK(err, context = cl::Context(device, nullptr, nullptr, nullptr, &err));
+        OCL_CHECK(err, q = cl::CommandQueue(context, device, CL_QUEUE_PROFILING_ENABLE, &err));
 
         std::cout << "Trying to program device[" << i << "]: " << device.getInfo<CL_DEVICE_NAME>() << std::endl;
         cl::Program program(context, {device}, bins, nullptr, &err);

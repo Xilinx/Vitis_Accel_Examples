@@ -7,7 +7,7 @@ import string
 import struct
 
 #File to store received data
-recv_file = open("recv_data.txt", "w")
+recv_file = open("recv_data_blocking.txt", "w")
 
 #Function which stores payload data to the file
 def my_cb(payload):
@@ -26,5 +26,3 @@ for i in range(1,512):
     payload = slave_util.sample_transaction()
     my_cb(payload)
     print ("Recived " + str(i))
-
-
