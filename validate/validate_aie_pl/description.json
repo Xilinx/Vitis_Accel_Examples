@@ -85,6 +85,7 @@
                     "pl-freq": 100, 
                     "workdir": "./Work", 
                     "option": "-pl-axi-lite=true",
+                    "files": ["PROJECT/src/aie/forward.cpp"],
                     "name": "libadf.a"
                 }
             ]
