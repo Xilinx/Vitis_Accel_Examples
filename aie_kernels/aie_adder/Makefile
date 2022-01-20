@@ -184,8 +184,8 @@ ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 	@echo "COMPLETE: emulation package created."
 else
 ifeq ($(findstring vck190_base_dfx, $(PLATFORM)), vck190_base_dfx)
-	v++ $(VPP_FLAGS) -t hw --platform $(PLATFORM) -p $(XCLBIN) -o krnl_adder.xclbin 
-	v++ $(VPP_PFLAGS) -t hw --platform $(PLATFORM) -p --package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.image_format=ext4 --package.boot_mode=sd --package.kernel_image=$(SD_IMAGE_FILE) --package.defer_aie_run --package.sd_dir /proj/xbuilds/2022.1_daily_latest/internal_platforms/sw/versal/xrt --package.sd_file $(RUN_APP_SCRIPT) --package.sd_file aie_adder --package.sd_file krnl_adder.xclbin --package.sd_file $(GRAPH_O)
+	v++ $(VPP_FLAGS) -t hw --platform $(PLATFORM) -p $(XCLBIN) --package.defer_aie_run -o krnl_adder.xclbin 
+	v++ $(VPP_PFLAGS) -t hw --platform $(PLATFORM) -p --package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.image_format=ext4 --package.boot_mode=sd --package.kernel_image=$(SD_IMAGE_FILE) --package.sd_dir /proj/xbuilds/2022.1_daily_latest/internal_platforms/sw/versal/xrt --package.sd_file $(RUN_APP_SCRIPT) --package.sd_file aie_adder --package.sd_file krnl_adder.xclbin --package.sd_file $(GRAPH_O)
 else
 	v++ $(VPP_PFLAGS) -p -t hw \
 		--platform $(PLATFORM) \
