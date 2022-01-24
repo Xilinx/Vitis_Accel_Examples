@@ -72,7 +72,7 @@
                     "pl-freq": 100,
                     "workdir": "./Work",
                     "name": "libadf.a",
-                    "aie_kernel_files":["aie_adder.cc"]
+                    "aie_kernel_files":["./src/aie_adder.cc"]
                 }
             ]
         }

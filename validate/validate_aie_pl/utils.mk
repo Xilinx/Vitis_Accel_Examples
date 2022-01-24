@@ -103,7 +103,7 @@ endif
 check_sysroot:
 ifneq ($(HOST_ARCH), x86)
 ifndef SYSROOT
-	$(error SYSROOT ENV variable is not set, please set ENV variable correctly and rerun)
+	$(error SYSROOT ENV variable is not set, please download and use the pre-built image from https://www.xilinx.com/support/download/index.html/content/xilinx/en/downloadNav/embedded-platforms.html)
 endif
 endif
 
