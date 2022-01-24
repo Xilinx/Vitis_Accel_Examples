@@ -79,7 +79,7 @@ CXX := g++
 #Checks for EDGE_COMMON_SW
 ifneq ($(HOST_ARCH), x86)
 ifndef EDGE_COMMON_SW
-$(error EDGE_COMMON_SW variable is not set, please set correctly and rerun)
+$(error EDGE_COMMON_SW variable is not set, please download and use the pre-built image from https://www.xilinx.com/support/download/index.html/content/xilinx/en/downloadNav/embedded-platforms.html)
 endif
 ifeq ($(HOST_ARCH), aarch64)
 SYSROOT := $(EDGE_COMMON_SW)/sysroots/cortexa72-cortexa53-xilinx-linux

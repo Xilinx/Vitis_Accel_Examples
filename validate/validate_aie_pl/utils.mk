@@ -69,7 +69,7 @@ endif
 check_edge_common_sw:
 ifneq ($(HOST_ARCH), x86)
 ifndef EDGE_COMMON_SW
-$(error [ERROR]:EDGE_COMMON_SW variable is not set, please set correctly and rerun)
+$(error EDGE_COMMON_SW variable is not set, please download and use the pre-built image from https://www.xilinx.com/support/download/index.html/content/xilinx/en/downloadNav/embedded-platforms.html)
 endif
 endif
 

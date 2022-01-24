@@ -3,9 +3,9 @@ External IO System Verilog based generator(HLS C/C++ Kernel)
 
 This example will demonstrate emulation of Xilinx Device's IO with a System Verilog based external process.
 
-**KEY CONCEPTS:** Traffic Generator, Traffic generation using SystemV
+**KEY CONCEPTS:** `Traffic Generator <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Using-I/O-Traffic-Generators>`__, `Traffic generation using SystemV <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Writing-Traffic-Generators-in-SV/Verilog>`__
 
-**KEYWORDS:** ipc_axis_master_mirror, ipc_axis_slave_mirror
+**KEYWORDS:** `ipc_axis_master_mirror <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Manually-Creating-Sources-for-Mirror-Modules>`__, `ipc_axis_slave_mirror <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Manually-Creating-Sources-for-Mirror-Modules>`__
 
 **EXCLUDED PLATFORMS:** 
 

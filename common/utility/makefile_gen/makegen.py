@@ -242,8 +242,9 @@ def add_kernel_flags(target, data):
                             flg = flg.replace('PROJECT', '.')
                             target.write(flg)
                         target.write("\nendif")
+        target.write("\n")
 
-    target.write("\n\n")
+    target.write("\n")
     target.write("EXECUTABLE = ./")
     if "host_exe" in data["host"]:
         target.write(data["host"]["host_exe"])    
@@ -838,7 +839,7 @@ def util_checks(target):
         target.write("#Checks for EDGE_COMMON_SW\n")
         target.write("ifneq ($(HOST_ARCH), x86)\n")
         target.write("ifndef EDGE_COMMON_SW\n")
-        target.write("$(error EDGE_COMMON_SW variable is not set, please set correctly and rerun)\n")
+        target.write("$(error EDGE_COMMON_SW variable is not set, please download and use the pre-built image from https://www.xilinx.com/support/download/index.html/content/xilinx/en/downloadNav/embedded-platforms.html)\n")
         target.write("endif\n")
         target.write("ifeq ($(HOST_ARCH), aarch64)\n")
         target.write("SYSROOT := $(EDGE_COMMON_SW)/sysroots/cortexa72-cortexa53-xilinx-linux\n")
