@@ -341,8 +341,8 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="hello_world.html">Hello World</a></li>
 <li class="toctree-l1"><a class="reference internal" href="aie_kernels.html">AIE Examples</a></li>
-<li class="toctree-l1"><a class="reference internal" href="host.html">Host</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="host_xrt.html">Native XRT</a><ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="host.html">Host OpenCL</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="host_xrt.html">Host Native XRT</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="copy_buffer_xrt.html">Copy Buffer XRT (XRT native API’s)</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Data Transfer XRT (XRT Native API’s)</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#design-files">DESIGN FILES</a></li>
@@ -365,6 +365,7 @@
 <li class="toctree-l2"><a class="reference internal" href="streaming_k2k_mm_xrt.html">Stream Kernel to Kernel Memory Mapped XRT (XRT Native API’s)</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="host_py.html">Host Python</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cpp.html">C++ Kernels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="demo.html">Demos</a></li>
 <li class="toctree-l1"><a class="reference internal" href="emulation.html">Emulation Examples</a></li>
@@ -434,7 +435,7 @@
     
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
-          <li><a href="host_xrt.html">Native XRT</a> &raquo;</li>
+          <li><a href="host_xrt.html">Host Native XRT</a> &raquo;</li>
         
       <li>Data Transfer XRT (XRT Native API’s)</li>
     
@@ -458,8 +459,8 @@
   <div class="section" id="data-transfer-xrt-xrt-native-api-s">
 <h1>Data Transfer XRT (XRT Native API’s)<a class="headerlink" href="#data-transfer-xrt-xrt-native-api-s" title="Permalink to this headline">¶</a></h1>
 <p>This example illustrates transferring of data to and from the FPGA using xrt native api’s</p>
-<p><strong>KEY CONCEPTS:</strong> <a class="reference external" href="https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/devhostapp.html#jln1620691667890">XRT Native API</a>, <a class="reference external" href="https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/opencl_programming.html#xio1524524087132">Data Transfer</a>, <a class="reference external" href="https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/opencl_programming.html#xio1524524087132">Write Buffers</a>, <a class="reference external" href="https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/opencl_programming.html#xio1524524087132">Read Buffers</a></p>
-<p><strong>KEYWORDS:</strong> <a class="reference external" href="https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/devhostapp.html#yaz1622072496185">xrt::bo::write</a>, <a class="reference external" href="https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/devhostapp.html#yaz1622072496185">xrt::bo::read</a></p>
+<p><strong>KEY CONCEPTS:</strong> <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Setting-Up-XRT-Managed-Kernels-and-Kernel-Arguments">XRT Native API</a>, <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Buffer-Creation-and-Data-Transfer">Data Transfer</a>, <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Buffer-Creation-and-Data-Transfer">Write Buffers</a>, <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Buffer-Creation-and-Data-Transfer">Read Buffers</a></p>
+<p><strong>KEYWORDS:</strong> <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Transferring-Data-between-Host-and-Kernels">xrt::bo::write</a>, <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Transferring-Data-between-Host-and-Kernels">xrt::bo::read</a></p>
 <p>This example illustrates how to transfer data back and forth between
 host and device using buffer read/write API’s</p>
 <blockquote>

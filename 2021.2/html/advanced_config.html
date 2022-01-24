@@ -341,8 +341,9 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="hello_world.html">Hello World</a></li>
 <li class="toctree-l1"><a class="reference internal" href="aie_kernels.html">AIE Examples</a></li>
-<li class="toctree-l1"><a class="reference internal" href="host.html">Host</a></li>
-<li class="toctree-l1"><a class="reference internal" href="host_xrt.html">Native XRT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="host.html">Host OpenCL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="host_xrt.html">Host Native XRT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="host_py.html">Host Python</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cpp.html">C++ Kernels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="demo.html">Demos</a></li>
 <li class="toctree-l1"><a class="reference internal" href="emulation.html">Emulation Examples</a></li>
@@ -449,8 +450,8 @@
   <div class="section" id="advanced-configuration">
 <h1>Advanced Configuration<a class="headerlink" href="#advanced-configuration" title="Permalink to this headline">¶</a></h1>
 <p>This is simple example to describe how user can provide various advanced options in Vitis flow.</p>
-<p><strong>KEY CONCEPTS:</strong> <a class="reference external" href="https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/vitiscommandcompiler.html#mcj1568640526180__section_emy_hbk_dnb">Using custom Tcl</a>, <a class="reference external" href="https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/vitiscommandcompiler.html#qcm1528577331870__section_frk_">Setting Kernel Clock Frequency</a>, <a class="reference external" href="https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/vitiscommandcompiler.html#mcj1568640526180__section_bh5_dg4_bjb">Clock Uncertainity</a></p>
-<p><strong>KEYWORDS:</strong> <a class="reference external" href="https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/vitiscommandcompiler.html#qcm1528577331870__config">config</a>, set_clock_uncertainity, <a class="reference external" href="https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/vitiscommandcompiler.html#ans1568640653312">clock</a>, <a class="reference external" href="https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/vitiscommandcompiler.html#ans1568640653312__section_vh5_yf4_bjb">freqHz</a>, <a class="reference external" href="https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/vitiscommandcompiler.html#mcj1568640526180__section_emy_hbk_dnb">hls.pre_tcl</a></p>
+<p><strong>KEY CONCEPTS:</strong> <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/hls-Options">Using custom Tcl</a>, <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Vitis-Compiler-Command">Setting Kernel Clock Frequency</a>, <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/hls-Options">Clock Uncertainity</a></p>
+<p><strong>KEYWORDS:</strong> <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Vitis-Compiler-General-Options">config</a>, set_clock_uncertainity, <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/clock-Options">clock</a>, <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/clock-Options">freqHz</a>, <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/hls-Options">hls.pre_tcl</a></p>
 <p>This is a simple example to describe how user can provide various advanced options in Vitis flow. The same can be achieved by the inclusion of cfg or tcl files.</p>
 <p>User can customize the clock_uncertainity using ‘set_clock_uncertainty’. Following is the content of my_directives.tcl file</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">set_clock_uncertainty</span> <span class="mf">0.370</span>

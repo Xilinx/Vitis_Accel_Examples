@@ -1,5 +1,5 @@
-Native XRT
-==========
+Host Native XRT
+===============
 
 XRT Native API's for optimized interfacing with Xilinx Devices.
 

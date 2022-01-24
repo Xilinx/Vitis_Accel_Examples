@@ -341,8 +341,9 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="hello_world.html">Hello World</a></li>
 <li class="toctree-l1"><a class="reference internal" href="aie_kernels.html">AIE Examples</a></li>
-<li class="toctree-l1"><a class="reference internal" href="host.html">Host</a></li>
-<li class="toctree-l1"><a class="reference internal" href="host_xrt.html">Native XRT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="host.html">Host OpenCL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="host_xrt.html">Host Native XRT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="host_py.html">Host Python</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="cpp.html">C++ Kernels</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="array_partition.html">Array Partition</a></li>
 <li class="toctree-l2"><a class="reference internal" href="burst_rw.html">Burst Read/Write</a></li>
@@ -462,7 +463,7 @@
   <div class="section" id="stream-chain-matrix-multiplication">
 <h1>Stream Chain Matrix Multiplication<a class="headerlink" href="#stream-chain-matrix-multiplication" title="Permalink to this headline">¶</a></h1>
 <p>This is a kernel containing the cascaded Matrix Multiplication using dataflow. ap_ctrl_chain is enabled for this kernel to showcase how multiple enqueue of Kernel calls can be overlapped to give higher performance. ap_ctrl_chain allow kernel to start processing of next kernel operation before completing the current kernel operation.</p>
-<p><strong>KEY CONCEPTS:</strong> <a class="reference external" href="https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/managing_interface_synthesis.html#qls1539734256651__ae476333">ap_ctrl_chain</a>, PLRAM</p>
+<p><strong>KEY CONCEPTS:</strong> <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/Block-Level-Control-Protocols">ap_ctrl_chain</a>, PLRAM</p>
 <p>This examples demonstrates how ‘ap_ctrl_chain’ in HLS Kernel can help to
 improve the performance. In this example matrix multiplication
 functionality is used to showcase the benefit. Example contains two

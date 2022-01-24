@@ -341,8 +341,9 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="hello_world.html">Hello World</a></li>
 <li class="toctree-l1"><a class="reference internal" href="aie_kernels.html">AIE Examples</a></li>
-<li class="toctree-l1"><a class="reference internal" href="host.html">Host</a></li>
-<li class="toctree-l1"><a class="reference internal" href="host_xrt.html">Native XRT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="host.html">Host OpenCL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="host_xrt.html">Host Native XRT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="host_py.html">Host Python</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cpp.html">C++ Kernels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="demo.html">Demos</a></li>
 <li class="toctree-l1"><a class="reference internal" href="emulation.html">Emulation Examples</a></li>
@@ -454,8 +455,8 @@
   <div class="section" id="array-block-and-cyclic-partitioning-opencl-kernel">
 <h1>Array Block and Cyclic Partitioning (OpenCL Kernel)<a class="headerlink" href="#array-block-and-cyclic-partitioning-opencl-kernel" title="Permalink to this headline">¶</a></h1>
 <p>This example shows how to use array block and cyclic partitioning to improve performance of a kernel</p>
-<p><strong>KEY CONCEPTS:</strong> <a class="reference external" href="https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/vitis_hls_optimization_techniques.html">Kernel Optimization</a>, Array Partitioning, <a class="reference external" href="https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/vitis_hls_optimization_techniques.html#swq1539734225427">Block Partition</a>, <a class="reference external" href="https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/vitis_hls_optimization_techniques.html#swq1539734225427">Cyclic Partition</a></p>
-<p><strong>KEYWORDS:</strong> <a class="reference external" href="https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/opencl_programming.html#kal1504034361186">xcl_array_partition</a>, <a class="reference external" href="https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/hls_pragmas.html#gle1504034361378__ad410829">cyclic</a>, <a class="reference external" href="https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/hls_pragmas.html#gle1504034361378__ad410829">block</a></p>
+<p><strong>KEY CONCEPTS:</strong> <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Kernel-Optimization">Kernel Optimization</a>, Array Partitioning, <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/pragma-HLS-array_partition">Block Partition</a>, <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/pragma-HLS-array_partition">Cyclic Partition</a></p>
+<p><strong>KEYWORDS:</strong> <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/xcl_array_partition">xcl_array_partition</a>, <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/pragma-HLS-array_partition">cyclic</a>, <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/pragma-HLS-array_partition">block</a></p>
 <p>This example demonstrates how to use array <code class="docutils literal notranslate"><span class="pre">block</span></code> and <code class="docutils literal notranslate"><span class="pre">cyclic</span></code>
 partitioning to improve the performance of the kernel. Matrix
 multiplication is performed in this example which would require repeated

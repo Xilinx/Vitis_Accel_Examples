@@ -341,8 +341,9 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="hello_world.html">Hello World</a></li>
 <li class="toctree-l1"><a class="reference internal" href="aie_kernels.html">AIE Examples</a></li>
-<li class="toctree-l1"><a class="reference internal" href="host.html">Host</a></li>
-<li class="toctree-l1"><a class="reference internal" href="host_xrt.html">Native XRT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="host.html">Host OpenCL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="host_xrt.html">Host Native XRT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="host_py.html">Host Python</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cpp.html">C++ Kernels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="demo.html">Demos</a></li>
 <li class="toctree-l1"><a class="reference internal" href="emulation.html">Emulation Examples</a></li>
@@ -449,8 +450,8 @@
   <div class="section" id="slr-assign">
 <h1>SLR Assign<a class="headerlink" href="#slr-assign" title="Permalink to this headline">¶</a></h1>
 <p>This is simple example to describe SLR assignment information for a platform design. This example highlights how to provide extra input to assign the logic of the kernel into a nominated SLR. In this example we are assigning first kernel(Vector Multiplication) to SLR0 and assigning the second kernel(Vector Addition) to SLR1</p>
-<p><strong>KEY CONCEPTS:</strong> <a class="reference external" href="https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/migrating_new_target_platform.html#img1535745661571">SLR Assignments</a></p>
-<p><strong>KEYWORDS:</strong> <a class="reference external" href="https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/vitiscommandcompiler.html#clt1568640709907__section_m3v_qxm_1jb">slr</a></p>
+<p><strong>KEY CONCEPTS:</strong> <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Assigning-Kernels-to-SLRs">SLR Assignments</a></p>
+<p><strong>KEYWORDS:</strong> <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/connectivity-Options">slr</a></p>
 <p>This example demonstrates how kernels can be assigned to different
 SLRs(Super Logic Region) during the kernel linking stage.</p>
 <p>Actual kernel resource utilization values can be used to help distribute
@@ -480,6 +481,7 @@ facilitates better timing closure.</p>
 <li><p>All Versal Platforms, i.e vck190 etc</p></li>
 <li><p>Samsung SmartSSD Computation Storage Drive</p></li>
 <li><p>Samsung U.2 SmartSSD</p></li>
+<li><p>X3 Compute Shell</p></li>
 <li><p>All NoDMA Platforms, i.e u50 nodma etc</p></li>
 </ul>
 </div></blockquote>

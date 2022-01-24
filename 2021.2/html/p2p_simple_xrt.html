@@ -341,8 +341,8 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="hello_world.html">Hello World</a></li>
 <li class="toctree-l1"><a class="reference internal" href="aie_kernels.html">AIE Examples</a></li>
-<li class="toctree-l1"><a class="reference internal" href="host.html">Host</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="host_xrt.html">Native XRT</a><ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="host.html">Host OpenCL</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="host_xrt.html">Host Native XRT</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="copy_buffer_xrt.html">Copy Buffer XRT (XRT native API’s)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="data_transfer_xrt.html">Data Transfer XRT (XRT Native API’s)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="device_only_buffer_xrt.html">Device Only Buffer XRT (XRT Native API’s)</a></li>
@@ -365,6 +365,7 @@
 <li class="toctree-l2"><a class="reference internal" href="streaming_k2k_mm_xrt.html">Stream Kernel to Kernel Memory Mapped XRT (XRT Native API’s)</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="host_py.html">Host Python</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cpp.html">C++ Kernels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="demo.html">Demos</a></li>
 <li class="toctree-l1"><a class="reference internal" href="emulation.html">Emulation Examples</a></li>
@@ -434,7 +435,7 @@
     
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
-          <li><a href="host_xrt.html">Native XRT</a> &raquo;</li>
+          <li><a href="host_xrt.html">Host Native XRT</a> &raquo;</li>
         
       <li>P2P Simple Example XRT (XRT Native API’s)</li>
     
@@ -458,7 +459,7 @@
   <div class="section" id="p2p-simple-example-xrt-xrt-native-api-s">
 <h1>P2P Simple Example XRT (XRT Native API’s)<a class="headerlink" href="#p2p-simple-example-xrt-xrt-native-api-s" title="Permalink to this headline">¶</a></h1>
 <p>This is simple example of vector increment to describe P2P between FPGA and NVMe SSD using xrt native api’s.</p>
-<p><strong>KEY CONCEPTS:</strong> <a class="reference external" href="https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/Chunk938767849.html#qex1558551641915">P2P</a>, NVMe SSD, SmartSSD</p>
+<p><strong>KEY CONCEPTS:</strong> <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/p2p">P2P</a>, NVMe SSD, SmartSSD</p>
 <p><strong>KEYWORDS:</strong> xrt::bo::flags::p2p, pread, pwrite, O_DIRECT, O_RDWR</p>
 <p>This example illustrates the date transfer between FPGA device and NVMe device
 using p2p without migrating the data via host memory space. In this example

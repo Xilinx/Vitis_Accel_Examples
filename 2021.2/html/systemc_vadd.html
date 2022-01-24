@@ -58,7 +58,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="HLS Wrapper XO Generator" href="hls_wrapper_xo_gen.html" />
-    <link rel="prev" title="External IO" href="external_io.html" /> 
+    <link rel="prev" title="External IO System Verilog based generator" href="external_io_sv.html" /> 
 	</head>
 	<body>
 		<div class="xilinx-bs3"/>
@@ -341,12 +341,15 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="hello_world.html">Hello World</a></li>
 <li class="toctree-l1"><a class="reference internal" href="aie_kernels.html">AIE Examples</a></li>
-<li class="toctree-l1"><a class="reference internal" href="host.html">Host</a></li>
-<li class="toctree-l1"><a class="reference internal" href="host_xrt.html">Native XRT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="host.html">Host OpenCL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="host_xrt.html">Host Native XRT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="host_py.html">Host Python</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cpp.html">C++ Kernels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="demo.html">Demos</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="emulation.html">Emulation Examples</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="external_io.html">External IO</a></li>
+<li class="toctree-l2"><a class="reference internal" href="external_io_cpp.html">External IO C++ based generator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="external_io_py.html">External IO Python based generator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="external_io_sv.html">External IO System Verilog based generator</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">SystemC Vadd</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#writing-ap-ctrl-hs-systemc-kernel-vadd">Writing ap_ctrl_hs SystemC kernel (vadd)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#xtlm-ap-ctrl-hs-base-class">xtlm_ap_ctrl_hs base class</a></li>
@@ -452,8 +455,8 @@
   <div class="section" id="systemc-vadd">
 <h1>SystemC Vadd<a class="headerlink" href="#systemc-vadd" title="Permalink to this headline">¶</a></h1>
 <p>This is simple example of vector addition to describe usage of custom SystemC in Vitis Environment.</p>
-<p><strong>KEY CONCEPTS:</strong> <a class="reference external" href="https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/runemulation1.html#cmo1619037605921">SystemC</a></p>
-<p><strong>KEYWORDS:</strong> <a class="reference external" href="https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/runemulation1.html#rgl1621883070991">create_sc_xo</a>, <a class="reference external" href="https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/runemulation1.html#pkt1621882955152">xtlm_ap_ctrl_hs</a></p>
+<p><strong>KEY CONCEPTS:</strong> <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Working-with-SystemC-Models">SystemC</a></p>
+<p><strong>KEYWORDS:</strong> <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Working-with-SystemC-Models">create_sc_xo</a>, <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Coding-a-SystemC-Model">xtlm_ap_ctrl_hs</a></p>
 <p>There are three types of Vitis HLS kernels namely ap_ctrl_chain, ap_ctrl_hs and ap_ctrl_none. Corresponding to each of these HLS kernels user can write SystemC kernels using predefined constructs/macros. The difference b/w ap_ctrl_chain and ap_ctrl_hs is that user can start ap_ctrl_chain kernels repeatedly by writing to ap_continue bit. In this example there is ap_ctrl_hs kernel vadd which requires the XRT control to provide memory address and size of the data.</p>
 <div class="section" id="writing-ap-ctrl-hs-systemc-kernel-vadd">
 <h2>Writing ap_ctrl_hs SystemC kernel (vadd)<a class="headerlink" href="#writing-ap-ctrl-hs-systemc-kernel-vadd" title="Permalink to this headline">¶</a></h2>
@@ -598,7 +601,7 @@ The same interfaces should be instantiated in the constructor of the model which
         <a href="hls_wrapper_xo_gen.html" class="btn btn-neutral float-right" title="HLS Wrapper XO Generator" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="external_io.html" class="btn btn-neutral float-left" title="External IO" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="external_io_sv.html" class="btn btn-neutral float-left" title="External IO System Verilog based generator" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

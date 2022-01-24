@@ -3,9 +3,9 @@ HLS Wrapper XO Generator
 
 This is an example of systemC TLM wrapper and XO generation for a given HLS kernel function.
 
-**KEY CONCEPTS:** `SystemC <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/runemulation1.html#cmo1619037605921>`__
+**KEY CONCEPTS:** `SystemC <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Working-with-SystemC-Models>`__
 
-**KEYWORDS:** `create_sc_xo <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/runemulation1.html#rgl1621883070991>`__, `ap_ctrl_none <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/managing_interface_synthesis.html#qls1539734256651__ae476284>`__
+**KEYWORDS:** `create_sc_xo <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Working-with-SystemC-Models>`__, `ap_ctrl_none <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/Block-Level-Control-Protocols>`__
 
 
 The HLS kernel systemC wrapper enables TLM emulation using an existing HLS kernel. This utility generates the XO file (containing TLM wrappers) for the HLS kernel code.

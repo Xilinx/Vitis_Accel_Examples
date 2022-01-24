@@ -341,7 +341,7 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="hello_world.html">Hello World</a></li>
 <li class="toctree-l1"><a class="reference internal" href="aie_kernels.html">AIE Examples</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="host.html">Host</a><ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="host.html">Host OpenCL</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="concurrent_kernel_execution.html">Concurrent Kernel Execution</a></li>
 <li class="toctree-l2"><a class="reference internal" href="copy_buffer.html">Copy Buffer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="data_transfer.html">Data Transfer</a></li>
@@ -373,7 +373,8 @@
 <li class="toctree-l2"><a class="reference internal" href="streaming_k2k_mm.html">Stream Kernel to Kernel Memory Mapped</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="host_xrt.html">Native XRT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="host_xrt.html">Host Native XRT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="host_py.html">Host Python</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cpp.html">C++ Kernels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="demo.html">Demos</a></li>
 <li class="toctree-l1"><a class="reference internal" href="emulation.html">Emulation Examples</a></li>
@@ -443,7 +444,7 @@
     
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
-          <li><a href="host.html">Host</a> &raquo;</li>
+          <li><a href="host.html">Host OpenCL</a> &raquo;</li>
         
       <li>Multiple Compute Units (Asymmetrical)</li>
     
@@ -467,7 +468,7 @@
   <div class="section" id="multiple-compute-units-asymmetrical">
 <h1>Multiple Compute Units (Asymmetrical)<a class="headerlink" href="#multiple-compute-units-asymmetrical" title="Permalink to this headline">¶</a></h1>
 <p>This is simple example of vector addition to demonstrate how to connect each compute unit to different banks and how to use these compute units in host applications</p>
-<p><strong>KEY CONCEPTS:</strong> <a class="reference external" href="https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/opencl_programming.html#dqz1555367565037">Multiple Compute Units</a>, <a class="reference external" href="https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/optimizingperformance.html#cvc1523913889499">Task Level Parallelism</a></p>
+<p><strong>KEY CONCEPTS:</strong> <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Symmetrical-and-Asymmetrical-Compute-Units">Multiple Compute Units</a>, <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Task-Parallelism">Task Level Parallelism</a></p>
 <p>This example demonstrates how multiple compute units can do parallel
 processing where the compute units are asymmetrical i.e. connected to
 different memory banks.</p>
@@ -516,6 +517,7 @@ fix compute unit.</p>
 <li><p>Samsung SmartSSD Computation Storage Drive</p></li>
 <li><p>Samsung U.2 SmartSSD</p></li>
 <li><p>All Embedded Zynq Platforms, i.e zc702, zcu102 etc</p></li>
+<li><p>X3 Compute Shell</p></li>
 <li><p>All NoDMA Platforms, i.e u50 nodma etc</p></li>
 </ul>
 </div></blockquote>

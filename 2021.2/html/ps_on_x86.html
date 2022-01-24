@@ -58,7 +58,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="SystemC Vadd" href="systemc_vadd.html" />
-    <link rel="prev" title="Emulation Examples" href="emulation.html" /> 
+    <link rel="prev" title="External IO System Verilog based generator" href="external_io_sv.html" /> 
 	</head>
 	<body>
 		<div class="xilinx-bs3"/>
@@ -341,12 +341,16 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="hello_world.html">Hello World</a></li>
 <li class="toctree-l1"><a class="reference internal" href="aie_kernels.html">AIE Examples</a></li>
-<li class="toctree-l1"><a class="reference internal" href="host.html">Host</a></li>
-<li class="toctree-l1"><a class="reference internal" href="host_xrt.html">Native XRT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="host.html">Host OpenCL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="host_xrt.html">Host Native XRT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="host_py.html">Host Python</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cpp.html">C++ Kernels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="demo.html">Demos</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="emulation.html">Emulation Examples</a><ul class="current">
-<li class="toctree-l2 current"><a class="current reference internal" href="#">External IO</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="external_io_cpp.html">External IO C++ based generator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="external_io_py.html">External IO Python based generator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="external_io_sv.html">External IO System Verilog based generator</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Embedded SW-Emulation using x86 PS</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#design-files">DESIGN FILES</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#command-line-arguments">COMMAND LINE ARGUMENTS</a></li>
 </ul>
@@ -375,7 +379,7 @@
 			
 			<p class="caption"><span class="caption-text">This Page</span></p>
 				<ul class="current">
-				  <li class="toctree-l1"><a href="_sources/external_io.rst.txt"
+				  <li class="toctree-l1"><a href="_sources/ps_on_x86.rst.txt"
 						rel="nofollow">Show Source</a></li>
 				</ul>
           
@@ -423,13 +427,13 @@
         
           <li><a href="emulation.html">Emulation Examples</a> &raquo;</li>
         
-      <li>External IO</li>
+      <li>Embedded SW-Emulation using x86 PS</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="_sources/external_io.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/ps_on_x86.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -442,49 +446,30 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="external-io">
-<h1>External IO<a class="headerlink" href="#external-io" title="Permalink to this headline">¶</a></h1>
-<p>This example will demonstrate emulation of Xilinx Device’s IO with an external process.</p>
-<p><strong>KEY CONCEPTS:</strong> <a class="reference external" href="https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/devckernels.html#hxx1556235054362">HLS C Kernel</a>, <a class="reference external" href="https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/opencl_programming.html">OpenCL Host APIs</a></p>
-<p><strong>KEYWORDS:</strong> <a class="reference external" href="https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/runemulation1.html#sbn1601597712644__section_g3t_2s2_nnb">sim_ipc_axis_master</a>, <a class="reference external" href="https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/runemulation1.html#sbn1601597712644__section_g3t_2s2_nnb">sim_ipc_axis_slave</a>, <a class="reference external" href="https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/runemulation1.html#sbn1601597712644__section_gsg_11m_nnb">gt_master</a>, <a class="reference external" href="https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/runemulation1.html#sbn1601597712644__section_c3g_pzl_nnb">gt_slave</a></p>
-<p>Some user applications make use of IO ports in Vitis flow to drive streaming traffic in and out of the platform . This example emulates such designs in HW-Emulation by mimicing the IO port behavior as in HW.</p>
-<p>In this example, Master and Slave Stream IO models will be available as prepacked xo’s with different data width configuration. In order to instantiate the IP’s corresponding to the provided xo, the xosare specified in the v++ command line</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>XOS = $(XILINX_VITIS)/data/emulation/XO/sim_ipc_axis_master_32.xo  $(XILINX_VITIS)/data/emulation/XO/sim_ipc_axis_slave_32.xo
-$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) $(XOS) --temp_dir $(BUILD_DIR)  -o&#39;$(BUILD_DIR)/increment.link.xclbin&#39; $(+)
-</pre></div>
-</div>
-<p>Connections to the Custom IP’s specified in xo’s are made using <code class="docutils literal notranslate"><span class="pre">krnl_incr.cfg</span></code> file as below:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">connectivity</span><span class="p">]</span>
-<span class="n">nk</span><span class="o">=</span><span class="n">sim_ipc_axis_master</span><span class="p">:</span><span class="mi">1</span><span class="p">:</span><span class="n">gt_master</span>
-<span class="n">nk</span><span class="o">=</span><span class="n">sim_ipc_axis_slave</span><span class="p">:</span><span class="mi">1</span><span class="p">:</span><span class="n">gt_slave</span>
-<span class="n">stream_connect</span><span class="o">=</span><span class="n">gt_master</span><span class="o">.</span><span class="n">M00_AXIS</span><span class="p">:</span><span class="n">increment_1</span><span class="o">.</span><span class="n">a</span>
-<span class="n">stream_connect</span><span class="o">=</span><span class="n">increment_1</span><span class="o">.</span><span class="n">output</span><span class="p">:</span><span class="n">gt_slave</span><span class="o">.</span><span class="n">S00_AXIS</span>
-</pre></div>
-</div>
-<p>Note : xo instance name specified on v++ command line  becomes a key which will be used by the external process to refer to a particular stream port</p>
+  <div class="section" id="embedded-sw-emulation-using-x86-ps">
+<h1>Embedded SW-Emulation using x86 PS<a class="headerlink" href="#embedded-sw-emulation-using-x86-ps" title="Permalink to this headline">¶</a></h1>
+<p>This example demonstrates how a user can run the PS App as an x86 process instead of ARM process.</p>
+<p><strong>KEY CONCEPTS:</strong> <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Compiling-and-Linking-for-x86">Compiling and Linking for x86</a>, <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Compiling-and-Linking-for-Arm">Compiling and Linking for Arm</a></p>
+<p>This example demonstrates how SW Emulation for Embedded platforms can run the PS App as an x86 process instead of ARM process. SW Emulation is an abstract model and does not use any of the petalinux drivers like ZOCL, interrupt controller or DTB. Hence, the overhead of creating sd_card.img, booting petalinux on full QEMU machine is too heavy weight and should be avoided for SW Emulation.</p>
 <p><strong>EXCLUDED PLATFORMS:</strong></p>
 <blockquote>
 <div><ul class="simple">
-<li><p>All Xilinx DMA Platforms</p></li>
-<li><p>Versal VCK5000</p></li>
-<li><p>AWS VU9P F1</p></li>
-<li><p>Samsung SmartSSD Computation Storage Drive</p></li>
-<li><p>Samsung U.2 SmartSSD</p></li>
+<li><p>All NoDMA Platforms, i.e u50 nodma etc</p></li>
 </ul>
 </div></blockquote>
 <div class="section" id="design-files">
 <h2>DESIGN FILES<a class="headerlink" href="#design-files" title="Permalink to this headline">¶</a></h2>
 <p>Application code is located in the src directory. Accelerator binary files will be compiled to the xclbin directory. The xclbin directory is required by the Makefile and its contents will be filled during compilation. A listing of all the files in this example is shown below</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">src</span><span class="o">/</span><span class="n">host</span><span class="o">.</span><span class="n">cpp</span>
-<span class="n">src</span><span class="o">/</span><span class="n">increment</span><span class="o">.</span><span class="n">cpp</span>
+<span class="n">src</span><span class="o">/</span><span class="n">vadd</span><span class="o">.</span><span class="n">cpp</span>
 </pre></div>
 </div>
-<p>Access these files in the github repo by <a class="reference external" href="https://github.com/Xilinx/Vitis_Accel_Examples/tree/master/emulation/external_io">clicking here</a>.</p>
+<p>Access these files in the github repo by <a class="reference external" href="https://github.com/Xilinx/Vitis_Accel_Examples/tree/master/emulation/ps_on_x86">clicking here</a>.</p>
 </div>
 <div class="section" id="command-line-arguments">
 <h2>COMMAND LINE ARGUMENTS<a class="headerlink" href="#command-line-arguments" title="Permalink to this headline">¶</a></h2>
 <p>Once the environment has been configured, the application can be executed by</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">external_io</span> <span class="o">&lt;</span><span class="n">increment</span> <span class="n">XCLBIN</span><span class="o">&gt;</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">embedded_ps_x86</span> <span class="o">&lt;</span><span class="n">vadd</span> <span class="n">XCLBIN</span><span class="o">&gt;</span>
 </pre></div>
 </div>
 </div>
@@ -509,7 +494,7 @@ $(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) $(XOS) --temp_dir $(BUILD_DIR)  -o&#39;$(B
         <a href="systemc_vadd.html" class="btn btn-neutral float-right" title="SystemC Vadd" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="emulation.html" class="btn btn-neutral float-left" title="Emulation Examples" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="external_io_sv.html" class="btn btn-neutral float-left" title="External IO System Verilog based generator" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

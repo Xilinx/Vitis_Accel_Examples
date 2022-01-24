@@ -341,8 +341,9 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="hello_world.html">Hello World</a></li>
 <li class="toctree-l1"><a class="reference internal" href="aie_kernels.html">AIE Examples</a></li>
-<li class="toctree-l1"><a class="reference internal" href="host.html">Host</a></li>
-<li class="toctree-l1"><a class="reference internal" href="host_xrt.html">Native XRT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="host.html">Host OpenCL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="host_xrt.html">Host Native XRT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="host_py.html">Host Python</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cpp.html">C++ Kernels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="demo.html">Demos</a></li>
 <li class="toctree-l1"><a class="reference internal" href="emulation.html">Emulation Examples</a></li>
@@ -455,7 +456,7 @@
 <h1>Dataflow SubFunction OpenCL (OpenCL Kernel)<a class="headerlink" href="#dataflow-subfunction-opencl-opencl-kernel" title="Permalink to this headline">¶</a></h1>
 <p>This is simple example of vector addition to demonstrate how OpenCL Dataflow allows user to run multiple sub functions together to achieve higher throughput.</p>
 <p><strong>KEY CONCEPTS:</strong> SubFunction Level Parallelism</p>
-<p><strong>KEYWORDS:</strong> <a class="reference external" href="https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/opencl_programming.html#dmj1504034358681">xcl_dataflow</a>, <a class="reference external" href="https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/vitiscommandcompiler.html#fgh1568640841739__section_mh4_qf4_bjb">xclDataflowFifoDepth</a></p>
+<p><strong>KEYWORDS:</strong> <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/xcl_dataflow">xcl_dataflow</a>, <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/advanced-Options">xclDataflowFifoDepth</a></p>
 <p>This example demonstrates how <code class="docutils literal notranslate"><span class="pre">xcl_dataflow</span></code> attribute can be used to
 implement task level parallelism for subfunctions inside a function.</p>
 <p><code class="docutils literal notranslate"><span class="pre">adder</span></code> kernel uses a function <code class="docutils literal notranslate"><span class="pre">run_subfunc</span></code> which has 3

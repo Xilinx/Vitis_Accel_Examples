@@ -341,8 +341,9 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="hello_world.html">Hello World</a></li>
 <li class="toctree-l1"><a class="reference internal" href="aie_kernels.html">AIE Examples</a></li>
-<li class="toctree-l1"><a class="reference internal" href="host.html">Host</a></li>
-<li class="toctree-l1"><a class="reference internal" href="host_xrt.html">Native XRT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="host.html">Host OpenCL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="host_xrt.html">Host Native XRT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="host_py.html">Host Python</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="cpp.html">C++ Kernels</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="array_partition.html">Array Partition</a></li>
 <li class="toctree-l2"><a class="reference internal" href="burst_rw.html">Burst Read/Write</a></li>
@@ -462,8 +463,8 @@
   <div class="section" id="loop-reordering">
 <h1>Loop Reordering<a class="headerlink" href="#loop-reordering" title="Permalink to this headline">¶</a></h1>
 <p>This is a simple example of matrix multiplication (Row x Col) to demonstrate how to achieve better pipeline II factor by loop reordering.</p>
-<p><strong>KEY CONCEPTS:</strong> <a class="reference external" href="https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/vitis_hls_optimization_techniques.html">Kernel Optimization</a>, Loop reorder to improve II</p>
-<p><strong>KEYWORDS:</strong> <a class="reference external" href="https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/hls_pragmas.html#gle1504034361378">#pragma HLS ARRAY_PARTITION</a></p>
+<p><strong>KEY CONCEPTS:</strong> <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Kernel-Optimization">Kernel Optimization</a>, Loop reorder to improve II</p>
+<p><strong>KEYWORDS:</strong> <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/pragma-HLS-array_partition">#pragma HLS ARRAY_PARTITION</a></p>
 <p>This example demonstrates how changing the order of loop can improve the
 performance of the kernel. In this case, loop reordering helps us
 achieve better <code class="docutils literal notranslate"><span class="pre">Initiation</span> <span class="pre">Interval</span></code>(II).</p>

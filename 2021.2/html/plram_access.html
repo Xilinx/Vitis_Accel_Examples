@@ -341,8 +341,9 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="hello_world.html">Hello World</a></li>
 <li class="toctree-l1"><a class="reference internal" href="aie_kernels.html">AIE Examples</a></li>
-<li class="toctree-l1"><a class="reference internal" href="host.html">Host</a></li>
-<li class="toctree-l1"><a class="reference internal" href="host_xrt.html">Native XRT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="host.html">Host OpenCL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="host_xrt.html">Host Native XRT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="host_py.html">Host Python</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="cpp.html">C++ Kernels</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="array_partition.html">Array Partition</a></li>
 <li class="toctree-l2"><a class="reference internal" href="burst_rw.html">Burst Read/Write</a></li>
@@ -462,8 +463,8 @@
   <div class="section" id="plram-memory-access">
 <h1>PLRAM Memory Access<a class="headerlink" href="#plram-memory-access" title="Permalink to this headline">¶</a></h1>
 <p>This example shows the usage of PLRAM and how to use it with simple matrix multiplication (Row x Col).</p>
-<p><strong>KEY CONCEPTS:</strong> Vitis Memory Hierarchy, <a class="reference external" href="https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/buildingdevicebinary.html#wsi1614020986106">PLRAMs</a></p>
-<p><strong>KEYWORDS:</strong> <a class="reference external" href="https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/buildingdevicebinary.html#wsi1614020986106">PLRAM</a></p>
+<p><strong>KEY CONCEPTS:</strong> Vitis Memory Hierarchy, <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/PLRAM-Configuration-and-Use">PLRAMs</a></p>
+<p><strong>KEYWORDS:</strong> <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/PLRAM-Configuration-and-Use">PLRAM</a></p>
 <p>This example demonstrates how <code class="docutils literal notranslate"><span class="pre">PLRAM</span></code> feature of the Vitis memory
 subsystem and how they integrate with the Vitis design process.</p>
 <p>PLRAM is small shared memory which is built using the on-chip memory
@@ -489,6 +490,7 @@ resources managed by the Vitis memory subsystem.</p>
 <li><p>Alveo U55</p></li>
 <li><p>Samsung SmartSSD Computation Storage Drive</p></li>
 <li><p>Samsung U.2 SmartSSD</p></li>
+<li><p>X3 Compute Shell</p></li>
 <li><p>All NoDMA Platforms, i.e u50 nodma etc</p></li>
 </ul>
 </div></blockquote>

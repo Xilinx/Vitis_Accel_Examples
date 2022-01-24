@@ -3,9 +3,9 @@ SystemC Vadd
 
 This is simple example of vector addition to describe usage of custom SystemC in Vitis Environment.
 
-**KEY CONCEPTS:** `SystemC <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/runemulation1.html#cmo1619037605921>`__
+**KEY CONCEPTS:** `SystemC <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Working-with-SystemC-Models>`__
 
-**KEYWORDS:** `create_sc_xo <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/runemulation1.html#rgl1621883070991>`__, `xtlm_ap_ctrl_hs <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/runemulation1.html#pkt1621882955152>`__
+**KEYWORDS:** `create_sc_xo <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Working-with-SystemC-Models>`__, `xtlm_ap_ctrl_hs <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Coding-a-SystemC-Model>`__
 
 
 There are three types of Vitis HLS kernels namely ap_ctrl_chain, ap_ctrl_hs and ap_ctrl_none. Corresponding to each of these HLS kernels user can write SystemC kernels using predefined constructs/macros. The difference b/w ap_ctrl_chain and ap_ctrl_hs is that user can start ap_ctrl_chain kernels repeatedly by writing to ap_continue bit. In this example there is ap_ctrl_hs kernel vadd which requires the XRT control to provide memory address and size of the data.

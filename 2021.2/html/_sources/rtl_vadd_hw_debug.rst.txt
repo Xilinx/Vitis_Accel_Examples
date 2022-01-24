@@ -8,7 +8,7 @@ This is an example that showcases the Hardware Debug of Vector Addition RTL Kern
  
 [Debug Core setup in the RTL kernel design and host design modifications to allow setup of debug triggers prior to running the kernel](https://github.com/Xilinx/Vitis_Accel_Examples/wiki/rtl_kernel_debug)
 
-**KEY CONCEPTS:** `RTL Kernel Debug <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/debuggingapplicationskernels.html#xey1524445482547>`__
+**KEY CONCEPTS:** `RTL Kernel Debug <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Adding-Debug-IP-to-RTL-Kernels>`__
 
 
 **EXCLUDED PLATFORMS:** 

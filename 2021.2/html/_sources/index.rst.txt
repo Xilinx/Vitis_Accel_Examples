@@ -21,6 +21,7 @@ ready to be compiled and executed on Vitis supported boards and accelerated clou
    aie_kernels.rst
    host.rst
    host_xrt.rst
+   host_py.rst
    cpp.rst
    demo.rst
    emulation.rst

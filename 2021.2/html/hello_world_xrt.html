@@ -341,8 +341,8 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="hello_world.html">Hello World</a></li>
 <li class="toctree-l1"><a class="reference internal" href="aie_kernels.html">AIE Examples</a></li>
-<li class="toctree-l1"><a class="reference internal" href="host.html">Host</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="host_xrt.html">Native XRT</a><ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="host.html">Host OpenCL</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="host_xrt.html">Host Native XRT</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="copy_buffer_xrt.html">Copy Buffer XRT (XRT native API’s)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="data_transfer_xrt.html">Data Transfer XRT (XRT Native API’s)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="device_only_buffer_xrt.html">Device Only Buffer XRT (XRT Native API’s)</a></li>
@@ -365,6 +365,7 @@
 <li class="toctree-l2"><a class="reference internal" href="streaming_k2k_mm_xrt.html">Stream Kernel to Kernel Memory Mapped XRT (XRT Native API’s)</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="host_py.html">Host Python</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cpp.html">C++ Kernels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="demo.html">Demos</a></li>
 <li class="toctree-l1"><a class="reference internal" href="emulation.html">Emulation Examples</a></li>
@@ -434,7 +435,7 @@
     
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
-          <li><a href="host_xrt.html">Native XRT</a> &raquo;</li>
+          <li><a href="host_xrt.html">Host Native XRT</a> &raquo;</li>
         
       <li>Hello World XRT (XRT Native API’s)</li>
     
@@ -458,8 +459,8 @@
   <div class="section" id="hello-world-xrt-xrt-native-api-s">
 <h1>Hello World XRT (XRT Native API’s)<a class="headerlink" href="#hello-world-xrt-xrt-native-api-s" title="Permalink to this headline">¶</a></h1>
 <p>This is simple example of vector addition to describe the usage of XRT Native API’s. The kernel uses HLS Dataflow which allows the user to schedule multiple task together to achieve higher throughput.</p>
-<p><strong>KEY CONCEPTS:</strong> <a class="reference external" href="https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/devhostapp.html#jln1620691667890">XRT Native API</a>, <a class="reference external" href="https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/optimizingperformance.html#cvc1523913889499">Task Level Parallelism</a></p>
-<p><strong>KEYWORDS:</strong> <a class="reference external" href="https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/devhostapp.html#zja1524097906844">xrt::device</a>, load_xclbin, <a class="reference external" href="https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/devhostapp.html#yaz1622072496185">xrt::bo</a>, <a class="reference external" href="https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/devhostapp.html#lqq1622157666187">xrt::kernel</a>, <a class="reference external" href="https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/devhostapp.html#yaz1622072496185">map</a>, <a class="reference external" href="https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/devhostapp.html#yaz1622072496185">sync</a>, XCL_BO_SYNC_BO_TO_DEVICE, XCL_BO_SYNC_BO_FROM_DEVICE, <a class="reference external" href="https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/devckernels.html#hxx1556235054362">gmem</a>, <a class="reference external" href="https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/hls_pragmas.html#jit1504034365862">#pragma HLS INTERFACE</a>, <a class="reference external" href="https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/vitis_hls_optimization_techniques.html#bmx1539734225930">dataflow</a>, <a class="reference external" href="https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/hls_stream_library.html">hls::stream</a></p>
+<p><strong>KEY CONCEPTS:</strong> <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Setting-Up-XRT-Managed-Kernels-and-Kernel-Arguments">XRT Native API</a>, <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Task-Parallelism">Task Level Parallelism</a></p>
+<p><strong>KEYWORDS:</strong> <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Specifying-the-Device-ID-and-Loading-the-XCLBIN">xrt::device</a>, load_xclbin, <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Transferring-Data-between-Host-and-Kernels">xrt::bo</a>, <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Setting-Up-XRT-Managed-Kernels-and-Kernel-Arguments">xrt::kernel</a>, <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Transferring-Data-between-Host-and-Kernels">map</a>, <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Transferring-Data-between-Host-and-Kernels">sync</a>, XCL_BO_SYNC_BO_TO_DEVICE, XCL_BO_SYNC_BO_FROM_DEVICE, <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/C/C-Kernels">gmem</a>, <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/HLS-Pragmas">#pragma HLS INTERFACE</a>, <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/Optimization-Techniques-in-Vitis-HLS">dataflow</a>, <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/HLS-Stream-Library">hls::stream</a></p>
 <p>This is a simple hello world example to explain the XRT Native API’s</p>
 <ul class="simple">
 <li><p>Device and XCLBIN APIs</p></li>

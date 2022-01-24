@@ -341,7 +341,7 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="hello_world.html">Hello World</a></li>
 <li class="toctree-l1"><a class="reference internal" href="aie_kernels.html">AIE Examples</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="host.html">Host</a><ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="host.html">Host OpenCL</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="concurrent_kernel_execution.html">Concurrent Kernel Execution</a></li>
 <li class="toctree-l2"><a class="reference internal" href="copy_buffer.html">Copy Buffer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="data_transfer.html">Data Transfer</a></li>
@@ -373,7 +373,8 @@
 <li class="toctree-l2"><a class="reference internal" href="streaming_k2k_mm.html">Stream Kernel to Kernel Memory Mapped</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="host_xrt.html">Native XRT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="host_xrt.html">Host Native XRT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="host_py.html">Host Python</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cpp.html">C++ Kernels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="demo.html">Demos</a></li>
 <li class="toctree-l1"><a class="reference internal" href="emulation.html">Emulation Examples</a></li>
@@ -443,7 +444,7 @@
     
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
-          <li><a href="host.html">Host</a> &raquo;</li>
+          <li><a href="host.html">Host OpenCL</a> &raquo;</li>
         
       <li>Debug Profile</li>
     
@@ -467,7 +468,7 @@
   <div class="section" id="debug-profile">
 <h1>Debug Profile<a class="headerlink" href="#debug-profile" title="Permalink to this headline">¶</a></h1>
 <p>This is simple example of vector addition and printing profile data (wall clock time taken between start and stop). It also dump a waveform file which can be reloaded to vivado to see the waveform. Run command ‘vivado -source ./scripts/open_waveform.tcl -tclargs &lt;device_name&gt;-&lt;kernel_name&gt;.&lt;target&gt;.&lt;device_name&gt;.wdb’ to launch waveform viewer. User can also update batch to gui in xrt.ini file to see the live waveform while running application.</p>
-<p><strong>KEY CONCEPTS:</strong> <a class="reference external" href="https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/profilingapplication.html#vfc1586356138757">Use of Profile API</a>, <a class="reference external" href="https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/profilingapplication.html#ffv1523643432801">Waveform Dumping and loading</a></p>
+<p><strong>KEY CONCEPTS:</strong> <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Profiling-the-Application">Use of Profile API</a>, <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Waveform-View-and-Live-Waveform-Viewer">Waveform Dumping and loading</a></p>
 <p>The Vitis development environment can generate a waveform view and
 launch a live <code class="docutils literal notranslate"><span class="pre">waveform</span> <span class="pre">viewer</span></code> when running hardware emulation. It
 displays in-depth details on the emulation results at system level,

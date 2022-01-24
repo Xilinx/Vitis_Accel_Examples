@@ -341,8 +341,8 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="hello_world.html">Hello World</a></li>
 <li class="toctree-l1"><a class="reference internal" href="aie_kernels.html">AIE Examples</a></li>
-<li class="toctree-l1"><a class="reference internal" href="host.html">Host</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="host_xrt.html">Native XRT</a><ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="host.html">Host OpenCL</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="host_xrt.html">Host Native XRT</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="copy_buffer_xrt.html">Copy Buffer XRT (XRT native API’s)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="data_transfer_xrt.html">Data Transfer XRT (XRT Native API’s)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="device_only_buffer_xrt.html">Device Only Buffer XRT (XRT Native API’s)</a></li>
@@ -365,6 +365,7 @@
 <li class="toctree-l2"><a class="reference internal" href="streaming_k2k_mm_xrt.html">Stream Kernel to Kernel Memory Mapped XRT (XRT Native API’s)</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="host_py.html">Host Python</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cpp.html">C++ Kernels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="demo.html">Demos</a></li>
 <li class="toctree-l1"><a class="reference internal" href="emulation.html">Emulation Examples</a></li>
@@ -434,7 +435,7 @@
     
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
-          <li><a href="host_xrt.html">Native XRT</a> &raquo;</li>
+          <li><a href="host_xrt.html">Host Native XRT</a> &raquo;</li>
         
       <li>HBM Simple XRT (XRT Native API’s)</li>
     
@@ -458,8 +459,8 @@
   <div class="section" id="hbm-simple-xrt-xrt-native-api-s">
 <h1>HBM Simple XRT (XRT Native API’s)<a class="headerlink" href="#hbm-simple-xrt-xrt-native-api-s" title="Permalink to this headline">¶</a></h1>
 <p>This is a simple example of vector addition to describe how to use HLS kernels with HBM (High Bandwidth Memory) for achieving high throughput using xrt native api’s.</p>
-<p><strong>KEY CONCEPTS:</strong> <a class="reference external" href="https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/buildingdevicebinary.html#lgl1614021146997">High Bandwidth Memory</a>, Multiple HBM Banks</p>
-<p><strong>KEYWORDS:</strong> <a class="reference external" href="https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/buildingdevicebinary.html#lgl1614021146997">HBM</a></p>
+<p><strong>KEY CONCEPTS:</strong> <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/HBM-Configuration-and-Use">High Bandwidth Memory</a>, Multiple HBM Banks</p>
+<p><strong>KEYWORDS:</strong> <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/HBM-Configuration-and-Use">HBM</a></p>
 <p>This is simple example to demonstrate how to use HBM Platform.
 Three separate banks are used for each argument of kernels. Individual
 bank for each buffer will provide more bandwidth for the application.</p>
@@ -516,6 +517,7 @@ real log reported while running on U50 platform:</p>
 <li><p>AWS VU9P F1</p></li>
 <li><p>Samsung SmartSSD Computation Storage Drive</p></li>
 <li><p>Samsung U.2 SmartSSD</p></li>
+<li><p>X3 Compute Shell</p></li>
 <li><p>All NoDMA Platforms, i.e u50 nodma etc</p></li>
 </ul>
 </div></blockquote>

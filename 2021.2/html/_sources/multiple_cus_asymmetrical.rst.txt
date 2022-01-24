@@ -3,7 +3,7 @@ Multiple Compute Units (Asymmetrical)
 
 This is simple example of vector addition to demonstrate how to connect each compute unit to different banks and how to use these compute units in host applications
 
-**KEY CONCEPTS:** `Multiple Compute Units <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/opencl_programming.html#dqz1555367565037>`__, `Task Level Parallelism <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/optimizingperformance.html#cvc1523913889499>`__
+**KEY CONCEPTS:** `Multiple Compute Units <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Symmetrical-and-Asymmetrical-Compute-Units>`__, `Task Level Parallelism <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Task-Parallelism>`__
 
 
 This example demonstrates how multiple compute units can do parallel
@@ -62,6 +62,7 @@ fix compute unit.
  - Samsung SmartSSD Computation Storage Drive
  - Samsung U.2 SmartSSD
  - All Embedded Zynq Platforms, i.e zc702, zcu102 etc
+ - X3 Compute Shell
  - All NoDMA Platforms, i.e u50 nodma etc
 
 DESIGN FILES

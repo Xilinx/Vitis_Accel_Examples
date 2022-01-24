@@ -341,8 +341,9 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="hello_world.html">Hello World</a></li>
 <li class="toctree-l1"><a class="reference internal" href="aie_kernels.html">AIE Examples</a></li>
-<li class="toctree-l1"><a class="reference internal" href="host.html">Host</a></li>
-<li class="toctree-l1"><a class="reference internal" href="host_xrt.html">Native XRT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="host.html">Host OpenCL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="host_xrt.html">Host Native XRT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="host_py.html">Host Python</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="cpp.html">C++ Kernels</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="array_partition.html">Array Partition</a></li>
 <li class="toctree-l2"><a class="reference internal" href="burst_rw.html">Burst Read/Write</a></li>
@@ -462,8 +463,8 @@
   <div class="section" id="global-memory-two-banks">
 <h1>Global Memory Two Banks<a class="headerlink" href="#global-memory-two-banks" title="Permalink to this headline">¶</a></h1>
 <p>This example of 2ddr is to demonstrate how to use multiple ddr and create buffers in each DDR.</p>
-<p><strong>KEY CONCEPTS:</strong> <a class="reference external" href="https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/optimizingperformance.html#uuy1504034303412">Multiple Banks</a></p>
-<p><strong>KEYWORDS:</strong> <a class="reference external" href="https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/migrating_to_vitis_hls.html#jsk1590553271532">m_axi_auto_max_ports</a>, <a class="reference external" href="https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/vitiscommandcompiler.html#clt1568640709907__section_tfc_zxm_1jb">sp</a>, <a class="reference external" href="https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/vitiscommandcompiler.html#qcm1528577331870__section_wgd_dxf_dnb">connectivity</a></p>
+<p><strong>KEY CONCEPTS:</strong> <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Using-Multiple-DDR-Banks">Multiple Banks</a></p>
+<p><strong>KEYWORDS:</strong> <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/MAXI">m_axi_auto_max_ports</a>, <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/connectivity-Options">sp</a>, <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/connectivity-Options">connectivity</a></p>
 <p>This example demonstrates how buffers can be created in two different
 DDR(Global memory) banks.</p>
 <p>By default, all the memory interfaces from all the kernels are connected
@@ -494,6 +495,7 @@ apply_watermark.cfg file along with the port name and kernel name.</p>
 <li><p>Alveo U55</p></li>
 <li><p>Samsung SmartSSD Computation Storage Drive</p></li>
 <li><p>Samsung U.2 SmartSSD</p></li>
+<li><p>X3 Compute Shell</p></li>
 <li><p>All NoDMA Platforms, i.e u50 nodma etc</p></li>
 </ul>
 </div></blockquote>

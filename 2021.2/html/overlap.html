@@ -341,7 +341,7 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="hello_world.html">Hello World</a></li>
 <li class="toctree-l1"><a class="reference internal" href="aie_kernels.html">AIE Examples</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="host.html">Host</a><ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="host.html">Host OpenCL</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="concurrent_kernel_execution.html">Concurrent Kernel Execution</a></li>
 <li class="toctree-l2"><a class="reference internal" href="copy_buffer.html">Copy Buffer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="data_transfer.html">Data Transfer</a></li>
@@ -373,7 +373,8 @@
 <li class="toctree-l2"><a class="reference internal" href="streaming_k2k_mm.html">Stream Kernel to Kernel Memory Mapped</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="host_xrt.html">Native XRT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="host_xrt.html">Host Native XRT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="host_py.html">Host Python</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cpp.html">C++ Kernels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="demo.html">Demos</a></li>
 <li class="toctree-l1"><a class="reference internal" href="emulation.html">Emulation Examples</a></li>
@@ -443,7 +444,7 @@
     
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
-          <li><a href="host.html">Host</a> &raquo;</li>
+          <li><a href="host.html">Host OpenCL</a> &raquo;</li>
         
       <li>Overlap Host and Kernel</li>
     
@@ -467,8 +468,8 @@
   <div class="section" id="overlap-host-and-kernel">
 <h1>Overlap Host and Kernel<a class="headerlink" href="#overlap-host-and-kernel" title="Permalink to this headline">¶</a></h1>
 <p>This examples demonstrates techniques that allow user to overlap Host(CPU) and FPGA computation in an application. It will cover asynchronous operations and event object.</p>
-<p><strong>KEY CONCEPTS:</strong> OpenCL Host API, <a class="reference external" href="https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/opencl_programming.html#usz1524526733752">Synchronize Host and FPGA</a>, <a class="reference external" href="https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/opencl_programming.html#usz1524526733752">Asynchronous Processing</a>, <a class="reference external" href="https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/optimizingperformance.html#bsa1504034305860">Events</a>, <a class="reference external" href="https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/opencl_programming.html#usz1524526733752">Asynchronous memcpy</a></p>
-<p><strong>KEYWORDS:</strong> <a class="reference external" href="https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/opencl_programming.html#usz1524526733752">cl_event</a>, <a class="reference external" href="https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/opencl_programming.html#llr1524522915783">cl::CommandQueue</a>, <a class="reference external" href="https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/optimizingperformance.html#nzy1504034306881">CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE</a>, <a class="reference external" href="https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/opencl_programming.html#xio1524524087132">enqueueMigrateMemObjects</a></p>
+<p><strong>KEY CONCEPTS:</strong> OpenCL Host API, <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Event-Synchronization">Synchronize Host and FPGA</a>, <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Event-Synchronization">Asynchronous Processing</a>, <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Overlapping-Data-Transfers-with-Kernel-Computation">Events</a>, <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Event-Synchronization">Asynchronous memcpy</a></p>
+<p><strong>KEYWORDS:</strong> <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Event-Synchronization">cl_event</a>, <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Command-Queues">cl::CommandQueue</a>, <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Single-Out-of-Order-Command-Queue">CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE</a>, <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Buffer-Creation-and-Data-Transfer">enqueueMigrateMemObjects</a></p>
 <p>This example illustrates how host read and write tasks can be
 synchronized with kernel computational tasks to achieve low latency in
 cases where data is too large to fit on FPGA or it is being streamed

@@ -3,9 +3,9 @@ Loop Dependency Inter
 
 This Example demonstrates the HLS pragma 'DEPENDENCE'.Using 'DEPENDENCE' pragma, user can provide additional dependency details to the compiler by specifying if the dependency in consecutive loop iterations on buffer is true/false, which allows the compiler to perform unrolling/pipelining to get better performance.
 
-**KEY CONCEPTS:** `Inter Dependence <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/vitis_hls_optimization_techniques.html#wen1539734225565>`__
+**KEY CONCEPTS:** `Inter Dependence <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/Managing-Pipeline-Dependencies>`__
 
-**KEYWORDS:** `DEPENDENCE <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/hls_pragmas.html#dxe1504034360397>`__, `inter <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/hls_pragmas.html#dxe1504034360397__ad411019>`__, `WAR <https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/hls_pragmas.html#dxe1504034360397__ad411019>`__
+**KEYWORDS:** `DEPENDENCE <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/pragma-HLS-dependence>`__, `inter <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/pragma-HLS-dependence>`__, `WAR <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/pragma-HLS-dependence>`__
 
 
 This example demonstrates how extra information about dependency can be

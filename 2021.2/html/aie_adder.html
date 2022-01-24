@@ -57,7 +57,7 @@
   <link rel="stylesheet" href="_static/css/pro.min.css" media="all" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Host" href="host.html" />
+    <link rel="next" title="Host OpenCL" href="host.html" />
     <link rel="prev" title="AIE Examples" href="aie_kernels.html" /> 
 	</head>
 	<body>
@@ -349,8 +349,9 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="host.html">Host</a></li>
-<li class="toctree-l1"><a class="reference internal" href="host_xrt.html">Native XRT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="host.html">Host OpenCL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="host_xrt.html">Host Native XRT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="host_py.html">Host Python</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cpp.html">C++ Kernels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="demo.html">Demos</a></li>
 <li class="toctree-l1"><a class="reference internal" href="emulation.html">Emulation Examples</a></li>
@@ -444,8 +445,8 @@
   <div class="section" id="aie-adder">
 <h1>AIE Adder<a class="headerlink" href="#aie-adder" title="Permalink to this headline">¶</a></h1>
 <p>This simple example demonstrate the flow to create aie Kernel and how to connect aie Kernel to PL Kernels and validate the design running on the AI Engine.</p>
-<p><strong>KEY CONCEPTS:</strong> <a class="reference external" href="https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/programmable_logic_integration.html">AI Engine</a>, <a class="reference external" href="https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/data_flow_graph_reference.html">Adaptive Data Flow</a>, <a class="reference external" href="https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/data_flow_graph_reference.html#dfu1518633879802">Graph</a></p>
-<p><strong>KEYWORDS:</strong> <a class="reference external" href="https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/compile_graph_application.html">aiecompiler</a>, <a class="reference external" href="https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/simulate_graph_application.html#pmy1512608736116">aiesimulator</a>, <a class="reference external" href="https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/buildingdevicebinary.html#yha1565541199876">stream_connect</a></p>
+<p><strong>KEY CONCEPTS:</strong> <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1076-ai-engine-environment/AI-Engine/Programmable-Logic-Integration">AI Engine</a>, <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1076-ai-engine-environment/Adaptive-Data-Flow-Graph-Specification-Reference">Adaptive Data Flow</a>, <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1076-ai-engine-environment/graph">Graph</a></p>
+<p><strong>KEYWORDS:</strong> <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1076-ai-engine-environment/Compiling-an-AI-Engine-Graph-Application">aiecompiler</a>, <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1076-ai-engine-environment/Simulating-an-AI-Engine-Graph-Application">aiesimulator</a>, <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Specifying-Streaming-Connections-between-Compute-Units">stream_connect</a></p>
 <p>This simple design demonstrates the flow to create Programmable Logic(PL) kernels that stream to and from AIE, and validate the design running on the AI Engine, Processor System(PS), and PL.</p>
 <p>There’re 3 kernel functions here, 2 running in PL and 1 operating on AI Engines.</p>
 <table class="docutils align-default">
@@ -575,7 +576,7 @@ An AI Engine program consists of a Data Flow Graph Specification written in C++.
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="host.html" class="btn btn-neutral float-right" title="Host" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="host.html" class="btn btn-neutral float-right" title="Host OpenCL" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="aie_kernels.html" class="btn btn-neutral float-left" title="AIE Examples" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

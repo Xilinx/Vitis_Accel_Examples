@@ -341,8 +341,9 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="hello_world.html">Hello World</a></li>
 <li class="toctree-l1"><a class="reference internal" href="aie_kernels.html">AIE Examples</a></li>
-<li class="toctree-l1"><a class="reference internal" href="host.html">Host</a></li>
-<li class="toctree-l1"><a class="reference internal" href="host_xrt.html">Native XRT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="host.html">Host OpenCL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="host_xrt.html">Host Native XRT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="host_py.html">Host Python</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="cpp.html">C++ Kernels</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="array_partition.html">Array Partition</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Burst Read/Write</a><ul>
@@ -462,8 +463,8 @@
   <div class="section" id="burst-read-write">
 <h1>Burst Read/Write<a class="headerlink" href="#burst-read-write" title="Permalink to this headline">¶</a></h1>
 <p>This is simple example of using AXI4-master interface for burst read and write</p>
-<p><strong>KEY CONCEPTS:</strong> <a class="reference external" href="https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/vitis_hls_optimization_techniques.html#ddw1586913493144">burst access</a></p>
-<p><strong>KEYWORDS:</strong> <a class="reference external" href="https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/managing_interface_synthesis.html#qoa1585574520885">memcpy</a>, <a class="reference external" href="https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/vitis_hls_optimization_techniques.html#mcz1586914389391">max_read_burst_length</a>, <a class="reference external" href="https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/vitis_hls_optimization_techniques.html#mcz1586914389391">max_write_burst_length</a></p>
+<p><strong>KEY CONCEPTS:</strong> <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/AXI-Burst-Transfers">burst access</a></p>
+<p><strong>KEYWORDS:</strong> <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/Defining-Interfaces">memcpy</a>, <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/AXI-Burst-Transfers">max_read_burst_length</a>, <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/AXI-Burst-Transfers">max_write_burst_length</a></p>
 <p>The usual reason for having a burst mode capability, or using burst
 mode, is to increase data throughput. This example demonstrates how
 multiple items can be read from global memory to kernel’s local memory
