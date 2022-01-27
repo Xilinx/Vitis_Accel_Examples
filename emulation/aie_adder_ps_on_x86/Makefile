@@ -20,9 +20,9 @@
 
 help::
 	$(ECHO) "Makefile Usage:"
-	$(ECHO) "  make all TARGET=<sw_emu/hw_emu/hw> PLATFORM=<FPGA platform> HOST_ARCH=<aarch32/aarch64/x86> EDGE_COMMON_SW=<rootfs and kernel image path>"
+	$(ECHO) "  make all TARGET=<sw_emu/hw_emu/hw> PLATFORM=<FPGA platform> EDGE_COMMON_SW=<rootfs and kernel image path>"
 	$(ECHO) "      Command to generate the design for specified Target and Shell."
-	$(ECHO) "      By default, HOST_ARCH=x86. HOST_ARCH and EDGE_COMMON_SW is required for SoC shells"
+	$(ECHO) "      EDGE_COMMON_SW is required for SoC shells"
 	$(ECHO) ""
 	$(ECHO) "  make clean "
 	$(ECHO) "      Command to remove the generated non-hardware files."
@@ -30,21 +30,21 @@ help::
 	$(ECHO) "  make cleanall"
 	$(ECHO) "      Command to remove all the generated files."
 	$(ECHO) ""
-	$(ECHO) "  make sd_card TARGET=<sw_emu/hw_emu/hw> PLATFORM=<FPGA platform> HOST_ARCH=<aarch32/aarch64/x86> EDGE_COMMON_SW=<rootfs and kernel image path>"
+	$(ECHO) "  make sd_card TARGET=<sw_emu/hw_emu/hw> PLATFORM=<FPGA platform> EDGE_COMMON_SW=<rootfs and kernel image path>"
 	$(ECHO) "      Command to prepare sd_card files."
-	$(ECHO) "      By default, HOST_ARCH=x86. HOST_ARCH and EDGE_COMMON_SW is required for SoC shells"
+	$(ECHO) "      EDGE_COMMON_SW is required for SoC shells"
 	$(ECHO) ""
-	$(ECHO) "  make run TARGET=<sw_emu/hw_emu/hw> PLATFORM=<FPGA platform> HOST_ARCH=<aarch32/aarch64/x86> EDGE_COMMON_SW=<rootfs and kernel image path>"
+	$(ECHO) "  make run TARGET=<sw_emu/hw_emu/hw> PLATFORM=<FPGA platform> EDGE_COMMON_SW=<rootfs and kernel image path>"
 	$(ECHO) "      Command to run application in emulation."
-	$(ECHO) "      By default, HOST_ARCH=x86. HOST_ARCH and EDGE_COMMON_SW is required for SoC shells"
+	$(ECHO) "      EDGE_COMMON_SW is required for SoC shells"
 	$(ECHO) ""
-	$(ECHO) "  make build TARGET=<sw_emu/hw_emu/hw> PLATFORM=<FPGA platform> HOST_ARCH=<aarch32/aarch64/x86> EDGE_COMMON_SW=<rootfs and kernel image path>"
+	$(ECHO) "  make build TARGET=<sw_emu/hw_emu/hw> PLATFORM=<FPGA platform> EDGE_COMMON_SW=<rootfs and kernel image path>"
 	$(ECHO) "      Command to build xclbin application."
-	$(ECHO) "      By default, HOST_ARCH=x86. HOST_ARCH and EDGE_COMMON_SW is required for SoC shells"
+	$(ECHO) "      EDGE_COMMON_SW is required for SoC shells"
 	$(ECHO) ""
-	$(ECHO) "  make host HOST_ARCH=<aarch32/aarch64/x86> EDGE_COMMON_SW=<rootfs and kernel image path>"
+	$(ECHO) "  make host TARGET=<sw_emu/hw_emu/hw> EDGE_COMMON_SW=<rootfs and kernel image path>"
 	$(ECHO) "      Command to build host application."
-	$(ECHO) "      By default, HOST_ARCH=x86. HOST_ARCH and EDGE_COMMON_SW is required for SoC shells"
+	$(ECHO) "      EDGE_COMMON_SW is required for SoC shells"
 	$(ECHO) ""
 
 
@@ -57,8 +57,7 @@ XF_PROJ_ROOT = $(shell readlink -f $(COMMON_REPO))
 
 # Makefile input options
 TARGET := sw_emu
-HOST_ARCH := x86
-XCLBIN := adder.xsa
+XCLBIN := adder.xclbin
 
 # File names and locations
 GRAPH := src/aie_graph.cpp
@@ -77,6 +76,7 @@ PACKAGE_OUT = ./package.$(TARGET)
 LAUNCH_EMULATOR = $(PACKAGE_OUT)/launch_$(TARGET).sh
 RESULT_STRING = TEST PASSED
 CMD_ARGS = krnl_adder.xclbin
+vck190_dfx_hw := false
 
 CONFIG_FILE := system.cfg
 include ./utils.mk
@@ -107,13 +107,7 @@ GCC_LIB := -lxrt_coreutil
 GCC_FLAGS := -Wall -c -std=c++14 -Wno-int-to-pointer-cast
 GCC_INCLUDES := -I./ -I${XILINX_VITIS}/aietools/include
 
-ifeq ($(HOST_ARCH),x86)
-ifeq ($(findstring hw, $(TARGET)), hw)
-$(error "x86 HOST_ARCH is not supported for hw_emu and hw.")
-endif
-endif
-
-ifeq ($(HOST_ARCH),x86)
+ifeq ($(TARGET),$(filter $(TARGET),sw_emu))
 GCC_LIB += -ladf_api_xrt_swemu -L${XILINX_VITIS}/aietools/lib/lnx64.o -L${XILINX_XRT}/lib
 GCC_FLAGS += -I${XILINX_XRT}/include
 else
@@ -176,7 +170,7 @@ PACKAGING_CMD := v++ $(VPP_PFLAGS) -p -t $(TARGET) \
                  --platform $(PLATFORM) \
                  --package.out_dir $(PACKAGE_OUT) \
                  $(XCLBIN) $(GRAPH_O) -o krnl_adder.xclbin
-ifneq ($(HOST_ARCH),x86)
+ifneq ($(TARGET),$(filter $(TARGET),sw_emu))
 PACKAGING_CMD += --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 \
                  --package.image_format=ext4 \
                  --package.boot_mode=sd \
@@ -192,7 +186,16 @@ endif
 
 ##################################################################################################
 sd_card: check-device $(GRAPH_O) $(KERNEL_XO) host gen_run_app 
+ifeq ($(findstring vck190_base_dfx, $(PLATFORM)), vck190_base_dfx)
+ifeq ($(TARGET),$(filter $(TARGET), hw))
+	v++ $(VPP_FLAGS) -t hw --platform $(PLATFORM) -p $(XCLBIN) -o krnl_adder.xclbin 
+	v++ $(VPP_PFLAGS) -t hw --platform $(PLATFORM) -p --package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.image_format=ext4 --package.boot_mode=sd --package.kernel_image=$(SD_IMAGE_FILE) --package.defer_aie_run --package.sd_dir /proj/xbuilds/2022.1_daily_latest/internal_platforms/sw/versal/xrt --package.sd_file $(RUN_APP_SCRIPT) --package.sd_file aie_adder --package.sd_file krnl_adder.xclbin --package.sd_file $(GRAPH_O)
+vck190_dfx_hw := true
+endif
+endif
+ifeq ($(vck190_dfx_hw), false)
 	$(PACKAGING_CMD)
+endif
 	@echo "COMPLETE: emulation package created."
 ###################################################################################################
 
@@ -201,12 +204,11 @@ sd_card: check-device $(GRAPH_O) $(KERNEL_XO) host gen_run_app
 # If the target is for HW, you'll have to follow the Confluence page for
 # running on a board farm system.
 run: all 
-ifeq ($(HOST_ARCH), x86)
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu))
+	$(ECHO) "To make Software Emulation run faster, we are running PS on x86."
 	XCL_EMULATION_MODE=$(TARGET) $(EXECUTABLE) $(CMD_ARGS)
-endif
 else
-ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
+ifeq ($(TARGET),$(filter $(TARGET),hw_emu))
 	$(LAUNCH_EMULATOR) -run-app $(RUN_APP_SCRIPT) | tee run_app.log; exit $${PIPESTATUS[0]}
 else
 	@echo "Hardware build, no emulation executed."

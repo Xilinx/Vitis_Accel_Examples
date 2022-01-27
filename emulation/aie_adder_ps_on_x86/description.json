@@ -27,7 +27,6 @@
         "vck5000",
         "dma"
     ],
-    "platform_type" : "soc", 
     "os": [
         "Linux"
     ], 
