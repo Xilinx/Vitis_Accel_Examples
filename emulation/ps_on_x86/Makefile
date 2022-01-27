@@ -20,7 +20,7 @@
 
 help::
 	$(ECHO) "Makefile Usage:"
-	$(ECHO) "  make all TARGET=<sw_emu/hw_emu/hw> PLATFORM=<FPGA platform> HOST_ARCH=<aarch32/aarch64/x86> EDGE_COMMON_SW=<rootfs and kernel image path>"
+	$(ECHO) "  make all TARGET=<sw_emu/hw_emu/hw> PLATFORM=<FPGA platform> HOST_ARCH=<aarch32/aarch64> EDGE_COMMON_SW=<rootfs and kernel image path>"
 	$(ECHO) "      Command to generate the design for specified Target and Shell."
 	$(ECHO) ""
 	$(ECHO) "  make clean "
@@ -30,18 +30,18 @@ help::
 	$(ECHO) "      Command to remove all the generated files."
 	$(ECHO) ""
 	$(ECHO) "  make test PLATFORM=<FPGA platform>"
-	$(ECHO) "     Command to run the application. This is same as 'run' target but does not have any makefile dependency."
+	$(ECHO) "      Command to run the application. This is same as 'run' target but does not have any makefile dependency."
 	$(ECHO) ""
-	$(ECHO) "  make sd_card TARGET=<sw_emu/hw_emu/hw> PLATFORM=<FPGA platform> HOST_ARCH=<aarch32/aarch64/x86> EDGE_COMMON_SW=<rootfs and kernel image path>"
+	$(ECHO) "  make sd_card TARGET=<sw_emu/hw_emu/hw> PLATFORM=<FPGA platform> HOST_ARCH=<aarch32/aarch64> EDGE_COMMON_SW=<rootfs and kernel image path>"
 	$(ECHO) "      Command to prepare sd_card files."
 	$(ECHO) ""
-	$(ECHO) "  make run TARGET=<sw_emu/hw_emu/hw> PLATFORM=<FPGA platform> HOST_ARCH=<aarch32/aarch64/x86> EDGE_COMMON_SW=<rootfs and kernel image path>"
+	$(ECHO) "  make run TARGET=<sw_emu/hw_emu/hw> PLATFORM=<FPGA platform> HOST_ARCH=<aarch32/aarch64> EDGE_COMMON_SW=<rootfs and kernel image path>"
 	$(ECHO) "      Command to run application in emulation."
 	$(ECHO) ""
-	$(ECHO) "  make build TARGET=<sw_emu/hw_emu/hw> PLATFORM=<FPGA platform> HOST_ARCH=<aarch32/aarch64/x86> EDGE_COMMON_SW=<rootfs and kernel image path>"
+	$(ECHO) "  make build TARGET=<sw_emu/hw_emu/hw> PLATFORM=<FPGA platform> HOST_ARCH=<aarch32/aarch64> EDGE_COMMON_SW=<rootfs and kernel image path>"
 	$(ECHO) "      Command to build xclbin application."
 	$(ECHO) ""
-	$(ECHO) "  make host HOST_ARCH=<aarch32/aarch64/x86> EDGE_COMMON_SW=<rootfs and kernel image path>"
+	$(ECHO) "  make host HOST_ARCH=<aarch32/aarch64> EDGE_COMMON_SW=<rootfs and kernel image path>"
 	$(ECHO) "      Command to build host application."
 	$(ECHO) "  By default, HOST_ARCH=x86. HOST_ARCH and EDGE_COMMON_SW is required for SoC shells"
 	$(ECHO) ""
@@ -49,13 +49,13 @@ help::
 ############################## Setting up Project Variables ##############################
 # Points to top directory of Git repository
 MK_PATH := $(abspath $(lastword $(MAKEFILE_LIST)))
-COMMON_REPO ?= $(shell bash -c 'export MK_PATH=$(MK_PATH); echo $${MK_PATH%emulation/external_io_cpp/*}')
+COMMON_REPO ?= $(shell bash -c 'export MK_PATH=$(MK_PATH); echo $${MK_PATH%emulation/ps_on_x86/*}')
 PWD = $(shell readlink -f .)
 XF_PROJ_ROOT = $(shell readlink -f $(COMMON_REPO))
 
-TARGET := hw
-HOST_ARCH := x86
-SYSROOT :=
+TARGET := sw_emu
+HOST_ARCH := aarch64
+SYSROOT := 
 
 include ./utils.mk
 
@@ -66,11 +66,6 @@ endif
 TEMP_DIR := ./_x.$(TARGET).$(XSA)
 BUILD_DIR := ./build_dir.$(TARGET).$(XSA)
 
-LINK_OUTPUT := $(BUILD_DIR)/increment.link.xclbin
-ifeq ($(DEV_ARCH), versal)
-LINK_OUTPUT := $(BUILD_DIR)/increment.xsa
-endif
-
 # SoC variables
 RUN_APP_SCRIPT = ./run_app.sh
 PACKAGE_OUT = ./package.$(TARGET)
@@ -80,19 +75,40 @@ RESULT_STRING = TEST PASSED
 
 VPP := v++
 VPP_PFLAGS := 
-
-CMD_ARGS = $(BUILD_DIR)/increment.xclbin
+CMD_ARGS = $(BUILD_DIR)/vadd.xclbin
 SDCARD := sd_card
 vck190_dfx_hw := false
-XOS = $(XILINX_VITIS)/data/emulation/XO/sim_ipc_axis_master_32.xo  $(XILINX_VITIS)/data/emulation/XO/sim_ipc_axis_slave_32.xo
 
-include $(XF_PROJ_ROOT)/common/includes/opencl/opencl.mk
-CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++11
+#Running sw_emu using x86 requires OpenCL compile and linker flags to be sourced from the XILINX_XRT
+#Running hw_emu, hw using QEMU requires OpenCL compile and linker flags to be sourced from the SYSROOT
+ifneq ($(TARGET),$(filter $(TARGET),sw_emu))
+    xrt_path = $(SYSROOT)/usr
+    OPENCL_INCLUDE:= $(xrt_path)/include/xrt
+else
+    xrt_path = $(XILINX_XRT)
+    OPENCL_INCLUDE:= $(xrt_path)/include
+endif
+
+VIVADO_INCLUDE:= $(XILINX_VIVADO)/include
+opencl_CXXFLAGS=-I$(OPENCL_INCLUDE) -I$(VIVADO_INCLUDE)
+OPENCL_LIB:= $(xrt_path)/lib
+opencl_LDFLAGS=-L$(OPENCL_LIB) -lOpenCL -pthread
+
+ifeq ($(findstring vck, $(PLATFORM)), vck)		
+	VPP_PFLAGS+=--package.sd_dir /proj/xbuilds/2022.1_daily_latest/internal_platforms/sw/versal/xrt		
+endif		
+ifeq ($(findstring zcu, $(PLATFORM)), zcu)		
+	VPP_PFLAGS+=--package.sd_dir /proj/xbuilds/2022.1_daily_latest/internal_platforms/sw/zynqmp/xrt		
+endif		
+ifeq ($(findstring zc7, $(PLATFORM)), zc7)		
+	VPP_PFLAGS+=--package.sd_dir /proj/xbuilds/2022.1_daily_latest/internal_platforms/sw/zynq/xrt		
+endif
+
+CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++1y
 LDFLAGS += $(opencl_LDFLAGS)
 
 ########################## Checking if PLATFORM in whitelist #######################
-PLATFORM_BLOCKLIST += dma vck5000 aws-vu9p-f1 samsung _u2_ 
-PLATFORM_ALLOWLIST += vck190 zc
+PLATFORM_BLOCKLIST += dma 
 
 ############################## Setting up Host Variables ##############################
 #Include Required Host Source Files
@@ -102,7 +118,7 @@ HOST_SRCS += $(XF_PROJ_ROOT)/common/includes/xcl2/xcl2.cpp ./src/host.cpp
 CXXFLAGS += -fmessage-length=0
 LDFLAGS += -lrt -lstdc++ 
 
-ifneq ($(HOST_ARCH), x86)
+ifneq ($(TARGET),$(filter $(TARGET),sw_emu))
 	LDFLAGS += --sysroot=$(SYSROOT)
 endif
 
@@ -110,16 +126,13 @@ endif
 # Kernel compiler global settings
 VPP_FLAGS += -t $(TARGET) --platform $(PLATFORM) --save-temps 
 
-# Kernel linker flags
-VPP_LDFLAGS += --config ./krnl_incr.cfg
-
-EXECUTABLE = ./external_io_cpp
+EXECUTABLE = ./ps_on_x86
 EMCONFIG_DIR = $(TEMP_DIR)
 EMU_DIR = $(SDCARD)/data/emulation
 
 ############################## Declaring Binary Containers ##############################
-BINARY_CONTAINERS += $(BUILD_DIR)/increment.xclbin
-BINARY_CONTAINER_increment_OBJS += $(TEMP_DIR)/increment.xo
+BINARY_CONTAINERS += $(BUILD_DIR)/vadd.xclbin
+BINARY_CONTAINER_vadd_OBJS += $(TEMP_DIR)/vadd.xo
 
 ############################## Setting Targets ##############################
 CP = cp -rf
@@ -137,16 +150,16 @@ build: check-vitis check-device $(BINARY_CONTAINERS)
 xclbin: build
 
 ############################## Setting Rules for Binary Containers (Building Kernels) ##############################
-$(TEMP_DIR)/increment.xo: src/increment.cpp
+$(TEMP_DIR)/vadd.xo: src/vadd.cpp
 	mkdir -p $(TEMP_DIR)
-	$(VPP) $(VPP_FLAGS) -c -k increment --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
-$(BUILD_DIR)/increment.xclbin: $(BINARY_CONTAINER_increment_OBJS)
+	$(VPP) $(VPP_FLAGS) -c -k vadd --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
+$(BUILD_DIR)/vadd.xclbin: $(BINARY_CONTAINER_vadd_OBJS)
 	mkdir -p $(BUILD_DIR)
-ifeq ($(HOST_ARCH), x86)
-	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) $(XOS) --temp_dir $(TEMP_DIR)  -o'$(LINK_OUTPUT)' $(+)
-	$(VPP) -p $(LINK_OUTPUT) -t $(TARGET) --platform $(PLATFORM) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/increment.xclbin
+ifeq ($(TARGET),$(filter $(TARGET),sw_emu))
+	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) -o'$(BUILD_DIR)/vadd.link.xclbin' $(+)
+	$(VPP) -p $(BUILD_DIR)/vadd.link.xclbin $(VPP_FLAGS) --package.run_on_x86 --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/vadd.xclbin
 else
-	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) $(XOS) --temp_dir $(TEMP_DIR) -o'$(LINK_OUTPUT)' $(+)
+	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) -o'$(BUILD_DIR)/vadd.link.xclbin' $(+)
 endif
 
 ############################## Setting Rules for Host (Building Host Executable) ##############################
@@ -158,83 +171,43 @@ $(EMCONFIG_DIR)/emconfig.json:
 	emconfigutil --platform $(PLATFORM) --od $(EMCONFIG_DIR)
 
 ############################## Setting Essential Checks and Running Rules ##############################
-run: run_blocking run_non_blocking
+run: all
+ifeq ($(TARGET),$(filter $(TARGET),sw_emu))
+	$(CP) $(EMCONFIG_DIR)/emconfig.json .
+	XCL_EMULATION_MODE=$(TARGET) $(EXECUTABLE) $(CMD_ARGS)
+else
+ifeq ($(TARGET),$(filter $(TARGET),hw_emu))
+	$(LAUNCH_EMULATOR) -run-app $(RUN_APP_SCRIPT) | tee run_app.log; exit $${PIPESTATUS[0]}
+endif
+endif
 
-run_blocking: all
-	$(ECHO) "Feeding the kernel with a Blocking External Traffic Genrator"
-	./scripts/pre.sh
-	./scripts/cpp_exec.sh BLOCKING &
-ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
-ifeq ($(HOST_ARCH), x86)
-	$(CP) $(EMCONFIG_DIR)/emconfig.json .
-	XCL_EMULATION_MODE=$(TARGET) $(EXECUTABLE) $(CMD_ARGS)
-else
-	$(LAUNCH_EMULATOR) -disable-host-completion-check -run-app $(RUN_APP_SCRIPT) | tee run_app.log; exit $${PIPESTATUS[0]}
-endif
-	./scripts/post.sh BLOCKING
-else
-ifeq ($(HOST_ARCH), x86)
-	$(EXECUTABLE) $(CMD_ARGS)
-endif
-endif
-ifneq ($(TARGET),$(findstring $(TARGET), sw_emu hw_emu))
-$(error Application supports only sw_emu hw_emu TARGET. Please use the target for running the application)
-endif
-	
-run_non_blocking: all
-	$(ECHO) "Feeding the kernel with a Non-blocking External Traffic Genrator"
-	./scripts/pre.sh
-	./scripts/cpp_exec.sh NON_BLOCKING &
-ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
-ifeq ($(HOST_ARCH), x86)
-	$(CP) $(EMCONFIG_DIR)/emconfig.json .
-	XCL_EMULATION_MODE=$(TARGET) $(EXECUTABLE) $(CMD_ARGS)
-else
-	$(LAUNCH_EMULATOR) -disable-host-completion-check -run-app $(RUN_APP_SCRIPT) | tee run_app.log; exit $${PIPESTATUS[0]}
-endif
-	./scripts/post.sh NON_BLOCKING
-else
-ifeq ($(HOST_ARCH), x86)
-	$(EXECUTABLE) $(CMD_ARGS)
-endif
-endif
-ifneq ($(TARGET),$(findstring $(TARGET), sw_emu hw_emu))
-$(error Application supports only sw_emu hw_emu TARGET. Please use the target for running the application)
-endif
 
 .PHONY: test
 test: $(EXECUTABLE)
-ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
-ifeq ($(HOST_ARCH), x86)
+ifeq ($(TARGET),$(filter $(TARGET),sw_emu))
 	XCL_EMULATION_MODE=$(TARGET) $(EXECUTABLE) $(CMD_ARGS)
 else
-	$(LAUNCH_EMULATOR) -disable-host-completion-check -run-app $(RUN_APP_SCRIPT) | tee run_app.log; exit $${PIPESTATUS[0]}
-endif
-else
-ifeq ($(HOST_ARCH), x86)
-	$(EXECUTABLE) $(CMD_ARGS)
+ifeq ($(TARGET),$(filter $(TARGET),hw_emu))
+	$(LAUNCH_EMULATOR) -run-app $(RUN_APP_SCRIPT) | tee run_app.log; exit $${PIPESTATUS[0]}
 else
 	$(ECHO) "Please copy the content of sd_card folder and data to an SD Card and run on the board"
 endif
 endif
-ifneq ($(TARGET),$(findstring $(TARGET), sw_emu hw_emu))
-$(warning WARNING:Application supports only sw_emu hw_emu TARGET. Please use the target for running the application)
-endif
-
 
 
 ############################## Preparing sdcard ##############################
+#For sw_emu, sd_card generation is not required as runnning PS on x86
 sd_card: $(BINARY_CONTAINERS) $(EXECUTABLE) gen_run_app
-ifneq ($(HOST_ARCH), x86)
+ifneq ($(TARGET),$(filter $(TARGET),sw_emu))
 ifeq ($(findstring vck190_base_dfx, $(PLATFORM)), vck190_base_dfx)
 ifeq ($(TARGET),$(filter $(TARGET), hw))
-	$(VPP) $(VPP_FLAGS) -p $(LINK_OUTPUT) -o increment.xclbin 
-	$(VPP) $(VPP_PFLAGS) $(VPP_FLAGS) -p --package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.sd_file $(SD_IMAGE_FILE) --package.sd_file xrt.ini --package.sd_file $(RUN_APP_SCRIPT) --package.sd_file $(EXECUTABLE) --package.sd_file increment.xclbin
+	$(VPP) $(VPP_FLAGS) -p $(BUILD_DIR)/vadd.link.xclbin -o vadd.xclbin 
+	$(VPP) $(VPP_PFLAGS) $(VPP_FLAGS) -p --package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.sd_file $(SD_IMAGE_FILE) --package.sd_file xrt.ini --package.sd_file $(RUN_APP_SCRIPT) --package.sd_file $(EXECUTABLE) --package.sd_file vadd.xclbin
 vck190_dfx_hw := true
 endif
 endif
 ifeq ($(vck190_dfx_hw), false)
-	$(VPP) $(VPP_PFLAGS) -p $(LINK_OUTPUT) $(VPP_FLAGS) --package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.sd_file $(SD_IMAGE_FILE) --package.sd_file xrt.ini --package.sd_file $(RUN_APP_SCRIPT) --package.sd_file $(EXECUTABLE) -o increment.xclbin
+	$(VPP) $(VPP_PFLAGS) -p $(BUILD_DIR)/vadd.link.xclbin $(VPP_FLAGS) --package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.sd_file $(SD_IMAGE_FILE) --package.sd_file xrt.ini --package.sd_file $(RUN_APP_SCRIPT) --package.sd_file $(EXECUTABLE) -o vadd.xclbin
 endif
 endif
 
@@ -242,7 +215,7 @@ endif
 # Cleaning stuff
 clean:
 	-$(RMDIR) $(EXECUTABLE) $(XCLBIN)/{*sw_emu*,*hw_emu*} 
-	-$(RMDIR) profile_* TempConfig system_estimate.xtxt *.rpt *.csv *.txt
+	-$(RMDIR) profile_* TempConfig system_estimate.xtxt *.rpt *.csv 
 	-$(RMDIR) src/*.ll *v++* .Xil emconfig.json dltmp* xmltmp* *.log *.jou *.wcfg *.wdb
 
 cleanall: clean

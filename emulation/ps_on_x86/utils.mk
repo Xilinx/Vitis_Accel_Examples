@@ -29,9 +29,6 @@ PLATFORM := $(DEVICE)
 endif
 endif
 
-#Platform Architecture
-DEV_ARCH := $(shell platforminfo --json="hardwarePlatform.devices[0].part.architecture" -p $(PLATFORM))
-
 #Checks for XILINX_VITIS
 check-vitis:
 ifndef XILINX_VITIS
@@ -40,7 +37,7 @@ endif
 
 #Checks for XILINX_XRT
 check-xrt:
-ifeq ($(HOST_ARCH), x86)
+ifeq ($(TARGET),$(filter $(TARGET),sw_emu))
 ifndef XILINX_XRT
 	$(error XILINX_XRT variable is not set, please set correctly and rerun)
 endif
@@ -50,19 +47,38 @@ ifndef XILINX_VITIS
 endif
 endif
 
+check-device:
+	@set -eu; \
+	inallowlist=False; \
+	inblocklist=False; \
+	if [ "$(PLATFORM_ALLOWLIST)" = "" ]; \
+	    then inallowlist=True; \
+	fi; \
+	for dev in $(PLATFORM_ALLOWLIST); \
+	    do if [[ $$(echo $(PLATFORM) | grep $$dev) != "" ]]; \
+	    then inallowlist=True; fi; \
+	done ;\
+	for dev in $(PLATFORM_BLOCKLIST); \
+	    do if [[ $$(echo $(PLATFORM) | grep $$dev) != "" ]]; \
+	    then inblocklist=True; fi; \
+	done ;\
+	if [[ $$inblocklist == True ]]; \
+	    then echo "[ERROR]: This example is not supported for $(PLATFORM)."; exit 1;\
+	fi; \
+	if [[ $$inallowlist == False ]]; \
+	    then echo "[Warning]: The platform $(PLATFORM) not in allowlist."; \
+	fi;
+
 #Checks for Correct architecture
 ifneq ($(HOST_ARCH), $(filter $(HOST_ARCH),aarch64 aarch32 x86))
 $(error HOST_ARCH variable not set, please set correctly and rerun)
 endif
 
-USR_LDFLAGS :=
-LDFLAGS += $(USR_LDFLAGS)
-
 #Setting CXX
 CXX := g++
 
 #Checks for EDGE_COMMON_SW
-ifneq ($(HOST_ARCH), x86)
+ifneq ($(TARGET),$(filter $(TARGET),sw_emu))
 ifndef EDGE_COMMON_SW
 $(error EDGE_COMMON_SW variable is not set, please set correctly and rerun)
 endif
@@ -78,12 +94,12 @@ endif
 endif
 
 gen_run_app:
-ifneq ($(HOST_ARCH), x86)
+ifneq ($(TARGET),$(filter $(TARGET),sw_emu))
 	rm -rf run_app.sh
 	$(ECHO) 'export LD_LIBRARY_PATH=/mnt:/tmp:$$LD_LIBRARY_PATH' >> run_app.sh
 	$(ECHO) 'export PATH=$$PATH:/sbin' >> run_app.sh
 	$(ECHO) 'export XILINX_XRT=/usr' >> run_app.sh
-ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
+ifeq ($(TARGET),$(filter $(TARGET),hw_emu))
 	$(ECHO) 'export XILINX_VITIS=$$PWD' >> run_app.sh
 	$(ECHO) 'export XCL_EMULATION_MODE=$(TARGET)' >> run_app.sh
 endif
@@ -102,7 +118,7 @@ endif
 	$(ECHO) './reinstall_xrt.sh' >> run_app.sh
 	$(ECHO) 'return_code=$$?' >> run_app.sh
 	$(ECHO) 'cd -' >> run_app.sh
-	$(ECHO) '$(EXECUTABLE) -x mbox_autorestart.xclbin' >> run_app.sh
+	$(ECHO) '$(EXECUTABLE) vadd.xclbin' >> run_app.sh
 	$(ECHO) 'return_code=$$?' >> run_app.sh
 	$(ECHO) 'if [ $$return_code -ne 0 ]; then' >> run_app.sh
 	$(ECHO) 'echo "ERROR: host run failed, RC=$$return_code"' >> run_app.sh
