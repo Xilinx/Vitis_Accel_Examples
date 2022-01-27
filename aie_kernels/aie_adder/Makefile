@@ -58,7 +58,7 @@ XF_PROJ_ROOT = $(shell readlink -f $(COMMON_REPO))
 # Makefile input options
 TARGET := hw_emu
 HOST_ARCH := x86
-XCLBIN := adder.xclbin
+XCLBIN := adder.xsa
 
 # File names and locations
 GRAPH := src/aie_graph.cpp

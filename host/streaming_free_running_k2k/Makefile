@@ -66,6 +66,11 @@ endif
 TEMP_DIR := ./_x.$(TARGET).$(XSA)
 BUILD_DIR := ./build_dir.$(TARGET).$(XSA)
 
+LINK_OUTPUT := $(BUILD_DIR)/krnl_incr.link.xclbin
+ifeq ($(DEV_ARCH), versal)
+LINK_OUTPUT := $(BUILD_DIR)/krnl_incr.xsa
+endif
+
 # SoC variables
 RUN_APP_SCRIPT = ./run_app.sh
 PACKAGE_OUT = ./package.$(TARGET)
@@ -101,6 +106,7 @@ endif
 ############################## Setting up Kernel Variables ##############################
 # Kernel compiler global settings
 VPP_FLAGS += -t $(TARGET) --platform $(PLATFORM) --save-temps 
+VPP_FLAGS += --config versal.cfg
 
 
 # Kernel linker flags
@@ -144,10 +150,10 @@ $(TEMP_DIR)/mem_write.xo: src/mem_write.cpp
 $(BUILD_DIR)/krnl_incr.xclbin: $(BINARY_CONTAINER_krnl_incr_OBJS)
 	mkdir -p $(BUILD_DIR)
 ifeq ($(HOST_ARCH), x86)
-	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) $(VPP_LDFLAGS_krnl_incr) -o'$(BUILD_DIR)/krnl_incr.link.xclbin' $(+)
-	$(VPP) -p $(BUILD_DIR)/krnl_incr.link.xclbin $(VPP_FLAGS) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/krnl_incr.xclbin
+	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) $(VPP_LDFLAGS_krnl_incr) -o'$(LINK_OUTPUT)' $(+)
+	$(VPP) -p $(LINK_OUTPUT) $(VPP_FLAGS) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/krnl_incr.xclbin
 else
-	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) $(VPP_LDFLAGS_krnl_incr) -o'$(BUILD_DIR)/krnl_incr.link.xclbin' $(+)
+	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) $(VPP_LDFLAGS_krnl_incr) -o'$(LINK_OUTPUT)' $(+)
 endif
 
 ############################## Setting Rules for Host (Building Host Executable) ##############################
@@ -196,13 +202,13 @@ sd_card: $(BINARY_CONTAINERS) $(EXECUTABLE) gen_run_app
 ifneq ($(HOST_ARCH), x86)
 ifeq ($(findstring vck190_base_dfx, $(PLATFORM)), vck190_base_dfx)
 ifeq ($(TARGET),$(filter $(TARGET), hw))
-	$(VPP) $(VPP_FLAGS) -p $(BUILD_DIR)/krnl_incr.link.xclbin -o krnl_incr.xclbin 
+	$(VPP) $(VPP_FLAGS) -p $(LINK_OUTPUT) -o krnl_incr.xclbin 
 	$(VPP) $(VPP_PFLAGS) $(VPP_FLAGS) -p --package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.sd_file $(SD_IMAGE_FILE) --package.sd_file xrt.ini --package.sd_file $(RUN_APP_SCRIPT) --package.sd_file $(EXECUTABLE) --package.sd_file krnl_incr.xclbin
 vck190_dfx_hw := true
 endif
 endif
 ifeq ($(vck190_dfx_hw), false)
-	$(VPP) $(VPP_PFLAGS) -p $(BUILD_DIR)/krnl_incr.link.xclbin $(VPP_FLAGS) --package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.sd_file $(SD_IMAGE_FILE) --package.sd_file xrt.ini --package.sd_file $(RUN_APP_SCRIPT) --package.sd_file $(EXECUTABLE) -o krnl_incr.xclbin
+	$(VPP) $(VPP_PFLAGS) -p $(LINK_OUTPUT) $(VPP_FLAGS) --package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.sd_file $(SD_IMAGE_FILE) --package.sd_file xrt.ini --package.sd_file $(RUN_APP_SCRIPT) --package.sd_file $(EXECUTABLE) -o krnl_incr.xclbin
 endif
 endif
 

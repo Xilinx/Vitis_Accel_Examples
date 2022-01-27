@@ -62,6 +62,7 @@ endif
 TEMP_DIR := ./_x.$(TARGET).$(XSA)
 BUILD_DIR := ./build_dir.$(TARGET).$(XSA)
 
+
 # SoC variables
 RUN_APP_SCRIPT = ./run_app.sh
 PACKAGE_OUT = ./package.$(TARGET)

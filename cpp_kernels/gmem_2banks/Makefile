@@ -62,6 +62,11 @@ endif
 TEMP_DIR := ./_x.$(TARGET).$(XSA)
 BUILD_DIR := ./build_dir.$(TARGET).$(XSA)
 
+LINK_OUTPUT := $(BUILD_DIR)/apply_watermark.link.xclbin
+ifeq ($(DEV_ARCH), versal)
+LINK_OUTPUT := $(BUILD_DIR)/apply_watermark.xsa
+endif
+
 # SoC variables
 RUN_APP_SCRIPT = ./run_app.sh
 PACKAGE_OUT = ./package.$(TARGET)
@@ -129,8 +134,8 @@ $(TEMP_DIR)/apply_watermark.xo: src/apply_watermark.cpp
 	$(VPP) $(VPP_FLAGS) $(VPP_FLAGS_apply_watermark) -c -k apply_watermark --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
 $(BUILD_DIR)/apply_watermark.xclbin: $(BINARY_CONTAINER_apply_watermark_OBJS)
 	mkdir -p $(BUILD_DIR)
-	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) $(VPP_LDFLAGS_apply_watermark) -o'$(BUILD_DIR)/apply_watermark.link.xclbin' $(+)
-	$(VPP) -p $(BUILD_DIR)/apply_watermark.link.xclbin $(VPP_FLAGS) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/apply_watermark.xclbin
+	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) $(VPP_LDFLAGS_apply_watermark) -o'$(LINK_OUTPUT)' $(+)
+	$(VPP) -p $(LINK_OUTPUT) $(VPP_FLAGS) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/apply_watermark.xclbin
 
 ############################## Setting Rules for Host (Building Host Executable) ##############################
 $(EXECUTABLE): $(HOST_SRCS) | check-xrt

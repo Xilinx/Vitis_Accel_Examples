@@ -62,6 +62,11 @@ endif
 TEMP_DIR := ./_x.$(TARGET).$(XSA)
 BUILD_DIR := ./build_dir.$(TARGET).$(XSA)
 
+LINK_OUTPUT := $(BUILD_DIR)/krnl_vadd.link.xclbin
+ifeq ($(DEV_ARCH), versal)
+LINK_OUTPUT := $(BUILD_DIR)/krnl_vadd.xsa
+endif
+
 # SoC variables
 RUN_APP_SCRIPT = ./run_app.sh
 PACKAGE_OUT = ./package.$(TARGET)
@@ -132,8 +137,8 @@ $(TEMP_DIR)/copy_kernel.xo: src/copy_kernel.cpp
 	$(VPP) $(VPP_FLAGS) -c -k copy_kernel --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
 $(BUILD_DIR)/krnl_vadd.xclbin: $(BINARY_CONTAINER_krnl_vadd_OBJS)
 	mkdir -p $(BUILD_DIR)
-	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) $(VPP_LDFLAGS_krnl_vadd) -o'$(BUILD_DIR)/krnl_vadd.link.xclbin' $(+)
-	$(VPP) -p $(BUILD_DIR)/krnl_vadd.link.xclbin $(VPP_FLAGS) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/krnl_vadd.xclbin
+	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) $(VPP_LDFLAGS_krnl_vadd) -o'$(LINK_OUTPUT)' $(+)
+	$(VPP) -p $(LINK_OUTPUT) $(VPP_FLAGS) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/krnl_vadd.xclbin
 
 ############################## Setting Rules for Host (Building Host Executable) ##############################
 $(EXECUTABLE): $(HOST_SRCS) | check-xrt

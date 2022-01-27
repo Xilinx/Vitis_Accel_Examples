@@ -56,6 +56,14 @@ def create_params(target,data):
     target.write("BUILD_DIR := ./build_dir.$(TARGET).$(XSA)\n")
     target.write("\n")
 
+    if "containers" in data:
+        for con in data["containers"]:
+            target.write("LINK_OUTPUT := $(BUILD_DIR)/")
+            target.write(con["name"] + ".link.xclbin\n")
+            target.write("ifeq ($(DEV_ARCH), versal)\n")
+            target.write("LINK_OUTPUT := $(BUILD_DIR)/" + con["name"] + ".xsa\n")
+            target.write("endif\n")
+    target.write("\n")
     target.write("# SoC variables\n")
     target.write("RUN_APP_SCRIPT = ./run_app.sh\n")
     target.write("PACKAGE_OUT = ./package.$(TARGET)\n")
@@ -178,7 +186,11 @@ def add_kernel_flags(target, data):
     if "v++" in data:
         target.write("VPP_FLAGS += \n")
     target.write("VPP_FLAGS += ")
-    target.write("-t $(TARGET) --platform $(PLATFORM) --save-temps \n")   
+    target.write("-t $(TARGET) --platform $(PLATFORM) --save-temps \n")  
+    ######### The following lines need to removed once versal latest changes are default without param control
+    if not ("platform_type" in data and data["platform_type"] == "pcie"):
+        target.write("VPP_FLAGS += --config versal.cfg\n")
+    ####################################
     if "containers" in data:
         for con in data["containers"]:
             for acc in con["accelerators"]:
@@ -357,16 +369,16 @@ def building_kernel(target, data):
 
             if "ldclflags" in con:
                 target.write(" $(VPP_LDFLAGS_"+con["name"]+")")
-            target.write(" -o'$(BUILD_DIR)/" + con["name"] + ".link.xclbin' $(+)\n")
+            target.write(" -o'$(LINK_OUTPUT)' $(+)\n")
 
-            target.write("\t$(VPP) -p $(BUILD_DIR)/" + con["name"] + ".link.xclbin $(VPP_FLAGS) ")
+            target.write("\t$(VPP) -p $(LINK_OUTPUT) $(VPP_FLAGS) ")
             target.write("--package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/" + con["name"] + ".xclbin\n")
             if not ("platform_type" in data and data["platform_type"] == "pcie"):
                 target.write("else\n")
                 target.write("\t$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR)")
                 if "ldclflags" in con:
                     target.write(" $(VPP_LDFLAGS_"+con["name"]+")")
-                target.write(" -o'$(BUILD_DIR)/" + con["name"] + ".link.xclbin' $(+)\n")
+                target.write(" -o'$(LINK_OUTPUT)' $(+)\n")
                 target.write("endif\n")
     target.write("\n")
     return
@@ -389,15 +401,15 @@ def building_kernel_rtl(target, data):
 
             if "ldclflags" in con:
                 target.write(" $(VPP_LDFLAGS_"+con["name"]+")")
-            target.write(" -o'$(BUILD_DIR)/" + con["name"] + ".link.xclbin' $(+)\n")
+            target.write(" -o'$(LINK_OUTPUT)' $(+)\n")
 
-            target.write("\t$(VPP) -p $(BUILD_DIR)/" + con["name"] + ".link.xclbin -t $(TARGET) --platform $(PLATFORM) ")
+            target.write("\t$(VPP) -p $(LINK_OUTPUT) -t $(TARGET) --platform $(PLATFORM) ")
             target.write("--package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/" + con["name"] + ".xclbin\n")
             target.write("else\n")
             target.write("\t$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR)")
             if "ldclflags" in con:
                 target.write(" $(VPP_LDFLAGS_"+con["name"]+")")
-            target.write(" -o'$(BUILD_DIR)/" + con["name"] + ".link.xclbin' $(+)\n")
+            target.write(" -o'$(LINK_OUTPUT)' $(+)\n")
             target.write("endif\n")
     return
 
@@ -432,6 +444,12 @@ def profile_report(target):
         else:
             target.write("opencl_summary=true\n")
             target.write("opencl_device_counter=true\n")
+    return
+
+def create_versal_cfg(target):
+    target.write("[advanced]\n")
+    target.write("param=compiler.enableXSAGenerationWithLightXCLBIN=true\n")
+    target.write("param=compiler.enableVersalPackageXclbinFlow=true\n")
     return
 
 def mk_clean(target, data):
@@ -644,9 +662,7 @@ def mk_sdcard(target, data):
     target.write("ifeq ($(TARGET),$(filter $(TARGET), hw))\n")
     if "containers" in data:
         for con in data["containers"]:
-            target.write("\t$(VPP) $(VPP_FLAGS) -p $(BUILD_DIR)/")
-            target.write(con["name"])
-            target.write(".link.xclbin -o ")
+            target.write("\t$(VPP) $(VPP_FLAGS) -p $(LINK_OUTPUT) -o ")
             target.write(con["name"])
             target.write(".xclbin \n")
     if "containers" in data:
@@ -666,9 +682,7 @@ def mk_sdcard(target, data):
     target.write("ifeq ($(vck190_dfx_hw), false)\n")
     if "containers" in data:
         for con in data["containers"]:
-            target.write("\t$(VPP) $(VPP_PFLAGS) -p $(BUILD_DIR)/")
-            target.write(con["name"])
-            target.write(".link.xclbin $(VPP_FLAGS) ")
+            target.write("\t$(VPP) $(VPP_PFLAGS) -p $(LINK_OUTPUT) $(VPP_FLAGS) ")
             target.write("--package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.sd_file $(SD_IMAGE_FILE) --package.sd_file xrt.ini --package.sd_file $(RUN_APP_SCRIPT) --package.sd_file $(EXECUTABLE)")
             for extra_filename in extra_file_list:
                 if ('-' not in extra_filename):
@@ -793,6 +807,9 @@ def util_checks(target):
     target.write("endif\n")
     target.write("endif\n")
     target.write("\n")
+
+    target.write("#Platform Architecture\n")
+    target.write("DEV_ARCH := $(shell platforminfo --json=\"hardwarePlatform.devices[0].part.architecture\" -p $(PLATFORM))\n\n")
 
     target.write("#Checks for XILINX_VITIS\n")
     target.write("check-vitis:\n")
@@ -1004,6 +1021,14 @@ else:
     print("Generating utils.mk file for %s" %data["name"])
     target = open("utils.mk", "w+")    
     create_utils(target, data)
+############## The following lines need to removed once versal latest changes are default without param control
+if "match_makefile" in data and data["match_makefile"] == "false":
+    print("Info:: Skipping versal.cfg file creation")
+else:
+    if not ("platform_type" in data and data["platform_type"] == "pcie"):
+        target = open("versal.cfg", "w+")
+        create_versal_cfg(target)
+########################################################################################
 
 if target:
     target.close

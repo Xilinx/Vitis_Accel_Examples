@@ -62,6 +62,11 @@ endif
 TEMP_DIR := ./_x.$(TARGET).$(XSA)
 BUILD_DIR := ./build_dir.$(TARGET).$(XSA)
 
+LINK_OUTPUT := $(BUILD_DIR)/krnl_host_global.link.xclbin
+ifeq ($(DEV_ARCH), versal)
+LINK_OUTPUT := $(BUILD_DIR)/krnl_host_global.xsa
+endif
+
 # SoC variables
 RUN_APP_SCRIPT = ./run_app.sh
 PACKAGE_OUT = ./package.$(TARGET)
@@ -124,7 +129,6 @@ endif
 ifeq ($(findstring _u25_, $(PLATFORM)), _u25_)
 VPP_LDFLAGS += --config ./conn_u25.cfg
 endif
-
 EXECUTABLE = ./host_global_bandwidth
 EMCONFIG_DIR = $(TEMP_DIR)
 
@@ -153,8 +157,8 @@ $(TEMP_DIR)/bandwidth.xo: src/kernel.cpp
 	$(VPP) $(VPP_FLAGS) -c -k bandwidth --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
 $(BUILD_DIR)/krnl_host_global.xclbin: $(BINARY_CONTAINER_krnl_host_global_OBJS)
 	mkdir -p $(BUILD_DIR)
-	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) -o'$(BUILD_DIR)/krnl_host_global.link.xclbin' $(+)
-	$(VPP) -p $(BUILD_DIR)/krnl_host_global.link.xclbin $(VPP_FLAGS) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/krnl_host_global.xclbin
+	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) -o'$(LINK_OUTPUT)' $(+)
+	$(VPP) -p $(LINK_OUTPUT) $(VPP_FLAGS) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/krnl_host_global.xclbin
 
 ############################## Setting Rules for Host (Building Host Executable) ##############################
 $(EXECUTABLE): $(HOST_SRCS) | check-xrt
