@@ -129,6 +129,7 @@ endif
 ifeq ($(findstring _u25_, $(PLATFORM)), _u25_)
 VPP_LDFLAGS += --config ./conn_u25.cfg
 endif
+
 EXECUTABLE = ./host_global_bandwidth
 EMCONFIG_DIR = $(TEMP_DIR)
 

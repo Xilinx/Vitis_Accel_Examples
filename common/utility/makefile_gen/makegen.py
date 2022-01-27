@@ -809,7 +809,9 @@ def util_checks(target):
     target.write("\n")
 
     target.write("#Platform Architecture\n")
-    target.write("DEV_ARCH := $(shell platforminfo --json=\"hardwarePlatform.devices[0].part.architecture\" -p $(PLATFORM))\n\n")
+    target.write("ifneq ($(PLATFORM),)\n")
+    target.write("DEV_ARCH := $(shell platforminfo --json=\"hardwarePlatform.devices[0].part.architecture\" -p $(PLATFORM))\n")
+    target.write("endif\n\n")
 
     target.write("#Checks for XILINX_VITIS\n")
     target.write("check-vitis:\n")
