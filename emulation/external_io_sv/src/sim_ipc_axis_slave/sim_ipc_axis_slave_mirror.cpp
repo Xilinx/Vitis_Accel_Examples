@@ -17,43 +17,41 @@
 #include "sim_ipc_axis_slave_mirror.h"
 
 #if defined(XILINX_SIMULATOR) || defined(XM_SYSTEMC) || defined(RIVIERA)
-sim_ipc_axis_slave_mirror::sim_ipc_axis_slave_mirror(const sc_core::sc_module_name& nm) :
-  sc_core::sc_module(nm)
-  ,mp_impl(NULL)
-  ,m_axis_aclk("m_axis_aclk")
-  ,m_axis_aresetn("m_axis_aresetn")
-  ,m_axis_tvalid("m_axis_tvalid")
-  ,m_axis_tready("m_axis_tready")
-  ,m_axis_tdata("m_axis_tdata")
-  ,m_axis_tstrb("m_axis_tstrb")
-  ,m_axis_tkeep("m_axis_tkeep")
-  ,m_axis_tlast("m_axis_tlast")
-  ,m_axis_tuser("m_axis_tuser")
-{
-  // initialize module
-  xsc::common_cpp::properties model_param_props;
-  model_param_props.addLong("C_M00_AXIS_TDATA_WIDTH", "32");
-  mp_impl = new sim_ipc_axis_master("inst", model_param_props);
+sim_ipc_axis_slave_mirror::sim_ipc_axis_slave_mirror(const sc_core::sc_module_name& nm)
+    : sc_core::sc_module(nm),
+      mp_impl(NULL),
+      m_axis_aclk("m_axis_aclk"),
+      m_axis_aresetn("m_axis_aresetn"),
+      m_axis_tvalid("m_axis_tvalid"),
+      m_axis_tready("m_axis_tready"),
+      m_axis_tdata("m_axis_tdata"),
+      m_axis_tstrb("m_axis_tstrb"),
+      m_axis_tkeep("m_axis_tkeep"),
+      m_axis_tlast("m_axis_tlast"),
+      m_axis_tuser("m_axis_tuser") {
+    // initialize module
+    xsc::common_cpp::properties model_param_props;
+    model_param_props.addLong("C_M00_AXIS_TDATA_WIDTH", "32");
+    mp_impl = new sim_ipc_axis_master("inst", model_param_props);
 
-  // initialize pins
-  mp_impl->m00_axis_aclk(m_axis_aclk);
-  mp_impl->m00_axis_aresetn(m_axis_aresetn);
+    // initialize pins
+    mp_impl->m00_axis_aclk(m_axis_aclk);
+    mp_impl->m00_axis_aresetn(m_axis_aresetn);
 
-  // initialize AXI sockets
-  M_AXIS_socket = mp_impl->M00_AXIS_socket;
+    // initialize AXI sockets
+    M_AXIS_socket = mp_impl->M00_AXIS_socket;
 
-  // initialize transactors
-  mp_M_AXIS_transactor = NULL;
-  mp_m_axis_tlast_converter = NULL;
-  mp_m_axis_tready_converter = NULL;
-  mp_m_axis_tvalid_converter = NULL;
+    // initialize transactors
+    mp_M_AXIS_transactor = NULL;
+    mp_m_axis_tlast_converter = NULL;
+    mp_m_axis_tready_converter = NULL;
+    mp_m_axis_tvalid_converter = NULL;
 }
 
-void sim_ipc_axis_slave_mirror::before_end_of_elaboration()
-{
-  // configure 'M_AXIS' transactor
+void sim_ipc_axis_slave_mirror::before_end_of_elaboration() {
+    // configure 'M_AXIS' transactor
 
-  // 'M_AXIS' transactor parameters
+    // 'M_AXIS' transactor parameters
     xsc::common_cpp::properties M_AXIS_transactor_param_props;
     M_AXIS_transactor_param_props.addLong("TDATA_NUM_BYTES", "4");
     M_AXIS_transactor_param_props.addLong("TDEST_WIDTH", "0");
@@ -71,7 +69,8 @@ void sim_ipc_axis_slave_mirror::before_end_of_elaboration()
     M_AXIS_transactor_param_props.addLong("TSIDE_BAND_1_WIDTH", "0");
     M_AXIS_transactor_param_props.addLong("TSIDE_BAND_2_WIDTH", "0");
 
-    mp_M_AXIS_transactor = new xtlm::xaxis_xtlm2pin_t<4,32,1,1,1,1>("M_AXIS_transactor", M_AXIS_transactor_param_props);
+    mp_M_AXIS_transactor =
+        new xtlm::xaxis_xtlm2pin_t<4, 32, 1, 1, 1, 1>("M_AXIS_transactor", M_AXIS_transactor_param_props);
 
     // M_AXIS' transactor ports
     mp_M_AXIS_transactor->CLK(m_axis_aclk);
@@ -97,8 +96,6 @@ void sim_ipc_axis_slave_mirror::before_end_of_elaboration()
     mp_m_axis_tvalid_converter->scalar_in(m_m_axis_tvalid_converter_signal);
     mp_m_axis_tvalid_converter->vector_out(m_axis_tvalid);
     mp_M_AXIS_transactor->TVALID(m_m_axis_tvalid_converter_signal);
-
-    
 
     // M_AXIS' transactor sockets
     mp_impl->M00_AXIS_socket->bind(*(mp_M_AXIS_transactor->socket));
@@ -106,38 +103,37 @@ void sim_ipc_axis_slave_mirror::before_end_of_elaboration()
 #endif
 
 #if defined VCSSYSTEMC || defined MTI_SYSTEMC
-sim_ipc_axis_slave_mirror::sim_ipc_axis_slave_mirror(const sc_core::sc_module_name& nm) :
-  sc_core::sc_module(nm)
-  ,mp_impl(NULL)
-  ,m_axis_aclk("m_axis_aclk")
-  ,m_axis_aresetn("m_axis_aresetn")
-  ,m_axis_tvalid("m_axis_tvalid")
-  ,m_axis_tready("m_axis_tready")
-  ,m_axis_tdata("m_axis_tdata")
-  ,m_axis_tstrb("m_axis_tstrb")
-  ,m_axis_tkeep("m_axis_tkeep")
-  ,m_axis_tlast("m_axis_tlast")
-  ,m_axis_tuser("m_axis_tuser")
-{
-  // initialize module
-  xsc::common_cpp::properties model_param_props;
-  model_param_props.addLong("C_M00_AXIS_TDATA_WIDTH", "32");
-  mp_impl = new sim_ipc_axis_master("inst", model_param_props);
+sim_ipc_axis_slave_mirror::sim_ipc_axis_slave_mirror(const sc_core::sc_module_name& nm)
+    : sc_core::sc_module(nm),
+      mp_impl(NULL),
+      m_axis_aclk("m_axis_aclk"),
+      m_axis_aresetn("m_axis_aresetn"),
+      m_axis_tvalid("m_axis_tvalid"),
+      m_axis_tready("m_axis_tready"),
+      m_axis_tdata("m_axis_tdata"),
+      m_axis_tstrb("m_axis_tstrb"),
+      m_axis_tkeep("m_axis_tkeep"),
+      m_axis_tlast("m_axis_tlast"),
+      m_axis_tuser("m_axis_tuser") {
+    // initialize module
+    xsc::common_cpp::properties model_param_props;
+    model_param_props.addLong("C_M00_AXIS_TDATA_WIDTH", "32");
+    mp_impl = new sim_ipc_axis_master("inst", model_param_props);
 
-  // initialize pins
-  mp_impl->m00_axis_aclk(m_axis_aclk);
-  mp_impl->m00_axis_aresetn(m_axis_aresetn);
+    // initialize pins
+    mp_impl->m00_axis_aclk(m_axis_aclk);
+    mp_impl->m00_axis_aresetn(m_axis_aresetn);
 
-  // initialize AXI sockets
-  M_AXIS_socket = mp_impl->M00_AXIS_socket;
+    // initialize AXI sockets
+    M_AXIS_socket = mp_impl->M00_AXIS_socket;
 
-  // initialize transactors
-  mp_M_AXIS_transactor = NULL;
-  mp_m_axis_tlast_converter = NULL;
-  mp_m_axis_tready_converter = NULL;
-  mp_m_axis_tvalid_converter = NULL;
+    // initialize transactors
+    mp_M_AXIS_transactor = NULL;
+    mp_m_axis_tlast_converter = NULL;
+    mp_m_axis_tready_converter = NULL;
+    mp_m_axis_tvalid_converter = NULL;
 
-  // 'M_AXIS' transactor parameters
+    // 'M_AXIS' transactor parameters
     xsc::common_cpp::properties M_AXIS_transactor_param_props;
     M_AXIS_transactor_param_props.addLong("TDATA_NUM_BYTES", "4");
     M_AXIS_transactor_param_props.addLong("TDEST_WIDTH", "0");
@@ -155,7 +151,8 @@ sim_ipc_axis_slave_mirror::sim_ipc_axis_slave_mirror(const sc_core::sc_module_na
     M_AXIS_transactor_param_props.addLong("TSIDE_BAND_1_WIDTH", "0");
     M_AXIS_transactor_param_props.addLong("TSIDE_BAND_2_WIDTH", "0");
 
-    mp_M_AXIS_transactor = new xtlm::xaxis_xtlm2pin_t<4,32,1,1,1,1>("M_AXIS_transactor", M_AXIS_transactor_param_props);
+    mp_M_AXIS_transactor =
+        new xtlm::xaxis_xtlm2pin_t<4, 32, 1, 1, 1, 1>("M_AXIS_transactor", M_AXIS_transactor_param_props);
 
     // M_AXIS' transactor ports
     mp_M_AXIS_transactor->CLK(m_axis_aclk);
@@ -181,24 +178,20 @@ sim_ipc_axis_slave_mirror::sim_ipc_axis_slave_mirror(const sc_core::sc_module_na
     mp_m_axis_tvalid_converter->scalar_in(m_m_axis_tvalid_converter_signal);
     mp_m_axis_tvalid_converter->vector_out(m_axis_tvalid);
     mp_M_AXIS_transactor->TVALID(m_m_axis_tvalid_converter_signal);
-
-    
 }
 
-void sim_ipc_axis_slave_mirror::before_end_of_elaboration()
-{
+void sim_ipc_axis_slave_mirror::before_end_of_elaboration() {
     // M_AXIS' transactor sockets
     mp_impl->M00_AXIS_socket->bind(*(mp_M_AXIS_transactor->socket));
 }
 #endif
 
-sim_ipc_axis_slave_mirror::~sim_ipc_axis_slave_mirror()
-{
-  delete mp_M_AXIS_transactor;
-  delete mp_m_axis_tlast_converter;
-  delete mp_m_axis_tready_converter;
-  delete mp_m_axis_tvalid_converter;
-  delete mp_impl;
+sim_ipc_axis_slave_mirror::~sim_ipc_axis_slave_mirror() {
+    delete mp_M_AXIS_transactor;
+    delete mp_m_axis_tlast_converter;
+    delete mp_m_axis_tready_converter;
+    delete mp_m_axis_tvalid_converter;
+    delete mp_impl;
 }
 
 #ifdef MTI_SYSTEMC
