@@ -19,28 +19,26 @@
 #include "xtlm.h"
 #include "ipc2axis_socket.h"
 
-class sim_ipc_axis_master : public sc_core::sc_module
-{
-    public:
-        SC_HAS_PROCESS(sim_ipc_axis_master);
+class sim_ipc_axis_master : public sc_core::sc_module {
+   public:
+    SC_HAS_PROCESS(sim_ipc_axis_master);
 
-        sim_ipc_axis_master(sc_core::sc_module_name name,
-                xsc::common_cpp::properties& ppts);
-        ~sim_ipc_axis_master();
+    sim_ipc_axis_master(sc_core::sc_module_name name, xsc::common_cpp::properties& ppts);
+    ~sim_ipc_axis_master();
 
-        sc_in<bool>  m00_axis_aresetn;
-        sc_in<bool>  m00_axis_aclk;
+    sc_in<bool> m00_axis_aresetn;
+    sc_in<bool> m00_axis_aclk;
 
-        xtlm::xtlm_axis_initiator_socket*      M00_AXIS_socket;
-        xtlm::xtlm_axis_initiator_socket_util* m00_util;
+    xtlm::xtlm_axis_initiator_socket* M00_AXIS_socket;
+    xtlm::xtlm_axis_initiator_socket_util* m00_util;
 
-    private:
-        //! SystemC Method to Read incoming data from ipc...
-        void ipc2axi_stream_receive();
-        void send_response();
-        std::string get_ipi_name(std::string s);
+   private:
+    //! SystemC Method to Read incoming data from ipc...
+    void ipc2axi_stream_receive();
+    void send_response();
+    std::string get_ipi_name(std::string s);
 
-        xsc::ipc2axis_socket* ipc2axis_socket;
-        xsc::common_cpp::report_handler m_logger;
-        unsigned int stream_width_bytes;
+    xsc::ipc2axis_socket* ipc2axis_socket;
+    xsc::common_cpp::report_handler m_logger;
+    unsigned int stream_width_bytes;
 };
