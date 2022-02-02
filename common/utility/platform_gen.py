@@ -255,7 +255,7 @@ if "_u2_" in plat_name:
     if(filename!='verify'):
         create_cfg_u2(data)
     create_json_u2(data)
-elif "v65" in plat_name or "vck5000-es1" in plat_name or "vck5000_gen3x16" in plat_name or "cs2200" in plat_name:
+elif "v65" in plat_name or "vck5000-es1" in plat_name or "vck5000_gen3x16" in plat_name or "cs2200" in plat_name or "cs2211" in plat_name:
     if(filename!='verify'):
         create_cfg_vck(data)
     create_json_vck(data)
