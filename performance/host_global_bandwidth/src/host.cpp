@@ -184,6 +184,7 @@ int main(int argc, char** argv) {
 
         for (int i = buff_cnt - 1; i >= 0; i--) {
             OCL_CHECK(err, mems[i] = cl::Buffer(context, (cl_mem_flags)(CL_MEM_READ_WRITE), nxtcnt, nullptr, &err));
+            OCL_CHECK(err, err = krnl_bandwidth.setArg(0, mems[i]));
             OCL_CHECK(err, err = command_queue.enqueueFillBuffer<int>((cl::Buffer&)mems[i], i, 0, nxtcnt, 0, 0));
         }
 
@@ -213,8 +214,10 @@ int main(int argc, char** argv) {
 
         for (int i = buff_cnt - 1; i >= 0; i--) {
             OCL_CHECK(err, mems1[i] = cl::Buffer(context, (cl_mem_flags)(CL_MEM_READ_WRITE), nxtcnt, nullptr, &err));
+            OCL_CHECK(err, err = krnl_bandwidth.setArg(0, mems1[i]));
             OCL_CHECK(err, err = command_queue.enqueueFillBuffer<int>((cl::Buffer&)mems1[i], i, 0, nxtcnt, 0, 0));
             OCL_CHECK(err, mems2[i] = cl::Buffer(context, (cl_mem_flags)(CL_MEM_READ_WRITE), nxtcnt, nullptr, &err));
+            OCL_CHECK(err, err = krnl_bandwidth.setArg(1, mems2[i]));
             OCL_CHECK(err, err = command_queue.enqueueFillBuffer<int>((cl::Buffer&)mems2[i], i, 0, nxtcnt, 0, 0));
         }
 
