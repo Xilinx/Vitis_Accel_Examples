@@ -132,7 +132,7 @@ BINARY_CONTAINER_test_kernel_maxi_512bit_OBJS += $(TEMP_DIR)/test_kernel_maxi_51
 CP = cp -rf
 
 .PHONY: all clean cleanall docs emconfig
-all: check-platform check-device $(EXECUTABLE) $(BINARY_CONTAINERS) emconfig sd_card
+all: check-platform check-device check-vitis $(EXECUTABLE) $(BINARY_CONTAINERS) emconfig sd_card
 
 .PHONY: host
 host: $(EXECUTABLE)

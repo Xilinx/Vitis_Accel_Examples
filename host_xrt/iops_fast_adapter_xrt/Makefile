@@ -111,7 +111,7 @@ BINARY_CONTAINER_hello_OBJS += $(TEMP_DIR)/hello.xo
 CP = cp -rf
 
 .PHONY: all clean cleanall docs emconfig
-all: check-platform check-device $(EXECUTABLE) $(BINARY_CONTAINERS) emconfig
+all: check-platform check-device check-vitis $(EXECUTABLE) $(BINARY_CONTAINERS) emconfig
 
 .PHONY: host
 host: $(EXECUTABLE)

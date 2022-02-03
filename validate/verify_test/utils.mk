@@ -21,13 +21,13 @@ endif
 #Checks for XILINX_VITIS
 check-vitis:
 ifndef XILINX_VITIS
-	$(error XILINX_VITIS variable is not set, please set correctly and rerun)
+	$(error XILINX_VITIS variable is not set, please set correctly using "source <Vitis_install_path>/Vitis/2021.2/settings64.sh" and rerun)
 endif
 
 #Checks for XILINX_XRT
 check-xrt:
 ifndef XILINX_XRT
-	$(error XILINX_XRT variable is not set, please set correctly and rerun)
+	$(error XILINX_XRT variable is not set, please set correctly using "source /opt/xilinx/xrt/setup.sh" and rerun)
 endif
 
 check-device:
