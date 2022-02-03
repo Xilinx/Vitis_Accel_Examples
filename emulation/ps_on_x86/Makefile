@@ -130,6 +130,7 @@ endif
 ############################## Setting up Kernel Variables ##############################
 # Kernel compiler global settings
 VPP_FLAGS += -t $(TARGET) --platform $(PLATFORM) --save-temps 
+VPP_FLAGS += --config versal.cfg
 
 EXECUTABLE = ./ps_on_x86
 EMCONFIG_DIR = $(TEMP_DIR)
@@ -162,7 +163,7 @@ $(BUILD_DIR)/vadd.xclbin: $(BINARY_CONTAINER_vadd_OBJS)
 	mkdir -p $(BUILD_DIR)
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu))
 	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) -o'$(LINK_OUTPUT)' $(+)
-	$(VPP) -p $(BUILD_DIR)/vadd.link.xclbin $(VPP_FLAGS) --package.run_on_x86 --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/vadd.xclbin
+	$(VPP) -p $(LINK_OUTPUT) $(VPP_FLAGS) --package.run_on_x86 --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/vadd.xclbin
 else
 	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) -o'$(LINK_OUTPUT)' $(+)
 endif
