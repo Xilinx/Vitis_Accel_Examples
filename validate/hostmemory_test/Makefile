@@ -107,7 +107,7 @@ BINARY_CONTAINER_hostmemory_OBJS += $(TEMP_DIR)/hostmemory.xo
 CP = cp -rf
 
 .PHONY: all clean cleanall docs emconfig
-all: check-platform check-device platform_test $(EXECUTABLE) $(BINARY_CONTAINERS) emconfig
+all: check-platform check-device check-vitis platform_test $(EXECUTABLE) $(BINARY_CONTAINERS) emconfig
 
 .PHONY: host
 host: $(EXECUTABLE)

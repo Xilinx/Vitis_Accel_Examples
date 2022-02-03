@@ -88,7 +88,7 @@ BINARY_CONTAINER_vadd_OBJS += $(TEMP_DIR)/vadd.xo
 CP = cp -rf
 
 .PHONY: all clean cleanall docs 
-all: check-platform check-device check-xrt $(BINARY_CONTAINERS) 
+all: check-platform check-device check-vitis check-xrt $(BINARY_CONTAINERS) 
 
 .PHONY: build
 build: check-vitis check-device $(BINARY_CONTAINERS)

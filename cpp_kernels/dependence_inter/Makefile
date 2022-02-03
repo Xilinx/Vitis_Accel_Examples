@@ -122,7 +122,7 @@ BINARY_CONTAINER_vconv_OBJS += $(TEMP_DIR)/vconv.xo
 CP = cp -rf
 
 .PHONY: all clean cleanall docs emconfig
-all: check-platform check-device $(EXECUTABLE) $(BINARY_CONTAINERS) emconfig sd_card
+all: check-platform check-device check-vitis $(EXECUTABLE) $(BINARY_CONTAINERS) emconfig sd_card
 
 .PHONY: host
 host: $(EXECUTABLE)

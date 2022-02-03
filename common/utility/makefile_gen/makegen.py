@@ -485,7 +485,7 @@ def mk_build_all(target, data):
     target.write("\n")
 
     target.write(".PHONY: all clean cleanall docs emconfig\n")
-    target.write("all: check-platform check-device $(EXECUTABLE) $(BINARY_CONTAINERS) emconfig")
+    target.write("all: check-platform check-device check-vitis $(EXECUTABLE) $(BINARY_CONTAINERS) emconfig")
     if not ("platform_type" in data and data["platform_type"] == "pcie"):
         target.write(" sd_card")
     target.write("\n\n")
@@ -816,7 +816,7 @@ def util_checks(target):
     target.write("#Checks for XILINX_VITIS\n")
     target.write("check-vitis:\n")
     target.write("ifndef XILINX_VITIS\n")
-    target.write("\t$(error XILINX_VITIS variable is not set, please set correctly and rerun)\n")
+    target.write("\t$(error XILINX_VITIS variable is not set, please set correctly using \"source <Vitis_install_path>/Vitis/<Version>/settings64.sh\" and rerun)\n")
     target.write("endif\n")
     target.write("\n")
 
@@ -825,12 +825,12 @@ def util_checks(target):
     if not ("platform_type" in data and data["platform_type"] == "pcie"):
         target.write("ifeq ($(HOST_ARCH), x86)\n")
     target.write("ifndef XILINX_XRT\n")
-    target.write("\t$(error XILINX_XRT variable is not set, please set correctly and rerun)\n")
+    target.write("\t$(error XILINX_XRT variable is not set, please set correctly using \"source /opt/xilinx/xrt/setup.sh\" and rerun)\n")
     target.write("endif\n")
     if not ("platform_type" in data and data["platform_type"] == "pcie"):
         target.write("else\n")
         target.write("ifndef XILINX_VITIS\n")
-        target.write("\t$(error XILINX_VITIS variable is not set, please set correctly and rerun)\n")
+        target.write("\t$(error XILINX_VITIS variable is not set, please set correctly using \"source <Vitis_install_path>/Vitis/<Version>/settings64.sh\" and rerun)\n")
         target.write("endif\n")
         target.write("endif\n")
     target.write("\n")
