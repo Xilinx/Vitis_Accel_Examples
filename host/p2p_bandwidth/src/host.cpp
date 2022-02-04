@@ -76,7 +76,7 @@ int p2p_host_to_ssd(int& nvmeFd,
                                       nullptr, nullptr,
                                       &err); // error code
 
-    std::cout << "Start P2P Write of various buffer sizes from device buffers to SSD\n" << std::endl;
+    std::cout << "Start P2P Read of various buffer sizes from device buffers to SSD\n" << std::endl;
     for (size_t bufsize = min_buffer; bufsize <= vector_size_bytes; bufsize *= 2) {
         std::string size_str = xcl::convert_size(bufsize);
 
@@ -86,9 +86,9 @@ int p2p_host_to_ssd(int& nvmeFd,
         }
         std::chrono::high_resolution_clock::time_point p2pStart = std::chrono::high_resolution_clock::now();
         for (int i = 0; i < iter; i++) {
-            ret = pwrite(nvmeFd, (void*)p2pPtr, bufsize, 0);
+            ret = pread(nvmeFd, (void*)p2pPtr, bufsize, 0);
             if (ret == -1) {
-                std::cout << "P2P: write() failed, err: " << ret << ", line: " << __LINE__ << std::endl;
+                std::cout << "P2P: read() failed, err: " << ret << ", line: " << __LINE__ << std::endl;
                 return EXIT_FAILURE;
             }
         }
@@ -120,15 +120,15 @@ void p2p_ssd_to_host(int& nvmeFd,
                                            &err));
 
     std::cout << "\nMap P2P device buffers to host access pointers\n" << std::endl;
-    void* p2pPtr1 = q.enqueueMapBuffer(buffer_input,      // buffer
-                                       CL_TRUE,           // blocking call
-                                       CL_MAP_READ,       // Indicates we will be writing
-                                       0,                 // buffer offset
-                                       vector_size_bytes, // size in bytes
+    void* p2pPtr1 = q.enqueueMapBuffer(buffer_input,               // buffer
+                                       CL_TRUE,                    // blocking call
+                                       CL_MAP_READ | CL_MAP_WRITE, // Indicates we will be writing
+                                       0,                          // buffer offset
+                                       vector_size_bytes,          // size in bytes
                                        nullptr, nullptr,
                                        &err); // error code
 
-    std::cout << "Start P2P Read of various buffer sizes from SSD to device buffers\n" << std::endl;
+    std::cout << "Start P2P Write of various buffer sizes from SSD to device buffers\n" << std::endl;
     for (size_t bufsize = min_buffer; bufsize <= vector_size_bytes; bufsize *= 2) {
         std::string size_str = xcl::convert_size(bufsize);
 
@@ -138,8 +138,8 @@ void p2p_ssd_to_host(int& nvmeFd,
         }
         std::chrono::high_resolution_clock::time_point p2pStart = std::chrono::high_resolution_clock::now();
         for (int i = 0; i < iter; i++) {
-            if (pread(nvmeFd, (void*)p2pPtr1, bufsize, 0) <= 0) {
-                std::cerr << "ERR: pread failed: "
+            if (pwrite(nvmeFd, (void*)p2pPtr1, bufsize, 0) <= 0) {
+                std::cerr << "ERR: pwrite failed: "
                           << " error: " << strerror(errno) << std::endl;
                 exit(EXIT_FAILURE);
             }
@@ -247,7 +247,7 @@ int main(int argc, char** argv) {
 
     // P2P transfer from host to SSD
     std::cout << "############################################################\n";
-    std::cout << "                  Writing data to SSD                       \n";
+    std::cout << "                  Reading data from SSD                       \n";
     std::cout << "############################################################\n";
     // Get access to the NVMe SSD.
     nvmeFd = open(filename.c_str(), O_RDWR | O_DIRECT);
@@ -263,7 +263,7 @@ int main(int argc, char** argv) {
 
     // P2P transfer from SSD to host
     std::cout << "############################################################\n";
-    std::cout << "                  Reading data from SSD                       \n";
+    std::cout << "                  Writing data to SSD                       \n";
     std::cout << "############################################################\n";
 
     nvmeFd = open(filename.c_str(), O_RDWR | O_DIRECT);
