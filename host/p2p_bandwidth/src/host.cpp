@@ -76,7 +76,7 @@ int p2p_host_to_ssd(int& nvmeFd,
                                       nullptr, nullptr,
                                       &err); // error code
 
-    std::cout << "Start P2P Read of various buffer sizes from device buffers to SSD\n" << std::endl;
+    std::cout << "Start P2P Write of various buffer sizes from SSD to device buffers\n" << std::endl;
     for (size_t bufsize = min_buffer; bufsize <= vector_size_bytes; bufsize *= 2) {
         std::string size_str = xcl::convert_size(bufsize);
 
@@ -128,7 +128,7 @@ void p2p_ssd_to_host(int& nvmeFd,
                                        nullptr, nullptr,
                                        &err); // error code
 
-    std::cout << "Start P2P Write of various buffer sizes from SSD to device buffers\n" << std::endl;
+    std::cout << "Start P2P Read of various buffer sizes from device buffers to SSD\n" << std::endl;
     for (size_t bufsize = min_buffer; bufsize <= vector_size_bytes; bufsize *= 2) {
         std::string size_str = xcl::convert_size(bufsize);
 
