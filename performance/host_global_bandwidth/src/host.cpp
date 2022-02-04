@@ -172,7 +172,10 @@ int main(int argc, char** argv) {
         exit(EXIT_FAILURE);
     }
 
-    const int dim1 = sizeof(buff_tab) / (2 * 4);
+    int dim1 = sizeof(buff_tab) / (2 * 4);
+    if (xcl::is_emulation()) {
+        dim1 = 2; // Reducing combinations to run faster in emulation flow
+    }
 
     std::ofstream handle("metric1.csv");
     handle << "Direction, Buffer Size (bytes), Count, Bandwidth (MB/s)\n";
