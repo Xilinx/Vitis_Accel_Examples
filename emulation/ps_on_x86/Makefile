@@ -130,7 +130,6 @@ endif
 ############################## Setting up Kernel Variables ##############################
 # Kernel compiler global settings
 VPP_FLAGS += -t $(TARGET) --platform $(PLATFORM) --save-temps 
-VPP_FLAGS += --config versal.cfg
 
 EXECUTABLE = ./ps_on_x86
 EMCONFIG_DIR = $(TEMP_DIR)

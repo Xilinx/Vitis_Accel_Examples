@@ -187,10 +187,6 @@ def add_kernel_flags(target, data):
         target.write("VPP_FLAGS += \n")
     target.write("VPP_FLAGS += ")
     target.write("-t $(TARGET) --platform $(PLATFORM) --save-temps \n")  
-    ######### The following lines need to removed once versal latest changes are default without param control
-    if not ("platform_type" in data and data["platform_type"] == "pcie"):
-        target.write("VPP_FLAGS += --config versal.cfg\n")
-    ####################################
     if "containers" in data:
         for con in data["containers"]:
             for acc in con["accelerators"]:
@@ -444,12 +440,6 @@ def profile_report(target):
         else:
             target.write("opencl_summary=true\n")
             target.write("opencl_device_counter=true\n")
-    return
-
-def create_versal_cfg(target):
-    target.write("[advanced]\n")
-    target.write("param=compiler.enableXSAGenerationWithLightXCLBIN=true\n")
-    target.write("param=compiler.enableVersalPackageXclbinFlow=true\n")
     return
 
 def mk_clean(target, data):
@@ -1023,14 +1013,6 @@ else:
     print("Generating utils.mk file for %s" %data["name"])
     target = open("utils.mk", "w+")    
     create_utils(target, data)
-############## The following lines need to removed once versal latest changes are default without param control
-if "match_makefile" in data and data["match_makefile"] == "false":
-    print("Info:: Skipping versal.cfg file creation")
-else:
-    if not ("platform_type" in data and data["platform_type"] == "pcie"):
-        target = open("versal.cfg", "w+")
-        create_versal_cfg(target)
-########################################################################################
 
 if target:
     target.close

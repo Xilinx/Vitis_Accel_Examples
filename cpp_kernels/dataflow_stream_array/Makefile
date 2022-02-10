@@ -106,7 +106,6 @@ endif
 ############################## Setting up Kernel Variables ##############################
 # Kernel compiler global settings
 VPP_FLAGS += -t $(TARGET) --platform $(PLATFORM) --save-temps 
-VPP_FLAGS += --config versal.cfg
 VPP_FLAGS_N_stage_Adders +=  --config ./N_stage_Adders_N_stage_Adders.cfg
 
 

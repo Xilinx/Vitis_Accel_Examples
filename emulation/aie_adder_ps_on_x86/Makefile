@@ -87,7 +87,6 @@ PLATFORM_ALLOWLIST += vck190
 
 # Command-line options
 VPP := v++
-VPP_PFLAGS := --config versal.cfg
 AIECC := aiecompiler
 AIESIM := aiesimulator
 
@@ -100,8 +99,8 @@ else
 	AIE_FLAGS += --target=hw
 endif
 
-VPP_XO_FLAGS := -c -t $(TARGET) --platform $(PLATFORM) --save-temps -g --config versal.cfg 
-VPP_LINK_FLAGS := -l --platform $(PLATFORM) $(KERNEL_XO) $(GRAPH_O) --config versal.cfg -t $(TARGET) --save-temps -g --config $(CONFIG_FILE) -o $(XCLBIN)
+VPP_XO_FLAGS := -c -t $(TARGET) --platform $(PLATFORM) --save-temps -g 
+VPP_LINK_FLAGS := -l --platform $(PLATFORM) $(KERNEL_XO) $(GRAPH_O) -t $(TARGET) --save-temps -g --config $(CONFIG_FILE) -o $(XCLBIN)
 
 GCC_LIB := -lxrt_coreutil
 GCC_FLAGS := -Wall -c -std=c++14 -Wno-int-to-pointer-cast

@@ -107,7 +107,6 @@ endif
 # Kernel compiler global settings
 VPP_FLAGS += 
 VPP_FLAGS += -t $(TARGET) --platform $(PLATFORM) --save-temps 
-VPP_FLAGS += --config versal.cfg
 VPP_FLAGS_dot_product_4 +=  --config krnl_dot_product_4.cfg
 
 
