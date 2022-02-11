@@ -80,7 +80,7 @@ CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++1y
 LDFLAGS += $(opencl_LDFLAGS)
 
 ########################## Checking if PLATFORM in whitelist #######################
-PLATFORM_BLOCKLIST += zc vck aws-vu9p-f1_shell 2019 2018 _u2_ _u25_ u30 u50lv u50_gen3x4
+PLATFORM_BLOCKLIST += zc vck190 vck5000-es1 vck5000_gen3x16 aws-vu9p-f1_shell 2019 2018 _u2_ _u25_ u30 u50lv u50_gen3x4
 
 ############################## Setting up Host Variables ##############################
 #Include Required Host Source Files

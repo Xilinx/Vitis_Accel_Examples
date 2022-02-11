@@ -1,0 +1,23 @@
+{
+    "meminfo": [
+    {
+        "type": "DDR",
+        "banks": [
+            {
+                "name": "MC_NOC0"
+            }
+        ]
+    },
+    {
+        "type": "HOST",
+        "banks": [
+            {
+                "name": "HOST[0]"
+            }
+        ]
+    }
+    ],
+    "total_ddr_banks": "1",
+    "total_host_banks": "1",
+    "version": "1.1"
+}
