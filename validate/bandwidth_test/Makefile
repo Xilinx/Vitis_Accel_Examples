@@ -62,6 +62,11 @@ endif
 TEMP_DIR := ./_x.$(TARGET).$(XSA)
 BUILD_DIR := ./build_dir.$(TARGET).$(XSA)
 
+LINK_OUTPUT := $(BUILD_DIR)/bandwidth.link.xclbin
+ifeq ($(DEV_ARCH), versal)
+LINK_OUTPUT := $(BUILD_DIR)/bandwidth.xsa
+endif
+
 # SoC variables
 RUN_APP_SCRIPT = ./run_app.sh
 PACKAGE_OUT = ./package.$(TARGET)
@@ -123,8 +128,8 @@ $(TEMP_DIR)/bandwidth.xo: src/bandwidth.cpp
 	$(VPP) $(VPP_FLAGS) -c -k bandwidth --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
 $(BUILD_DIR)/bandwidth.xclbin: $(BINARY_CONTAINER_bandwidth_OBJS)
 	mkdir -p $(BUILD_DIR)
-	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR)  -o'$(BUILD_DIR)/bandwidth.link.xclbin' $(+)
-	$(VPP) -p $(BUILD_DIR)/bandwidth.link.xclbin $(VPP_FLAGS) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/bandwidth.xclbin
+	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR)  -o'$(LINK_OUTPUT)' $(+)
+	$(VPP) -p $(LINK_OUTPUT) $(VPP_FLAGS) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/bandwidth.xclbin
 	mkdir -p $(GEN_DIR) && $(CP) $(BUILD_DIR)/bandwidth.xclbin $(GEN_DIR)
 	$(CP) $(PLATFORM_JSON) $(GEN_DIR)
 	
