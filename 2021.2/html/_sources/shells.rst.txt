@@ -21,4 +21,4 @@ Supported Shells
 | Xilinx Versal VCK190                | Vitis 2021.2            |
 +-------------------------------------+-------------------------+
 
-For Embedded Platforms, please download and use the pre-built image from https://www.xilinx.com/support/download/index.html/content/xilinx/en/downloadNav/embedded-platforms.html
+For Embedded Platforms, please download and use the pre-built image from `here <https://www.xilinx.com/support/download/index.html/content/xilinx/en/downloadNav/embedded-platforms.html>`__.

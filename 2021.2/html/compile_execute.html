@@ -447,12 +447,12 @@
 It is recommended that all applications are executed in at least the sw_emu mode before being compiled and executed on an FPGA board.</p>
 <p>For DC platforms:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="o">&lt;</span><span class="n">PATH</span> <span class="n">TO</span> <span class="n">SAMPLE</span> <span class="n">APPLICATION</span><span class="o">&gt;</span>
-<span class="n">make</span> <span class="nb">all</span> <span class="n">TARGET</span><span class="o">=&lt;</span><span class="n">sw_emu</span><span class="o">|</span><span class="n">hw_emu</span><span class="o">&gt;</span> <span class="n">DEVICE</span><span class="o">=&lt;</span><span class="n">FPGA</span> <span class="n">Platform</span><span class="o">&gt;</span>
+<span class="n">make</span> <span class="nb">all</span> <span class="n">TARGET</span><span class="o">=&lt;</span><span class="n">sw_emu</span><span class="o">|</span><span class="n">hw_emu</span><span class="o">&gt;</span> <span class="n">PLATFORM</span><span class="o">=&lt;</span><span class="n">FPGA</span> <span class="n">Platform</span><span class="o">&gt;</span>
 </pre></div>
 </div>
 <p>For SoC platforms:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="o">&lt;</span><span class="n">PATH</span> <span class="n">TO</span> <span class="n">SAMPLE</span> <span class="n">APPLICATION</span><span class="o">&gt;</span>
-<span class="n">make</span> <span class="nb">all</span> <span class="n">TARGET</span><span class="o">=&lt;</span><span class="n">sw_emu</span><span class="o">|</span><span class="n">hw_emu</span><span class="o">&gt;</span> <span class="n">DEVICE</span><span class="o">=&lt;</span><span class="n">FPGA</span> <span class="n">platform</span><span class="o">&gt;</span> <span class="n">HOST_ARCH</span><span class="o">=&lt;</span><span class="n">aarch32</span><span class="o">/</span><span class="n">aarch64</span><span class="o">/</span><span class="n">x86</span><span class="o">&gt;</span> <span class="n">SYSROOT</span><span class="o">=&lt;</span><span class="n">sysroot_path</span><span class="o">&gt;</span>
+<span class="n">make</span> <span class="nb">all</span> <span class="n">TARGET</span><span class="o">=&lt;</span><span class="n">sw_emu</span><span class="o">|</span><span class="n">hw_emu</span><span class="o">&gt;</span> <span class="n">PLATFORM</span><span class="o">=&lt;</span><span class="n">FPGA</span> <span class="n">platform</span><span class="o">&gt;</span> <span class="n">HOST_ARCH</span><span class="o">=&lt;</span><span class="n">aarch32</span><span class="o">/</span><span class="n">aarch64</span><span class="o">&gt;</span> <span class="n">EDGE_COMMON_SW</span><span class="o">=&lt;</span><span class="n">rootfs</span> <span class="ow">and</span> <span class="n">kernel</span> <span class="n">image</span> <span class="n">path</span><span class="o">&gt;</span>
 </pre></div>
 </div>
 <p>where,</p>
@@ -460,7 +460,7 @@ It is recommended that all applications are executed in at least the sw_emu mode
 <div><p><em>sw_emu = software emulation</em>,
 <em>hw_emu = hardware emulation</em></p>
 </div></blockquote>
-<p>By default, HOST_ARCH=x86. HOST_ARCH and SYSROOT are required for SoC shells</p>
+<p>By default, HOST_ARCH=x86. HOST_ARCH and EDGE_COMMON_SW are required for SoC shells. Please download and use the pre-built image from <a class="reference external" href="https://www.xilinx.com/support/download/index.html/content/xilinx/en/downloadNav/embedded-platforms.html">here</a>.</p>
 <p><strong>NOTE:</strong> The software emulation flow is a functional correctness check only. It does not estimate the performance of the application in hardware.</p>
 <p>The hardware emulation flow is a cycle accurate simulation of the hardware generated for the application. Also, it is expected for this simulation to take a long time.</p>
 </div>
@@ -470,12 +470,12 @@ It is recommended that all applications are executed in at least the sw_emu mode
 <p>The makefile for the application can directly execute the application with the following command:</p>
 <p>For DC platforms:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="o">&lt;</span><span class="n">PATH</span> <span class="n">TO</span> <span class="n">SAMPLE</span> <span class="n">APPLICATION</span><span class="o">&gt;</span>
-<span class="n">make</span> <span class="n">check</span> <span class="n">TARGET</span><span class="o">=&lt;</span><span class="n">sw_emu</span><span class="o">|</span><span class="n">hw_emu</span><span class="o">&gt;</span> <span class="n">DEVICE</span><span class="o">=&lt;</span><span class="n">FPGA</span> <span class="n">Platform</span><span class="o">&gt;</span>
+<span class="n">make</span> <span class="n">run</span> <span class="n">TARGET</span><span class="o">=&lt;</span><span class="n">sw_emu</span><span class="o">|</span><span class="n">hw_emu</span><span class="o">&gt;</span> <span class="n">PLATFORM</span><span class="o">=&lt;</span><span class="n">FPGA</span> <span class="n">Platform</span><span class="o">&gt;</span>
 </pre></div>
 </div>
 <p>For SoC platforms:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="o">&lt;</span><span class="n">PATH</span> <span class="n">TO</span> <span class="n">SAMPLE</span> <span class="n">APPLICATION</span><span class="o">&gt;</span>
-<span class="n">make</span> <span class="n">check</span> <span class="n">TARGET</span><span class="o">=&lt;</span><span class="n">sw_emu</span><span class="o">|</span><span class="n">hw_emu</span><span class="o">&gt;</span> <span class="n">DEVICE</span><span class="o">=&lt;</span><span class="n">FPGA</span> <span class="n">platform</span><span class="o">&gt;</span> <span class="n">HOST_ARCH</span><span class="o">=&lt;</span><span class="n">aarch32</span><span class="o">/</span><span class="n">aarch64</span><span class="o">/</span><span class="n">x86</span><span class="o">&gt;</span> <span class="n">SYSROOT</span><span class="o">=&lt;</span><span class="n">sysroot_path</span><span class="o">&gt;</span>
+<span class="n">make</span> <span class="n">run</span> <span class="n">TARGET</span><span class="o">=&lt;</span><span class="n">sw_emu</span><span class="o">|</span><span class="n">hw_emu</span><span class="o">&gt;</span> <span class="n">PLATFORM</span><span class="o">=&lt;</span><span class="n">FPGA</span> <span class="n">platform</span><span class="o">&gt;</span> <span class="n">HOST_ARCH</span><span class="o">=&lt;</span><span class="n">aarch32</span><span class="o">/</span><span class="n">aarch64</span><span class="o">&gt;</span> <span class="n">EDGE_COMMON_SW</span><span class="o">=&lt;</span><span class="n">rootfs</span> <span class="ow">and</span> <span class="n">kernel</span> <span class="n">image</span> <span class="n">path</span><span class="o">&gt;</span>
 </pre></div>
 </div>
 <p>where,</p>
@@ -483,7 +483,7 @@ It is recommended that all applications are executed in at least the sw_emu mode
 <div><p><em>sw_emu = software emulation</em>,
 <em>hw_emu = hardware emulation</em></p>
 </div></blockquote>
-<p>By default, HOST_ARCH=x86. HOST_ARCH and SYSROOT are required for SoC shells</p>
+<p>By default, HOST_ARCH=x86. HOST_ARCH and EDGE_COMMON_SW are required for SoC shells. Please download and use the pre-built image from <a class="reference external" href="https://www.xilinx.com/support/download/index.html/content/xilinx/en/downloadNav/embedded-platforms.html">here</a>.</p>
 <p>If the application has not been previously compiled, the check makefile rule will compile and execute the application in the emulation mode selected by the user.</p>
 </div>
 <div class="section" id="compiling-for-fpga-accelerator-card">
@@ -492,15 +492,15 @@ It is recommended that all applications are executed in at least the sw_emu mode
 board is:</p>
 <p>For DC platforms:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="o">&lt;</span><span class="n">PATH</span> <span class="n">TO</span> <span class="n">SAMPLE</span> <span class="n">APPLICATION</span><span class="o">&gt;</span>
-<span class="n">make</span> <span class="nb">all</span> <span class="n">DEVICE</span><span class="o">=&lt;</span><span class="n">FPGA</span> <span class="n">Platform</span><span class="o">&gt;</span> <span class="n">TARGET</span><span class="o">=&lt;</span><span class="n">hw</span><span class="o">&gt;</span>
+<span class="n">make</span> <span class="nb">all</span> <span class="n">PLATFORM</span><span class="o">=&lt;</span><span class="n">FPGA</span> <span class="n">Platform</span><span class="o">&gt;</span> <span class="n">TARGET</span><span class="o">=&lt;</span><span class="n">hw</span><span class="o">&gt;</span>
 </pre></div>
 </div>
 <p>For SoC platforms:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="o">&lt;</span><span class="n">PATH</span> <span class="n">TO</span> <span class="n">SAMPLE</span> <span class="n">APPLICATION</span><span class="o">&gt;</span>
-<span class="n">make</span> <span class="nb">all</span> <span class="n">DEVICE</span><span class="o">=&lt;</span><span class="n">FPGA</span> <span class="n">Platform</span><span class="o">&gt;</span> <span class="n">TARGET</span><span class="o">=&lt;</span><span class="n">hw</span><span class="o">&gt;</span>  <span class="n">HOST_ARCH</span><span class="o">=&lt;</span><span class="n">aarch32</span><span class="o">/</span><span class="n">aarch64</span><span class="o">/</span><span class="n">x86</span><span class="o">&gt;</span> <span class="n">SYSROOT</span><span class="o">=&lt;</span><span class="n">sysroot_path</span><span class="o">&gt;</span>
+<span class="n">make</span> <span class="nb">all</span> <span class="n">PLATFORM</span><span class="o">=&lt;</span><span class="n">FPGA</span> <span class="n">Platform</span><span class="o">&gt;</span> <span class="n">TARGET</span><span class="o">=&lt;</span><span class="n">hw</span><span class="o">&gt;</span>  <span class="n">HOST_ARCH</span><span class="o">=&lt;</span><span class="n">aarch32</span><span class="o">/</span><span class="n">aarch64</span><span class="o">&gt;</span> <span class="n">EDGE_COMMON_SW</span><span class="o">=&lt;</span><span class="n">rootfs</span> <span class="ow">and</span> <span class="n">kernel</span> <span class="n">image</span> <span class="n">path</span><span class="o">&gt;</span>
 </pre></div>
 </div>
-<p>By default, HOST_ARCH=x86. HOST_ARCH and SYSROOT are required for SoC shells</p>
+<p>By default, HOST_ARCH=x86. HOST_ARCH and EDGE_COMMON_SW are required for SoC shells. Please download and use the pre-built image from <a class="reference external" href="https://www.xilinx.com/support/download/index.html/content/xilinx/en/downloadNav/embedded-platforms.html">here</a>.</p>
 <p><strong>NOTE:</strong> Compilation for hardware generates custom logic to implement the functionality of the kernels in an application. It is typical for hardware compile times to range from 30 minutes to a couple of hours.</p>
 </div>
 </div>
