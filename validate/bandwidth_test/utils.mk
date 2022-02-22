@@ -24,7 +24,7 @@ endif
 
 #Platform Architecture
 ifneq ($(PLATFORM),)
-DEV_ARCH := $(shell platforminfo --json="hardwarePlatform.devices[0].part.architecture" -p $(PLATFORM))
+DEV_ARCH := $(shell platforminfo -p $(PLATFORM) | grep 'FPGA Family' | sed 's/.*://' | sed '/ai_engine/d' | sed 's/^[[:space:]]*//')
 endif
 
 #Checks for XILINX_VITIS
