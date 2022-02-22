@@ -742,14 +742,8 @@ def mk_help(target):
     target.write("\"\n")
     target.write("\t$(ECHO) \"      Command to build host application.\"\n")
     if not ("platform_type" in data and data["platform_type"] == "pcie"):
-    	target.write("\t$(ECHO) \"  By default, HOST_ARCH=x86. HOST_ARCH and EDGE_COMMON_SW is required for SoC shells\"\n")
+    	target.write("\t$(ECHO) \"  By default, HOST_ARCH=x86. HOST_ARCH and EDGE_COMMON_SW are required for SoC shells. Please download and use the pre-built image from https://www.xilinx.com/support/download/index.html/content/xilinx/en/downloadNav/embedded-platforms.html\"\n")
     target.write("\t$(ECHO) \"\"\n")
-    #target.write("\t$(ECHO) \"  make run_nimbix PLATFORM=<FPGA platform>\"\n");
-    #target.write("\t$(ECHO) \"      Command to run application on Nimbix Cloud.\"\n")
-    #target.write("\t$(ECHO) \"\"\n")
-    #target.write("\t$(ECHO) \"  make aws_build PLATFORM=<FPGA platform>\"\n");
-    #target.write("\t$(ECHO) \"      Command to build AWS xclbin application on AWS Cloud.\"\n")
-    #target.write("\t$(ECHO) \"\"\n")
     target.write("\n")
 
 def report_gen(target, data):

@@ -12,7 +12,7 @@
         "type": "HOST",
         "banks": [
             {
-                "name": "HOST"
+                "name": "HOST[0]"
             }
         ]
     }

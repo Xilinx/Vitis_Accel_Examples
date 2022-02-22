@@ -45,8 +45,8 @@ def create_cfg_vck_gen4x8(data):
         target.write("sp=" + filename + "_1.input:MC_NOC0\n")
         target.write("sp=" + filename + "_1.output:MC_NOC0\n")
     else:        
-        target.write("sp=" + filename + "_1.input:HOST\n")
-        target.write("sp=" + filename + "_1.output:HOST\n")
+        target.write("sp=" + filename + "_1.input:HOST[0]\n")
+        target.write("sp=" + filename + "_1.output:HOST[0]\n")
     target.write("nk=" + filename + ":1\n")
     return
 

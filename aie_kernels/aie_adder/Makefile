@@ -22,7 +22,6 @@ help::
 	$(ECHO) "Makefile Usage:"
 	$(ECHO) "  make all TARGET=<sw_emu/hw_emu/hw> PLATFORM=<FPGA platform> HOST_ARCH=<aarch32/aarch64/x86> EDGE_COMMON_SW=<rootfs and kernel image path>"
 	$(ECHO) "      Command to generate the design for specified Target and Shell."
-	$(ECHO) "      By default, HOST_ARCH=x86. HOST_ARCH and EDGE_COMMON_SW is required for SoC shells"
 	$(ECHO) ""
 	$(ECHO) "  make clean "
 	$(ECHO) "      Command to remove the generated non-hardware files."
@@ -32,19 +31,16 @@ help::
 	$(ECHO) ""
 	$(ECHO) "  make sd_card TARGET=<sw_emu/hw_emu/hw> PLATFORM=<FPGA platform> HOST_ARCH=<aarch32/aarch64/x86> EDGE_COMMON_SW=<rootfs and kernel image path>"
 	$(ECHO) "      Command to prepare sd_card files."
-	$(ECHO) "      By default, HOST_ARCH=x86. HOST_ARCH and EDGE_COMMON_SW is required for SoC shells"
 	$(ECHO) ""
 	$(ECHO) "  make run TARGET=<sw_emu/hw_emu/hw> PLATFORM=<FPGA platform> HOST_ARCH=<aarch32/aarch64/x86> EDGE_COMMON_SW=<rootfs and kernel image path>"
 	$(ECHO) "      Command to run application in emulation."
-	$(ECHO) "      By default, HOST_ARCH=x86. HOST_ARCH and EDGE_COMMON_SW is required for SoC shells"
 	$(ECHO) ""
 	$(ECHO) "  make build TARGET=<sw_emu/hw_emu/hw> PLATFORM=<FPGA platform> HOST_ARCH=<aarch32/aarch64/x86> EDGE_COMMON_SW=<rootfs and kernel image path>"
 	$(ECHO) "      Command to build xclbin application."
-	$(ECHO) "      By default, HOST_ARCH=x86. HOST_ARCH and EDGE_COMMON_SW is required for SoC shells"
 	$(ECHO) ""
 	$(ECHO) "  make host HOST_ARCH=<aarch32/aarch64/x86> EDGE_COMMON_SW=<rootfs and kernel image path>"
 	$(ECHO) "      Command to build host application."
-	$(ECHO) "      By default, HOST_ARCH=x86. HOST_ARCH and EDGE_COMMON_SW is required for SoC shells"
+	$(ECHO) "      By default, HOST_ARCH=x86. HOST_ARCH and EDGE_COMMON_SW are required for SoC shells. Please download and use the pre-built image from https://www.xilinx.com/support/download/index.html/content/xilinx/en/downloadNav/embedded-platforms.html"
 	$(ECHO) ""
 
 
@@ -61,13 +57,13 @@ HOST_ARCH := x86
 XCLBIN := adder.xsa
 
 # File names and locations
-GRAPH := src/aie_graph.cpp
+GRAPH := aie/aie_graph.cpp
 GRAPH_O := libadf.a
 
 KERNEL := pl_s2mm.cpp pl_mm2s.cpp 
 KERNEL_XO := pl_s2mm.xo pl_mm2s.xo 
 
-HOST_SRCS := ./src/host.cpp
+HOST_SRCS := ./sw/host.cpp
 EXECUTABLE = ./aie_adder
 
 # SoC variables
@@ -89,7 +85,7 @@ VPP := v++
 AIECC := aiecompiler
 AIESIM := aiesimulator
 
-AIE_INCLUDE_FLAGS := -include="$(XILINX_VITIS)/aietools/include" -include="./src" -include="./data" -include="./"
+AIE_INCLUDE_FLAGS := -include="$(XILINX_VITIS)/aietools/include" -include="./aie" -include="./data" -include="./"
 AIE_FLAGS := $(AIE_INCLUDE_FLAGS) --pl-freq=100 -workdir=./Work
 
 ifeq ($(TARGET),sw_emu)
@@ -132,9 +128,9 @@ all: check-device kernels graph build host sd_card
 kernels: check-device $(KERNEL_XO)
 	@echo "COMPLETE: Kernels Created."	
 
-pl_s2mm.xo: src/pl_s2mm.cpp
+pl_s2mm.xo: pl_kernels/pl_s2mm.cpp
 	$(VPP) $(VPP_XO_FLAGS) -k $(basename $(notdir $<)) $< -o $@
-pl_mm2s.xo: src/pl_mm2s.cpp
+pl_mm2s.xo: pl_kernels/pl_mm2s.cpp
 	$(VPP) $(VPP_XO_FLAGS) -k $(basename $(notdir $<)) $< -o $@
 
 graph: check-device $(GRAPH_O)
