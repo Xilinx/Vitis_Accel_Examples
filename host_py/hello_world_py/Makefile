@@ -20,7 +20,7 @@
 
 help::
 	$(ECHO) "Makefile Usage:"
-	$(ECHO) "  make all PLATFORM=<FPGA platform>"
+	$(ECHO) "  make all TARGET=<sw_emu/hw_emu/hw> PLATFORM=<FPGA platform>"
 	$(ECHO) "      Command to generate the design for specified Target and Shell."
 	$(ECHO) ""
 	$(ECHO) "  make clean "
@@ -32,10 +32,10 @@ help::
 	$(ECHO) "  make test PLATFORM=<FPGA platform>"
 	$(ECHO) "      Command to run the application. This is same as 'run' target but does not have any makefile dependency."
 	$(ECHO) ""
-	$(ECHO) "  make run PLATFORM=<FPGA platform>"
+	$(ECHO) "  make run TARGET=<sw_emu/hw_emu/hw> PLATFORM=<FPGA platform>"
 	$(ECHO) "      Command to run application in emulation."
 	$(ECHO) ""
-	$(ECHO) "  make build PLATFORM=<FPGA platform>"
+	$(ECHO) "  make build TARGET=<sw_emu/hw_emu/hw> PLATFORM=<FPGA platform>"
 	$(ECHO) "      Command to build xclbin application."
 	$(ECHO) ""
 
@@ -77,6 +77,9 @@ HOST_SRCS += ./src/host.py
 ############################## Setting up Kernel Variables ##############################
 # Kernel compiler global settings
 VPP_FLAGS += -t $(TARGET) --platform $(PLATFORM) --save-temps 
+ifneq ($(TARGET), hw)
+	VPP_FLAGS += -g
+endif
 
 EMCONFIG_DIR = $(TEMP_DIR)
 
@@ -87,8 +90,8 @@ BINARY_CONTAINER_vadd_OBJS += $(TEMP_DIR)/vadd.xo
 ############################## Setting Targets ##############################
 CP = cp -rf
 
-.PHONY: all clean cleanall docs 
-all: check-platform check-device check-vitis check-xrt $(BINARY_CONTAINERS) 
+.PHONY: all clean cleanall docs emconfig
+all: check-platform check-device check-xrt $(BINARY_CONTAINERS) emconfig
 
 .PHONY: build
 build: check-vitis check-device $(BINARY_CONTAINERS)
@@ -105,16 +108,29 @@ $(BUILD_DIR)/vadd.xclbin: $(BINARY_CONTAINER_vadd_OBJS)
 	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) -o'$(BUILD_DIR)/vadd.link.xclbin' $(+)
 	$(VPP) -p $(BUILD_DIR)/vadd.link.xclbin $(VPP_FLAGS) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/vadd.xclbin
 
+emconfig:$(EMCONFIG_DIR)/emconfig.json
+$(EMCONFIG_DIR)/emconfig.json:
+	emconfigutil --platform $(PLATFORM) --od $(EMCONFIG_DIR)
+
 ############################## Setting Essential Checks and Running Rules ##############################
 run: all
+ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
+	$(CP) $(EMCONFIG_DIR)/emconfig.json .
+	XCL_EMULATION_MODE=$(TARGET) python3 $(HOST_SRCS) $(CMD_ARGS)
+else
 	python3 $(HOST_SRCS) $(CMD_ARGS)
+endif
 ifneq ($(TARGET),$(findstring $(TARGET), hw))
 $(error Application supports only hw TARGET. Please use the target for running the application)
 endif
 
 .PHONY: test
 test: 
+ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
+	XCL_EMULATION_MODE=$(TARGET) python3 $(HOST_SRCS) $(CMD_ARGS)
+else
 	python3 $(HOST_SRCS) $(CMD_ARGS)
+endif
 ifneq ($(TARGET),$(findstring $(TARGET), hw))
 $(error Application supports only hw TARGET. Please use the target for running the application)
 endif
@@ -125,9 +141,10 @@ endif
 clean:
 	-$(RMDIR) $(XCLBIN)/{*sw_emu*,*hw_emu*} 
 	-$(RMDIR) profile_* TempConfig system_estimate.xtxt *.rpt *.csv 
-	-$(RMDIR) src/*.ll *v++* .Xil dltmp* xmltmp* *.log *.jou *.wcfg *.wdb
+	-$(RMDIR) src/*.ll *v++* .Xil emconfig.json dltmp* xmltmp* *.log *.jou *.wcfg *.wdb
 
 cleanall: clean
 	-$(RMDIR) build_dir*
 	-$(RMDIR) package.*
 	-$(RMDIR) _x* *xclbin.run_summary qemu-memory-_* emulation _vimage pl* start_simulation.sh *.xclbin
+
