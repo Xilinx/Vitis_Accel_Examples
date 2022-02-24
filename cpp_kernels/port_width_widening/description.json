@@ -11,8 +11,7 @@
         "Interface port width auto widening"
     ],
     "platform_blacklist": [
-        "nodma",
-        "zcu102"
+        "nodma"
      ],
     "contributors": [
         {

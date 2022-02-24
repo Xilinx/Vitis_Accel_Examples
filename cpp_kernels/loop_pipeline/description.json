@@ -12,8 +12,7 @@
         "Loop Pipelining"
     ],
     "platform_blacklist": [
-        "nodma",
-        "zcu102"
+        "nodma"
      ],    
     "os": [
         "Linux"

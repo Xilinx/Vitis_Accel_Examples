@@ -10,7 +10,6 @@ This example shows how HLS introduces the capability of resizing the port width 
 **EXCLUDED PLATFORMS:** 
 
  - All NoDMA Platforms, i.e u50 nodma etc
- - Embedded ZCU102
 
 DESIGN FILES
 ------------
