@@ -79,6 +79,8 @@ VPP_PFLAGS :=
 CMD_ARGS = $(BUILD_DIR)/vadd.xclbin
 
 include $(XF_PROJ_ROOT)/common/includes/opencl/opencl.mk
+include config.mk
+
 CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++1y
 LDFLAGS += $(opencl_LDFLAGS)
 
@@ -149,9 +151,6 @@ ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 else
 	$(EXECUTABLE) $(CMD_ARGS)
 endif
-ifneq ($(TARGET),$(findstring $(TARGET), sw_emu hw))
-$(error Application supports only sw_emu hw TARGET. Please use the target for running the application)
-endif
 
 
 .PHONY: test
@@ -161,10 +160,6 @@ ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 else
 	$(EXECUTABLE) $(CMD_ARGS)
 endif
-ifneq ($(TARGET),$(findstring $(TARGET), sw_emu hw))
-$(warning WARNING:Application supports only sw_emu hw TARGET. Please use the target for running the application)
-endif
-
 
 
 ############################## Cleaning Rules ##############################

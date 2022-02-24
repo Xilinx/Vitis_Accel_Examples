@@ -47,10 +47,7 @@
             "PROJECT/preSysLink.tcl"
         ]
     },
-    "targets": [
-        "sw_emu",
-        "hw"
-    ], 
+    "config_make": "config.mk",
     "containers": [
         {
             "accelerators": [
