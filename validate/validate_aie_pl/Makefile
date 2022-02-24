@@ -42,7 +42,9 @@ help::
 	$(ECHO) "  make host HOST_ARCH=<aarch64>"
 	$(ECHO) "      Command to build host application."
 	$(ECHO) ""
-	$(ECHO) "  NOTE: For embedded devices, e.g. zcu102/zcu104/vck190, env variable EDGE_COMMON_SW and PERL need to be set first, and HOST_ARCH is either aarch32 or aarch64.  Please download and use the pre-built image from https://www.xilinx.com/support/download/index.html/content/xilinx/en/downloadNav/embedded-platforms.html. For example,"
+	$(ECHO) "  NOTE: For embedded devices, e.g. zcu102/zcu104/vck190, env variable EDGE_COMMON_SW and PERL need to be set first, and HOST_ARCH is either aarch32 or aarch64.  "
+	$(ECHO) "  Please download and use the pre-built image from  - "
+	$(ECHO) "  https://www.xilinx.com/support/download/index.html/content/xilinx/en/downloadNav/embedded-platforms.html. For example,"
 	$(ECHO) "       export EDGE_COMMON_SW=< path-to-rootfs-and-Image-files >"
 	$(ECHO) ""
 
