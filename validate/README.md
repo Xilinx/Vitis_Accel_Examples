@@ -1,6 +1,6 @@
 Validate Examples
 ==================================
-This section contains Validate Examples.
+The main purpose of validate kernels is to test basic HW functionality during bring up of a new platform or hardware board. The bandwidth kernels allow you to measure maximum bandwidth achievable for a given connection.
 
  __Examples Table__ 
 
