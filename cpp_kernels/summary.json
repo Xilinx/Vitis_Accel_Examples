@@ -3,6 +3,6 @@
         "HLS C/C++ Kernel Examples"
     ],
     "description": [
-        "This section contains HLS C/C++ Kernel Examples."
+        "This section contains HLS C/C++ Kernel Examples. The main purpose of C++ kernels is to showcase the benefits and usage of HLS pragmas and optimization directives in Vitis flow."
     ]
 }
