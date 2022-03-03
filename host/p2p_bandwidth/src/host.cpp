@@ -63,9 +63,11 @@ int p2p_host_to_ssd(int& nvmeFd,
 
     // Copy input data to device global memory
     OCL_CHECK(err, err = q.enqueueMigrateMemObjects({input_a}, 0 /* 0 means from host*/));
+    q.finish();
 
     // Launch the Kernel
     OCL_CHECK(err, err = q.enqueueTask(krnl));
+    q.finish();
 
     std::cout << "\nMap P2P device buffers to host access pointers\n" << std::endl;
     void* p2pPtr = q.enqueueMapBuffer(p2pBo,                      // buffer
@@ -75,6 +77,7 @@ int p2p_host_to_ssd(int& nvmeFd,
                                       vector_size_bytes,          // size in bytes
                                       nullptr, nullptr,
                                       &err); // error code
+    q.finish();
 
     std::cout << "Start P2P Write of various buffer sizes from SSD to device buffers\n" << std::endl;
     for (size_t bufsize = min_buffer; bufsize <= vector_size_bytes; bufsize *= 2) {
@@ -127,6 +130,7 @@ void p2p_ssd_to_host(int& nvmeFd,
                                        vector_size_bytes,          // size in bytes
                                        nullptr, nullptr,
                                        &err); // error code
+    q.finish();
 
     std::cout << "Start P2P Read of various buffer sizes from device buffers to SSD\n" << std::endl;
     for (size_t bufsize = min_buffer; bufsize <= vector_size_bytes; bufsize *= 2) {
