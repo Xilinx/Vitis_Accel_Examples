@@ -20,7 +20,7 @@ endif
 
 platform_test:
 	platforminfo -j -d $(PLATFORM) > platform_info.json
-	$(XF_PROJ_ROOT)/common/utility/platform_gen.py platform_info.json bandwidth
+	$(XF_PROJ_ROOT)/common/utility/platform_gen.py platform_info.json bandwidth $(XF_PROJ_ROOT)
 
 VPP_LDFLAGS+= --config platform_bandwidth.cfg
 ifneq ($(USR_VPP_FLAGS), )      

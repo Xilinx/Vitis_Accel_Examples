@@ -18,7 +18,7 @@ def create_cfg_u2(data):
 
 def create_json_u2(data):
     target = open("platform.json","w+")
-    des_file = open(cur_dir+"/../../common/utility/platform_files/u2.json")
+    des_file = open(top_dir+"/common/utility/platform_files/u2.json")
     for line in des_file:
         target.write(line)
     return
@@ -33,7 +33,7 @@ def create_cfg_vck(data):
 
 def create_json_vck(data):
     target = open("platform.json","w+")
-    des_file = open(cur_dir+"/../../common/utility/platform_files/vck_gen3x16.json")
+    des_file = open(top_dir+"/common/utility/platform_files/vck_gen3x16.json")
     for line in des_file:
         target.write(line)
     return
@@ -52,7 +52,7 @@ def create_cfg_vck_gen4x8(data):
 
 def create_json_vck_gen4x8(data):
     target = open("platform.json","w+")
-    des_file = open(cur_dir+"/../../common/utility/platform_files/vck_gen4x8.json")
+    des_file = open(top_dir+"/common/utility/platform_files/vck_gen4x8.json")
     for line in des_file:
         target.write(line)
     return
@@ -244,7 +244,7 @@ def create_json(data):
 
 plat_json_file = sys.argv[1]
 filename = sys.argv[2]
-cur_dir = os.getcwd()
+top_dir = sys.argv[3]
 desc = open(plat_json_file,'r')
 data = json.load(desc)
 desc.close()

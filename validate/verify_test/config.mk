@@ -20,7 +20,7 @@ endif
 
 platform_test:
 	platforminfo -j -d $(PLATFORM) > platform_info.json
-	$(XF_PROJ_ROOT)/common/utility/platform_gen.py platform_info.json verify
+	$(XF_PROJ_ROOT)/common/utility/platform_gen.py platform_info.json verify $(XF_PROJ_ROOT)
 
 ifneq ($(USR_VPP_FLAGS), )      
 VPP_FLAGS += $(USR_VPP_FLAGS)
