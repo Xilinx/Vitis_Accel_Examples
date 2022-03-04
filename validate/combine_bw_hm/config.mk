@@ -4,8 +4,8 @@ USR_VPP_LDFLAGS:=
 
 platform_test:
 	platforminfo -j -d $(PLATFORM) > platform_info.json
-	$(XF_PROJ_ROOT)/common/utility/platform_gen.py platform_info.json bandwidth
-	$(XF_PROJ_ROOT)/common/utility/platform_gen.py platform_info.json hostmemory 
+	$(XF_PROJ_ROOT)/common/utility/platform_gen.py platform_info.json bandwidth $(XF_PROJ_ROOT)
+	$(XF_PROJ_ROOT)/common/utility/platform_gen.py platform_info.json hostmemory $(XF_PROJ_ROOT)
 
 ifeq ($(TARGET),$(filter $(TARGET),hw_emu))
 ifeq ($(findstring 202010, $(PLATFORM)), 202010)
