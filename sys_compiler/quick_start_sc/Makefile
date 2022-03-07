@@ -44,11 +44,4 @@ EXTRA_CFLAGS += -I./src/
 
 #EXTRA_VPPFLAGS = -g
 
-# potential additional libs needed for linking
-
-EXTRA_LIBS := -lssl -lcrypto
-
-# useful to debug/print variables: make .... print:TARGET print:XILINX_VITIS
-print\:% : ; @printf "print:%-20s | %10s | %s\n" $* $(flavor $*) "$($*)"
-
 include $(XILINX_VITIS)/system_compiler/examples/vpp_sc.mk
