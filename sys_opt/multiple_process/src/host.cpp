@@ -37,6 +37,9 @@ Limitation:
 #include <vector>
 bool run_kernel(std::string& binaryFile, int krnl_id) {
     cl_int err;
+    cl::Context context;
+    cl::CommandQueue q;
+    cl::Kernel krnl;
     const char* krnl_names[] = {"krnl_vadd", "krnl_vsub", "krnl_vmul"};
 
     int pid = getpid();
@@ -70,22 +73,32 @@ bool run_kernel(std::string& binaryFile, int krnl_id) {
 
     // OPENCL HOST CODE AREA START
     auto devices = xcl::get_xil_devices();
-    auto device = devices[0];
-
-    OCL_CHECK(err, cl::Context context(device, nullptr, nullptr, nullptr, &err));
-    OCL_CHECK(err, cl::CommandQueue q(context, device, CL_QUEUE_PROFILING_ENABLE, &err));
-    std::string device_name = device.getInfo<CL_DEVICE_NAME>();
-
     printf("\n[PID: %d] Read XCLBIN file\n", pid);
 
     auto fileBuf = xcl::read_binary_file(binaryFile);
     cl::Program::Binaries bins{{fileBuf.data(), fileBuf.size()}};
-
-    devices.resize(1);
-
-    printf("[PID: %d] Create a Program and a [ %s ] Kernel\n", pid, krnl_names[krnl_id]);
-    OCL_CHECK(err, cl::Program program(context, devices, bins, nullptr, &err));
-    OCL_CHECK(err, cl::Kernel krnl(program, krnl_names[krnl_id], &err));
+    bool valid_device = false;
+    for (unsigned int i = 0; i < devices.size(); i++) {
+        auto device = devices[i];
+        // Creating Context and Command Queue for selected Device
+        OCL_CHECK(err, context = cl::Context(device, nullptr, nullptr, nullptr, &err));
+        OCL_CHECK(err, q = cl::CommandQueue(context, device, CL_QUEUE_PROFILING_ENABLE, &err));
+        std::cout << "Trying to program device[" << i << "]: " << device.getInfo<CL_DEVICE_NAME>() << std::endl;
+        std::cout << "[PID: " << pid << "] Create a Program and a [ " << krnl_names[krnl_id] << " ] Kernel\n";
+        cl::Program program(context, {device}, bins, nullptr, &err);
+        if (err != CL_SUCCESS) {
+            std::cout << "Failed to program device[" << i << "] with xclbin file!\n";
+        } else {
+            std::cout << "Device[" << i << "]: program successful!\n";
+            OCL_CHECK(err, krnl = cl::Kernel(program, krnl_names[krnl_id], &err));
+            valid_device = true;
+            break; // we break because we found a valid device
+        }
+    }
+    if (!valid_device) {
+        std::cout << "Failed to program any device found, exit!\n";
+        exit(EXIT_FAILURE);
+    }
 
     OCL_CHECK(err, cl::Buffer buffer_a(context, CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY, vector_size_bytes,
                                        source_a.data(), &err));

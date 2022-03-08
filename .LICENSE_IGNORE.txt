@@ -1,5 +1,3 @@
 demo/kmeans/src/host.cpp
 demo/kmeans/src/kmeans.h
 demo/kmeans/src/kmeans_clustering_cmodel.c
-library_examples/gzip_app/src/xxhash.c
-library_examples/gzip_app/src/xxhash.h

@@ -46,6 +46,8 @@ int main(int argc, char** argv) {
     }
 
     cl_int err;
+    cl::Context context;
+    cl::CommandQueue q;
     std::vector<int, aligned_allocator<int> > h_a(LENGTH);    // host memory for a vector
     std::vector<int, aligned_allocator<int> > h_b(LENGTH);    // host memory for b vector
     std::vector<int, aligned_allocator<int> > h_temp(LENGTH); // host memory for temp vector
@@ -61,14 +63,6 @@ int main(int argc, char** argv) {
     }
 
     auto devices = xcl::get_xil_devices();
-    auto device = devices[0];
-
-    // Creating Context and Command Queue for selected Device
-    OCL_CHECK(err, cl::Context context(device, NULL, NULL, NULL, &err));
-    OCL_CHECK(err, cl::CommandQueue q(context, device, CL_QUEUE_PROFILING_ENABLE, &err));
-    std::string device_name = device.getInfo<CL_DEVICE_NAME>();
-    std::cout << "Found Device=" << device_name.c_str() << std::endl;
-
     int vector_length = LENGTH;
     bool match = true;
 
@@ -79,63 +73,81 @@ int main(int argc, char** argv) {
     // objects
     // are automatically released once the block ends
 
-    OCL_CHECK(err,
-              cl::Buffer d_mul(context, CL_MEM_HOST_NO_ACCESS | CL_MEM_READ_WRITE, sizeof(int) * LENGTH, NULL, &err));
+    std::string vmulBinaryFile = binaryFile1.c_str();
+    auto fileBuf_vmul = xcl::read_binary_file(vmulBinaryFile);
+    cl::Program::Binaries vmul_bins{{fileBuf_vmul.data(), fileBuf_vmul.size()}};
+    auto vaddBinaryFile = binaryFile2.c_str();
+    auto fileBuf_vadd = xcl::read_binary_file(vaddBinaryFile);
+    cl::Program::Binaries vadd_bins{{fileBuf_vadd.data(), fileBuf_vadd.size()}};
+    bool valid_device = false;
+    for (unsigned int i = 0; i < devices.size(); i++) {
+        auto device = devices[i];
+        // Creating Context and Command Queue for selected Device
+        OCL_CHECK(err, context = cl::Context(device, nullptr, nullptr, nullptr, &err));
+        OCL_CHECK(err, q = cl::CommandQueue(context, device, CL_QUEUE_PROFILING_ENABLE, &err));
+        std::cout << "Trying to program device[" << i << "]: " << device.getInfo<CL_DEVICE_NAME>() << std::endl;
+        OCL_CHECK(err, cl::Buffer d_mul(context, CL_MEM_HOST_NO_ACCESS | CL_MEM_READ_WRITE, sizeof(int) * LENGTH, NULL,
+                                        &err));
+        {
+            cl::Program program_vmul(context, {device}, vmul_bins, nullptr, &err);
+            if (err != CL_SUCCESS) {
+                std::cout << "Failed to program device[" << i << "] with xclbin file!\n";
+            } else {
+                std::cout << "Device[" << i << "]: program successful!\n";
+                OCL_CHECK(err, cl::Buffer d_a(context, CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY, sizeof(int) * LENGTH,
+                                              h_a.data(), &err));
+                OCL_CHECK(err, cl::Buffer d_b(context, CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY, sizeof(int) * LENGTH,
+                                              h_b.data(), &err));
+                OCL_CHECK(err, cl::Kernel krnl_vmul(program_vmul, "krnl_vmul", &err));
+                OCL_CHECK(err, err = krnl_vmul.setArg(0, d_a));
+                OCL_CHECK(err, err = krnl_vmul.setArg(1, d_b));
+                OCL_CHECK(err, err = krnl_vmul.setArg(2, d_mul));
+                OCL_CHECK(err, err = krnl_vmul.setArg(3, vector_length));
 
-    {
-        OCL_CHECK(err, cl::Buffer d_a(context, CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY, sizeof(int) * LENGTH, h_a.data(),
-                                      &err));
-        OCL_CHECK(err, cl::Buffer d_b(context, CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY, sizeof(int) * LENGTH, h_b.data(),
-                                      &err));
-        std::cout << "INFO: loading vmul kernel" << std::endl;
-        std::string vmulBinaryFile = binaryFile1.c_str();
-        auto fileBuf = xcl::read_binary_file(vmulBinaryFile);
-        cl::Program::Binaries vmul_bins{{fileBuf.data(), fileBuf.size()}};
-        devices.resize(1);
-        OCL_CHECK(err, cl::Program program(context, devices, vmul_bins, NULL, &err));
-        OCL_CHECK(err, cl::Kernel krnl_vmul(program, "krnl_vmul", &err));
+                OCL_CHECK(err, err = q.enqueueMigrateMemObjects({d_a, d_b}, 0 /* 0 means from host*/));
 
-        OCL_CHECK(err, err = krnl_vmul.setArg(0, d_a));
-        OCL_CHECK(err, err = krnl_vmul.setArg(1, d_b));
-        OCL_CHECK(err, err = krnl_vmul.setArg(2, d_mul));
-        OCL_CHECK(err, err = krnl_vmul.setArg(3, vector_length));
-
-        OCL_CHECK(err, err = q.enqueueMigrateMemObjects({d_a, d_b}, 0 /* 0 means from host*/));
-
-        // This function will execute the kernel on the FPGA
-        OCL_CHECK(err, err = q.enqueueTask(krnl_vmul));
-        OCL_CHECK(err, err = q.finish());
-    }
-    {
-        OCL_CHECK(err, cl::Buffer d_add(context, CL_MEM_WRITE_ONLY | CL_MEM_USE_HOST_PTR, sizeof(int) * LENGTH,
-                                        h_c.data(), &err));
-        std::cout << "INFO: loading vadd_krnl" << std::endl;
-        auto vaddBinaryFile = binaryFile2.c_str();
-        auto fileBuf = xcl::read_binary_file(vaddBinaryFile);
-        cl::Program::Binaries vadd_bins{{fileBuf.data(), fileBuf.size()}};
-        OCL_CHECK(err, cl::Program program(context, devices, vadd_bins, NULL, &err));
-        OCL_CHECK(err, cl::Kernel krnl_vadd(program, "krnl_vadd", &err));
-
-        OCL_CHECK(err, krnl_vadd.setArg(0, d_mul));
-        OCL_CHECK(err, krnl_vadd.setArg(1, d_mul));
-        OCL_CHECK(err, krnl_vadd.setArg(2, d_add));
-        OCL_CHECK(err, krnl_vadd.setArg(3, vector_length));
-
-        // This function will execute the kernel on the FPGA
-        OCL_CHECK(err, err = q.enqueueTask(krnl_vadd));
-
-        OCL_CHECK(err, err = q.enqueueMigrateMemObjects({d_add}, CL_MIGRATE_MEM_OBJECT_HOST));
-        OCL_CHECK(err, err = q.finish());
-
-        // Check Results
-        for (int i = 0; i < LENGTH; i++) {
-            if ((2 * (h_a[i] * h_b[i])) != h_c[i]) {
-                std::cout << "ERROR in vadd - " << i << " expected = " << 2 * (h_a[i] * h_b[i])
-                          << " - result= " << h_c[i] << std::endl;
-                match = false;
-                break;
+                // This function will execute the kernel on the FPGA
+                OCL_CHECK(err, err = q.enqueueTask(krnl_vmul));
+                OCL_CHECK(err, err = q.finish());
             }
         }
+        {
+            cl::Program program_vadd(context, {device}, vadd_bins, nullptr, &err);
+            if (err != CL_SUCCESS) {
+                std::cout << "Failed to program device[" << i << "] with xclbin file!\n";
+            } else {
+                std::cout << "Device[" << i << "]: program successful!\n";
+                OCL_CHECK(err, cl::Buffer d_add(context, CL_MEM_WRITE_ONLY | CL_MEM_USE_HOST_PTR, sizeof(int) * LENGTH,
+                                                h_c.data(), &err));
+                OCL_CHECK(err, cl::Kernel krnl_vadd(program_vadd, "krnl_vadd", &err));
+                OCL_CHECK(err, krnl_vadd.setArg(0, d_mul));
+                OCL_CHECK(err, krnl_vadd.setArg(1, d_mul));
+                OCL_CHECK(err, krnl_vadd.setArg(2, d_add));
+                OCL_CHECK(err, krnl_vadd.setArg(3, vector_length));
+
+                // This function will execute the kernel on the FPGA
+                OCL_CHECK(err, err = q.enqueueTask(krnl_vadd));
+
+                OCL_CHECK(err, err = q.enqueueMigrateMemObjects({d_add}, CL_MIGRATE_MEM_OBJECT_HOST));
+                OCL_CHECK(err, err = q.finish());
+
+                // Check Results
+                for (int i = 0; i < LENGTH; i++) {
+                    if ((2 * (h_a[i] * h_b[i])) != h_c[i]) {
+                        std::cout << "ERROR in vadd - " << i << " expected = " << 2 * (h_a[i] * h_b[i])
+                                  << " - result= " << h_c[i] << std::endl;
+                        match = false;
+                        break;
+                    }
+                }
+                valid_device = true;
+                break; // we break because we found a valid device
+            }
+        }
+    }
+    if (!valid_device) {
+        std::cout << "Failed to program any device found, exit!\n";
+        exit(EXIT_FAILURE);
     }
 
     std::cout << "TEST " << (match ? "PASSED" : "FAILED") << std::endl;
