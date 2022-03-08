@@ -119,6 +119,9 @@ int main(int argc, char** argv) {
     // functions either return or accept pointers to cl_int types to indicate if
     // an error occurred.
     cl_int err;
+    cl::Context context;
+    cl::CommandQueue q;
+    cl::Kernel kernel;
 
     // OPENCL HOST CODE AREA ENDS
     std::vector<cl::Platform> platforms;
@@ -166,72 +169,82 @@ int main(int argc, char** argv) {
 
     // Getting ACCELERATOR Devices and selecting 1st such device
     OCL_CHECK(err, err = platform.getDevices(CL_DEVICE_TYPE_ALL, &devices));
-    auto device = devices[0];
 
     cl_context_properties props[3] = {CL_CONTEXT_PLATFORM, (cl_context_properties)(platforms[0])(), 0};
-
-    // cl::Context::Context function call returns the object so they return error
-    // codes
-    // using pointers to cl_int as their last parameters
-    {
-        cl::Context context(0, props, nullptr, nullptr, &err);
-        if (err) {
-            std::cout << "Recoverable Error calling cl::Context::Context(): " << error_string(err) << std::endl
-                      << "\tMost cl::Context* calls accept error codes as "
-                         "their last parameter "
-                         "instead of returning the error value. This error "
-                         "occurred because "
-                         "we passed zero(0) for the devices variable. We "
-                         "intentionally threw "
-                         "this error so we will not be exiting the program.\n"
-                      << std::endl;
-        }
-    }
-
-    std::cout << "Creating Context..." << std::endl;
-    OCL_CHECK(err, cl::Context context(device, props, nullptr, nullptr, &err));
-    OCL_CHECK(err, cl::CommandQueue q(context, device, CL_QUEUE_PROFILING_ENABLE, &err));
-    OCL_CHECK(err, std::string device_name = device.getInfo<CL_DEVICE_NAME>(&err));
 
     // read_binary_file() is a utility API which will load the binaryFile
     // and will return pointer to file buffer.
     auto fileBuf = xcl::read_binary_file(binaryFile);
     cl::Program::Binaries bins{{fileBuf.data(), fileBuf.size()}};
     cl::Program::Binaries invalid_bin;
-    devices.resize(1);
 
-    {
-        cl::Program program(context, devices, invalid_bin, nullptr, &err);
-        if (err) {
-            std::cout << "\nRecoverable Error calling cl::Program::Program(): " << error_string(err) << std::endl
-                      << "\tMost cl::Program* calls accept error codes as "
-                         "their last parameter "
-                         "instead of returning the error value. This error "
-                         "occurred because "
-                         "we passed an invalid_bin for the bins variable. We "
-                         "intentionally threw "
-                         "this error so we will not be exiting the program.\n"
-                      << std::endl;
+    bool valid_device = false;
+    for (unsigned int i = 0; i < devices.size(); i++) {
+        auto device = devices[i];
+
+        // cl::Context::Context function call returns the object so they return error
+        // codes
+        // using pointers to cl_int as their last parameters
+        {
+            cl::Context context(0, props, nullptr, nullptr, &err);
+            if (err) {
+                std::cout << "Recoverable Error calling cl::Context::Context(): " << error_string(err) << std::endl
+                          << "\tMost cl::Context* calls accept error codes as "
+                             "their last parameter "
+                             "instead of returning the error value. This error "
+                             "occurred because "
+                             "we passed zero(0) for the devices variable. We "
+                             "intentionally threw "
+                             "this error so we will not be exiting the program.\n"
+                          << std::endl;
+            }
+        }
+        // Creating Context and Command Queue for selected Device
+        OCL_CHECK(err, context = cl::Context(device, nullptr, nullptr, nullptr, &err));
+        OCL_CHECK(err, q = cl::CommandQueue(context, device, CL_QUEUE_PROFILING_ENABLE, &err));
+
+        {
+            cl::Program program(context, devices, invalid_bin, nullptr, &err);
+            if (err) {
+                std::cout << "\nRecoverable Error calling cl::Program::Program(): " << error_string(err) << std::endl
+                          << "\tMost cl::Program* calls accept error codes as "
+                             "their last parameter "
+                             "instead of returning the error value. This error "
+                             "occurred because "
+                             "we passed an invalid_bin for the bins variable. We "
+                             "intentionally threw "
+                             "this error so we will not be exiting the program.\n"
+                          << std::endl;
+            }
+        }
+        std::cout << "Trying to program device[" << i << "]: " << device.getInfo<CL_DEVICE_NAME>() << std::endl;
+        cl::Program program(context, {device}, bins, nullptr, &err);
+        if (err != CL_SUCCESS) {
+            std::cout << "Failed to program device[" << i << "] with xclbin file!\n";
+        } else {
+            {
+                cl::Kernel kernel(program, "InvalidKernelName", &err);
+                if (err) {
+                    std::cout << "Recoverable Error calling cl::Kernel::Kernel(): " << error_string(err) << std::endl
+                              << "Errors calling cl::Kernel are usually caused if the name "
+                                 "passed into the function does not match a kernel in the "
+                                 "binary. "
+                                 "We intentionally caused this error so we will not be "
+                                 "exiting the "
+                                 "program.\n"
+                              << std::endl;
+                }
+            }
+            std::cout << "Device[" << i << "]: program successful!\n";
+            OCL_CHECK(err, kernel = cl::Kernel(program, "vector_add", &err));
+            valid_device = true;
+            break; // we break because we found a valid device
         }
     }
-
-    OCL_CHECK(err, cl::Program program(context, devices, bins, nullptr, &err));
-
-    {
-        cl::Kernel kernel(program, "InvalidKernelName", &err);
-        if (err) {
-            std::cout << "Recoverable Error calling cl::Kernel::Kernel(): " << error_string(err) << std::endl
-                      << "Errors calling cl::Kernel are usually caused if the name "
-                         "passed into the function does not match a kernel in the "
-                         "binary. "
-                         "We intentionally caused this error so we will not be "
-                         "exiting the "
-                         "program.\n"
-                      << std::endl;
-        }
+    if (!valid_device) {
+        std::cout << "Failed to program any device found, exit!\n";
+        exit(EXIT_FAILURE);
     }
-
-    OCL_CHECK(err, cl::Kernel kernel(program, "vector_add", &err));
 
     // Allocate Buffer in Global Memory
     // Buffers are allocated using CL_MEM_USE_HOST_PTR for efficient memory and
