@@ -178,7 +178,7 @@ PACKAGING_CMD += --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 \
                  --package.sd_file $(RUN_APP_SCRIPT) \
                  --package.sd_file aie_adder_ps_on_x86
 else
-PACKAGING_CMD += --package.run_on_x86
+PACKAGING_CMD += --package.ps_on_x86
 endif
 ###################################################################################################
 

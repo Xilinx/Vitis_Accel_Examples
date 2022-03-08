@@ -83,7 +83,7 @@ There are no changes required in the V++ compile and link steps. For the rest of
        --platform $(PLATFORM) \​
        --package.out_dir $(PACKAGE_OUT) \​
        $(XCLBIN) $(GRAPH_O) -o krnl_adder.xclbin​
-       **--package.run_on_x86​**
+       **--package.ps_on_x86​**
    * - Simulation Launch​​
      - **./launch_sw_emu.sh -run-app $(RUN_APP_SCRIPT) | tee run_app.log;​​**
      - **XCL_EMULATION_MODE=$(TARGET) ./$(PS_APP) $(PS_APP_ARGS)​​**

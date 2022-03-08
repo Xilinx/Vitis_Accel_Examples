@@ -56,10 +56,6 @@
             "name": "mbox_autorestart"
         }
     ],
-    "targets": [
-        "hw_emu",
-        "hw"
-    ],
     "launch": [
         {
             "cmd_args": "-x BUILD/mbox_autorestart.xclbin", 
@@ -85,6 +81,7 @@
             }
         ],
         "targets": [
+            "vitis_sw_emu",
             "vitis_hw_emu",
             "vitis_hw"
         ],

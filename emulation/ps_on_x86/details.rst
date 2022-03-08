@@ -31,7 +31,7 @@ There are no changes required in the V++ compile and link steps. For the rest of
        -o vadd.xclbin
        --package.sd_file ./hello_world
      - $(VPP) -p  -t sw_emu $(LINK_XCLBIN) $(LIBADF)
-       --platform $(PLATFORM_PATH) ​**--package.run_on_x86** --package.out_dir ./package.sw_emu -o $(XCLBIN)​
+       --platform $(PLATFORM_PATH) ​**--package.ps_on_x86** --package.out_dir ./package.sw_emu -o $(XCLBIN)​
    * - Simulation Launch​​
      - **./launch_sw_emu.sh -run-app $(RUN_APP_SCRIPT) | tee run_app.log;​​**
      - **XCL_EMULATION_MODE=$(TARGET) ./$(PS_APP) $(PS_APP_ARGS)​​**
