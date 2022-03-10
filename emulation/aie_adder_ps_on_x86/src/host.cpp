@@ -44,7 +44,7 @@ static std::vector<char> load_xclbin(xrtDeviceHandle device, const std::string& 
     return header;
 }
 
-#define DATA_SIZE (1024 * 1024)
+#define DATA_SIZE 1024
 #define N_ITER DATA_SIZE / 4
 
 int main(int argc, char** argv) {
