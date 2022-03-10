@@ -28,18 +28,18 @@ endif
 #Checks for XILINX_VITIS
 check-vitis:
 ifndef XILINX_VITIS
-	$(error XILINX_VITIS variable is not set, please set correctly and rerun)
+	$(error XILINX_VITIS variable is not set, please set correctly using "source <Vitis_install_path>/Vitis/<Version>/settings64.sh" and rerun)
 endif
 
 #Checks for XILINX_XRT
 check-xrt:
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu))
 ifndef XILINX_XRT
-	$(error XILINX_XRT variable is not set, please set correctly and rerun)
+	$(error XILINX_XRT variable is not set, please set correctly using "source /opt/xilinx/xrt/setup.sh" and rerun)
 endif
 else
 ifndef XILINX_VITIS
-	$(error XILINX_VITIS variable is not set, please set correctly and rerun)
+	$(error XILINX_VITIS variable is not set, please set correctly using "source <Vitis_install_path>/Vitis/<Version>/settings64.sh" and rerun)
 endif
 endif
 
@@ -71,7 +71,7 @@ CXX := g++
 #Checks for EDGE_COMMON_SW
 ifneq ($(TARGET),$(filter $(TARGET),sw_emu))
 ifndef EDGE_COMMON_SW
-$(error EDGE_COMMON_SW variable is not set, please set correctly and rerun)
+$(error EDGE_COMMON_SW variable is not set, please download and use the pre-built image from https://www.xilinx.com/support/download/index.html/content/xilinx/en/downloadNav/embedded-platforms.html)
 endif
 SYSROOT := $(EDGE_COMMON_SW)/sysroots/cortexa72-cortexa53-xilinx-linux
 SD_IMAGE_FILE := $(EDGE_COMMON_SW)/Image

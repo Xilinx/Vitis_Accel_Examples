@@ -15,8 +15,8 @@ Connections to the Custom IP's specified in xo's are made using ``krnl_incr.cfg`
 ::
    
    [connectivity]
-   nk=sim_ipc_axis_master:1:gt_master
-   nk=sim_ipc_axis_slave:1:gt_slave
+   nk=sim_ipc_axis_master_32:1:gt_master
+   nk=sim_ipc_axis_slave_32:1:gt_slave
    stream_connect=gt_master.M00_AXIS:increment_1.a
    stream_connect=increment_1.output:gt_slave.S00_AXIS
 
