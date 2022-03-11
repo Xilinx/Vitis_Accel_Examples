@@ -52,25 +52,43 @@ int main(int argc, char** argv) {
 
     std::string binaryFile = argv[1];
     cl_int err;
+    cl::Context context;
+    cl::CommandQueue q;
+    cl::Program program;
     std::vector<int, aligned_allocator<int> > host_memory(elements, 42);
     std::vector<int, aligned_allocator<int> > host_memory2(elements, 15);
 
     size_t size_in_bytes = host_memory.size() * sizeof(int);
 
-    // The get_xil_devices will return vector of Xilinx Devices
+    // OPENCL HOST CODE AREA START
+    // get_xil_devices() is a utility API which will find the xilinx
+    // platforms and will return list of devices connected to Xilinx platform
     auto devices = xcl::get_xil_devices();
-    auto device = devices[0];
-
-    // Creating Context and Command Queue for selected Device
-    OCL_CHECK(err, cl::Context context(device, nullptr, nullptr, nullptr, &err));
-    OCL_CHECK(err, cl::CommandQueue q(context, device, CL_QUEUE_PROFILING_ENABLE, &err));
-    std::string device_name = device.getInfo<CL_DEVICE_NAME>();
-    printf("Allocating and transferring data to %s\n", device_name.c_str());
-
+    // read_binary_file() is a utility API which will load the binaryFile
+    // and will return the pointer to file buffer.
     auto fileBuf = xcl::read_binary_file(binaryFile);
     cl::Program::Binaries bins{{fileBuf.data(), fileBuf.size()}};
-    devices.resize(1);
-    OCL_CHECK(err, cl::Program program(context, devices, bins, nullptr, &err));
+    bool valid_device = false;
+    for (unsigned int i = 0; i < devices.size(); i++) {
+        // for (auto device : devices) {
+        auto device = devices[i];
+        // Creating Context and Command Queue for selected Device
+        OCL_CHECK(err, context = cl::Context(device, nullptr, nullptr, nullptr, &err));
+        OCL_CHECK(err, q = cl::CommandQueue(context, device, CL_QUEUE_PROFILING_ENABLE, &err));
+        std::cout << "Trying to program device[" << i << "]: " << device.getInfo<CL_DEVICE_NAME>() << std::endl;
+        OCL_CHECK(err, program = cl::Program(context, {device}, bins, nullptr, &err));
+        if (err != CL_SUCCESS) {
+            std::cout << "Failed to program device[" << i << "] with xclbin file!\n";
+        } else {
+            std::cout << "Device[" << i << "]: program successful!\n";
+            valid_device = true;
+            break; // we break because we found a valid device
+        }
+    }
+    if (!valid_device) {
+        std::cout << "Failed to program any device found, exit!\n";
+        exit(EXIT_FAILURE);
+    }
 
     // There are several ways to transfer data to the FPGA. The most
     // straightforward way is to transfer the data during the creation of the

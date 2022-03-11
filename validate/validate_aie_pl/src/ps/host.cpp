@@ -46,19 +46,37 @@ int main(int argc, char** argv) {
         device_input[i] = std::rand();
     }
 
-    std::vector<cl::Device> devices = xcl::get_xil_devices();
-    cl::Device device = devices[0];
-    cl::Context context(device, NULL, NULL, NULL);
-    cl::CommandQueue q(context, device, CL_QUEUE_PROFILING_ENABLE | CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE);
-    std::string devName = device.getInfo<CL_DEVICE_NAME>();
-    printf("INFO: Found Device=%s\n", devName.c_str());
+    cl_int err;
+    cl::Context context;
+    cl::CommandQueue q;
+    cl::Kernel kernel_mm2s, kernel_s2mm;
+
+    auto devices = xcl::get_xil_devices();
     auto fileBuf = xcl::read_binary_file(xclbin_path);
     cl::Program::Binaries bins{{fileBuf.data(), fileBuf.size()}};
-    devices.resize(1);
-    cl::Program program(context, devices, bins, NULL);
-    cl::Kernel kernel_mm2s(program, "mm2s");
-    cl::Kernel kernel_s2mm(program, "s2mm");
-    std::cout << "INFO: Kernel has been created" << std::endl;
+    bool valid_device = false;
+    for (unsigned int i = 0; i < devices.size(); i++) {
+        auto device = devices[i];
+        // Creating Context and Command Queue for selected Device
+        OCL_CHECK(err, context = cl::Context(device, nullptr, nullptr, nullptr, &err));
+        OCL_CHECK(err, q = cl::CommandQueue(context, device,
+                                            CL_QUEUE_PROFILING_ENABLE | CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE, &err));
+        std::cout << "Trying to program device[" << i << "]: " << device.getInfo<CL_DEVICE_NAME>() << std::endl;
+        cl::Program program(context, {device}, bins, nullptr, &err);
+        if (err != CL_SUCCESS) {
+            std::cout << "Failed to program device[" << i << "] with xclbin file!\n";
+        } else {
+            std::cout << "Device[" << i << "]: program successful!\n";
+            OCL_CHECK(err, kernel_mm2s = cl::Kernel(program, "mm2s", &err));
+            OCL_CHECK(err, kernel_s2mm = cl::Kernel(program, "s2mm", &err));
+            valid_device = true;
+            break; // we break because we found a valid device
+        }
+    }
+    if (!valid_device) {
+        std::cout << "Failed to program any device found, exit!\n";
+        exit(EXIT_FAILURE);
+    }
 
     std::vector<cl_mem_ext_ptr_t> mext_in(2);
     mext_in[0] = {0, device_input, kernel_mm2s()};

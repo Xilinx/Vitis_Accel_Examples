@@ -78,10 +78,6 @@ int main(int argc, char* argv[]) {
         return EXIT_FAILURE;
     }
 
-    // Creating Context and Command Queue for selected device
-    OCL_CHECK(err, context = cl::Context(device, NULL, NULL, NULL, &err));
-    OCL_CHECK(err, q = cl::CommandQueue(context, device, CL_QUEUE_PROFILING_ENABLE, &err));
-
     std::cout << "INFO: Reading " << xclbinFilename << std::endl;
     FILE* fp;
     if ((fp = fopen(xclbinFilename.c_str(), "r")) == nullptr) {
@@ -100,12 +96,27 @@ int main(int argc, char* argv[]) {
     // Creating Program from Binary File
     cl::Program::Binaries bins;
     bins.push_back({buf, nb});
-    devices.resize(1);
-    OCL_CHECK(err, program = cl::Program(context, devices, bins, NULL, &err));
-
-    // This call will get the kernel object from program. A kernel is an
-    // OpenCL function that is executed on the FPGA.
-    OCL_CHECK(err, krnl_vector_add = cl::Kernel(program, "krnl_vadd", &err));
+    bool valid_device = false;
+    for (unsigned int i = 0; i < devices.size(); i++) {
+        auto device = devices[i];
+        // Creating Context and Command Queue for selected Device
+        OCL_CHECK(err, context = cl::Context(device, nullptr, nullptr, nullptr, &err));
+        OCL_CHECK(err, q = cl::CommandQueue(context, device, CL_QUEUE_PROFILING_ENABLE, &err));
+        std::cout << "Trying to program device[" << i << "]: " << device.getInfo<CL_DEVICE_NAME>() << std::endl;
+        cl::Program program(context, {device}, bins, nullptr, &err);
+        if (err != CL_SUCCESS) {
+            std::cout << "Failed to program device[" << i << "] with xclbin file!\n";
+        } else {
+            std::cout << "Device[" << i << "]: program successful!\n";
+            OCL_CHECK(err, krnl_vector_add = cl::Kernel(program, "krnl_vadd", &err));
+            valid_device = true;
+            break; // we break because we found a valid device
+        }
+    }
+    if (!valid_device) {
+        std::cout << "Failed to program any device found, exit!\n";
+        exit(EXIT_FAILURE);
+    }
 
     // These commands will allocate memory on the Device. The cl::Buffer objects can
     // be used to reference the memory locations on the device.
