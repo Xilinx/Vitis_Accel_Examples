@@ -16,7 +16,9 @@
         "flat",
         "zcu102_base_20",
         "zcu104_base_20",
-        "vck",
+        "vck5000",
+        "vck190_base_20",
+        "vck190_base_pci",
         "zc7",
         "nodma"
      ],

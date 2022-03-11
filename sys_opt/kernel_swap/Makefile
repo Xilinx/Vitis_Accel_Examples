@@ -79,6 +79,7 @@ VPP_PFLAGS :=
 
 CMD_ARGS = -x1 $(BUILD_DIR)/krnl_vmul.xclbin -x2 $(BUILD_DIR)/krnl_vadd.xclbin
 SDCARD := sd_card
+vck190_dfx_hw := false
 
 include $(XF_PROJ_ROOT)/common/includes/opencl/opencl.mk
 include ./config.mk
@@ -86,8 +87,14 @@ include ./config.mk
 CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++1y
 LDFLAGS += $(opencl_LDFLAGS)
 
+ifeq ($(findstring vck190_base_dfx, $(PLATFORM)), vck190_base_dfx)
+ifneq ($(TARGET),$(filter $(TARGET), hw))
+$(error [ERROR]: This example is not supported for $(PLATFORM) for emulation flow. Please try for hw.)
+endif
+endif
+
 ########################## Checking if PLATFORM in whitelist #######################
-PLATFORM_BLOCKLIST += flat zcu102_base_20 zcu104_base_20 vck zc7 nodma 
+PLATFORM_BLOCKLIST += flat zcu102_base_20 zcu104_base_20 vck5000 vck190_base_20 vck190_base_pci zc7 nodma 
 
 ############################## Setting up Host Variables ##############################
 #Include Required Host Source Files
@@ -146,7 +153,11 @@ ifeq ($(HOST_ARCH), x86)
 	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) -o'$(BUILD_DIR)/krnl_vmul.link.xclbin' $(+)
 	$(VPP) -p $(BUILD_DIR)/krnl_vmul.link.xclbin $(VPP_FLAGS) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/krnl_vmul.xclbin
 else
+ifeq ($(DEV_ARCH), versal)	
+	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) -o'$(BUILD_DIR)/krnl_vmul.xsa' $(+)
+else
 	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) -o'$(BUILD_DIR)/krnl_vmul.xclbin' $(+)
+endif
 endif
 
 $(BUILD_DIR)/krnl_vadd.xclbin: $(BINARY_CONTAINER_krnl_vadd_OBJS)
@@ -155,15 +166,27 @@ ifeq ($(HOST_ARCH), x86)
 	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) -o'$(BUILD_DIR)/krnl_vadd.link.xclbin' $(+)
 	$(VPP) -p $(BUILD_DIR)/krnl_vadd.link.xclbin $(VPP_FLAGS) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/krnl_vadd.xclbin
 else
+ifeq ($(DEV_ARCH), versal)	
+	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) -o'$(BUILD_DIR)/krnl_vadd.xsa' $(+)
+else
 	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) -o'$(BUILD_DIR)/krnl_vadd.xclbin' $(+)
+endif
 endif
 
 ############################## Preparing sdcard ##############################
 $(BUILD_DIR)/$(PACKAGE_OUT)/krnl_vmul.xclbin: $(BUILD_DIR)/krnl_vmul.xclbin $(BUILD_DIR)/krnl_vadd.xclbin $(EXECUTABLE)
 ifneq ($(HOST_ARCH), x86)
+ifeq ($(findstring vck190_base_dfx, $(PLATFORM)), vck190_base_dfx)
+ifeq ($(TARGET),$(filter $(TARGET), hw))
+	$(VPP) $(VPP_FLAGS) -p $(BUILD_DIR)/krnl_vmul.xsa -o vmul.xclbin 
+	$(VPP) $(VPP_FLAGS) -p $(BUILD_DIR)/krnl_vadd.xsa -o vadd.xclbin 
+	$(VPP) $(VPP_PFLAGS) $(VPP_FLAGS) -p --package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.sd_file $(SD_IMAGE_FILE) --package.sd_file xrt.ini --package.sd_file $(RUN_APP_SCRIPT) --package.sd_file $(EXECUTABLE) --package.sd_file vmul.xclbin --package.sd_file vadd.xclbin
+vck190_dfx_hw := true
+endif
+endif
+ifeq ($(vck190_dfx_hw), false)
 	$(VPP) $(VPP_PFLAGS) -p $(BUILD_DIR)/krnl_vmul.xclbin $(VPP_FLAGS) --package.sd_file $(BUILD_DIR)/krnl_vadd.xclbin --package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.sd_file $(SD_IMAGE_FILE) --package.sd_file xrt.ini --package.sd_file $(RUN_APP_SCRIPT) --package.sd_file $(EXECUTABLE) -o $(BUILD_DIR)/$(PACKAGE_OUT)/krnl_vmul.xclbin
-else
-	$(error package command not needed for x86 platform)
+endif
 endif
 
 sd_card : $(BINARY_CONTAINERS) $(EXECUTABLE) gen_run_app

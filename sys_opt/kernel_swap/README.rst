@@ -12,7 +12,9 @@ This example shows how host can swap the kernels and share same buffer between t
  - All Samsung U.2 flat
  - All ZCU102 Platforms except DFX
  - All ZCU104 Platforms except DFX
- - All Versal Platforms, i.e vck190 etc
+ - Versal VCK5000
+ - vck190_base_20
+ - vck190_base_pci
  - ZC706 Evaluation board
  - All NoDMA Platforms, i.e u50 nodma etc
 
