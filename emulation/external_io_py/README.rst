@@ -48,7 +48,7 @@ In this example, Master and Slave Stream IO models will be available as prepacke
 ::
 
    XOS = $(XILINX_VITIS)/data/emulation/XO/sim_ipc_axis_master_32.xo  $(XILINX_VITIS)/data/emulation/XO/sim_ipc_axis_slave_32.xo
-   $(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) $(XOS) --temp_dir $(BUILD_DIR)  -o'$(BUILD_DIR)/increment.link.xclbin' $(+)
+   $(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) $(XOS) --temp_dir $(TEMP_DIR)  -o'$(LINK_OUTPUT)' $(+)
 
 The Python-based Traffic Generator follows the following steps for blocking traffic generation, transportation and reception -
 

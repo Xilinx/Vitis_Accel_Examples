@@ -68,7 +68,7 @@ In this example, Master and Slave Stream IO models will be available as prepacke
 ::
 
    XOS = $(XILINX_VITIS)/data/emulation/XO/sim_ipc_axis_master_32.xo  $(XILINX_VITIS)/data/emulation/XO/sim_ipc_axis_slave_32.xo
-   $(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) $(XOS) --temp_dir $(BUILD_DIR)  -o'$(BUILD_DIR)/increment.link.xclbin' $(+)
+   $(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) $(XOS) --temp_dir $(TEMP_DIR)  -o'$(LINK_OUTPUT)' $(+)
 
 Connections to the Custom IP's specified in xo's are made using ``krnl_incr.cfg`` file as below:
 
