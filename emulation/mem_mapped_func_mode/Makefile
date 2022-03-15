@@ -90,8 +90,6 @@ CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++1y
 LDFLAGS += $(opencl_LDFLAGS)
 
 
-########################## Checking if PLATFORM in whitelist #######################
-PLATFORM_BLOCKLIST += nodma 
 ############################## Setting up Host Variables ##############################
 #Include Required Host Source Files
 CXXFLAGS += -I$(XF_PROJ_ROOT)/common/includes/xcl2
@@ -118,8 +116,8 @@ EMU_DIR = $(SDCARD)/data/emulation
 
 ############################## Declaring Binary Containers ##############################
 BINARY_CONTAINERS += $(BUILD_DIR)/krnl_mmult.xclbin
-BINARY_CONTAINER_krnl_mmult_OBJS += $(TEMP_DIR)/krnl_mmult1.xo
-BINARY_CONTAINER_krnl_mmult_OBJS += $(TEMP_DIR)/krnl_mmult2.xo
+BINARY_CONTAINER_krnl_mmult_OBJS += $(TEMP_DIR)/krnl_mmult_func.xo
+BINARY_CONTAINER_krnl_mmult_OBJS += $(TEMP_DIR)/krnl_mmult_rtl.xo
 
 ############################## Setting Targets ##############################
 CP = cp -rf
@@ -137,12 +135,12 @@ build: check-vitis check-device $(BINARY_CONTAINERS)
 xclbin: build
 
 ############################## Setting Rules for Binary Containers (Building Kernels) ##############################
-$(TEMP_DIR)/krnl_mmult1.xo: src/krnl_mmult1.cpp
+$(TEMP_DIR)/krnl_mmult_func.xo: src/krnl_mmult_func.cpp
 	mkdir -p $(TEMP_DIR)
-	$(VPP) $(VPP_FLAGS) $(VPP_FLAGS_func) -c -k krnl_mmult1 --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
-$(TEMP_DIR)/krnl_mmult2.xo: src/krnl_mmult2.cpp
+	$(VPP) $(VPP_FLAGS) $(VPP_FLAGS_func) -c -k krnl_mmult_func --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
+$(TEMP_DIR)/krnl_mmult_rtl.xo: src/krnl_mmult_rtl.cpp
 	mkdir -p $(TEMP_DIR)
-	$(VPP) $(VPP_FLAGS) -c -k krnl_mmult2 --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
+	$(VPP) $(VPP_FLAGS) -c -k krnl_mmult_rtl --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
 $(BUILD_DIR)/krnl_mmult.xclbin: $(BINARY_CONTAINER_krnl_mmult_OBJS)
 	mkdir -p $(BUILD_DIR)
 ifeq ($(HOST_ARCH), x86)

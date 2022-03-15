@@ -7,10 +7,6 @@ This example demonstrates how a user can run functional model of HLS kernel in H
 
 **KEYWORDS:** emulationMode=func
 
-**EXCLUDED PLATFORMS:** 
-
- - All NoDMA Platforms, i.e u50 nodma etc
-
 DESIGN FILES
 ------------
 
@@ -19,8 +15,8 @@ Application code is located in the src directory. Accelerator binary files will 
 ::
 
    src/host.cpp
-   src/increment1.cpp
-   src/increment2.cpp
+   src/increment_func.cpp
+   src/increment_rtl.cpp
    src/mem_read1.cpp
    src/mem_read2.cpp
    src/mem_write1.cpp
@@ -42,8 +38,8 @@ This example demonstrates the simulation of HLS C/C++ streaming free running ker
 The functional mode in v++ generates the SCTLM code for the HLS kernel. 
 HW Emulation is mainly targeted for HW Kernel Debug with detailed, cycle accurate view of kernel activity and 
 functional model is an advanced use case when user wants to speedup the emulation by compiling desired kernels in functional mode. 
-In this example, there are two stream free running HLS kernels out of which ``increment1``, ``mem_read1/write_1`` (datamovers) are 
-compiled in functional mode and ``increment2``, ``mem_read2/write2`` (datamovers) are compiled as default RTL during hardware emulation. 
+In this example, there are two stream free running HLS kernels out of which ``increment_func`` is compiled in functional mode 
+and ``increment_rtl`` is compiled as default RTL during hardware emulation. 
 
 XO generation
 --------------
@@ -63,9 +59,9 @@ Input from the user
 
 ::
 
-      VPP_FLAGS_increment1 += --config hw_emu_func.cfg 
-      increment1.xo: increment1.cpp
+      VPP_FLAGS_increment_func += --config hw_emu_func.cfg 
+      increment_func.xo: increment_func.cpp
       mkdir -p $(TEMP_DIR)
-      $(VPP) $(VPP_FLAGS) $(VPP_FLAGS_increment1) -c -k increment1 --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
+      $(VPP) $(VPP_FLAGS) $(VPP_FLAGS_increment1) -c -k increment_func --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
 
 For more comprehensive documentation, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.

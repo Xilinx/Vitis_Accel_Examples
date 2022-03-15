@@ -283,9 +283,9 @@ string CmdLineParser::value(const char* key) {
 }
 
 bool CmdLineParser::value_to_bool(const char* key) {
-	string strVal = value(key);
-	if(strVal == "true") return true;
-	return false;
+    string strVal = value(key);
+    if (strVal == "true") return true;
+    return false;
 }
 
 int CmdLineParser::value_to_int(const char* key) {

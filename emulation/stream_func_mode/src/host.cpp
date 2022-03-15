@@ -31,33 +31,33 @@ output.
         This Kernel reads from its input stream and writes into Global Memory.
 
     There are two types of kernel in this example based on
-    generated model sources that is RTL(increment1, mem_read1, mem_write1) and
-    functional with systemC wrapper on C(increment2, mem_read2, mem_write2).
-                     _____________
-                    |             |<----- Global Memory
-                    |  mem_read1  |
-                    |_____________|------+
-                     _____________       | AXI4 Stream
-                    |             |<-----+
-                    |  increment1 |
-                    |_____________|----->+
-                     ______________      | AXI4 Stream
-                    |              |<----+
-                    |  mem_write1 |
-                    |______________|-----> Global Memory
+    generated model sources that is Rtl(increment_rtl, mem_read1, mem_write1) and
+    functional with systemC wrapper on C(increment_func, mem_read2, mem_write2).
+                     ________________
+                    |                |<----- Global Memory
+                    |   mem_read1    |
+                    |________________|------+
+                     ________________       | AXI4 Stream
+                    |                |<-----+
+                    | increment_rtl  |
+                    |________________|----->+
+                     ________________       | AXI4 Stream
+                    |                |<-----+
+                    |  mem_write1    |
+                    |________________|-----> Global Memory
 
-                      _____________
-                    |             |<----- Global Memory
-                    |  mem_read2  |
-                    |_____________|------+
-                     _____________       | AXI4 Stream (TLM)
-                    |             |<-----+
-                    |  increment2 |
-                    |_____________|----->+
-                     ______________      | AXI4 Stream (TLM)
-                    |              |<----+
-                    |  mem_write2  |
-                    |______________|-----> Global Memory
+                     ________________
+                    |                |<------ Global Memory
+                    |   mem_read2    |
+                    |________________|------+
+                     ________________       | AXI4 Stream (TLM)
+                    |                |<-----+
+                    | increment_func |
+                    |________________|----->+
+                     ________________       | AXI4 Stream (TLM)
+                    |                |<-----+
+                    |  mem_write2    |
+                    |________________|-----> Global Memory
 
 
 
@@ -68,6 +68,26 @@ output.
 #include <iostream>
 #include <vector>
 #include <xcl2.hpp>
+#include <iomanip>
+
+void print_summary(std::string k1, std::string k2, double t1, double t2) {
+    double speedup = t2 / t1;
+    std::cout << "|-------------------------+-------------------------|\n"
+              << "| Kernel " << std::right << std::setw(18) << "|" << std::right << std::setw(24)
+              << "Wall-Clock Time (s)"
+              << " |\n"
+              << "|-------------------------+-------------------------|\n";
+    std::cout << "| " << std::left << std::setw(24) << k1.c_str() << "|" << std::right << std::setw(24) << t1 << " |\n";
+    std::cout << "| " << std::left << std::setw(24) << k2.c_str() << "|" << std::right << std::setw(24) << t2 << " |\n";
+    std::cout << "|-------------------------+-------------------------|\n";
+    std::cout << "| " << std::left << std::setw(24) << "Speedup:"
+              << "|" << std::right << std::setw(24) << speedup << " |\n";
+    std::cout << "|-------------------------+-------------------------|\n";
+    std::cout << "Note: Wall Clock Time is meaningful for real hardware "
+                 "execution only, not for emulation.\n";
+    std::cout << "Please refer to profile summary for kernel execution time for "
+                 "hardware emulation.\n";
+}
 
 int main(int argc, char** argv) {
     if (argc != 2) {
@@ -150,14 +170,11 @@ int main(int argc, char** argv) {
 
     // Set the Kernel Arguments
     int size = data_size;
+    auto start_rd_incrFunc_wr = std::chrono::high_resolution_clock::now();
     OCL_CHECK(err, err = krnl_mem_read1.setArg(0, buffer_input));
     OCL_CHECK(err, err = krnl_mem_read1.setArg(2, size));
     OCL_CHECK(err, err = krnl_mem_write1.setArg(1, buffer_output));
     OCL_CHECK(err, err = krnl_mem_write1.setArg(2, size));
-    OCL_CHECK(err, err = krnl_mem_read2.setArg(0, buffer_input));
-    OCL_CHECK(err, err = krnl_mem_read2.setArg(2, size));
-    OCL_CHECK(err, err = krnl_mem_write2.setArg(1, buffer_output));
-    OCL_CHECK(err, err = krnl_mem_write2.setArg(2, size));
     // Copy input data to device global memory
     std::cout << "Copying data..." << std::endl;
     OCL_CHECK(err, err = q.enqueueMigrateMemObjects({buffer_input}, 0 /*0 means from host*/));
@@ -165,14 +182,13 @@ int main(int argc, char** argv) {
     OCL_CHECK(err, err = q.finish());
 
     // Launch the Kernel
-    std::cout << "Launching Kernel..." << std::endl;
+    std::cout << "Launching Kernels mem_read1 & mem_write1 ..." << std::endl;
     OCL_CHECK(err, err = q.enqueueTask(krnl_mem_read1));
     OCL_CHECK(err, err = q.enqueueTask(krnl_mem_write1));
-    OCL_CHECK(err, err = q.enqueueTask(krnl_mem_read2));
-    OCL_CHECK(err, err = q.enqueueTask(krnl_mem_write2));
 
     // wait for all kernels to finish their operations
     OCL_CHECK(err, err = q.finish());
+    auto end_rd_incrFunc_wr = std::chrono::high_resolution_clock::now();
 
     // Copy Result from Device Global Memory to Host Local Memory
     std::cout << "Getting Results..." << std::endl;
@@ -191,6 +207,45 @@ int main(int argc, char** argv) {
             break;
         }
     }
+    auto start_rd_incrRtl_wr = std::chrono::high_resolution_clock::now();
+    OCL_CHECK(err, err = krnl_mem_read2.setArg(0, buffer_input));
+    OCL_CHECK(err, err = krnl_mem_read2.setArg(2, size));
+    OCL_CHECK(err, err = krnl_mem_write2.setArg(1, buffer_output));
+    OCL_CHECK(err, err = krnl_mem_write2.setArg(2, size));
+    // Copy input data to device global memory
+    std::cout << "Copying data..." << std::endl;
+    OCL_CHECK(err, err = q.enqueueMigrateMemObjects({buffer_input}, 0 /*0 means from host*/));
+
+    OCL_CHECK(err, err = q.finish());
+
+    // Launch the Kernel
+    std::cout << "Launching Kernels mem_read2 & mem_write2 ..." << std::endl;
+    std::cout << "Launching Kernel..." << std::endl;
+    OCL_CHECK(err, err = q.enqueueTask(krnl_mem_read2));
+    OCL_CHECK(err, err = q.enqueueTask(krnl_mem_write2));
+
+    // wait for all kernels to finish their operations
+    OCL_CHECK(err, err = q.finish());
+    auto end_rd_incrRtl_wr = std::chrono::high_resolution_clock::now();
+    // Copy Result from Device Global Memory to Host Local Memory
+    std::cout << "Getting Results..." << std::endl;
+    OCL_CHECK(err, err = q.enqueueMigrateMemObjects({buffer_output}, CL_MIGRATE_MEM_OBJECT_HOST));
+    OCL_CHECK(err, err = q.finish());
+    // OPENCL HOST CODE AREA END
+
+    // Compare the results of the Device to the simulation
+    for (size_t i = 0; i < data_size; i++) {
+        if (source_hw_results[i] != source_sw_results[i]) {
+            std::cout << "Error: Result mismatch" << std::endl;
+            std::cout << "i = " << i << " CPU result = " << source_sw_results[i]
+                      << " Device result = " << source_hw_results[i] << std::endl;
+            match = false;
+            break;
+        }
+    }
+    auto elapsed_incrFunc = std::chrono::duration<double>(end_rd_incrFunc_wr - start_rd_incrFunc_wr).count();
+    auto elapsed_incrRtl = std::chrono::duration<double>(end_rd_incrRtl_wr - start_rd_incrRtl_wr).count();
+    print_summary("read-incrFunc-write", "read-incrRtl-write", elapsed_incrFunc, elapsed_incrRtl);
 
     std::cout << "TEST " << (match ? "PASSED" : "FAILED") << std::endl;
     return (match ? EXIT_SUCCESS : EXIT_FAILURE);

@@ -11,9 +11,6 @@
     "key_concepts": [
         "Emulation Functional mode" 
     ], 
-    "platform_blacklist": [ 
-        "nodma"
-    ],
     "os": [
         "Linux"
     ], 
@@ -36,12 +33,13 @@
         {
             "accelerators": [
                 {
-                    "name": "mem_read1", 
+                    "name": "mem_read1",
                     "location": "src/mem_read1.cpp"
                 },
                 {
-                    "name": "increment1", 
-                    "location": "src/increment1.cpp"
+                    "name": "increment_func",
+                    "clflags": "--config ./hw_emu_func.cfg",
+                    "location": "src/increment_func.cpp"
                 },
                 {
                     "name": "mem_write1", 
@@ -52,8 +50,8 @@
                     "location": "src/mem_read2.cpp"
                 },
                 {
-                    "name": "increment2", 
-                    "location": "src/increment2.cpp"
+                    "name": "increment_rtl", 
+                    "location": "src/increment_rtl.cpp"
                 },
                 {
                     "name": "mem_write2", 
@@ -77,6 +75,7 @@
         }
     ],
     "testinfo": {
+        "profile": "no",
         "disable": false,
         "jobs": [
             {

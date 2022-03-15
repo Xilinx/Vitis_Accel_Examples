@@ -18,7 +18,7 @@
 #include <hls_stream.h>
 
 extern "C" {
-void increment2(hls::stream<ap_axiu<32, 0, 0, 0> >& input, hls::stream<ap_axiu<32, 0, 0, 0> >& output) {
+void increment_func(hls::stream<ap_axiu<32, 0, 0, 0> >& input, hls::stream<ap_axiu<32, 0, 0, 0> >& output) {
 // For free running kernel, user needs to specify ap_ctrl_none for return port.
 // This will create the kernel without AXI lite interface. Kernel will always be
 // in running states.

@@ -5,45 +5,6 @@
             "meet_system_timing": "true", 
             "accelerators": [
                 {
-                    "name": "mem_read1", 
-                    "check_timing": "true", 
-                    "PipelineType": "none", 
-                    "check_latency": "true", 
-                    "check_warning": "false",
-                    "loops": [
-                        {
-                            "name": "mem_read", 
-                            "PipelineII": "NA"
-                        }
-                    ] 
-                },
-                {
-                    "name": "increment1", 
-                    "check_timing": "true", 
-                    "PipelineType": "none", 
-                    "check_latency": "true", 
-                    "check_warning": "false", 
-                    "loops": [
-                        {
-                            "name": "increment", 
-                            "PipelineII": "NA"
-                        }
-                    ] 
-                },
-                {
-                    "name": "mem_write1", 
-                    "check_timing": "true", 
-                    "PipelineType": "none", 
-                    "check_latency": "true", 
-                    "check_warning": "false", 
-                    "loops": [
-                        {
-                            "name": "mem_write", 
-                            "PipelineII": "NA"
-                        }
-                    ] 
-                },
-                {
                     "name": "mem_read2", 
                     "check_timing": "true", 
                     "PipelineType": "none", 
@@ -57,7 +18,7 @@
                     ] 
                 },
                 {
-                    "name": "increment2", 
+                    "name": "increment_rtl", 
                     "check_timing": "true", 
                     "PipelineType": "none", 
                     "check_latency": "true", 

@@ -88,9 +88,6 @@ include $(XF_PROJ_ROOT)/common/includes/opencl/opencl.mk
 CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++1y
 LDFLAGS += $(opencl_LDFLAGS)
 
-
-########################## Checking if PLATFORM in whitelist #######################
-PLATFORM_BLOCKLIST += nodma 
 ############################## Setting up Host Variables ##############################
 #Include Required Host Source Files
 CXXFLAGS += -I$(XF_PROJ_ROOT)/common/includes/xcl2
@@ -121,10 +118,10 @@ EMU_DIR = $(SDCARD)/data/emulation
 ############################## Declaring Binary Containers ##############################
 BINARY_CONTAINERS += $(BUILD_DIR)/krnl_incr.xclbin
 BINARY_CONTAINER_krnl_incr_OBJS += $(TEMP_DIR)/mem_read1.xo
-BINARY_CONTAINER_krnl_incr_OBJS += $(TEMP_DIR)/increment1.xo
+BINARY_CONTAINER_krnl_incr_OBJS += $(TEMP_DIR)/increment_func.xo
 BINARY_CONTAINER_krnl_incr_OBJS += $(TEMP_DIR)/mem_write1.xo
 BINARY_CONTAINER_krnl_incr_OBJS += $(TEMP_DIR)/mem_read2.xo
-BINARY_CONTAINER_krnl_incr_OBJS += $(TEMP_DIR)/increment2.xo
+BINARY_CONTAINER_krnl_incr_OBJS += $(TEMP_DIR)/increment_rtl.xo
 BINARY_CONTAINER_krnl_incr_OBJS += $(TEMP_DIR)/mem_write2.xo
 
 ############################## Setting Targets ##############################
@@ -145,19 +142,19 @@ xclbin: build
 ############################## Setting Rules for Binary Containers (Building Kernels) ##############################
 $(TEMP_DIR)/mem_read1.xo: src/mem_read1.cpp
 	mkdir -p $(TEMP_DIR)
-	$(VPP) $(VPP_FLAGS) $(VPP_FLAGS_func) -c -k mem_read1 --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
-$(TEMP_DIR)/increment1.xo: src/increment1.cpp
+	$(VPP) $(VPP_FLAGS) -c -k mem_read1 --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
+$(TEMP_DIR)/increment_func.xo: src/increment_func.cpp
 	mkdir -p $(TEMP_DIR)
-	$(VPP) $(VPP_FLAGS) $(VPP_FLAGS_func) -c -k increment1 --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
+	$(VPP) $(VPP_FLAGS) $(VPP_FLAGS_func) -c -k increment_func --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
 $(TEMP_DIR)/mem_write1.xo: src/mem_write1.cpp
 	mkdir -p $(TEMP_DIR)
-	$(VPP) $(VPP_FLAGS) $(VPP_FLAGS_func) -c -k mem_write1 --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
+	$(VPP) $(VPP_FLAGS) -c -k mem_write1 --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
 $(TEMP_DIR)/mem_read2.xo: src/mem_read2.cpp
 	mkdir -p $(TEMP_DIR)
 	$(VPP) $(VPP_FLAGS) -c -k mem_read2 --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
-$(TEMP_DIR)/increment2.xo: src/increment2.cpp
+$(TEMP_DIR)/increment_rtl.xo: src/increment_rtl.cpp
 	mkdir -p $(TEMP_DIR)
-	$(VPP) $(VPP_FLAGS) -c -k increment2 --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
+	$(VPP) $(VPP_FLAGS) -c -k increment_rtl --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
 $(TEMP_DIR)/mem_write2.xo: src/mem_write2.cpp
 	mkdir -p $(TEMP_DIR)
 	$(VPP) $(VPP_FLAGS) -c -k mem_write2 --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'

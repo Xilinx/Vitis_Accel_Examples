@@ -5,7 +5,7 @@ This example demonstrates the simulation of HLS C/C++ memory mapped kernel in fu
 The functional mode in v++ generates the SCTLM code for the HLS kernel. 
 HW Emulation is mainly targeted for HW Kernel Debug with detailed, cycle accurate view of kernel activity and 
 functional model is an advanced use case when user wants to speedup the emulation by compiling desired kernels in functional mode. 
-In this example, ``krnl_mmult1`` is compiled in functional mode and ``kernel_mmult2`` is compiled as default RTL during hardware emulation. 
+In this example, ``krnl_mmult_func`` is compiled in functional mode and ``krnl_mmult_rtl`` is compiled as default RTL during hardware emulation. 
 
 XO generation
 --------------
@@ -25,7 +25,7 @@ Input from the user
 
 ::
 
-      VPP_FLAGS_krnl_mmult1 += --config hw_emu_func.cfg 
-      krnl_mmult1.xo: krnl_mmult1.cpp
+      VPP_FLAGS_krnl_mmult_func += --config hw_emu_func.cfg 
+      krnl_mmult_func.xo: krnl_mmult_func.cpp
       mkdir -p $(TEMP_DIR)
-      $(VPP) $(VPP_FLAGS) $(VPP_FLAGS_krnl_mmult1) -c -k krnl_mmult1 --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
+      $(VPP) $(VPP_FLAGS) $(VPP_FLAGS_krnl_mmult_func) -c -k krnl_mmult_func --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'

@@ -18,7 +18,7 @@
 #include "hls_stream.h"
 #include "krnl_mmult.hpp"
 extern "C" {
-void krnl_mmult2(int* a, int* b, int* c, int* d, int* output, int dim) {
+void krnl_mmult_func(int* a, int* b, int* c, int* d, int* output, int dim) {
 #pragma HLS INTERFACE m_axi port = a offset = slave bundle = gmem0
 #pragma HLS INTERFACE m_axi port = b offset = slave bundle = gmem1
 #pragma HLS INTERFACE m_axi port = c offset = slave bundle = gmem2

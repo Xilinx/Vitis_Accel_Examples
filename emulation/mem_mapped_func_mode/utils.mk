@@ -3,13 +3,6 @@
 # be overridden through the make command line
 #+-------------------------------------------------------------------------------
 
-PROFILE := no
-
-#Generates profile summary report
-ifeq ($(PROFILE), yes)
-VPP_LDFLAGS += --profile.data all:all:all
-endif
-
 DEBUG := no
 
 #Generates debug summary report

@@ -10,10 +10,7 @@
     ], 
     "key_concepts": [
         "Emulation Functional mode"
-    ], 
-    "platform_blacklist": [
-         "nodma"
-    ], 
+    ],
     "os": [
         "Linux"
     ], 
@@ -36,12 +33,13 @@
         {
             "accelerators": [
                 {
-                    "name": "krnl_mmult1", 
-                    "location": "src/krnl_mmult1.cpp"
+                    "name": "krnl_mmult_func",
+                    "clflags": "--config hw_emu_func.cfg", 
+                    "location": "src/krnl_mmult_func.cpp"
                 },
                 {
-                    "name": "krnl_mmult2", 
-                    "location": "src/krnl_mmult2.cpp"
+                    "name": "krnl_mmult_rtl", 
+                    "location": "src/krnl_mmult_rtl.cpp"
                 }
             ], 
             "name": "krnl_mmult"
@@ -60,6 +58,7 @@
         }
     ],
     "testinfo": {
+        "profile": "no",
         "disable": false,
         "jobs": [
             {

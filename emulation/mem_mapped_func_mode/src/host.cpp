@@ -17,6 +17,7 @@
 #include <algorithm>
 #include <array>
 #include <iostream>
+#include <iomanip>
 
 #define MAT_DIM 32
 #define MAT_SIZE MAT_DIM* MAT_DIM
@@ -25,12 +26,15 @@
 void print_summary(std::string k1, std::string k2, double t1, double t2, int iterations) {
     double speedup = t2 / t1;
     std::cout << "|-------------------------+-------------------------|\n"
-              << "| Kernel(" << iterations << " iterations)  |    Wall-Clock Time (s)  |\n"
+              << "| Kernel (x" << std::left << std::setw(2) << iterations << " iterations) "
+              << "|" << std::right << std::setw(24) << "Wall-Clock Time (s)"
+              << " |\n"
               << "|-------------------------+-------------------------|\n";
-    std::cout << "| " << k1.c_str() << "        | " << t1 << "\t|\n";
-    std::cout << "| " << k2.c_str() << "       | " << t2 << "\t|\n";
+    std::cout << "| " << std::left << std::setw(24) << k1.c_str() << "|" << std::right << std::setw(24) << t1 << " |\n";
+    std::cout << "| " << std::left << std::setw(24) << k2.c_str() << "|" << std::right << std::setw(24) << t2 << " |\n";
     std::cout << "|-------------------------+-------------------------|\n";
-    std::cout << "| Speedup:                | " << speedup << "\t|\n";
+    std::cout << "| " << std::left << std::setw(24) << "Speedup:"
+              << "|" << std::right << std::setw(24) << speedup << " |\n";
     std::cout << "|-------------------------+-------------------------|\n";
     std::cout << "Note: Wall Clock Time is meaningful for real hardware "
                  "execution only, not for emulation.\n";
@@ -75,7 +79,7 @@ int main(int argc, char** argv) {
     int err;
     cl::CommandQueue q;
     cl::Context context;
-    cl::Kernel krnl_mmult1, krnl_mmult2;
+    cl::Kernel krnl_mmult_func, krnl_mmult_rtl;
     // Allocate Memory in Host Memory
     // When creating a buffer with user pointer (CL_MEM_USE_HOST_PTR), under the
     // hood user ptr
@@ -137,8 +141,8 @@ int main(int argc, char** argv) {
             std::cout << "Failed to program device[" << i << "] with xclbin file!\n";
         } else {
             std::cout << "Device[" << i << "]: program successful!\n";
-            OCL_CHECK(err, krnl_mmult1 = cl::Kernel(program, "krnl_mmult1", &err));
-            OCL_CHECK(err, krnl_mmult2 = cl::Kernel(program, "krnl_mmult2", &err));
+            OCL_CHECK(err, krnl_mmult_func = cl::Kernel(program, "krnl_mmult_func", &err));
+            OCL_CHECK(err, krnl_mmult_rtl = cl::Kernel(program, "krnl_mmult_rtl", &err));
             valid_device = true;
             break; // we break because we found a valid device
         }
@@ -169,14 +173,14 @@ int main(int argc, char** argv) {
                                                       vector_size_bytes, source_hw_results1[i].data(), &err));
     }
 
-    auto start_mmult1 = std::chrono::high_resolution_clock::now();
+    auto start_mmult_func = std::chrono::high_resolution_clock::now();
     for (int i = 0; i < NUM_TIMES; i++) {
-        OCL_CHECK(err, err = krnl_mmult1.setArg(0, buffer_in1[i]));
-        OCL_CHECK(err, err = krnl_mmult1.setArg(1, buffer_in2[i]));
-        OCL_CHECK(err, err = krnl_mmult1.setArg(2, buffer_in3[i]));
-        OCL_CHECK(err, err = krnl_mmult1.setArg(3, buffer_in4[i]));
-        OCL_CHECK(err, err = krnl_mmult1.setArg(4, buffer_output[i]));
-        OCL_CHECK(err, err = krnl_mmult1.setArg(5, MAT_DIM));
+        OCL_CHECK(err, err = krnl_mmult_func.setArg(0, buffer_in1[i]));
+        OCL_CHECK(err, err = krnl_mmult_func.setArg(1, buffer_in2[i]));
+        OCL_CHECK(err, err = krnl_mmult_func.setArg(2, buffer_in3[i]));
+        OCL_CHECK(err, err = krnl_mmult_func.setArg(3, buffer_in4[i]));
+        OCL_CHECK(err, err = krnl_mmult_func.setArg(4, buffer_output[i]));
+        OCL_CHECK(err, err = krnl_mmult_func.setArg(5, MAT_DIM));
 
         cl::Event event;
         // Copy input data to device global memory
@@ -188,11 +192,11 @@ int main(int argc, char** argv) {
         // For HLS kernels global and local size is always (1,1,1). So, it is
         // recommended
         // to always use enqueueTask() for invoking HLS kernel
-        OCL_CHECK(err, err = q.enqueueTask(krnl_mmult1, &waitList, nullptr));
+        OCL_CHECK(err, err = q.enqueueTask(krnl_mmult_func, &waitList, nullptr));
     }
 
     OCL_CHECK(err, err = q.finish());
-    auto end_mmult1 = std::chrono::high_resolution_clock::now();
+    auto end_mmult_func = std::chrono::high_resolution_clock::now();
 
     for (int i = 0; i < NUM_TIMES; i++) {
         // Copy Result from Device Global Memory to Host Local Memory
@@ -214,14 +218,14 @@ int main(int argc, char** argv) {
         }
     }
 
-    auto start_mmult2 = std::chrono::high_resolution_clock::now();
+    auto start_mmult_rtl = std::chrono::high_resolution_clock::now();
     for (int i = 0; i < NUM_TIMES; i++) {
-        OCL_CHECK(err, err = krnl_mmult2.setArg(0, buffer_in1[i]));
-        OCL_CHECK(err, err = krnl_mmult2.setArg(1, buffer_in2[i]));
-        OCL_CHECK(err, err = krnl_mmult2.setArg(2, buffer_in3[i]));
-        OCL_CHECK(err, err = krnl_mmult2.setArg(3, buffer_in4[i]));
-        OCL_CHECK(err, err = krnl_mmult2.setArg(4, buffer_output1[i]));
-        OCL_CHECK(err, err = krnl_mmult2.setArg(5, MAT_DIM));
+        OCL_CHECK(err, err = krnl_mmult_rtl.setArg(0, buffer_in1[i]));
+        OCL_CHECK(err, err = krnl_mmult_rtl.setArg(1, buffer_in2[i]));
+        OCL_CHECK(err, err = krnl_mmult_rtl.setArg(2, buffer_in3[i]));
+        OCL_CHECK(err, err = krnl_mmult_rtl.setArg(3, buffer_in4[i]));
+        OCL_CHECK(err, err = krnl_mmult_rtl.setArg(4, buffer_output1[i]));
+        OCL_CHECK(err, err = krnl_mmult_rtl.setArg(5, MAT_DIM));
 
         cl::Event event;
         // Copy input data to device global memory
@@ -235,12 +239,12 @@ int main(int argc, char** argv) {
         // For HLS kernels global and local size is always (1,1,1). So, it is
         // recommended
         // to always use enqueueTask() for invoking HLS kernel
-        OCL_CHECK(err, err = q.enqueueTask(krnl_mmult2, &waitList, nullptr));
+        OCL_CHECK(err, err = q.enqueueTask(krnl_mmult_rtl, &waitList, nullptr));
     }
 
     OCL_CHECK(err, err = q.finish());
 
-    auto end_mmult2 = std::chrono::high_resolution_clock::now();
+    auto end_mmult_rtl = std::chrono::high_resolution_clock::now();
 
     for (int i = 0; i < NUM_TIMES; i++) {
         // Copy Result from Device Global Memory to Host Local Memory
@@ -261,9 +265,9 @@ int main(int argc, char** argv) {
         }
     }
 
-    auto elapsed_mmult1 = std::chrono::duration<double>(end_mmult1 - start_mmult1).count();
-    auto elapsed_mmult2 = std::chrono::duration<double>(end_mmult2 - start_mmult2).count();
-    print_summary("krnl_mmult1", "krnl_mmult2", elapsed_mmult1, elapsed_mmult2, NUM_TIMES);
+    auto elapsed_mmult_func = std::chrono::duration<double>(end_mmult_func - start_mmult_func).count();
+    auto elapsed_mmult_rtl = std::chrono::duration<double>(end_mmult_rtl - start_mmult_rtl).count();
+    print_summary("krnl_mmult_func", "krnl_mmult_rtl", elapsed_mmult_func, elapsed_mmult_rtl, NUM_TIMES);
 
     bool test_status = match;
     std::cout << "TEST " << (test_status ? "PASSED" : "FAILED") << std::endl;

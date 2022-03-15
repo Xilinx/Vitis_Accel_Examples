@@ -73,7 +73,7 @@ class CmdLineParser {
     std::string value(const char* key);
 
     bool value_to_bool(const char* key);
-    
+
     int value_to_int(const char* key);
 
     double value_to_double(const char* key);
