@@ -48,7 +48,6 @@ int main(int argc, char* argv[]) {
     // using customized allocator for getting buffer alignment to 4k boundary
 
     std::vector<cl::Device> devices;
-    cl::Device device;
     cl_int err;
     cl::Context context;
     cl::CommandQueue q;
@@ -67,14 +66,13 @@ int main(int argc, char* argv[]) {
             devices.clear();
             platform.getDevices(CL_DEVICE_TYPE_ACCELERATOR, &devices);
             if (devices.size()) {
-                device = devices[0];
                 found_device = true;
                 break;
             }
         }
     }
     if (found_device == false) {
-        std::cout << "Error: Unable to find Target Device " << device.getInfo<CL_DEVICE_NAME>() << std::endl;
+        std::cout << "Error: Unable to find Target Device " << std::endl;
         return EXIT_FAILURE;
     }
 
