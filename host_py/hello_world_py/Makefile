@@ -120,19 +120,14 @@ ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 else
 	python3 $(HOST_SRCS) $(CMD_ARGS)
 endif
-ifneq ($(TARGET),$(findstring $(TARGET), hw))
-$(error Application supports only hw TARGET. Please use the target for running the application)
-endif
 
 .PHONY: test
 test: 
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
+	$(CP) $(EMCONFIG_DIR)/emconfig.json .
 	XCL_EMULATION_MODE=$(TARGET) python3 $(HOST_SRCS) $(CMD_ARGS)
 else
 	python3 $(HOST_SRCS) $(CMD_ARGS)
-endif
-ifneq ($(TARGET),$(findstring $(TARGET), hw))
-$(error Application supports only hw TARGET. Please use the target for running the application)
 endif
 
 

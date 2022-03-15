@@ -44,9 +44,6 @@
             "name": "vadd"
         }
     ],
-    "targets": [
-        "hw"
-    ],
     "launch": [
         {
             "cmd_args": "-k BUILD/vadd.xclbin", 
@@ -72,6 +69,8 @@
             }
         ],
         "targets": [
+            "vitis_sw_emu",
+            "vitis_hw_emu",
             "vitis_hw"
         ],
         "category": "canary"
