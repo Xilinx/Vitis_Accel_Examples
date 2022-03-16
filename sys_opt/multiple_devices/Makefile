@@ -76,7 +76,7 @@ RESULT_STRING = TEST PASSED
 
 VPP := v++
 VPP_PFLAGS := 
-CMD_ARGS = $(BUILD_DIR)/vector_addition.xclbin
+CMD_ARGS = $(BUILD_DIR)/vector_addition.xclbin $(BUILD_DIR)/vector_addition.xclbin
 SDCARD := sd_card
 
 include $(XF_PROJ_ROOT)/common/includes/opencl/opencl.mk
