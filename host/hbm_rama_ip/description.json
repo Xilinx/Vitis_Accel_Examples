@@ -20,14 +20,14 @@
         "u50"
     ], 
     "platform_blacklist": [
-        "_u25_",
+        "u25_",
         "u30",
         "u200", 
         "zc",
         "vck", 
         "u250",
         "aws-vu9p-f1",
-        "_u2_",
+        "u2_",
         "nodma"
     ],
     "runtime": [

@@ -251,7 +251,7 @@ desc.close()
 
 plat_name = data["uniqueName"]
 
-if "_u2_" in plat_name:
+if "u2_" in plat_name:
     if(filename!='verify'):
         create_cfg_u2(data)
     create_json_u2(data)

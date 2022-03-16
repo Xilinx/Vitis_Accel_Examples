@@ -79,7 +79,7 @@ LDFLAGS += $(opencl_LDFLAGS)
 
 
 ########################## Checking if PLATFORM in whitelist #######################
-PLATFORM_BLOCKLIST += _u25_ u30 u200 zc vck u250 aws samsung _u2_ x3522pv nodma 
+PLATFORM_BLOCKLIST += u25_ u30 u200 zc vck u250 aws samsung u2_ x3522pv nodma 
 ############################## Setting up Host Variables ##############################
 #Include Required Host Source Files
 CXXFLAGS += -I$(XF_PROJ_ROOT)/common/includes/cmdparser

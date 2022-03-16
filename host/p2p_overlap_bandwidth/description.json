@@ -24,7 +24,7 @@
     "platform_blacklist": [
         "zc",
         "vck",
-        "_u25_",
+        "u25_",
         "u30",
         "u200",
         "u250",

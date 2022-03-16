@@ -79,7 +79,7 @@ LDFLAGS += $(opencl_LDFLAGS)
 
 
 ########################## Checking if PLATFORM in whitelist #######################
-PLATFORM_BLOCKLIST += 2018 qep aws-vu9p-f1 samsung vck zc _u2_ nodma 
+PLATFORM_BLOCKLIST += 2018 qep aws-vu9p-f1 samsung vck zc u2_ nodma 
 ############################## Setting up Host Variables ##############################
 #Include Required Host Source Files
 CXXFLAGS += -I$(XF_PROJ_ROOT)/common/includes/cmdparser

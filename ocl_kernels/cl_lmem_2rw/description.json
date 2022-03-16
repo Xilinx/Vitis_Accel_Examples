@@ -14,7 +14,7 @@
     ],
     "platform_blacklist": [
         "nodma",
-        "_u2_"
+        "u2_"
     ], 
     "os": [
         "Linux"

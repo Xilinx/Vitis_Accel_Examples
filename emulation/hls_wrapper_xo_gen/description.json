@@ -14,7 +14,7 @@
     "platform_blacklist": [
         "2018",
         "aws",
-        "_u2_",
+        "u2_",
         "zc702",
         "nodma"
     ], 

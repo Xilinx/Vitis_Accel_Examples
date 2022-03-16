@@ -79,7 +79,7 @@ LDFLAGS += $(opencl_LDFLAGS)
 
 
 ########################## Checking if PLATFORM in whitelist #######################
-PLATFORM_BLOCKLIST += flat zc 201910 vck aws-vu9p-f1 _u25_ u30 u50_gen3x16_xdma_2019 
+PLATFORM_BLOCKLIST += flat zc 201910 vck aws-vu9p-f1 u25_ u30 u50_gen3x16_xdma_2019 
 ############################## Setting up Host Variables ##############################
 #Include Required Host Source Files
 CXXFLAGS += -I$(XF_PROJ_ROOT)/common/includes/xcl2

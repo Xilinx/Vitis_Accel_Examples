@@ -77,7 +77,7 @@ CONFIG_FILE := system.cfg
 include ./utils.mk
 
 ########################## Checking if PLATFORM in whitelist #######################
-PLATFORM_BLOCKLIST += zc vck5000 aws-vu9p-f1 samsung _u2_ dma 
+PLATFORM_BLOCKLIST += zc vck5000 aws-vu9p-f1 samsung u2_ dma 
 PLATFORM_ALLOWLIST += vck190
 
 # Command-line options

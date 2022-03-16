@@ -33,7 +33,7 @@
                 }
             }
         }, 
-        "_u25_": {
+        "u25_": {
             "v++": {
                 "linker": {
                     "ldclflags": [ "--config PROJECT/conn_u25.cfg"
@@ -65,7 +65,7 @@
                 }
             }
         },
-        "_u2_": {
+        "u2_": {
             "v++": {
                 "linker": {
                     "ldclflags": [ "--config PROJECT/conn_u2.cfg"

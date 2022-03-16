@@ -25,7 +25,7 @@
     ],
     "platform_blacklist": [
         "zc",
-        "_u25_",
+        "u25_",
         "u30",
         "vck",
         "aws",
