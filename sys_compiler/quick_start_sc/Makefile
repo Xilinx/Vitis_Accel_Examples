@@ -42,6 +42,7 @@ EXTRA_CFLAGS := -I$(XF_PROJ_ROOT)/common/includes/logger
 EXTRA_CFLAGS += -I$(XF_PROJ_ROOT)/common/includes/cmdparser
 EXTRA_CFLAGS += -I./src/  
 
-#EXTRA_VPPFLAGS = -g
+EXTRA_VPPFLAGS = -g
 
 include $(XILINX_VITIS)/system_compiler/examples/vpp_sc.mk
+test: run
