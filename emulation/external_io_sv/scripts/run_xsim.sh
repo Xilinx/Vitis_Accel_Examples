@@ -15,7 +15,7 @@ xvlog -sv -work xil_defaultlib --relax -L axis_vip --include "./infra"  --includ
 
 #path for the systemC shared libraries provided with vivado, to be used for inter process communication
 XSIM_LIB_PATH="$XILINX_VIVADO/data/xsim"
-XSIM_EXT_LIB_PATH="$XILINX_VIVADO/data/simmodels/xsim/2021.2/lnx64/6.2.0/ext"
+XSIM_EXT_LIB_PATH="$XILINX_VIVADO/data/simmodels/xsim/2022.1/lnx64/6.2.0/ext"
 XSIM_BOOST_LIB_PATH="$XILINX_VIVADO/tps/boost_1_64_0"
 
 simipc_project_dir="./src"

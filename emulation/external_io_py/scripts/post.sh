@@ -17,7 +17,7 @@ then
  }
 else
  {
-   echo "$1 : TEST FAILED"
+   echo "ERROR: $1 : TEST FAILED"
  }
 fi
 
