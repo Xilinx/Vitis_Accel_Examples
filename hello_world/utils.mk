@@ -17,10 +17,6 @@ ifeq ($(DEBUG), yes)
 VPP_LDFLAGS += --dk list_ports
 endif
 
-ifneq ($(TARGET), hw)
-VPP_FLAGS += -g
-endif
-
 #Setting PLATFORM 
 ifeq ($(PLATFORM),)
 ifneq ($(DEVICE),)
@@ -51,6 +47,11 @@ ifndef XILINX_VITIS
 	$(error XILINX_VITIS variable is not set, please set correctly using "source <Vitis_install_path>/Vitis/<Version>/settings64.sh" and rerun)
 endif
 endif
+
+ifneq ($(TARGET), hw)
+VPP_FLAGS += -g
+endif
+CP = cp -rf
 
 check-device:
 	@set -eu; \
@@ -138,6 +139,11 @@ endif
 #   device2xsa - create a filesystem friendly name from device name
 #   $(1) - full name of device
 device2xsa = $(strip $(patsubst %.xpfm, % , $(shell basename $(PLATFORM))))
+XSA := 
+ifneq ($(PLATFORM), )
+XSA := $(call device2xsa, $(PLATFORM))
+endif
+
 
 ############################## Deprecated Checks and Running Rules ##############################
 check:
