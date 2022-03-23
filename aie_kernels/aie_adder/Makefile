@@ -105,7 +105,7 @@ GCC_FLAGS := -Wall -c \
 
 GCC_INCLUDES := -I$(SYSROOT)/usr/include/xrt \
 				-I$(SYSROOT)/usr/include \
-				-I./  \
+				-I./ -I./aie \
 				-I${XILINX_VITIS}/aietools/include \
 				-I${XILINX_VITIS}/include
 

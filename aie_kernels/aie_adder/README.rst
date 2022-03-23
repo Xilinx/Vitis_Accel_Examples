@@ -34,7 +34,7 @@ Once the environment has been configured, the application can be executed by
 
 ::
 
-   ./aie_adder <krnl_adder XCLBIN>
+   ./aie_adder
 
 DETAILS
 -------

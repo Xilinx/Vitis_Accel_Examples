@@ -41,7 +41,8 @@
             ], 
             "includepaths": [
                 "REPO_DIR/common/includes/xcl2",
-                "$(SYSROOT)/usr/include/xrt/"                
+                "$(SYSROOT)/usr/include/xrt/", 
+                "./aie"                
             ],
             "options": "--sysroot=$(SYSROOT)"
         },
@@ -114,7 +115,6 @@
     "config_make" : "./system.cfg",
     "launch": [
         {
-            "cmd_args": "BUILD/krnl_adder.xclbin", 
             "name": "generic launch for all flows"
         }
     ],
