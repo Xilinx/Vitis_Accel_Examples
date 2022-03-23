@@ -9,13 +9,13 @@
         "Task Level Parallelism"
     ], 
     "platform_blacklist": [
-        "_u25_",
+        "u25_",
         "u30",
         "u50",
         "u55",
         "vck",
         "samsung",
-        "_u2_",
+        "u2_",
         "zc",
         "x3522pv",
         "nodma"

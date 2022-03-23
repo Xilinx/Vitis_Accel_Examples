@@ -15,8 +15,8 @@
     "platform_allowlist": [
         "u50"
     ], 
-    "platform_blocklist": [
-        "_u25_",
+    "platform_blacklist": [
+        "u25_",
         "u30",
         "u200",
         "zc",
@@ -24,7 +24,7 @@
         "u250",
         "u280",
         "aws-vu9p-f1",
-        "_u2_",
+        "u2_",
         "nodma"
     ],
     "os": [

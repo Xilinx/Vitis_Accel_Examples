@@ -92,7 +92,7 @@ CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++1y
 LDFLAGS += $(opencl_LDFLAGS)
 
 ########################## Checking if PLATFORM in whitelist #######################
-PLATFORM_BLOCKLIST += dma vck5000 aws-vu9p-f1 samsung _u2_ 
+PLATFORM_BLOCKLIST += dma vck5000 aws-vu9p-f1 samsung u2_ 
 PLATFORM_ALLOWLIST += vck190 zc
 
 ############################## Setting up Host Variables ##############################

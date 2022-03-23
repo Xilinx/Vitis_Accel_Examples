@@ -47,7 +47,7 @@
     ],
     "launch": [
         {
-            "cmd_args": "BUILD/vector_addition.xclbin", 
+            "cmd_args": "BUILD/vector_addition.xclbin BUILD/vector_addition.xclbin", 
             "name": "generic launch for all flows"
         }
     ], 

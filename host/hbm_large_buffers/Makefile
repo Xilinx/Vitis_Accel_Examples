@@ -84,7 +84,7 @@ LDFLAGS += $(opencl_LDFLAGS)
 
 
 ########################## Checking if PLATFORM in whitelist #######################
-PLATFORM_BLOCKLIST += _u25_ u30 u200 zc vck u250 u280 aws-vu9p-f1 _u2_ nodma 
+PLATFORM_BLOCKLIST += u25_ u30 u200 zc vck u250 u280 aws-vu9p-f1 u2_ nodma 
 PLATFORM_ALLOWLIST += u50 
 
 ############################## Setting up Host Variables ##############################

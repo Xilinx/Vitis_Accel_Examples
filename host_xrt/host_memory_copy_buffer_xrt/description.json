@@ -17,7 +17,7 @@
         "u50_gen3x16_nodma"
     ],
     "platform_blacklist": [ 
-        "_u25_",
+        "u25_",
         "u30",
         "u50c",
         "u50lv",
@@ -29,7 +29,7 @@
         "2018",  
         "samsung",
         "u250",
-        "_u2_"
+        "u2_"
     ], 
     "os": [
         "Linux"

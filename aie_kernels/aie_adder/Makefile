@@ -77,7 +77,7 @@ CONFIG_FILE := system.cfg
 include ./utils.mk
 
 ########################## Checking if PLATFORM in whitelist #######################
-PLATFORM_BLOCKLIST += zc vck5000 aws-vu9p-f1 samsung _u2_ dma 
+PLATFORM_BLOCKLIST += zc vck5000 aws-vu9p-f1 samsung u2_ dma 
 PLATFORM_ALLOWLIST += vck190
 
 # Command-line options
@@ -104,7 +104,7 @@ GCC_FLAGS := -Wall -c \
 
 GCC_INCLUDES := -I$(SYSROOT)/usr/include/xrt \
 				-I$(SYSROOT)/usr/include \
-				-I./  \
+				-I./ -I./aie \
 				-I${XILINX_VITIS}/aietools/include \
 				-I${XILINX_VITIS}/include
 

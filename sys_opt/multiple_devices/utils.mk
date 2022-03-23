@@ -123,7 +123,7 @@ endif
 	$(ECHO) './reinstall_xrt.sh' >> run_app.sh
 	$(ECHO) 'return_code=$$?' >> run_app.sh
 	$(ECHO) 'cd -' >> run_app.sh
-	$(ECHO) '$(EXECUTABLE) vector_addition.xclbin' >> run_app.sh
+	$(ECHO) '$(EXECUTABLE) vector_addition.xclbin vector_addition.xclbin' >> run_app.sh
 	$(ECHO) 'return_code=$$?' >> run_app.sh
 	$(ECHO) 'if [ $$return_code -ne 0 ]; then' >> run_app.sh
 	$(ECHO) 'echo "ERROR: host run failed, RC=$$return_code"' >> run_app.sh

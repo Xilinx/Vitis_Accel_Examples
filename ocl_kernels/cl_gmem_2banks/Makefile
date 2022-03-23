@@ -84,7 +84,7 @@ LDFLAGS += $(opencl_LDFLAGS)
 
 
 ########################## Checking if PLATFORM in whitelist #######################
-PLATFORM_BLOCKLIST += u30 u50 u55 vck zc samsung _u2_ x3522pv nodma 
+PLATFORM_BLOCKLIST += u30 u50 u55 vck zc samsung u2_ x3522pv nodma 
 ############################## Setting up Host Variables ##############################
 #Include Required Host Source Files
 CXXFLAGS += -I$(XF_PROJ_ROOT)/common/includes/xcl2

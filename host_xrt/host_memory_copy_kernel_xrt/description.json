@@ -13,7 +13,7 @@
     ],
     "platform_type": "pcie",
     "platform_blacklist": [ 
-        "_u25_",
+        "u25_",
         "u30",
         "u50lv",
         "u50_gen3x4",
@@ -21,7 +21,7 @@
         "vck", 
         "2019",
         "2018",  
-        "_u2_"
+        "u2_"
     ], 
     "os": [
         "Linux"

@@ -14,7 +14,7 @@
 * under the License.
 */
 
-#include "aie/aie_graph.h"
+#include "aie_graph.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>

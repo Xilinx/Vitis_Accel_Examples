@@ -1,6 +1,6 @@
 {
     "platform_blacklist": {
-        "_u25_": "Alveo U25 SmartNIC",
+        "u25_": "Alveo U25 SmartNIC",
         "u30": "Alveo U30",
         "u200": "Alveo U200",
         "u250": "Alveo U250",
@@ -11,7 +11,7 @@
         "zc": "All Embedded Zynq Platforms, i.e zc702, zcu102 etc", 
         "vck": "All Versal Platforms, i.e vck190 etc",
         "samsung": "Samsung SmartSSD Computation Storage Drive",
-        "_u2_": "Samsung U.2 SmartSSD",
+        "u2_": "Samsung U.2 SmartSSD",
         "nodma": "All NoDMA Platforms, i.e u50 nodma etc",
         "zc706": "ZC706 Evaluation board",
         "zc7": "ZC706 Evaluation board",

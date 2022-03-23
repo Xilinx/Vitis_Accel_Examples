@@ -14,12 +14,12 @@
         "PLRAMs"
     ], 
     "platform_blacklist": [
-        "_u25_",
+        "u25_",
         "u30",
         "zc",
         "vck", 
         "samsung",
-        "_u2_",
+        "u2_",
         "x3522pv",
         "nodma"    
     ], 

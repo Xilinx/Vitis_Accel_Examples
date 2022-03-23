@@ -5,7 +5,7 @@
     ],
     "flow": "vitis",
     "platform_blacklist": [
-        "_u25_",
+        "u25_",
         "u30",
         "u200", 
         "zc",
@@ -13,7 +13,7 @@
         "u250",
         "aws-vu9p-f1",
         "samsung",
-        "_u2_",
+        "u2_",
         "x3522pv",
         "nodma"
     ], 

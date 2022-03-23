@@ -81,7 +81,7 @@ RESULT_STRING = TEST PASSED
 
 VPP := v++
 VPP_PFLAGS := 
-CMD_ARGS = $(BUILD_DIR)/vector_addition.xclbin
+CMD_ARGS = $(BUILD_DIR)/vector_addition.xclbin $(BUILD_DIR)/vector_addition.xclbin
 SDCARD := sd_card
 vck190_dfx_hw := false
 

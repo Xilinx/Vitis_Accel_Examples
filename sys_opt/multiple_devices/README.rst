@@ -28,7 +28,7 @@ Once the environment has been configured, the application can be executed by
 
 ::
 
-   ./multiple_devices <vector_addition XCLBIN>
+   ./multiple_devices <vector_addition XCLBIN> <vector_addition XCLBIN>
 
 DETAILS
 -------

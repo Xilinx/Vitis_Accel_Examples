@@ -86,7 +86,7 @@ LDFLAGS += $(opencl_LDFLAGS)
 
 
 ########################## Checking if PLATFORM in whitelist #######################
-PLATFORM_BLOCKLIST += zc _u25_ u30 vck aws 201910 u50_gen3x16_xdma_2019 
+PLATFORM_BLOCKLIST += zc u25_ u30 vck aws 201910 u50_gen3x16_xdma_2019 
 PLATFORM_ALLOWLIST += samsung_u2 
 
 ############################## Setting up Host Variables ##############################

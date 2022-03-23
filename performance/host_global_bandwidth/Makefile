@@ -102,9 +102,6 @@ VPP_FLAGS += -t $(TARGET) --platform $(PLATFORM) --save-temps
 ifeq ($(findstring u250, $(PLATFORM)), u250)
 VPP_LDFLAGS += --config ./conn_u250.cfg
 endif
-ifeq ($(findstring _u2_, $(PLATFORM)), _u2_)
-VPP_LDFLAGS += --config ./conn_u2.cfg
-endif
 ifeq ($(findstring samsung, $(PLATFORM)), samsung)
 VPP_LDFLAGS += --config ./conn_u2.cfg
 endif
@@ -117,6 +114,9 @@ endif
 ifeq ($(findstring u30, $(PLATFORM)), u30)
 VPP_LDFLAGS += --config ./conn_u30.cfg
 endif
+ifeq ($(findstring u25_, $(PLATFORM)), u25_)
+VPP_LDFLAGS += --config ./conn_u25.cfg
+endif
 ifeq ($(findstring u50, $(PLATFORM)), u50)
 VPP_LDFLAGS += --config ./conn_u50.cfg
 endif
@@ -126,8 +126,8 @@ endif
 ifeq ($(findstring x3522pv, $(PLATFORM)), x3522pv)
 VPP_LDFLAGS += --config ./conn_x3522pv.cfg
 endif
-ifeq ($(findstring _u25_, $(PLATFORM)), _u25_)
-VPP_LDFLAGS += --config ./conn_u25.cfg
+ifeq ($(findstring u2_, $(PLATFORM)), u2_)
+VPP_LDFLAGS += --config ./conn_u2.cfg
 endif
 
 EXECUTABLE = ./host_global_bandwidth
