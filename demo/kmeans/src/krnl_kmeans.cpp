@@ -142,6 +142,7 @@ void compute_new_centers(hls::stream<unsigned int> index_str[PARALLEL_POINTS],
 
 calc_centers_1:
     for (int p = 0; p < PARALLEL_POINTS; p++, npoints_cnt++) {
+#pragma HLS dependence variable = l_new_centers inter false
     calc_centers_2:
         for (int f = 0; f < nfeatures; f++) {
 #pragma HLS LOOP_TRIPCOUNT min = c_nfeatures max = c_nfeatures
