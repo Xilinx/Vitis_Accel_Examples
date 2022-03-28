@@ -178,9 +178,9 @@ $(BUILD_DIR)/$(PACKAGE_OUT)/krnl_vmul.xclbin: $(BUILD_DIR)/krnl_vmul.xclbin $(BU
 ifneq ($(HOST_ARCH), x86)
 ifeq ($(findstring vck190_base_dfx, $(PLATFORM)), vck190_base_dfx)
 ifeq ($(TARGET),$(filter $(TARGET), hw))
-	$(VPP) $(VPP_FLAGS) -p $(BUILD_DIR)/krnl_vmul.xsa -o vmul.xclbin 
-	$(VPP) $(VPP_FLAGS) -p $(BUILD_DIR)/krnl_vadd.xsa -o vadd.xclbin 
-	$(VPP) $(VPP_PFLAGS) $(VPP_FLAGS) -p --package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.sd_file $(SD_IMAGE_FILE) --package.sd_file xrt.ini --package.sd_file $(RUN_APP_SCRIPT) --package.sd_file $(EXECUTABLE) --package.sd_file vmul.xclbin --package.sd_file vadd.xclbin
+	$(VPP) $(VPP_FLAGS) -p $(BUILD_DIR)/krnl_vmul.xsa -o krnl_vmul.xclbin 
+	$(VPP) $(VPP_FLAGS) -p $(BUILD_DIR)/krnl_vadd.xsa -o krnl_vadd.xclbin 
+	$(VPP) $(VPP_PFLAGS) $(VPP_FLAGS) -p --package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.sd_file $(SD_IMAGE_FILE) --package.sd_file xrt.ini --package.sd_file $(RUN_APP_SCRIPT) --package.sd_file $(EXECUTABLE) --package.sd_file krnl_vmul.xclbin --package.sd_file krnl_vadd.xclbin
 vck190_dfx_hw := true
 endif
 endif
