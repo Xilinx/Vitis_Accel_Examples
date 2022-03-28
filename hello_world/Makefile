@@ -22,10 +22,13 @@ PWD = $(shell readlink -f .)
 XF_PROJ_ROOT = $(shell readlink -f $(COMMON_REPO))
 
 HOST_ARCH := x86
-PLATFORM := $(PLATFORM_REPO_PATHS)/xilinx_u250_gen3x16_xdma_3_1_202020_1/xilinx_u250_gen3x16_xdma_3_1_202020_1.xpfm
-DEV_ARCH := $(shell platforminfo --json="hardwarePlatform.devices[0].part.architecture" -p $(PLATFORM))
+PLATFORM := xilinx_u250_gen3x16_xdma_3_1_202020_1
+DEV_ARCH := $(shell platforminfo -p $(PLATFORM) | grep 'FPGA Family' | sed 's/.*://' | sed '/ai_engine/d' | sed 's/^[[:space:]]*//')
 
 ifeq ($(DEV_ARCH), virtexuplus)
+include makefile_us_alveo.mk
+else
+ifeq ($(DEV_ARCH), virtexuplusHBM)
 include makefile_us_alveo.mk
 else
 ifeq ($(DEV_ARCH), zynquplus)
@@ -39,6 +42,7 @@ ifeq ($(HOST_ARCH), x86)
 include makefile_versal_alveo.mk
 else
 include makefile_versal_ps.mk
+endif
 endif
 endif
 endif
