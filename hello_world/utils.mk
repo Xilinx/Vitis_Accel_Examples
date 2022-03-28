@@ -25,11 +25,6 @@ PLATFORM := $(DEVICE)
 endif
 endif
 
-#Platform Architecture
-ifneq ($(PLATFORM),)
-DEV_ARCH := $(shell platforminfo --json="hardwarePlatform.devices[0].part.architecture" -p $(PLATFORM))
-endif
-
 #Checks for XILINX_VITIS
 check-vitis:
 ifndef XILINX_VITIS
