@@ -44,6 +44,11 @@
                ]
         }
     },
+    "v++": {
+        "build_datafiles" : [            
+            "PROJECT/runPre.tcl"
+        ]
+     },
     "containers": [
         {
             "accelerators": [
