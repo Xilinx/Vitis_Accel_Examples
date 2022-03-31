@@ -117,18 +117,19 @@ int main(int argc, char** argv) {
 
     // Copy input data to device global memory
     OCL_CHECK(err, err = q.enqueueMigrateMemObjects({buffer_input}, 0 /* 0 means from host*/));
+    OCL_CHECK(err, err = q.finish());
 
     // Launch the Kernel
     OCL_CHECK(err, err = q.enqueueTask(krnl_mm2s));
     OCL_CHECK(err, err = q.enqueueTask(krnl_s2mm));
 
-    q.finish(); // Waiting for kernels to finish execution
+    OCL_CHECK(err, err = q.finish()); // Waiting for kernels to finish execution
 
     // Copy Result from Device Global Memory to Host Local Memory
     OCL_CHECK(err, err = q.enqueueMigrateMemObjects({buffer_output}, CL_MIGRATE_MEM_OBJECT_HOST));
 
     // OpenCL Host Code Ends
-    q.finish();
+    OCL_CHECK(err, err = q.finish());
 
     for (int i = 0; i < size; i++) {
         if (sw_results[i] != hw_results[i]) {
