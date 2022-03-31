@@ -36,7 +36,6 @@
     }, 
    "v++": {
         "build_datafiles" : [            
-            "PROJECT/myconfig_hw.cfg",
             "PROJECT/post_dbg_profile_overlay.tcl",
             "PROJECT/connect_debug_core.xdc"
         ]

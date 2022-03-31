@@ -31,8 +31,7 @@
     }, 
     "v++": {
         "build_datafiles" : [            
-            "PROJECT/hls_config.tcl",
-            "PROJECT/bandwidth.cfg"
+            "PROJECT/hls_config.tcl"
         ]
      },
     "containers": [

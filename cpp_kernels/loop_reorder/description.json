@@ -34,8 +34,7 @@
     }, 	
     "v++": {
         "build_datafiles" : [            
-            "PROJECT/hls_config.tcl",
-            "PROJECT/mmult_mmult.cfg"
+            "PROJECT/hls_config.tcl"
         ]
      },
     "containers": [
