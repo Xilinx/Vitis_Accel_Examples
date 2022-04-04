@@ -25,14 +25,15 @@ HOST_ARCH := x86
 PLATFORM := xilinx_u250_gen3x16_xdma_3_1_202020_1
 DEV_ARCH := $(shell platforminfo -p $(PLATFORM) | grep 'FPGA Family' | sed 's/.*://' | sed '/ai_engine/d' | sed 's/^[[:space:]]*//')
 
-ifeq ($(DEV_ARCH), virtexuplus)
-include makefile_us_alveo.mk
-else
-ifeq ($(DEV_ARCH), virtexuplusHBM)
+ifeq ($(DEV_ARCH),$(filter $(DEV_ARCH),virtexuplus virtexuplusHBM kintexuplus))
 include makefile_us_alveo.mk
 else
 ifeq ($(DEV_ARCH), zynquplus)
+ifeq ($(HOST_ARCH), aarch64)
 include makefile_zynqmp.mk
+else
+include makefile_us_alveo.mk
+endif
 else
 ifeq ($(DEV_ARCH), zynq)
 include makefile_zynq7000.mk
@@ -42,7 +43,6 @@ ifeq ($(HOST_ARCH), x86)
 include makefile_versal_alveo.mk
 else
 include makefile_versal_ps.mk
-endif
 endif
 endif
 endif

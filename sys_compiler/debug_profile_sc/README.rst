@@ -13,6 +13,8 @@ This simple example implements a HW pipeline of three tasks, matrix multiplicati
  - All Embedded Zynq Platforms, i.e zc702, zcu102 etc
  - All Versal Platforms, i.e vck190 etc
  - Alveo U55
+ - Alveo U25 SmartNIC
+ - Samsung U.2 SmartSSD
  - AWS VU9P F1
 
 DESIGN FILES

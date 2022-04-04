@@ -21,8 +21,9 @@
         "nodma",
         "zc",
         "vck",
-        "aws",
-        "u2"
+        "u2_",
+        "u25_",
+        "aws"
     ], 
     "os": [
         "Linux"
