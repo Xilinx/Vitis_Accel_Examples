@@ -161,12 +161,8 @@ int main(int argc, char** argv) {
     // Buffers are allocated using CL_MEM_USE_HOST_PTR for efficient memory and
     // Device-to-host communication
     std::cout << "Creating Buffers..." << std::endl;
-    OCL_CHECK(err, cl::Buffer buffer_input(context,
-                                           CL_MEM_USE_HOST_PTR, // | CL_INCREMENT_ONLY,
-                                           vector_size_bytes, source_input.data(), &err));
-    OCL_CHECK(err, cl::Buffer buffer_output(context,
-                                            CL_MEM_USE_HOST_PTR, // | CL_MEM_WRITE_ONLY,
-                                            vector_size_bytes, source_hw_results.data(), &err));
+    OCL_CHECK(err, cl::Buffer buffer_input(context, CL_MEM_READ_WRITE, vector_size_bytes, nullptr, &err));
+    OCL_CHECK(err, cl::Buffer buffer_output(context, CL_MEM_READ_WRITE, vector_size_bytes, nullptr, &err));
 
     // Set the Kernel Arguments
     int size = data_size;
@@ -177,7 +173,8 @@ int main(int argc, char** argv) {
     OCL_CHECK(err, err = krnl_mem_write1.setArg(2, size));
     // Copy input data to device global memory
     std::cout << "Copying data..." << std::endl;
-    OCL_CHECK(err, err = q.enqueueMigrateMemObjects({buffer_input}, 0 /*0 means from host*/));
+    OCL_CHECK(err, err = q.enqueueWriteBuffer({buffer_input}, CL_TRUE, 0, vector_size_bytes, source_input.data(),
+                                              nullptr, nullptr));
 
     OCL_CHECK(err, err = q.finish());
 
@@ -192,7 +189,8 @@ int main(int argc, char** argv) {
 
     // Copy Result from Device Global Memory to Host Local Memory
     std::cout << "Getting Results..." << std::endl;
-    OCL_CHECK(err, err = q.enqueueMigrateMemObjects({buffer_output}, CL_MIGRATE_MEM_OBJECT_HOST));
+    OCL_CHECK(err, err = q.enqueueReadBuffer({buffer_output}, CL_TRUE, 0, vector_size_bytes, source_hw_results.data(),
+                                             nullptr, nullptr));
     OCL_CHECK(err, err = q.finish());
     // OPENCL HOST CODE AREA END
 
@@ -214,7 +212,8 @@ int main(int argc, char** argv) {
     OCL_CHECK(err, err = krnl_mem_write2.setArg(2, size));
     // Copy input data to device global memory
     std::cout << "Copying data..." << std::endl;
-    OCL_CHECK(err, err = q.enqueueMigrateMemObjects({buffer_input}, 0 /*0 means from host*/));
+    OCL_CHECK(err, err = q.enqueueWriteBuffer({buffer_input}, CL_TRUE, 0, vector_size_bytes, source_input.data(),
+                                              nullptr, nullptr));
 
     OCL_CHECK(err, err = q.finish());
 
@@ -229,7 +228,8 @@ int main(int argc, char** argv) {
     auto end_rd_incrRtl_wr = std::chrono::high_resolution_clock::now();
     // Copy Result from Device Global Memory to Host Local Memory
     std::cout << "Getting Results..." << std::endl;
-    OCL_CHECK(err, err = q.enqueueMigrateMemObjects({buffer_output}, CL_MIGRATE_MEM_OBJECT_HOST));
+    OCL_CHECK(err, err = q.enqueueReadBuffer({buffer_output}, CL_TRUE, 0, vector_size_bytes, source_hw_results.data(),
+                                             nullptr, nullptr));
     OCL_CHECK(err, err = q.finish());
     // OPENCL HOST CODE AREA END
 
