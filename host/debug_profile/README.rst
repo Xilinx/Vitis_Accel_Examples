@@ -1,7 +1,7 @@
 Debug Profile (C)
 =================
 
-This is simple example of vector addition and printing profile data (wall clock time taken between start and stop). It also dump a waveform file which can be reloaded to vivado to see the waveform. Run command 'vivado -source ./scripts/open_waveform.tcl -tclargs <device_name>-<kernel_name>.<target>.<device_name>.wdb' to launch waveform viewer. User can also update batch to gui in xrt.ini file to see the live waveform while running application.
+This is simple example of vector addition and printing profile data (wall clock time taken between start and stop). It also dump a waveform file which can be reloaded to vivado to see the waveform. Run command 'vivado -source ./scripts/open_waveform.tcl -tclargs <device_name>-<kernel_name>.<target>.<device_name>.wdb' to launch waveform viewer. User can also update batch to gui in xrt.ini file to see the live waveform while running application. The example also demonstrates the use of hls::print to print a format string/int/double argument to standard output, and to the simulation log in cosim and HW_EMU.
 
 **KEY CONCEPTS:** `Use of Profile API <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Profiling-the-Application>`__, `Waveform Dumping and loading <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Waveform-View-and-Live-Waveform-Viewer>`__
 
@@ -77,5 +77,20 @@ If the user wants to record profiling information for arbitrary sections of his 
 1. user_range - Profiles and captures the data in the specified range
 
 2. user_event - Marks the event in the timeliene trace
+
+The user can also use the hls::print function to print a format string/int/double argument to standard output, and to the simulation log in cosim and HW_EMU. It can be used to trace the order in which code blocks are executed across complex control and concurrent execution (e.g. in dataflow) or trace the values of some selected variables.
+
+When used in this simple example:
+
+.. code:: cpp
+
+   #include "hls_print.h"
+   ...
+       hls::print("Number of elements : %d\n", length_r);
+       hls::print("Buffer size : %d\n", BUFFER_SIZE);
+
+   ...
+
+it prints the "Number of elements" and "buffer size" for C simulation, SW emulation, RTL cosimulation and HW emulation (Not supported in HW as of now).
 
 For more comprehensive documentation, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.

@@ -21,6 +21,8 @@
 // Purpose: Demonstrate Vector Add in C++ HLS
 //
 
+#include "hls_print.h"
+
 #define LENGTH 256
 #define BUFFER_SIZE 256
 
@@ -34,6 +36,9 @@ void krnl_vadd(int* a, int* e, const int length_r) {
     int arrayB[BUFFER_SIZE];
     int arrayC[BUFFER_SIZE];
     int arrayD[BUFFER_SIZE];
+
+    hls::print("Number of elements : %d\n", length_r);
+    hls::print("Buffer size : %d\n", BUFFER_SIZE);
 
     for (int i = 0; i < length_r; i += BUFFER_SIZE) {
 #pragma HLS LOOP_TRIPCOUNT min = c_len max = c_len

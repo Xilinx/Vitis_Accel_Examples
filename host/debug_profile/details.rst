@@ -46,3 +46,18 @@ If the user wants to record profiling information for arbitrary sections of his 
 1. user_range - Profiles and captures the data in the specified range
 
 2. user_event - Marks the event in the timeliene trace
+
+The user can also use the hls::print function to print a format string/int/double argument to standard output, and to the simulation log in cosim and HW_EMU. It can be used to trace the order in which code blocks are executed across complex control and concurrent execution (e.g. in dataflow) or trace the values of some selected variables.
+
+When used in this simple example:
+
+.. code:: cpp
+
+   #include "hls_print.h"
+   ...
+       hls::print("Number of elements : %d\n", length_r);
+       hls::print("Buffer size : %d\n", BUFFER_SIZE);
+
+   ...
+
+it prints the "Number of elements" and "buffer size" for C simulation, SW emulation, RTL cosimulation and HW emulation (Not supported in HW as of now).
