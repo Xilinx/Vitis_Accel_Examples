@@ -8,7 +8,8 @@
         "Multiple RTL Kernels"
     ],
     "platform_blacklist": [
-        "nodma"
+        "nodma",
+        "vck190"
     ], 
     "targets": [
         "hw", 

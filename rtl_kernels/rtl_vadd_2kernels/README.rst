@@ -8,6 +8,7 @@ This example has two RTL Kernels. Both Kernel_0 and Kernel_1 perform vector addi
 **EXCLUDED PLATFORMS:** 
 
  - All NoDMA Platforms, i.e u50 nodma etc
+ - Versal VCK190
 
 DESIGN FILES
 ------------
