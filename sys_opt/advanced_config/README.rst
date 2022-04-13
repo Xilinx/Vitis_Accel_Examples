@@ -10,6 +10,7 @@ This is simple example to describe how user can provide various advanced options
 **EXCLUDED PLATFORMS:** 
 
  - All NoDMA Platforms, i.e u50 nodma etc
+ - ZC706 Evaluation board
 
 DESIGN FILES
 ------------

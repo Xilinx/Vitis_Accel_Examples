@@ -17,7 +17,8 @@
 	"Clock Uncertainity"
     ],
     "platform_blacklist": [
-        "nodma"
+        "nodma",
+        "zc706"
     ], 
     "os": [
         "Linux"
