@@ -101,21 +101,6 @@ ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 	$(ECHO) 'export XILINX_VITIS=/mnt' >> run_app.sh
 	$(ECHO) 'export XCL_EMULATION_MODE=$(TARGET)' >> run_app.sh
 endif
-	$(ECHO) 'if [ -d xrt/aarch64-xilinx-linux/ ]' >> run_app.sh
-	$(ECHO) 'then' >> run_app.sh
-	$(ECHO) 'cd xrt/aarch64-xilinx-linux/' >> run_app.sh
-	$(ECHO) 'elif [ -d xrt/versal ]' >> run_app.sh
-	$(ECHO) 'then' >> run_app.sh
-	$(ECHO) 'cd xrt/versal' >> run_app.sh
-	$(ECHO) 'elif [ xrt/cortexa9t2hf-neon-xilinx-linux-gnueabi  ]' >> run_app.sh
-	$(ECHO) 'then' >> run_app.sh
-	$(ECHO) 'cd xrt/cortexa9t2hf-neon-xilinx-linux-gnueabi/' >> run_app.sh
-	$(ECHO) 'else' >> run_app.sh
-	$(ECHO) 'echo "unable to find xrt folder sub directories"' >> run_app.sh
-	$(ECHO) 'fi' >> run_app.sh
-	$(ECHO) './reinstall_xrt.sh' >> run_app.sh
-	$(ECHO) 'return_code=$$?' >> run_app.sh
-	$(ECHO) 'cd -' >> run_app.sh    
 	$(ECHO) './$(EXECUTABLE) -x1 krnl_vmul.xclbin -x2 krnl_vadd.xclbin' >> run_app.sh
 	$(ECHO) 'return_code=$$?' >> run_app.sh
 	$(ECHO) 'if [ $$return_code -ne 0 ]; then' >> run_app.sh

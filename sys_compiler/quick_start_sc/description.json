@@ -32,7 +32,8 @@
     "runtime": [
         "OpenCL"
     ],
-    "match_makefile" : "false", 
+    "match_makefile" : "false",
+    "match_ini": "false", 
     "host": {
         "host_exe": "host.exe",
         "compiler": {
