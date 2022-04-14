@@ -4,6 +4,11 @@
         "This is simple example of vector addition and printing profile data (wall clock time taken between start and stop). It also dump a waveform file which can be reloaded to vivado to see the waveform. Run command 'vivado -source ./scripts/open_waveform.tcl -tclargs <device_name>-<kernel_name>.<target>.<device_name>.wdb' to launch waveform viewer. User can also update batch to gui in xrt.ini file to see the live waveform while running application. The example also demonstrates the use of hls::print to print a format string/int/double argument to standard output, and to the simulation log in cosim and HW_EMU."
     ],
     "flow": "vitis",
+    "keywords": [
+        "debug_mode=gui/batch",
+        "user_range",
+        "user_event"
+    ],
     "key_concepts": [
         "Use of Profile API", 
         "Waveform Dumping and loading"
