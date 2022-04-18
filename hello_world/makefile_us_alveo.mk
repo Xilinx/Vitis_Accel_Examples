@@ -94,7 +94,7 @@ $(BUILD_DIR)/vadd.xclbin: $(TEMP_DIR)/vadd.xo
 
 ############################## Setting Rules for Host (Building Host Executable) ##############################
 $(EXECUTABLE): $(HOST_SRCS) | check-xrt
-	$(CXX) -o $@ $^ $(CXXFLAGS) $(LDFLAGS)
+	g++ -o $@ $^ $(CXXFLAGS) $(LDFLAGS)
 
 emconfig:$(EMCONFIG_DIR)/emconfig.json
 $(EMCONFIG_DIR)/emconfig.json:

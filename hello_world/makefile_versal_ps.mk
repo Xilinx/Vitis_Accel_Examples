@@ -46,7 +46,12 @@ help:
 ############################## Setting up Project Variables ##############################
 TARGET := hw
 HOST_ARCH := aarch64
-SYSROOT := 
+check_edge_sw:
+ifndef EDGE_COMMON_SW
+	$(error EDGE_COMMON_SW variable is not set, please download and use the pre-built image from https://www.xilinx.com/support/download/index.html/content/xilinx/en/downloadNav/embedded-platforms.html)
+endif
+SYSROOT := $(EDGE_COMMON_SW)/sysroots/cortexa72-cortexa53-xilinx-linux
+SD_IMAGE_FILE := $(EDGE_COMMON_SW)/Image
 
 include ./utils.mk
 TEMP_DIR := ./_x.$(TARGET).$(XSA)
@@ -92,7 +97,7 @@ EMU_DIR = $(SDCARD)/data/emulation
 ############################## Declaring Binary Containers ##############################
 
 ############################## Setting Targets ##############################
-all: check-platform check-device $(EXECUTABLE) $(BUILD_DIR)/vadd.xclbin emconfig sd_card
+all: check-platform check-device check_edge_sw $(EXECUTABLE) $(BUILD_DIR)/vadd.xclbin emconfig sd_card
 
 host: $(EXECUTABLE)
 
@@ -109,8 +114,8 @@ $(BUILD_DIR)/vadd.xclbin: $(TEMP_DIR)/vadd.xo
 	v++ $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) -o'$(LINK_OUTPUT)' $(+)
 
 ############################## Setting Rules for Host (Building Host Executable) ##############################
-$(EXECUTABLE): $(HOST_SRCS) | check-xrt
-	$(CXX) -o $@ $^ $(CXXFLAGS) $(LDFLAGS)
+$(EXECUTABLE): $(HOST_SRCS) | check-vitis check_edge_sw 
+	$(XILINX_VITIS)/gnu/aarch64/lin/aarch64-linux/bin/aarch64-linux-gnu-g++ -o $@ $^ $(CXXFLAGS) $(LDFLAGS)
 
 emconfig:$(EMCONFIG_DIR)/emconfig.json
 $(EMCONFIG_DIR)/emconfig.json:
