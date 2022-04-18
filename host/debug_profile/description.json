@@ -7,7 +7,8 @@
     "keywords": [
         "debug_mode=gui/batch",
         "user_range",
-        "user_event"
+        "user_event",
+        "hls::print"
     ],
     "key_concepts": [
         "Use of Profile API", 

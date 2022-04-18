@@ -60,4 +60,4 @@ When used in this simple example:
 
    ...
 
-it prints the "Number of elements" and "buffer size" for C simulation, SW emulation, RTL cosimulation and HW emulation (Not supported in HW as of now).
+it prints the "Number of elements" and "buffer size" for C simulation, SW emulation, RTL cosimulation and HW emulation. It is ignored in HW flow and does not impact the kernel functionality.
