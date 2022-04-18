@@ -5,7 +5,7 @@ This is simple example of vector addition and printing profile data (wall clock 
 
 **KEY CONCEPTS:** `Use of Profile API <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Profiling-the-Application>`__, `Waveform Dumping and loading <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Waveform-View-and-Live-Waveform-Viewer>`__
 
-**KEYWORDS:** `debug_mode=gui/batch <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Enable-Waveform-Debugging-with-the-Vitis-Compiler-Command>`__, `user_range <https://docs.xilinx.com/r/2021.1-English/ug1393-vitis-application-acceleration/Profiling-of-C-Code?tocId=Mr4opDBD1mYmK4fSMoQH5>`__, `user_event <https://docs.xilinx.com/r/2021.1-English/ug1393-vitis-application-acceleration/Profiling-of-C-Code?tocId=Mr4opDBD1mYmK4fSMoQH5>`__
+**KEYWORDS:** `debug_mode=gui/batch <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Enable-Waveform-Debugging-with-the-Vitis-Compiler-Command>`__, `user_range <https://docs.xilinx.com/r/2021.1-English/ug1393-vitis-application-acceleration/Profiling-of-C-Code?tocId=Mr4opDBD1mYmK4fSMoQH5g>`__, `user_event <https://docs.xilinx.com/r/2021.1-English/ug1393-vitis-application-acceleration/Profiling-of-C-Code?tocId=Mr4opDBD1mYmK4fSMoQH5g>`__
 
 **EXCLUDED PLATFORMS:** 
 
