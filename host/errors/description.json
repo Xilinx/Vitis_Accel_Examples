@@ -25,7 +25,13 @@
     "host": {
         "host_exe": "errors",
         "compiler": {
-            "sources": []
+            "sources": [
+                "REPO_DIR/common/includes/xcl2/xcl2.cpp",
+                "./src/host.cpp"
+            ],
+            "includepaths": [
+                "REPO_DIR/common/includes/xcl2"
+            ]
         }
     }, 
     "containers": [
