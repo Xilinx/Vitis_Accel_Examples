@@ -154,7 +154,7 @@ Application code is located in the src directory. Accelerator binary files will 
    src/nb_test_master.py
    src/nb_test_slave.py
    
-Access these files in the github repo by `clicking here <https://github.com/Xilinx/Vitis_Accel_Examples/tree/master/emulation/external_io_py>`__.
+Access these files in the github repo by `clicking here <https://github.com/Xilinx/Vitis_Accel_Examples/tree/2021.2/emulation/external_io_py>`__.
 
 COMMAND LINE ARGUMENTS
 ----------------------

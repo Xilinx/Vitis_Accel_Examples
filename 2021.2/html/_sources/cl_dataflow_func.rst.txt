@@ -43,7 +43,7 @@ Application code is located in the src directory. Accelerator binary files will 
    src/adder.cl
    src/host.cpp
    
-Access these files in the github repo by `clicking here <https://github.com/Xilinx/Vitis_Accel_Examples/tree/master/ocl_kernels/cl_dataflow_func>`__.
+Access these files in the github repo by `clicking here <https://github.com/Xilinx/Vitis_Accel_Examples/tree/2021.2/ocl_kernels/cl_dataflow_func>`__.
 
 COMMAND LINE ARGUMENTS
 ----------------------

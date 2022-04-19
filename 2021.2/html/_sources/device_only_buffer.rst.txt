@@ -38,7 +38,7 @@ Application code is located in the src directory. Accelerator binary files will 
    src/madd.cpp
    src/mmult.cpp
    
-Access these files in the github repo by `clicking here <https://github.com/Xilinx/Vitis_Accel_Examples/tree/master/host/device_only_buffer>`__.
+Access these files in the github repo by `clicking here <https://github.com/Xilinx/Vitis_Accel_Examples/tree/2021.2/host/device_only_buffer>`__.
 
 COMMAND LINE ARGUMENTS
 ----------------------

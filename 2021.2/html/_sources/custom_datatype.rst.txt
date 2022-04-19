@@ -60,7 +60,7 @@ Application code is located in the src directory. Accelerator binary files will 
    src/rgb_to_hsv.cpp
    src/rgb_to_hsv.h
    
-Access these files in the github repo by `clicking here <https://github.com/Xilinx/Vitis_Accel_Examples/tree/master/cpp_kernels/custom_datatype>`__.
+Access these files in the github repo by `clicking here <https://github.com/Xilinx/Vitis_Accel_Examples/tree/2021.2/cpp_kernels/custom_datatype>`__.
 
 COMMAND LINE ARGUMENTS
 ----------------------

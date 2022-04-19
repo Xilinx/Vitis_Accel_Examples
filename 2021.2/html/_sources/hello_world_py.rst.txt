@@ -63,7 +63,7 @@ Application code is located in the src directory. Accelerator binary files will 
    src/utils_binding.py
    src/vadd.cpp
    
-Access these files in the github repo by `clicking here <https://github.com/Xilinx/Vitis_Accel_Examples/tree/master/host_py/hello_world_py>`__.
+Access these files in the github repo by `clicking here <https://github.com/Xilinx/Vitis_Accel_Examples/tree/2021.2/host_py/hello_world_py>`__.
 
 COMMAND LINE ARGUMENTS
 ----------------------
@@ -72,5 +72,5 @@ Once the environment has been configured, the application can be executed by
 
 ::
 
-   python3 ./src/host.py -k <vadd XCLBIN>
+   ./src/host.py -k <vadd XCLBIN>
 

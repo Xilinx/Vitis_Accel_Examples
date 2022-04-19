@@ -20,7 +20,7 @@ Application code is located in the src directory. Accelerator binary files will 
    src/pl/s2mm.cpp
    src/ps/host.cpp
    
-Access these files in the github repo by `clicking here <https://github.com/Xilinx/Vitis_Accel_Examples/tree/master/validate/validate_aie_pl>`__.
+Access these files in the github repo by `clicking here <https://github.com/Xilinx/Vitis_Accel_Examples/tree/2021.2/validate/validate_aie_pl>`__.
 
 COMMAND LINE ARGUMENTS
 ----------------------

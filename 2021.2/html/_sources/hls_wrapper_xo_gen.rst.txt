@@ -60,7 +60,7 @@ Application code is located in the src directory. Accelerator binary files will 
    src/mem_read.cpp
    src/mem_write.cpp
    
-Access these files in the github repo by `clicking here <https://github.com/Xilinx/Vitis_Accel_Examples/tree/master/emulation/hls_wrapper_xo_gen>`__.
+Access these files in the github repo by `clicking here <https://github.com/Xilinx/Vitis_Accel_Examples/tree/2021.2/emulation/hls_wrapper_xo_gen>`__.
 
 COMMAND LINE ARGUMENTS
 ----------------------

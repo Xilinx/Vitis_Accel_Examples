@@ -83,6 +83,8 @@ platform:
  - All Versal Platforms, i.e vck190 etc
  - All NoDMA Platforms, i.e u50 nodma etc
  - All Embedded Zynq Platforms, i.e zc702, zcu102 etc
+ - Alveo U50
+ - Alveo U55
 
 DESIGN FILES
 ------------
@@ -94,7 +96,7 @@ Application code is located in the src directory. Accelerator binary files will 
    src/host.cpp
    src/kernel.cpp
    
-Access these files in the github repo by `clicking here <https://github.com/Xilinx/Vitis_Accel_Examples/tree/master/performance/host_global_bandwidth>`__.
+Access these files in the github repo by `clicking here <https://github.com/Xilinx/Vitis_Accel_Examples/tree/2021.2/performance/host_global_bandwidth>`__.
 
 COMMAND LINE ARGUMENTS
 ----------------------

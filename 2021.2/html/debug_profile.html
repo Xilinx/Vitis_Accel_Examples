@@ -368,7 +368,6 @@
 <li class="toctree-l2"><a class="reference internal" href="host_memory_copy_buffer.html">Host Memory Copy Buffer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="host_memory_copy_kernel.html">Host Memory Copy Kernel</a></li>
 <li class="toctree-l2"><a class="reference internal" href="streaming_free_running_k2k.html">Stream Free Running Kernel (HLS C/C++)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="streaming_reg_access.html">Control and Status Register access continuously streaming kernel (HLS C/C++)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="device_only_buffer.html">Device Only Buffer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="streaming_k2k_mm.html">Stream Kernel to Kernel Memory Mapped</a></li>
 </ul>
@@ -469,6 +468,7 @@
 <h1>Debug Profile<a class="headerlink" href="#debug-profile" title="Permalink to this headline">¶</a></h1>
 <p>This is simple example of vector addition and printing profile data (wall clock time taken between start and stop). It also dump a waveform file which can be reloaded to vivado to see the waveform. Run command ‘vivado -source ./scripts/open_waveform.tcl -tclargs &lt;device_name&gt;-&lt;kernel_name&gt;.&lt;target&gt;.&lt;device_name&gt;.wdb’ to launch waveform viewer. User can also update batch to gui in xrt.ini file to see the live waveform while running application.</p>
 <p><strong>KEY CONCEPTS:</strong> <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Profiling-the-Application">Use of Profile API</a>, <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Waveform-View-and-Live-Waveform-Viewer">Waveform Dumping and loading</a></p>
+<p><strong>KEYWORDS:</strong> <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Enable-Waveform-Debugging-with-the-Vitis-Compiler-Command">debug_mode=gui/batch</a>, <a class="reference external" href="https://docs.xilinx.com/r/2021.1-English/ug1393-vitis-application-acceleration/Profiling-of-C-Code?tocId=Mr4opDBD1mYmK4fSMoQH5g">user_range</a>, <a class="reference external" href="https://docs.xilinx.com/r/2021.1-English/ug1393-vitis-application-acceleration/Profiling-of-C-Code?tocId=Mr4opDBD1mYmK4fSMoQH5g">user_event</a></p>
 <p>The Vitis development environment can generate a waveform view and
 launch a live <code class="docutils literal notranslate"><span class="pre">waveform</span> <span class="pre">viewer</span></code> when running hardware emulation. It
 displays in-depth details on the emulation results at system level,
@@ -521,7 +521,7 @@ stall signals.</p>
 <span class="n">src</span><span class="o">/</span><span class="n">vadd</span><span class="o">.</span><span class="n">cpp</span>
 </pre></div>
 </div>
-<p>Access these files in the github repo by <a class="reference external" href="https://github.com/Xilinx/Vitis_Accel_Examples/tree/master/host/debug_profile">clicking here</a>.</p>
+<p>Access these files in the github repo by <a class="reference external" href="https://github.com/Xilinx/Vitis_Accel_Examples/tree/2021.2/host/debug_profile">clicking here</a>.</p>
 </div>
 <div class="section" id="command-line-arguments">
 <h2>COMMAND LINE ARGUMENTS<a class="headerlink" href="#command-line-arguments" title="Permalink to this headline">¶</a></h2>

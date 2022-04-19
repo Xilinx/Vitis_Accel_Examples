@@ -127,7 +127,7 @@ Application code is located in the src directory. Accelerator binary files will 
    src/nb_receive.cpp
    src/nb_send.cpp
    
-Access these files in the github repo by `clicking here <https://github.com/Xilinx/Vitis_Accel_Examples/tree/master/emulation/external_io_cpp>`__.
+Access these files in the github repo by `clicking here <https://github.com/Xilinx/Vitis_Accel_Examples/tree/2021.2/emulation/external_io_cpp>`__.
 
 COMMAND LINE ARGUMENTS
 ----------------------

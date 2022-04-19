@@ -36,7 +36,7 @@ Application code is located in the src directory. Accelerator binary files will 
    src/host.cpp
    src/vector_addition.cpp
    
-Access these files in the github repo by `clicking here <https://github.com/Xilinx/Vitis_Accel_Examples/tree/master/host/copy_buffer>`__.
+Access these files in the github repo by `clicking here <https://github.com/Xilinx/Vitis_Accel_Examples/tree/2021.2/host/copy_buffer>`__.
 
 COMMAND LINE ARGUMENTS
 ----------------------

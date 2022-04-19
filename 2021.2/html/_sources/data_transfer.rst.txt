@@ -120,7 +120,7 @@ Application code is located in the src directory. Accelerator binary files will 
    src/dummy_kernel.cpp
    src/host.cpp
    
-Access these files in the github repo by `clicking here <https://github.com/Xilinx/Vitis_Accel_Examples/tree/master/host/data_transfer>`__.
+Access these files in the github repo by `clicking here <https://github.com/Xilinx/Vitis_Accel_Examples/tree/2021.2/host/data_transfer>`__.
 
 COMMAND LINE ARGUMENTS
 ----------------------

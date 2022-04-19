@@ -65,7 +65,7 @@ Application code is located in the src directory. Accelerator binary files will 
    src/krnl_stream_vadd.cpp
    src/krnl_stream_vmult.cpp
    
-Access these files in the github repo by `clicking here <https://github.com/Xilinx/Vitis_Accel_Examples/tree/master/host/streaming_k2k_mm>`__.
+Access these files in the github repo by `clicking here <https://github.com/Xilinx/Vitis_Accel_Examples/tree/2021.2/host/streaming_k2k_mm>`__.
 
 COMMAND LINE ARGUMENTS
 ----------------------

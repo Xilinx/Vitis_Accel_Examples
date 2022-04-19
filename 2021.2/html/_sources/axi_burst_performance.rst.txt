@@ -213,7 +213,7 @@ Application code is located in the src directory. Accelerator binary files will 
    src/test_kernel_maxi_512bit_5.cpp
    src/test_kernel_maxi_512bit_6.cpp
    
-Access these files in the github repo by `clicking here <https://github.com/Xilinx/Vitis_Accel_Examples/tree/master/performance/axi_burst_performance>`__.
+Access these files in the github repo by `clicking here <https://github.com/Xilinx/Vitis_Accel_Examples/tree/2021.2/performance/axi_burst_performance>`__.
 
 COMMAND LINE ARGUMENTS
 ----------------------

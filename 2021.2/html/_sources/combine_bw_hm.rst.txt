@@ -70,7 +70,7 @@ Application code is located in the src directory. Accelerator binary files will 
    src/hostmemory.cpp
    src/verify.cpp
    
-Access these files in the github repo by `clicking here <https://github.com/Xilinx/Vitis_Accel_Examples/tree/master/validate/combine_bw_hm>`__.
+Access these files in the github repo by `clicking here <https://github.com/Xilinx/Vitis_Accel_Examples/tree/2021.2/validate/combine_bw_hm>`__.
 
 COMMAND LINE ARGUMENTS
 ----------------------

@@ -138,7 +138,7 @@ Application code is located in the src directory. Accelerator binary files will 
    src/dot_product_5.cpp
    src/host.cpp
    
-Access these files in the github repo by `clicking here <https://github.com/Xilinx/Vitis_Accel_Examples/tree/master/cpp_kernels/port_width_widening>`__.
+Access these files in the github repo by `clicking here <https://github.com/Xilinx/Vitis_Accel_Examples/tree/2021.2/cpp_kernels/port_width_widening>`__.
 
 COMMAND LINE ARGUMENTS
 ----------------------

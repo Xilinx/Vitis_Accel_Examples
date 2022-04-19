@@ -85,7 +85,7 @@ Application code is located in the src directory. Accelerator binary files will 
    src/matmul.cpp
    src/matmul_partition.cpp
    
-Access these files in the github repo by `clicking here <https://github.com/Xilinx/Vitis_Accel_Examples/tree/master/cpp_kernels/array_partition>`__.
+Access these files in the github repo by `clicking here <https://github.com/Xilinx/Vitis_Accel_Examples/tree/2021.2/cpp_kernels/array_partition>`__.
 
 COMMAND LINE ARGUMENTS
 ----------------------

@@ -99,7 +99,7 @@ Application code is located in the src directory. Accelerator binary files will 
    src/kernel.cpp
    src/kernel_global_bandwidth.cpp
    
-Access these files in the github repo by `clicking here <https://github.com/Xilinx/Vitis_Accel_Examples/tree/master/performance/kernel_global_bandwidth>`__.
+Access these files in the github repo by `clicking here <https://github.com/Xilinx/Vitis_Accel_Examples/tree/2021.2/performance/kernel_global_bandwidth>`__.
 
 COMMAND LINE ARGUMENTS
 ----------------------

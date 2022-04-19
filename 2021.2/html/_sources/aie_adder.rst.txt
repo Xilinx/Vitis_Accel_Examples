@@ -108,7 +108,7 @@ Application code is located in the src directory. Accelerator binary files will 
    data/input0.txt
    data/input1.txt
    
-Access these files in the github repo by `clicking here <https://github.com/Xilinx/Vitis_Accel_Examples/tree/master/aie_kernels/aie_adder>`__.
+Access these files in the github repo by `clicking here <https://github.com/Xilinx/Vitis_Accel_Examples/tree/2021.2/aie_kernels/aie_adder>`__.
 
 COMMAND LINE ARGUMENTS
 ----------------------
@@ -117,5 +117,5 @@ Once the environment has been configured, the application can be executed by
 
 ::
 
-   ./aie_adder <krnl_adder XCLBIN>
+   ./aie_adder
 
