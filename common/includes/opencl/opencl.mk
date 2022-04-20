@@ -10,4 +10,9 @@ endif
 VIVADO_INCLUDE:= $(XILINX_VIVADO)/include
 opencl_CXXFLAGS=-I$(OPENCL_INCLUDE) -I$(VIVADO_INCLUDE)
 OPENCL_LIB:= $(xrt_path)/lib
-opencl_LDFLAGS=-L$(OPENCL_LIB) -lOpenCL -pthread
+opencl_LDFLAGS=-L$(OPENCL_LIB) -pthread
+ifeq ($(HOST_ARCH), x86)
+    opencl_LDFLAGS+=-lOpenCL
+else
+    opencl_LDFLAGS+=-lxilinxopencl
+endif
