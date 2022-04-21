@@ -7,9 +7,7 @@
     "platform_blacklist": [
         "vck",
         "nodma",
-        "zc",
-        "u50",
-        "u55"
+        "zc"
     ], 
     "os": [
         "Linux"
@@ -79,6 +77,22 @@
             "v++": {
                 "linker": {
                     "ldclflags": [ "--config PROJECT/conn_u2.cfg"
+                      ]
+                }
+            }
+        },
+        "u55": {
+            "v++": {
+                "linker": {
+                    "ldclflags": [ "--config PROJECT/conn_u55.cfg"
+                      ]
+                }
+            }
+        },
+        "u50": {
+            "v++": {
+                "linker": {
+                    "ldclflags": [ "--config PROJECT/conn_u50.cfg"
                       ]
                 }
             }

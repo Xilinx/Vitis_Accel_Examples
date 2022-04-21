@@ -84,7 +84,7 @@ LDFLAGS += $(opencl_LDFLAGS)
 
 
 ########################## Checking if PLATFORM in whitelist #######################
-PLATFORM_BLOCKLIST += vck nodma zc u50 u55 
+PLATFORM_BLOCKLIST += vck nodma zc 
 ############################## Setting up Host Variables ##############################
 #Include Required Host Source Files
 CXXFLAGS += -I$(XF_PROJ_ROOT)/common/includes/xcl2
@@ -105,6 +105,9 @@ endif
 ifeq ($(findstring samsung, $(PLATFORM)), samsung)
 VPP_LDFLAGS += --config ./conn_u2.cfg
 endif
+ifeq ($(findstring u55, $(PLATFORM)), u55)
+VPP_LDFLAGS += --config ./conn_u55.cfg
+endif
 ifeq ($(findstring u280, $(PLATFORM)), u280)
 VPP_LDFLAGS += --config ./conn_u280.cfg
 endif
@@ -113,6 +116,9 @@ VPP_LDFLAGS += --config ./conn_u30.cfg
 endif
 ifeq ($(findstring u25_, $(PLATFORM)), u25_)
 VPP_LDFLAGS += --config ./conn_u25.cfg
+endif
+ifeq ($(findstring u50, $(PLATFORM)), u50)
+VPP_LDFLAGS += --config ./conn_u50.cfg
 endif
 ifeq ($(findstring u200, $(PLATFORM)), u200)
 VPP_LDFLAGS += --config ./conn_u200.cfg
