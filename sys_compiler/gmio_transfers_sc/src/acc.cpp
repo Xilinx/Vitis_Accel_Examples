@@ -16,40 +16,33 @@
 
 #include "acc.hpp"
 
-void acc_hls_kernel(float* A, float* X, int sz)
-{
+void acc_hls_kernel(float* A, float* X, int sz) {
 #pragma HLS INLINE
     for (int i = 0; i < sz; i++) {
         X[i] = A[i] + 0.0001 * i;
     }
 }
 
-void acc_seq::compute(float* A, float* X, int sz)
-{
+void acc_seq::compute(float* A, float* X, int sz) {
     hls_kernel(A, X, sz);
 }
 
-void acc_seq::hls_kernel(float* A, float* X, int sz)
-{
+void acc_seq::hls_kernel(float* A, float* X, int sz) {
     acc_hls_kernel(A, X, sz);
 }
 
-void acc_rnd::compute(float A[100], float X[100], int sz)
-{
+void acc_rnd::compute(float A[100], float X[100], int sz) {
     hls_kernel(A, X, sz);
 }
 
-void acc_rnd::hls_kernel(float A[100], float X[100], int sz)
-{
+void acc_rnd::hls_kernel(float A[100], float X[100], int sz) {
     acc_hls_kernel(A, X, sz);
 }
 
-void acc_zc::compute(float* A, float* X, int sz)
-{
+void acc_zc::compute(float* A, float* X, int sz) {
     hls_kernel(A, X, sz);
 }
 
-void acc_zc::hls_kernel(float* A, float* X, int sz)
-{
+void acc_zc::hls_kernel(float* A, float* X, int sz) {
     acc_hls_kernel(A, X, sz);
 }

@@ -61,8 +61,9 @@ int main(int argc, char** argv) {
     int sizeIn = DATA_SIZE;
     int sizeOut = DATA_SIZE;
 
-    int DataInput0[sizeIn], DataInput1[sizeIn];
-    int golden[sizeOut];
+    int* DataInput0 = new int[sizeIn];
+    int* DataInput1 = new int[sizeIn];
+    int* golden = new int[sizeOut];
 
     for (int i = 0; i < sizeIn; i++) {
         DataInput0[i] = rand() % 100;
@@ -192,6 +193,10 @@ int main(int argc, char** argv) {
     //////////////////////////////////////////
     // clean up XRT
     //////////////////////////////////////////
+    std::cout << "Releasing host Buffers...\n";
+    delete[] DataInput0;
+    delete[] DataInput1;
+    delete[] golden;
 
     std::cout << "Releasing remaining XRT objects...\n";
     xrtBOFree(in_bohdl0);

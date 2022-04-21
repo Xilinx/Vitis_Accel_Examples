@@ -97,12 +97,11 @@ LDFLAGS += -lrt -lstdc++
 
 ############################## Setting up Kernel Variables ##############################
 # Kernel compiler global settings
-VPP_FLAGS += 
 VPP_FLAGS += -t $(TARGET) --platform $(PLATFORM) --save-temps 
 
 
 # Kernel linker flags
-VPP_LDFLAGS_krnl_vaddmul += --config ./advanced.cfg --config ./krnl_vaddmul.cfg
+VPP_LDFLAGS_krnl_vaddmul += --config ./krnl_vaddmul.cfg
 
 EXECUTABLE = ./hbm_rama_ip
 EMCONFIG_DIR = $(TEMP_DIR)
