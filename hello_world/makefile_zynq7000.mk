@@ -16,6 +16,7 @@
 #
 
 ############################## Help Section ##############################
+ifneq ($(findstring Makefile, $(MAKEFILE_LIST)), Makefile)
 help:
 	$(ECHO) "Makefile Usage:"
 	$(ECHO) "  make all TARGET=<sw_emu/hw_emu/hw> PLATFORM=<FPGA platform> HOST_ARCH=<aarch32> EDGE_COMMON_SW=<rootfs and kernel image path>"
@@ -42,7 +43,7 @@ help:
 	$(ECHO) "  make host HOST_ARCH=<aarch32> EDGE_COMMON_SW=<rootfs and kernel image path>"
 	$(ECHO) "      Command to build host application."
 	$(ECHO) ""
-
+endif
 ############################## Setting up Project Variables ##############################
 TARGET := hw
 HOST_ARCH := aarch32
