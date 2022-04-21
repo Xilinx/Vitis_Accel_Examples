@@ -6,3 +6,4 @@ include $(XILINX_VITIS)/system_compiler/examples/vpp_sc_arm.mk
 else
 include $(XILINX_VITIS)/system_compiler/examples/vpp_sc.mk
 endif
+test: run

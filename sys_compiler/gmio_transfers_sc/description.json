@@ -17,7 +17,7 @@
     "platform_blacklist": [
         "u2_",
         "nodma",
-        "zcu104",
+        "zc",
         "vck",
         "u280",
         "aws"
