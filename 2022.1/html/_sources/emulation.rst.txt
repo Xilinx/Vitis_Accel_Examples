@@ -1,0 +1,15 @@
+Emulation Examples
+==================
+
+This section contains Emulation Examples.
+
+.. toctree::
+   :maxdepth: 1
+   :caption: List of Examples
+
+   aie_adder_ps_on_x86.rst
+   external_io_cpp.rst
+   external_io_py.rst
+   ps_on_x86.rst
+   stream_func_mode.rst
+   systemc_vadd.rst

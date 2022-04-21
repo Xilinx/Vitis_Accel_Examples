@@ -1,0 +1,24 @@
+Supported Shells
+===================
+
++-------------------------------------+-------------------------+
+| Shell                               | Software Version        |
++=====================================+=========================+
+| Xilinx Alveo U250                   | Vitis 2022.1            |
++-------------------------------------+-------------------------+
+| Xilinx Alveo U200                   | Vitis 2022.1            |
++-------------------------------------+-------------------------+
+| Xilinx Alveo U50                    | Vitis 2022.1            |
++-------------------------------------+-------------------------+
+| Xilinx Alveo U280                   | Vitis 2022.1            |
++-------------------------------------+-------------------------+
+| Xilinx Zynq UltraScale+ MPSoC ZCU102| Vitis 2022.1            |
++-------------------------------------+-------------------------+
+| Xilinx Zynq UltraScale+ MPSoC ZCU104| Vitis 2022.1            |
++-------------------------------------+-------------------------+
+| Xilinx Zynq-7000 SoC ZC706          | Vitis 2022.1            |
++-------------------------------------+-------------------------+
+| Xilinx Versal VCK190                | Vitis 2022.1            |
++-------------------------------------+-------------------------+
+
+For Embedded Platforms, please download and use the pre-built image from `here <https://www.xilinx.com/support/download/index.html/content/xilinx/en/downloadNav/embedded-platforms.html>`__.

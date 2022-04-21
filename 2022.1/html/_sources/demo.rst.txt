@@ -1,0 +1,10 @@
+Demos
+===========================
+
+This page contains different demos. The focus of the examples is towards different demos using HLS C/C++ kernels for Xilinx devices.
+
+.. toctree::
+   :maxdepth: 1
+   :caption: List of Examples
+
+   kmeans.rst
