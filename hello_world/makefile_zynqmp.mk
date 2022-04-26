@@ -47,11 +47,6 @@ endif
 ############################## Setting up Project Variables ##############################
 TARGET := hw
 HOST_ARCH := aarch64
-check_edge_sw:
-ifndef EDGE_COMMON_SW
-	$(error EDGE_COMMON_SW variable is not set, please download and use the pre-built image from https://www.xilinx.com/support/download/index.html/content/xilinx/en/downloadNav/embedded-platforms.html)
-endif
-
 SYSROOT := $(EDGE_COMMON_SW)/sysroots/cortexa72-cortexa53-xilinx-linux
 SD_IMAGE_FILE := $(EDGE_COMMON_SW)/Image
 
@@ -137,6 +132,11 @@ endif
 ############################## Preparing sdcard ##############################
 sd_card: $(BUILD_DIR)/vadd.xclbin $(EXECUTABLE) gen_run_app
 	v++ $(VPP_PFLAGS) -p $(BUILD_DIR)/vadd.xclbin -t $(TARGET) --platform $(PLATFORM) --package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.sd_file $(SD_IMAGE_FILE) --package.sd_file xrt.ini --package.sd_file $(RUN_APP_SCRIPT) --package.sd_file $(EXECUTABLE) -o vadd.xclbin
+
+check_edge_sw:
+ifndef EDGE_COMMON_SW
+	$(error EDGE_COMMON_SW variable is not set, please download and use the pre-built image from https://www.xilinx.com/support/download/index.html/content/xilinx/en/downloadNav/embedded-platforms.html)
+endif
 
 ############################## Cleaning Rules ##############################
 # Cleaning stuff
