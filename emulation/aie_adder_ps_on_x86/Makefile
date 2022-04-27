@@ -175,7 +175,6 @@ PACKAGING_CMD += --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 \
                  --package.image_format=ext4 \
                  --package.boot_mode=sd \
                  --package.kernel_image $(SD_IMAGE_FILE) \
-                 --package.sd_dir /proj/xbuilds/2022.1_daily_latest/internal_platforms/sw/versal/xrt \
                  --package.sd_file $(RUN_APP_SCRIPT) \
                  --package.sd_file aie_adder_ps_on_x86
 else
@@ -189,7 +188,7 @@ sd_card: check-device $(GRAPH_O) $(KERNEL_XO) host gen_run_app
 ifeq ($(findstring vck190_base_dfx, $(PLATFORM)), vck190_base_dfx)
 ifeq ($(TARGET),$(filter $(TARGET), hw))
 	v++ $(VPP_FLAGS) -t hw --platform $(PLATFORM) -p $(XCLBIN) -o krnl_adder.xclbin 
-	v++ $(VPP_PFLAGS) -t hw --platform $(PLATFORM) -p --package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.image_format=ext4 --package.boot_mode=sd --package.kernel_image=$(SD_IMAGE_FILE) --package.defer_aie_run --package.sd_dir /proj/xbuilds/2022.1_daily_latest/internal_platforms/sw/versal/xrt --package.sd_file $(RUN_APP_SCRIPT) --package.sd_file aie_adder --package.sd_file krnl_adder.xclbin --package.sd_file $(GRAPH_O)
+	v++ $(VPP_PFLAGS) -t hw --platform $(PLATFORM) -p --package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.image_format=ext4 --package.boot_mode=sd --package.kernel_image=$(SD_IMAGE_FILE) --package.defer_aie_run --package.sd_file $(RUN_APP_SCRIPT) --package.sd_file aie_adder --package.sd_file krnl_adder.xclbin --package.sd_file $(GRAPH_O)
 vck190_dfx_hw := true
 endif
 endif

@@ -12,7 +12,7 @@ This example demonstrates how a user can run the PS App as an x86 process instea
  - All Embedded Zynq Platforms, i.e zc702, zcu102 etc
  - AWS VU9P F1
  - Samsung SmartSSD Computation Storage Drive
- - Samsung U.2 SmartSSD
+ - _u2_
  - Versal VCK5000
  - All Xilinx DMA Platforms
 
@@ -26,13 +26,6 @@ Application code is located in the src directory. Accelerator binary files will 
    data/golden.txt
    data/input0.txt
    data/input1.txt
-   src/aie_adder.cc
-   src/aie_graph.cpp
-   src/aie_graph.h
-   src/aie_kernel.h
-   src/host.cpp
-   src/pl_mm2s.cpp
-   src/pl_s2mm.cpp
    
 COMMAND LINE ARGUMENTS
 ----------------------
@@ -75,7 +68,6 @@ There are no changes required in the V++ compile and link steps. For the rest of
        **--package.image_format=ext4** \​
        **--package.boot_mode=sd** \​
        **--package.kernel_image $(SD_IMAGE_FILE)** \ ​
-       **--package.sd_dir /proj/xbuilds/2022.1_daily_latest/internal_platforms/sw/versal/xrt** \​
        **--package.sd_file $(RUN_APP_SCRIPT)** \​
        **--package.sd_file aie_adder_ps_on_x86​**
      - v++ $(VPP_PFLAGS) -p -t sw_emu \​
