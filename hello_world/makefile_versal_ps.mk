@@ -16,6 +16,7 @@
 #
 
 ############################## Help Section ##############################
+ifneq ($(findstring Makefile, $(MAKEFILE_LIST)), Makefile)
 help:
 	$(ECHO) "Makefile Usage:"
 	$(ECHO) "  make all TARGET=<sw_emu/hw_emu/hw> PLATFORM=<FPGA platform> HOST_ARCH=<aarch64> EDGE_COMMON_SW=<rootfs and kernel image path>"
@@ -42,14 +43,10 @@ help:
 	$(ECHO) "  make host HOST_ARCH=<aarch64> EDGE_COMMON_SW=<rootfs and kernel image path>"
 	$(ECHO) "      Command to build host application."
 	$(ECHO) ""
-
+endif
 ############################## Setting up Project Variables ##############################
 TARGET := hw
 HOST_ARCH := aarch64
-check_edge_sw:
-ifndef EDGE_COMMON_SW
-	$(error EDGE_COMMON_SW variable is not set, please download and use the pre-built image from https://www.xilinx.com/support/download/index.html/content/xilinx/en/downloadNav/embedded-platforms.html)
-endif
 SYSROOT := $(EDGE_COMMON_SW)/sysroots/cortexa72-cortexa53-xilinx-linux
 SD_IMAGE_FILE := $(EDGE_COMMON_SW)/Image
 
@@ -145,6 +142,11 @@ endif
 endif
 ifeq ($(vck190_dfx_hw), false)
 	v++ $(VPP_PFLAGS) -p $(LINK_OUTPUT) $(VPP_FLAGS) --package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.sd_file $(SD_IMAGE_FILE) --package.sd_file xrt.ini --package.sd_file $(RUN_APP_SCRIPT) --package.sd_file $(EXECUTABLE) -o vadd.xclbin
+endif
+
+check_edge_sw:
+ifndef EDGE_COMMON_SW
+	$(error EDGE_COMMON_SW variable is not set, please download and use the pre-built image from https://www.xilinx.com/support/download/index.html/content/xilinx/en/downloadNav/embedded-platforms.html)
 endif
 
 ############################## Cleaning Rules ##############################

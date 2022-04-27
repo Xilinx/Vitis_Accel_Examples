@@ -9,7 +9,7 @@ In this example we have multiple accelerators in one xclbin, and compose them in
 
 **EXCLUDED PLATFORMS:** 
 
- - zcu104
+ - All Embedded Zynq Platforms, i.e zc702, zcu102 etc
  - All Versal Platforms, i.e vck190 etc
  - AWS VU9P F1
 
@@ -23,6 +23,13 @@ Application code is located in the src directory. Accelerator binary files will 
    src/filter.cpp
    src/filter.hpp
    src/main.cpp
+   src/nodma_config.hpp
+   src/u200_config.hpp
+   src/u25_config.hpp
+   src/u2_config.hpp
+   src/u50_config.hpp
+   src/u55_config.hpp
+   src/zcu102_config.hpp
    
 COMMAND LINE ARGUMENTS
 ----------------------

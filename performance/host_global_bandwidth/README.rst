@@ -8,8 +8,6 @@ Host to global memory bandwidth test
  - All Versal Platforms, i.e vck190 etc
  - All NoDMA Platforms, i.e u50 nodma etc
  - All Embedded Zynq Platforms, i.e zc702, zcu102 etc
- - Alveo U50
- - Alveo U55
 
 DESIGN FILES
 ------------

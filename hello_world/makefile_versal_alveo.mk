@@ -16,7 +16,7 @@
 #
 
 ############################## Help Section ##############################
-
+ifneq ($(findstring Makefile, $(MAKEFILE_LIST)), Makefile)
 help:
 	$(ECHO) "Makefile Usage:"
 	$(ECHO) "  make all TARGET=<sw_emu/hw_emu/hw> PLATFORM=<FPGA platform>"
@@ -40,7 +40,7 @@ help:
 	$(ECHO) "  make host"
 	$(ECHO) "      Command to build host application."
 	$(ECHO) ""
-
+endif
 ############################## Setting up Project Variables ##############################
 
 TARGET := hw

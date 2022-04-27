@@ -16,8 +16,7 @@
     "platform_blacklist": [ 
         "zc",
         "vck190",
-        "vck5000-es1",
-        "vck5000_gen3x16", 
+        "vck5000",
         "aws-vu9p-f1_shell",
         "2019",
         "2018",

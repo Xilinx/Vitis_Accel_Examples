@@ -45,11 +45,6 @@
             ]
         }
     }, 
-    "v++": {
-        "build_datafiles" : [            
-            "PROJECT/postSysLink.tcl"
-        ]
-     },
     "containers": [
         {
             "accelerators": [
@@ -59,7 +54,7 @@
                 }
             ], 
             "name": "krnl_vaddmul",
-            "ldclflags": "--config PROJECT/advanced.cfg --config PROJECT/krnl_vaddmul.cfg"
+            "ldclflags": "--config PROJECT/krnl_vaddmul.cfg"
         }
     ],
     "launch": [

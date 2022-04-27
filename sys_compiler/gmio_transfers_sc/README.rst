@@ -11,7 +11,7 @@ This is gmio transfers example which explains different ways of data movements b
 
  - Samsung U.2 SmartSSD
  - All NoDMA Platforms, i.e u50 nodma etc
- - zcu104
+ - All Embedded Zynq Platforms, i.e zc702, zcu102 etc
  - All Versal Platforms, i.e vck190 etc
  - Alveo U280
  - AWS VU9P F1

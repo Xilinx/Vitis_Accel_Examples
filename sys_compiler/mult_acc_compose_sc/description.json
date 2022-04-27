@@ -12,7 +12,7 @@
         "Multiple Accelerators"
     ],
     "platform_blacklist": [
-        "zcu104",
+        "zc",
         "vck",
         "aws"
     ], 
