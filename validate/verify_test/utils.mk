@@ -30,7 +30,7 @@ endif
 #Checks for XILINX_VITIS
 check-vitis:
 ifndef XILINX_VITIS
-	$(error XILINX_VITIS variable is not set, please set correctly using "source <Vitis_install_path>/Vitis/2022.1/settings64.sh" and rerun)
+	$(error XILINX_VITIS variable is not set, please set correctly using "source <Vitis_install_path>/Vitis/<Version>/settings64.sh" and rerun)
 endif
 
 #Checks for XILINX_XRT

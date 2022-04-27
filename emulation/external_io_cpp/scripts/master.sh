@@ -3,7 +3,7 @@ echo "master launched"
 echo "$PWD"
 export GCC=g++
 export IPC_XTLM=$XILINX_VIVADO/data/emulation/ip_utils/xtlm_ipc/xtlm_ipc_v1_0/cpp/
-export PROTO_PATH=$XILINX_VIVADO/data/simmodels/xsim/2022.1/lnx64/6.2.0/ext/protobuf/
+export PROTO_PATH=$XILINX_VIVADO/data/simmodels/xsim/2022.2/lnx64/6.2.0/ext/protobuf/
 export LD_LIBRARY_PATH=$IPC_XTLM/lib:$XILINX_VIVADO/lib/lnx64.o/Default:$XILINX_VIVADO/lib/lnx64.o/:$LD_LIBRARY_PATH
 
 if [ "$1" = "BLOCKING" ];
