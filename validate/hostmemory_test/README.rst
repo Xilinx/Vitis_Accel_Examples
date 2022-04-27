@@ -11,8 +11,7 @@ This host memory design explains how direct host memory access can be done by th
 
  - All Embedded Zynq Platforms, i.e zc702, zcu102 etc
  - Versal VCK190
- - vck5000-es1
- - vck5000_gen3x16
+ - Versal VCK5000
  - AWS VU9P F1
  - All Platforms with 2019 Version
  - All Platforms with 2018 Version
