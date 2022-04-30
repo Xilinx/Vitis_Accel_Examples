@@ -165,7 +165,8 @@ VPP_LDFLAGS_vck5000_pcie_pl_controller.xclbin += --kernel_frequency 250
 endif
 
 ifeq ($(HOST_ARCH), x86)
-BINARY_CONTAINERS += $(BUILD_DIR)/vck5000_pcie_pl_controller.xclbin.xclbin
+BINARY_CONTAINERS += $(BUILD_DIR)/vck5000_pcie_pl_controller.xclbin.xsa
+BINARY_CONTAINERS_PKG += $(BUILD_DIR)/vck5000_pcie_pl_controller.xclbin.xclbin
 else
 BINARY_CONTAINERS += $(BUILD_DIR)/vck5000_pcie_pl_controller.xclbin_pkg.xclbin
 BINARY_CONTAINERS_PKG += $(BUILD_DIR)/vck5000_pcie_pl_controller.xclbin.xclbin
@@ -186,7 +187,10 @@ BINARY_CONTAINERS_DEPS += $(BINARY_CONTAINER_vck5000_pcie_pl_controller.xclbin_O
 BINARY_CONTAINERS_DEPS += $(AIE_CONTAINER)
 $(BINARY_CONTAINERS): $(BINARY_CONTAINERS_DEPS)
 	mkdir -p $(BUILD_DIR)
-	$(VPP) -l $(VPP_FLAGS) --temp_dir $(TEMP_DIR) --report_dir $(BUILD_REPORT_DIR) $(VPP_LDFLAGS)  $(VPP_LDFLAGS_vck5000_pcie_pl_controller.xclbin) -o $@ $^
+	$(VPP) -l $(VPP_FLAGS) --temp_dir $(TEMP_DIR) --report_dir $(BUILD_REPORT_DIR) $(VPP_LDFLAGS)  $(VPP_LDFLAGS_vck5000_pcie_pl_controller.xclbin) -o $@ $^ --advanced.param compiler.errorOnHoldViolation=false
+
+$(BINARY_CONTAINERS_PKG): $(AIE_CONTAINER) $(BINARY_CONTAINERS)
+	${VPP} -p -t ${TARGET} -f ${XPLATFORM} ${AIE_CONTAINER} ${BINARY_CONTAINERS} -o ./${BINARY_CONTAINERS_PKG}
 
 ############################## Setting Rules for AIE (Building Kernels) ##################
 $(AIE_CONTAINER): $(CUR_DIR)//pl_ctrl_aie_asyn/src/aie/graph.cpp 
@@ -317,7 +321,7 @@ endif
 .PHONY: all clean cleanall emconfig
 emconfig: $(EMCONFIG)
 ifeq ($(HOST_ARCH), x86)
-all:  check_vpp check_platform check_xrt $(EXE_FILE) $(BINARY_CONTAINERS) emconfig
+all:  check_vpp check_platform check_xrt $(EXE_FILE) $(BINARY_CONTAINERS) emconfig $(BINARY_CONTAINERS_PKG)
 else
 all:  check_vpp check_platform check_sysroot $(EXE_FILE) $(BINARY_CONTAINERS) emconfig sd_card
 endif
