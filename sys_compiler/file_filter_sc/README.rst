@@ -7,7 +7,21 @@ This is simple example showcasing the P2P and H2C file transfers in system compi
 
 **KEYWORDS:** vpp::p2p, vpp::h2c, file_buf, sync_output, custom_sync_outputs, sync_output_to_file
 
-**EXCLUDED PLATFORMS:** 
+.. raw:: html
+
+ <details>
+
+.. raw:: html
+
+ <summary> 
+
+ <b>EXCLUDED PLATFORMS:</b>
+
+.. raw:: html
+
+ </summary>
+|
+..
 
  - All NoDMA Platforms, i.e u50 nodma etc
  - All Embedded Zynq Platforms, i.e zc702, zcu102 etc
@@ -15,6 +29,12 @@ This is simple example showcasing the P2P and H2C file transfers in system compi
  - Samsung U.2 SmartSSD
  - Alveo U25 SmartNIC
  - AWS VU9P F1
+
+.. raw:: html
+
+ </details>
+
+.. raw:: html
 
 DESIGN FILES
 ------------

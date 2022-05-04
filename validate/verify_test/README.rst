@@ -3,12 +3,32 @@ Verify Kernel (C)
 
 This is a simple design to verify that the platform has basic functionality.
 
-**EXCLUDED PLATFORMS:** 
+.. raw:: html
+
+ <details>
+
+.. raw:: html
+
+ <summary> 
+
+ <b>EXCLUDED PLATFORMS:</b>
+
+.. raw:: html
+
+ </summary>
+|
+..
 
  - All Embedded Zynq Platforms, i.e zc702, zcu102 etc
  - Versal VCK190
  - All Platforms with 2019 Version
  - All Platforms with 2018 Version
+
+.. raw:: html
+
+ </details>
+
+.. raw:: html
 
 DESIGN FILES
 ------------

@@ -7,7 +7,21 @@ This is simple example to explain P2P transfer between two FPGA devices.
 
 **KEYWORDS:** XCL_MEM_EXT_P2P_BUFFER
 
-**EXCLUDED PLATFORMS:** 
+.. raw:: html
+
+ <details>
+
+.. raw:: html
+
+ <summary> 
+
+ <b>EXCLUDED PLATFORMS:</b>
+
+.. raw:: html
+
+ </summary>
+|
+..
 
  - All Samsung U.2 flat
  - All Embedded Zynq Platforms, i.e zc702, zcu102 etc
@@ -17,6 +31,12 @@ This is simple example to explain P2P transfer between two FPGA devices.
  - Alveo U25 SmartNIC
  - Alveo U30
  - Alveo U50 gen3x16 xdma 2019 Version
+
+.. raw:: html
+
+ </details>
+
+.. raw:: html
 
 DESIGN FILES
 ------------

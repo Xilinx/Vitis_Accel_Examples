@@ -3,7 +3,21 @@ Xilinx AIE Validate Test
 
 Xilinx AIE Validate example
 
-**EXCLUDED PLATFORMS:** 
+.. raw:: html
+
+ <details>
+
+.. raw:: html
+
+ <summary> 
+
+  <b>EXCLUDED PLATFORMS:</b>
+
+.. raw:: html
+
+ </summary>
+ 
+.. 
 
  - Alveo U25 SmartNIC
  - Alveo U30
@@ -16,6 +30,12 @@ Xilinx AIE Validate example
  - Samsung U.2 SmartSSD
  - X3 Compute Shell
  - All NoDMA Platforms, i.e u50 nodma etc
+
+.. raw:: html
+
+ </details>
+
+.. raw:: html
 
 DESIGN FILES
 ------------

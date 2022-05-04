@@ -7,7 +7,21 @@ This is host application to test HBM interface bandwidth for buffers > 256 MB wi
 
 **KEYWORDS:** `HBM <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/HBM-Configuration-and-Use>`__, `ra_master_interface <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Random-Access-and-the-RAMA-IP>`__
 
-**EXCLUDED PLATFORMS:** 
+.. raw:: html
+
+ <details>
+
+.. raw:: html
+
+ <summary> 
+
+ <b>EXCLUDED PLATFORMS:</b>
+
+.. raw:: html
+
+ </summary>
+|
+..
 
  - Alveo U25 SmartNIC
  - Alveo U30
@@ -18,6 +32,12 @@ This is host application to test HBM interface bandwidth for buffers > 256 MB wi
  - AWS VU9P F1
  - Samsung U.2 SmartSSD
  - All NoDMA Platforms, i.e u50 nodma etc
+
+.. raw:: html
+
+ </details>
+
+.. raw:: html
 
 DESIGN FILES
 ------------

@@ -7,10 +7,30 @@ This Example demonstrates the HLS pragma 'DEPENDENCE'.Using 'DEPENDENCE' pragma,
 
 **KEYWORDS:** `DEPENDENCE <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/pragma-HLS-dependence>`__, `inter <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/pragma-HLS-dependence>`__, `WAR <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/pragma-HLS-dependence>`__
 
-**EXCLUDED PLATFORMS:** 
+.. raw:: html
+
+ <details>
+
+.. raw:: html
+
+ <summary> 
+
+ <b>EXCLUDED PLATFORMS:</b>
+
+.. raw:: html
+
+ </summary>
+|
+..
 
  - Embedded ZC702
  - All NoDMA Platforms, i.e u50 nodma etc
+
+.. raw:: html
+
+ </details>
+
+.. raw:: html
 
 DESIGN FILES
 ------------

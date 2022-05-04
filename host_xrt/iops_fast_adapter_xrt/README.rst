@@ -7,7 +7,21 @@ This is simple test design to measure Input/Output Operations per second using F
 
 **KEYWORDS:** nextDescriptorAddr
 
-**EXCLUDED PLATFORMS:** 
+.. raw:: html
+
+ <details>
+
+.. raw:: html
+
+ <summary> 
+
+ <b>EXCLUDED PLATFORMS:</b>
+
+.. raw:: html
+
+ </summary>
+|
+..
 
  - All NoDMA Platforms, i.e u50 nodma etc
  - All Embedded Zynq Platforms, i.e zc702, zcu102 etc
@@ -16,6 +30,12 @@ This is simple test design to measure Input/Output Operations per second using F
  - Alveo U200
  - Alveo U250
  - All Platforms with 2019 Version
+
+.. raw:: html
+
+ </details>
+
+.. raw:: html
 
 DESIGN FILES
 ------------

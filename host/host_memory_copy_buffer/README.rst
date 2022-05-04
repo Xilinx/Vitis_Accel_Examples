@@ -7,7 +7,21 @@ This is simple host memory example to describe how host-only memory can be copie
 
 **KEYWORDS:** XCL_MEM_EXT_HOST_ONLY, CL_MEM_HOST_NO_ACCESS, enqueueCopyBuffer
 
-**EXCLUDED PLATFORMS:** 
+.. raw:: html
+
+ <details>
+
+.. raw:: html
+
+ <summary> 
+
+ <b>EXCLUDED PLATFORMS:</b>
+
+.. raw:: html
+
+ </summary>
+|
+..
 
  - Alveo U25 SmartNIC
  - Alveo U30
@@ -21,6 +35,12 @@ This is simple host memory example to describe how host-only memory can be copie
  - All Platforms with 2019 Version
  - All Platforms with 2018 Version
  - Samsung U.2 SmartSSD
+
+.. raw:: html
+
+ </details>
+
+.. raw:: html
 
 DESIGN FILES
 ------------

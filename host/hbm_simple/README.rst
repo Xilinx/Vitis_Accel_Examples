@@ -7,7 +7,21 @@ This is a simple example of vector addition to describe how to use HLS kernels w
 
 **KEYWORDS:** `HBM <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/HBM-Configuration-and-Use>`__, `XCL_MEM_TOPOLOGY <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Assigning-DDR-Bank-in-Host-Code>`__, `cl_mem_ext_ptr_t <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Assigning-DDR-Bank-in-Host-Code>`__, `trace_memory <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/profile-Options>`__, `trace_buffer_size <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/xrt.ini-File>`__, `opencl_trace <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/xrt.ini-File>`__
 
-**EXCLUDED PLATFORMS:** 
+.. raw:: html
+
+ <details>
+
+.. raw:: html
+
+ <summary> 
+
+ <b>EXCLUDED PLATFORMS:</b>
+
+.. raw:: html
+
+ </summary>
+|
+..
 
  - Alveo U25 SmartNIC
  - Alveo U30
@@ -20,6 +34,12 @@ This is a simple example of vector addition to describe how to use HLS kernels w
  - Samsung U.2 SmartSSD
  - X3 Compute Shell
  - All NoDMA Platforms, i.e u50 nodma etc
+
+.. raw:: html
+
+ </details>
+
+.. raw:: html
 
 DESIGN FILES
 ------------

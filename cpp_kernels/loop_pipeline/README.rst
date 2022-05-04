@@ -7,9 +7,29 @@ This example demonstrates how loop pipelining can be used to improve the perform
 
 **KEYWORDS:** `pragma HLS PIPELINE <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/pragma-HLS-pipeline>`__
 
-**EXCLUDED PLATFORMS:** 
+.. raw:: html
+
+ <details>
+
+.. raw:: html
+
+ <summary> 
+
+ <b>EXCLUDED PLATFORMS:</b>
+
+.. raw:: html
+
+ </summary>
+|
+..
 
  - All NoDMA Platforms, i.e u50 nodma etc
+
+.. raw:: html
+
+ </details>
+
+.. raw:: html
 
 DESIGN FILES
 ------------

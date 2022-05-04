@@ -7,7 +7,21 @@ This is simple host memory example to describe how host-only memory can be copie
 
 **KEYWORDS:** host_only, device_only, HOST[0]
 
-**EXCLUDED PLATFORMS:** 
+.. raw:: html
+
+ <details>
+
+.. raw:: html
+
+ <summary> 
+
+ <b>EXCLUDED PLATFORMS:</b>
+
+.. raw:: html
+
+ </summary>
+|
+..
 
  - Alveo U25 SmartNIC
  - Alveo U30
@@ -22,6 +36,12 @@ This is simple host memory example to describe how host-only memory can be copie
  - Samsung SmartSSD Computation Storage Drive
  - Alveo U250
  - Samsung U.2 SmartSSD
+
+.. raw:: html
+
+ </details>
+
+.. raw:: html
 
 DESIGN FILES
 ------------

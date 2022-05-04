@@ -7,7 +7,21 @@ This is simple example to explain performance bandwidth for P2P transfer between
 
 **KEYWORDS:** XCL_MEM_EXT_P2P_BUFFER
 
-**EXCLUDED PLATFORMS:** 
+.. raw:: html
+
+ <details>
+
+.. raw:: html
+
+ <summary> 
+
+ <b>EXCLUDED PLATFORMS:</b>
+
+.. raw:: html
+
+ </summary>
+|
+..
 
  - All Embedded Zynq Platforms, i.e zc702, zcu102 etc
  - All Platforms with 201910 Version
@@ -17,6 +31,12 @@ This is simple example to explain performance bandwidth for P2P transfer between
  - Alveo U25 SmartNIC
  - Alveo U30
  - Alveo U50 gen3x16 xdma 2019 Version
+
+.. raw:: html
+
+ </details>
+
+.. raw:: html
 
 DESIGN FILES
 ------------

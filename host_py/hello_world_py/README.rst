@@ -7,11 +7,31 @@ This is simple example to describe the usage of python based host code in Vitis 
 
 **KEYWORDS:** xrt_binding, utils_binding, pyxrt
 
-**EXCLUDED PLATFORMS:** 
+.. raw:: html
+
+ <details>
+
+.. raw:: html
+
+ <summary> 
+
+ <b>EXCLUDED PLATFORMS:</b>
+
+.. raw:: html
+
+ </summary>
+|
+..
 
  - All NoDMA Platforms, i.e u50 nodma etc
  - All Embedded Zynq Platforms, i.e zc702, zcu102 etc
  - All Versal Platforms, i.e vck190 etc
+
+.. raw:: html
+
+ </details>
+
+.. raw:: html
 
 DESIGN FILES
 ------------
@@ -31,7 +51,7 @@ Once the environment has been configured, the application can be executed by
 
 ::
 
-   python3 ./src/host.py -k <vadd XCLBIN>
+   ./src/host.py -k <vadd XCLBIN>
 
 DETAILS
 -------

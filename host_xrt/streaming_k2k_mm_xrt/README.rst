@@ -7,13 +7,33 @@ This is a simple kernel to kernel streaming Vector Add and Vector Multiply C Ker
 
 **KEYWORDS:** `stream_connect <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Specifying-Streaming-Connections-between-Compute-Units>`__
 
-**EXCLUDED PLATFORMS:** 
+.. raw:: html
+
+ <details>
+
+.. raw:: html
+
+ <summary> 
+
+ <b>EXCLUDED PLATFORMS:</b>
+
+.. raw:: html
+
+ </summary>
+|
+..
 
  - Samsung SmartSSD Computation Storage Drive
  - Samsung U.2 SmartSSD
  - All Versal Platforms, i.e vck190 etc
  - All Embedded Zynq Platforms, i.e zc702, zcu102 etc
  - All NoDMA Platforms, i.e u50 nodma etc
+
+.. raw:: html
+
+ </details>
+
+.. raw:: html
 
 DESIGN FILES
 ------------

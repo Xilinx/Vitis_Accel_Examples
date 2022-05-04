@@ -5,13 +5,33 @@ This is a kernel containing the cascaded Matrix Multiplication using dataflow. a
 
 **KEY CONCEPTS:** `ap_ctrl_chain <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/Block-Level-Control-Protocols>`__, PLRAM
 
-**EXCLUDED PLATFORMS:** 
+.. raw:: html
+
+ <details>
+
+.. raw:: html
+
+ <summary> 
+
+ <b>EXCLUDED PLATFORMS:</b>
+
+.. raw:: html
+
+ </summary>
+|
+..
 
  - Samsung SmartSSD Computation Storage Drive
  - All Versal Platforms, i.e vck190 etc
  - All Embedded Zynq Platforms, i.e zc702, zcu102 etc
  - Samsung U.2 SmartSSD
  - All NoDMA Platforms, i.e u50 nodma etc
+
+.. raw:: html
+
+ </details>
+
+.. raw:: html
 
 DESIGN FILES
 ------------

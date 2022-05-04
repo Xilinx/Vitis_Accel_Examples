@@ -21,7 +21,21 @@ Command line argument flags:
 
 **KEYWORDS:** DATAFLOW, ARRAY PARTITION
 
-**EXCLUDED PLATFORMS:** 
+.. raw:: html
+
+ <details>
+
+.. raw:: html
+
+ <summary> 
+
+ <b>EXCLUDED PLATFORMS:</b>
+
+.. raw:: html
+
+ </summary>
+|
+..
 
  - All Embedded Zynq Platforms, i.e zc702, zcu102 etc
  - All Versal Platforms, i.e vck190 etc
@@ -32,6 +46,12 @@ Command line argument flags:
  - Alveo U25 SmartNIC
  - Alveo U55n
  - Samsung SmartSSD Computation Storage Drive
+
+.. raw:: html
+
+ </details>
+
+.. raw:: html
 
 DESIGN FILES
 ------------

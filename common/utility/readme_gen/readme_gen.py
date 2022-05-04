@@ -76,7 +76,24 @@ def overview(target,data,ref_data):
 
 def requirements(target,data,plt_ref_data):
     if 'platform_blacklist' in data:
-        target.write("**EXCLUDED PLATFORMS:** ")
+        target.write(".. raw:: html")
+        target.write("\n\n")
+        target.write(" <details>")
+        target.write("\n\n")
+        target.write(".. raw:: html")
+        target.write("\n\n")
+        target.write(" <summary> ")
+        target.write("\n\n")
+        target.write(" ")
+        target.write("<b>EXCLUDED PLATFORMS:</b>")
+        target.write("\n\n")
+        target.write(".. raw:: html")
+        target.write("\n\n")
+        target.write(" </summary>")
+        target.write("\n")
+        target.write("|")
+        target.write("\n")
+        target.write("..")
         plat_count = len(data["platform_blacklist"])
         target.write("\n\n")
         for result in data['platform_blacklist']:
@@ -89,6 +106,12 @@ def requirements(target,data,plt_ref_data):
                     target.write(result)
                 target.write("\n")
         target.write("\n")
+        target.write(".. raw:: html")
+        target.write("\n\n")
+        target.write(" </details>")
+        target.write("\n\n")
+        target.write(".. raw:: html")
+        target.write("\n\n")
     return
 
 def hierarchy(target):

@@ -7,10 +7,30 @@ This is simple example to describe how user can provide various advanced options
 
 **KEYWORDS:** `config <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Vitis-Compiler-General-Options>`__, set_clock_uncertainity, `clock <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/clock-Options>`__, `freqHz <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/clock-Options>`__, `hls.pre_tcl <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/hls-Options>`__
 
-**EXCLUDED PLATFORMS:** 
+.. raw:: html
+
+ <details>
+
+.. raw:: html
+
+ <summary> 
+
+ <b>EXCLUDED PLATFORMS:</b>
+
+.. raw:: html
+
+ </summary>
+|
+..
 
  - All NoDMA Platforms, i.e u50 nodma etc
  - ZC706 Evaluation board
+
+.. raw:: html
+
+ </details>
+
+.. raw:: html
 
 DESIGN FILES
 ------------

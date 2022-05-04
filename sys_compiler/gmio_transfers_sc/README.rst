@@ -7,7 +7,21 @@ This is gmio transfers example which explains different ways of data movements b
 
 **KEYWORDS:** DATA_COPY, ZERO_COPY, ACCESS_PATTERN, SEQUENTIAL, RANDOM
 
-**EXCLUDED PLATFORMS:** 
+.. raw:: html
+
+ <details>
+
+.. raw:: html
+
+ <summary> 
+
+ <b>EXCLUDED PLATFORMS:</b>
+
+.. raw:: html
+
+ </summary>
+|
+..
 
  - Samsung U.2 SmartSSD
  - All NoDMA Platforms, i.e u50 nodma etc
@@ -15,6 +29,12 @@ This is gmio transfers example which explains different ways of data movements b
  - All Versal Platforms, i.e vck190 etc
  - Alveo U280
  - AWS VU9P F1
+
+.. raw:: html
+
+ </details>
+
+.. raw:: html
 
 DESIGN FILES
 ------------
