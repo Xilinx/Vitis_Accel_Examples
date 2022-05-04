@@ -5,7 +5,21 @@ This is a simple design that verifies if the platform has basic functionalities.
 
 **KEY CONCEPTS:** Bandwidth
 
-**EXCLUDED PLATFORMS:** 
+.. raw:: html
+
+ <details>
+
+.. raw:: html
+
+ <summary> 
+
+ <b>EXCLUDED PLATFORMS:</b>
+
+.. raw:: html
+
+ </summary>
+|
+..
 
  - All Xilinx DMA Platforms
  - Alveo U30
@@ -15,6 +29,12 @@ This is a simple design that verifies if the platform has basic functionalities.
  - All Platforms with 2019 Version
  - All Platforms with 2018 Version
  - Versal VCK5000
+
+.. raw:: html
+
+ </details>
+
+.. raw:: html
 
 DESIGN FILES
 ------------

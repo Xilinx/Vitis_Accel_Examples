@@ -7,7 +7,21 @@ This example of 2ddr to demonstrate on how to use 2ddr XSA. How to create buffer
 
 **KEYWORDS:** `sp <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/connectivity-Options>`__, `connectivity <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/connectivity-Options>`__
 
-**EXCLUDED PLATFORMS:** 
+.. raw:: html
+
+ <details>
+
+.. raw:: html
+
+ <summary> 
+
+ <b>EXCLUDED PLATFORMS:</b>
+
+.. raw:: html
+
+ </summary>
+|
+..
 
  - Alveo U30
  - Alveo U50
@@ -18,6 +32,12 @@ This example of 2ddr to demonstrate on how to use 2ddr XSA. How to create buffer
  - Samsung U.2 SmartSSD
  - X3 Compute Shell
  - All NoDMA Platforms, i.e u50 nodma etc
+
+.. raw:: html
+
+ </details>
+
+.. raw:: html
 
 DESIGN FILES
 ------------

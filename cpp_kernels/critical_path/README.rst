@@ -5,9 +5,29 @@ This example shows a normal coding style which could lead to critical path issue
 
 **KEY CONCEPTS:** Critical Path handling, Improve Timing
 
-**EXCLUDED PLATFORMS:** 
+.. raw:: html
+
+ <details>
+
+.. raw:: html
+
+ <summary> 
+
+ <b>EXCLUDED PLATFORMS:</b>
+
+.. raw:: html
+
+ </summary>
+|
+..
 
  - All NoDMA Platforms, i.e u50 nodma etc
+
+.. raw:: html
+
+ </details>
+
+.. raw:: html
 
 DESIGN FILES
 ------------

@@ -7,13 +7,33 @@ This example will demonstrate emulation of Xilinx Device's IO with a C++ based e
 
 **KEYWORDS:** `sim_ipc_axis_master <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Adding-Traffic-Generators-to-Your-Design>`__, `sim_ipc_axis_slave <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Adding-Traffic-Generators-to-Your-Design>`__, `gt_master <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Using-I/O-Traffic-Generators>`__, `gt_slave <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Using-I/O-Traffic-Generators>`__
 
-**EXCLUDED PLATFORMS:** 
+.. raw:: html
+
+ <details>
+
+.. raw:: html
+
+ <summary> 
+
+ <b>EXCLUDED PLATFORMS:</b>
+
+.. raw:: html
+
+ </summary>
+|
+..
 
  - All Xilinx DMA Platforms
  - Versal VCK5000
  - AWS VU9P F1
  - Samsung SmartSSD Computation Storage Drive
  - Samsung U.2 SmartSSD
+
+.. raw:: html
+
+ </details>
+
+.. raw:: html
 
 DESIGN FILES
 ------------

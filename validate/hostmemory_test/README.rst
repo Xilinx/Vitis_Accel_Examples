@@ -7,7 +7,21 @@ This host memory design explains how direct host memory access can be done by th
 
 **KEYWORDS:** XCL_MEM_EXT_HOST_ONLY, HOST[0]
 
-**EXCLUDED PLATFORMS:** 
+.. raw:: html
+
+ <details>
+
+.. raw:: html
+
+ <summary> 
+
+ <b>EXCLUDED PLATFORMS:</b>
+
+.. raw:: html
+
+ </summary>
+|
+..
 
  - All Embedded Zynq Platforms, i.e zc702, zcu102 etc
  - Versal VCK190
@@ -20,6 +34,12 @@ This host memory design explains how direct host memory access can be done by th
  - Alveo U30
  - Alveo U50lv
  - Alveo U50 gen3x4
+
+.. raw:: html
+
+ </details>
+
+.. raw:: html
 
 DESIGN FILES
 ------------

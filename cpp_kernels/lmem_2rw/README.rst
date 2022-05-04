@@ -7,9 +7,29 @@ This is simple example of vector addition to demonstrate how to utilize both por
 
 **KEYWORDS:** `#pragma HLS UNROLL FACTOR=2 <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/pragma-HLS-unroll>`__
 
-**EXCLUDED PLATFORMS:** 
+.. raw:: html
+
+ <details>
+
+.. raw:: html
+
+ <summary> 
+
+ <b>EXCLUDED PLATFORMS:</b>
+
+.. raw:: html
+
+ </summary>
+|
+..
 
  - All NoDMA Platforms, i.e u50 nodma etc
+
+.. raw:: html
+
+ </details>
+
+.. raw:: html
 
 DESIGN FILES
 ------------

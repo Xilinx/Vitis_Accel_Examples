@@ -7,7 +7,21 @@ This is simple example which demonstrate how to use and configure a free running
 
 **KEYWORDS:** `ap_ctrl_none <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/Block-Level-Control-Protocols>`__, `stream_connect <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Specifying-Streaming-Connections-between-Compute-Units>`__
 
-**EXCLUDED PLATFORMS:** 
+.. raw:: html
+
+ <details>
+
+.. raw:: html
+
+ <summary> 
+
+ <b>EXCLUDED PLATFORMS:</b>
+
+.. raw:: html
+
+ </summary>
+|
+..
 
  - All Platforms with 2018 Version
  - qep
@@ -17,6 +31,12 @@ This is simple example which demonstrate how to use and configure a free running
  - All Embedded Zynq Platforms, i.e zc702, zcu102 etc
  - Samsung U.2 SmartSSD
  - All NoDMA Platforms, i.e u50 nodma etc
+
+.. raw:: html
+
+ </details>
+
+.. raw:: html
 
 DESIGN FILES
 ------------

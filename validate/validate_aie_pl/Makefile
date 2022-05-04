@@ -49,6 +49,9 @@ help::
 	$(ECHO) "  make cleanall"
 	$(ECHO) "      Command to remove all the generated files."
 	$(ECHO) ""
+	$(ECHO) $(MK_PATH)
+	$(ECHO) $(CUR_DIR)
+	$(ECHO) $(XFLIB_DIR)
 
 ############################## Setting up Project Variables ##############################
 
@@ -69,7 +72,7 @@ endif
 
 # #################### Checking if PLATFORM in whitelist ############################
 PLATFORM_ALLOWLIST +=  vck5000
-PLATFORM_BLOCKLIST +=  _u25_ u30 u200 zc vck190 u250 aws-vu9p-f1 samsung _u2_ x3522pv nodma
+PLATFORM_BLOCKLIST +=  u25_ u30 u200 zc vck190 u250 aws-vu9p-f1 samsung u2_ x3522pv nodma
 
 include ./utils.mk
 TEMP_DIR := _x_temp.$(TARGET).$(PLATFORM_NAME)
@@ -88,12 +91,12 @@ RUN_DEPS :=
 ifeq ($(HOST_ARCH), x86)
 CXXFLAGS += -fmessage-length=0 -I$(CUR_DIR)/src/ -I$(XILINX_XRT)/include -I$(XILINX_HLS)/include -std=c++14 -O3 -Wall -Wno-unknown-pragmas -Wno-unused-label 
 LDFLAGS += -pthread -L$(XILINX_XRT)/lib -L$(XILINX_HLS)/lnx64/tools/fpo_v7_0  -Wl,--as-needed -lOpenCL -lxrt_coreutil -lgmp -lmpfr -lIp_floating_point_v7_0_bitacc_cmodel 
-VPP_FLAGS += -t $(TARGET) --platform $(XPLATFORM) --save-temps --vivado.impl.jobs 16 --vivado.synth.jobs 16 
+VPP_FLAGS += -t $(TARGET) --platform $(XPLATFORM) --save-temps 
 VPP_LDFLAGS += --optimize 2 -R 2 
 else ifeq ($(HOST_ARCH), aarch64)
 CXXFLAGS += -I$(CUR_DIR)/src/ -fmessage-length=0 --sysroot=$(SYSROOT)  -I$(SYSROOT)/usr/include/xrt -I$(XILINX_HLS)/include -std=c++14 -O3 -Wall -Wno-unknown-pragmas -Wno-unused-label 
 LDFLAGS += -pthread -L$(SYSROOT)/usr/lib -L$(XILINX_VITIS_AIETOOLS)/lib/aarch64.o -Wl,--as-needed -lxilinxopencl -lxrt_coreutil 
-VPP_FLAGS += -t $(TARGET) --platform $(XPLATFORM) --save-temps --vivado.impl.jobs 16 --vivado.synth.jobs 16 
+VPP_FLAGS += -t $(TARGET) --platform $(XPLATFORM) --save-temps 
 VPP_LDFLAGS += --optimize 2 -R 2 
 endif
 CXXFLAGS += $(EXTRA_CXXFLAGS)
@@ -147,10 +150,7 @@ EXE_FILE_DEPS := $(HOST_SRCS) $(EXE_FILE_DEPS)
 
 ########################## Kernel compiler global settings ##########################
 VPP_FLAGS +=  -I $(CUR_DIR)//pl_controller/L1/include/hw -I $(CUR_DIR)//pl_controller/L2/include/hw -I $(CUR_DIR)//pl_ctrl_aie_asyn/src/xclbin/pl_kernels -I $(XILINX_VITIS)/aietools/include
-VPP_LDFLAGS +=   --config $(CUR_DIR)/system.cfg --advanced.param compiler.enableXSAGenerationWithLightXCLBIN=0
-ifeq ($(TARGET),hw)
-VPP_LDFLAGS +=   --linkhook.do_first vpl.impl.place_design,$(CUR_DIR)/preplace.tcl
-endif
+VPP_LDFLAGS +=   --config $(CUR_DIR)/system.cfg
 
 ######################### binary container global settings ##########################
 VPP_FLAGS_pl_controller_kernel += --verbose
@@ -161,11 +161,11 @@ ifneq ($(HOST_ARCH), x86)
 VPP_LDFLAGS_vck5000_pcie_pl_controller.xclbin += --clock.defaultFreqHz 250000000
 else
 VPP_LDFLAGS_vck5000_pcie_pl_controller.xclbin += --kernel_frequency 250
-#VPP_LDFLAGS_vck5000_pcie_pl_controller.xclbin += --clock.defaultFreqHz 250000000
 endif
 
 ifeq ($(HOST_ARCH), x86)
-BINARY_CONTAINERS += $(BUILD_DIR)/vck5000_pcie_pl_controller.xclbin.xclbin
+BINARY_CONTAINERS += $(BUILD_DIR)/vck5000_pcie_pl_controller.xclbin.xsa
+BINARY_CONTAINERS_PKG += $(BUILD_DIR)/vck5000_pcie_pl_controller.xclbin.xclbin
 else
 BINARY_CONTAINERS += $(BUILD_DIR)/vck5000_pcie_pl_controller.xclbin_pkg.xclbin
 BINARY_CONTAINERS_PKG += $(BUILD_DIR)/vck5000_pcie_pl_controller.xclbin.xclbin
@@ -186,7 +186,10 @@ BINARY_CONTAINERS_DEPS += $(BINARY_CONTAINER_vck5000_pcie_pl_controller.xclbin_O
 BINARY_CONTAINERS_DEPS += $(AIE_CONTAINER)
 $(BINARY_CONTAINERS): $(BINARY_CONTAINERS_DEPS)
 	mkdir -p $(BUILD_DIR)
-	$(VPP) -l $(VPP_FLAGS) --temp_dir $(TEMP_DIR) --report_dir $(BUILD_REPORT_DIR) $(VPP_LDFLAGS)  $(VPP_LDFLAGS_vck5000_pcie_pl_controller.xclbin) -o $@ $^
+	$(VPP) -l $(VPP_FLAGS) --temp_dir $(TEMP_DIR) --report_dir $(BUILD_REPORT_DIR) $(VPP_LDFLAGS)  $(VPP_LDFLAGS_vck5000_pcie_pl_controller.xclbin) -o $@ $^ --advanced.param compiler.errorOnHoldViolation=false
+
+$(BINARY_CONTAINERS_PKG): $(AIE_CONTAINER) $(BINARY_CONTAINERS)
+	${VPP} -p -t ${TARGET} -f ${XPLATFORM} ${AIE_CONTAINER} ${BINARY_CONTAINERS} -o ./${BINARY_CONTAINERS_PKG}
 
 ############################## Setting Rules for AIE (Building Kernels) ##################
 $(AIE_CONTAINER): $(CUR_DIR)//pl_ctrl_aie_asyn/src/aie/graph.cpp 
@@ -303,8 +306,6 @@ endif
 #hw
 ifeq ($(TARGET), hw)
 ifeq ($(HOST_ARCH), x86)
-	cp Work/reports/dma_lock_report.json ./
-	cp Work/ps/c_rts/aie_control_config.json ./
 	$(EXE_FILE) $(HOST_ARGS)
 	
 else
@@ -317,7 +318,7 @@ endif
 .PHONY: all clean cleanall emconfig
 emconfig: $(EMCONFIG)
 ifeq ($(HOST_ARCH), x86)
-all:  check_vpp check_platform check_xrt $(EXE_FILE) $(BINARY_CONTAINERS) emconfig
+all:  check_vpp check_platform check_xrt $(EXE_FILE) $(BINARY_CONTAINERS) emconfig $(BINARY_CONTAINERS_PKG)
 else
 all:  check_vpp check_platform check_sysroot $(EXE_FILE) $(BINARY_CONTAINERS) emconfig sd_card
 endif

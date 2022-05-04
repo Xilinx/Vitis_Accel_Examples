@@ -7,11 +7,31 @@ This Example prints device properties using XRT Native APIs. It also displays th
 
 **KEYWORDS:** `xrt::device <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Specifying-the-Device-ID-and-Loading-the-XCLBIN>`__
 
-**EXCLUDED PLATFORMS:** 
+.. raw:: html
+
+ <details>
+
+.. raw:: html
+
+ <summary> 
+
+ <b>EXCLUDED PLATFORMS:</b>
+
+.. raw:: html
+
+ </summary>
+|
+..
 
  - All Embedded Zynq Platforms, i.e zc702, zcu102 etc
  - All Versal Platforms, i.e vck190 etc
  - AWS VU9P F1 NoDMA
+
+.. raw:: html
+
+ </details>
+
+.. raw:: html
 
 DESIGN FILES
 ------------

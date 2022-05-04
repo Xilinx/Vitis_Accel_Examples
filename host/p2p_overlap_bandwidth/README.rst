@@ -7,7 +7,21 @@ This is simple example to test Synchronous and Asyncronous data transfer between
 
 **KEYWORDS:** XCL_MEM_EXT_P2P_BUFFER, pread, pwrite
 
-**EXCLUDED PLATFORMS:** 
+.. raw:: html
+
+ <details>
+
+.. raw:: html
+
+ <summary> 
+
+ <b>EXCLUDED PLATFORMS:</b>
+
+.. raw:: html
+
+ </summary>
+|
+..
 
  - All Embedded Zynq Platforms, i.e zc702, zcu102 etc
  - All Versal Platforms, i.e vck190 etc
@@ -19,6 +33,12 @@ This is simple example to test Synchronous and Asyncronous data transfer between
  - Alveo U280
  - AWS VU9P F1
  - All NoDMA Platforms, i.e u50 nodma etc
+
+.. raw:: html
+
+ </details>
+
+.. raw:: html
 
 DESIGN FILES
 ------------

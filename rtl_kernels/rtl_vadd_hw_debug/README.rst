@@ -10,10 +10,30 @@ This is an example that showcases the Hardware Debug of Vector Addition RTL Kern
 
 **KEY CONCEPTS:** `RTL Kernel Debug <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Adding-Debug-IP-to-RTL-Kernels>`__
 
-**EXCLUDED PLATFORMS:** 
+.. raw:: html
+
+ <details>
+
+.. raw:: html
+
+ <summary> 
+
+ <b>EXCLUDED PLATFORMS:</b>
+
+.. raw:: html
+
+ </summary>
+|
+..
 
  - All Versal Platforms, i.e vck190 etc
  - All NoDMA Platforms, i.e u50 nodma etc
+
+.. raw:: html
+
+ </details>
+
+.. raw:: html
 
 DESIGN FILES
 ------------

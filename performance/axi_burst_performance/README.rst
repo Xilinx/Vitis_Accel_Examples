@@ -3,7 +3,21 @@ AXI Burst Performance
 
 This is an AXI Burst Performance check design. It measures the time it takes to write a buffer into DDR or read a buffer from DDR. The example contains 2 sets of 6 kernels each: each set having a different data width and each kernel having a different burst_length and num_outstanding parameters to compare the impact of these parameters on effective throughput.
 
-**EXCLUDED PLATFORMS:** 
+.. raw:: html
+
+ <details>
+
+.. raw:: html
+
+ <summary> 
+
+ <b>EXCLUDED PLATFORMS:</b>
+
+.. raw:: html
+
+ </summary>
+|
+..
 
  - All ZCU102 Platforms except DFX
  - All ZCU104 Platforms except DFX
@@ -13,6 +27,12 @@ This is an AXI Burst Performance check design. It measures the time it takes to 
  - Samsung SmartSSD Computation Storage Drive
  - Samsung U.2 SmartSSD
  - All NoDMA Platforms, i.e u50 nodma etc
+
+.. raw:: html
+
+ </details>
+
+.. raw:: html
 
 DESIGN FILES
 ------------

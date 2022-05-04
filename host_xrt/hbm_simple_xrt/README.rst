@@ -7,7 +7,21 @@ This is a simple example of vector addition to describe how to use HLS kernels w
 
 **KEYWORDS:** `HBM <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/HBM-Configuration-and-Use>`__
 
-**EXCLUDED PLATFORMS:** 
+.. raw:: html
+
+ <details>
+
+.. raw:: html
+
+ <summary> 
+
+ <b>EXCLUDED PLATFORMS:</b>
+
+.. raw:: html
+
+ </summary>
+|
+..
 
  - Alveo U25 SmartNIC
  - Alveo U30
@@ -20,6 +34,12 @@ This is a simple example of vector addition to describe how to use HLS kernels w
  - Samsung U.2 SmartSSD
  - X3 Compute Shell
  - All NoDMA Platforms, i.e u50 nodma etc
+
+.. raw:: html
+
+ </details>
+
+.. raw:: html
 
 DESIGN FILES
 ------------

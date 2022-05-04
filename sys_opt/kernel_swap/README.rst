@@ -7,7 +7,21 @@ This example shows how host can swap the kernels and share same buffer between t
 
 **KEYWORDS:** `enqueueMigrateMemObjects <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Buffer-Creation-and-Data-Transfer>`__, `CL_MIGRATE_MEM_OBJECT_HOST <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Sub-Buffers>`__
 
-**EXCLUDED PLATFORMS:** 
+.. raw:: html
+
+ <details>
+
+.. raw:: html
+
+ <summary> 
+
+ <b>EXCLUDED PLATFORMS:</b>
+
+.. raw:: html
+
+ </summary>
+|
+..
 
  - All Samsung U.2 flat
  - All ZCU102 Platforms except DFX
@@ -17,6 +31,12 @@ This example shows how host can swap the kernels and share same buffer between t
  - vck190_base_pci
  - ZC706 Evaluation board
  - All NoDMA Platforms, i.e u50 nodma etc
+
+.. raw:: html
+
+ </details>
+
+.. raw:: html
 
 DESIGN FILES
 ------------

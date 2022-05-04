@@ -7,13 +7,33 @@ This is quick start example based on a video filtering usecase to describe syste
 
 **KEYWORDS:** create_bufpool, alloc_buff, compute, send_while, receive_all_in_order, get_buf, DATA_COPY, SYS_PORT, SYS_PORT_PFM, ACCESS_PATTERN
 
-**EXCLUDED PLATFORMS:** 
+.. raw:: html
+
+ <details>
+
+.. raw:: html
+
+ <summary> 
+
+ <b>EXCLUDED PLATFORMS:</b>
+
+.. raw:: html
+
+ </summary>
+|
+..
 
  - Alveo U25 SmartNIC
  - All NoDMA Platforms, i.e u50 nodma etc
  - All Embedded Zynq Platforms, i.e zc702, zcu102 etc
  - All Versal Platforms, i.e vck190 etc
  - AWS VU9P F1
+
+.. raw:: html
+
+ </details>
+
+.. raw:: html
 
 DESIGN FILES
 ------------

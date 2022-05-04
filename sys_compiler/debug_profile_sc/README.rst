@@ -7,7 +7,21 @@ This simple example implements a HW pipeline of three tasks, matrix multiplicati
 
 **KEYWORDS:** PROFILE_KERNEL, PROFILE_PORT, PROFILE_OFFLOAD, vpp::stream<>
 
-**EXCLUDED PLATFORMS:** 
+.. raw:: html
+
+ <details>
+
+.. raw:: html
+
+ <summary> 
+
+ <b>EXCLUDED PLATFORMS:</b>
+
+.. raw:: html
+
+ </summary>
+|
+..
 
  - All NoDMA Platforms, i.e u50 nodma etc
  - All Embedded Zynq Platforms, i.e zc702, zcu102 etc
@@ -16,6 +30,12 @@ This simple example implements a HW pipeline of three tasks, matrix multiplicati
  - Alveo U25 SmartNIC
  - Samsung U.2 SmartSSD
  - AWS VU9P F1
+
+.. raw:: html
+
+ </details>
+
+.. raw:: html
 
 DESIGN FILES
 ------------

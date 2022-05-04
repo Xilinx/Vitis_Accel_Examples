@@ -7,7 +7,21 @@ This example showcases how to configure various PLRAM parameters like Memory Siz
 
 **KEYWORDS:** `PLRAM <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/PLRAM-Configuration-and-Use>`__, BRAM, URAM
 
-**EXCLUDED PLATFORMS:** 
+.. raw:: html
+
+ <details>
+
+.. raw:: html
+
+ <summary> 
+
+ <b>EXCLUDED PLATFORMS:</b>
+
+.. raw:: html
+
+ </summary>
+|
+..
 
  - Alveo U25 SmartNIC
  - Alveo U30
@@ -18,6 +32,12 @@ This example showcases how to configure various PLRAM parameters like Memory Siz
  - Alveo U55c
  - X3 Compute Shell
  - All NoDMA Platforms, i.e u50 nodma etc
+
+.. raw:: html
+
+ </details>
+
+.. raw:: html
 
 DESIGN FILES
 ------------

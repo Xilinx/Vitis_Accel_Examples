@@ -7,7 +7,21 @@ This is a Host Memory Example to describe how data can be copied between host-on
 
 **KEYWORDS:** XCL_MEM_EXT_HOST_ONLY, CL_MEM_HOST_NO_ACCESS, `enqueueMapBuffer <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Buffer-Creation-and-Data-Transfer>`__
 
-**EXCLUDED PLATFORMS:** 
+.. raw:: html
+
+ <details>
+
+.. raw:: html
+
+ <summary> 
+
+ <b>EXCLUDED PLATFORMS:</b>
+
+.. raw:: html
+
+ </summary>
+|
+..
 
  - Alveo U25 SmartNIC
  - Alveo U30
@@ -18,6 +32,12 @@ This is a Host Memory Example to describe how data can be copied between host-on
  - All Platforms with 2019 Version
  - All Platforms with 2018 Version
  - Samsung U.2 SmartSSD
+
+.. raw:: html
+
+ </details>
+
+.. raw:: html
 
 DESIGN FILES
 ------------

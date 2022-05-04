@@ -7,11 +7,31 @@ This is simple example of vector addition to describe how to use BIND OP and STO
 
 **KEYWORDS:** `BIND_OP <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/pragma-HLS-bind_op>`__, `BIND_STORAGE <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/pragma-HLS-bind_storage>`__, `impl <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/pragma-HLS-bind_op>`__, `op <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/pragma-HLS-bind_op>`__, `type <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/pragma-HLS-bind_op>`__, `latency <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/pragma-HLS-bind_op>`__
 
-**EXCLUDED PLATFORMS:** 
+.. raw:: html
+
+ <details>
+
+.. raw:: html
+
+ <summary> 
+
+ <b>EXCLUDED PLATFORMS:</b>
+
+.. raw:: html
+
+ </summary>
+|
+..
 
  - Embedded ZCU102
  - ZC706 Evaluation board
  - All NoDMA Platforms, i.e u50 nodma etc
+
+.. raw:: html
+
+ </details>
+
+.. raw:: html
 
 DESIGN FILES
 ------------

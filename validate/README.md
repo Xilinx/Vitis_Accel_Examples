@@ -12,6 +12,9 @@ Example        | Description           | Key Concepts / Keywords
 [validate_aie_pl/][]|Xilinx AIE Validate example|
 [validate_embedded/][]|This is a simple design that verifies if the platform has basic functionalities. It also tests the possible bandwidth between Kernel and Global Memory.|__Key__ __Concepts__<br> - Bandwidth<br>
 [verify_test/][]|This is a simple design to verify that the platform has basic functionality.|
+[ps_validate_test/][]|This is a simple PS kernel to verify that the platform has basic PS kernel functionality.|
+[ps_bandwidth_test/][]|This is a PS kernel conrolling PL bandwidth kernel test.|
+[ps_aie_gmio_test/][]|This is a PS kernel controlling AIE graph.|
 
 [.]:.
 [bandwidth_test/]:bandwidth_test/
@@ -20,3 +23,6 @@ Example        | Description           | Key Concepts / Keywords
 [validate_aie_pl/]:validate_aie_pl/
 [validate_embedded/]:validate_embedded/
 [verify_test/]:verify_test/
+[ps_validate_test/]:ps_validate_test/
+[ps_bandwidth_test/]:ps_bandwidth_test/
+[ps_aie_gmio_test/]:ps_aie_gmio_test/

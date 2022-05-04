@@ -7,9 +7,29 @@ This examples demonstrates techniques that allow user to overlap Host(CPU) and F
 
 **KEYWORDS:** `cl_event <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Event-Synchronization>`__, `cl::CommandQueue <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Command-Queues>`__, `CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Single-Out-of-Order-Command-Queue>`__, `enqueueMigrateMemObjects <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Buffer-Creation-and-Data-Transfer>`__
 
-**EXCLUDED PLATFORMS:** 
+.. raw:: html
+
+ <details>
+
+.. raw:: html
+
+ <summary> 
+
+ <b>EXCLUDED PLATFORMS:</b>
+
+.. raw:: html
+
+ </summary>
+|
+..
 
  - All NoDMA Platforms, i.e u50 nodma etc
+
+.. raw:: html
+
+ </details>
+
+.. raw:: html
 
 DESIGN FILES
 ------------

@@ -7,7 +7,21 @@ This is simple example to test data transfer between SSD and FPGA.
 
 **KEYWORDS:** XCL_MEM_EXT_P2P_BUFFER, pread, pwrite
 
-**EXCLUDED PLATFORMS:** 
+.. raw:: html
+
+ <details>
+
+.. raw:: html
+
+ <summary> 
+
+ <b>EXCLUDED PLATFORMS:</b>
+
+.. raw:: html
+
+ </summary>
+|
+..
 
  - All Embedded Zynq Platforms, i.e zc702, zcu102 etc
  - All Versal Platforms, i.e vck190 etc
@@ -16,6 +30,12 @@ This is simple example to test data transfer between SSD and FPGA.
  - Alveo U25 SmartNIC
  - Alveo U30
  - Alveo U50 gen3x16 xdma 2019 Version
+
+.. raw:: html
+
+ </details>
+
+.. raw:: html
 
 DESIGN FILES
 ------------

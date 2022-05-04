@@ -1,0 +1,98 @@
+{
+    "name": "PS Validate Kernel (C)", 
+    "description": [
+        "This PS validate kernel tests PS kernel functionality."
+    ],
+    "flow": "vitis",
+    "key_concepts": [
+        "PS Kernel"
+    ], 
+    "os": [
+        "Linux"
+    ], 
+    "runtime": [
+        "OpenCL"
+    ],
+    "flow": "versal",
+    "platform_type": "pcie",	
+    "platform_whitelist": [ 
+        "vck5000"
+    ],
+    "platform_blacklist": [
+        "_u25_",
+        "u55",
+        "u50",
+        "u30",
+        "u200",
+        "zc",
+        "vck190",
+        "u250",
+        "aws-vu9p-f1",
+        "samsung",
+        "_u2_",
+        "x3522pv",
+        "nodma"
+    ],
+    "gui": false,     
+    "host": {
+        "compiler": {
+            "sources": [
+                "./src/host.cpp"
+            ], 
+            "includepaths": [
+            ]
+        },
+        "linker" : {
+            "libraries" : [
+                "boost_filesystem",
+                "boost_system"
+            ]
+        }, 
+        "host_exe": "ps_validate_test.exe"
+    },
+    "match_makefile": "false",
+    "containers": [
+        {
+            "accelerators": [
+                {
+                    "name": "bandwidth", 
+                    "location": "src/bandwidth.cpp"
+                } 
+            ], 
+            "name": "bandwidth"
+        }
+    ],
+    "config_make": "config.mk",        
+    "launch": [
+        {
+            "cmd_args": "-p $(GEN_DIR)", 
+            "name": "generic launch for all flows"
+        }
+    ], 
+    "contributors": [
+        {
+            "url": "http://www.xilinx.com", 
+            "group": "Xilinx"
+        }
+    ],
+    "testinfo": {
+        "profile": "no",
+        "disable": false,
+        "jobs": [
+            {
+                "index": 0,
+                "dependency": [],
+                "env": "",
+                "cmd": "",
+                "max_memory_MB": 32768,
+                "max_time_min": 300
+            }
+        ],
+        "targets": [
+            "vitis_sw_emu",
+            "vitis_hw_emu",
+            "vitis_hw"
+        ],
+        "category": "canary"
+    }
+}
