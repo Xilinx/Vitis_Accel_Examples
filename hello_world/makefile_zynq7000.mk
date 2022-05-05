@@ -19,7 +19,7 @@
 ifneq ($(findstring Makefile, $(MAKEFILE_LIST)), Makefile)
 help:
 	$(ECHO) "Makefile Usage:"
-	$(ECHO) "  make all TARGET=<sw_emu/hw_emu/hw> PLATFORM=<FPGA platform> HOST_ARCH=<aarch32> EDGE_COMMON_SW=<rootfs and kernel image path>"
+	$(ECHO) "  make all TARGET=<sw_emu/hw_emu/hw> PLATFORM=<FPGA platform> EDGE_COMMON_SW=<rootfs and kernel image path>"
 	$(ECHO) "      Command to generate the design for specified Target and Shell."
 	$(ECHO) ""
 	$(ECHO) "  make clean PLATFORM=<FPGA platform>"
@@ -31,22 +31,21 @@ help:
 	$(ECHO) "  make test PLATFORM=<FPGA platform>"
 	$(ECHO) "      Command to run the application. This is same as 'run' target but does not have any makefile dependency."
 	$(ECHO) ""
-	$(ECHO) "  make sd_card TARGET=<sw_emu/hw_emu/hw> PLATFORM=<FPGA platform> HOST_ARCH=<aarch32> EDGE_COMMON_SW=<rootfs and kernel image path>"
+	$(ECHO) "  make sd_card TARGET=<sw_emu/hw_emu/hw> PLATFORM=<FPGA platform> EDGE_COMMON_SW=<rootfs and kernel image path>"
 	$(ECHO) "      Command to prepare sd_card files."
 	$(ECHO) ""
-	$(ECHO) "  make run TARGET=<sw_emu/hw_emu/hw> PLATFORM=<FPGA platform> HOST_ARCH=<aarch32> EDGE_COMMON_SW=<rootfs and kernel image path>"
+	$(ECHO) "  make run TARGET=<sw_emu/hw_emu/hw> PLATFORM=<FPGA platform> EDGE_COMMON_SW=<rootfs and kernel image path>"
 	$(ECHO) "      Command to run application in emulation."
 	$(ECHO) ""
-	$(ECHO) "  make build TARGET=<sw_emu/hw_emu/hw> PLATFORM=<FPGA platform> HOST_ARCH=<aarch32> EDGE_COMMON_SW=<rootfs and kernel image path>"
+	$(ECHO) "  make build TARGET=<sw_emu/hw_emu/hw> PLATFORM=<FPGA platform> EDGE_COMMON_SW=<rootfs and kernel image path>"
 	$(ECHO) "      Command to build xclbin application."
 	$(ECHO) ""
-	$(ECHO) "  make host HOST_ARCH=<aarch32> EDGE_COMMON_SW=<rootfs and kernel image path>"
+	$(ECHO) "  make host EDGE_COMMON_SW=<rootfs and kernel image path>"
 	$(ECHO) "      Command to build host application."
 	$(ECHO) ""
 endif
 ############################## Setting up Project Variables ##############################
 TARGET := hw
-HOST_ARCH := aarch32
 SYSROOT := $(EDGE_COMMON_SW)/sysroots/cortexa9t2hf-neon-xilinx-linux-gnueabi/
 SD_IMAGE_FILE := $(EDGE_COMMON_SW)/uImage
 
