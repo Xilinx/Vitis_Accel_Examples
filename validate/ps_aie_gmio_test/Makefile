@@ -129,7 +129,7 @@ EXECUTABLE = ./ps_aie_gmio_test.exe
 EMCONFIG_DIR = $(TEMP_DIR)
 
 ############################## Setting up PS Kernel Variables ##############################
-CROSS_COMPILE := aarch64-linux-gnu-
+CROSS_COMPILE := $(XILINX_VITIS)/gnu/aarch64/lin/aarch64-linux/bin/aarch64-linux-gnu-
 CROSSCXX := $(CROSS_COMPILE)g++
 ps_target = aie_kernel.so
 ps_OBJS = aie_kernel.o
