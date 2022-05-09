@@ -4,7 +4,7 @@
         "Host to global memory bandwidth test"
     ],
     "flow": "vitis",
-    "platform_blacklist": [
+    "platform_blocklist": [
         "vck",
         "nodma",
         "zc"

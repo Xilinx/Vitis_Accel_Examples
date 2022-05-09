@@ -93,7 +93,7 @@ ifeq ($(findstring nodma, $(PLATFORM)), nodma)
 $(error [ERROR]: This example is not supported for $(PLATFORM).)
 endif
 
-########################## Checking if PLATFORM in whitelist #######################
+########################## Checking if PLATFORM in allowlist #######################
 PLATFORM_BLOCKLIST += 2018 aws u2_ zc702 nodma 
 ############################## Setting up Host Variables ##############################
 #Include Required Host Source Files

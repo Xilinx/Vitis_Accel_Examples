@@ -13,7 +13,7 @@
         "RTL Kernel",
         "Free Running Kernel"
     ], 
-    "platform_blacklist": [
+    "platform_blocklist": [
         "2018",
         "vck",
         "zc706",

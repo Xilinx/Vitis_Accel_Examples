@@ -13,7 +13,7 @@
         "HLS C Kernel", 
         "Array Partition"
     ],
-    "platform_blacklist": [
+    "platform_blocklist": [
         "nodma"
      ],
     "os": [

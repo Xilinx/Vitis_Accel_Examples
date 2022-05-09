@@ -19,7 +19,7 @@
         "Map Buffers", 
         "Async Memcpy"
     ],
-    "platform_blacklist": [
+    "platform_blocklist": [
         "nodma"
     ], 
     "os": [

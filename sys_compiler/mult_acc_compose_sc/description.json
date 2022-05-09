@@ -11,7 +11,7 @@
     "key_concepts": [
         "Multiple Accelerators"
     ],
-    "platform_blacklist": [
+    "platform_blocklist": [
         "zc",
         "vck",
         "aws"

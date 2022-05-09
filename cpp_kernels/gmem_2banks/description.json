@@ -1,5 +1,5 @@
 {
-    "platform_blacklist": [
+    "platform_blocklist": [
         "zc", 
         "vck",
         "u30",

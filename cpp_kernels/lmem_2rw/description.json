@@ -12,7 +12,7 @@
         "2port BRAM Utilization", 
         "two read/write Local Memory"
     ],
-    "platform_blacklist": [
+    "platform_blocklist": [
         "nodma"
      ],    
     "os": [

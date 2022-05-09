@@ -13,7 +13,7 @@
         "Vitis Memory Hierarchy", 
         "PLRAMs"
     ], 
-    "platform_blacklist": [
+    "platform_blocklist": [
         "u25_",
         "u30",
         "zc",

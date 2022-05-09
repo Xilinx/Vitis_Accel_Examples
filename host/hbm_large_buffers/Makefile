@@ -83,7 +83,7 @@ CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++1y
 LDFLAGS += $(opencl_LDFLAGS)
 
 
-########################## Checking if PLATFORM in whitelist #######################
+########################## Checking if PLATFORM in allowlist #######################
 PLATFORM_BLOCKLIST += u25_ u30 u200 zc vck u250 u280 aws-vu9p-f1 u2_ nodma 
 PLATFORM_ALLOWLIST += u50 
 

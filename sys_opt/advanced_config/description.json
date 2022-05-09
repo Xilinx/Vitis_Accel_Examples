@@ -16,7 +16,7 @@
         "Setting Kernel Clock Frequency",
 	"Clock Uncertainity"
     ],
-    "platform_blacklist": [
+    "platform_blocklist": [
         "nodma",
         "zc706"
     ], 

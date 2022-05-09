@@ -8,7 +8,7 @@
         "Compiling and Linking for x86", 
         "Compiling and Linking for Arm"
     ],
-    "platform_blacklist": [
+    "platform_blocklist": [
         "dma"
     ], 
     "os": [

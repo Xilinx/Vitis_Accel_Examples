@@ -20,7 +20,7 @@
     "os": [
         "Linux"
     ],
-    "platform_blacklist": [
+    "platform_blocklist": [
         "zc",
         "u25_",
         "u30",

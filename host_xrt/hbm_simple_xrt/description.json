@@ -11,7 +11,7 @@
         "High Bandwidth Memory", 
         "Multiple HBM Banks"
     ], 
-    "platform_blacklist": [
+    "platform_blocklist": [
         "u25_",
         "u30",
         "u200",

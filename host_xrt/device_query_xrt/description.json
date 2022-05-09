@@ -10,7 +10,7 @@
     "key_concepts": [
         "Querying device properties"
     ],
-    "platform_blacklist": [
+    "platform_blocklist": [
         "zc",
         "vck",
         "aws-vu9p-f1_nodma"

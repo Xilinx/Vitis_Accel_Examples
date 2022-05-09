@@ -19,7 +19,7 @@
     "key_concepts": [
         "System Compiler" 
     ],
-    "platform_blacklist": [
+    "platform_blocklist": [
         "u25_",
         "nodma",
         "zc",

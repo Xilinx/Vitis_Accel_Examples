@@ -7,7 +7,7 @@
     "key_concepts": [
         "Input/Output Operations per second"
     ], 
-    "platform_blacklist": [
+    "platform_blocklist": [
         "nodma"
      ],
     "os": [

@@ -13,7 +13,7 @@
         "Python Host"
     ],
     "platform_type": "pcie", 
-    "platform_blacklist": [
+    "platform_blocklist": [
         "nodma",
         "zc",
         "vck"

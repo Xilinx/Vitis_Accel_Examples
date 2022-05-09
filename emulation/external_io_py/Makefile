@@ -91,7 +91,7 @@ include $(XF_PROJ_ROOT)/common/includes/opencl/opencl.mk
 CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++1y
 LDFLAGS += $(opencl_LDFLAGS)
 
-########################## Checking if PLATFORM in whitelist #######################
+########################## Checking if PLATFORM in allowlist #######################
 PLATFORM_BLOCKLIST += dma vck5000 aws-vu9p-f1 samsung u2_ 
 PLATFORM_ALLOWLIST += vck190 zc
 

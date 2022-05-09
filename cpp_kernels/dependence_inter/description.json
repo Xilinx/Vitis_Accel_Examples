@@ -12,7 +12,7 @@
     "key_concepts": [
         "Inter Dependence"
     ], 
-    "platform_blacklist": [
+    "platform_blocklist": [
         "zc702",
         "nodma"
     ],

@@ -8,7 +8,7 @@
         "Critical Path handling", 
         "Improve Timing"
     ],
-    "platform_blacklist": [
+    "platform_blocklist": [
         "nodma"
      ],
     "os": [

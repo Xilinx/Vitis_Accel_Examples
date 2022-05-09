@@ -13,7 +13,7 @@
         "Out of Order Command Queues", 
         "Multiple Command Queues"
     ],
-    "platform_blacklist": [
+    "platform_blocklist": [
         "nodma"
     ], 
     "os": [

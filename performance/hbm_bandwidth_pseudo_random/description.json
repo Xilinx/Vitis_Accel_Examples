@@ -15,7 +15,7 @@
         "Random Memory Access",
         "Linear Feedback Shift Register"
     ], 
-    "platform_blacklist": [
+    "platform_blocklist": [
         "u25_",
         "u30",
         "u200", 

@@ -75,7 +75,7 @@ def overview(target,data,ref_data):
     return
 
 def requirements(target,data,plt_ref_data):
-    if 'platform_blacklist' in data:
+    if 'platform_blocklist' in data:
         target.write(".. raw:: html")
         target.write("\n\n")
         target.write(" <details>")
@@ -94,14 +94,14 @@ def requirements(target,data,plt_ref_data):
         target.write("|")
         target.write("\n")
         target.write("..")
-        plat_count = len(data["platform_blacklist"])
+        plat_count = len(data["platform_blocklist"])
         target.write("\n\n")
-        for result in data['platform_blacklist']:
+        for result in data['platform_blocklist']:
             plat_count -= 1
-            if "platform_blacklist"  in plt_ref_data:
+            if "platform_blocklist"  in plt_ref_data:
                 target.write(" - ")
-                if result in plt_ref_data["platform_blacklist"]:
-                    target.write(plt_ref_data["platform_blacklist"][result])
+                if result in plt_ref_data["platform_blocklist"]:
+                    target.write(plt_ref_data["platform_blocklist"][result])
                 else:
                     target.write(result)
                 target.write("\n")

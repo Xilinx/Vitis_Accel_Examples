@@ -83,7 +83,7 @@ CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++1y
 LDFLAGS += $(opencl_LDFLAGS)
 
 
-########################## Checking if PLATFORM in whitelist #######################
+########################## Checking if PLATFORM in allowlist #######################
 PLATFORM_BLOCKLIST += u25_ u30 u200 zc vck u250 aws samsung u2_ x3522pv nodma 
 ############################## Setting up Host Variables ##############################
 #Include Required Host Source Files

@@ -15,7 +15,7 @@
         "OpenCL"
     ],
     "platform_type": "pcie",	
-    "platform_blacklist": [
+    "platform_blocklist": [
         "zc",
         "vck190",
         "2019",

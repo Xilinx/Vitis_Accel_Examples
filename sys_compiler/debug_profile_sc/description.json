@@ -14,7 +14,7 @@
         "Debug",
         "Profiling"
     ],
-    "platform_blacklist": [
+    "platform_blocklist": [
         "nodma",
         "zc",
         "vck",

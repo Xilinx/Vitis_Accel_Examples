@@ -12,7 +12,7 @@
         "Kernel Optimization", 
         "Loop reorder to improve II"
     ],
-    "platform_blacklist": [
+    "platform_blocklist": [
         "nodma"
     ], 
     "os": [

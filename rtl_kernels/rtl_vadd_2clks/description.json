@@ -14,7 +14,7 @@
         "RTL Kernel", 
         "Multiple Kernel Clocks"
     ],
-    "platform_blacklist": [
+    "platform_blocklist": [
         "nodma"
     ], 
     "targets": [

@@ -12,7 +12,7 @@
         "Kernel Optimization", 
         "Array Partition"
     ],
-    "platform_blacklist": [
+    "platform_blocklist": [
         "nodma"
     ], 
     "os": [

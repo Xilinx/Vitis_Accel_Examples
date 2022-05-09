@@ -70,7 +70,7 @@ ifeq ($(PLATFORM),)
 PLATFORM := vck5000
 endif
 
-# #################### Checking if PLATFORM in whitelist ############################
+# #################### Checking if PLATFORM in allowlist ############################
 PLATFORM_ALLOWLIST +=  vck5000
 PLATFORM_BLOCKLIST +=  u25_ u30 u200 zc vck190 u250 aws-vu9p-f1 samsung u2_ x3522pv nodma
 

@@ -17,7 +17,7 @@
         "SSD",
         "Syncronization" 
     ],
-    "platform_blacklist": [
+    "platform_blocklist": [
         "nodma",
         "zc",
         "vck",

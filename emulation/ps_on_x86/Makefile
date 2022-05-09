@@ -103,7 +103,7 @@ opencl_LDFLAGS=-L$(OPENCL_LIB) -lOpenCL -pthread
 CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++1y
 LDFLAGS += $(opencl_LDFLAGS)
 
-########################## Checking if PLATFORM in whitelist #######################
+########################## Checking if PLATFORM in allowlist #######################
 PLATFORM_BLOCKLIST += dma 
 
 ############################## Setting up Host Variables ##############################

@@ -14,7 +14,7 @@
     "key_concepts": [
         "System Compiler" 
     ],
-    "platform_blacklist": [
+    "platform_blocklist": [
         "u2_",
         "nodma",
         "zc",
@@ -28,7 +28,8 @@
     "runtime": [
         "OpenCL"
     ],
-    "match_makefile" : "false", 
+    "match_makefile" : "false",
+    "match_ini" : "false", 
     "host": {
         "host_exe": "host.exe",
         "compiler": {

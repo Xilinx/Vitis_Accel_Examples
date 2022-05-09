@@ -14,7 +14,7 @@
         "Write Buffers", 
         "Read Buffers" 
     ],
-    "platform_blacklist": [
+    "platform_blocklist": [
         "nodma"
     ], 
     "os": [

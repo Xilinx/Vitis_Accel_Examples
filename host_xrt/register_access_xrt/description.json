@@ -10,7 +10,7 @@
         "cu_access_mode",
         "exclusive" 
     ], 
-    "platform_blacklist": [
+    "platform_blocklist": [
         "nodma"
     ], 
     "os": [

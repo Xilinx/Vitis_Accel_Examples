@@ -10,7 +10,7 @@
     "key_concepts": [
         "Copy Buffer"
     ], 
-    "platform_blacklist": [
+    "platform_blocklist": [
         "nodma"
     ],
     "runtime": [

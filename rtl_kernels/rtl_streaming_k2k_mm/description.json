@@ -5,7 +5,7 @@
     ], 
     "flow": "vitis",
     "config_make": "config.mk",
-    "platform_blacklist": [
+    "platform_blocklist": [
         "vck",
         "zc706",
         "nodma"

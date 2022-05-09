@@ -17,7 +17,7 @@
         "Events", 
         "Asynchronous memcpy"
     ],
-    "platform_blacklist": [
+    "platform_blocklist": [
         "nodma"
     ], 
     "os": [

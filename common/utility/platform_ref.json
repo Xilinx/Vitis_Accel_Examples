@@ -1,5 +1,5 @@
 {
-    "platform_blacklist": {
+    "platform_blocklist": {
         "u25_": "Alveo U25 SmartNIC",
         "u30": "Alveo U30",
         "u200": "Alveo U200",
