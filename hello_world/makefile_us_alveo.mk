@@ -22,38 +22,39 @@ help:
 	$(ECHO) "  make all TARGET=<sw_emu/hw_emu/hw> PLATFORM=<FPGA platform>"
 	$(ECHO) "      Command to generate the design for specified Target and Shell."
 	$(ECHO) ""
-	$(ECHO) "  make clean PLATFORM=<FPGA platform>"
+	$(ECHO) "  make clean "
 	$(ECHO) "      Command to remove the generated non-hardware files."
 	$(ECHO) ""
-	$(ECHO) "  make cleanall PLATFORM=<FPGA platform>"
+	$(ECHO) "  make cleanall"
 	$(ECHO) "      Command to remove all the generated files."
 	$(ECHO) ""
 	$(ECHO) "  make test PLATFORM=<FPGA platform>"
 	$(ECHO) "      Command to run the application. This is same as 'run' target but does not have any makefile dependency."
 	$(ECHO) ""
-	$(ECHO) "  make run TARGET=<sw_emu/hw_emu/hw> PLATFORM=<FPGA platform>" 
+	$(ECHO) "  make run TARGET=<sw_emu/hw_emu/hw> PLATFORM=<FPGA platform>"
 	$(ECHO) "      Command to run application in emulation."
 	$(ECHO) ""
 	$(ECHO) "  make build TARGET=<sw_emu/hw_emu/hw> PLATFORM=<FPGA platform>"
 	$(ECHO) "      Command to build xclbin application."
 	$(ECHO) ""
-	$(ECHO) "  make host" 
+	$(ECHO) "  make host"
 	$(ECHO) "      Command to build host application."
 	$(ECHO) ""
 endif
+
 ############################## Setting up Project Variables ##############################
 TARGET := hw
-HOST_ARCH := x86
 include ./utils.mk
 
 TEMP_DIR := ./_x.$(TARGET).$(XSA)
 BUILD_DIR := ./build_dir.$(TARGET).$(XSA)
 
+LINK_OUTPUT := $(BUILD_DIR)/vadd.link.xclbin
 PACKAGE_OUT = ./package.$(TARGET)
+
 
 VPP_PFLAGS := 
 CMD_ARGS = $(BUILD_DIR)/vadd.xclbin
-
 include $(XF_PROJ_ROOT)/common/includes/opencl/opencl.mk
 CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++1y
 LDFLAGS += $(opencl_LDFLAGS)
@@ -72,16 +73,21 @@ LDFLAGS += -lrt -lstdc++
 # Kernel compiler global settings
 VPP_FLAGS += -t $(TARGET) --platform $(PLATFORM) --save-temps 
 
+
 EXECUTABLE = ./hello_world
 EMCONFIG_DIR = $(TEMP_DIR)
 
 ############################## Setting Targets ##############################
+.PHONY: all clean cleanall docs emconfig
 all: check-platform check-device check-vitis $(EXECUTABLE) $(BUILD_DIR)/vadd.xclbin emconfig
 
+.PHONY: host
 host: $(EXECUTABLE)
 
+.PHONY: build
 build: check-vitis check-device $(BUILD_DIR)/vadd.xclbin
 
+.PHONY: xclbin
 xclbin: build
 
 ############################## Setting Rules for Binary Containers (Building Kernels) ##############################
@@ -90,12 +96,12 @@ $(TEMP_DIR)/vadd.xo: src/vadd.cpp
 	v++ $(VPP_FLAGS) -c -k vadd --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
 $(BUILD_DIR)/vadd.xclbin: $(TEMP_DIR)/vadd.xo
 	mkdir -p $(BUILD_DIR)
-	v++ $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) -o'$(BUILD_DIR)/vadd.link.xclbin' $(+)
-	v++ -p $(BUILD_DIR)/vadd.link.xclbin -t $(TARGET) --platform $(PLATFORM) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/vadd.xclbin
+	v++ $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) -o'$(LINK_OUTPUT)' $(+)
+	v++ -p $(LINK_OUTPUT) $(VPP_FLAGS) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/vadd.xclbin
 
 ############################## Setting Rules for Host (Building Host Executable) ##############################
 $(EXECUTABLE): $(HOST_SRCS) | check-xrt
-	g++ -o $@ $^ $(CXXFLAGS) $(LDFLAGS)
+		g++ -o $@ $^ $(CXXFLAGS) $(LDFLAGS)
 
 emconfig:$(EMCONFIG_DIR)/emconfig.json
 $(EMCONFIG_DIR)/emconfig.json:
@@ -103,19 +109,21 @@ $(EMCONFIG_DIR)/emconfig.json:
 
 ############################## Setting Essential Checks and Running Rules ##############################
 run: all
-ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))	
-	$(CP) $(EMCONFIG_DIR)/emconfig.json .
+ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
+	cp -rf $(EMCONFIG_DIR)/emconfig.json .
 	XCL_EMULATION_MODE=$(TARGET) $(EXECUTABLE) $(CMD_ARGS)
 else
 	$(EXECUTABLE) $(CMD_ARGS)
 endif
 
+.PHONY: test
 test: $(EXECUTABLE)
-ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))	
+ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 	XCL_EMULATION_MODE=$(TARGET) $(EXECUTABLE) $(CMD_ARGS)
 else
 	$(EXECUTABLE) $(CMD_ARGS)
 endif
+
 ############################## Cleaning Rules ##############################
 # Cleaning stuff
 clean:
@@ -124,6 +132,7 @@ clean:
 	-$(RMDIR) src/*.ll *v++* .Xil emconfig.json dltmp* xmltmp* *.log *.jou *.wcfg *.wdb
 
 cleanall: clean
-	-$(RMDIR) build_dir* 
+	-$(RMDIR) build_dir*
 	-$(RMDIR) package.*
 	-$(RMDIR) _x* *xclbin.run_summary qemu-memory-_* emulation _vimage pl* start_simulation.sh *.xclbin
+

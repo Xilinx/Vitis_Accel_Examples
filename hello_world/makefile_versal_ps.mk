@@ -19,13 +19,13 @@
 ifneq ($(findstring Makefile, $(MAKEFILE_LIST)), Makefile)
 help:
 	$(ECHO) "Makefile Usage:"
-	$(ECHO) "  make all TARGET=<sw_emu/hw_emu/hw> PLATFORM=<FPGA platform> EDGE_COMMON_SW=<rootfs and kernel image path>"
+	$(ECHO) "  make all TARGET=<sw_emu/hw_emu/hw> PLATFORM=<FPGA platform> EDGE_COMMON_SW=<rootfs and kernel image path>."
 	$(ECHO) "      Command to generate the design for specified Target and Shell."
 	$(ECHO) ""
-	$(ECHO) "  make clean PLATFORM=<FPGA platform>"
+	$(ECHO) "  make clean "
 	$(ECHO) "      Command to remove the generated non-hardware files."
 	$(ECHO) ""
-	$(ECHO) "  make cleanall PLATFORM=<FPGA platform>"
+	$(ECHO) "  make cleanall"
 	$(ECHO) "      Command to remove all the generated files."
 	$(ECHO) ""
 	$(ECHO) "  make test PLATFORM=<FPGA platform>"
@@ -42,18 +42,22 @@ help:
 	$(ECHO) ""
 	$(ECHO) "  make host EDGE_COMMON_SW=<rootfs and kernel image path>"
 	$(ECHO) "      Command to build host application."
+	$(ECHO) "      EDGE_COMMON_SW is required for SoC shells. Please download and use the pre-built image from - "
+	$(ECHO) "      https://www.xilinx.com/support/download/index.html/content/xilinx/en/downloadNav/embedded-platforms.html"
 	$(ECHO) ""
 endif
+
 ############################## Setting up Project Variables ##############################
 TARGET := hw
 SYSROOT := $(EDGE_COMMON_SW)/sysroots/cortexa72-cortexa53-xilinx-linux
 SD_IMAGE_FILE := $(EDGE_COMMON_SW)/Image
 
 include ./utils.mk
+
 TEMP_DIR := ./_x.$(TARGET).$(XSA)
 BUILD_DIR := ./build_dir.$(TARGET).$(XSA)
 
-LINK_OUTPUT := $(BUILD_DIR)/vadd.xsa
+LINK_OUTPUT := $(BUILD_DIR)/vadd.link.xsa
 
 # SoC variables
 RUN_APP_SCRIPT = ./run_app.sh
@@ -61,6 +65,7 @@ PACKAGE_OUT = ./package.$(TARGET)
 
 LAUNCH_EMULATOR = $(PACKAGE_OUT)/launch_$(TARGET).sh
 RESULT_STRING = TEST PASSED
+
 
 VPP_PFLAGS := 
 CMD_ARGS = $(BUILD_DIR)/vadd.xclbin
@@ -81,24 +86,25 @@ HOST_SRCS += $(XF_PROJ_ROOT)/common/includes/xcl2/xcl2.cpp ./src/host.cpp
 CXXFLAGS += -fmessage-length=0
 LDFLAGS += -lrt -lstdc++ 
 LDFLAGS += --sysroot=$(SYSROOT)
-
 ############################## Setting up Kernel Variables ##############################
 # Kernel compiler global settings
 VPP_FLAGS += -t $(TARGET) --platform $(PLATFORM) --save-temps 
+
 
 EXECUTABLE = ./hello_world
 EMCONFIG_DIR = $(TEMP_DIR)
 EMU_DIR = $(SDCARD)/data/emulation
 
-############################## Declaring Binary Containers ##############################
-
 ############################## Setting Targets ##############################
+.PHONY: all clean cleanall docs emconfig
 all: check-platform check-device check_edge_sw $(EXECUTABLE) $(BUILD_DIR)/vadd.xclbin emconfig sd_card
 
+.PHONY: host
 host: $(EXECUTABLE)
 
+.PHONY: build
 build: check-vitis check-device $(BUILD_DIR)/vadd.xclbin
-
+.PHONY: xclbin
 xclbin: build
 
 ############################## Setting Rules for Binary Containers (Building Kernels) ##############################
@@ -110,7 +116,7 @@ $(BUILD_DIR)/vadd.xclbin: $(TEMP_DIR)/vadd.xo
 	v++ $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) -o'$(LINK_OUTPUT)' $(+)
 
 ############################## Setting Rules for Host (Building Host Executable) ##############################
-$(EXECUTABLE): $(HOST_SRCS) | check-vitis check_edge_sw 
+$(EXECUTABLE): $(HOST_SRCS) | check-vitis check_edge_sw
 	$(XILINX_VITIS)/gnu/aarch64/lin/aarch64-linux/bin/aarch64-linux-gnu-g++ -o $@ $^ $(CXXFLAGS) $(LDFLAGS)
 
 emconfig:$(EMCONFIG_DIR)/emconfig.json
@@ -121,14 +127,19 @@ $(EMCONFIG_DIR)/emconfig.json:
 run: all
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 	$(LAUNCH_EMULATOR) -run-app $(RUN_APP_SCRIPT) | tee run_app.log; exit $${PIPESTATUS[0]}
-endif
-
-test: $(EXECUTABLE)
-ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
-	$(LAUNCH_EMULATOR) -run-app $(RUN_APP_SCRIPT) | tee run_app.log; exit $${PIPESTATUS[0]}
 else
 	$(ECHO) "Please copy the content of sd_card folder and data to an SD Card and run on the board"
 endif
+
+.PHONY: test
+test: $(EXECUTABLE)
+ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
+	$(LAUNCH_EMULATOR) -run-app $(RUN_APP_SCRIPT) | tee run_app.log; exit $${PIPESTATUS[0]}
+
+else
+	$(ECHO) "Please copy the content of sd_card folder and data to an SD Card and run on the board"
+endif
+
 
 ############################## Preparing sdcard ##############################
 sd_card: $(BUILD_DIR)/vadd.xclbin $(EXECUTABLE) gen_run_app
@@ -147,7 +158,6 @@ check_edge_sw:
 ifndef EDGE_COMMON_SW
 	$(error EDGE_COMMON_SW variable is not set, please download and use the pre-built image from https://www.xilinx.com/support/download/index.html/content/xilinx/en/downloadNav/embedded-platforms.html)
 endif
-
 ############################## Cleaning Rules ##############################
 # Cleaning stuff
 clean:
@@ -159,3 +169,4 @@ cleanall: clean
 	-$(RMDIR) build_dir* sd_card*
 	-$(RMDIR) package.*
 	-$(RMDIR) _x* *xclbin.run_summary qemu-memory-_* emulation _vimage pl* start_simulation.sh *.xclbin
+
