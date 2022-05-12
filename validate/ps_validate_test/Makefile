@@ -127,7 +127,7 @@ all: check-platform check-device check-vitis platform_test $(EXECUTABLE) $(ps_ta
 host: $(EXECUTABLE)
 
 .PHONY: build
-build: check-vitis check-device platform_test $(ps_target) $(BINARY_CONTAINERS_TEMP) $(BINARY_CONTAINERS)
+build: check-vitis check-device platform_test $(ps_target)  $(BUILD_DIR)/$(LINK_OUTPUT) $(BINARY_CONTAINERS_TEMP) $(BINARY_CONTAINERS)
 
 .PHONY: xclbin
 xclbin: build

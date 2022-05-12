@@ -30,6 +30,10 @@ help::
 	$(ECHO) "      Command to run application in emulation."
 	$(ECHO) "      By default, HOST_ARCH=x86 HOST_ARCH required for SoC shells"
 	$(ECHO) ""
+	$(ECHO) "  make build TARGET=<hw/hw_emu/> PLATFORM=<FPGA platform> HOST_ARCH=<>"
+	$(ECHO) "      Command to build xclbin application."
+	$(ECHO) "      By default, HOST_ARCH=x86 HOST_ARCH is required for SoC shells"
+	$(ECHO) ""
 	$(ECHO) "  make xclbin TARGET=<hw/hw_emu/> PLATFORM=<FPGA platform> HOST_ARCH=<>"
 	$(ECHO) "      Command to build xclbin application."
 	$(ECHO) "      By default, HOST_ARCH=x86 HOST_ARCH is required for SoC shells"
@@ -328,6 +332,13 @@ ifeq ($(HOST_ARCH), x86)
 host:  check_xrt $(EXE_FILE)
 else
 host:  check_sysroot $(EXE_FILE)
+endif
+
+.PHONY: build
+ifeq ($(HOST_ARCH), x86)
+build:  check_vpp check_xrt $(BINARY_CONTAINERS) $(AIE_CONTAINER) $(BINARY_CONTAINERS_PKG)
+else
+build:  check_vpp check_sysroot $(BINARY_CONTAINERS) $(AIE_CONTAINER) $(BINARY_CONTAINERS_PKG)
 endif
 
 .PHONY: xclbin

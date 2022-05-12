@@ -121,13 +121,13 @@ BINARY_CONTAINER_bandwidth_OBJS += $(TEMP_DIR)/bandwidth.xo
 CP = cp -rf
 
 .PHONY: all clean cleanall docs emconfig
-all: check-platform check-device check-vitis platform_test $(EXECUTABLE) $(ps_target) $(BINARY_CONTAINERS_TEMP) $(BINARY_CONTAINERS) emconfig
+all: check-platform check-device check-vitis platform_test $(EXECUTABLE) $(ps_target) $(BUILD_DIR)/$(LINK_OUTPUT) $(BINARY_CONTAINERS_TEMP) $(BINARY_CONTAINERS) emconfig
 
 .PHONY: host
 host: $(EXECUTABLE)
 
 .PHONY: build
-build: check-vitis check-device platform_test $(ps_target) $(BINARY_CONTAINERS_TEMP) $(BINARY_CONTAINERS)
+build: check-vitis check-device platform_test $(ps_target) $(BUILD_DIR)/$(LINK_OUTPUT) $(BINARY_CONTAINERS_TEMP) $(BINARY_CONTAINERS)
 
 .PHONY: xclbin
 xclbin: build
@@ -144,6 +144,9 @@ $(TEMP_DIR)/bandwidth.xo: src/bandwidth.cpp
 	mkdir -p $(TEMP_DIR)
 	$(VPP) $(VPP_FLAGS) -c -k bandwidth --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
 
+$(BUILD_DIR)/$(LINK_OUTPUT): $(BINARY_CONTAINER_bandwidth_OBJS)
+	mkdir -p $(BUILD_DIR)
+	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR)  -o'$(LINK_OUTPUT)' $(+)
 $(BINARY_CONTAINERS_TEMP): $(BUILD_DIR)/$(LINK_OUTPUT)
 	$(VPP) -p $(LINK_OUTPUT) $(VPP_FLAGS) --package.out_dir $(PACKAGE_OUT) -o $(BINARY_CONTAINERS_TEMP)
 $(BINARY_CONTAINERS): $(BINARY_CONTAINERS_TEMP)
