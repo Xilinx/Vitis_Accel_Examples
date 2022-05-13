@@ -40,11 +40,11 @@
             "accelerators": [
                 {
                     "name": "ldst", 
-                    "location": "src/stream_krnl.cpp"
+                    "location": "src/stream_krnl_hls.cpp"
                 },
                 {
                     "name": "incr", 
-                    "location": "src/stream_krnl.cpp"
+                    "location": "src/stream_krnl_hls.cpp"
                 }
             ], 
             "name": "ldst"

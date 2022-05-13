@@ -35,11 +35,3 @@ void fsk_acc::incr(hls::stream<AXI>& AS, hls::stream<AXI>& XS) {
     pkt.data++;
     XS.write(pkt);
 }
-
-void fsk_acc::compute(int* A, int* X, int sz) {
-    static vpp::stream<AXI, DEPTH> AS;
-    static vpp::stream<AXI, DEPTH> XS;
-
-    ldst(A, X, sz, AS, XS);
-    incr(AS, XS);
-}

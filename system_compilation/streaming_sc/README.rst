@@ -43,8 +43,9 @@ Application code is located in the src directory. Accelerator binary files will 
 ::
 
    src/main.cpp
-   src/stream_krnl.cpp
    src/stream_krnl.hpp
+   src/stream_krnl_hls.cpp
+   src/stream_krnl_top.cpp
    
 COMMAND LINE ARGUMENTS
 ----------------------
