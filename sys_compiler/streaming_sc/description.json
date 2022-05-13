@@ -1,0 +1,83 @@
+{
+    "name": "Streaming System Compiler", 
+    "description": [
+        "This is simple example showcasing Free-running PEs with AXI-streams in system compiler environment."
+    ],
+    "flow": "vitis",
+    "keywords": [
+        "vpp::stream",
+        "hls::axis",
+        "hls::stream"
+    ], 
+    "key_concepts": [
+        "Free Running Kernel"
+    ],
+    "platform_blocklist": [
+        "zc7",
+        "zcu104",
+        "vck",
+        "u25_",
+        "aws"
+    ], 
+    "os": [
+        "Linux"
+    ], 
+    "runtime": [
+        "OpenCL"
+    ],
+    "match_makefile" : "false",
+    "match_ini" : "false", 
+    "host": {
+        "host_exe": "host.exe",
+        "compiler": {
+            "sources": [
+                "./src/main.cpp"
+            ] 
+        }
+    }, 
+    "containers": [
+        {
+            "accelerators": [
+                {
+                    "name": "ldst", 
+                    "location": "src/stream_krnl.cpp"
+                },
+                {
+                    "name": "incr", 
+                    "location": "src/stream_krnl.cpp"
+                }
+            ], 
+            "name": "ldst"
+        }
+    ],
+    "launch": [
+        {
+            "name": "generic launch for all flows"
+        }
+    ], 
+    "contributors": [
+        {
+            "url": "http://www.xilinx.com", 
+            "group": "Xilinx"
+        }
+    ],
+    "testinfo": {
+        "disable": false,
+        "jobs": [
+            {
+                "index": 0,
+                "dependency": [],
+                "env": "",
+                "cmd": "",
+                "max_memory_MB": 32768,
+                "max_time_min": 300
+            }
+        ],
+        "targets": [
+            "vitis_sw_emu",
+            "vitis_hw_emu",
+            "vitis_hw"
+        ],
+        "category": "canary"
+    }
+}
