@@ -14,10 +14,10 @@
         "Adaptive Data Flow", 
         "Graph"
     ],
-    "platform_whitelist": [
+    "platform_allowlist": [
         "vck190"
     ],
-    "platform_blacklist": [
+    "platform_blocklist": [
         "zc",
         "aws-vu9p-f1",
         "samsung",

@@ -10,7 +10,7 @@
     "key_concepts": [
         "Multiple compute units"
     ],
-    "platform_blacklist": [
+    "platform_blocklist": [
         "nodma"
     ], 
     "os": [

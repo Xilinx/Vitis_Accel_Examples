@@ -1,0 +1,85 @@
+{
+    "name": "File Filter System Compiler", 
+    "description": [
+        "This is simple example showcasing the P2P and H2C file transfers in system compiler environment."
+    ],
+    "flow": "vitis",
+    "keywords": [
+        "vpp::p2p",
+        "vpp::h2c",
+        "file_buf",
+        "sync_output",
+        "custom_sync_outputs",
+        "sync_output_to_file"
+    ], 
+    "key_concepts": [
+        "P2P",
+        "SSD",
+        "Syncronization" 
+    ],
+    "platform_blocklist": [
+        "nodma",
+        "zc",
+        "vck",
+        "u2_",
+        "u25_",
+        "aws"
+    ], 
+    "os": [
+        "Linux"
+    ], 
+    "runtime": [
+        "OpenCL"
+    ],
+    "match_makefile" : "false",
+    "match_ini" : "false", 
+    "host": {
+        "host_exe": "host.exe",
+        "compiler": {
+            "sources": [
+                "./src/main.cpp"
+            ] 
+        }
+    }, 
+    "containers": [
+        {
+            "accelerators": [
+                {
+                    "name": "hls_top", 
+                    "location": "src/filter.cpp"
+                }
+            ], 
+            "name": "hls_top"
+        }
+    ],
+    "launch": [
+        {
+            "name": "generic launch for all flows"
+        }
+    ], 
+    "contributors": [
+        {
+            "url": "http://www.xilinx.com", 
+            "group": "Xilinx"
+        }
+    ],
+    "testinfo": {
+        "disable": false,
+        "jobs": [
+            {
+                "index": 0,
+                "dependency": [],
+                "env": "",
+                "cmd": "",
+                "max_memory_MB": 32768,
+                "max_time_min": 300
+            }
+        ],
+        "targets": [
+            "vitis_sw_emu",
+            "vitis_hw_emu",
+            "vitis_hw"
+        ],
+        "category": "canary"
+    }
+}

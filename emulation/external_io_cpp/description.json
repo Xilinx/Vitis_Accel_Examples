@@ -14,11 +14,11 @@
         "Traffic Generator", 
         "Traffic generation using C++"
     ],
-    "platform_whitelist": [
+    "platform_allowlist": [
         "vck190",
         "zc"
     ],
-    "platform_blacklist": [
+    "platform_blocklist": [
         "dma",
         "vck5000",
         "aws-vu9p-f1",

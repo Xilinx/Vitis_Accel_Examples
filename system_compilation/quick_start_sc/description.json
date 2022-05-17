@@ -1,0 +1,89 @@
+{
+    "name": "Quick Start System Compiler", 
+    "description": [
+        "This is quick start example based on a video filtering usecase to describe system compiler usage in Vitis Environment."
+    ],
+    "flow": "vitis",
+    "keywords": [
+        "create_bufpool",
+        "alloc_buff",  
+        "compute", 
+        "send_while",
+        "receive_all_in_order",
+        "get_buf",
+        "DATA_COPY",
+        "SYS_PORT",
+        "SYS_PORT_PFM",
+        "ACCESS_PATTERN"
+    ], 
+    "key_concepts": [
+        "System Compiler" 
+    ],
+    "platform_blocklist": [
+        "u25_",
+        "nodma",
+        "zc",
+        "vck",
+        "aws"
+    ], 
+    "os": [
+        "Linux"
+    ], 
+    "runtime": [
+        "OpenCL"
+    ],
+    "match_makefile" : "false",
+    "match_ini": "false", 
+    "host": {
+        "host_exe": "host.exe",
+        "compiler": {
+            "sources": [
+                "./src/host_randomized.cpp",
+                "./src/conv_filter_cpu.cpp",
+                "./src/conv_filter_acc_wrapper.cpp",
+                "./src/cmdlineparser.cpp"
+            ] 
+        }
+    }, 
+    "containers": [
+        {
+            "accelerators": [
+                {
+                    "name": "krnl_conv", 
+                    "location": "src/conv_filter_acc.cpp"
+                }
+            ], 
+            "name": "krnl_conv"
+        }
+    ],
+    "launch": [
+        {
+            "name": "generic launch for all flows"
+        }
+    ], 
+    "contributors": [
+        {
+            "url": "http://www.xilinx.com", 
+            "group": "Xilinx"
+        }
+    ],
+    "testinfo": {
+        "disable": false,
+        "jobs": [
+            {
+                "index": 0,
+                "dependency": [],
+                "env": "",
+                "cmd": "",
+                "max_memory_MB": 32768,
+                "max_time_min": 300
+            }
+        ],
+        "targets": [
+            "vitis_sw_emu",
+            "vitis_hw_emu",
+            "vitis_hw"
+        ],
+        "category": "canary"
+    }
+}

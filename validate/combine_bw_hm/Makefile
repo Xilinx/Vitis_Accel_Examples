@@ -81,7 +81,7 @@ include config.mk
 CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++1y
 LDFLAGS += $(opencl_LDFLAGS)
 
-########################## Checking if PLATFORM in whitelist #######################
+########################## Checking if PLATFORM in allowlist #######################
 PLATFORM_BLOCKLIST += u25_ u30 u50lv u50_gen3x4 zc vck aws-vu9p-f1 2019 2018 samsung u2_
 
 ############################## Setting up Host Variables ##############################

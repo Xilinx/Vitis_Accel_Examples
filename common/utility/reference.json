@@ -173,6 +173,7 @@
         "Traffic Generator": "https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Using-I/O-Traffic-Generators",
         "Traffic generation using Python": "https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Writing-Traffic-Generators-in-Python", 
         "Traffic generation using C++": "https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Writing-Traffic-Generators-in-C",
-        "Traffic generation using SystemV": "https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Writing-Traffic-Generators-in-SV/Verilog"
+        "Traffic generation using SystemV": "https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Writing-Traffic-Generators-in-SV/Verilog",
+        "Building a Bare-Metal System": "https://docs.xilinx.com/r/en-US/ug1076-ai-engine-environment/Building-a-Bare-Metal-System"
     }
 }

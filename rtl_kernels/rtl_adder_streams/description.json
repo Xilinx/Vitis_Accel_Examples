@@ -8,7 +8,7 @@
         "RTL Kernel", 
         "Multiple RTL Kernels"
     ],
-    "platform_blacklist": [
+    "platform_blocklist": [
         "nodma"
     ], 
     "targets": [

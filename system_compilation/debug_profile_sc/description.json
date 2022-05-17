@@ -1,0 +1,92 @@
+{
+    "name": "Debug and Profile System Compiler", 
+    "description": [
+        "This simple example implements a HW pipeline of three tasks, matrix multiplication along with two different increments to the matrix values."
+    ],
+    "flow": "vitis",
+    "keywords": [
+        "PROFILE_KERNEL",
+        "PROFILE_PORT",  
+        "PROFILE_OFFLOAD", 
+        "vpp::stream<>"
+    ], 
+    "key_concepts": [
+        "Debug",
+        "Profiling"
+    ],
+    "platform_blocklist": [
+        "nodma",
+        "zc",
+        "vck",
+        "u55",
+        "u25_",
+        "u2_",
+        "aws"
+    ], 
+    "os": [
+        "Linux"
+    ], 
+    "runtime": [
+        "OpenCL"
+    ],
+    "match_makefile" : "false", 
+    "match_ini" : "false", 
+    "host": {
+        "host_exe": "host.exe",
+        "compiler": {
+            "sources": [
+                "./src/host.cpp"
+            ] 
+        }
+    }, 
+    "containers": [
+        {
+            "accelerators": [
+                {
+                    "name": "mmult", 
+                    "location": "src/acc_hls.cpp"
+                },
+                {
+                    "name": "incr_10", 
+                    "location": "src/acc_hls.cpp"
+                },
+                {
+                    "name": "incr_20", 
+                    "location": "src/acc_hls.cpp"
+                }
+
+            ], 
+            "name": "pipelined_cu"
+        }
+    ],
+    "launch": [
+        {
+            "name": "generic launch for all flows"
+        }
+    ], 
+    "contributors": [
+        {
+            "url": "http://www.xilinx.com", 
+            "group": "Xilinx"
+        }
+    ],
+    "testinfo": {
+        "disable": false,
+        "jobs": [
+            {
+                "index": 0,
+                "dependency": [],
+                "env": "",
+                "cmd": "",
+                "max_memory_MB": 32768,
+                "max_time_min": 300
+            }
+        ],
+        "targets": [
+            "vitis_sw_emu",
+            "vitis_hw_emu",
+            "vitis_hw"
+        ],
+        "category": "canary"
+    }
+}

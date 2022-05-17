@@ -16,10 +16,10 @@
         "RAMA IP"
     ], 
     "platform_type": "pcie",
-    "platform_whitelist": [
+    "platform_allowlist": [
         "u50"
     ], 
-    "platform_blacklist": [
+    "platform_blocklist": [
         "u25_",
         "u30",
         "u200", 

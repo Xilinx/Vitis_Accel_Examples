@@ -4,7 +4,7 @@
         "Bandwidth test of global to local memory."
     ], 
     "flow": "vitis",
-    "platform_blacklist": [
+    "platform_blocklist": [
         "u2_",
         "u30",
         "u50",

@@ -82,7 +82,7 @@ CMD_ARGS = -p $(GEN_DIR)
 CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++1y
 LDFLAGS += $(opencl_LDFLAGS)
 
-########################## Checking if PLATFORM in whitelist #######################
+########################## Checking if PLATFORM in allowlist #######################
 PLATFORM_ALLOWLIST +=  vck5000
 PLATFORM_BLOCKLIST +=  _u25_ u30 u200 zc vck190 u250 aws-vu9p-f1 samsung _u2_ x3522pv nodma
 
@@ -129,7 +129,7 @@ EXECUTABLE = ./ps_aie_gmio_test.exe
 EMCONFIG_DIR = $(TEMP_DIR)
 
 ############################## Setting up PS Kernel Variables ##############################
-CROSS_COMPILE := aarch64-linux-gnu-
+CROSS_COMPILE := $(XILINX_VITIS)/gnu/aarch64/lin/aarch64-linux/bin/aarch64-linux-gnu-
 CROSSCXX := $(CROSS_COMPILE)g++
 ps_target = aie_kernel.so
 ps_OBJS = aie_kernel.o

@@ -20,7 +20,7 @@
         "xrt::ip::write_register",
         "xrt::ip::read_register"
     ],
-    "platform_blacklist": [
+    "platform_blocklist": [
         "nodma"
     ], 
     "targets": [

@@ -17,7 +17,7 @@
     "os": [
         "Linux"
     ],
-    "platform_blacklist": [
+    "platform_blocklist": [
         "zc",
         "201910",
         "2018",

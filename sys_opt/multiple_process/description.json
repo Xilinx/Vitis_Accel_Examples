@@ -15,7 +15,7 @@
         "Multiple HLS kernels", 
         "Multiple Process Support"
     ],
-    "platform_blacklist": [
+    "platform_blocklist": [
         "nodma"
     ], 
     "targets": [

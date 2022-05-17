@@ -82,7 +82,7 @@ vck190_dfx_hw := false
 CONFIG_FILE := system.cfg
 include ./utils.mk
 
-########################## Checking if PLATFORM in whitelist #######################
+########################## Checking if PLATFORM in allowlist #######################
 PLATFORM_BLOCKLIST += zc vck5000 aws-vu9p-f1 samsung u2_ dma 
 PLATFORM_ALLOWLIST += vck190
 

@@ -3,10 +3,10 @@
     "description": [ "Xilinx AIE Validate example"
     ],
     "flow": "versal",
-    "platform_whitelist": [ 
+    "platform_allowlist": [ 
         "vck5000"
     ],
-    "platform_blacklist": [
+    "platform_blocklist": [
         "u25_",
         "u30",
         "u200",

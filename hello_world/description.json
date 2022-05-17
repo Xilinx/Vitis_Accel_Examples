@@ -16,7 +16,7 @@
         "OpenCL Host APIs",
         "Task Level Parallelism"
     ],
-    "platform_blacklist": [
+    "platform_blocklist": [
         "nodma"
     ], 
     "os": [
@@ -36,7 +36,8 @@
                 "REPO_DIR/common/includes/xcl2"
             ]
         }
-    }, 
+    },
+    "match_makefile": "false", 
     "containers": [
         {
             "accelerators": [

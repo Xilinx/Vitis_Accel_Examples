@@ -7,7 +7,7 @@
     "key_concepts": [
         "Multiple RTL Kernels"
     ],
-    "platform_blacklist": [
+    "platform_blocklist": [
         "nodma",
         "vck190"
     ], 

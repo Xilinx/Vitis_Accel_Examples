@@ -92,7 +92,7 @@ CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++1y
 LDFLAGS += $(opencl_LDFLAGS)
 
 
-########################## Checking if PLATFORM in whitelist #######################
+########################## Checking if PLATFORM in allowlist #######################
 PLATFORM_BLOCKLIST += dma u30 aws samsung u2_ 2019 2018 vck5000 
 ############################## Setting up Host Variables ##############################
 #Include Required Host Source Files

@@ -11,7 +11,7 @@
         "Kernel Optimization", 
         "Loop Pipelining"
     ],
-    "platform_blacklist": [
+    "platform_blocklist": [
         "nodma"
      ],    
     "os": [

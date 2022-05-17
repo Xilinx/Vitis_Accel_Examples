@@ -13,7 +13,7 @@
         "XRT Native API",
         "Asynchronous Programming"
     ],
-    "platform_blacklist": [
+    "platform_blocklist": [
         "nodma"
     ], 
     "os": [

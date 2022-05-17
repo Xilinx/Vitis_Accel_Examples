@@ -1,0 +1,84 @@
+{
+    "name": "GMIO Transfers System Compiler", 
+    "description": [
+        "This is gmio transfers example which explains different ways of data movements between host and device for compute unit processing."
+    ],
+    "flow": "vitis",
+    "keywords": [
+        "DATA_COPY",
+        "ZERO_COPY",
+        "ACCESS_PATTERN",
+        "SEQUENTIAL",
+        "RANDOM"
+    ], 
+    "key_concepts": [
+        "System Compiler" 
+    ],
+    "platform_blocklist": [
+        "u2_",
+        "nodma",
+        "zc",
+        "vck",
+        "u280",
+        "aws"
+    ], 
+    "os": [
+        "Linux"
+    ], 
+    "runtime": [
+        "OpenCL"
+    ],
+    "match_makefile" : "false",
+    "match_ini" : "false", 
+    "host": {
+        "host_exe": "host.exe",
+        "compiler": {
+            "sources": [
+                "./src/main.cpp",
+                "./src/acc.cpp",
+                "./src/acc.h"
+            ] 
+        }
+    }, 
+    "containers": [
+        {
+            "accelerators": [
+                {
+                    "name": "hls_kernel", 
+                    "location": "src/acc.cpp"
+                }
+            ], 
+            "name": "hls_kernel"
+        }
+    ],
+    "launch": [
+        {
+            "name": "generic launch for all flows"
+        }
+    ], 
+    "contributors": [
+        {
+            "url": "http://www.xilinx.com", 
+            "group": "Xilinx"
+        }
+    ],
+    "testinfo": {
+        "disable": false,
+        "jobs": [
+            {
+                "index": 0,
+                "dependency": [],
+                "env": "",
+                "cmd": "",
+                "max_memory_MB": 32768,
+                "max_time_min": 300
+            }
+        ],
+        "targets": [
+            "vitis_sw_emu",
+            "vitis_hw_emu",
+            "vitis_hw"
+        ],
+        "category": "canary"
+    }
+}

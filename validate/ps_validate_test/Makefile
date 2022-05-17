@@ -83,7 +83,7 @@ include config.mk
 CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++1y
 LDFLAGS += $(opencl_LDFLAGS)
 
-########################## Checking if PLATFORM in whitelist #######################
+########################## Checking if PLATFORM in allowlist #######################
 PLATFORM_BLOCKLIST += zc vck190 2019 2018 
 
 ############################## Setting up Host Variables ##############################
@@ -102,7 +102,7 @@ EXECUTABLE = ./ps_validate_test.exe
 EMCONFIG_DIR = $(TEMP_DIR)
 
 ############################## Setting up PS Kernel Variables ##############################
-CROSS_COMPILE := aarch64-linux-gnu-
+CROSS_COMPILE := $(XILINX_VITIS)/gnu/aarch64/lin/aarch64-linux/bin/aarch64-linux-gnu-
 CROSSCXX := $(CROSS_COMPILE)g++
 ps_target = ps_validate.so
 ps_OBJS = ps_validate.o
@@ -127,7 +127,7 @@ all: check-platform check-device check-vitis platform_test $(EXECUTABLE) $(ps_ta
 host: $(EXECUTABLE)
 
 .PHONY: build
-build: check-vitis check-device platform_test $(ps_target) $(BINARY_CONTAINERS_TEMP) $(BINARY_CONTAINERS)
+build: check-vitis check-device platform_test $(ps_target)  $(BUILD_DIR)/$(LINK_OUTPUT) $(BINARY_CONTAINERS_TEMP) $(BINARY_CONTAINERS)
 
 .PHONY: xclbin
 xclbin: build

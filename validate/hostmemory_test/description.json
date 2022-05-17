@@ -13,7 +13,7 @@
         "address translation unit" 
     ],
     "platform_type": "pcie",
-    "platform_blacklist": [ 
+    "platform_blocklist": [ 
         "zc",
         "vck190",
         "vck5000",

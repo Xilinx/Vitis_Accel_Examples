@@ -10,7 +10,7 @@
     "runtime": [
         "OpenCL"
     ],
-    "platform_blacklist": [
+    "platform_blocklist": [
         "zc",
         "vck190",
         "2019",

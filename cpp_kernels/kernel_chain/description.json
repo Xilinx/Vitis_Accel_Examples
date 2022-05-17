@@ -8,7 +8,7 @@
         "ap_ctrl_chain", 
         "PLRAM"
     ], 
-    "platform_blacklist": [
+    "platform_blocklist": [
         "samsung",
         "vck",
         "zc",

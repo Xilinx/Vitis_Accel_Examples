@@ -15,7 +15,7 @@
     "os": [
         "Linux"
     ], 
-    "platform_blacklist": [
+    "platform_blocklist": [
         "zc",
         "vck",
         "u200_gen3x16",

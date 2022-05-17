@@ -13,10 +13,10 @@
     ], 
     "flow": "versal",
     "platform_type": "pcie",	
-    "platform_whitelist": [ 
+    "platform_allowlist": [ 
         "vck5000"
     ],
-    "platform_blacklist": [
+    "platform_blocklist": [
         "_u25_",
         "u55",
         "u50",
@@ -81,6 +81,9 @@
             "group": "Xilinx"
         }
     ],
+    "targets": [
+        "hw"
+    ], 
     "testinfo": {
         "profile": "no",
         "disable": false,
@@ -95,8 +98,6 @@
             }
         ],
         "targets": [
-            "vitis_sw_emu",
-            "vitis_hw_emu",
             "vitis_hw"
         ],
         "category": "canary"

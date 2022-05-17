@@ -13,7 +13,7 @@
         "OpenCL API", 
         "Error handling"
     ],
-    "platform_blacklist": [
+    "platform_blocklist": [
         "nodma"
     ], 
     "os": [

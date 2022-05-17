@@ -20,23 +20,27 @@ help::
 	$(ECHO) "Makefile Usage:"
 	$(ECHO) "  make all TARGET=<hw/hw_emu/> PLATFORM=<FPGA platform> HOST_ARCH=<>"
 	$(ECHO) "      Command to generate the design for specified Target and Shell."
-	$(ECHO) "      By default, HOST_ARCH=. HOST_ARCH is required for SoC shells"
+	$(ECHO) "      By default, HOST_ARCH=x86 HOST_ARCH is required for SoC shells"
 	$(ECHO) ""
 	$(ECHO) "  make sd_card TARGET=<hw/hw_emu/> PLATFORM=<FPGA platform> HOST_ARCH=<>"
 	$(ECHO) "      Command to prepare sd_card files."
-	$(ECHO) "      By default, HOST_ARCH=. HOST_ARCH is required for SoC shells"
+	$(ECHO) "      By default, HOST_ARCH=x86 HOST_ARCH is required for SoC shells"
 	$(ECHO) ""
 	$(ECHO) "  make run TARGET=<hw/hw_emu/> PLATFORM=<FPGA platform> HOST_ARCH=<>"
 	$(ECHO) "      Command to run application in emulation."
-	$(ECHO) "      By default, HOST_ARCH=. HOST_ARCH required for SoC shells"
+	$(ECHO) "      By default, HOST_ARCH=x86 HOST_ARCH required for SoC shells"
+	$(ECHO) ""
+	$(ECHO) "  make build TARGET=<hw/hw_emu/> PLATFORM=<FPGA platform> HOST_ARCH=<>"
+	$(ECHO) "      Command to build xclbin application."
+	$(ECHO) "      By default, HOST_ARCH=x86 HOST_ARCH is required for SoC shells"
 	$(ECHO) ""
 	$(ECHO) "  make xclbin TARGET=<hw/hw_emu/> PLATFORM=<FPGA platform> HOST_ARCH=<>"
 	$(ECHO) "      Command to build xclbin application."
-	$(ECHO) "      By default, HOST_ARCH=. HOST_ARCH is required for SoC shells"
+	$(ECHO) "      By default, HOST_ARCH=x86 HOST_ARCH is required for SoC shells"
 	$(ECHO) ""
 	$(ECHO) "  make host HOST_ARCH=<hw/hw_emu/>"
 	$(ECHO) "      Command to build host application."
-	$(ECHO) "      By default, HOST_ARCH=. HOST_ARCH is required for SoC shells"
+	$(ECHO) "      By default, HOST_ARCH=x86 HOST_ARCH is required for SoC shells"
 	$(ECHO) ""
 	$(ECHO) "  NOTE: For embedded devices, e.g. zcu102/zcu104/vck190, env variable EDGE_COMMON_SW and PERL need to be set first, and HOST_ARCH is either aarch32 or aarch64.  "
 	$(ECHO) "  Please download and use the pre-built image from  - "
@@ -60,7 +64,7 @@ CUR_DIR := $(patsubst %/,%,$(dir $(MK_PATH)))
 
 # setting devault value
 TARGET ?= hw_emu
-HOST_ARCH ?= 
+HOST_ARCH ?= x86
 
 #setting PLATFORM
 ifeq ($(PLATFORM),)
@@ -70,7 +74,7 @@ ifeq ($(PLATFORM),)
 PLATFORM := vck5000
 endif
 
-# #################### Checking if PLATFORM in whitelist ############################
+# #################### Checking if PLATFORM in allowlist ############################
 PLATFORM_ALLOWLIST +=  vck5000
 PLATFORM_BLOCKLIST +=  u25_ u30 u200 zc vck190 u250 aws-vu9p-f1 samsung u2_ x3522pv nodma
 
@@ -268,12 +272,12 @@ run: check_device  $(RUN_DEPS)
 #x86sim
 ifeq ($(TARGET), x86sim)
 	$(X86SIMULATOR) --pkg-dir=./Work 
-	
+
 endif
 #aiesim
 ifeq ($(TARGET), aiesim)
 	$(AIESIMULATOR) --pkg-dir=./Work --profile 
-	
+
 endif
 #hw_emu
 ifneq (,$(filter hw_emu, $(TARGET)))
@@ -282,12 +286,12 @@ ifeq ($(HOST_ARCH), x86)
 	cp Work/ps/c_rts/aie_control_config.json ./
 	LD_LIBRARY_PATH=$(LIBRARY_PATH):$$LD_LIBRARY_PATH \
 	XCL_EMULATION_MODE=$(TARGET) $(EXE_FILE) $(HOST_ARGS)
-	
+
 else
 	@echo $(RUN_DEPS)
 	$(SD_CARD)/launch_$(TARGET).sh -no-reboot -run-app $(notdir $(RUN_SCRIPT)) 
 	grep "TEST PASSED, RC=0" $(SD_CARD)/qemu_output.log || exit 1
-	
+
 endif
 endif
 #sw_emu
@@ -295,19 +299,19 @@ ifneq (,$(filter sw_emu, $(TARGET)))
 ifeq ($(HOST_ARCH), x86)
 	LD_LIBRARY_PATH=$(LIBRARY_PATH):$$LD_LIBRARY_PATH \
 	XCL_EMULATION_MODE=$(TARGET) $(EXE_FILE) $(HOST_ARGS) 
-	
+
 else
 	@echo $(RUN_DEPS)
 	$(SD_CARD)/launch_$(TARGET).sh -no-reboot -run-app $(notdir $(RUN_SCRIPT)) 
 	grep "TEST PASSED, RC=0" $(SD_CARD)/qemu_output.log || exit 1
-	
+
 endif
 endif
 #hw
 ifeq ($(TARGET), hw)
 ifeq ($(HOST_ARCH), x86)
 	$(EXE_FILE) $(HOST_ARGS)
-	
+
 else
 	$(ECHO) "Please copy the content of sd_card folder and data to an SD Card and run on the board"
 endif
@@ -320,7 +324,7 @@ emconfig: $(EMCONFIG)
 ifeq ($(HOST_ARCH), x86)
 all:  check_vpp check_platform check_xrt $(EXE_FILE) $(BINARY_CONTAINERS) emconfig $(BINARY_CONTAINERS_PKG)
 else
-all:  check_vpp check_platform check_sysroot $(EXE_FILE) $(BINARY_CONTAINERS) emconfig sd_card
+all:  check_vpp check_platform check_sysroot $(EXE_FILE) $(BINARY_CONTAINERS) emconfig $(BINARY_CONTAINERS_PKG) sd_card
 endif
 
 .PHONY: host
@@ -330,11 +334,18 @@ else
 host:  check_sysroot $(EXE_FILE)
 endif
 
+.PHONY: build
+ifeq ($(HOST_ARCH), x86)
+build:  check_vpp check_xrt $(BINARY_CONTAINERS) $(AIE_CONTAINER) $(BINARY_CONTAINERS_PKG)
+else
+build:  check_vpp check_sysroot $(BINARY_CONTAINERS) $(AIE_CONTAINER) $(BINARY_CONTAINERS_PKG)
+endif
+
 .PHONY: xclbin
 ifeq ($(HOST_ARCH), x86)
-xclbin:  check_vpp check_xrt $(BINARY_CONTAINERS) $(AIE_CONTAINER)
+xclbin:  check_vpp check_xrt $(BINARY_CONTAINERS) $(AIE_CONTAINER) $(BINARY_CONTAINERS_PKG)
 else
-xclbin:  check_vpp check_sysroot $(BINARY_CONTAINERS) $(AIE_CONTAINER)
+xclbin:  check_vpp check_sysroot $(BINARY_CONTAINERS) $(AIE_CONTAINER) $(BINARY_CONTAINERS_PKG)
 endif
 
 .PHONY: x86sim

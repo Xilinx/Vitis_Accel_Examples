@@ -8,7 +8,7 @@
         "Multiple Compute Units",
         "Task Level Parallelism"
     ], 
-    "platform_blacklist": [
+    "platform_blocklist": [
         "u25_",
         "u30",
         "u50",

@@ -1,0 +1,128 @@
+{
+    "name": "AIE Bare-Metal Emulation Test", 
+    "description": [
+        "This is simple AIE example to demonstrate Vitis Bare-Metal Emulation flow on versal platform."
+    ],
+    "match_makefile": "false",
+    "gui": "false",
+    "flow": "vitis",
+    "key_concepts": [
+         "Building a Bare-Metal System"
+    ],
+    "platform_blacklist": [
+        "samsung",
+        "u2_",
+        "zc",
+        "nodma"
+    ], 
+    "platform_whitelist": [
+        "vck190"
+    ],
+    "targets": [
+        "hw_emu"
+    ], 
+    "host": {
+       "host_exe": "main.elf",
+        "compiler": {
+            "sources": [
+                "./ps/main.cpp",
+                "./Work/ps/c_rts/aie_control.cpp"
+            ], 
+            "includepaths": [
+                "./aie",
+                "./workspace_fixed/standalone/src/",
+                "./standalone_domain/bspinclude/include"              
+            ],
+            "options": "-g -c -D__PS_BARE_METAL__ -std=c++14"
+        },
+        "linker": {
+            "librarypaths": [
+                "${XILINX_VITIS}/aietools/lib/aarchnone64.o",
+                "./standalone_domain/bsplib/lib",
+                "adf_api"
+            ],
+            "options": "--start-group,-lxil,-lgcc,-lc,-lstdc++,--end-group"
+        }
+    },
+    "aiecompiler": {
+        "compiler": {
+            "includepaths": [
+                "./aie"
+            ]
+        }
+    },
+    "aiecontainers": [
+        {
+            "accelerators": [
+                {
+                    "location": "./aie/graph.cpp",
+                    "pl-freq": 100,
+                    "workdir": "./Work",
+                    "name": "libadf.a",
+                    "aie_kernel_files":[
+                          "./aie/kernels/classifiers/classify.cc",
+                          "./aie/kernels/decimators/hb27.cc",
+                          "./aie/kernels/interpolators/hb27_2i.cc"
+                    ]
+                }
+            ]
+        }
+    ],
+    "data": [
+        "PROJECT/data/golden.txt",
+        "PROJECT/data/input.txt",
+        "PROJECT/data/input1.txt"
+    ],
+    "v++": {
+        "linker": {
+                    "cflags": [
+                        "--config PROJECT/system.cfg"
+                    ]
+                },
+        "build_datafiles": [
+             "PROJECT/tcl/baremetal_bsp.tcl"
+        ]
+    },
+    "containers": [
+        {
+            "accelerators": [
+                {
+                    "name": "mm2s", 
+                    "location": "pl_kernels/mm2s.cpp"
+                }, 
+                {
+                    "name": "s2mm", 
+                    "location": "pl_kernels/s2mm.cpp"
+                }, 
+                {
+                    "name": "polar_clip", 
+                    "location": "pl_kernels/polar_clip.cpp"
+                } 
+            ], 
+            "name": "vck190_fixed"
+        }
+    ], 
+    "contributors": [
+        {
+            "url": "http://www.xilinx.com", 
+            "group": "Xilinx"
+        }
+    ],
+    "testinfo": {
+        "disable": false,
+        "jobs": [
+            {
+                "index": 0,
+                "dependency": [],
+                "env": "",
+                "cmd": "",
+                "max_memory_MB": 32768,
+                "max_time_min": 300
+            }
+        ],
+        "targets": [
+            "vitis_hw_emu"
+        ],
+        "category": "canary"
+    }
+}

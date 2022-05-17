@@ -22,10 +22,10 @@ help:
 	$(ECHO) "  make all TARGET=<sw_emu/hw_emu/hw> PLATFORM=<FPGA platform>"
 	$(ECHO) "      Command to generate the design for specified Target and Shell."
 	$(ECHO) ""
-	$(ECHO) "  make clean PLATFORM=<FPGA platform>"
+	$(ECHO) "  make clean "
 	$(ECHO) "      Command to remove the generated non-hardware files."
 	$(ECHO) ""
-	$(ECHO) "  make cleanall PLATFORM=<FPGA platform>"
+	$(ECHO) "  make cleanall"
 	$(ECHO) "      Command to remove all the generated files."
 	$(ECHO) ""
 	$(ECHO) "  make test PLATFORM=<FPGA platform>"
@@ -41,29 +41,25 @@ help:
 	$(ECHO) "      Command to build host application."
 	$(ECHO) ""
 endif
-############################## Setting up Project Variables ##############################
 
+############################## Setting up Project Variables ##############################
 TARGET := hw
-HOST_ARCH := x86
 include ./utils.mk
 
 TEMP_DIR := ./_x.$(TARGET).$(XSA)
 BUILD_DIR := ./build_dir.$(TARGET).$(XSA)
 
-LINK_OUTPUT := $(BUILD_DIR)/vadd.xsa
-
+LINK_OUTPUT := $(BUILD_DIR)/vadd.link.xsa
 PACKAGE_OUT = ./package.$(TARGET)
-LAUNCH_EMULATOR = $(PACKAGE_OUT)/launch_$(TARGET).sh
+
 
 VPP_PFLAGS := 
 CMD_ARGS = $(BUILD_DIR)/vadd.xclbin
-vck190_dfx_hw := false
-
 include $(XF_PROJ_ROOT)/common/includes/opencl/opencl.mk
 CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++1y
 LDFLAGS += $(opencl_LDFLAGS)
 
-########################## Checking if PLATFORM in whitelist #######################
+########################## Checking if PLATFORM in allowlist #######################
 PLATFORM_BLOCKLIST += nodma 
 ############################## Setting up Host Variables ##############################
 #Include Required Host Source Files
@@ -77,16 +73,21 @@ LDFLAGS += -lrt -lstdc++
 # Kernel compiler global settings
 VPP_FLAGS += -t $(TARGET) --platform $(PLATFORM) --save-temps 
 
+
 EXECUTABLE = ./hello_world
 EMCONFIG_DIR = $(TEMP_DIR)
 
 ############################## Setting Targets ##############################
-all: check-platform check-device $(EXECUTABLE) $(BUILD_DIR)/vadd.xclbin emconfig 
+.PHONY: all clean cleanall docs emconfig
+all: check-platform check-device check-vitis $(EXECUTABLE) $(BUILD_DIR)/vadd.xclbin emconfig
 
+.PHONY: host
 host: $(EXECUTABLE)
 
+.PHONY: build
 build: check-vitis check-device $(BUILD_DIR)/vadd.xclbin
 
+.PHONY: xclbin
 xclbin: build
 
 ############################## Setting Rules for Binary Containers (Building Kernels) ##############################
@@ -109,18 +110,22 @@ $(EMCONFIG_DIR)/emconfig.json:
 ############################## Setting Essential Checks and Running Rules ##############################
 run: all
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
-	$(CP) $(EMCONFIG_DIR)/emconfig.json .
+	cp -rf $(EMCONFIG_DIR)/emconfig.json .
 	XCL_EMULATION_MODE=$(TARGET) $(EXECUTABLE) $(CMD_ARGS)
 else
 	$(EXECUTABLE) $(CMD_ARGS)
 endif
 
+
+.PHONY: test
 test: $(EXECUTABLE)
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 	XCL_EMULATION_MODE=$(TARGET) $(EXECUTABLE) $(CMD_ARGS)
 else
 	$(EXECUTABLE) $(CMD_ARGS)
 endif
+
+
 ############################## Cleaning Rules ##############################
 # Cleaning stuff
 clean:
@@ -129,6 +134,7 @@ clean:
 	-$(RMDIR) src/*.ll *v++* .Xil emconfig.json dltmp* xmltmp* *.log *.jou *.wcfg *.wdb
 
 cleanall: clean
-	-$(RMDIR) build_dir* 
+	-$(RMDIR) build_dir*
 	-$(RMDIR) package.*
 	-$(RMDIR) _x* *xclbin.run_summary qemu-memory-_* emulation _vimage pl* start_simulation.sh *.xclbin
+

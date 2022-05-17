@@ -20,10 +20,10 @@
     "os": [
         "Linux"
     ],
-    "platform_whitelist": [
+    "platform_allowlist": [
         "samsung_u2"
     ],
-    "platform_blacklist": [
+    "platform_blocklist": [
         "zc",
         "u25_",
         "u30",

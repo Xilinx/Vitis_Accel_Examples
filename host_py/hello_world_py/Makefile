@@ -68,7 +68,7 @@ CMD_ARGS = -k $(BUILD_DIR)/vadd.xclbin
 
 include $(XF_PROJ_ROOT)/common/includes/opencl/opencl.mk
 
-########################## Checking if PLATFORM in whitelist #######################
+########################## Checking if PLATFORM in allowlist #######################
 PLATFORM_BLOCKLIST += nodma zc vck
 ############################## Setting up Host Variables ##############################
 #Include Required Host Source Files

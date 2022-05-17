@@ -11,7 +11,7 @@
     "key_concepts": [
         "Multiple Banks"
     ], 
-    "platform_blacklist": [
+    "platform_blocklist": [
         "u30",
         "u50",
         "u55",

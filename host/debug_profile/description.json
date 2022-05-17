@@ -14,7 +14,7 @@
         "Use of Profile API", 
         "Waveform Dumping and loading"
     ],
-    "platform_blacklist": [
+    "platform_blocklist": [
         "nodma"
     ], 
     "os": [

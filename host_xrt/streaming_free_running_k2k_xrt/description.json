@@ -11,7 +11,7 @@
     "key_concepts": [
         "Free Running Kernel" 
     ], 
-    "platform_blacklist": [
+    "platform_blocklist": [
         "2018",
         "qep",
         "aws-vu9p-f1",

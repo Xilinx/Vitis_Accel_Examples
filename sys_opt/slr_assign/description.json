@@ -10,7 +10,7 @@
     "key_concepts": [
         "SLR Assignments"
     ], 
-    "platform_blacklist": [
+    "platform_blocklist": [
         "u25_",
         "u30",
         "zc",

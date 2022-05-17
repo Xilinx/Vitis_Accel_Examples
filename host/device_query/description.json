@@ -8,7 +8,7 @@
         "OpenCL API", 
         "Querying device properties"
     ], 
-    "platform_blacklist": [
+    "platform_blocklist": [
         "zc",
         "vck"
     ],

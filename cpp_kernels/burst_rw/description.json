@@ -9,7 +9,7 @@
         "max_read_burst_length", 
         "max_write_burst_length"
     ],
-    "platform_blacklist": [
+    "platform_blocklist": [
         "nodma"
      ],    
     "key_concepts": [
