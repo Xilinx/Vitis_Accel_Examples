@@ -1,0 +1,47 @@
+{
+    "name": "Bare-Metal Emulation Test", 
+    "description": [
+        "This is simple example of vector addition to demonstrate Vitis Bare-Metal Emulation test on versal platform."
+    ],
+    "match_makefile": "false",
+    "gui": "false",
+    "flow": "vitis",
+    "key_concepts": [
+        "Building a Bare-Metal System"
+    ],
+    "platform_blacklist": [
+        "samsung",
+        "u2_",
+        "zc",
+        "nodma"
+    ],  
+    "platform_whitelist": [
+        "vck190"
+    ],
+    "targets": [
+        "hw_emu"
+    ], 
+    "contributors": [
+        {
+            "url": "http://www.xilinx.com", 
+            "group": "Xilinx"
+        }
+    ],
+    "testinfo": {
+        "disable": false,
+        "jobs": [
+            {
+                "index": 0,
+                "dependency": [],
+                "env": "",
+                "cmd": "",
+                "max_memory_MB": 32768,
+                "max_time_min": 300
+            }
+        ],
+        "targets": [
+            "vitis_hw_emu"
+        ],
+        "category": "canary"
+    }
+}
