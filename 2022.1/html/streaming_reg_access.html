@@ -57,8 +57,8 @@
   <link rel="stylesheet" href="_static/css/pro.min.css" media="all" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Kernel Swap" href="kernel_swap.html" />
-    <link rel="prev" title="Advanced Configuration" href="advanced_config.html" /> 
+    <link rel="next" title="Device Only Buffer" href="device_only_buffer.html" />
+    <link rel="prev" title="Stream Free Running Kernel (HLS C/C++)" href="streaming_free_running_k2k.html" /> 
 	</head>
 	<body>
 		<div class="xilinx-bs3"/>
@@ -341,27 +341,45 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="hello_world.html">Hello World</a></li>
 <li class="toctree-l1"><a class="reference internal" href="aie_kernels.html">AIE Examples</a></li>
-<li class="toctree-l1"><a class="reference internal" href="host.html">Host OpenCL</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="host.html">Host OpenCL</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="concurrent_kernel_execution.html">Concurrent Kernel Execution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="copy_buffer.html">Copy Buffer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="data_transfer.html">Data Transfer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="device_query.html">Device Query (CPP)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="debug_profile.html">Debug Profile</a></li>
+<li class="toctree-l2"><a class="reference internal" href="errors.html">Error Handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="errors_cpp.html">Error Handling (CPP)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hbm_simple.html">HBM Simple</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hbm_large_buffers.html">HBM Large Buffers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hbm_rama_ip.html">HBM Bandwidth for large buffers using RAMA IP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="iops_test.html">IOPS Test</a></li>
+<li class="toctree-l2"><a class="reference internal" href="multiple_cus_asymmetrical.html">Multiple Compute Units (Asymmetrical)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mult_compute_units.html">Multiple Compute Units</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overlap.html">Overlap Host and Kernel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p2p_simple.html">P2P Simple Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p2p_bandwidth.html">P2P bandwidth Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p2p_overlap_bandwidth.html">P2P overlap bandwidth Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p2p_fpga2fpga.html">P2P FPGA to FPGA Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="host_memory_simple.html">Host Memory Simple</a></li>
+<li class="toctree-l2"><a class="reference internal" href="host_memory_copy_buffer.html">Host Memory Copy Buffer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="host_memory_copy_kernel.html">Host Memory Copy Kernel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="streaming_free_running_k2k.html">Stream Free Running Kernel (HLS C/C++)</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Control and Status Register access continuously streaming kernel (HLS C/C++)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#design-files">DESIGN FILES</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#command-line-arguments">COMMAND LINE ARGUMENTS</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="device_only_buffer.html">Device Only Buffer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="streaming_k2k_mm.html">Stream Kernel to Kernel Memory Mapped</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="host_xrt.html">Host Native XRT</a></li>
 <li class="toctree-l1"><a class="reference internal" href="host_py.html">Host Python</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cpp.html">C++ Kernels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="demo.html">Demos</a></li>
 <li class="toctree-l1"><a class="reference internal" href="emulation.html">Emulation Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="performance.html">Performance Examples</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="sys_opt.html">System Optimization Kernels</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="advanced_config.html">Advanced Configuration</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">DDR Data Retention</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#design-files">DESIGN FILES</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#command-line-arguments">COMMAND LINE ARGUMENTS</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="kernel_swap.html">Kernel Swap</a></li>
-<li class="toctree-l2"><a class="reference internal" href="multiple_devices.html">Multiple Devices</a></li>
-<li class="toctree-l2"><a class="reference internal" href="multiple_process.html">Multiple Process</a></li>
-<li class="toctree-l2"><a class="reference internal" href="plram_config.html">PLRAM Config</a></li>
-<li class="toctree-l2"><a class="reference internal" href="slr_assign.html">SLR Assign</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="sys_opt.html">System Optimization Kernels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="rtl.html">RTL Kernels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ocl.html">OpenCL Kernels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="validate.html">Validate</a></li>
@@ -380,7 +398,7 @@
 			
 			<p class="caption"><span class="caption-text">This Page</span></p>
 				<ul class="current">
-				  <li class="toctree-l1"><a href="_sources/ddr_data_retention.rst.txt"
+				  <li class="toctree-l1"><a href="_sources/streaming_reg_access.rst.txt"
 						rel="nofollow">Show Source</a></li>
 				</ul>
           
@@ -426,15 +444,15 @@
     
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
-          <li><a href="sys_opt.html">System Optimization Kernels</a> &raquo;</li>
+          <li><a href="host.html">Host OpenCL</a> &raquo;</li>
         
-      <li>DDR Data Retention</li>
+      <li>Control and Status Register access continuously streaming kernel (HLS C/C++)</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="_sources/ddr_data_retention.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/streaming_reg_access.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -447,67 +465,49 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="ddr-data-retention">
-<h1>DDR Data Retention<a class="headerlink" href="#ddr-data-retention" title="Permalink to this headline">¶</a></h1>
-<p>This example demonstrates how DDR can hold the data between successive XCLBIN load. The first xclbin dumps the DDR data at the end of the run. The second xclbin  loads the dumped data and starts executing.</p>
-<p><strong>KEY CONCEPTS:</strong> Handling Buffer sharing across multiple binaries, Multiple Kernel Binaries</p>
-<p><strong>KEYWORDS:</strong> <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/xrt.ini-File">enable_memory_persistence</a></p>
-<p>This example shows how host can swap between kernels and share the same buffer between two kernels. Since the DDR can hold the data between successive XCLBIN loads, the user can dump data to the DDR using the first xclbin and then reuse the same in successive xclbins directly. This reduces the number of transfers between host and device by 2 for each reuse.</p>
-<p>In the design, the host application first programs the device with the binary containing <code class="docutils literal notranslate"><span class="pre">krnl_vmult</span></code> and executes the operation.</p>
-<p>Before the first kernel call, the common <code class="docutils literal notranslate"><span class="pre">d_mul</span></code> buffer is created using <code class="docutils literal notranslate"><span class="pre">NULL</span></code> buffer. This is because, it will be populated by the first kernel and then reused by the second kernel and thus, would not require any host side memory to map to.</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">OCL_CHECK</span><span class="p">(</span><span class="n">err</span><span class="p">,</span>
-          <span class="n">cl</span><span class="o">::</span><span class="n">Buffer</span> <span class="n">d_mul</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">CL_MEM_HOST_NO_ACCESS</span> <span class="o">|</span> <span class="n">CL_MEM_READ_WRITE</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span> <span class="o">*</span> <span class="n">LENGTH</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">err</span><span class="p">));</span>
-</pre></div>
-</div>
-<p>The first kernel is run with the following arrangement -</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">OCL_CHECK</span><span class="p">(</span><span class="n">err</span><span class="p">,</span> <span class="n">err</span> <span class="o">=</span> <span class="n">krnl_vmul</span><span class="p">.</span><span class="n">setArg</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">d_a</span><span class="p">));</span>
-<span class="n">OCL_CHECK</span><span class="p">(</span><span class="n">err</span><span class="p">,</span> <span class="n">err</span> <span class="o">=</span> <span class="n">krnl_vmul</span><span class="p">.</span><span class="n">setArg</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">d_b</span><span class="p">));</span>
-<span class="n">OCL_CHECK</span><span class="p">(</span><span class="n">err</span><span class="p">,</span> <span class="n">err</span> <span class="o">=</span> <span class="n">krnl_vmul</span><span class="p">.</span><span class="n">setArg</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">d_mul</span><span class="p">));</span>
-<span class="n">OCL_CHECK</span><span class="p">(</span><span class="n">err</span><span class="p">,</span> <span class="n">err</span> <span class="o">=</span> <span class="n">krnl_vmul</span><span class="p">.</span><span class="n">setArg</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">vector_length</span><span class="p">));</span>
-
-<span class="n">OCL_CHECK</span><span class="p">(</span><span class="n">err</span><span class="p">,</span> <span class="n">err</span> <span class="o">=</span> <span class="n">q</span><span class="p">.</span><span class="n">enqueueMigrateMemObjects</span><span class="p">({</span><span class="n">d_a</span><span class="p">,</span> <span class="n">d_b</span><span class="p">},</span> <span class="mi">0</span> <span class="cm">/* 0 means from host*/</span><span class="p">));</span>
-
-<span class="c1">// This function will execute the kernel on the FPGA</span>
-<span class="n">OCL_CHECK</span><span class="p">(</span><span class="n">err</span><span class="p">,</span> <span class="n">err</span> <span class="o">=</span> <span class="n">q</span><span class="p">.</span><span class="n">enqueueTask</span><span class="p">(</span><span class="n">krnl_vmul</span><span class="p">));</span>
-<span class="n">OCL_CHECK</span><span class="p">(</span><span class="n">err</span><span class="p">,</span> <span class="n">err</span> <span class="o">=</span> <span class="n">q</span><span class="p">.</span><span class="n">finish</span><span class="p">());</span>
-</pre></div>
-</div>
-<p>Once the first kernel finishes the operation, the host reprograms the 2nd Binary.</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">OCL_CHECK</span><span class="p">(</span><span class="n">err</span><span class="p">,</span> <span class="n">cl</span><span class="o">::</span><span class="n">Program</span> <span class="n">program</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">devices</span><span class="p">,</span> <span class="n">vadd_bins</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">err</span><span class="p">));</span>
-</pre></div>
-</div>
-<p>The second kernel is run with the following arrangement -</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">OCL_CHECK</span><span class="p">(</span><span class="n">err</span><span class="p">,</span> <span class="n">krnl_vadd</span><span class="p">.</span><span class="n">setArg</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">d_mul</span><span class="p">));</span>
-<span class="n">OCL_CHECK</span><span class="p">(</span><span class="n">err</span><span class="p">,</span> <span class="n">krnl_vadd</span><span class="p">.</span><span class="n">setArg</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">d_mul</span><span class="p">));</span>
-<span class="n">OCL_CHECK</span><span class="p">(</span><span class="n">err</span><span class="p">,</span> <span class="n">krnl_vadd</span><span class="p">.</span><span class="n">setArg</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">d_add</span><span class="p">));</span>
-<span class="n">OCL_CHECK</span><span class="p">(</span><span class="n">err</span><span class="p">,</span> <span class="n">krnl_vadd</span><span class="p">.</span><span class="n">setArg</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">vector_length</span><span class="p">));</span>
-
-<span class="c1">// This function will execute the kernel on the FPGA</span>
-<span class="n">OCL_CHECK</span><span class="p">(</span><span class="n">err</span><span class="p">,</span> <span class="n">err</span> <span class="o">=</span> <span class="n">q</span><span class="p">.</span><span class="n">enqueueTask</span><span class="p">(</span><span class="n">krnl_vadd</span><span class="p">));</span>
-
-<span class="n">OCL_CHECK</span><span class="p">(</span><span class="n">err</span><span class="p">,</span> <span class="n">err</span> <span class="o">=</span> <span class="n">q</span><span class="p">.</span><span class="n">enqueueMigrateMemObjects</span><span class="p">({</span><span class="n">d_add</span><span class="p">},</span> <span class="n">CL_MIGRATE_MEM_OBJECT_HOST</span><span class="p">));</span>
-<span class="n">OCL_CHECK</span><span class="p">(</span><span class="n">err</span><span class="p">,</span> <span class="n">err</span> <span class="o">=</span> <span class="n">q</span><span class="p">.</span><span class="n">finish</span><span class="p">());</span>
-</pre></div>
-</div>
-<p>In order to enable this feature for emulation, the following config settings are required in the <code class="docutils literal notranslate"><span class="pre">xrt.ini</span></code> -</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">Emulation</span><span class="p">]</span>
-<span class="n">enable_memory_persistence</span><span class="o">=</span><span class="n">true</span>
-</pre></div>
-</div>
-<p>In order to enable this feature on the board, the following command needs to be given -</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">xbmgmt</span> <span class="n">config</span> <span class="o">--</span><span class="n">enable_retention</span> <span class="p">[</span><span class="o">--</span><span class="n">ddr</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">card</span> <span class="n">bdf</span><span class="p">]</span>
+  <div class="section" id="control-and-status-register-access-continuously-streaming-kernel-hls-c-c">
+<h1>Control and Status Register access continuously streaming kernel (HLS C/C++)<a class="headerlink" href="#control-and-status-register-access-continuously-streaming-kernel-hls-c-c" title="Permalink to this headline">¶</a></h1>
+<p>This is simple example which demonstrate streaming free-running kernel with scalar input and output.</p>
+<p><strong>KEY CONCEPTS:</strong> <a class="reference external" href="https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/streamingconnections.html#uug1556136182736">Free Running Kernel</a></p>
+<p><strong>KEYWORDS:</strong> <a class="reference external" href="https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/xrtini.html#tpi1504034339424__section_tnh_pks_rx">xclRegRead</a>, <a class="reference external" href="https://www.xilinx.com/html_docs/xilinx2021_1/vitis_doc/obl1532064985142.html#tpi1504034339424__section_tnh_pks_rx">xclRegWrite</a></p>
+<p>Sometimes the kernel does not need to be controlled by the host. For
+example, if the kernel is only communicating through the stream, it only
+works when the data is available at its input through the stream, and
+the kernel stalls when there is no data to process, waiting for new data
+to arrive through the stream to start working again. These type of
+kernels has no control signal connected to the AXI4-Lite Slave
+interface.</p>
+<p>The free-running kernel only contains <code class="docutils literal notranslate"><span class="pre">hls::stream</span></code> inputs and
+outputs. The recommended coding guidelines include:</p>
+<p><em>Consider a kernel with AP_CTRL_NONE only when it has no memory mapped
+input and output.</em>There is no need to start the kernel by
+clEnqueueTask or clEnqueueNDRangeKernel from the host. <em>Host
+communicates with a continuously running kernel by the stream read and
+write requests, if necessary.</em>Dont use clSetKernelArg to pass scalar
+argument to ap_ctrl_none kernel, only use xclRegWrite (API implemented
+in 2019.2) API.</p>
+<p>To read and write register values from the AXI4-Lite Slave interface,
+the new APIs xclRegRead/xclRegWrite must be used These APIs require
+exclusive CU context reservation via API xclOpenContext as shown in the
+code sample below.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">xclOpenContext</span><span class="p">(</span><span class="n">device_handle</span><span class="p">,</span> <span class="n">xclbin_id</span><span class="p">,</span> <span class="n">cu_index</span><span class="p">,</span> <span class="n">false</span><span class="p">);</span>
+<span class="n">xclRegRead</span><span class="p">(</span><span class="n">device_handle</span><span class="p">,</span> <span class="n">cu_index</span><span class="p">,</span> <span class="n">offset</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">data</span><span class="p">);</span>
+<span class="n">xclRegWrite</span><span class="p">(</span><span class="n">device_handle</span><span class="p">,</span> <span class="n">cu_index</span><span class="p">,</span> <span class="n">offset</span><span class="p">,</span> <span class="n">data</span><span class="p">);</span>
+<span class="n">xclCloseContext</span><span class="p">(</span><span class="n">device_handle</span><span class="p">,</span> <span class="n">xclbin_id</span><span class="p">,</span> <span class="n">cu_index</span><span class="p">);</span>
 </pre></div>
 </div>
 <p><strong>EXCLUDED PLATFORMS:</strong></p>
 <blockquote>
 <div><ul class="simple">
-<li><p>Samsung U.2 SmartSSD</p></li>
-<li><p>Alveo U50</p></li>
-<li><p>Alveo U55</p></li>
-<li><p>All Platforms with 2018 Version</p></li>
-<li><p>All Platforms with 2019 Version</p></li>
-<li><p>All Versal Platforms, i.e vck190 etc</p></li>
+<li><p>Alveo U30</p></li>
+<li><p>Alveo U250</p></li>
 <li><p>All Embedded Zynq Platforms, i.e zc702, zcu102 etc</p></li>
+<li><p>All Versal Platforms, i.e vck190 etc</p></li>
+<li><p>All Xilinx DMA Platforms</p></li>
+<li><p>qep</p></li>
+<li><p>AWS VU9P F1</p></li>
+<li><p>Samsung SmartSSD Computation Storage Drive</p></li>
+<li><p>Samsung U.2 SmartSSD</p></li>
 <li><p>All NoDMA Platforms, i.e u50 nodma etc</p></li>
 </ul>
 </div></blockquote>
@@ -515,16 +515,15 @@
 <h2>DESIGN FILES<a class="headerlink" href="#design-files" title="Permalink to this headline">¶</a></h2>
 <p>Application code is located in the src directory. Accelerator binary files will be compiled to the xclbin directory. The xclbin directory is required by the Makefile and its contents will be filled during compilation. A listing of all the files in this example is shown below</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">src</span><span class="o">/</span><span class="n">host</span><span class="o">.</span><span class="n">cpp</span>
-<span class="n">src</span><span class="o">/</span><span class="n">krnl_vadd</span><span class="o">.</span><span class="n">cpp</span>
-<span class="n">src</span><span class="o">/</span><span class="n">krnl_vmul</span><span class="o">.</span><span class="n">cpp</span>
+<span class="n">src</span><span class="o">/</span><span class="n">increment</span><span class="o">.</span><span class="n">cpp</span>
 </pre></div>
 </div>
-<p>Access these files in the github repo by <a class="reference external" href="https://github.com/Xilinx/Vitis_Accel_Examples/tree/master/sys_opt/ddr_data_retention">clicking here</a>.</p>
+<p>Access these files in the github repo by <a class="reference external" href="https://github.com/Xilinx/Vitis_Accel_Examples/tree/master/host/streaming_reg_access">clicking here</a>.</p>
 </div>
 <div class="section" id="command-line-arguments">
 <h2>COMMAND LINE ARGUMENTS<a class="headerlink" href="#command-line-arguments" title="Permalink to this headline">¶</a></h2>
 <p>Once the environment has been configured, the application can be executed by</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">ddr_data_retention</span> <span class="o">-</span><span class="n">x1</span> <span class="o">&lt;</span><span class="n">krnl_vmul</span> <span class="n">XCLBIN</span><span class="o">&gt;</span> <span class="o">-</span><span class="n">x2</span> <span class="o">&lt;</span><span class="n">krnl_vadd</span> <span class="n">XCLBIN</span><span class="o">&gt;</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">streaming_reg_access</span> <span class="o">-</span><span class="n">x</span> <span class="o">&lt;</span><span class="n">krnl_incr</span> <span class="n">XCLBIN</span><span class="o">&gt;</span> <span class="o">-</span><span class="n">i</span> <span class="mi">5</span>
 </pre></div>
 </div>
 </div>
@@ -546,10 +545,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="kernel_swap.html" class="btn btn-neutral float-right" title="Kernel Swap" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="device_only_buffer.html" class="btn btn-neutral float-right" title="Device Only Buffer" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="advanced_config.html" class="btn btn-neutral float-left" title="Advanced Configuration" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="streaming_free_running_k2k.html" class="btn btn-neutral float-left" title="Stream Free Running Kernel (HLS C/C++)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

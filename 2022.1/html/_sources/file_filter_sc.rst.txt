@@ -30,7 +30,7 @@ Application code is located in the src directory. Accelerator binary files will 
    src/filter.hpp
    src/main.cpp
    
-Access these files in the github repo by `clicking here <https://github.com/Xilinx/Vitis_Accel_Examples/tree/master/sys_compiler/file_filter_sc>`__.
+Access these files in the github repo by `clicking here <https://github.com/Xilinx/Vitis_Accel_Examples/tree/master/system_compilation/file_filter_sc>`__.
 
 COMMAND LINE ARGUMENTS
 ----------------------

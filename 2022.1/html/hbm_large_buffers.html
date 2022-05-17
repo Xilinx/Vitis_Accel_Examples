@@ -471,14 +471,14 @@
 <p><strong>KEY CONCEPTS:</strong> <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/HBM-Configuration-and-Use">High Bandwidth Memory</a>, Multiple HBM Pseudo-channel Groups</p>
 <p><strong>KEYWORDS:</strong> <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/HBM-Configuration-and-Use">HBM</a></p>
 <p>This is a simple example of vector addition to describe how HBM pseudo-channels(PC) can be grouped to handle buffers larger than 256 MB.</p>
-<p>Compute unit interfaces are associated to fixed HBM PC groups using
-<code class="docutils literal notranslate"><span class="pre">krnl_vadd.cfg</span></code> file:</p>
+<p>Compute unit interfaces are associated to fixed HBM PC groups using <code class="docutils literal notranslate"><span class="pre">krnl_vadd.cfg</span></code> file:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">connectivity</span><span class="p">]</span>
-<span class="n">sp</span><span class="o">=</span><span class="n">krnl_vadd_1</span><span class="o">.</span><span class="n">in1</span><span class="p">:</span><span class="n">HBM</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">31</span><span class="p">]</span>
+<span class="n">sp</span><span class="o">=</span><span class="n">krnl_vadd_1</span><span class="o">.</span><span class="n">in1</span><span class="p">:</span><span class="n">HBM</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">31</span><span class="p">]</span><span class="o">.</span><span class="mi">15</span>
 <span class="n">sp</span><span class="o">=</span><span class="n">krnl_vadd_1</span><span class="o">.</span><span class="n">in2</span><span class="p">:</span><span class="n">HBM</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">31</span><span class="p">]</span>
 <span class="n">sp</span><span class="o">=</span><span class="n">krnl_vadd_1</span><span class="o">.</span><span class="n">out_r</span><span class="p">:</span><span class="n">HBM</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">31</span><span class="p">]</span>
 </pre></div>
 </div>
+<p>The HBM Subsystem chooses the appropriate HBM Slave AXI interface port to access memory and to maximize bandwidth and minimize latency given the pseudo channel number or a given range. However, it is also possible to indicate which Slave AXI interface to use for connecting the kernel’s Master AXI interface: this is done with the addition of an index number to the sp option (as seen above for in1).</p>
 <p>Here, All three buffers will be created into different bank groups and the application will run and performance will be reported. Following is the real log reported while running on U50 platform :</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Found Platform
 Platform Name: Xilinx

@@ -12,3 +12,4 @@ This section contains System Compiler Examples.
    gmio_transfers_sc.rst
    mult_acc_compose_sc.rst
    quick_start_sc.rst
+   streaming_sc.rst

@@ -6,7 +6,8 @@ XRT Native API's for optimized interfacing with Xilinx Devices.
 .. toctree::
    :maxdepth: 1
    :caption: List of Examples
-
+   
+   asynchronous_xrt.rst
    copy_buffer_xrt.rst
    data_transfer_xrt.rst
    device_only_buffer_xrt.rst

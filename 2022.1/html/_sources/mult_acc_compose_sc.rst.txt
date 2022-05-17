@@ -12,7 +12,7 @@ This example demonstrates the usage of multile accelerators into single xclbin a
 
 **EXCLUDED PLATFORMS:** 
 
- - zcu104
+ - All Embedded Zynq Platforms, i.e zc702, zcu102 etc
  - All Versal Platforms, i.e vck190 etc
  - AWS VU9P F1
 
@@ -34,7 +34,7 @@ Application code is located in the src directory. Accelerator binary files will 
    src/u55_config.hpp
    src/zcu102_config.hpp
    
-Access these files in the github repo by `clicking here <https://github.com/Xilinx/Vitis_Accel_Examples/tree/master/sys_compiler/mult_acc_compose_sc>`__.
+Access these files in the github repo by `clicking here <https://github.com/Xilinx/Vitis_Accel_Examples/tree/master/system_compilation/mult_acc_compose_sc>`__.
 
 COMMAND LINE ARGUMENTS
 ----------------------
