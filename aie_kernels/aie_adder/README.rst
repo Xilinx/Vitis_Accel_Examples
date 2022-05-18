@@ -46,6 +46,13 @@ Application code is located in the src directory. Accelerator binary files will 
    data/golden.txt
    data/input0.txt
    data/input1.txt
+   src/aie/aie_adder.cc
+   src/aie/aie_graph.cpp
+   src/aie/aie_graph.h
+   src/aie/aie_kernel.h
+   src/pl_kernels/pl_mm2s.cpp
+   src/pl_kernels/pl_s2mm.cpp
+   src/sw/host.cpp
    
 COMMAND LINE ARGUMENTS
 ----------------------

@@ -91,7 +91,7 @@ LDFLAGS += $(opencl_LDFLAGS)
 
 
 ########################## Checking if PLATFORM in allowlist #######################
-PLATFORM_BLOCKLIST += zc702 nodma 
+PLATFORM_BLOCKLIST += zc702 nodma u2_ 
 ############################## Setting up Host Variables ##############################
 #Include Required Host Source Files
 CXXFLAGS += -I$(XF_PROJ_ROOT)/common/includes/xcl2

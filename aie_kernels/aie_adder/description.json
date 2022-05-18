@@ -36,13 +36,13 @@
         "compiler": {
             "sources": [
                 "REPO_DIR/common/includes/xcl2/xcl2.cpp",
-                "./sw/host.cpp",
+                "./src/sw/host.cpp",
                 "./Work/ps/c_rts/aie_control_xrt.cpp"
             ], 
             "includepaths": [
                 "REPO_DIR/common/includes/xcl2",
                 "$(SYSROOT)/usr/include/xrt/", 
-                "./aie"                
+                "./src/aie"                
             ],
             "options": "--sysroot=$(SYSROOT)"
         },
@@ -61,7 +61,7 @@
     "aiecompiler": {
         "compiler": {
             "includepaths": [
-                "./aie"
+                "./src/aie"
             ]
         }
     },
@@ -69,11 +69,11 @@
         {
             "accelerators": [
                 {
-                    "location": "./aie/aie_graph.cpp",
+                    "location": "./src/aie/aie_graph.cpp",
                     "pl-freq": 100,
                     "workdir": "./Work",
                     "name": "libadf.a",
-                    "aie_kernel_files":["./aie/aie_adder.cc"]
+                    "aie_kernel_files":["./src/aie/aie_adder.cc"]
                 }
             ]
         }
@@ -101,12 +101,12 @@
             "accelerators": [
                 {
                     "name": "pl_mm2s", 
-                    "location": "pl_kernels/pl_mm2s.cpp",
+                    "location": "src/pl_kernels/pl_mm2s.cpp",
                     "num_compute_units": "2"
                 }, 
                 {
                     "name": "pl_s2mm", 
-                    "location": "pl_kernels/pl_s2mm.cpp"
+                    "location": "src/pl_kernels/pl_s2mm.cpp"
                 } 
             ], 
             "name": "krnl_adder"

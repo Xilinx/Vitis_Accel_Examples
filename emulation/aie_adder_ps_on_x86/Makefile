@@ -58,16 +58,17 @@ XF_PROJ_ROOT = $(shell readlink -f $(COMMON_REPO))
 
 # Makefile input options
 TARGET := sw_emu
-XCLBIN := adder.xsa
+LINK_OUTPUT := adder.xsa
+XCLBIN := krnl_adder.xclbin
 
 # File names and locations
-GRAPH := aie/aie_graph.cpp
+GRAPH := src/aie/aie_graph.cpp
 GRAPH_O := libadf.a
 
 KERNEL := pl_s2mm.cpp pl_mm2s.cpp 
 KERNEL_XO := pl_s2mm.xo pl_mm2s.xo 
 
-HOST_SRCS := ./sw/host.cpp
+HOST_SRCS := ./src/sw/host.cpp
 EXECUTABLE = ./aie_adder_ps_on_x86
 
 # SoC variables
@@ -91,7 +92,7 @@ VPP := v++
 AIECC := aiecompiler
 AIESIM := aiesimulator
 
-AIE_INCLUDE_FLAGS := -include="$(XILINX_VITIS)/aietools/include" -include="./aie" -include="./data" -include="./"
+AIE_INCLUDE_FLAGS := -include="$(XILINX_VITIS)/aietools/include" -include="./src/aie" -include="./data" -include="./"
 AIE_FLAGS := $(AIE_INCLUDE_FLAGS) --pl-freq=100 -workdir=./Work
 
 ifeq ($(TARGET),sw_emu)
@@ -101,11 +102,11 @@ else
 endif
 
 VPP_XO_FLAGS := -c -t $(TARGET) --platform $(PLATFORM) --save-temps -g 
-VPP_LINK_FLAGS := -l --platform $(PLATFORM) $(KERNEL_XO) $(GRAPH_O) -t $(TARGET) --save-temps -g --config $(CONFIG_FILE) -o $(XCLBIN)
+VPP_LINK_FLAGS := -l --platform $(PLATFORM) $(KERNEL_XO) $(GRAPH_O) -t $(TARGET) --save-temps -g --config $(CONFIG_FILE) -o $(LINK_OUTPUT)
 
 GCC_LIB := -lxrt_coreutil
 GCC_FLAGS := -Wall -c -std=c++14 -Wno-int-to-pointer-cast
-GCC_INCLUDES := -I./ -I${XILINX_VITIS}/aietools/include
+GCC_INCLUDES := -I./src -I${XILINX_VITIS}/aietools/include
 
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu))
 GCC_LIB += -ladf_api_xrt_swemu -L${XILINX_VITIS}/aietools/lib/lnx64.o -L${XILINX_XRT}/lib
@@ -129,9 +130,9 @@ emconfig:
 kernels: check-device $(KERNEL_XO)
 	@echo "COMPLETE: Kernels Created."	
 
-pl_s2mm.xo: pl_kernels/pl_s2mm.cpp
+pl_s2mm.xo: src/pl_kernels/pl_s2mm.cpp
 	$(VPP) $(VPP_XO_FLAGS) -k $(basename $(notdir $<)) $< -o $@
-pl_mm2s.xo: pl_kernels/pl_mm2s.cpp
+pl_mm2s.xo: src/pl_kernels/pl_mm2s.cpp
 	$(VPP) $(VPP_XO_FLAGS) -k $(basename $(notdir $<)) $< -o $@
 
 graph: check-device $(GRAPH_O)
@@ -148,18 +149,22 @@ $(GRAPH_O): $(GRAPH)
 # Once the kernels and graph are generated, you can build
 # the hardware part of the design. This creates an xclbin
 # that will be used to run the design on the platform.
-build: check-device $(GRAPH_O) $(KERNEL_XO)
-	$(VPP) $(VPP_LINK_FLAGS) || (echo "task: [xclbin] failed error code: $$?"; exit 1)
-	@echo "COMPLETE: .xclbin created."
+build: check-device $(LINK_OUTPUT)
+
+$(LINK_OUTPUT): $(KERNEL_XO) $(GRAPH_O) 
+	$(VPP) $(VPP_LINK_FLAGS) || (echo "task: [xclbin] failed error code: $$?"; exit 1)       
+	@echo "COMPLETE:.xsa created"
 ########################################################
 
 ############################################################################################################################
 # For hardware and hardware emulation, compile the PS code using x86 compiler and generate the aie_adder_ps_on_x86 executable.
 # For hardware and hardware emulation, compile the PS code using aarch64 compiler and generate the aie_adder_ps_on_x86 executable. This is needed for creating the sd_card.
-host: 
-	$(CXX) $(GCC_FLAGS) $(GCC_INCLUDES) -o aie_control_xrt.o ./Work/ps/c_rts/aie_control_xrt.cpp
-	$(CXX) $(HOST_SRCS) $(GCC_FLAGS) $(GCC_INCLUDES) -o main.o
-	$(CXX) *.o $(GCC_LIB) -o $(EXECUTABLE)
+host: $(EXECUTABLE)
+
+$(EXECUTABLE): $(HOST_SRCS)  
+		$(CXX) $(GCC_FLAGS) $(GCC_INCLUDES) -o aie_control_xrt.o ./Work/ps/c_rts/aie_control_xrt.cpp
+		$(CXX) $(HOST_SRCS) $(GCC_FLAGS) $(GCC_INCLUDES) -o main.o
+		$(CXX) *.o $(GCC_LIB) -o $(EXECUTABLE)
 	@echo "COMPLETE: Host application created."
 ############################################################################################################################
 
@@ -169,7 +174,7 @@ PACKAGING_CMD := v++ $(VPP_PFLAGS) -p -t $(TARGET) \
                  --package.defer_aie_run \
                  --platform $(PLATFORM) \
                  --package.out_dir $(PACKAGE_OUT) \
-                 $(XCLBIN) $(GRAPH_O) -o krnl_adder.xclbin
+                 $(LINK_OUTPUT) $(GRAPH_O) -o $(XCLBIN)
 ifneq ($(TARGET),$(filter $(TARGET),sw_emu))
 PACKAGING_CMD += --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 \
                  --package.image_format=ext4 \
@@ -184,11 +189,13 @@ endif
 
 
 ##################################################################################################
-sd_card: check-device $(GRAPH_O) $(KERNEL_XO) host gen_run_app 
+sd_card: check-device gen_run_app $(XCLBIN)
+
+$(XCLBIN): $(GRAPH_O) $(KERNEL_XO) $(EXECUTABLE)
 ifeq ($(findstring vck190_base_dfx, $(PLATFORM)), vck190_base_dfx)
 ifeq ($(TARGET),$(filter $(TARGET), hw))
-	v++ $(VPP_FLAGS) -t hw --platform $(PLATFORM) -p $(XCLBIN) -o krnl_adder.xclbin 
-	v++ $(VPP_PFLAGS) -t hw --platform $(PLATFORM) -p --package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.image_format=ext4 --package.boot_mode=sd --package.kernel_image=$(SD_IMAGE_FILE) --package.defer_aie_run --package.sd_file $(RUN_APP_SCRIPT) --package.sd_file aie_adder --package.sd_file krnl_adder.xclbin --package.sd_file $(GRAPH_O)
+	v++ $(VPP_FLAGS) -t hw --platform $(PLATFORM) -p $(LINK_OUTPUT) -o $(XCLBIN)
+	v++ $(VPP_PFLAGS) -t hw --platform $(PLATFORM) -p --package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.image_format=ext4 --package.boot_mode=sd --package.kernel_image=$(SD_IMAGE_FILE) --package.defer_aie_run --package.sd_file $(RUN_APP_SCRIPT) --package.sd_file aie_adder --package.sd_file $(XCLBIN) --package.sd_file $(GRAPH_O)
 vck190_dfx_hw := true
 endif
 endif
@@ -218,7 +225,7 @@ endif
 clean:
 	-$(RMDIR) $(EXECUTABLE) $(XCLBIN)/{*sw_emu*,*hw_emu*} 
 	-$(RMDIR) profile_* TempConfig system_estimate.xtxt *.rpt *.csv *.o *.xo *.xpe *.xsa cfg qemu_dts_files emu_qemu_scripts *.db sim *.sh *.a 
-	-$(RMDIR) sw/*.ll pl_kernels/*.ll aie/*.ll *v++* .Xil emconfig.json dltmp* xmltmp* *.log *.jou *.wcfg *.wdb *bin* *summary* *.BIN *.bif *.exe Work *.log *.txt 
+	-$(RMDIR) src/sw/*.ll src/pl_kernels/*.ll src/aie/*.ll *v++* .Xil emconfig.json dltmp* xmltmp* *.log *.jou *.wcfg *.wdb *bin* *summary* *.BIN *.bif *.exe Work *.log *.txt 
 
 cleanall: clean
 	-$(RMDIR) build_dir* sd_card*

@@ -12,7 +12,8 @@
         "Array of Stream"
     ],
     "platform_blocklist": [
-        "nodma"
+        "nodma",
+        "u2_"
      ],    
     "os": [
         "Linux"
