@@ -25,6 +25,7 @@ This is simple example of vector addition to demonstrate Wide Memory Access usin
 
  - Embedded ZC702
  - All NoDMA Platforms, i.e u50 nodma etc
+ - Samsung U.2 SmartSSD
 
 .. raw:: html
 

@@ -24,6 +24,7 @@ This is simple example of Multiple Stages Vector Addition to demonstrate Array o
 ..
 
  - All NoDMA Platforms, i.e u50 nodma etc
+ - Samsung U.2 SmartSSD
 
 .. raw:: html
 

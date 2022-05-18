@@ -15,7 +15,8 @@
     ], 
     "platform_blocklist": [
         "zc702",
-        "nodma"
+        "nodma",
+        "u2_"
     ],
     "os": [
         "Linux"
