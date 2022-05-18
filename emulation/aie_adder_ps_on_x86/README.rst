@@ -26,7 +26,7 @@ This example demonstrates how a user can run the PS App as an x86 process instea
  - All Embedded Zynq Platforms, i.e zc702, zcu102 etc
  - AWS VU9P F1
  - Samsung SmartSSD Computation Storage Drive
- - _u2_
+ - Samsung U.2 SmartSSD
  - Versal VCK5000
  - All Xilinx DMA Platforms
 
@@ -46,6 +46,13 @@ Application code is located in the src directory. Accelerator binary files will 
    data/golden.txt
    data/input0.txt
    data/input1.txt
+   src/aie/aie_adder.cc
+   src/aie/aie_graph.cpp
+   src/aie/aie_graph.h
+   src/aie/aie_kernel.h
+   src/pl_kernels/pl_mm2s.cpp
+   src/pl_kernels/pl_s2mm.cpp
+   src/sw/host.cpp
    
 COMMAND LINE ARGUMENTS
 ----------------------

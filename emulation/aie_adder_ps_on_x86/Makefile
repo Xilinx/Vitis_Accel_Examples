@@ -62,13 +62,13 @@ LINK_OUTPUT := adder.xsa
 XCLBIN := krnl_adder.xclbin
 
 # File names and locations
-GRAPH := aie/aie_graph.cpp
+GRAPH := src/aie/aie_graph.cpp
 GRAPH_O := libadf.a
 
 KERNEL := pl_s2mm.cpp pl_mm2s.cpp 
 KERNEL_XO := pl_s2mm.xo pl_mm2s.xo 
 
-HOST_SRCS := ./sw/host.cpp
+HOST_SRCS := ./src/sw/host.cpp
 EXECUTABLE = ./aie_adder_ps_on_x86
 
 # SoC variables
@@ -92,7 +92,7 @@ VPP := v++
 AIECC := aiecompiler
 AIESIM := aiesimulator
 
-AIE_INCLUDE_FLAGS := -include="$(XILINX_VITIS)/aietools/include" -include="./aie" -include="./data" -include="./"
+AIE_INCLUDE_FLAGS := -include="$(XILINX_VITIS)/aietools/include" -include="./src/aie" -include="./data" -include="./"
 AIE_FLAGS := $(AIE_INCLUDE_FLAGS) --pl-freq=100 -workdir=./Work
 
 ifeq ($(TARGET),sw_emu)
@@ -106,7 +106,7 @@ VPP_LINK_FLAGS := -l --platform $(PLATFORM) $(KERNEL_XO) $(GRAPH_O) -t $(TARGET)
 
 GCC_LIB := -lxrt_coreutil
 GCC_FLAGS := -Wall -c -std=c++14 -Wno-int-to-pointer-cast
-GCC_INCLUDES := -I./ -I${XILINX_VITIS}/aietools/include
+GCC_INCLUDES := -I./src -I${XILINX_VITIS}/aietools/include
 
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu))
 GCC_LIB += -ladf_api_xrt_swemu -L${XILINX_VITIS}/aietools/lib/lnx64.o -L${XILINX_XRT}/lib
@@ -130,9 +130,9 @@ emconfig:
 kernels: check-device $(KERNEL_XO)
 	@echo "COMPLETE: Kernels Created."	
 
-pl_s2mm.xo: pl_kernels/pl_s2mm.cpp
+pl_s2mm.xo: src/pl_kernels/pl_s2mm.cpp
 	$(VPP) $(VPP_XO_FLAGS) -k $(basename $(notdir $<)) $< -o $@
-pl_mm2s.xo: pl_kernels/pl_mm2s.cpp
+pl_mm2s.xo: src/pl_kernels/pl_mm2s.cpp
 	$(VPP) $(VPP_XO_FLAGS) -k $(basename $(notdir $<)) $< -o $@
 
 graph: check-device $(GRAPH_O)
@@ -225,7 +225,7 @@ endif
 clean:
 	-$(RMDIR) $(EXECUTABLE) $(XCLBIN)/{*sw_emu*,*hw_emu*} 
 	-$(RMDIR) profile_* TempConfig system_estimate.xtxt *.rpt *.csv *.o *.xo *.xpe *.xsa cfg qemu_dts_files emu_qemu_scripts *.db sim *.sh *.a 
-	-$(RMDIR) sw/*.ll pl_kernels/*.ll aie/*.ll *v++* .Xil emconfig.json dltmp* xmltmp* *.log *.jou *.wcfg *.wdb *bin* *summary* *.BIN *.bif *.exe Work *.log *.txt 
+	-$(RMDIR) src/sw/*.ll src/pl_kernels/*.ll src/aie/*.ll *v++* .Xil emconfig.json dltmp* xmltmp* *.log *.jou *.wcfg *.wdb *bin* *summary* *.BIN *.bif *.exe Work *.log *.txt 
 
 cleanall: clean
 	-$(RMDIR) build_dir* sd_card*
