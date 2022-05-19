@@ -10,6 +10,11 @@ ifeq ($(DEBUG), yes)
 VPP_LDFLAGS += --dk list_ports
 endif
 
+ifneq ($(TARGET), hw)
+VPP_FLAGS += -g
+endif
+
+############################## Setting up Project Variables ##############################
 # Points to top directory of Git repository
 MK_PATH := $(abspath $(lastword $(MAKEFILE_LIST)))
 COMMON_REPO ?= $(shell bash -c 'export MK_PATH=$(MK_PATH); echo $${MK_PATH%hello_world/*}')
@@ -35,11 +40,6 @@ check-xrt:
 ifndef XILINX_XRT
 	$(error XILINX_XRT variable is not set, please set correctly using "source /opt/xilinx/xrt/setup.sh" and rerun)
 endif
-
-ifneq ($(TARGET), hw)
-VPP_FLAGS += -g
-endif
-CP = cp -rf
 
 check-device:
 	@set -eu; \
@@ -86,11 +86,11 @@ endif
 #   device2xsa - create a filesystem friendly name from device name
 #   $(1) - full name of device
 device2xsa = $(strip $(patsubst %.xpfm, % , $(shell basename $(PLATFORM))))
+
 XSA := 
 ifneq ($(PLATFORM), )
 XSA := $(call device2xsa, $(PLATFORM))
 endif
-
 
 ############################## Deprecated Checks and Running Rules ##############################
 check:

@@ -65,22 +65,22 @@ def create_params(target,data):
     target.write("CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++1y\n")
     target.write("LDFLAGS += $(opencl_LDFLAGS)\n")
 
-    blacklist = [board for board in data.get("platform_blacklist", [])]
+    blocklist = [board for board in data.get("platform_blocklist", [])]
     forbid_others = False
-    target.write("\n########################## Checking if PLATFORM in whitelist #######################")
-    if blacklist:
+    target.write("\n########################## Checking if PLATFORM in allowlist #######################")
+    if blocklist:
         target.write("\nPLATFORM_BLOCKLIST += ")        
-        for board in blacklist:
+        for board in blocklist:
           if board != "others":
               target.write(board)
               target.write(" ")
           else:
               forbid_others = True
         target.write("\n")
-    whitelist = [board for board in data.get("platform_whitelist", [])]
-    if whitelist:
+    allowlist = [board for board in data.get("platform_allowlist", [])]
+    if allowlist:
         target.write("PLATFORM_ALLOWLIST += ")
-        for board in whitelist:
+        for board in allowlist:
             target.write(board)
             target.write(" ")
         target.write("\n\n")
@@ -289,6 +289,7 @@ def building_kernel(target, data):
                         target.write("$(TEMP_DIR) ")
                         target.write(" -I'$(<D)'")
                         target.write(" -o'$@' '$<'\n")
+        target.write("\n")
         for con in data["containers"]:
             target.write("$(BUILD_DIR)/")
             target.write(con["name"])

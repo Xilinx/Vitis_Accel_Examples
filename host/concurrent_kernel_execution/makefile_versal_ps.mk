@@ -49,15 +49,15 @@ endif
 
 ############################## Setting up Project Variables ##############################
 TARGET := hw
-SYSROOT := $(EDGE_COMMON_SW)/sysroots/cortexa9t2hf-neon-xilinx-linux-gnueabi/
-SD_IMAGE_FILE := $(EDGE_COMMON_SW)/uImage
+SYSROOT := $(EDGE_COMMON_SW)/sysroots/cortexa72-cortexa53-xilinx-linux
+SD_IMAGE_FILE := $(EDGE_COMMON_SW)/Image
 
 include ./utils.mk
 
 TEMP_DIR := ./_x.$(TARGET).$(XSA)
 BUILD_DIR := ./build_dir.$(TARGET).$(XSA)
 
-LINK_OUTPUT := $(BUILD_DIR)/vadd.link.xclbin
+LINK_OUTPUT := $(BUILD_DIR)/matrix_ops.link.xsa
 
 # SoC variables
 RUN_APP_SCRIPT = ./run_app.sh
@@ -67,8 +67,9 @@ LAUNCH_EMULATOR = $(PACKAGE_OUT)/launch_$(TARGET).sh
 RESULT_STRING = TEST PASSED
 
 VPP_PFLAGS := 
-CMD_ARGS = $(BUILD_DIR)/vadd.xclbin
-SDCARD := $(PACKAGE_OUT)
+CMD_ARGS = $(BUILD_DIR)/matrix_ops.xclbin
+SD_CARD := $(PACKAGE_OUT)
+vck190_dfx_hw := false
 
 include $(XF_PROJ_ROOT)/common/includes/opencl/opencl.mk
 CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++1y
@@ -89,28 +90,36 @@ LDFLAGS += --sysroot=$(SYSROOT)
 VPP_FLAGS += -t $(TARGET) --platform $(PLATFORM) --save-temps 
 
 
-EXECUTABLE = ./hello_world
+EXECUTABLE = ./concurrent_kernel_execution
 EMCONFIG_DIR = $(TEMP_DIR)
 
 ############################## Setting Targets ##############################
 .PHONY: all clean cleanall docs emconfig
-all: check-platform check-device check_edge_sw $(EXECUTABLE) $(BUILD_DIR)/vadd.xclbin emconfig sd_card
+all: check-platform check-device check_edge_sw $(EXECUTABLE) $(BUILD_DIR)/matrix_ops.xclbin emconfig sd_card
 
 .PHONY: host
 host: $(EXECUTABLE)
 
 .PHONY: build
-build: check-vitis check-device $(BUILD_DIR)/vadd.xclbin
+build: check-vitis check-device $(BUILD_DIR)/matrix_ops.xclbin
 
 .PHONY: xclbin
 xclbin: build
 
 ############################## Setting Rules for Binary Containers (Building Kernels) ##############################
-$(TEMP_DIR)/vadd.xo: src/vadd.cpp
+$(TEMP_DIR)/madd.xo: src/madd.cpp
 	mkdir -p $(TEMP_DIR)
-	v++ $(VPP_FLAGS) -c -k vadd --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
+	v++ $(VPP_FLAGS) -c -k madd --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
+$(TEMP_DIR)/mscale.xo: src/mscale.cpp
+	mkdir -p $(TEMP_DIR)
+	v++ $(VPP_FLAGS) -c -k mscale --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
+$(TEMP_DIR)/mmult.xo: src/mmult.cpp
+	mkdir -p $(TEMP_DIR)
+	v++ $(VPP_FLAGS) -c -k mmult --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
 
-$(BUILD_DIR)/vadd.xclbin: $(TEMP_DIR)/vadd.xo
+$(BUILD_DIR)/matrix_ops.xclbin: $(TEMP_DIR)/madd.xo
+ $(TEMP_DIR)/mscale.xo
+ $(TEMP_DIR)/mmult.xo
 	mkdir -p $(BUILD_DIR)
 	v++ $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) -o'$(LINK_OUTPUT)' $(+)
 
@@ -118,12 +127,21 @@ $(BUILD_DIR)/vadd.xclbin: $(TEMP_DIR)/vadd.xo
 .PHONY: sd_card
 sd_card: gen_run_app $(SD_CARD)
 
-$(SD_CARD): $(BUILD_DIR)/vadd.xclbin $(EXECUTABLE)
-	v++ $(VPP_PFLAGS) -p $(LINK_OUTPUT) $(VPP_FLAGS) --package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.sd_file $(SD_IMAGE_FILE) --package.sd_file xrt.ini --package.sd_file $(RUN_APP_SCRIPT) --package.sd_file $(EXECUTABLE) --package.sd_file $(EMCONFIG_DIR)/emconfig.json -o $(BUILD_DIR)/vadd.xclbin
+$(SD_CARD): $(BUILD_DIR)/matrix_ops.xclbin $(EXECUTABLE)
+ifeq ($(findstring vck190_base_dfx, $(PLATFORM)), vck190_base_dfx)
+ifeq ($(TARGET),$(filter $(TARGET), hw))
+	v++ $(VPP_FLAGS) -p $(LINK_OUTPUT) -o $(BUILD_DIR)/matrix_ops.xclbin 
+	v++ $(VPP_PFLAGS) $(VPP_FLAGS) -p --package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.sd_file $(SD_IMAGE_FILE) --package.sd_file xrt.ini --package.sd_file $(RUN_APP_SCRIPT) --package.sd_file $(EXECUTABLE) --package.sd_file $(BUILD_DIR)/matrix_ops.xclbin
+vck190_dfx_hw := true
+endif
+endif
+ifeq ($(vck190_dfx_hw), false)
+	v++ $(VPP_PFLAGS) -p $(LINK_OUTPUT) $(VPP_FLAGS) --package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.sd_file $(SD_IMAGE_FILE) --package.sd_file xrt.ini --package.sd_file $(RUN_APP_SCRIPT) --package.sd_file $(EXECUTABLE) --package.sd_file $(EMCONFIG_DIR)/emconfig.json -o $(BUILD_DIR)matrix_ops.xclbin
+endif
 
 ############################## Setting Rules for Host (Building Host Executable) ##############################
 $(EXECUTABLE): $(HOST_SRCS) | check-vitis check_edge_sw
-	$(XILINX_VITIS)/gnu/aarch32/lin/gcc-arm-linux-gnueabi/bin/arm-linux-gnueabihf-g++ -o $@ $^ $(CXXFLAGS) $(LDFLAGS)
+	$(XILINX_VITIS)/gnu/aarch64/lin/aarch64-linux/bin/aarch64-linux-gnu-g++ -o $@ $^ $(CXXFLAGS) $(LDFLAGS)
 
 emconfig:$(EMCONFIG_DIR)/emconfig.json
 $(EMCONFIG_DIR)/emconfig.json:

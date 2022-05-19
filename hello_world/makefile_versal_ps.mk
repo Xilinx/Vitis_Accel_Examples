@@ -66,10 +66,9 @@ PACKAGE_OUT = ./package.$(TARGET)
 LAUNCH_EMULATOR = $(PACKAGE_OUT)/launch_$(TARGET).sh
 RESULT_STRING = TEST PASSED
 
-
 VPP_PFLAGS := 
 CMD_ARGS = $(BUILD_DIR)/vadd.xclbin
-SDCARD := sd_card
+SD_CARD := $(PACKAGE_OUT)
 vck190_dfx_hw := false
 
 include $(XF_PROJ_ROOT)/common/includes/opencl/opencl.mk
@@ -93,7 +92,6 @@ VPP_FLAGS += -t $(TARGET) --platform $(PLATFORM) --save-temps
 
 EXECUTABLE = ./hello_world
 EMCONFIG_DIR = $(TEMP_DIR)
-EMU_DIR = $(SDCARD)/data/emulation
 
 ############################## Setting Targets ##############################
 .PHONY: all clean cleanall docs emconfig
@@ -104,6 +102,7 @@ host: $(EXECUTABLE)
 
 .PHONY: build
 build: check-vitis check-device $(BUILD_DIR)/vadd.xclbin
+
 .PHONY: xclbin
 xclbin: build
 
@@ -111,9 +110,26 @@ xclbin: build
 $(TEMP_DIR)/vadd.xo: src/vadd.cpp
 	mkdir -p $(TEMP_DIR)
 	v++ $(VPP_FLAGS) -c -k vadd --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
+
 $(BUILD_DIR)/vadd.xclbin: $(TEMP_DIR)/vadd.xo
 	mkdir -p $(BUILD_DIR)
 	v++ $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) -o'$(LINK_OUTPUT)' $(+)
+
+############################## Preparing sdcard ##############################
+.PHONY: sd_card
+sd_card: gen_run_app $(SD_CARD)
+
+$(SD_CARD): $(BUILD_DIR)/vadd.xclbin $(EXECUTABLE)
+ifeq ($(findstring vck190_base_dfx, $(PLATFORM)), vck190_base_dfx)
+ifeq ($(TARGET),$(filter $(TARGET), hw))
+	v++ $(VPP_FLAGS) -p $(LINK_OUTPUT) -o $(BUILD_DIR)/vadd.xclbin 
+	v++ $(VPP_PFLAGS) $(VPP_FLAGS) -p --package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.sd_file $(SD_IMAGE_FILE) --package.sd_file xrt.ini --package.sd_file $(RUN_APP_SCRIPT) --package.sd_file $(EXECUTABLE) --package.sd_file $(BUILD_DIR)/vadd.xclbin
+vck190_dfx_hw := true
+endif
+endif
+ifeq ($(vck190_dfx_hw), false)
+	v++ $(VPP_PFLAGS) -p $(LINK_OUTPUT) $(VPP_FLAGS) --package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.sd_file $(SD_IMAGE_FILE) --package.sd_file xrt.ini --package.sd_file $(RUN_APP_SCRIPT) --package.sd_file $(EXECUTABLE) --package.sd_file $(EMCONFIG_DIR)/emconfig.json -o $(BUILD_DIR)vadd.xclbin
+endif
 
 ############################## Setting Rules for Host (Building Host Executable) ##############################
 $(EXECUTABLE): $(HOST_SRCS) | check-vitis check_edge_sw
@@ -135,29 +151,15 @@ endif
 test: $(EXECUTABLE)
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 	$(LAUNCH_EMULATOR) -run-app $(RUN_APP_SCRIPT) | tee run_app.log; exit $${PIPESTATUS[0]}
-
 else
 	$(ECHO) "Please copy the content of sd_card folder and data to an SD Card and run on the board"
-endif
-
-
-############################## Preparing sdcard ##############################
-sd_card: $(BUILD_DIR)/vadd.xclbin $(EXECUTABLE) gen_run_app
-ifeq ($(findstring vck190_base_dfx, $(PLATFORM)), vck190_base_dfx)
-ifeq ($(TARGET),$(filter $(TARGET), hw))
-	v++ $(VPP_FLAGS) -p $(LINK_OUTPUT) -o vadd.xclbin 
-	v++ $(VPP_PFLAGS) $(VPP_FLAGS) -p --package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.sd_file $(SD_IMAGE_FILE) --package.sd_file xrt.ini --package.sd_file $(RUN_APP_SCRIPT) --package.sd_file $(EXECUTABLE) --package.sd_file vadd.xclbin
-vck190_dfx_hw := true
-endif
-endif
-ifeq ($(vck190_dfx_hw), false)
-	v++ $(VPP_PFLAGS) -p $(LINK_OUTPUT) $(VPP_FLAGS) --package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.sd_file $(SD_IMAGE_FILE) --package.sd_file xrt.ini --package.sd_file $(RUN_APP_SCRIPT) --package.sd_file $(EXECUTABLE) -o vadd.xclbin
 endif
 
 check_edge_sw:
 ifndef EDGE_COMMON_SW
 	$(error EDGE_COMMON_SW variable is not set, please download and use the pre-built image from https://www.xilinx.com/support/download/index.html/content/xilinx/en/downloadNav/embedded-platforms.html)
 endif
+
 ############################## Cleaning Rules ##############################
 # Cleaning stuff
 clean:
