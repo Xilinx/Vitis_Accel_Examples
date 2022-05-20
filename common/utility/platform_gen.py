@@ -38,6 +38,23 @@ def create_json_vck(data):
         target.write(line)
     return
 
+def create_cfg_v70(data):    
+    target = open("platform_"+filename+".cfg","w+")
+    target.write("[connectivity]\n")
+    target.write("sp=" + filename + "_1.input:MC_NOC0\n")
+    target.write("sp=" + filename + "_1.output:MC_NOC0\n")
+    target.write("sp=" + filename + "_2.input:MC_NOC1\n")
+    target.write("sp=" + filename + "_2.output:MC_NOC1\n")
+    target.write("nk=" + filename + ":2\n")
+    return
+
+def create_json_v70(data):
+    target = open("platform.json","w+")
+    des_file = open(top_dir+"/common/utility/platform_files/v70.json")
+    for line in des_file:
+        target.write(line)
+    return
+
 def create_cfg_vck_gen4x8(data):    
     target = open("platform_"+filename+".cfg","w+")
     target.write("[connectivity]\n")
@@ -263,6 +280,10 @@ elif "vck5000_gen4x8" in plat_name:
     if(filename!='verify'):
         create_cfg_vck_gen4x8(data)
     create_json_vck_gen4x8(data)
+elif "v70" in plat_name:
+    if(filename!='verify'):
+        create_cfg_v70(data)
+    create_json_v70(data)
 else:    
     if(filename!='verify'):
         create_cfg(data)
