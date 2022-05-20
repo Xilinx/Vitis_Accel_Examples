@@ -27,6 +27,65 @@ def get_immediate_subdirectories(dir):
     return [name for name in os.listdir(dir)
             if os.path.isdir(os.path.join(dir, name))]
 
+def gen_category2Rst(dir ,outfile, subdircount, ref_data):
+  testcaselist = get_testcases(dir);
+  testcaselist.sort();
+  for testcase in testcaselist:
+    drives = get_drives(testcase)
+    link = ""
+    if len(drives) <= subdircount : 
+      continue
+    for drive in drives:
+      if drive == "description.json":
+        continue
+      link += drive 
+    
+    outfile.write("  * - ")
+    outfile.write("`" + link + " <" + link + ">`_")
+    outfile.write("\n")
+    outfile.write("    - ")
+    desc = open(testcase,'r')
+    data = json.load(desc)
+    outfile.write(('\n').join(data["description"]))
+    outfile.write("\n")
+    outfile.write("    - ")
+    if 'key_concepts' in data:
+        outfile.write("**Key Concepts**\n\n")
+        key_concepts = data["key_concepts"]
+        for i, kc in enumerate(key_concepts):
+            outfile.write("      * ")
+            if "key_concepts" in ref_data:
+                if kc in ref_data["key_concepts"]:
+                    outfile.write("`")
+                    outfile.write(kc)
+                    outfile.write(" <")
+                    outfile.write(ref_data["key_concepts"][kc])
+                    outfile.write(">`__")
+                    outfile.write("\n")
+                else:
+                    outfile.write(kc)
+                    outfile.write("\n\n")
+    if 'keywords' in data:    
+        outfile.write("      **Keywords**\n\n")
+        keywords = data["keywords"]
+        for  i, kw in enumerate(keywords):
+            outfile.write("      * ")
+            if "keywords" in ref_data:
+                if kw in ref_data["keywords"]:
+                    outfile.write("`")
+                    outfile.write(kw)
+                    outfile.write(" <")
+                    outfile.write(ref_data["keywords"][kw])
+                    outfile.write(">`__")
+                    outfile.write("\n")
+                else:
+                    outfile.write(kw)
+                    outfile.write("\n")
+
+    outfile.write("\n")
+    desc.close()
+
+
 def gen_category(dir ,outfile, subdircount, ref_data):
 
   links = "[" + dir +"]:"+ dir + "\n"
@@ -189,5 +248,47 @@ Example        | Description           | Key Concepts / Keywords
   links = gen_category(dir,outfile,1,ref_data)
   outfile.write("\n")
   outfile.write(links)
+  outfile.close();
+
+def genReadMe2Rst(dir):
+  desc = open(os.path.join(dir,"summary.json"),'r')
+  data = json.load(desc)
+  outfile = open(os.path.join(dir, "README.rst"), "w")
+  outfile.write(('\n').join((data["overview"])))
+  outfile.write("\n")
+  outfile.write("==================================\n")
+  outfile.write(('\n').join((data["description"])))
+  outfile.write("\n\n")
+  outfile.write("**Examples Table :**\n\n")
+  outfile.write(".. list-table:: \n")
+  outfile.write("  :header-rows: 1")
+  outfile.write("\n\n")
+  outfile.write("  * - **Example**\n")
+  outfile.write("    - **Description**\n")
+  outfile.write("    - **Key Concepts/Keywords**\n")
+
+  file_name = "LICENSE.txt" # file to be searched
+  cur_dir = os.getcwd()      # Dir from where search starts can be replaced with any path
+  init_cur_dir = cur_dir
+  ref_data = ""
+  
+  while True:
+      file_list = os.listdir(cur_dir)
+      parent_dir = os.path.dirname(cur_dir)
+      if file_name in file_list:
+          path = cur_dir + '/common/utility/reference.json'
+          ref_file = open(path,'r')
+          ref_data = json.load(ref_file)
+          ref_file.close()
+          break
+      else:
+          if cur_dir == parent_dir:         # if dir is root dir
+              print ("LICENSE.txt file not found")
+              break
+          else:
+              cur_dir = parent_dir
+
+  gen_category2Rst(dir,outfile,1,ref_data)
+  outfile.write("\n")
   outfile.close();
 

@@ -1,7 +1,7 @@
 COMMON_REPO=../common/
 
-docs: README.md
+docs: README.rst
 
-README.md:summary.json
+README.rst:summary.json
 	$(COMMON_REPO)/utility/readme_gen/gs_summary_subdir.py
 
