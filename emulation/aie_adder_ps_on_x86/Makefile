@@ -182,7 +182,8 @@ PACKAGING_CMD += --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 \
                  --package.kernel_image $(SD_IMAGE_FILE) \
                  --package.sd_dir /proj/xbuilds/2022.2_daily_latest/internal_platforms/sw/versal/xrt \
                  --package.sd_file $(RUN_APP_SCRIPT) \
-                 --package.sd_file aie_adder_ps_on_x86 
+                 --package.sd_file ./emconfig.json \
+                 --package.sd_file aie_adder_ps_on_x86
 else
 PACKAGING_CMD += --package.ps_on_x86
 endif
