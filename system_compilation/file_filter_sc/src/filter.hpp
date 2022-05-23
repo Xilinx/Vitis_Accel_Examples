@@ -28,6 +28,10 @@ class xfilter : public VPP_ACC<xfilter, 1> {
     SYS_PORT_PFM(u50, out, HBM[1]);
     SYS_PORT_PFM(u50, outSz, HBM[2]);
 
+    SYS_PORT_PFM(u280, in, HBM[0]);
+    SYS_PORT_PFM(u280, out, HBM[1]);
+    SYS_PORT_PFM(u280, outSz, HBM[2]);
+    
     SYS_PORT_PFM(u55, in, HBM[0]);
     SYS_PORT_PFM(u55, out, HBM[1]);
     SYS_PORT_PFM(u55, outSz, HBM[2]);

@@ -115,8 +115,7 @@ $(TEMP_DIR)/mmult.xo: src/mmult.cpp
 	mkdir -p $(TEMP_DIR)
 	v++ $(VPP_FLAGS) -c -k mmult --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
 
-$(BUILD_DIR)/device_only_buf.xclbin: $(TEMP_DIR)/madd.xo
- $(TEMP_DIR)/mmult.xo
+$(BUILD_DIR)/device_only_buf.xclbin: $(TEMP_DIR)/madd.xo $(TEMP_DIR)/mmult.xo
 	mkdir -p $(BUILD_DIR)
 	v++ $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) -o'$(LINK_OUTPUT)' $(+)
 

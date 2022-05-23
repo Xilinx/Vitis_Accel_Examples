@@ -29,6 +29,7 @@ This is simple example showcasing the P2P and H2C mode of application code contr
  - Samsung U.2 SmartSSD
  - Alveo U25 SmartNIC
  - AWS VU9P F1
+ - Alveo U280
 
 .. raw:: html
 

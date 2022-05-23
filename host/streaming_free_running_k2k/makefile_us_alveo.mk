@@ -103,9 +103,7 @@ $(TEMP_DIR)/mem_write.xo: src/mem_write.cpp
 	mkdir -p $(TEMP_DIR)
 	v++ $(VPP_FLAGS) -c -k mem_write --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
 
-$(BUILD_DIR)/krnl_incr.xclbin: $(TEMP_DIR)/mem_read.xo
- $(TEMP_DIR)/increment.xo
- $(TEMP_DIR)/mem_write.xo
+$(BUILD_DIR)/krnl_incr.xclbin: $(TEMP_DIR)/mem_read.xo $(TEMP_DIR)/increment.xo $(TEMP_DIR)/mem_write.xo
 	mkdir -p $(BUILD_DIR)
 	v++ $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) $(VPP_LDFLAGS_krnl_incr) -o'$(LINK_OUTPUT)' $(+)
 	v++ -p $(LINK_OUTPUT) $(VPP_FLAGS) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/krnl_incr.xclbin

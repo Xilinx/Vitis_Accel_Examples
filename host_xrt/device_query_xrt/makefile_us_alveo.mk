@@ -16,9 +16,9 @@
 #
 
 ############################## Help Section ##############################
-.PHONY: help
+ifneq ($(findstring Makefile, $(MAKEFILE_LIST)), Makefile)
+help:
 
-help::
 	$(ECHO) "Makefile Usage:"
 	$(ECHO) "  make all TARGET=<sw_emu/hw_emu/hw> PLATFORM=<FPGA platform>"
 	$(ECHO) "      Command to generate the design for specified Target and Shell."
@@ -41,6 +41,7 @@ help::
 	$(ECHO) "  make host"
 	$(ECHO) "      Command to build host application."
 	$(ECHO) ""
+endif
 
 ############################## Setting up Project Variables ##############################
 # Points to top directory of Git repository

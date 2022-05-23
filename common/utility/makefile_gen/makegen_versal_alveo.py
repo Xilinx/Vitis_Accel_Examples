@@ -302,7 +302,8 @@ def building_kernel(target, data):
                     else:
                         target.write(" $(TEMP_DIR)/") 
                     target.write(acc["name"])
-                    target.write(".xo\n")
+                    target.write(".xo")
+            target.write("\n")
             target.write("\tmkdir -p $(BUILD_DIR)\n")
             target.write("\tv++ $(VPP_FLAGS) ")
             target.write("-l $(VPP_LDFLAGS) --temp_dir ")

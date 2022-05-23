@@ -102,8 +102,7 @@ $(TEMP_DIR)/krnl_stream_vmult.xo: src/krnl_stream_vmult.cpp
 	mkdir -p $(TEMP_DIR)
 	v++ $(VPP_FLAGS) -c -k krnl_stream_vmult --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
 
-$(BUILD_DIR)/krnl_stream_vadd_vmult.xclbin: $(TEMP_DIR)/krnl_stream_vadd.xo
- $(TEMP_DIR)/krnl_stream_vmult.xo
+$(BUILD_DIR)/krnl_stream_vadd_vmult.xclbin: $(TEMP_DIR)/krnl_stream_vadd.xo $(TEMP_DIR)/krnl_stream_vmult.xo
 	mkdir -p $(BUILD_DIR)
 	v++ $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) $(VPP_LDFLAGS_krnl_stream_vadd_vmult) -o'$(LINK_OUTPUT)' $(+)
 	v++ -p $(LINK_OUTPUT) $(VPP_FLAGS) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/krnl_stream_vadd_vmult.xclbin
