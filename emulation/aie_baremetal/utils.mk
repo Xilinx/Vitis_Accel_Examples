@@ -105,9 +105,6 @@ endif
 	$(ECHO) 'elif [ -d xrt/versal ]' >> run_app.sh
 	$(ECHO) 'then' >> run_app.sh
 	$(ECHO) 'cd xrt/versal' >> run_app.sh
-	$(ECHO) 'elif [ xrt/cortexa9t2hf-neon-xilinx-linux-gnueabi  ]' >> run_app.sh
-	$(ECHO) 'then' >> run_app.sh
-	$(ECHO) 'cd xrt/cortexa9t2hf-neon-xilinx-linux-gnueabi/' >> run_app.sh
 	$(ECHO) 'else' >> run_app.sh
 	$(ECHO) 'echo "unable to find xrt folder sub directories"' >> run_app.sh
 	$(ECHO) 'fi' >> run_app.sh

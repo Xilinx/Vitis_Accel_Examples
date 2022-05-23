@@ -897,6 +897,18 @@ def util_checks(target):
         target.write("\t$(ECHO) 'export XILINX_VITIS=$$PWD' >> run_app.sh\n")
         target.write("\t$(ECHO) 'export XCL_EMULATION_MODE=$(TARGET)' >> run_app.sh\n")
         target.write("endif\n")
+        target.write("\t$(ECHO) 'if [ -d xrt/aarch64-xilinx-linux/ ]' >> run_app.sh\n")		
+        target.write("\t$(ECHO) 'then' >> run_app.sh\n")		
+        target.write("\t$(ECHO) 'cd xrt/aarch64-xilinx-linux/' >> run_app.sh\n")		
+        target.write("\t$(ECHO) 'elif [ -d xrt/versal ]' >> run_app.sh\n")		
+        target.write("\t$(ECHO) 'then' >> run_app.sh\n")		
+        target.write("\t$(ECHO) 'cd xrt/versal' >> run_app.sh\n")		
+        target.write("\t$(ECHO) 'else' >> run_app.sh\n")		
+        target.write("\t$(ECHO) 'echo \"unable to find xrt folder sub directories\"' >> run_app.sh\n")		
+        target.write("\t$(ECHO) 'fi' >> run_app.sh\n")		
+        target.write("\t$(ECHO) './reinstall_xrt.sh' >> run_app.sh\n")		
+        target.write("\t$(ECHO) 'return_code=$$?' >> run_app.sh\n")		
+        target.write("\t$(ECHO) 'cd -' >> run_app.sh\n")
         target.write("\t$(ECHO) '$(EXECUTABLE)")
         if "launch" in data:	
             if "cmd_args" in data["launch"][0]:
