@@ -89,8 +89,7 @@ all: check-platform check-device check-vitis $(EXECUTABLE) $(BUILD_DIR)/krnl_mmu
 host: $(EXECUTABLE)
 
 .PHONY: build
-build: check-vitis check-device $(BUILD_DIR)/krnl_mmult.xclbin
-$(BUILD_DIR)/krnl_madd.xclbin
+build: check-vitis check-device $(BUILD_DIR)/krnl_mmult.xclbin $(BUILD_DIR)/krnl_madd.xclbin
 
 .PHONY: xclbin
 xclbin: build

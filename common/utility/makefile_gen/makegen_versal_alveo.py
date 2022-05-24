@@ -424,12 +424,12 @@ def mk_build_all(target, data):
     target.write("\n")
     
     target.write(".PHONY: build\n")
-    target.write("build: check-vitis check-device ")
+    target.write("build: check-vitis check-device")
     for con in data["containers"]:
-            target.write("$(BUILD_DIR)/")
+            target.write(" $(BUILD_DIR)/")
             target.write(con["name"])
-            target.write(".xclbin\n")
-    target.write("\n")
+            target.write(".xclbin")
+    target.write("\n\n")
 
     target.write(".PHONY: xclbin\n")
     target.write("xclbin: build\n")

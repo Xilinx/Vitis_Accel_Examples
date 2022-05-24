@@ -55,7 +55,6 @@
             "name": "generic launch for all flows"
         }
     ], 
-    "match_ini": "false",
     "contributors": [
         {
             "url": "http://www.xilinx.com", 
