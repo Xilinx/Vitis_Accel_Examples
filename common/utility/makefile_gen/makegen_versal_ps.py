@@ -336,7 +336,8 @@ def building_kernel_rtl(target, data):
                     else:
                         target.write(" $(TEMP_DIR)/") 
                     target.write(acc["name"])
-                    target.write(".xo\n")
+                    target.write(".xo")
+            target.write("\n")
             target.write("\tmkdir -p $(BUILD_DIR)\n")
             target.write("\tv++ $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR)")
             if "ldclflags" in con:
