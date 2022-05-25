@@ -16,13 +16,13 @@
 
 #include "xtlm_ipc.h"
 
-void print(xtlm_ipc::axi_stream_packet& packet) {
-    const char* data = packet.data().c_str();
+void print(xtlm_ipc::axis_payload& packet) {
+    const char* data = packet.data.data();
 
-    for (auto& char_elem : packet.data()) std::cout << std::hex << (static_cast<int>(char_elem) & 255) << " ";
+    for (auto& char_elem : packet.data) std::cout << std::hex << (static_cast<int>(char_elem) & 255) << " ";
     std::cout << std::endl;
 
-    std::cout << "TLAST = " << packet.tlast() << std::endl;
+    std::cout << "TLAST = " << packet.tlast << std::endl;
     std::cout << std::endl;
 }
 
@@ -32,7 +32,7 @@ void receive_packets() {
 
     const unsigned int NUM_TRANSACTIONS = 100;
     unsigned int num_received = 0;
-    xtlm_ipc::axi_stream_packet packet;
+    xtlm_ipc::axis_payload packet;
 
     std::cout << "Receiving " << NUM_TRANSACTIONS << " packets..." << std::endl;
     while (num_received < NUM_TRANSACTIONS) {

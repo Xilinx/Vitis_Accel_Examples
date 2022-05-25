@@ -36,11 +36,11 @@ std::vector<char> generate_data() {
     return v_data;
 }
 
-void expected_packets(const xtlm_ipc::axi_stream_packet& packet) {
-    const char* data = packet.data().c_str();
+void expected_packets(const xtlm_ipc::axis_payload& packet) {
+    const char* data = packet.data.data();
 
     bool is_lsb = true;
-    for (auto& char_elem : packet.data()) {
+    for (auto& char_elem : packet.data) {
         if (is_lsb) {
             file << std::hex << ((static_cast<int>(char_elem) + 1) & 255) << " ";
             is_lsb = false;
@@ -51,30 +51,28 @@ void expected_packets(const xtlm_ipc::axi_stream_packet& packet) {
 
     file << std::endl;
 
-    file << "TLAST = " << packet.tlast() << std::endl;
+    file << "TLAST = " << packet.tlast << std::endl;
     file << std::endl;
 }
 
-void print(xtlm_ipc::axi_stream_packet& packet) {
-    const char* data = packet.data().c_str();
+void print(xtlm_ipc::axis_payload& packet) {
+    const char* data = packet.data.data();
 
-    for (auto& char_elem : packet.data()) std::cout << std::hex << (static_cast<int>(char_elem) & 255) << " ";
+    for (auto& char_elem : packet.data) std::cout << std::hex << (static_cast<int>(char_elem) & 255) << " ";
     std::cout << std::endl;
 
-    std::cout << "TLAST = " << packet.tlast() << std::endl;
+    std::cout << "TLAST = " << packet.tlast << std::endl;
     std::cout << std::endl;
     expected_packets(packet);
 }
 
-xtlm_ipc::axi_stream_packet generate_packet() {
-    xtlm_ipc::axi_stream_packet packet;
+xtlm_ipc::axis_payload generate_packet() {
+    xtlm_ipc::axis_payload packet;
     std::vector<char> data = generate_data();
 
     //! Set packet attributes...
-    packet.set_data(data.data(), data.size());
-    packet.set_data_length(data.size());
-    packet.set_tlast(1);
-    // packet.set_tlast(std::rand()%2);
+    packet.data = data;
+    packet.tlast = 1;
     //! Option to set tuser tkeep optional attributes...
 
     return packet;
@@ -85,7 +83,7 @@ void send_packets() {
     xtlm_ipc::axis_initiator_socket_util<xtlm_ipc::BLOCKING> socket_util("gt_master");
 
     const unsigned int NUM_TRANSACTIONS = 100;
-    xtlm_ipc::axi_stream_packet packet;
+    xtlm_ipc::axis_payload packet;
 
     std::cout << "Sending " << NUM_TRANSACTIONS << " Packets..." << std::endl;
     for (int i = 0; i < NUM_TRANSACTIONS; i++) {
