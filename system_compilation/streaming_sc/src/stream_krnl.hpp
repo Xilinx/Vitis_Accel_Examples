@@ -45,9 +45,6 @@ class fsk_acc : public VPP_ACC<fsk_acc, 2> {
     SYS_PORT_PFM(zcu102, A, (HP0 : HP1));
     SYS_PORT_PFM(zcu102, X, (HP0 : HP1));
 
-    SYS_PORT_PFM(nodma, A, HOST[0]);
-    SYS_PORT_PFM(nodma, X, HOST[0]);
-
     FREE_RUNNING(incr);
 
    public:

@@ -29,10 +29,6 @@ ifneq (,$(shell echo $(DEVICE) | awk '/u25/'))
 XILINX_SC_PFM_CONFIG=u25
 endif
 
-ifneq (,$(shell echo $(DEVICE) | awk '/nodma/'))
-XILINX_SC_PFM_CONFIG=nodma
-endif
-
 ifneq (,$(shell echo $(DEVICE) | awk '/zcu102/'))
 XILINX_SC_PFM_CONFIG=zcu102
 include $(XILINX_VITIS)/system_compiler/examples/vpp_sc_arm.mk
