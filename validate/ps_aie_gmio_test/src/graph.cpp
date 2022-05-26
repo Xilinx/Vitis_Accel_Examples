@@ -16,32 +16,28 @@
 
 #include "graph.h"
 
-
-//GMIO
-GMIO *in_source1 = new GMIO("in_source1", 64, 100);
-GMIO *in_source2 = new GMIO("in_source2", 64, 100);
-GMIO *out_sink = new GMIO("out_sink", 64, 100);
-
+// GMIO
+GMIO* in_source1 = new GMIO("in_source1", 64, 100);
+GMIO* in_source2 = new GMIO("in_source2", 64, 100);
+GMIO* out_sink = new GMIO("out_sink", 64, 100);
 
 // instantiate adf dataflow graph to compute weighted moving average
 Mm mm;
 
 // connect dataflow graph to simulation platform
-simulation::platform<2,1> platform(in_source1,in_source2,out_sink);
+simulation::platform<2, 1> platform(in_source1, in_source2, out_sink);
 
-
-connect<> net0(platform.src[0], mm.inA);			// Full system source --> AIE Array
-connect<> net1(platform.src[1], mm.inB);			// Full system source --> AIE Array
-connect<> net3(mm.out, platform.sink[0]);		// AIE Array --> Full system sink
+connect<> net0(platform.src[0], mm.inA);  // Full system source --> AIE Array
+connect<> net1(platform.src[1], mm.inB);  // Full system source --> AIE Array
+connect<> net3(mm.out, platform.sink[0]); // AIE Array --> Full system sink
 
 #ifdef __AIESIM__
 // initialize and run the dataflow graph
-int main(void) 
-{
-	  mm.init();
-	  mm.run();
-	  mm.end();
-  return 0;
+int main(void) {
+    mm.init();
+    mm.run();
+    mm.end();
+    return 0;
 }
 
 #endif

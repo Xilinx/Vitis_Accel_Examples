@@ -1,5 +1,5 @@
 /**
-* Copyright (C) 2022 Xilinx, Inc
+* Copyright (C) 2019-2021 Xilinx, Inc
 *
 * Licensed under the Apache License, Version 2.0 (the "License"). You may
 * not use this file except in compliance with the License. A copy of the
@@ -13,13 +13,7 @@
 * License for the specific language governing permissions and limitations
 * under the License.
 */
-#ifndef FUNCTION_INCLUDES_H
-#define FUNCTION_INCLUDES_H
-
-#define NBYTES_DATA 4
-
-#define WIDTH 8
-#define HEIGHT 8
-#define SIZE (WIDTH * HEIGHT)
-
-#endif
+#define MEM_BANK0 DDR[0]
+#define MEM_BANK1 DDR[1]
+#define MEM_BANK2 DDR[2]
+#define MEM_BANK3 DDR[3]

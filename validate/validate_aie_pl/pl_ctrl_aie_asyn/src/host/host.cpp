@@ -37,21 +37,21 @@ int main(int argc, char* argv[]) {
 
     int num_iter = 2;
     int num_sample = 16;
-    
+
     // configure ai cores
     m_pl_ctrl.enqueue_update_aie_rtp("mygraph.first.in[1]", num_sample);
     m_pl_ctrl.enqueue_sleep(128);
     m_pl_ctrl.enqueue_set_aie_iteration("mygraph", num_iter);
     m_pl_ctrl.enqueue_enable_aie_cores();
 
-    m_pl_ctrl.enqueue_loop_begin(num_iter/2);
+    m_pl_ctrl.enqueue_loop_begin(num_iter / 2);
     m_pl_ctrl.enqueue_set_and_enqueue_dma_bd("mygraph.first.in[0]", 0, num_sample);
     m_pl_ctrl.enqueue_set_and_enqueue_dma_bd("mygraph.first.out[0]", 0, num_sample);
     m_pl_ctrl.enqueue_sync(num_sample);
     m_pl_ctrl.enqueue_set_and_enqueue_dma_bd("mygraph.first.in[0]", 1, num_sample);
     m_pl_ctrl.enqueue_set_and_enqueue_dma_bd("mygraph.first.out[0]", 1, num_sample);
     m_pl_ctrl.enqueue_sync(num_sample);
-    if(num_iter%2 !=0) {
+    if (num_iter % 2 != 0) {
         m_pl_ctrl.enqueue_set_and_enqueue_dma_bd("mygraph.first.in[0]", 0, num_sample);
         m_pl_ctrl.enqueue_set_and_enqueue_dma_bd("mygraph.first.out[0]", 0, num_sample);
         m_pl_ctrl.enqueue_sync(num_sample);

@@ -1,0 +1,93 @@
+{
+    "name": "Ethernet System Compiler", 
+    "description": [
+        "This is simple example showcasing custom AXI-streams to PE interfaces in system compiler environment."
+    ],
+    "flow": "vitis",
+    "keywords": [
+        "compute_async"
+    ], 
+    "key_concepts": [
+        "Asyncronous host interactions",
+        "Custom AXI-Streams" 
+    ],
+    "platform_blocklist": [
+        "zcu104",
+        "vck",
+        "aws",
+        "nodma"
+    ], 
+    "os": [
+        "Linux"
+    ], 
+    "runtime": [
+        "OpenCL"
+    ],
+    "match_makefile" : "false",
+    "match_ini" : "false", 
+    "host": {
+        "host_exe": "host.exe",
+        "compiler": {
+            "sources": [
+                "./src/main.cpp"
+            ] 
+        }
+    }, 
+    "containers": [
+        {
+            "accelerators": [
+                {
+                    "name": "control", 
+                    "location": "src/eth.cpp"
+                },
+                {
+                    "name": "eth_rx", 
+                    "location": "src/eth.cpp"
+                },
+                {
+                    "name": "fsk_mod", 
+                    "location": "src/eth.cpp"
+                },
+                {
+                    "name": "fsk_smp", 
+                    "location": "src/eth.cpp"
+                },
+                {
+                    "name": "eth_tx", 
+                    "location": "src/eth.cpp"
+                }
+            ], 
+            "name": "eth"
+        }
+    ],
+    "launch": [
+        {
+            "name": "generic launch for all flows"
+        }
+    ], 
+    "contributors": [
+        {
+            "url": "http://www.xilinx.com", 
+            "group": "Xilinx"
+        }
+    ],
+    "testinfo": {
+        "disable": false,
+        "jobs": [
+            {
+                "index": 0,
+                "dependency": [],
+                "env": "",
+                "cmd": "",
+                "max_memory_MB": 32768,
+                "max_time_min": 300
+            }
+        ],
+        "targets": [
+            "vitis_sw_emu",
+            "vitis_hw_emu",
+            "vitis_hw"
+        ],
+        "category": "canary"
+    }
+}

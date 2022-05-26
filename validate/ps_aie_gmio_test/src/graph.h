@@ -22,35 +22,28 @@
 
 using namespace adf;
 
-
-class Mm : public adf::graph
-{
-private:
+class Mm : public adf::graph {
+   private:
     kernel mm0;
 
-public:
-	// Will be obsoleted
-	
+   public:
+    // Will be obsoleted
+
     port<input> inA;
     port<input> inB;
     port<output> out;
 
-  Mm()
-  {
-    // create kernels
-    mm0 = kernel::create(krnlmm);
-    
-    connect< window<SIZE*NBYTES_DATA> > net_gc_inA (inA, mm0.in[0]);
-    connect< window<SIZE*NBYTES_DATA> > net_gc_inB (inB, mm0.in[1]);
-    connect< window<SIZE*NBYTES_DATA> > net_gc6 (mm0.out[0], out);
+    Mm() {
+        // create kernels
+        mm0 = kernel::create(krnlmm);
 
+        connect<window<SIZE * NBYTES_DATA> > net_gc_inA(inA, mm0.in[0]);
+        connect<window<SIZE * NBYTES_DATA> > net_gc_inB(inB, mm0.in[1]);
+        connect<window<SIZE * NBYTES_DATA> > net_gc6(mm0.out[0], out);
 
-
-    // specify kernel sources
-    source(mm0) = "kernels/mm.cc";
-    runtime<ratio>(mm0) = 0.8;
-  }
+        // specify kernel sources
+        source(mm0) = "kernels/mm.cc";
+        runtime<ratio>(mm0) = 0.8;
+    }
 };
 #endif
-
-
