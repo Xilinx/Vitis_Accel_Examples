@@ -106,7 +106,7 @@ CROSS_COMPILE := $(XILINX_VITIS)/gnu/aarch64/lin/aarch64-linux/bin/aarch64-linux
 CROSSCXX := $(CROSS_COMPILE)g++
 ps_target = ps_validate.so
 ps_OBJS = ps_validate.o
-SYSROOT = /proj/xbuilds/2022.1_daily_latest/internal_platforms/sw/versal/xilinx-versal/sysroots/aarch64-xilinx-linux
+SYSROOT = /proj/xbuilds/2022.2_daily_latest/internal_platforms/sw/versal/xilinx-versal/sysroots/aarch64-xilinx-linux
 CROSSCFLAGS = -I$(SYSROOT)//usr/include/xrt -I$(SYSROOT)/ -fPIC -fvisibility=hidden -lrt --sysroot=$(SYSROOT) -Ilibs
 CROSSCFLAGS += -Wall -O2 -g
 

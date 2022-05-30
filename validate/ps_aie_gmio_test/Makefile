@@ -133,7 +133,7 @@ CROSS_COMPILE := $(XILINX_VITIS)/gnu/aarch64/lin/aarch64-linux/bin/aarch64-linux
 CROSSCXX := $(CROSS_COMPILE)g++
 ps_target = aie_kernel.so
 ps_OBJS = aie_kernel.o
-SYSROOT = /proj/xbuilds/2022.1_daily_latest/internal_platforms/sw/versal/xilinx-versal/sysroots/aarch64-xilinx-linux
+SYSROOT = /proj/xbuilds/2022.2_daily_latest/internal_platforms/sw/versal/xilinx-versal/sysroots/aarch64-xilinx-linux
 CROSSCFLAGS = -I$(SYSROOT)//usr/include/xrt -I$(SYSROOT)/ -fPIC -fvisibility=hidden -lrt --sysroot=$(SYSROOT) -Ilibs -I$(XILINX_VITIS_AIETOOLS)/include
 CROSSCFLAGS += -Wall -O2 -g -D__PS_ENABLE_AIE__
 

@@ -13,10 +13,10 @@ OPENCL_LIB:= $(xrt_path)/lib
 opencl_LDFLAGS=-L$(OPENCL_LIB) -pthread
 
 ifeq ($(findstring vck, $(PLATFORM)), vck)		
-	VPP_PFLAGS+=--package.sd_dir /proj/xbuilds/2022.1_daily_latest/internal_platforms/sw/versal/xrt		
+	VPP_PFLAGS+=--package.sd_dir /proj/xbuilds/2022.2_daily_latest/internal_platforms/sw/versal/xrt		
 endif		
 ifeq ($(findstring zcu, $(PLATFORM)), zcu)		
-	VPP_PFLAGS+=--package.sd_dir /proj/xbuilds/2022.1_daily_latest/internal_platforms/sw/zynqmp/xrt		
+	VPP_PFLAGS+=--package.sd_dir /proj/xbuilds/2022.2_daily_latest/internal_platforms/sw/zynqmp/xrt		
 endif		
 ifeq ($(HOST_ARCH), x86)
     opencl_LDFLAGS+=-lOpenCL
