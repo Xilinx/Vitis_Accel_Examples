@@ -173,7 +173,6 @@ $(EXECUTABLE): $(HOST_SRCS)
 PACKAGING_CMD := v++ $(VPP_PFLAGS) -p -t $(TARGET) \
                  --package.defer_aie_run \
                  --platform $(PLATFORM) \
-                 --package.out_dir $(PACKAGE_OUT) \
                  $(LINK_OUTPUT) $(GRAPH_O) -o $(XCLBIN)
 ifneq ($(TARGET),$(filter $(TARGET),sw_emu))
 PACKAGING_CMD += --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 \
@@ -181,7 +180,8 @@ PACKAGING_CMD += --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 \
                  --package.boot_mode=sd \
                  --package.kernel_image $(SD_IMAGE_FILE) \
                  --package.sd_file $(RUN_APP_SCRIPT) \
-                 --package.sd_file aie_adder_ps_on_x86
+                 --package.sd_file aie_adder_ps_on_x86 \
+                 --package.out_dir $(PACKAGE_OUT) 
 else
 PACKAGING_CMD += --package.ps_on_x86
 endif
