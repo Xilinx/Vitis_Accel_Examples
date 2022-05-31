@@ -57,7 +57,7 @@ include ./utils.mk
 TEMP_DIR := ./_x.$(TARGET).$(XSA)
 BUILD_DIR := ./build_dir.$(TARGET).$(XSA)
 
-LINK_OUTPUT := $(BUILD_DIR)/adder.link.xsa
+LINK_OUTPUT := $(BUILD_DIR)/rgb_to_hsv.link.xclbin
 
 # SoC variables
 RUN_APP_SCRIPT = ./run_app.sh
@@ -67,9 +67,8 @@ LAUNCH_EMULATOR = $(PACKAGE_OUT)/launch_$(TARGET).sh
 RESULT_STRING = TEST PASSED
 
 VPP_PFLAGS := 
-CMD_ARGS = $(BUILD_DIR)/adder.xclbin
+CMD_ARGS = -x $(BUILD_DIR)/rgb_to_hsv.xclbin -i $(XF_PROJ_ROOT)/common/data/xilinx_logo.bmp
 SD_CARD := $(PACKAGE_OUT)
-vck190_dfx_hw := false
 
 include $(XF_PROJ_ROOT)/common/includes/opencl/opencl.mk
 CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++1y
@@ -80,7 +79,10 @@ PLATFORM_BLOCKLIST += nodma
 ############################## Setting up Host Variables ##############################
 #Include Required Host Source Files
 CXXFLAGS += -I$(XF_PROJ_ROOT)/common/includes/xcl2
-HOST_SRCS += $(XF_PROJ_ROOT)/common/includes/xcl2/xcl2.cpp ./src/host.cpp 
+CXXFLAGS += -I$(XF_PROJ_ROOT)/common/includes/cmdparser
+CXXFLAGS += -I$(XF_PROJ_ROOT)/common/includes/logger
+CXXFLAGS += -I$(XF_PROJ_ROOT)/common/includes/bitmap
+HOST_SRCS += $(XF_PROJ_ROOT)/common/includes/xcl2/xcl2.cpp $(XF_PROJ_ROOT)/common/includes/cmdparser/cmdlineparser.cpp $(XF_PROJ_ROOT)/common/includes/logger/logger.cpp $(XF_PROJ_ROOT)/common/includes/bitmap/bitmap.cpp ./src/host.cpp 
 # Host compiler global settings
 CXXFLAGS += -fmessage-length=0
 LDFLAGS += -lrt -lstdc++ 
@@ -88,31 +90,30 @@ LDFLAGS += --sysroot=$(SYSROOT)
 ############################## Setting up Kernel Variables ##############################
 # Kernel compiler global settings
 VPP_FLAGS += -t $(TARGET) --platform $(PLATFORM) --save-temps 
-VPP_FLAGS_adder +=  --config ./adder_adder.cfg
 
 
-EXECUTABLE = ./cl_dataflow_subfunc
+EXECUTABLE = ./custom_datatype
 EMCONFIG_DIR = $(TEMP_DIR)
 
 ############################## Setting Targets ##############################
 .PHONY: all clean cleanall docs emconfig
-all: check-platform check-device check_edge_sw $(EXECUTABLE) $(BUILD_DIR)/adder.xclbin emconfig sd_card
+all: check-platform check-device check_edge_sw $(EXECUTABLE) $(BUILD_DIR)/rgb_to_hsv.xclbin emconfig sd_card
 
 .PHONY: host
 host: $(EXECUTABLE)
 
 .PHONY: build
-build: check-vitis check-device $(BUILD_DIR)/adder.xclbin
+build: check-vitis check-device $(BUILD_DIR)/rgb_to_hsv.xclbin
 
 .PHONY: xclbin
 xclbin: build
 
 ############################## Setting Rules for Binary Containers (Building Kernels) ##############################
-$(TEMP_DIR)/adder.xo: src/adder.cl
+$(TEMP_DIR)/rgb_to_hsv.xo: src/rgb_to_hsv.cpp
 	mkdir -p $(TEMP_DIR)
-	v++ $(VPP_FLAGS) $(VPP_FLAGS_adder) -c -k adder --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
+	v++ $(VPP_FLAGS) -c -k rgb_to_hsv --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
 
-$(BUILD_DIR)/adder.xclbin: $(TEMP_DIR)/adder.xo
+$(BUILD_DIR)/rgb_to_hsv.xclbin: $(TEMP_DIR)/rgb_to_hsv.xo
 	mkdir -p $(BUILD_DIR)
 	v++ $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) -o'$(LINK_OUTPUT)' $(+)
 
@@ -120,17 +121,8 @@ $(BUILD_DIR)/adder.xclbin: $(TEMP_DIR)/adder.xo
 .PHONY: sd_card
 sd_card: gen_run_app $(SD_CARD)
 
-$(SD_CARD): $(BUILD_DIR)/adder.xclbin $(EXECUTABLE)
-ifeq ($(findstring vck190_base_dfx, $(PLATFORM)), vck190_base_dfx)
-ifeq ($(TARGET),$(filter $(TARGET), hw))
-	v++ $(VPP_FLAGS) -p $(LINK_OUTPUT) -o $(BUILD_DIR)/adder.xclbin 
-	v++ $(VPP_PFLAGS) $(VPP_FLAGS) -p --package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.sd_file $(SD_IMAGE_FILE) --package.sd_file xrt.ini --package.sd_file $(RUN_APP_SCRIPT) --package.sd_file $(EXECUTABLE) --package.sd_file $(BUILD_DIR)/adder.xclbin
-vck190_dfx_hw := true
-endif
-endif
-ifeq ($(vck190_dfx_hw), false)
-	v++ $(VPP_PFLAGS) -p $(LINK_OUTPUT) $(VPP_FLAGS) --package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.sd_file $(SD_IMAGE_FILE) --package.sd_file xrt.ini --package.sd_file $(RUN_APP_SCRIPT) --package.sd_file $(EXECUTABLE) --package.sd_file $(EMCONFIG_DIR)/emconfig.json -o $(BUILD_DIR)/adder.xclbin
-endif
+$(SD_CARD): $(BUILD_DIR)/rgb_to_hsv.xclbin $(EXECUTABLE)
+	v++ $(VPP_PFLAGS) -p $(LINK_OUTPUT) $(VPP_FLAGS) --package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.sd_file $(SD_IMAGE_FILE) --package.sd_file xrt.ini --package.sd_file $(RUN_APP_SCRIPT) --package.sd_file $(EXECUTABLE) --package.sd_file $(EMCONFIG_DIR)/emconfig.json --package.sd_file $(XF_PROJ_ROOT)/common/data/xilinx_logo.bmp -o $(BUILD_DIR)/rgb_to_hsv.xclbin
 
 ############################## Setting Rules for Host (Building Host Executable) ##############################
 $(EXECUTABLE): $(HOST_SRCS) | check-vitis check_edge_sw
@@ -147,6 +139,7 @@ ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 else
 	$(ECHO) "Please copy the content of sd_card folder and data to an SD Card and run on the board"
 endif
+
 
 .PHONY: test
 test: $(EXECUTABLE)
@@ -172,4 +165,4 @@ cleanall: clean
 	-$(RMDIR) build_dir* sd_card*
 	-$(RMDIR) package.*
 	-$(RMDIR) _x* *xclbin.run_summary qemu-memory-_* emulation _vimage pl* start_simulation.sh *.xclbin
-
+	-$(RMDIR) ./output.bmp 

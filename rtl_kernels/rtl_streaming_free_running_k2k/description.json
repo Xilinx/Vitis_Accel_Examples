@@ -12,7 +12,8 @@
         "Read/Write Stream", 
         "RTL Kernel",
         "Free Running Kernel"
-    ], 
+    ],
+    "match_makefile": "false", 
     "platform_blocklist": [
         "2018",
         "vck",

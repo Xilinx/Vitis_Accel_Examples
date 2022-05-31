@@ -557,7 +557,7 @@ def mk_sdcard(target, data):
                 if ('-' not in extra_filename):
                     target.write(" --package.sd_file ")
                     target.write(extra_filename)
-            target.write(" -o $(BUILD_DIR)")
+            target.write(" -o $(BUILD_DIR)/")
             target.write(con["name"])
             target.write(".xclbin\n")
     target.write("endif\n")
