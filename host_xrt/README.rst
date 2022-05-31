@@ -196,7 +196,7 @@ XRT Native API's for optimized interfacing with Xilinx Devices.
 
   * - `register_access_xrt <register_access_xrt>`_
     - This is simple example which demonstrate register read & write using native xrt api's.
-    -       **Keywords**
+    - **Keywords**
 
       * read_register
       * write_register
