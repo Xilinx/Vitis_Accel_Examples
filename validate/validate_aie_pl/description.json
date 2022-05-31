@@ -6,6 +6,9 @@
     "platform_allowlist": [ 
         "vck5000"
     ],
+    "runtime": [
+        "OpenCL"
+    ], 
     "platform_blocklist": [
         "u25_",
         "u30",

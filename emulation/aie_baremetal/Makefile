@@ -53,6 +53,7 @@ TARGET := hw_emu
 FIXED_XSA := vck190_fixed.xsa
 APP_NAME := vck190_fixed
 WORKSPACE_FIXED := workspace_fixed
+include ./utils.mk
 
 # File names and locations
 GRAPH := aie/graph.cpp

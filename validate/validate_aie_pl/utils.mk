@@ -240,3 +240,8 @@ RMDIR = rm -rf
 MV = mv -f
 CP = cp -rf
 ECHO:= @echo
+
+docs: README.rst
+
+README.rst: description.json
+	$(XF_PROJ_ROOT)/common/utility/readme_gen/readme_gen.py description.json

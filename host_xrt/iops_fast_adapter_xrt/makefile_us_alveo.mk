@@ -18,7 +18,7 @@
 ############################## Help Section ##############################
 .PHONY: help
 
-help::
+help:
 	$(ECHO) "Makefile Usage:"
 	$(ECHO) "  make all TARGET=<sw_emu/hw_emu/hw> PLATFORM=<FPGA platform>"
 	$(ECHO) "      Command to generate the design for specified Target and Shell."

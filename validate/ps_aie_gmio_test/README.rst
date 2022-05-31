@@ -1,11 +1,29 @@
-PS Validate Kernel (C)
-====================
+PS AIE Kernel (C)
+=================
 
-This PS AIE Kernel test PS kernel controlling AI Engine graph.
+This PS AIE kernel tests PS kernel controlling AIE.
 
-**EXCLUDED PLATFORMS:** 
+**KEY CONCEPTS:** PS Kernel, AIE
+
+.. raw:: html
+
+ <details>
+
+.. raw:: html
+
+ <summary> 
+
+ <b>EXCLUDED PLATFORMS:</b>
+
+.. raw:: html
+
+ </summary>
+|
+..
 
  - Alveo U25 SmartNIC
+ - Alveo U55
+ - Alveo U50
  - Alveo U30
  - Alveo U200
  - All Embedded Zynq Platforms, i.e zc702, zcu102 etc
@@ -17,6 +35,12 @@ This PS AIE Kernel test PS kernel controlling AI Engine graph.
  - X3 Compute Shell
  - All NoDMA Platforms, i.e u50 nodma etc
 
+.. raw:: html
+
+ </details>
+
+.. raw:: html
+
 DESIGN FILES
 ------------
 
@@ -24,14 +48,14 @@ Application code is located in the src directory. Accelerator binary files will 
 
 ::
 
+   src/aie_kernel.cpp
    src/graph.cpp
    src/graph.h
-   src/kernels/mm.cc
-   src/kernels.h
-   src/kernels.h
-   src/sk_types.h
-   src/include.h
    src/host.cpp
+   src/include.h
+   src/kernels.h
+   src/kernels/mm.cc
+   src/sk_types.h
    
 COMMAND LINE ARGUMENTS
 ----------------------
@@ -40,17 +64,6 @@ Once the environment has been configured, the application can be executed by
 
 ::
 
-   ./ps_aie.exe -p $(GEN_DIR)
-
-DETAILS
--------
-
-This example contains PS kernel with AIE graph test to validate AI engine from PS kernel.
-
-Following is the real log reported when running the design on VCK5000:
-
-:: 
-
-   TEST PASSED
+   ./ps_aie_gmio_test.exe -p $(GEN_DIR)
 
 For more comprehensive documentation, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.

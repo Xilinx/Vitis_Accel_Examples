@@ -105,9 +105,7 @@ $(TEMP_DIR)/write_bandwidth.xo: src/write_bandwidth.cpp
 	mkdir -p $(TEMP_DIR)
 	v++ $(VPP_FLAGS) -c -k write_bandwidth --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
 
-$(BUILD_DIR)/bandwidth.xclbin: $(TEMP_DIR)/bandwidth.xo
- $(TEMP_DIR)/read_bandwidth.xo
- $(TEMP_DIR)/write_bandwidth.xo
+$(BUILD_DIR)/bandwidth.xclbin: $(TEMP_DIR)/bandwidth.xo $(TEMP_DIR)/read_bandwidth.xo $(TEMP_DIR)/write_bandwidth.xo
 	mkdir -p $(BUILD_DIR)
 	v++ $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) $(VPP_LDFLAGS_bandwidth) -o'$(LINK_OUTPUT)' $(+)
 	v++ -p $(LINK_OUTPUT) $(VPP_FLAGS) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/bandwidth.xclbin

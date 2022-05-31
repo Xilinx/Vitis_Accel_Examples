@@ -44,7 +44,6 @@ Application code is located in the src directory. Accelerator binary files will 
    src/filter.cpp
    src/filter.hpp
    src/main.cpp
-   src/nodma_config.hpp
    src/u200_config.hpp
    src/u25_config.hpp
    src/u2_config.hpp

@@ -25,6 +25,18 @@ This section contains System Compiler based Examples.
       * PROFILE_OFFLOAD
       * vpp::stream<>
 
+  * - `eth_acc_sc <eth_acc_sc>`_
+    - This is simple example showcasing custom AXI-streams to PE interfaces in system compiler environment.
+    - **Key Concepts**
+
+      * Asyncronous host interactions
+
+      * Custom AXI-Streams
+
+      **Keywords**
+
+      * compute_async
+
   * - `file_filter_sc <file_filter_sc>`_
     - This is simple example showcasing the P2P and H2C file transfers in system compiler environment.
     - **Key Concepts**
