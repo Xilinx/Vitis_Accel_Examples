@@ -17,6 +17,7 @@
 #include "vpp_acc.hpp"
 #include "vpp_stream.hpp"
 #include "ap_int.h"
+#include "config.hpp"
 
 enum { cmd_drop, cmd_add, cmd_sample, cmd_sent };
 
