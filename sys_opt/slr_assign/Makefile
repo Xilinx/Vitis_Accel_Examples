@@ -14,13 +14,33 @@
 # limitations under the License.
 # makefile-generator v1.0.3
 #
+# Points to top directory of Git repository
+MK_PATH := $(abspath $(lastword $(MAKEFILE_LIST)))
+COMMON_REPO ?= $(shell bash -c 'export MK_PATH=$(MK_PATH); echo $${MK_PATH%sys_opt/slr_assign/*}')
+PWD = $(shell readlink -f .)
+XF_PROJ_ROOT = $(shell readlink -f $(COMMON_REPO))
+
+
+########################## Checking if PLATFORM in allowlist #######################
+PLATFORM_BLOCKLIST += u25_ u30 zc vck samsung u2_ x3522pv nodma 
+PLATFORM := xilinx_u250_gen3x16_xdma_3_1_202020_1
+DEV_ARCH := $(shell platforminfo -p $(PLATFORM) | grep 'FPGA Family' | sed 's/.*://' | sed '/ai_engine/d' | sed 's/^[[:space:]]*//')
+CPU_TYPE := $(shell platforminfo -p $(PLATFORM) | grep 'CPU Type' | sed 's/.*://' | sed '/ai_engine/d' | sed 's/^[[:space:]]*//')
+
+ifeq ($(CPU_TYPE), cortex-a9)
+HOST_ARCH := aarch32
+else ifneq (,$(findstring cortex-a, $(CPU_TYPE)))
+HOST_ARCH := aarch64
+else
+HOST_ARCH := x86
+endif
+
+include makefile_us_alveo.mk
 
 ############################## Help Section ##############################
-.PHONY: help
-
-help::
+help:
 	$(ECHO) "Makefile Usage:"
-	$(ECHO) "  make all TARGET=<sw_emu/hw_emu/hw> PLATFORM=<FPGA platform>"
+	$(ECHO) "  make all TARGET=<sw_emu/hw_emu/hw> PLATFORM=<FPGA platform> EDGE_COMMON_SW=<rootfs and kernel image path>"
 	$(ECHO) "      Command to generate the design for specified Target and Shell."
 	$(ECHO) ""
 	$(ECHO) "  make clean "
@@ -32,146 +52,17 @@ help::
 	$(ECHO) "  make test PLATFORM=<FPGA platform>"
 	$(ECHO) "      Command to run the application. This is same as 'run' target but does not have any makefile dependency."
 	$(ECHO) ""
-	$(ECHO) "  make run TARGET=<sw_emu/hw_emu/hw> PLATFORM=<FPGA platform>"
+	$(ECHO) "  make sd_card TARGET=<sw_emu/hw_emu/hw> PLATFORM=<FPGA platform> EDGE_COMMON_SW=<rootfs and kernel image path>"
+	$(ECHO) "      Command to prepare sd_card files."
+	$(ECHO) ""
+	$(ECHO) "  make run TARGET=<sw_emu/hw_emu/hw> PLATFORM=<FPGA platform> EDGE_COMMON_SW=<rootfs and kernel image path>"
 	$(ECHO) "      Command to run application in emulation."
 	$(ECHO) ""
-	$(ECHO) "  make build TARGET=<sw_emu/hw_emu/hw> PLATFORM=<FPGA platform>"
+	$(ECHO) "  make build TARGET=<sw_emu/hw_emu/hw> PLATFORM=<FPGA platform> EDGE_COMMON_SW=<rootfs and kernel image path>"
 	$(ECHO) "      Command to build xclbin application."
 	$(ECHO) ""
-	$(ECHO) "  make host"
+	$(ECHO) "  make host EDGE_COMMON_SW=<rootfs and kernel image path>"
 	$(ECHO) "      Command to build host application."
+	$(ECHO) "      EDGE_COMMON_SW is required for SoC shells. Please download and use the pre-built image from - "
+	$(ECHO) "      https://www.xilinx.com/support/download/index.html/content/xilinx/en/downloadNav/embedded-platforms.html"
 	$(ECHO) ""
-
-############################## Setting up Project Variables ##############################
-# Points to top directory of Git repository
-MK_PATH := $(abspath $(lastword $(MAKEFILE_LIST)))
-COMMON_REPO ?= $(shell bash -c 'export MK_PATH=$(MK_PATH); echo $${MK_PATH%sys_opt/slr_assign/*}')
-PWD = $(shell readlink -f .)
-XF_PROJ_ROOT = $(shell readlink -f $(COMMON_REPO))
-
-TARGET := hw
-HOST_ARCH := x86
-SYSROOT := 
-
-include ./utils.mk
-
-XSA := 
-ifneq ($(PLATFORM), )
-XSA := $(call device2xsa, $(PLATFORM))
-endif
-TEMP_DIR := ./_x.$(TARGET).$(XSA)
-BUILD_DIR := ./build_dir.$(TARGET).$(XSA)
-
-LINK_OUTPUT := $(BUILD_DIR)/vmult_vadd.link.xclbin
-ifeq ($(DEV_ARCH), versal)
-LINK_OUTPUT := $(BUILD_DIR)/vmult_vadd.xsa
-endif
-
-# SoC variables
-RUN_APP_SCRIPT = ./run_app.sh
-PACKAGE_OUT = ./package.$(TARGET)
-
-LAUNCH_EMULATOR = $(PACKAGE_OUT)/launch_$(TARGET).sh
-RESULT_STRING = TEST PASSED
-
-VPP := v++
-VPP_PFLAGS := 
-CMD_ARGS = $(BUILD_DIR)/vmult_vadd.xclbin
-
-include $(XF_PROJ_ROOT)/common/includes/opencl/opencl.mk
-CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++1y
-LDFLAGS += $(opencl_LDFLAGS)
-
-
-########################## Checking if PLATFORM in allowlist #######################
-PLATFORM_BLOCKLIST += u25_ u30 zc vck samsung u2_ x3522pv nodma 
-############################## Setting up Host Variables ##############################
-#Include Required Host Source Files
-CXXFLAGS += -I$(XF_PROJ_ROOT)/common/includes/xcl2
-HOST_SRCS += $(XF_PROJ_ROOT)/common/includes/xcl2/xcl2.cpp ./src/host.cpp 
-# Host compiler global settings
-CXXFLAGS += -fmessage-length=0
-LDFLAGS += -lrt -lstdc++ 
-
-############################## Setting up Kernel Variables ##############################
-# Kernel compiler global settings
-VPP_FLAGS += -t $(TARGET) --platform $(PLATFORM) --save-temps 
-
-
-# Kernel linker flags
-VPP_LDFLAGS_vmult_vadd += --config ./vmult_vadd.cfg
-
-EXECUTABLE = ./slr_assign
-EMCONFIG_DIR = $(TEMP_DIR)
-
-############################## Declaring Binary Containers ##############################
-BINARY_CONTAINERS += $(BUILD_DIR)/vmult_vadd.xclbin
-BINARY_CONTAINER_vmult_vadd_OBJS += $(TEMP_DIR)/vmult.xo
-BINARY_CONTAINER_vmult_vadd_OBJS += $(TEMP_DIR)/vadd.xo
-
-############################## Setting Targets ##############################
-CP = cp -rf
-
-.PHONY: all clean cleanall docs emconfig
-all: check-platform check-device check-vitis $(EXECUTABLE) $(BINARY_CONTAINERS) emconfig
-
-.PHONY: host
-host: $(EXECUTABLE)
-
-.PHONY: build
-build: check-vitis check-device $(BINARY_CONTAINERS)
-
-.PHONY: xclbin
-xclbin: build
-
-############################## Setting Rules for Binary Containers (Building Kernels) ##############################
-$(TEMP_DIR)/vmult.xo: src/kernel.cl
-	mkdir -p $(TEMP_DIR)
-	$(VPP) $(VPP_FLAGS) -c -k vmult --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
-$(TEMP_DIR)/vadd.xo: src/kernel.cl
-	mkdir -p $(TEMP_DIR)
-	$(VPP) $(VPP_FLAGS) -c -k vadd --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
-$(BUILD_DIR)/vmult_vadd.xclbin: $(BINARY_CONTAINER_vmult_vadd_OBJS)
-	mkdir -p $(BUILD_DIR)
-	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) $(VPP_LDFLAGS_vmult_vadd) -o'$(LINK_OUTPUT)' $(+)
-	$(VPP) -p $(LINK_OUTPUT) $(VPP_FLAGS) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/vmult_vadd.xclbin
-
-############################## Setting Rules for Host (Building Host Executable) ##############################
-$(EXECUTABLE): $(HOST_SRCS) | check-xrt
-		$(CXX) -o $@ $^ $(CXXFLAGS) $(LDFLAGS)
-
-emconfig:$(EMCONFIG_DIR)/emconfig.json
-$(EMCONFIG_DIR)/emconfig.json:
-	emconfigutil --platform $(PLATFORM) --od $(EMCONFIG_DIR)
-
-############################## Setting Essential Checks and Running Rules ##############################
-run: all
-ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
-	$(CP) $(EMCONFIG_DIR)/emconfig.json .
-	XCL_EMULATION_MODE=$(TARGET) $(EXECUTABLE) $(CMD_ARGS)
-else
-	$(EXECUTABLE) $(CMD_ARGS)
-endif
-
-
-.PHONY: test
-test: $(EXECUTABLE)
-ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
-	XCL_EMULATION_MODE=$(TARGET) $(EXECUTABLE) $(CMD_ARGS)
-else
-	$(EXECUTABLE) $(CMD_ARGS)
-endif
-
-
-############################## Cleaning Rules ##############################
-# Cleaning stuff
-clean:
-	-$(RMDIR) $(EXECUTABLE) $(XCLBIN)/{*sw_emu*,*hw_emu*} 
-	-$(RMDIR) profile_* TempConfig system_estimate.xtxt *.rpt *.csv 
-	-$(RMDIR) src/*.ll *v++* .Xil emconfig.json dltmp* xmltmp* *.log *.jou *.wcfg *.wdb
-
-cleanall: clean
-	-$(RMDIR) build_dir*
-	-$(RMDIR) package.*
-	-$(RMDIR) _x* *xclbin.run_summary qemu-memory-_* emulation _vimage pl* start_simulation.sh *.xclbin
-

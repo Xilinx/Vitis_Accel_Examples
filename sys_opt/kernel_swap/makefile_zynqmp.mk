@@ -57,8 +57,6 @@ include ./utils.mk
 TEMP_DIR := ./_x.$(TARGET).$(XSA)
 BUILD_DIR := ./build_dir.$(TARGET).$(XSA)
 
-LINK_OUTPUT := $(BUILD_DIR)/vector_addition.link.xsa
-
 # SoC variables
 RUN_APP_SCRIPT = ./run_app.sh
 PACKAGE_OUT = ./package.$(TARGET)
@@ -67,20 +65,23 @@ LAUNCH_EMULATOR = $(PACKAGE_OUT)/launch_$(TARGET).sh
 RESULT_STRING = TEST PASSED
 
 VPP_PFLAGS := 
-CMD_ARGS = $(BUILD_DIR)/vector_addition.xclbin $(BUILD_DIR)/vector_addition.xclbin
+CMD_ARGS = -x1 $(BUILD_DIR)/krnl_vmul.xclbin -x2 $(BUILD_DIR)/krnl_vadd.xclbin
 SD_CARD := $(PACKAGE_OUT)
-vck190_dfx_hw := false
 
 include $(XF_PROJ_ROOT)/common/includes/opencl/opencl.mk
+include ./config.mk
+
 CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++1y
 LDFLAGS += $(opencl_LDFLAGS)
 
 ########################## Checking if PLATFORM in allowlist #######################
-PLATFORM_BLOCKLIST += nodma 
+PLATFORM_BLOCKLIST += flat zcu102_base_20 zcu104_base_20 vck5000 vck190_base_20 vck190_base_pci zc7 nodma 
 ############################## Setting up Host Variables ##############################
 #Include Required Host Source Files
 CXXFLAGS += -I$(XF_PROJ_ROOT)/common/includes/xcl2
-HOST_SRCS += $(XF_PROJ_ROOT)/common/includes/xcl2/xcl2.cpp ./src/host.cpp 
+CXXFLAGS += -I$(XF_PROJ_ROOT)/common/includes/cmdparser
+CXXFLAGS += -I$(XF_PROJ_ROOT)/common/includes/logger
+HOST_SRCS += $(XF_PROJ_ROOT)/common/includes/xcl2/xcl2.cpp $(XF_PROJ_ROOT)/common/includes/cmdparser/cmdlineparser.cpp $(XF_PROJ_ROOT)/common/includes/logger/logger.cpp ./src/host.cpp 
 # Host compiler global settings
 CXXFLAGS += -fmessage-length=0
 LDFLAGS += -lrt -lstdc++ 
@@ -90,46 +91,44 @@ LDFLAGS += --sysroot=$(SYSROOT)
 VPP_FLAGS += -t $(TARGET) --platform $(PLATFORM) --save-temps 
 
 
-EXECUTABLE = ./multiple_devices
+
+EXECUTABLE = ./kernel_swap
 EMCONFIG_DIR = $(TEMP_DIR)
 
 ############################## Setting Targets ##############################
 .PHONY: all clean cleanall docs emconfig
-all: check-platform check-device check_edge_sw $(EXECUTABLE) $(BUILD_DIR)/vector_addition.xclbin emconfig sd_card
+all: check-platform check-device check_edge_sw $(EXECUTABLE) $(BUILD_DIR)/krnl_vmul.xclbin $(BUILD_DIR)/krnl_vadd.xclbin emconfig sd_card
 
 .PHONY: host
 host: $(EXECUTABLE)
 
 .PHONY: build
-build: check-vitis check-device $(BUILD_DIR)/vector_addition.xclbin
+build: check-vitis check-device $(BUILD_DIR)/krnl_vmul.xclbin $(BUILD_DIR)/krnl_vadd.xclbin
 
 .PHONY: xclbin
 xclbin: build
 
 ############################## Setting Rules for Binary Containers (Building Kernels) ##############################
-$(TEMP_DIR)/vadd.xo: src/vector_addition.cpp
+$(TEMP_DIR)/krnl_vmul.xo: src/krnl_vmul.cpp
 	mkdir -p $(TEMP_DIR)
-	v++ $(VPP_FLAGS) -c -k vadd --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
+	v++ $(VPP_FLAGS) -c -k krnl_vmul --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
+$(TEMP_DIR)/krnl_vadd.xo: src/krnl_vadd.cpp
+	mkdir -p $(TEMP_DIR)
+	v++ $(VPP_FLAGS) -c -k krnl_vadd --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
 
-$(BUILD_DIR)/vector_addition.xclbin: $(TEMP_DIR)/vadd.xo
+$(BUILD_DIR)/krnl_vmul.xclbin: $(TEMP_DIR)/krnl_vmul.xo
 	mkdir -p $(BUILD_DIR)
-	v++ $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) -o'$(LINK_OUTPUT)' $(+)
+	v++ $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) -o'$(BUILD_DIR)/krnl_vmul.xclbin' $(+)
+$(BUILD_DIR)/krnl_vadd.xclbin: $(TEMP_DIR)/krnl_vadd.xo
+	mkdir -p $(BUILD_DIR)
+	v++ $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) -o'$(BUILD_DIR)/krnl_vadd.xclbin' $(+)
 
 ############################## Preparing sdcard ##############################
 .PHONY: sd_card
 sd_card: gen_run_app $(SD_CARD)
 
-$(SD_CARD): $(BUILD_DIR)/vector_addition.xclbin $(EXECUTABLE)
-ifeq ($(findstring vck190_base_dfx, $(PLATFORM)), vck190_base_dfx)
-ifeq ($(TARGET),$(filter $(TARGET), hw))
-	v++ $(VPP_FLAGS) -p $(LINK_OUTPUT) -o $(BUILD_DIR)/vector_addition.xclbin 
-	v++ $(VPP_PFLAGS) $(VPP_FLAGS) -p --package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.sd_file $(SD_IMAGE_FILE) --package.sd_file xrt.ini --package.sd_file $(RUN_APP_SCRIPT) --package.sd_file $(EXECUTABLE) --package.sd_file $(BUILD_DIR)/vector_addition.xclbin
-vck190_dfx_hw := true
-endif
-endif
-ifeq ($(vck190_dfx_hw), false)
-	v++ $(VPP_PFLAGS) -p $(LINK_OUTPUT) $(VPP_FLAGS) --package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.sd_file $(SD_IMAGE_FILE) --package.sd_file xrt.ini --package.sd_file $(RUN_APP_SCRIPT) --package.sd_file $(EXECUTABLE) --package.sd_file $(EMCONFIG_DIR)/emconfig.json -o $(BUILD_DIR)/vector_addition.xclbin
-endif
+$(SD_CARD): $(BUILD_DIR)/krnl_vmul.xclbin $(BUILD_DIR)/krnl_vadd.xclbin $(EXECUTABLE)
+	v++ $(VPP_PFLAGS) -p $(BUILD_DIR)/krnl_vmul.xclbin $(VPP_FLAGS) --package.sd_file $(BUILD_DIR)/krnl_vadd.xclbin --package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.sd_file $(SD_IMAGE_FILE) --package.sd_file xrt.ini --package.sd_file $(RUN_APP_SCRIPT) --package.sd_file $(EMCONFIG_DIR)/emconfig.json --package.sd_file $(EXECUTABLE) -o $(BUILD_DIR)/$(PACKAGE_OUT)/krnl_vmul.xclbin
 
 ############################## Setting Rules for Host (Building Host Executable) ##############################
 $(EXECUTABLE): $(HOST_SRCS) | check-vitis check_edge_sw
@@ -137,7 +136,7 @@ $(EXECUTABLE): $(HOST_SRCS) | check-vitis check_edge_sw
 
 emconfig:$(EMCONFIG_DIR)/emconfig.json
 $(EMCONFIG_DIR)/emconfig.json:
-	emconfigutil --platform $(PLATFORM) --od $(EMCONFIG_DIR) --nd 2
+	emconfigutil --platform $(PLATFORM) --od $(EMCONFIG_DIR)
 
 ############################## Setting Essential Checks and Running Rules ##############################
 run: all
@@ -146,6 +145,7 @@ ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 else
 	$(ECHO) "Please copy the content of sd_card folder and data to an SD Card and run on the board"
 endif
+
 
 .PHONY: test
 test: $(EXECUTABLE)

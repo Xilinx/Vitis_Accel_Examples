@@ -5,16 +5,16 @@
     ],
     "flow": "vitis",
     "keywords": [
-	"config",
-	"set_clock_uncertainity",
+	    "config",
+	    "set_clock_uncertainity",
         "clock",
         "freqHz",
-	"hls.pre_tcl"
+	    "hls.pre_tcl"
     ], 
     "key_concepts": [
         "Using custom Tcl", 
         "Setting Kernel Clock Frequency",
-	"Clock Uncertainity"
+	    "Clock Uncertainity"
     ],
     "platform_blocklist": [
         "nodma",
