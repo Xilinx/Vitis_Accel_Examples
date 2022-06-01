@@ -46,6 +46,7 @@ Command line argument flags:
  - Alveo U25 SmartNIC
  - Alveo U55n
  - Samsung SmartSSD Computation Storage Drive
+ - Alveo U280
 
 .. raw:: html
 
