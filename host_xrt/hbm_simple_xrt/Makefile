@@ -26,7 +26,7 @@ PLATFORM_BLOCKLIST += u25_ u30 u200 zc vck u250 aws samsung u2_ x3522pv nodma
 ifneq ($(TARGET),$(findstring $(TARGET), hw_emu hw))
 $(error Application supports only hw_emu hw TARGET. Please use the target for running the application)
 endif
-PLATFORM := xilinx_u250_gen3x16_xdma_3_1_202020_1
+PLATFORM ?= xilinx_u250_gen3x16_xdma_3_1_202020_1
 DEV_ARCH := $(shell platforminfo -p $(PLATFORM) | grep 'FPGA Family' | sed 's/.*://' | sed '/ai_engine/d' | sed 's/^[[:space:]]*//')
 CPU_TYPE := $(shell platforminfo -p $(PLATFORM) | grep 'CPU Type' | sed 's/.*://' | sed '/ai_engine/d' | sed 's/^[[:space:]]*//')
 

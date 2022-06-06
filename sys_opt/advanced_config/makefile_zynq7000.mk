@@ -68,7 +68,7 @@ RESULT_STRING = TEST PASSED
 
 VPP_PFLAGS := 
 CMD_ARGS = $(BUILD_DIR)/vadd.xclbin
-SDCARD := $(PACKAGE_OUT)
+SD_CARD := $(PACKAGE_OUT)
 
 include $(XF_PROJ_ROOT)/common/includes/opencl/opencl.mk
 include config.mk

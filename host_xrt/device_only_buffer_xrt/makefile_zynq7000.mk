@@ -68,7 +68,7 @@ RESULT_STRING = TEST PASSED
 
 VPP_PFLAGS := 
 CMD_ARGS = -x $(BUILD_DIR)/device_only_buf.xclbin
-SDCARD := $(PACKAGE_OUT)
+SD_CARD := $(PACKAGE_OUT)
 
 include $(XF_PROJ_ROOT)/common/includes/opencl/opencl.mk
 CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++1y

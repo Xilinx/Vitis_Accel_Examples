@@ -65,7 +65,7 @@ def create_params(target,data):
             cmdargs = cmdargs.replace('PROJECT', '.')
             target.write(cmdargs)
     target.write("\n")
-    target.write("SDCARD := $(PACKAGE_OUT)\n")
+    target.write("SD_CARD := $(PACKAGE_OUT)\n")
     target.write("\n")
     target.write("include $(XF_PROJ_ROOT)/common/includes/opencl/opencl.mk\n")
     if "config_make" in data:

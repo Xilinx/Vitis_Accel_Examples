@@ -25,7 +25,7 @@ XF_PROJ_ROOT = $(shell readlink -f $(COMMON_REPO))
 PLATFORM_BLOCKLIST += u25_ u30 u50c u50lv u50_gen3x4 u55 u250 zc vck 2019 2018 u2_ 
 PLATFORM_ALLOWLIST += u50_gen3x16_nodma 
 
-PLATFORM := xilinx_u250_gen3x16_xdma_3_1_202020_1
+PLATFORM ?= xilinx_u250_gen3x16_xdma_3_1_202020_1
 DEV_ARCH := $(shell platforminfo -p $(PLATFORM) | grep 'FPGA Family' | sed 's/.*://' | sed '/ai_engine/d' | sed 's/^[[:space:]]*//')
 CPU_TYPE := $(shell platforminfo -p $(PLATFORM) | grep 'CPU Type' | sed 's/.*://' | sed '/ai_engine/d' | sed 's/^[[:space:]]*//')
 
