@@ -13,15 +13,20 @@ echo $BASEDIR
 for i in "${dir_list[@]}"
 do
     cd $i
-    if grep -qr '"match_readme": "false"' .; then
-        echo "Ignoring README.rst ::" $i
-    else
+    if grep -r '"match_readme" : "false"' .; then
+        echo "Ignoring README.rst = $i"
+    elif
+        [[ "$i" =~ ^system_compilation.* ]]; then
         echo "Updating README for = $i"
         rm README.rst
+	../../common/utility/readme_gen/readme_gen.py ./description.json
+    else
+        rm README.rst
+        echo "Updating README for = $i"
+        make docs
+         
     fi
-    make docs
-    git add README.rst
-    cd $BASEDIR
+       cd $BASEDIR
 done
 
 summary_list=( $(git ls-files | grep 'summary.json' | sed -r 's|/[^/]+$||' | sort | uniq ))
@@ -31,8 +36,8 @@ for i in "${summary_list[@]}"
 do
     cd $i
     echo "Updating README for = $i"
-    rm README.md
+    rm README.rst
     make docs -f summary.mk
-    git add README.md
+    git add README.rst
     cd $BASEDIR
 done

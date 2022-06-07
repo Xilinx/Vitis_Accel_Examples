@@ -14,7 +14,8 @@
     "platform_blocklist": [
         "zc",
         "vck",
-        "aws"
+        "aws",
+        "nodma"
     ], 
     "os": [
         "Linux"

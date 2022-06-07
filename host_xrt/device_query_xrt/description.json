@@ -22,6 +22,7 @@
         "OpenCL"
     ], 
     "platform_type": "pcie",
+    "match_makefile": "false",
     "host": {
         "host_exe": "device_query_xrt",
         "compiler": {

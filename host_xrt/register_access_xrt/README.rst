@@ -3,7 +3,7 @@ Register access (XRT Native API's)
 
 This is simple example which demonstrate register read & write using native xrt api's.
 
-**KEYWORDS:** read_register, write_register, cu_access_mode, exclusive
+**KEYWORDS:** `read_register <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Writing-Host-Applications-with-XRT-API>`__, `write_register <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Writing-Host-Applications-with-XRT-API>`__, cu_access_mode, exclusive
 
 .. raw:: html
 

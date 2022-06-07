@@ -3,9 +3,9 @@ Quick Start System Compiler
 
 This is quick start example based on a video filtering usecase to describe system compiler usage in Vitis Environment.
 
-**KEY CONCEPTS:** System Compiler
+**KEY CONCEPTS:** `System Compiler <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Using-Vitis-System-Compilation-Mode>`__
 
-**KEYWORDS:** create_bufpool, alloc_buff, compute, send_while, receive_all_in_order, get_buf, DATA_COPY, SYS_PORT, SYS_PORT_PFM, ACCESS_PATTERN
+**KEYWORDS:** `create_bufpool <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Quick-Start-Example>`__, `alloc_buff <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Quick-Start-Example>`__, `compute <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/The-compute-API>`__, `send_while <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Interface-Data-Types>`__, `receive_all_in_order <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/VPP_ACC-Class-API>`__, `get_buf <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/VPP_ACC-Class-API>`__, `DATA_COPY <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Guidance-Macros>`__, `SYS_PORT <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Guidance-Macros>`__, `SYS_PORT_PFM <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Guidance-Macros>`__, `ACCESS_PATTERN <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Guidance-Macros>`__
 
 .. raw:: html
 

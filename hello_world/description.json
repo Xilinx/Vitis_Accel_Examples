@@ -37,7 +37,6 @@
             ]
         }
     },
-    "match_makefile": "false", 
     "containers": [
         {
             "accelerators": [

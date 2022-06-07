@@ -5,6 +5,7 @@
     ], 
     "flow": "vitis",
     "config_make": "config.mk",
+    "match_makefile": "false",
     "platform_blocklist": [
         "vck",
         "zc706",

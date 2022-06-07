@@ -7,9 +7,29 @@ This is simple example which showcases asynchronous programming mechanism throug
 
 **KEYWORDS:** `xrt::queue <https://xilinx.github.io/XRT/2022.1/html/xrt_native_apis.html?highlight=queue#executing-multiple-tasks-through-queue>`__, `enqueue <https://xilinx.github.io/XRT/2022.1/html/xrt_native_apis.html?highlight=queue#executing-multiple-tasks-through-queue>`__, `wait() <https://xilinx.github.io/XRT/2022.1/html/xrt_native_apis.html?highlight=queue#using-events-to-synchronize-among-the-queues>`__
 
-**EXCLUDED PLATFORMS:** 
+.. raw:: html
+
+ <details>
+
+.. raw:: html
+
+ <summary> 
+
+ <b>EXCLUDED PLATFORMS:</b>
+
+.. raw:: html
+
+ </summary>
+|
+..
 
  - All NoDMA Platforms, i.e u50 nodma etc
+
+.. raw:: html
+
+ </details>
+
+.. raw:: html
 
 DESIGN FILES
 ------------

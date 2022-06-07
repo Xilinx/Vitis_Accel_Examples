@@ -17,7 +17,8 @@
         "zcu104",
         "vck",
         "u25_",
-        "aws"
+        "aws",
+        "nodma"
     ], 
     "os": [
         "Linux"

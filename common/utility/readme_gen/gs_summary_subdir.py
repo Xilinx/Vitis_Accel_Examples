@@ -11,4 +11,4 @@ sys.dont_write_bytecode = True
 sys.path.append(".")
 import gs_summary_util
 
-gs_summary_util.genReadMe2(".")
+gs_summary_util.genReadMe2Rst(".")

@@ -23,6 +23,8 @@ HOST_SRCS := ./src/host.cpp
 # user-defined platform config.hpp
 ifeq ($(findstring u50, $(DEVICE)), u50)
   EXTRA_CFLAGS := -I include/u50
+else ifeq ($(findstring u280, $(DEVICE)), u280)
+  EXTRA_CFLAGS := -I include/u50
 else
   EXTRA_CFLAGS := -I include/u200
 endif

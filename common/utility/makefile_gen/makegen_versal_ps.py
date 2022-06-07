@@ -52,7 +52,6 @@ def create_params(target,data):
     target.write("\n")
     target.write("LAUNCH_EMULATOR = $(PACKAGE_OUT)/launch_$(TARGET).sh\n")
     target.write("RESULT_STRING = TEST PASSED\n")
-    target.write("\n")
 
     target.write("\nVPP_PFLAGS := ")
     if "launch" in data:
@@ -66,8 +65,7 @@ def create_params(target,data):
             cmdargs = cmdargs.replace('PROJECT', '.')
             target.write(cmdargs)
     target.write("\n")
-    target.write("SDCARD := ")
-    target.write("sd_card\n")
+    target.write("SD_CARD := $(PACKAGE_OUT)\n")
     target.write("vck190_dfx_hw := false\n")
     target.write("\n")
     target.write("include $(XF_PROJ_ROOT)/common/includes/opencl/opencl.mk\n")
@@ -77,24 +75,23 @@ def create_params(target,data):
         target.write("\n\n")    
     target.write("CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++1y\n")
     target.write("LDFLAGS += $(opencl_LDFLAGS)\n")
-    target.write("\n")
 
-    blacklist = [board for board in data.get("platform_blacklist", [])]
+    blocklist = [board for board in data.get("platform_blocklist", [])]
     forbid_others = False
-    target.write("\n########################## Checking if PLATFORM in whitelist #######################")
-    if blacklist:
+    target.write("\n########################## Checking if PLATFORM in allowlist #######################")
+    if blocklist:
         target.write("\nPLATFORM_BLOCKLIST += ")        
-        for board in blacklist:
+        for board in blocklist:
           if board != "others":
               target.write(board)
               target.write(" ")
           else:
               forbid_others = True
         target.write("\n")
-    whitelist = [board for board in data.get("platform_whitelist", [])]
-    if whitelist:
+    allowlist = [board for board in data.get("platform_allowlist", [])]
+    if allowlist:
         target.write("PLATFORM_ALLOWLIST += ")
-        for board in whitelist:
+        for board in allowlist:
             target.write(board)
             target.write(" ")
         target.write("\n\n")
@@ -235,7 +232,6 @@ def add_kernel_flags(target, data):
     target.write("\n")
 
     target.write("EMCONFIG_DIR = $(TEMP_DIR)\n")
-    target.write("EMU_DIR = $(SDCARD)/data/emulation\n")
     target.write("\n")
 
     if "v++" in data:
@@ -304,6 +300,7 @@ def building_kernel(target, data):
                         target.write("$(TEMP_DIR) ")
                         target.write(" -I'$(<D)'")
                         target.write(" -o'$@' '$<'\n")
+        target.write("\n")
         for con in data["containers"]:
             target.write("$(BUILD_DIR)/")
             target.write(con["name"])
@@ -315,7 +312,8 @@ def building_kernel(target, data):
                     else:
                         target.write(" $(TEMP_DIR)/") 
                     target.write(acc["name"])
-                    target.write(".xo\n")
+                    target.write(".xo")
+            target.write("\n")
             target.write("\tmkdir -p $(BUILD_DIR)\n")
             target.write("\tv++ $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR)")
             if "ldclflags" in con:
@@ -338,7 +336,8 @@ def building_kernel_rtl(target, data):
                     else:
                         target.write(" $(TEMP_DIR)/") 
                     target.write(acc["name"])
-                    target.write(".xo\n")
+                    target.write(".xo")
+            target.write("\n")
             target.write("\tmkdir -p $(BUILD_DIR)\n")
             target.write("\tv++ $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR)")
             if "ldclflags" in con:
@@ -408,7 +407,7 @@ def mk_build_all(target, data):
             target.write(" $(BUILD_DIR)/")
             target.write(con["name"])
             target.write(".xclbin")
-    target.write("\n")
+    target.write("\n\n")
 
     target.write(".PHONY: xclbin\n")
     target.write("xclbin: build\n")
@@ -427,6 +426,7 @@ def mk_build_all(target, data):
         building_kernel_rtl(target, data)
     else:
     	building_kernel(target, data)
+    mk_sdcard(target, data)
     building_host(target, data)
     return
 
@@ -481,7 +481,7 @@ def mk_run(target, data):
                 args = args.replace('REPO_DIR','$(XF_PROJ_ROOT)')
                 args = args.replace('HOST_EXE', '$(EXE_FILE)')
                 target.write("\t" + args)
-    target.write("\nelse\n")
+    target.write("else\n")
     target.write("\t$(ECHO) \"Please copy the content of sd_card folder and data to an SD Card and run on the board\"")
     target.write("\nendif\n")
     if "targets" in data:
@@ -498,16 +498,25 @@ def mk_run(target, data):
         target.write(" TARGET. Please use the target for running the application)\n")
         target.write("endif\n")
         target.write("\n")
-    target.write("\n\n")
+    target.write("\n")
+    target.write("check_edge_sw:\n")
+    target.write("ifndef EDGE_COMMON_SW\n")
+    target.write("\t$(error EDGE_COMMON_SW variable is not set, please download and use the pre-built image from https://www.xilinx.com/support/download/index.html/content/xilinx/en/downloadNav/embedded-platforms.html)\n")
+    target.write("endif\n\n")
 
 def mk_sdcard(target, data):
     target.write("############################## Preparing sdcard ##############################\n")
+    target.write(".PHONY: sd_card\n")
     target.write("sd_card:") 
+    target.write(" gen_run_app $(SD_CARD)\n")
+    target.write("\n")
+
+    target.write("$(SD_CARD):")
     for con in data["containers"]:
             target.write(" $(BUILD_DIR)/")
             target.write(con["name"])
             target.write(".xclbin")
-    target.write(" $(EXECUTABLE) gen_run_app\n")
+    target.write(" $(EXECUTABLE)\n")
     extra_file_list = []
     if "launch" in data:	
         if "cmd_args" in data["launch"][0]:
@@ -522,7 +531,7 @@ def mk_sdcard(target, data):
     target.write("ifeq ($(TARGET),$(filter $(TARGET), hw))\n")
     if "containers" in data:
         for con in data["containers"]:
-            target.write("\tv++ $(VPP_FLAGS) -p $(LINK_OUTPUT) -o ")
+            target.write("\tv++ $(VPP_FLAGS) -p $(LINK_OUTPUT) -o $(BUILD_DIR)/")
             target.write(con["name"])
             target.write(".xclbin \n")
     if "containers" in data:
@@ -533,7 +542,7 @@ def mk_sdcard(target, data):
                 if ('-' not in extra_filename):
                     target.write(" --package.sd_file ")
                     target.write(extra_filename)
-            target.write(" --package.sd_file ")
+            target.write(" --package.sd_file $(BUILD_DIR)/")
             target.write(con["name"])
             target.write(".xclbin\n")
     target.write("vck190_dfx_hw := true\n")
@@ -543,20 +552,16 @@ def mk_sdcard(target, data):
     if "containers" in data:
         for con in data["containers"]:
             target.write("\tv++ $(VPP_PFLAGS) -p $(LINK_OUTPUT) $(VPP_FLAGS) ")
-            target.write("--package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.sd_file $(SD_IMAGE_FILE) --package.sd_file xrt.ini --package.sd_file $(RUN_APP_SCRIPT) --package.sd_file $(EXECUTABLE)")
+            target.write("--package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.sd_file $(SD_IMAGE_FILE) --package.sd_file xrt.ini --package.sd_file $(RUN_APP_SCRIPT) --package.sd_file $(EXECUTABLE) --package.sd_file $(EMCONFIG_DIR)/emconfig.json")
             for extra_filename in extra_file_list:
                 if ('-' not in extra_filename):
                     target.write(" --package.sd_file ")
                     target.write(extra_filename)
-            target.write(" -o ")
+            target.write(" -o $(BUILD_DIR)/")
             target.write(con["name"])
             target.write(".xclbin\n")
     target.write("endif\n")
     target.write("\n")
-    target.write("check_edge_sw:\n")
-    target.write("ifndef EDGE_COMMON_SW\n")
-    target.write("\t$(error EDGE_COMMON_SW variable is not set, please download and use the pre-built image from https://www.xilinx.com/support/download/index.html/content/xilinx/en/downloadNav/embedded-platforms.html)\n")
-    target.write("endif\n")
 
 def mk_help(target):
     target.write("\n############################## Help Section ##############################\n")   
@@ -607,7 +612,6 @@ def create_mk(target, data):
     add_kernel_flags(target, data)
     mk_build_all(target, data)
     mk_run(target, data)
-    mk_sdcard(target, data)
     mk_clean(target,data)
     return 
 

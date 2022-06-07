@@ -52,7 +52,7 @@ help::
 ############################## Setting up Project Variables ##############################
 # Points to top directory of Git repository
 MK_PATH := $(abspath $(lastword $(MAKEFILE_LIST)))
-COMMON_REPO ?= $(shell bash -c 'export MK_PATH=$(MK_PATH); echo $${MK_PATH%aie_kernels/aie_adder_ps_on_x86/*}')
+COMMON_REPO ?= $(shell bash -c 'export MK_PATH=$(MK_PATH); echo $${MK_PATH%emulation/aie_adder_ps_on_x86/*}')
 PWD = $(shell readlink -f .)
 XF_PROJ_ROOT = $(shell readlink -f $(COMMON_REPO))
 
@@ -173,7 +173,7 @@ $(EXECUTABLE): $(HOST_SRCS)
 PACKAGING_CMD := v++ $(VPP_PFLAGS) -p -t $(TARGET) \
                  --package.defer_aie_run \
                  --platform $(PLATFORM) \
-                 --package.out_dir $(PACKAGE_OUT) \
+                 --package.out_dir $(PACKAGE_OUT) \ 
                  $(LINK_OUTPUT) $(GRAPH_O) -o $(XCLBIN)
 ifneq ($(TARGET),$(filter $(TARGET),sw_emu))
 PACKAGING_CMD += --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 \

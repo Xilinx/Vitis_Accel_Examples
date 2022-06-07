@@ -1,13 +1,29 @@
-PS PL Bandwidth Test (C)
-====================
+PS Validate Kernel (C)
+======================
 
-This PS bandwidth test uses PS kernel to run PL bandwidth test.
+This PS validate kernel tests PS kernel functionality.
 
-**KEY CONCEPTS:** `burst read and write <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/AXI-Burst-Transfers>`__, Bandwidth
+**KEY CONCEPTS:** PS Kernel
 
-**EXCLUDED PLATFORMS:** 
+.. raw:: html
+
+ <details>
+
+.. raw:: html
+
+ <summary> 
+
+ <b>EXCLUDED PLATFORMS:</b>
+
+.. raw:: html
+
+ </summary>
+|
+..
 
  - Alveo U25 SmartNIC
+ - Alveo U55
+ - Alveo U50
  - Alveo U30
  - Alveo U200
  - All Embedded Zynq Platforms, i.e zc702, zcu102 etc
@@ -19,6 +35,12 @@ This PS bandwidth test uses PS kernel to run PL bandwidth test.
  - X3 Compute Shell
  - All NoDMA Platforms, i.e u50 nodma etc
 
+.. raw:: html
+
+ </details>
+
+.. raw:: html
+
 DESIGN FILES
 ------------
 
@@ -28,6 +50,8 @@ Application code is located in the src directory. Accelerator binary files will 
 
    src/bandwidth.cpp
    src/host.cpp
+   src/ps_bandwidth.c
+   src/sk_types.h
    
 COMMAND LINE ARGUMENTS
 ----------------------
@@ -36,12 +60,12 @@ Once the environment has been configured, the application can be executed by
 
 ::
 
-   ./ps_bandwidth.exe -p $(GEN_DIR)
+   ./ps_bandwidth_test.exe -p $(GEN_DIR)
 
 DETAILS
 -------
 
-This example contains bandwidth test kernels to validate FPGA DDR.
+This PS bandwidth test uses PS kernel to run PL bandwidth test.
 
 Extracting Memory Information and generate cfg file:
    

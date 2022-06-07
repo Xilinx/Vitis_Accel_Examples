@@ -10,14 +10,17 @@
     ], 
     "os": [
         "Linux"
-    ], 
+    ],
+    "runtime": [
+        "OpenCL"
+    ],
     "flow": "versal",
     "platform_type": "pcie",	
     "platform_allowlist": [ 
         "vck5000"
     ],
     "platform_blocklist": [
-        "_u25_",
+        "u25_",
         "u55",
         "u50",
         "u30",
@@ -27,7 +30,7 @@
         "u250",
         "aws-vu9p-f1",
         "samsung",
-        "_u2_",
+        "u2_",
         "x3522pv",
         "nodma"
     ],

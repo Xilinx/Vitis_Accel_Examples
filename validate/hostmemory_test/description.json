@@ -15,8 +15,7 @@
     "platform_type": "pcie",
     "platform_blocklist": [ 
         "zc",
-        "vck190",
-        "vck5000",
+        "vck",
         "aws-vu9p-f1_shell",
         "2019",
         "2018",

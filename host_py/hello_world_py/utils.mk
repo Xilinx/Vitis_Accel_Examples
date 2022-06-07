@@ -10,6 +10,17 @@ ifeq ($(DEBUG), yes)
 VPP_LDFLAGS += --dk list_ports
 endif
 
+ifneq ($(TARGET), hw)
+VPP_FLAGS += -g
+endif
+
+############################## Setting up Project Variables ##############################
+# Points to top directory of Git repository
+MK_PATH := $(abspath $(lastword $(MAKEFILE_LIST)))
+COMMON_REPO ?= $(shell bash -c 'export MK_PATH=$(MK_PATH); echo $${MK_PATH%host_py/hello_world_py/*}')
+PWD = $(shell readlink -f .)
+XF_PROJ_ROOT = $(shell readlink -f $(COMMON_REPO))
+
 #Setting PLATFORM 
 ifeq ($(PLATFORM),)
 ifneq ($(DEVICE),)
@@ -52,14 +63,6 @@ check-device:
 	    then echo "[Warning]: The platform $(PLATFORM) not in allowlist."; \
 	fi;
 
-#Checks for Correct architecture
-ifneq ($(HOST_ARCH), $(filter $(HOST_ARCH),x86))
-$(error HOST_ARCH variable not set correctly, supported HOST_ARCH is x86 only)
-endif
-
-#Setting CXX
-CXX := g++
-
 check-platform:
 ifndef PLATFORM
 	$(error PLATFORM not set. Please set the PLATFORM properly and rerun. Run "make help" for more details.)
@@ -68,6 +71,11 @@ endif
 #   device2xsa - create a filesystem friendly name from device name
 #   $(1) - full name of device
 device2xsa = $(strip $(patsubst %.xpfm, % , $(shell basename $(PLATFORM))))
+
+XSA := 
+ifneq ($(PLATFORM), )
+XSA := $(call device2xsa, $(PLATFORM))
+endif
 
 ############################## Deprecated Checks and Running Rules ##############################
 check:

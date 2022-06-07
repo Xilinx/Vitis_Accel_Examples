@@ -11,13 +11,13 @@ Xilinx AIE Validate example
 
  <summary> 
 
-  <b>EXCLUDED PLATFORMS:</b>
+ <b>EXCLUDED PLATFORMS:</b>
 
 .. raw:: html
 
  </summary>
- 
-.. 
+|
+..
 
  - Alveo U25 SmartNIC
  - Alveo U30

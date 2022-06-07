@@ -13,16 +13,20 @@ ifneq (,$(shell echo $(DEVICE) | awk '/u50/'))
 XILINX_SC_PFM_CONFIG=u50
 endif
 
+ifneq (,$(shell echo $(DEVICE) | awk '/u280/'))
+XILINX_SC_PFM_CONFIG=u50
+endif
+
 ifneq (,$(shell echo $(DEVICE) | awk '/u200/'))
+XILINX_SC_PFM_CONFIG=u200
+endif
+
+ifneq (,$(shell echo $(DEVICE) | awk '/u250/'))
 XILINX_SC_PFM_CONFIG=u200
 endif
 
 ifneq (,$(shell echo $(DEVICE) | awk '/u25/'))
 XILINX_SC_PFM_CONFIG=u25
-endif
-
-ifneq (,$(shell echo $(DEVICE) | awk '/nodma/'))
-XILINX_SC_PFM_CONFIG=nodma
 endif
 
 ifneq (,$(shell echo $(DEVICE) | awk '/zcu102/'))

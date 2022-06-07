@@ -5,7 +5,7 @@ In this example we have multiple accelerators in one xclbin, and compose them in
 
 **KEY CONCEPTS:** Multiple Accelerators
 
-**KEYWORDS:** sync_outputs, custom_sync_outputs
+**KEYWORDS:** sync_outputs, `custom_sync_outputs <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/VPP_ACC-Class-API>`__
 
 .. raw:: html
 
@@ -26,6 +26,7 @@ In this example we have multiple accelerators in one xclbin, and compose them in
  - All Embedded Zynq Platforms, i.e zc702, zcu102 etc
  - All Versal Platforms, i.e vck190 etc
  - AWS VU9P F1
+ - All NoDMA Platforms, i.e u50 nodma etc
 
 .. raw:: html
 
@@ -43,7 +44,6 @@ Application code is located in the src directory. Accelerator binary files will 
    src/filter.cpp
    src/filter.hpp
    src/main.cpp
-   src/nodma_config.hpp
    src/u200_config.hpp
    src/u25_config.hpp
    src/u2_config.hpp

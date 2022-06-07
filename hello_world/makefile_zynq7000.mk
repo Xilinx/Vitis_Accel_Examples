@@ -68,12 +68,11 @@ RESULT_STRING = TEST PASSED
 
 VPP_PFLAGS := 
 CMD_ARGS = $(BUILD_DIR)/vadd.xclbin
-SDCARD := sd_card
+SD_CARD := $(PACKAGE_OUT)
 
 include $(XF_PROJ_ROOT)/common/includes/opencl/opencl.mk
 CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++1y
 LDFLAGS += $(opencl_LDFLAGS)
-
 
 ########################## Checking if PLATFORM in allowlist #######################
 PLATFORM_BLOCKLIST += nodma 
@@ -90,10 +89,8 @@ LDFLAGS += --sysroot=$(SYSROOT)
 VPP_FLAGS += -t $(TARGET) --platform $(PLATFORM) --save-temps 
 
 
-
 EXECUTABLE = ./hello_world
 EMCONFIG_DIR = $(TEMP_DIR)
-EMU_DIR = $(SDCARD)/data/emulation
 
 ############################## Setting Targets ##############################
 .PHONY: all clean cleanall docs emconfig
@@ -104,6 +101,7 @@ host: $(EXECUTABLE)
 
 .PHONY: build
 build: check-vitis check-device $(BUILD_DIR)/vadd.xclbin
+
 .PHONY: xclbin
 xclbin: build
 
@@ -111,9 +109,17 @@ xclbin: build
 $(TEMP_DIR)/vadd.xo: src/vadd.cpp
 	mkdir -p $(TEMP_DIR)
 	v++ $(VPP_FLAGS) -c -k vadd --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
+
 $(BUILD_DIR)/vadd.xclbin: $(TEMP_DIR)/vadd.xo
 	mkdir -p $(BUILD_DIR)
 	v++ $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) -o'$(LINK_OUTPUT)' $(+)
+
+############################## Preparing sdcard ##############################
+.PHONY: sd_card
+sd_card: gen_run_app $(SD_CARD)
+
+$(SD_CARD): $(BUILD_DIR)/vadd.xclbin $(EXECUTABLE)
+	v++ $(VPP_PFLAGS) -p $(LINK_OUTPUT) $(VPP_FLAGS) --package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.sd_file $(SD_IMAGE_FILE) --package.sd_file xrt.ini --package.sd_file $(RUN_APP_SCRIPT) --package.sd_file $(EXECUTABLE) --package.sd_file $(EMCONFIG_DIR)/emconfig.json -o $(BUILD_DIR)/vadd.xclbin
 
 ############################## Setting Rules for Host (Building Host Executable) ##############################
 $(EXECUTABLE): $(HOST_SRCS) | check-vitis check_edge_sw
@@ -131,25 +137,19 @@ else
 	$(ECHO) "Please copy the content of sd_card folder and data to an SD Card and run on the board"
 endif
 
-
 .PHONY: test
 test: $(EXECUTABLE)
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 	$(LAUNCH_EMULATOR) -run-app $(RUN_APP_SCRIPT) | tee run_app.log; exit $${PIPESTATUS[0]}
-
 else
 	$(ECHO) "Please copy the content of sd_card folder and data to an SD Card and run on the board"
 endif
-
-
-############################## Preparing sdcard ##############################
-sd_card: $(BUILD_DIR)/vadd.xclbin $(EXECUTABLE) gen_run_app
-	v++ $(VPP_PFLAGS) -p $(LINK_OUTPUT) $(VPP_FLAGS) --package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.sd_file $(SD_IMAGE_FILE) --package.sd_file xrt.ini --package.sd_file $(RUN_APP_SCRIPT) --package.sd_file $(EXECUTABLE) -o vadd.xclbin
 
 check_edge_sw:
 ifndef EDGE_COMMON_SW
 	$(error EDGE_COMMON_SW variable is not set, please download and use the pre-built image from https://www.xilinx.com/support/download/index.html/content/xilinx/en/downloadNav/embedded-platforms.html)
 endif
+
 ############################## Cleaning Rules ##############################
 # Cleaning stuff
 clean:

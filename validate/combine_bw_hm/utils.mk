@@ -10,11 +10,18 @@ ifeq ($(DEBUG), yes)
 VPP_LDFLAGS += --dk list_ports
 endif
 
-ifneq ($(TARGET), hw)	
-VPP_FLAGS += -g	
+ifneq ($(TARGET), hw)
+VPP_FLAGS += -g
 endif
 
-#Setting PLATFORM
+############################## Setting up Project Variables ##############################
+# Points to top directory of Git repository
+MK_PATH := $(abspath $(lastword $(MAKEFILE_LIST)))
+COMMON_REPO ?= $(shell bash -c 'export MK_PATH=$(MK_PATH); echo $${MK_PATH%validate/combine_bw_hm/*}')
+PWD = $(shell readlink -f .)
+XF_PROJ_ROOT = $(shell readlink -f $(COMMON_REPO))
+
+#Setting PLATFORM 
 ifeq ($(PLATFORM),)
 ifneq ($(DEVICE),)
 $(warning WARNING: DEVICE is deprecated in make command. Please use PLATFORM instead)
@@ -30,14 +37,8 @@ endif
 
 #Checks for XILINX_XRT
 check-xrt:
-ifeq ($(HOST_ARCH), x86)
 ifndef XILINX_XRT
 	$(error XILINX_XRT variable is not set, please set correctly using "source /opt/xilinx/xrt/setup.sh" and rerun)
-endif
-else
-ifndef XILINX_VITIS
-	$(error XILINX_VITIS variable is not set, please set correctly using "source <Vitis_install_path>/Vitis/<Version>/settings64.sh" and rerun)
-endif
 endif
 
 check-device:
@@ -62,30 +63,6 @@ check-device:
 	    then echo "[Warning]: The platform $(PLATFORM) not in allowlist."; \
 	fi;
 
-#Checks for Correct architecture
-ifneq ($(HOST_ARCH), $(filter $(HOST_ARCH),aarch64 aarch32 x86))
-$(error HOST_ARCH variable not set, please set correctly and rerun)
-endif
-
-#Setting CXX
-CXX := g++
-
-#Checks for EDGE_COMMON_SW
-ifneq ($(HOST_ARCH), x86)
-ifndef EDGE_COMMON_SW
-$(error EDGE_COMMON_SW variable is not set, please download and use the pre-built image from https://www.xilinx.com/support/download/index.html/content/xilinx/en/downloadNav/embedded-platforms.html)
-endif
-ifeq ($(HOST_ARCH), aarch64)
-SYSROOT := $(EDGE_COMMON_SW)/sysroots/cortexa72-cortexa53-xilinx-linux
-SD_IMAGE_FILE := $(EDGE_COMMON_SW)/Image
-CXX := $(XILINX_VITIS)/gnu/aarch64/lin/aarch64-linux/bin/aarch64-linux-gnu-g++
-else ifeq ($(HOST_ARCH), aarch32)
-SYSROOT := $(EDGE_COMMON_SW)/sysroots/cortexa9t2hf-neon-xilinx-linux-gnueabi/
-SD_IMAGE_FILE := $(EDGE_COMMON_SW)/uImage
-CXX := $(XILINX_VITIS)/gnu/aarch32/lin/gcc-arm-linux-gnueabi/bin/arm-linux-gnueabihf-g++
-endif
-endif
-
 check-platform:
 ifndef PLATFORM
 	$(error PLATFORM not set. Please set the PLATFORM properly and rerun. Run "make help" for more details.)
@@ -94,6 +71,11 @@ endif
 #   device2xsa - create a filesystem friendly name from device name
 #   $(1) - full name of device
 device2xsa = $(strip $(patsubst %.xpfm, % , $(shell basename $(PLATFORM))))
+
+XSA := 
+ifneq ($(PLATFORM), )
+XSA := $(call device2xsa, $(PLATFORM))
+endif
 
 ############################## Deprecated Checks and Running Rules ##############################
 check:

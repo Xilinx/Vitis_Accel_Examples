@@ -61,6 +61,8 @@ help::
 
 MK_PATH := $(abspath $(lastword $(MAKEFILE_LIST)))
 CUR_DIR := $(patsubst %/,%,$(dir $(MK_PATH)))
+COMMON_REPO ?= $(shell bash -c 'export MK_PATH=$(MK_PATH); echo $${MK_PATH%validate/validate_aie_pl/*}')
+XF_PROJ_ROOT = $(shell readlink -f $(COMMON_REPO))
 
 # setting devault value
 TARGET ?= hw_emu
