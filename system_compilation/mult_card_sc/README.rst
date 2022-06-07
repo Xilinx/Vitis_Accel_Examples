@@ -3,9 +3,9 @@ Multiple Cards System Compiler
 
 This is simple example showcasing the P2P and H2C mode of application code controlling a multi-card accelerator design in system compiler environment.
 
-**KEY CONCEPTS:** Multiple Cards, `P2P <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/p2p>`__, H2C, Syncronization
+**KEY CONCEPTS:** Multiple Cards, `P2P <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/p2p>`__, `H2C <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Special-Data-Transfer-Models>`__, Syncronization
 
-**KEYWORDS:** vpp::p2p, vpp::h2c, vpp::squeue, add_card
+**KEYWORDS:** `vpp::p2p <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Special-Data-Transfer-Models>`__, `vpp::h2c <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Special-Data-Transfer-Models>`__, vpp::squeue, `add_card <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/CU-Cluster-and-Multi-Card-Support>`__
 
 .. raw:: html
 

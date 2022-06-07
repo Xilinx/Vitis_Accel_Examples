@@ -3,7 +3,7 @@ Host Memory Copy Kernel(C)
 
 This is a Host Memory Example to describe how data can be copied between host-only buffer and device-only buffer using User Copy Kernel.
 
-**KEY CONCEPTS:** host memory
+**KEY CONCEPTS:** `host memory <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Best-Practices-for-Host-Programming>`__
 
 **KEYWORDS:** XCL_MEM_EXT_HOST_ONLY, CL_MEM_HOST_NO_ACCESS, `enqueueMapBuffer <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Buffer-Creation-and-Data-Transfer>`__
 

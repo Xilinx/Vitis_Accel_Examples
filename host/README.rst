@@ -165,8 +165,7 @@ OpenCL host code for optimized interfacing with Xilinx Devices.
     - This is simple host memory example to describe how host-only memory can be copied to device-only memory and vice-versa.
     - **Key Concepts**
 
-      * host memory
-
+      * `host memory <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Best-Practices-for-Host-Programming>`__
       **Keywords**
 
       * XCL_MEM_EXT_HOST_ONLY
@@ -177,8 +176,7 @@ OpenCL host code for optimized interfacing with Xilinx Devices.
     - This is a Host Memory Example to describe how data can be copied between host-only buffer and device-only buffer using User Copy Kernel.
     - **Key Concepts**
 
-      * host memory
-
+      * `host memory <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Best-Practices-for-Host-Programming>`__
       **Keywords**
 
       * XCL_MEM_EXT_HOST_ONLY
@@ -189,14 +187,13 @@ OpenCL host code for optimized interfacing with Xilinx Devices.
     - This is simple host memory example to describe how a user kernel can access the host memory. The host memory allocation is done through the host code. The kernel reads data from host memory and writes result to host memory.
     - **Key Concepts**
 
-      * host memory
-
+      * `host memory <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Best-Practices-for-Host-Programming>`__
       * address translation unit
 
       **Keywords**
 
       * XCL_MEM_EXT_HOST_ONLY
-      * HOST[0]
+      * `HOST[0] <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Mapping-Kernel-Ports-to-Memory>`__
 
   * - `iops_test <iops_test>`_
     - This is simple test design to measure Input/Output Operations per second. In this design, a simple kernel is enqueued many times and measuring overall IOPS.
@@ -298,7 +295,7 @@ OpenCL host code for optimized interfacing with Xilinx Devices.
       * XCL_MEM_EXT_P2P_BUFFER
       * pread
       * pwrite
-      * O_DIRECT
+      * `O_DIRECT <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Special-Data-Transfer-Models>`__
       * O_RDWR
 
   * - `streaming_free_running_k2k <streaming_free_running_k2k>`_

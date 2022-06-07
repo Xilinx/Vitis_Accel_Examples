@@ -74,11 +74,10 @@ This section contains Emulation Examples.
     - This example demonstrates how a user can run functional model of HLS kernel in HW Emulation.
     - **Key Concepts**
 
-      * Emulation Functional mode
-
+      * `Emulation Functional mode <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Working-with-Functional-Model-of-the-HLS-Kernel>`__
       **Keywords**
 
-      * emulationMode=func
+      * `emulationMode=func <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Working-with-Functional-Model-of-the-HLS-Kernel>`__
 
   * - `systemc_vadd <systemc_vadd>`_
     - This is simple example of vector addition to describe usage of custom SystemC in Vitis Environment.

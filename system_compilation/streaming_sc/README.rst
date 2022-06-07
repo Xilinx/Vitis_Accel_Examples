@@ -5,7 +5,7 @@ This is simple example showcasing Free-running PEs with AXI-streams in system co
 
 **KEY CONCEPTS:** `Free Running Kernel <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Free-Running-Kernel>`__
 
-**KEYWORDS:** vpp::stream, hls::axis, `hls::stream <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/HLS-Stream-Library>`__
+**KEYWORDS:** `vpp::stream <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Stream-connections-using-vpp-stream>`__, `hls::axis <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/AXI4-Stream-Interfaces>`__, `hls::stream <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/HLS-Stream-Library>`__
 
 .. raw:: html
 

@@ -101,20 +101,18 @@ XRT Native API's for optimized interfacing with Xilinx Devices.
     - This is simple host memory example to describe how host-only memory can be copied to device-only memory and vice-versa using XRT Native API's.
     - **Key Concepts**
 
-      * host memory
-
+      * `host memory <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Best-Practices-for-Host-Programming>`__
       **Keywords**
 
       * host_only
       * device_only
-      * HOST[0]
+      * `HOST[0] <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Mapping-Kernel-Ports-to-Memory>`__
 
   * - `host_memory_copy_kernel_xrt <host_memory_copy_kernel_xrt>`_
     - This is a Host Memory Example to describe how data can be copied using xrt native api's between host-only buffer and device-only buffer using User Copy Kernel.
     - **Key Concepts**
 
-      * host memory
-
+      * `host memory <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Best-Practices-for-Host-Programming>`__
       **Keywords**
 
       * host_only
@@ -124,14 +122,13 @@ XRT Native API's for optimized interfacing with Xilinx Devices.
     - This is simple host memory example to describe how a user kernel can access the host memory using xrt native api's.
     - **Key Concepts**
 
-      * host memory
-
+      * `host memory <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Best-Practices-for-Host-Programming>`__
       * address translation unit
 
       **Keywords**
 
       * host_only
-      * HOST[0]
+      * `HOST[0] <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Mapping-Kernel-Ports-to-Memory>`__
 
   * - `iops_fast_adapter_xrt <iops_fast_adapter_xrt>`_
     - This is simple test design to measure Input/Output Operations per second using Fast Adapter. In this design, a simple kernel is enqueued many times and overall IOPS is measured using XRT native api's.
@@ -149,13 +146,11 @@ XRT Native API's for optimized interfacing with Xilinx Devices.
     - This is a simple example demonstrating the Mailbox and Auto-restart features for writing registers to and reading registers from a never-ending kernel.
     - **Key Concepts**
 
-      * Mailbox
-
-      * Auto-restart
-
+      * `Mailbox <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Using-the-Mailbox>`__
+      * `Auto-restart <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Auto-Restarting-Mode>`__
       **Keywords**
 
-      * set_arg
+      * `set_arg <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Scenario-2-Kernel-Using-Auto-Restart-and-Mailbox>`__
       * get_arg
       * write()
       * read()
@@ -191,15 +186,15 @@ XRT Native API's for optimized interfacing with Xilinx Devices.
       * xrt::bo::flags::p2p
       * pread
       * pwrite
-      * O_DIRECT
+      * `O_DIRECT <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Special-Data-Transfer-Models>`__
       * O_RDWR
 
   * - `register_access_xrt <register_access_xrt>`_
     - This is simple example which demonstrate register read & write using native xrt api's.
     - **Keywords**
 
-      * read_register
-      * write_register
+      * `read_register <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Writing-Host-Applications-with-XRT-API>`__
+      * `write_register <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Writing-Host-Applications-with-XRT-API>`__
       * cu_access_mode
       * exclusive
 

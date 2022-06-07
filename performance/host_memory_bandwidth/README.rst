@@ -3,9 +3,9 @@ Host Memory Bandwidth(C)
 
 This is host memory bandwidth example.
 
-**KEY CONCEPTS:** host memory, bandwidth, address translation unit
+**KEY CONCEPTS:** `host memory <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Best-Practices-for-Host-Programming>`__, bandwidth, address translation unit
 
-**KEYWORDS:** XCL_MEM_EXT_HOST_ONLY, HOST[0]
+**KEYWORDS:** XCL_MEM_EXT_HOST_ONLY, `HOST[0] <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Mapping-Kernel-Ports-to-Memory>`__
 
 .. raw:: html
 

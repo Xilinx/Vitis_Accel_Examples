@@ -3,7 +3,7 @@ Host Memory Copy Buffer(C)
 
 This is simple host memory example to describe how host-only memory can be copied to device-only memory and vice-versa.
 
-**KEY CONCEPTS:** host memory
+**KEY CONCEPTS:** `host memory <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Best-Practices-for-Host-Programming>`__
 
 **KEYWORDS:** XCL_MEM_EXT_HOST_ONLY, CL_MEM_HOST_NO_ACCESS, enqueueCopyBuffer
 

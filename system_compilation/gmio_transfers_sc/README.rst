@@ -3,9 +3,9 @@ GMIO Transfers System Compiler
 
 This is gmio transfers example which explains different ways of data movements between host and device for compute unit processing.
 
-**KEY CONCEPTS:** System Compiler
+**KEY CONCEPTS:** `System Compiler <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Using-Vitis-System-Compilation-Mode>`__
 
-**KEYWORDS:** DATA_COPY, ZERO_COPY, ACCESS_PATTERN, SEQUENTIAL, RANDOM
+**KEYWORDS:** `DATA_COPY <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Guidance-Macros>`__, `ZERO_COPY <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Guidance-Macros>`__, `ACCESS_PATTERN <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Guidance-Macros>`__, `SEQUENTIAL <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Quick-Start-Example>`__, `RANDOM <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Guidance-Macros>`__
 
 .. raw:: html
 

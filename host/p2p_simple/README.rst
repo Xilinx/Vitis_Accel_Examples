@@ -5,7 +5,7 @@ This is simple example of vector increment to describe P2P between FPGA and NVMe
 
 **KEY CONCEPTS:** `P2P <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/p2p>`__, NVMe SSD, SmartSSD
 
-**KEYWORDS:** XCL_MEM_EXT_P2P_BUFFER, pread, pwrite, O_DIRECT, O_RDWR
+**KEYWORDS:** XCL_MEM_EXT_P2P_BUFFER, pread, pwrite, `O_DIRECT <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Special-Data-Transfer-Models>`__, O_RDWR
 
 .. raw:: html
 

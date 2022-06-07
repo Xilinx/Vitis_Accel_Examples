@@ -3,9 +3,9 @@ Mailbox and Auto-Restart (XRT Native API's)
 
 This is a simple example demonstrating the Mailbox and Auto-restart features for writing registers to and reading registers from a never-ending kernel.
 
-**KEY CONCEPTS:** Mailbox, Auto-restart
+**KEY CONCEPTS:** `Mailbox <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Using-the-Mailbox>`__, `Auto-restart <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Auto-Restarting-Mode>`__
 
-**KEYWORDS:** set_arg, get_arg, write(), read(), STABLE
+**KEYWORDS:** `set_arg <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Scenario-2-Kernel-Using-Auto-Restart-and-Mailbox>`__, get_arg, write(), read(), STABLE
 
 .. raw:: html
 

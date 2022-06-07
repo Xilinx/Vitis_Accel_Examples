@@ -3,9 +3,9 @@ Host Memory Test(C)
 
 This host memory design explains how direct host memory access can be done by the kernel.
 
-**KEY CONCEPTS:** host memory, address translation unit
+**KEY CONCEPTS:** `host memory <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Best-Practices-for-Host-Programming>`__, address translation unit
 
-**KEYWORDS:** XCL_MEM_EXT_HOST_ONLY, HOST[0]
+**KEYWORDS:** XCL_MEM_EXT_HOST_ONLY, `HOST[0] <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Mapping-Kernel-Ports-to-Memory>`__
 
 .. raw:: html
 

@@ -13,7 +13,7 @@
     ],
     "runtime": [
         "OpenCL"
-    ],   
+    ],
     "flow": "versal",
     "platform_type": "pcie",	
     "platform_allowlist": [ 

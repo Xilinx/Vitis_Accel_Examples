@@ -209,8 +209,7 @@ This section contains HLS C/C++ Kernel Examples. The main purpose of C++ kernels
     - This is simple example of vector addition to demonstrate Wide Memory Access using ap_uint<512> data type. Based on input argument type, V++ compiler will figure our the memory datawidth between Global Memory and Kernel. For this example, ap_uint<512> datatype is used, so Memory datawidth will be 16 x (integer bit size) = 16 x 32 = 512 bit.
     - **Key Concepts**
 
-      * Kernel to DDR
-
+      * `Kernel to DDR <https://docs.xilinx.com/r/2021.2-English/ug1393-vitis-application-acceleration/Mapping-Kernel-Ports-to-Memory>`__
       * `wide memory access <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/AXI-Burst-Transfers>`__
       * `burst read and write <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/AXI-Burst-Transfers>`__
       **Keywords**

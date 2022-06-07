@@ -3,9 +3,9 @@ Host Memory Copy Buffer XRT (XRT Native API's)
 
 This is simple host memory example to describe how host-only memory can be copied to device-only memory and vice-versa using XRT Native API's.
 
-**KEY CONCEPTS:** host memory
+**KEY CONCEPTS:** `host memory <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Best-Practices-for-Host-Programming>`__
 
-**KEYWORDS:** host_only, device_only, HOST[0]
+**KEYWORDS:** host_only, device_only, `HOST[0] <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Mapping-Kernel-Ports-to-Memory>`__
 
 .. raw:: html
 
