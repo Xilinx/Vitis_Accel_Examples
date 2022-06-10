@@ -4,7 +4,7 @@
         "This example demonstrates how a user can run functional model of HLS kernel in HW Emulation."
     ],
     "flow": "vitis",
-    "match_makefile": "false",
+    "config_make": "config.mk",
     "keywords": [
         "emulationMode=func" 
     ], 
