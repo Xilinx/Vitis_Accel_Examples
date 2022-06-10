@@ -135,7 +135,8 @@
         "compute_async": "https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Asynchronous-Host-Control-of-Accelerator",
         "O_DIRECT": "https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Special-Data-Transfer-Models",
         "read_register": "https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Writing-Host-Applications-with-XRT-API",
-        "write_register": "https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Writing-Host-Applications-with-XRT-API"
+        "write_register": "https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Writing-Host-Applications-with-XRT-API",
+        "emulationMode=func": "https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Working-with-Functional-Model-of-the-HLS-Kernel"
                   
     },
     "key_concepts": {
@@ -219,7 +220,8 @@
         "H2C": "https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Special-Data-Transfer-Models",
         "Auto-restart": "https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Auto-Restarting-Mode",
         "Mailbox": "https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Using-the-Mailbox",
-        "Asyncronous host interactions": "https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Asynchronous-Host-Control-of-Accelerator"
+        "Asyncronous host interactions": "https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Asynchronous-Host-Control-of-Accelerator",
+        "Emulation Functional mode": "https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Working-with-Functional-Model-of-the-HLS-Kernel"
   
     }
 }
