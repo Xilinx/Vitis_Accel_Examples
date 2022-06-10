@@ -185,7 +185,7 @@ PACKAGING_CMD += --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 \
                  --package.sd_file ./emconfig.json \
                  --package.sd_file aie_adder_ps_on_x86
 else
-PACKAGING_CMD += --package.ps_on_x86
+PACKAGING_CMD += --package.emu_ps x86
 endif
 ###################################################################################################
 
