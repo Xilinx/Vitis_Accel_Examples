@@ -95,13 +95,8 @@ else
     OPENCL_INCLUDE:= $(xrt_path)/include
 endif
 
-VIVADO_INCLUDE:= $(XILINX_VIVADO)/include
-opencl_CXXFLAGS=-I$(OPENCL_INCLUDE) -I$(VIVADO_INCLUDE)
-OPENCL_LIB:= $(xrt_path)/lib
-opencl_LDFLAGS=-L$(OPENCL_LIB) -lOpenCL -pthread
-
-CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++1y
-LDFLAGS += $(opencl_LDFLAGS)
+CXXFLAGS += -I$(OPENCL_INCLUDE) -I$(XILINX_VIVADO)/include -Wall -O0 -g -std=c++1y
+LDFLAGS += -L$(xrt_path)/lib -lOpenCL -pthread
 
 ########################## Checking if PLATFORM in allowlist #######################
 PLATFORM_BLOCKLIST += dma 
