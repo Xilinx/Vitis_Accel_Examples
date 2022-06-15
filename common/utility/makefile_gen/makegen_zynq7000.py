@@ -67,13 +67,12 @@ def create_params(target,data):
     target.write("\n")
     target.write("SD_CARD := $(PACKAGE_OUT)\n")
     target.write("\n")
-    target.write("include $(XF_PROJ_ROOT)/common/includes/opencl/opencl.mk\n")
     if "config_make" in data:
         target.write("include ")
         target.write(data["config_make"])
         target.write("\n\n")    
-    target.write("CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++1y\n")
-    target.write("LDFLAGS += $(opencl_LDFLAGS)\n")
+    target.write("CXXFLAGS += -I$(SYSROOT)/usr/include/xrt -I$(XILINX_VIVADO)/include -Wall -O0 -g -std=c++1y\n")
+    target.write("LDFLAGS += -L$(SYSROOT)/usr/lib -pthread -lxilinxopencl $(OPENCL_LDFLAGS)\n")
 
     blocklist = [board for board in data.get("platform_blocklist", [])]
     forbid_others = False

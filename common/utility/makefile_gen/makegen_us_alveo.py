@@ -45,7 +45,7 @@ def create_params(target,data):
     target.write("PACKAGE_OUT = ./package.$(TARGET)\n")
     target.write("\n")
 
-    target.write("\nVPP_PFLAGS := ")
+    target.write("VPP_PFLAGS := ")
     if "launch" in data:
         target.write("\n")
         target.write("CMD_ARGS =")
@@ -57,13 +57,12 @@ def create_params(target,data):
             cmdargs = cmdargs.replace('PROJECT', '.')
             target.write(cmdargs)
     target.write("\n")
-    target.write("include $(XF_PROJ_ROOT)/common/includes/opencl/opencl.mk\n")
     if "config_make" in data:
         target.write("include ")
         target.write(data["config_make"])
         target.write("\n\n")    
-    target.write("CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++1y\n")
-    target.write("LDFLAGS += $(opencl_LDFLAGS)\n")
+    target.write("CXXFLAGS += -I$(XILINX_XRT)/include -I$(XILINX_VIVADO)/include -Wall -O0 -g -std=c++1y\n")
+    target.write("LDFLAGS += -L$(XILINX_XRT)/lib -pthread -lOpenCL\n")
 
     blocklist = [board for board in data.get("platform_blocklist", [])]
     forbid_others = False

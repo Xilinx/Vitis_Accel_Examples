@@ -52,7 +52,6 @@ def create_params(target,data):
     target.write("\n")
     target.write("LAUNCH_EMULATOR = $(PACKAGE_OUT)/launch_$(TARGET).sh\n")
     target.write("RESULT_STRING = TEST PASSED\n")
-
     target.write("\nVPP_PFLAGS := ")
     if "launch" in data:
         target.write("\n")
@@ -68,13 +67,12 @@ def create_params(target,data):
     target.write("SD_CARD := $(PACKAGE_OUT)\n")
     target.write("vck190_dfx_hw := false\n")
     target.write("\n")
-    target.write("include $(XF_PROJ_ROOT)/common/includes/opencl/opencl.mk\n")
     if "config_make" in data:
         target.write("include ")
         target.write(data["config_make"])
         target.write("\n\n")    
-    target.write("CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++1y\n")
-    target.write("LDFLAGS += $(opencl_LDFLAGS)\n")
+    target.write("CXXFLAGS += -I$(SYSROOT)/usr/include/xrt -I$(XILINX_VIVADO)/include -Wall -O0 -g -std=c++1y\n")
+    target.write("LDFLAGS += -L$(SYSROOT)/usr/lib -pthread -lxilinxopencl\n")
 
     blocklist = [board for board in data.get("platform_blocklist", [])]
     forbid_others = False
