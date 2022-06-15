@@ -52,17 +52,16 @@ BUILD_DIR := ./build_dir.$(TARGET).$(XSA)
 LINK_OUTPUT := $(BUILD_DIR)/krnl_incr.link.xsa
 PACKAGE_OUT = ./package.$(TARGET)
 
-
 VPP_PFLAGS := 
 CMD_ARGS = $(BUILD_DIR)/krnl_incr.xclbin
-include $(XF_PROJ_ROOT)/common/includes/opencl/opencl.mk
 include config.mk
 
-CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++1y
-LDFLAGS += $(opencl_LDFLAGS)
+CXXFLAGS += -I$(XILINX_XRT)/include -I$(XILINX_VIVADO)/include -Wall -O0 -g -std=c++1y
+LDFLAGS += -L$(XILINX_XRT)/lib -pthread -lOpenCL
 
 
-########################## Checking if PLATFORM in allowlist ##################################################### Setting up Host Variables ##############################
+########################## Checking if PLATFORM in allowlist #######################
+############################## Setting up Host Variables ##############################
 #Include Required Host Source Files
 CXXFLAGS += -I$(XF_PROJ_ROOT)/common/includes/xcl2
 HOST_SRCS += $(XF_PROJ_ROOT)/common/includes/xcl2/xcl2.cpp ./src/host.cpp 
@@ -135,6 +134,9 @@ ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 else
 	$(EXECUTABLE) $(CMD_ARGS)
 endif
+ifneq ($(TARGET),$(findstring $(TARGET), hw_emu))
+$(error Application supports only hw_emu TARGET. Please use the target for running the application)
+endif
 
 
 .PHONY: test
@@ -144,6 +146,10 @@ ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 else
 	$(EXECUTABLE) $(CMD_ARGS)
 endif
+ifneq ($(TARGET),$(findstring $(TARGET), hw_emu))
+$(warning WARNING:Application supports only hw_emu TARGET. Please use the target for running the application)
+endif
+
 
 
 ############################## Cleaning Rules ##############################

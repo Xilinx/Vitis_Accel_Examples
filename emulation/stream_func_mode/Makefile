@@ -21,7 +21,11 @@ PWD = $(shell readlink -f .)
 XF_PROJ_ROOT = $(shell readlink -f $(COMMON_REPO))
 
 
-########################## Checking if PLATFORM in allowlist #######################PLATFORM ?= xilinx_u250_gen3x16_xdma_3_1_202020_1
+########################## Checking if PLATFORM in allowlist #######################
+ifneq ($(TARGET),$(findstring $(TARGET), hw_emu))
+$(error Application supports only hw_emu TARGET. Please use the target for running the application)
+endif
+PLATFORM ?= xilinx_u250_gen3x16_xdma_3_1_202020_1
 DEV_ARCH := $(shell platforminfo -p $(PLATFORM) | grep 'FPGA Family' | sed 's/.*://' | sed '/ai_engine/d' | sed 's/^[[:space:]]*//')
 CPU_TYPE := $(shell platforminfo -p $(PLATFORM) | grep 'CPU Type' | sed 's/.*://' | sed '/ai_engine/d' | sed 's/^[[:space:]]*//')
 
