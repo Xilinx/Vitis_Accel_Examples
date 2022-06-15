@@ -76,7 +76,7 @@ def create_params(target,data):
 
     blocklist = [board for board in data.get("platform_blocklist", [])]
     forbid_others = False
-    target.write("\n########################## Checking if PLATFORM in allowlist #######################")
+    target.write("\n########################## Checking if PLATFORM in allowlist #######################\n")
     if blocklist:
         target.write("\nPLATFORM_BLOCKLIST += ")        
         for board in blocklist:

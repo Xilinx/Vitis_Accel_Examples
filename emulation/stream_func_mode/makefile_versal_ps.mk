@@ -71,13 +71,13 @@ CMD_ARGS = $(BUILD_DIR)/krnl_incr.xclbin
 SD_CARD := $(PACKAGE_OUT)
 vck190_dfx_hw := false
 
-include $(XF_PROJ_ROOT)/common/includes/opencl/opencl.mk
 include config.mk
 
-CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++1y
-LDFLAGS += $(opencl_LDFLAGS)
+CXXFLAGS += -I$(SYSROOT)/usr/include/xrt -I$(XILINX_VIVADO)/include -Wall -O0 -g -std=c++1y
+LDFLAGS += -L$(SYSROOT)/usr/lib -pthread -lxilinxopencl
 
-########################## Checking if PLATFORM in allowlist ##################################################### Setting up Host Variables ##############################
+########################## Checking if PLATFORM in allowlist #######################
+############################## Setting up Host Variables ##############################
 #Include Required Host Source Files
 CXXFLAGS += -I$(XF_PROJ_ROOT)/common/includes/xcl2
 HOST_SRCS += $(XF_PROJ_ROOT)/common/includes/xcl2/xcl2.cpp ./src/host.cpp 
@@ -164,6 +164,9 @@ ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 else
 	$(ECHO) "Please copy the content of sd_card folder and data to an SD Card and run on the board"
 endif
+ifneq ($(TARGET),$(findstring $(TARGET), hw_emu))
+$(error Application supports only hw_emu TARGET. Please use the target for running the application)
+endif
 
 .PHONY: test
 test: $(EXECUTABLE)
@@ -172,6 +175,10 @@ ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 else
 	$(ECHO) "Please copy the content of sd_card folder and data to an SD Card and run on the board"
 endif
+ifneq ($(TARGET),$(findstring $(TARGET), hw_emu))
+$(warning WARNING:Application supports only hw_emu TARGET. Please use the target for running the application)
+endif
+
 
 check_edge_sw:
 ifndef EDGE_COMMON_SW

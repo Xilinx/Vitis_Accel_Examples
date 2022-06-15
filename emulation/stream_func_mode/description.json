@@ -10,7 +10,10 @@
     ], 
     "key_concepts": [
         "Emulation Functional mode" 
-    ], 
+    ],
+    "targets": [
+        "hw_emu"
+    ],
     "os": [
         "Linux"
     ], 
@@ -88,9 +91,7 @@
             }
         ],
         "targets": [
-            "vitis_sw_emu",
-            "vitis_hw_emu",
-            "vitis_hw"
+            "vitis_hw_emu"
         ],
         "category": "canary"
     }
