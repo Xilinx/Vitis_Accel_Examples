@@ -18,15 +18,23 @@
 #include <hls_stream.h>
 #include <ap_axi_sdata.h>
 
+const int NUM=2;
+const int STREAM_WIDTH=32;
+
 extern "C" {
 
-void pl_mm2s(ap_int<32>* mem, hls::stream<qdma_axis<32, 0, 0, 0> >& s, int size) {
+void mm2s(ap_int<32>* mem, hls::stream<qdma_axis<32, 0, 0, 0> >& s0, hls::stream<qdma_axis<32, 0, 0, 0> >& s1, int size) {
 data_mover:
     for (int i = 0; i < size; i++) {
-        qdma_axis<32, 0, 0, 0> x;
-        x.data = mem[i];
-        x.keep_all();
-        s.write(x);
+        ap_int<STREAM_WIDTH*NUM> data=mem[i];
+        qdma_axis<32, 0, 0, 0> x[NUM];
+        for(int j=0;j<NUM;j++){
+        x[j].data = data(STREAM_WIDTH*j+STREAM_WIDTH-1,STREAM_WIDTH*j);
+        x[j].keep = -1;
+        x[j].last = 0;
+}        
+        s0.write(x[0]);
+        s1.write(x[1]);
     }
 }
 }
