@@ -69,11 +69,11 @@
         {
             "accelerators": [
                 {
-                    "location": "./src/aie/aie_graph.cpp",
+                    "location": "./src/aie/graph.cpp",
                     "pl-freq": 100,
                     "workdir": "./Work",
                     "name": "libadf.a",
-                    "aie_kernel_files":["./src/aie/aie_adder.cc"]
+                    "aie_kernel_files":["./src/aie/adder.cc"]
                 }
             ]
         }
@@ -101,12 +101,12 @@
             "accelerators": [
                 {
                     "name": "pl_mm2s", 
-                    "location": "src/pl_kernels/pl_mm2s.cpp",
+                    "location": "src/pl_kernels/mm2s.cpp",
                     "num_compute_units": "2"
                 }, 
                 {
                     "name": "pl_s2mm", 
-                    "location": "src/pl_kernels/pl_s2mm.cpp"
+                    "location": "src/pl_kernels/s2mm.cpp"
                 } 
             ], 
             "name": "krnl_adder"

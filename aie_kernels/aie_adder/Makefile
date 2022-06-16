@@ -58,11 +58,11 @@ LINK_OUTPUT := adder.xsa
 XCLBIN := krnl_adder.xclbin
 
 # File names and locations
-GRAPH := src/aie/aie_graph.cpp
+GRAPH := src/aie/graph.cpp
 GRAPH_O := libadf.a
 
-KERNEL := pl_s2mm.cpp pl_mm2s.cpp 
-KERNEL_XO := pl_s2mm.xo pl_mm2s.xo 
+KERNEL := s2mm.cpp mm2s.cpp 
+KERNEL_XO := s2mm.xo mm2s.xo 
 
 HOST_SRCS := ./src/sw/host.cpp
 EXECUTABLE = ./aie_adder
@@ -129,9 +129,9 @@ all: check-device kernels graph build host sd_card
 kernels: check-device $(KERNEL_XO)
 	@echo "COMPLETE: Kernels Created."	
 
-pl_s2mm.xo: src/pl_kernels/pl_s2mm.cpp
+s2mm.xo: src/pl_kernels/s2mm.cpp
 	$(VPP) $(VPP_XO_FLAGS) -k $(basename $(notdir $<)) $< -o $@
-pl_mm2s.xo: src/pl_kernels/pl_mm2s.cpp
+mm2s.xo: src/pl_kernels/mm2s.cpp
 	$(VPP) $(VPP_XO_FLAGS) -k $(basename $(notdir $<)) $< -o $@
 
 graph: check-device $(GRAPH_O)

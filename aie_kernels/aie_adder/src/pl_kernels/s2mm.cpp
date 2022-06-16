@@ -14,33 +14,17 @@
 * under the License.
 */
 
-#ifndef __GRAPH_H__
-#define __GRAPH_H__
+#include <ap_int.h>
+#include <hls_stream.h>
+#include <ap_axi_sdata.h>
 
-#include <adf.h>
-#include "aie_kernel.h"
+extern "C" {
 
-using namespace adf;
-
-class simpleGraph : public graph {
-   private:
-    kernel adder;
-
-   public:
-    port<input> in0, in1;
-    port<output> out;
-
-    simpleGraph() {
-        adder = kernel::create(aie_adder);
-
-        connect<stream>(in0, adder.in[0]);
-        connect<stream>(in1, adder.in[1]);
-        connect<stream>(adder.out[0], out);
-
-        source(adder) = "aie_adder.cc";
-
-        runtime<ratio>(adder) = 0.1;
-    };
-};
-
-#endif /**********__GRAPH_H__**********/
+void s2mm(ap_int<32>* mem, hls::stream<qdma_axis<32, 0, 0, 0> >& s, int size) {
+data_mover:
+    for (int i = 0; i < size; i++) {
+        qdma_axis<32, 0, 0, 0> x = s.read();
+        mem[i] = x.data;
+    }
+}
+}
