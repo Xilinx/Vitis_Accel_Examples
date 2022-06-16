@@ -68,9 +68,8 @@ VPP_PFLAGS :=
 CMD_ARGS = -x1 $(BUILD_DIR)/test_kernel_maxi_256bit.xclbin -x2 $(BUILD_DIR)/test_kernel_maxi_512bit.xclbin
 SD_CARD := $(PACKAGE_OUT)
 
-include $(XF_PROJ_ROOT)/common/includes/opencl/opencl.mk
-CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++1y
-LDFLAGS += $(opencl_LDFLAGS)
+CXXFLAGS += -I$(SYSROOT)/usr/include/xrt -I$(XILINX_VIVADO)/include -Wall -O0 -g -std=c++1y
+LDFLAGS += -L$(SYSROOT)/usr/lib -pthread -lxilinxopencl
 
 ########################## Checking if PLATFORM in allowlist #######################
 PLATFORM_BLOCKLIST += zcu102_base_20 zcu104_base_20 vck zc7 aws-vu9p-f1 samsung u2_ nodma 

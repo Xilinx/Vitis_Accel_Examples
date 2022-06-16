@@ -55,11 +55,9 @@ PACKAGE_OUT = ./package.$(TARGET)
 
 VPP_PFLAGS := 
 CMD_ARGS = $(BUILD_DIR)/myadder.xclbin
-include $(XF_PROJ_ROOT)/common/includes/opencl/opencl.mk
+CXXFLAGS += -I$(XILINX_XRT)/include -I$(XILINX_VIVADO)/include -Wall -O0 -g -std=c++1y
+LDFLAGS += -L$(XILINX_XRT)/lib -pthread -lOpenCL
 include config.mk
-
-CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++1y
-LDFLAGS += $(opencl_LDFLAGS)
 
 ########################## Checking if PLATFORM in allowlist #######################
 PLATFORM_BLOCKLIST += 2018 vck zc706 nodma 

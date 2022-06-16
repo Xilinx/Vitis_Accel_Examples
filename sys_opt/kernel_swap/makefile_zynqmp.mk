@@ -68,11 +68,9 @@ VPP_PFLAGS :=
 CMD_ARGS = -x1 $(BUILD_DIR)/krnl_vmul.xclbin -x2 $(BUILD_DIR)/krnl_vadd.xclbin
 SD_CARD := $(PACKAGE_OUT)
 
-include $(XF_PROJ_ROOT)/common/includes/opencl/opencl.mk
+CXXFLAGS += -I$(SYSROOT)/usr/include/xrt -I$(XILINX_VIVADO)/include -Wall -O0 -g -std=c++1y
+LDFLAGS += -L$(SYSROOT)/usr/lib -pthread -lxilinxopencl
 include ./config.mk
-
-CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++1y
-LDFLAGS += $(opencl_LDFLAGS)
 
 ########################## Checking if PLATFORM in allowlist #######################
 PLATFORM_BLOCKLIST += flat zcu102_base_20 zcu104_base_20 vck5000 vck190_base_20 vck190_base_pci zc7 nodma 

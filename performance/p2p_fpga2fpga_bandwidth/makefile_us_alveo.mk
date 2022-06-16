@@ -52,12 +52,10 @@ BUILD_DIR := ./build_dir.$(TARGET).$(XSA)
 LINK_OUTPUT := $(BUILD_DIR)/bandwidth.link.xclbin
 PACKAGE_OUT = ./package.$(TARGET)
 
-
 VPP_PFLAGS := 
 CMD_ARGS = -x1 $(BUILD_DIR)/bandwidth.xclbin -x2 $(BUILD_DIR)/bandwidth.xclbin
-include $(XF_PROJ_ROOT)/common/includes/opencl/opencl.mk
-CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++1y
-LDFLAGS += $(opencl_LDFLAGS)
+CXXFLAGS += -I$(XILINX_XRT)/include -I$(XILINX_VIVADO)/include -Wall -O0 -g -std=c++1y
+LDFLAGS += -L$(XILINX_XRT)/lib -pthread -lOpenCL
 
 ########################## Checking if PLATFORM in allowlist #######################
 PLATFORM_BLOCKLIST += zc 201910 2018 vck aws-vu9p-f1 u25_ u30 u50_gen3x16_xdma_2019 
