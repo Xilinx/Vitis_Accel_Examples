@@ -44,8 +44,6 @@ include makefile_zynqmp.mk
 else
 include makefile_us_alveo.mk
 endif
-else ifeq ($(DEV_ARCH), zynq)
-include makefile_zynq7000.mk
 else ifeq ($(DEV_ARCH), versal)
 ifeq ($(HOST_ARCH), x86)
 include makefile_versal_alveo.mk

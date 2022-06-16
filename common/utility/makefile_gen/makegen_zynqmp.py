@@ -72,6 +72,7 @@ def create_params(target,data):
         target.write("\n\n")    
     target.write("CXXFLAGS += -I$(SYSROOT)/usr/include/xrt -I$(XILINX_VIVADO)/include -Wall -O0 -g -std=c++1y\n")
     target.write("LDFLAGS += -L$(SYSROOT)/usr/lib -pthread -lxilinxopencl\n")
+    target.write("VPP_PFLAGS+=--package.sd_dir /proj/xbuilds/2022.2_daily_latest/internal_platforms/sw/zynqmp/xrt\n")
 
     blocklist = [board for board in data.get("platform_blocklist", [])]
     forbid_others = False

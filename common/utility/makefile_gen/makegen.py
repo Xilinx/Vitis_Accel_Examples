@@ -125,16 +125,14 @@ def mk_run(target, data):
     target.write("endif\n")
     target.write("\n")
 
-    makefile_lst = ["makegen_us_alveo.py" , "makegen_versal_alveo.py", "makegen_versal_ps.py", "makegen_zynqmp.py", "makegen_zynq7000.py"]
+    makefile_lst = ["makegen_us_alveo.py" , "makegen_versal_alveo.py", "makegen_versal_ps.py", "makegen_zynqmp.py"]
 
     blocklist = [board for board in data.get("platform_blocklist", [])]
     if ("platform_type" in data and data["platform_type"] == "pcie"):
       makefile_lst.remove("makegen_versal_ps.py")
       makefile_lst.remove("makegen_zynqmp.py")
-      makefile_lst.remove("makegen_zynq7000.py")
     if "zc" in blocklist:
       if "makegen_zynqmp.py" in makefile_lst : makefile_lst.remove("makegen_zynqmp.py")
-      if "makegen_zynq7000.py" in makefile_lst : makefile_lst.remove("makegen_zynq7000.py")
     if "vck" in blocklist:
       if "makegen_versal_ps.py" in makefile_lst : makefile_lst.remove("makegen_versal_ps.py")
       makefile_lst.remove("makegen_versal_alveo.py")
@@ -157,8 +155,6 @@ def mk_run(target, data):
     elif "dma" in blocklist:
       target.write("ifeq ($(DEV_ARCH), zynquplus)\n")
       target.write("include makefile_zynqmp.mk\n")
-      target.write("else ifeq ($(DEV_ARCH), zynq)\n")
-      target.write("include makefile_zynq7000.mk\n")
       target.write("else ifeq ($(DEV_ARCH), versal)\n")
       target.write("include makefile_versal_ps.mk\n")
       target.write("endif\n")
@@ -169,8 +165,6 @@ def mk_run(target, data):
       target.write("else\n")
       target.write("include makefile_us_alveo.mk\n")
       target.write("endif\n")
-      target.write("else ifeq ($(DEV_ARCH), zynq)\n")
-      target.write("include makefile_zynq7000.mk\n")
       target.write("else ifeq ($(DEV_ARCH), versal)\n")
       target.write("ifeq ($(HOST_ARCH), x86)\n")
       target.write("include makefile_versal_alveo.mk\n")

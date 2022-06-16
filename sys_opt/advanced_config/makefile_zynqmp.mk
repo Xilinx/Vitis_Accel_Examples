@@ -74,6 +74,7 @@ include config.mk
 
 CXXFLAGS += -I$(SYSROOT)/usr/include/xrt -I$(XILINX_VIVADO)/include -Wall -O0 -g -std=c++1y
 LDFLAGS += -L$(SYSROOT)/usr/lib -pthread -lxilinxopencl
+VPP_PFLAGS+=--package.sd_dir /proj/xbuilds/2022.2_daily_latest/internal_platforms/sw/zynqmp/xrt
 
 ########################## Checking if PLATFORM in allowlist #######################
 PLATFORM_BLOCKLIST += nodma zc706 

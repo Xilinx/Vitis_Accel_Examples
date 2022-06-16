@@ -37,8 +37,6 @@ endif
 
 ifeq ($(DEV_ARCH), zynquplus)
 include makefile_zynqmp.mk
-else ifeq ($(DEV_ARCH), zynq)
-include makefile_zynq7000.mk
 else ifeq ($(DEV_ARCH), versal)
 include makefile_versal_ps.mk
 endif
