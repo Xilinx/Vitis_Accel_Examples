@@ -338,14 +338,14 @@ endif
 
 .PHONY: build
 ifeq ($(HOST_ARCH), x86)
-build:  check_vpp check_xrt $(BINARY_CONTAINERS) $(AIE_CONTAINER) $(BINARY_CONTAINERS_PKG)
+build:  check_vpp $(BINARY_CONTAINERS) $(AIE_CONTAINER) $(BINARY_CONTAINERS_PKG)
 else
 build:  check_vpp check_sysroot $(BINARY_CONTAINERS) $(AIE_CONTAINER) $(BINARY_CONTAINERS_PKG)
 endif
 
 .PHONY: xclbin
 ifeq ($(HOST_ARCH), x86)
-xclbin:  check_vpp check_xrt $(BINARY_CONTAINERS) $(AIE_CONTAINER) $(BINARY_CONTAINERS_PKG)
+xclbin:  check_vpp $(BINARY_CONTAINERS) $(AIE_CONTAINER) $(BINARY_CONTAINERS_PKG)
 else
 xclbin:  check_vpp check_sysroot $(BINARY_CONTAINERS) $(AIE_CONTAINER) $(BINARY_CONTAINERS_PKG)
 endif

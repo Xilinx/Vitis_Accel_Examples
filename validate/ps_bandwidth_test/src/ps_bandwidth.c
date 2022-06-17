@@ -37,9 +37,6 @@ public:
 __attribute__((visibility("default")))
 int bandwidth_kernel(int reps, double *max_throughput, xrtHandles *xrtHandle)
 {
-    openlog("new_kernel_source", LOG_PID | LOG_CONS | LOG_NDELAY, LOG_NEWS);
-    syslog(LOG_INFO, "%s: Started new kernel\n", __func__);
-
     double max_throughput_int = 0;
 
     // Starting at 4K and going up to 16M with increments of power of 2
@@ -53,7 +50,7 @@ int bandwidth_kernel(int reps, double *max_throughput, xrtHandles *xrtHandle)
       auto output_buffer = xrt::bo(xrtHandle->dhdl, data_size, xrtHandle->bandwidth_kernel.group_id(1));
       auto input_host = input_buffer.map<unsigned char*>();
       auto output_host = output_buffer.map<unsigned char*>();
-      
+
       // Filling up memory with an incremental byte pattern
       for (uint32_t j = 0; j < data_size; j++) {
 	input_host[j] = j % 256;
@@ -89,9 +86,6 @@ int bandwidth_kernel(int reps, double *max_throughput, xrtHandles *xrtHandle)
     syslog(LOG_INFO, "%s: Throughput (Type: DDR) = %f MB/s\n",__func__,max_throughput_int);
     max_throughput[0] = max_throughput_int;
     
-    syslog(LOG_INFO, "%s: Stopped new kernel\n", __func__);
-    closelog();
-
     return 0;
 }
 

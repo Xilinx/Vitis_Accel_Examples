@@ -13,6 +13,7 @@
 * License for the specific language governing permissions and limitations
 * under the License.
 */
+#include <boost/filesystem.hpp>
 #include <cstring>
 #include <fstream>
 #include <iostream>
@@ -21,6 +22,7 @@
 #include <stdlib.h>
 #include <vector>
 
+#include "experimental/xrt_system.h"
 #include "xrt/xrt_bo.h"
 #include "xrt/xrt_device.h"
 #include "xrt/xrt_kernel.h"
@@ -33,19 +35,75 @@
 
 #define SAMPLES 256
 
+static void printHelp() {
+    std::cout << "usage: %s <options>\n";
+    std::cout << "  -p <path>\n";
+    std::cout << "  -d <device> \n";
+    std::cout << "  -s <supported>\n";
+    std::cout << "  -h <help>\n";
+}
+
 int main(int argc, char** argv) {
     const int input_size_in_bytes = SIZE * sizeof(float);
     const int output_size_in_bytes = SIZE * sizeof(float);
     const int input_size_allocated = ((input_size_in_bytes / 4096) + ((input_size_in_bytes % 4096) > 0)) * 4096;
     const int output_size_allocated = ((output_size_in_bytes / 4096) + ((output_size_in_bytes % 4096) > 0)) * 4096;
 
-    if (argc < 2) {
-        std::cout << "Usage: host.exe <xclbin>\n";
-        return 1;
+    std::string dev_id = "0";
+    std::string test_path;
+    std::string b_file = "/ps_aie.xclbin";
+    bool flag_s = false;
+    for (int i = 1; i < argc; i++) {
+        if ((strcmp(argv[i], "-p") == 0) || (strcmp(argv[i], "--path") == 0)) {
+            test_path = argv[i + 1];
+        } else if ((strcmp(argv[i], "-d") == 0) || (strcmp(argv[i], "--device") == 0)) {
+            dev_id = argv[i + 1];
+        } else if ((strcmp(argv[i], "-s") == 0) || (strcmp(argv[i], "--supported") == 0)) {
+            flag_s = true;
+        } else if ((strcmp(argv[i], "-h") == 0) || (strcmp(argv[i], "--help") == 0)) {
+            printHelp();
+            return 1;
+        }
     }
-    auto device = xrt::device(0);
-    auto uuid = device.load_xclbin(argv[1]);
 
+    if (test_path.empty()) {
+        std::cout << "ERROR : please provide the platform test path to -p option\n";
+        return EXIT_FAILURE;
+    }
+    auto binaryFile = boost::filesystem::path(test_path) / b_file;
+    std::ifstream infile(binaryFile.string());
+    if (flag_s) {
+        if (!infile.good()) {
+            std::cout << "\nNOT SUPPORTED" << std::endl;
+            return EOPNOTSUPP;
+        } else {
+            std::cout << "\nSUPPORTED" << std::endl;
+            return EXIT_SUCCESS;
+        }
+    }
+
+    if (!infile.good()) {
+        std::cout << "\nNOT SUPPORTED" << std::endl;
+        return EOPNOTSUPP;
+    }
+
+    auto num_devices = xrt::system::enumerate_devices();
+
+    xrt::device device;
+    auto pos = dev_id.find(":");
+    if (pos == std::string::npos) {
+        uint32_t device_index = stoi(dev_id);
+        if (device_index >= num_devices) {
+            std::cout << "The device_index provided using -d flag is outside the range of "
+                         "available devices\n";
+            return EXIT_FAILURE;
+        }
+        device = xrt::device(device_index);
+    } else {
+        device = xrt::device(dev_id);
+    }
+
+    auto uuid = device.load_xclbin(binaryFile.string());
     auto aie_kernel = xrt::kernel(device, uuid.get(), "aie_kernel");
     auto out_bo = xrt::bo(device, output_size_allocated, aie_kernel.group_id(2));
     auto out_bomapped = out_bo.map<float*>();

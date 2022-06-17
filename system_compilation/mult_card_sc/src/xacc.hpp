@@ -24,6 +24,11 @@ class xacc : public VPP_ACC<xacc, NCU> {
     SYS_PORT(buf, HBM[0]);
     SYS_PORT(cnt, HBM[0]);
 
+    SYS_PORT_PFM(u200, buf, DDR[0]);
+    SYS_PORT_PFM(u200, cnt, DDR[1]);
+
+    SYS_PORT_PFM(u250, buf, DDR[0]);
+    SYS_PORT_PFM(u250, cnt, DDR[1]);
    public:
     static void compute(char* buf, int sz, int* cnt);
     static void hls_top(char* buf, int sz, int* cnt);

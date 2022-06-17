@@ -79,6 +79,8 @@ VPP := v++
 VPP_PFLAGS := 
 CMD_ARGS = -p $(GEN_DIR) 
 
+include config.mk
+
 CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++1y
 LDFLAGS += $(opencl_LDFLAGS)
 
@@ -101,10 +103,8 @@ ifneq ($(wildcard $(XILINX_VITIS)/aietools/.*),)
 XILINX_VITIS_AIETOOLS := $(XILINX_VITIS)/aietools
 else
 XILINX_VITIS_AIETOOLS := $(XILINX_VITIS)/cardano
-XILINX_VITIS_AIELIBS:= -lcardano_api_xrt -lxaiengine -lxrt_core
 endif
 CXXFLAGS += -I$(XILINX_VITIS_AIETOOLS)/include
-LDFLAGS += $(XILINX_VITIS_AIELIBS)
 # Setting customized_params in aiecompiler
 
 ############################ setting AIE Compiler ###########################
@@ -120,6 +120,9 @@ AIE_CONTAINER = $(TEMP_DIR)/libadf.a
 
 EXE_FILE_DEPS += $(AIE_CONTAINER)
 BINARY_CONTAINERS_DEPS += $(AIE_CONTAINER)
+
+DMA_LOCK_JSON += $(CUR_DIR)/Work/reports/dma_lock_report.json
+AIE_CONFIG_JSON += $(CUR_DIR)/Work/ps/c_rts/aie_control_config.json
 
 ############################## Setting up Kernel Variables ##############################
 # Kernel compiler global settings
@@ -182,6 +185,10 @@ $(BINARY_CONTAINERS_TEMP): $(AIE_CONTAINER) $(BINARY_CONTAINERS)
 	${VPP} -p -t ${TARGET} -f ${PLATFORM} $(AIE_CONTAINER) ${BINARY_CONTAINERS} -o ./${BINARY_CONTAINERS_TEMP}
 $(BINARY_CONTAINERS_PKG): $(AIE_CONTAINER) $(BINARY_CONTAINERS) $(ps_target)
 	xclbinutil --add-pskernel $(ps_target) --input ./${BINARY_CONTAINERS_TEMP} --output ./${BINARY_CONTAINERS_PKG} --force
+	mkdir -p $(GEN_DIR) && $(CP) $(BINARY_CONTAINERS_PKG) $(GEN_DIR)
+	$(CP) $(PLATFORM_JSON) $(GEN_DIR)
+	$(CP) $(DMA_LOCK_JSON) $(GEN_DIR)
+	$(CP) $(AIE_CONFIG_JSON) $(GEN_DIR)
 
 #$(BINARY_CONTAINERS_PKG): $(AIE_CONTAINER) $(BINARY_CONTAINERS) $(ps_target)
 #	${VPP} -p -t ${TARGET} -f ${PLATFORM} ${BINARY_CONTAINERS} --package.ps_kernel $(ps_target) -o ./${BINARY_CONTAINERS_PKG}
@@ -207,11 +214,9 @@ endif
 .PHONY: test
 test: $(EXECUTABLE)
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
-ifeq ($(HOST_ARCH), x86)
 	XCL_EMULATION_MODE=$(TARGET) $(EXECUTABLE) $(CMD_ARGS)
 else
 	$(EXECUTABLE) $(CMD_ARGS)
-endif
 endif
 
 
