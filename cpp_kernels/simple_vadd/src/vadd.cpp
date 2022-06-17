@@ -140,6 +140,14 @@ int main(int argc, char* argv[]) {
     OCL_CHECK(err, ptr_result = (int*)q.enqueueMapBuffer(buffer_result, CL_TRUE, CL_MAP_READ, 0, size_in_bytes, NULL,
                                                          NULL, &err));
 
+
+    // Initialize the vectors used in the test
+    for(int i = 0 ; i < DATA_SIZE ; i++){
+        ptr_a[i] = rand() % DATA_SIZE;
+        ptr_b[i] = rand() % DATA_SIZE;
+        ptr_result[i] = 0;
+    }
+
     // Data will be migrated to kernel space
     OCL_CHECK(err, err = q.enqueueMigrateMemObjects({buffer_a, buffer_b}, 0 /* 0 means from host*/));
 
