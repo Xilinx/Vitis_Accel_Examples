@@ -24,16 +24,7 @@ public:
 __attribute__((visibility("default")))
 int hello_world(int *input, int *output, int count, struct xrtHandles *xrtHandle)
 {
-    openlog("new_kernel_source", LOG_PID | LOG_CONS | LOG_NDELAY, LOG_NEWS);
-    syslog(LOG_INFO, "%s: Started new kernel\n", __func__);
-
-    for (int i = 0; i < count; i++) {
-      output[i] = input[i];
-    }
-    syslog(LOG_INFO, "input[%0d] = %d, output[%d] = %d\n",0,input[0],0,output[0]);
-
-    syslog(LOG_INFO, "%s: Stopped new kernel\n", __func__);
-    closelog();
+    memcpy(output, input, count*sizeof(int));
 
     return 0;
 }

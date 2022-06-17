@@ -25,6 +25,7 @@
 #include "adf/adf_api/XRTConfig.h"
 #include "xrt/experimental/xrt_aie.h"
 #include "xrt/experimental/xrt_kernel.h"
+#include "xrt/xrt_bo.h"
 #include <xaiengine.h>
 
 #define SAMPLES 256
@@ -61,15 +62,12 @@ __attribute__((visibility("default"))) int aie_kernel(
     memcpy(inA_bo_map, in_boA, input_size);
     memcpy(inB_bo_map, in_boB, input_size);
 
-    //    handles->graphhdl[0].run(1);
     std::string gmioportA, gmioportB, gmioportC;
     int gmio_id = 0;
     gmioportA = std::to_string(gmio_id++);
     gmioportB = std::to_string(gmio_id++);
     in_bohdlB.sync("in_source2", XCL_BO_SYNC_BO_GMIO_TO_AIE, input_size, 0);
-    std::cout << "syncAIEBO B \n";
     in_bohdlA.sync("in_source1", XCL_BO_SYNC_BO_GMIO_TO_AIE, input_size, 0);
-    std::cout << "syncAIEBO A \n";
 
     gmioportC = std::to_string(gmio_id++);
     out_bohdl.sync("out_sink", XCL_BO_SYNC_BO_AIE_TO_GMIO, output_size, 0);
