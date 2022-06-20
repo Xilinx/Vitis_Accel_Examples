@@ -120,7 +120,7 @@ int main(int argc, char* argv[]) {
     // be used to reference the memory locations on the device.
     OCL_CHECK(err, cl::Buffer buffer_a(context, CL_MEM_READ_ONLY, size_in_bytes, NULL, &err));
     OCL_CHECK(err, cl::Buffer buffer_b(context, CL_MEM_READ_ONLY, size_in_bytes, NULL, &err));
-    OCL_CHECK(err, cl::Buffer buffer_result(context, CL_MEM_WRITE_ONLY, size_in_bytes, NULL, &err));
+    OCL_CHECK(err, cl::Buffer buffer_result(context, CL_MEM_READ_WRITE, size_in_bytes, NULL, &err));
 
     // set the kernel Arguments
     int narg = 0;
@@ -128,6 +128,7 @@ int main(int argc, char* argv[]) {
     OCL_CHECK(err, err = krnl_vector_add.setArg(narg++, buffer_b));
     OCL_CHECK(err, err = krnl_vector_add.setArg(narg++, buffer_result));
     OCL_CHECK(err, err = krnl_vector_add.setArg(narg++, DATA_SIZE));
+
 
     // We then need to map our OpenCL buffers to get the pointers
     int* ptr_a;
@@ -137,7 +138,7 @@ int main(int argc, char* argv[]) {
               ptr_a = (int*)q.enqueueMapBuffer(buffer_a, CL_TRUE, CL_MAP_WRITE, 0, size_in_bytes, NULL, NULL, &err));
     OCL_CHECK(err,
               ptr_b = (int*)q.enqueueMapBuffer(buffer_b, CL_TRUE, CL_MAP_WRITE, 0, size_in_bytes, NULL, NULL, &err));
-    OCL_CHECK(err, ptr_result = (int*)q.enqueueMapBuffer(buffer_result, CL_TRUE, CL_MAP_READ, 0, size_in_bytes, NULL,
+    OCL_CHECK(err, ptr_result = (int*)q.enqueueMapBuffer(buffer_result, CL_TRUE, CL_MAP_WRITE | CL_MAP_READ, 0, size_in_bytes, NULL,
                                                          NULL, &err));
 
 
