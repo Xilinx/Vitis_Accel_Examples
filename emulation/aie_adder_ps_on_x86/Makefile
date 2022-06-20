@@ -62,11 +62,11 @@ LINK_OUTPUT := adder.xsa
 XCLBIN := krnl_adder.xclbin
 
 # File names and locations
-GRAPH := src/aie/aie_graph.cpp
+GRAPH := src/aie/graph.cpp
 GRAPH_O := libadf.a
 
-KERNEL := pl_s2mm.cpp pl_mm2s.cpp 
-KERNEL_XO := pl_s2mm.xo pl_mm2s.xo 
+KERNEL := s2mm.cpp mm2s.cpp 
+KERNEL_XO := s2mm.xo mm2s.xo 
 
 HOST_SRCS := ./src/sw/host.cpp
 EXECUTABLE = ./aie_adder_ps_on_x86
@@ -106,7 +106,7 @@ VPP_LINK_FLAGS := -l --platform $(PLATFORM) $(KERNEL_XO) $(GRAPH_O) -t $(TARGET)
 
 GCC_LIB := -lxrt_coreutil
 GCC_FLAGS := -Wall -c -std=c++14 -Wno-int-to-pointer-cast
-GCC_INCLUDES := -I./src -I${XILINX_VITIS}/aietools/include
+GCC_INCLUDES := -I./src/aie -I./ -I${XILINX_VITIS}/aietools/include
 
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu))
 GCC_LIB += -ladf_api_xrt_swemu -L${XILINX_VITIS}/aietools/lib/lnx64.o -L${XILINX_XRT}/lib
@@ -130,9 +130,9 @@ emconfig:
 kernels: check-device $(KERNEL_XO)
 	@echo "COMPLETE: Kernels Created."	
 
-pl_s2mm.xo: src/pl_kernels/pl_s2mm.cpp
+s2mm.xo: src/pl_kernels/s2mm.cpp
 	$(VPP) $(VPP_XO_FLAGS) -k $(basename $(notdir $<)) $< -o $@
-pl_mm2s.xo: src/pl_kernels/pl_mm2s.cpp
+mm2s.xo: src/pl_kernels/mm2s.cpp
 	$(VPP) $(VPP_XO_FLAGS) -k $(basename $(notdir $<)) $< -o $@
 
 graph: check-device $(GRAPH_O)

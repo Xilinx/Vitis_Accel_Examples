@@ -14,13 +14,15 @@
 * under the License.
 */
 
-#include "aie/aie_graph.h"
+#include "graph.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
 #include <fstream>
-#include "xrt.h"
-#include "experimental/xrt_kernel.h"
+
+// This is used for the PL Kernels
+#include "xrt/xrt.h"
+#include "xrt/experimental/xrt_kernel.h"
 
 // Using the ADF API that call XRT API
 #include "adf/adf_api/XRTConfig.h"
@@ -53,8 +55,7 @@ int main(int argc, char** argv) {
     //////////////////////////////////////////
     auto dhdl = xrtDeviceOpen(0); // Open Device the local device
     if (dhdl == nullptr) throw std::runtime_error("No valid device handle found. Make sure using right xclOpen index.");
-    std::string binaryFile = argv[1];
-    auto xclbin = load_xclbin(dhdl, binaryFile);
+    auto xclbin = load_xclbin(dhdl, "krnl_adder.xclbin");
     auto top = reinterpret_cast<const axlf*>(xclbin.data());
     adf::registerXRT(dhdl, top->m_header.uuid);
 
@@ -108,29 +109,25 @@ int main(int argc, char** argv) {
     // that is outside of the AI Engine graph
     //////////////////////////////////////////
 
-    xrtKernelHandle mm2s_khdl1 = xrtPLKernelOpen(dhdl, top->m_header.uuid, "pl_mm2s:{pl_mm2s_1}");
+    xrtKernelHandle mm2s_khdl1 = xrtPLKernelOpen(dhdl, top->m_header.uuid, "mm2s");
     // Need to provide the kernel handle, and the argument order of the kernel arguments
     // Here the in_bohdl is the input buffer, the nullptr is the streaming interface and must be null,
     // lastly, the size of the data. This info can be found in the kernel definition.
     xrtRunHandle mm2s_rhdl1 = xrtKernelRun(mm2s_khdl1, in_bohdl0, nullptr, sizeIn);
-    printf("run pl_mm2s_1\n");
+    printf("run mm2s\n");
 
-    xrtKernelHandle mm2s_khdl2 = xrtPLKernelOpen(dhdl, top->m_header.uuid, "pl_mm2s:{pl_mm2s_2}");
-    xrtRunHandle mm2s_rhdl2 = xrtKernelRun(mm2s_khdl2, in_bohdl1, nullptr, sizeIn);
-    printf("run pl_mm2s_2\n");
-
-    //////////////////////////////////////////
+        //////////////////////////////////////////
     // s2mm ip
     // Using the xrtPLKernelOpen function to manually control the PL Kernel
     // that is outside of the AI Engine graph
     //////////////////////////////////////////
 
-    xrtKernelHandle s2mm_khdl = xrtPLKernelOpen(dhdl, top->m_header.uuid, "pl_s2mm");
+    xrtKernelHandle s2mm_khdl = xrtPLKernelOpen(dhdl, top->m_header.uuid, "s2mm");
     // Need to provide the kernel handle, and the argument order of the kernel arguments
     // Here the out_bohdl is the output buffer, the nullptr is the streaming interface and must be null,
     // lastly, the size of the data. This info can be found in the kernel definition.
     xrtRunHandle s2mm_rhdl = xrtKernelRun(s2mm_khdl, out_bohdl, nullptr, sizeOut);
-    printf("run pl_s2mm\n");
+    printf("run s2mm\n");
 
     //////////////////////////////////////////
     // graph execution for AIE
@@ -153,12 +150,7 @@ int main(int argc, char** argv) {
     std::cout << "mm2s_1 completed with status(" << state << ")\n";
     xrtRunClose(mm2s_rhdl1);
     xrtKernelClose(mm2s_khdl1);
-
-    state = xrtRunWait(mm2s_rhdl2);
-    std::cout << "mm2s_2 completed with status(" << state << ")\n";
-    xrtRunClose(mm2s_rhdl2);
-    xrtKernelClose(mm2s_khdl2);
-
+ 
     //////////////////////////////////////////
     // wait for s2mm done
     //////////////////////////////////////////
