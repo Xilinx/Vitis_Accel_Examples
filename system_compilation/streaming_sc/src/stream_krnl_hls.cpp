@@ -24,7 +24,7 @@ void fsk_acc::ldst(int* A, int* X, int sz, hls::stream<AXI>& AS, hls::stream<AXI
     }
 
     AXI st{0};
-    for (int i = 0; !st.last; i++) {
+    for (int i = 0; i < sz; i++) {
         st = XS.read();
         X[i] = st.data;
     }
