@@ -58,6 +58,7 @@ CXXFLAGS += -I$(XILINX_XRT)/include -I$(XILINX_VIVADO)/include -Wall -O0 -g -std
 LDFLAGS += -L$(XILINX_XRT)/lib -pthread -lOpenCL
 
 ########################## Checking if PLATFORM in allowlist #######################
+
 PLATFORM_BLOCKLIST += nodma 
 ############################## Setting up Host Variables ##############################
 #Include Required Host Source Files
@@ -72,6 +73,13 @@ LDFLAGS += -lrt -lstdc++
 VPP_FLAGS += -t $(TARGET) --platform $(PLATFORM) --save-temps 
 
 
+# Kernel linker flags
+ifeq ($(findstring u55, $(PLATFORM)), u55)
+VPP_LDFLAGS += --config ./conn_u55.cfg
+endif
+ifeq ($(findstring u50, $(PLATFORM)), u50)
+VPP_LDFLAGS += --config ./conn_u55.cfg
+endif
 EXECUTABLE = ./device_only_buffer
 EMCONFIG_DIR = $(TEMP_DIR)
 

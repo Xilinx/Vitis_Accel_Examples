@@ -156,6 +156,7 @@ void multiple_command_queues(cl::Context& context,
                              cl::Kernel& kernel_madd,
                              cl::Kernel& kernel_mmult,
                              cl::Buffer& buffer_a,
+                             cl::Buffer& buffer_a1,
                              cl::Buffer& buffer_b,
                              cl::Buffer& buffer_c,
                              cl::Buffer& buffer_d,
@@ -183,7 +184,7 @@ void multiple_command_queues(cl::Context& context,
     set_callback(kernel_events[0], "scale");
 
     OCL_CHECK(err, err = kernel_madd.setArg(0, buffer_c));
-    OCL_CHECK(err, err = kernel_madd.setArg(1, buffer_a));
+    OCL_CHECK(err, err = kernel_madd.setArg(1, buffer_a1));
     OCL_CHECK(err, err = kernel_madd.setArg(2, buffer_b));
     OCL_CHECK(err, err = kernel_madd.setArg(3, MAT_DIM0));
     OCL_CHECK(err, err = kernel_madd.setArg(4, MAT_DIM1));
@@ -239,6 +240,7 @@ void out_of_order_queue(cl::Context& context,
                         cl::Kernel& kernel_madd,
                         cl::Kernel& kernel_mmult,
                         cl::Buffer& buffer_a,
+                        cl::Buffer& buffer_a1,
                         cl::Buffer& buffer_b,
                         cl::Buffer& buffer_c,
                         cl::Buffer& buffer_d,
@@ -278,7 +280,7 @@ void out_of_order_queue(cl::Context& context,
 
     // set OpenCL kernel parameters to add scaled matrix A and matrix B
     OCL_CHECK(err, err = kernel_madd.setArg(0, buffer_c));
-    OCL_CHECK(err, err = kernel_madd.setArg(1, buffer_a));
+    OCL_CHECK(err, err = kernel_madd.setArg(1, buffer_a1));
     OCL_CHECK(err, err = kernel_madd.setArg(2, buffer_b));
     OCL_CHECK(err, err = kernel_madd.setArg(3, MAT_DIM0));
     OCL_CHECK(err, err = kernel_madd.setArg(4, MAT_DIM1));
@@ -364,6 +366,7 @@ int main(int argc, char** argv) {
 
     // allocate memory on host for input and output matrices
     vector<int, aligned_allocator<int> > A(array_size, 1);
+    vector<int, aligned_allocator<int> > A1(array_size, 1);
     vector<int, aligned_allocator<int> > B(array_size, 1);
     vector<int, aligned_allocator<int> > D(array_size, 1);
     vector<int, aligned_allocator<int> > E(array_size, 1);
@@ -405,6 +408,8 @@ int main(int argc, char** argv) {
     // Device-to-host communication
     OCL_CHECK(err,
               cl::Buffer buffer_a(context, CL_MEM_USE_HOST_PTR | CL_MEM_READ_WRITE, size_in_bytes, A.data(), &err));
+    OCL_CHECK(err,
+              cl::Buffer buffer_a1(context, CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY, size_in_bytes, A1.data(), &err));
     OCL_CHECK(err, cl::Buffer buffer_b(context, CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY, size_in_bytes, B.data(), &err));
     OCL_CHECK(err, cl::Buffer buffer_c(context, CL_MEM_WRITE_ONLY, size_in_bytes, nullptr, &err));
     OCL_CHECK(err, cl::Buffer buffer_d(context, CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY, size_in_bytes, D.data(), &err));
@@ -412,12 +417,12 @@ int main(int argc, char** argv) {
     OCL_CHECK(err, cl::Buffer buffer_f(context, CL_MEM_WRITE_ONLY, size_in_bytes, nullptr, &err));
 
     // Use multiple command queues to execute the kernels
-    multiple_command_queues(context, device, kernel_mscale, kernel_madd, kernel_mmult, buffer_a, buffer_b, buffer_c,
-                            buffer_d, buffer_e, buffer_f, size_in_bytes);
+    multiple_command_queues(context, device, kernel_mscale, kernel_madd, kernel_mmult, buffer_a, buffer_a1, buffer_b,
+                            buffer_c, buffer_d, buffer_e, buffer_f, size_in_bytes);
 
     // Use out of order command queue to execute the kernels
-    out_of_order_queue(context, device, kernel_mscale, kernel_madd, kernel_mmult, buffer_a, buffer_b, buffer_c,
-                       buffer_d, buffer_e, buffer_f, size_in_bytes);
+    out_of_order_queue(context, device, kernel_mscale, kernel_madd, kernel_mmult, buffer_a, buffer_a1, buffer_b,
+                       buffer_c, buffer_d, buffer_e, buffer_f, size_in_bytes);
 
     printf(
         "View the timeline trace in Vitis for a visual overview of the\n"

@@ -18,7 +18,25 @@
     ], 
     "runtime": [
         "OpenCL"
-    ], 
+    ],
+    "platform_properties": {
+        "u55": {
+            "v++": {
+                "linker": {
+                    "ldclflags": [ "--config PROJECT/conn_u55.cfg"
+                      ]
+                }
+            }
+        },
+        "u50": {
+            "v++": {
+                "linker": {
+                    "ldclflags": [ "--config PROJECT/conn_u55.cfg"
+                      ]
+                }
+            }
+        }
+    },  
     "host": {
         "compiler": {
             "sources": [
