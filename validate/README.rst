@@ -32,29 +32,6 @@ The main purpose of validate kernels is to test basic HW functionality during br
       * XCL_MEM_EXT_HOST_ONLY
       * `HOST[0] <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Mapping-Kernel-Ports-to-Memory>`__
 
-  * - `ps_aie_gmio_test <ps_aie_gmio_test>`_
-    - This PS AIE kernel tests PS kernel controlling AIE.
-    - **Key Concepts**
-
-      * PS Kernel
-
-      * AIE
-
-
-  * - `ps_bandwidth_test <ps_bandwidth_test>`_
-    - This PS validate kernel tests PS kernel functionality.
-    - **Key Concepts**
-
-      * PS Kernel
-
-
-  * - `ps_validate_test <ps_validate_test>`_
-    - This PS validate kernel tests PS kernel functionality.
-    - **Key Concepts**
-
-      * PS Kernel
-
-
   * - `validate_aie_pl <validate_aie_pl>`_
     - Xilinx AIE Validate example
     - 
