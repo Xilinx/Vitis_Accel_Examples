@@ -116,7 +116,7 @@ int main(int argc, char** argv) {
     xrtRunHandle mm2s_rhdl1 = xrtKernelRun(mm2s_khdl1, in_bohdl0, nullptr, sizeIn);
     printf("run mm2s\n");
 
-        //////////////////////////////////////////
+    //////////////////////////////////////////
     // s2mm ip
     // Using the xrtPLKernelOpen function to manually control the PL Kernel
     // that is outside of the AI Engine graph
@@ -150,7 +150,7 @@ int main(int argc, char** argv) {
     std::cout << "mm2s_1 completed with status(" << state << ")\n";
     xrtRunClose(mm2s_rhdl1);
     xrtKernelClose(mm2s_khdl1);
- 
+
     //////////////////////////////////////////
     // wait for s2mm done
     //////////////////////////////////////////
