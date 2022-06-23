@@ -34,13 +34,13 @@ help:
 	$(ECHO) "  make sd_card TARGET=<sw_emu/hw_emu/hw> PLATFORM=<FPGA platform> EDGE_COMMON_SW=<rootfs and kernel image path>"
 	$(ECHO) "      Command to prepare sd_card files."
 	$(ECHO) ""
-	$(ECHO) "  make run TARGET=<sw_emu/hw_emu/hw> PLATFORM=<FPGA platform> EDGE_COMMON_SW=<rootfs and kernel image path>"
-	$(ECHO) "      Command to run application in emulation."
+	$(ECHO) "  make run TARGET=<sw_emu/hw_emu/hw> PLATFORM=<FPGA platform> EMU_PS=<X86/QEMU> EDGE_COMMON_SW=<rootfs and kernel image path>"
+	$(ECHO) "      Command to run application in emulation..Default sw_emu will run on x86 ,to launch on qemu specify EMU_PS=QEMU."
 	$(ECHO) ""
 	$(ECHO) "  make build TARGET=<sw_emu/hw_emu/hw> PLATFORM=<FPGA platform> EDGE_COMMON_SW=<rootfs and kernel image path>"
 	$(ECHO) "      Command to build xclbin application."
 	$(ECHO) ""
-	$(ECHO) "  make host EDGE_COMMON_SW=<rootfs and kernel image path>"
+	$(ECHO) "  make host PLATFORM=<FPGA platform> EDGE_COMMON_SW=<rootfs and kernel image path>"
 	$(ECHO) "      Command to build host application."
 	$(ECHO) "      EDGE_COMMON_SW is required for SoC shells. Please download and use the pre-built image from - "
 	$(ECHO) "      https://www.xilinx.com/support/download/index.html/content/xilinx/en/downloadNav/embedded-platforms.html"
@@ -59,6 +59,11 @@ BUILD_DIR := ./build_dir.$(TARGET).$(XSA)
 
 LINK_OUTPUT := $(BUILD_DIR)/krnl_vadd.link.xclbin
 
+EMU_PS := QEMU
+ifeq ($(TARGET), sw_emu)
+EMU_PS := X86
+endif
+
 # SoC variables
 RUN_APP_SCRIPT = ./run_app.sh
 PACKAGE_OUT = ./package.$(TARGET)
@@ -70,9 +75,21 @@ VPP_PFLAGS :=
 CMD_ARGS = $(BUILD_DIR)/krnl_vadd.xclbin
 SD_CARD := $(PACKAGE_OUT)
 
+ifeq ($(EMU_PS), X86)
+CXXFLAGS += -I$(XILINX_XRT)/include -I$(XILINX_VIVADO)/include -Wall -O0 -g -std=c++1y
+LDFLAGS += -L$(XILINX_XRT)/lib -pthread -lOpenCL
+else
 CXXFLAGS += -I$(SYSROOT)/usr/include/xrt -I$(XILINX_VIVADO)/include -Wall -O0 -g -std=c++1y
 LDFLAGS += -L$(SYSROOT)/usr/lib -pthread -lxilinxopencl
+endif
 VPP_PFLAGS+=--package.sd_dir /proj/xbuilds/2022.2_daily_latest/internal_platforms/sw/zynqmp/xrt
+
+#Check for EMU_PS
+ifeq ($(TARGET), $(filter $(TARGET),hw_emu hw))
+ifeq ($(EMU_PS), X86)
+$(error For hw_emu and hw, the design has to run on QEMU. Thus, please give EMU_PS=QEMU for these targets.)
+endif
+endif
 
 ########################## Checking if PLATFORM in allowlist #######################
 PLATFORM_BLOCKLIST += nodma 
@@ -82,7 +99,9 @@ HOST_SRCS += src/vadd.cpp
 # Host compiler global settings
 CXXFLAGS += -fmessage-length=0
 LDFLAGS += -lrt -lstdc++ 
+ifneq ($(EMU_PS), X86)
 LDFLAGS += --sysroot=$(SYSROOT)
+endif
 ############################## Setting up Kernel Variables ##############################
 # Kernel compiler global settings
 VPP_FLAGS += -t $(TARGET) --platform $(PLATFORM) --save-temps 
@@ -93,7 +112,11 @@ EMCONFIG_DIR = $(TEMP_DIR)
 
 ############################## Setting Targets ##############################
 .PHONY: all clean cleanall docs emconfig
+ifeq ($(EMU_PS), X86)
+all: check-platform check-device $(EXECUTABLE) $(BUILD_DIR)/krnl_vadd.xclbin emconfig
+else
 all: check-platform check-device check_edge_sw $(EXECUTABLE) $(BUILD_DIR)/krnl_vadd.xclbin emconfig sd_card
+endif
 
 .PHONY: host
 host: $(EXECUTABLE)
@@ -113,6 +136,9 @@ $(BUILD_DIR)/krnl_vadd.xclbin: $(TEMP_DIR)/krnl_vadd.xo
 	mkdir -p $(BUILD_DIR)
 	v++ $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) -o'$(LINK_OUTPUT)' $(+)
 
+ifeq ($(EMU_PS), X86)
+	v++ -p $(LINK_OUTPUT) $(VPP_FLAGS) --package.emu_ps x86 -o $(BUILD_DIR)/krnl_vadd.xclbin
+endif
 ############################## Preparing sdcard ##############################
 .PHONY: sd_card
 sd_card: gen_run_app $(SD_CARD)
@@ -121,8 +147,14 @@ $(SD_CARD): $(BUILD_DIR)/krnl_vadd.xclbin $(EXECUTABLE)
 	v++ $(VPP_PFLAGS) -p $(LINK_OUTPUT) $(VPP_FLAGS) --package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.sd_file $(SD_IMAGE_FILE) --package.sd_file xrt.ini --package.sd_file $(RUN_APP_SCRIPT) --package.sd_file $(EXECUTABLE) --package.sd_file $(EMCONFIG_DIR)/emconfig.json -o $(BUILD_DIR)/krnl_vadd.xclbin
 
 ############################## Setting Rules for Host (Building Host Executable) ##############################
-$(EXECUTABLE): $(HOST_SRCS) | check-vitis check_edge_sw
+$(EXECUTABLE): $(HOST_SRCS)
+ifeq ($(EMU_PS), X86)
+	$(CXX) -o $@ $^ $(CXXFLAGS) $(LDFLAGS)
+else
+	make check_edge_sw
+	make check-vitis
 	$(XILINX_VITIS)/gnu/aarch64/lin/aarch64-linux/bin/aarch64-linux-gnu-g++ -o $@ $^ $(CXXFLAGS) $(LDFLAGS)
+endif
 
 emconfig:$(EMCONFIG_DIR)/emconfig.json
 $(EMCONFIG_DIR)/emconfig.json:
@@ -131,7 +163,12 @@ $(EMCONFIG_DIR)/emconfig.json:
 ############################## Setting Essential Checks and Running Rules ##############################
 run: all
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
+ifeq ($(EMU_PS), X86)
+	cp -rf $(EMCONFIG_DIR)/emconfig.json .
+	XCL_EMULATION_MODE=$(TARGET) $(EXECUTABLE) $(CMD_ARGS)
+else
 	$(LAUNCH_EMULATOR) -run-app $(RUN_APP_SCRIPT) | tee run_app.log; exit $${PIPESTATUS[0]}
+endif
 else
 	$(ECHO) "Please copy the content of sd_card folder and data to an SD Card and run on the board"
 endif
@@ -140,7 +177,11 @@ endif
 .PHONY: test
 test: $(EXECUTABLE)
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
+ifeq ($(EMU_PS), X86)
+	XCL_EMULATION_MODE=$(TARGET) $(EXECUTABLE) $(CMD_ARGS)
+else
 	$(LAUNCH_EMULATOR) -run-app $(RUN_APP_SCRIPT) | tee run_app.log; exit $${PIPESTATUS[0]}
+endif
 else
 	$(ECHO) "Please copy the content of sd_card folder and data to an SD Card and run on the board"
 endif

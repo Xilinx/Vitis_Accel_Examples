@@ -207,7 +207,7 @@ def mk_help(target):
     target.write("\"\n")
     target.write("\t$(ECHO) \"      Command to build xclbin application.\"\n")
     target.write("\t$(ECHO) \"\"\n")
-    target.write("\t$(ECHO) \"  make host");
+    target.write("\t$(ECHO) \"  make host PLATFORM=<FPGA platform>");
     target.write(" EDGE_COMMON_SW=<rootfs and kernel image path>")
     target.write("\"\n")
     target.write("\t$(ECHO) \"      Command to build host application.\"\n")
