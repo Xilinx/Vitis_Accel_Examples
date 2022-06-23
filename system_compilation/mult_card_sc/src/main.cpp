@@ -33,7 +33,7 @@ void run_sw(int argc, char** argv, std::map<std::string, int[26]>& cnt) {
         if (cnt.find(fn) != cnt.end()) {
             continue;
         }
-        int fd = open(fn, O_RDWR | O_DIRECT);
+        int fd = open(fn, O_RDONLY);
         if (fd == -1) {
             COUT("Cannot open " << fn);
             continue;
@@ -90,7 +90,9 @@ int main(int argc, char** argv) {
         auto send_fn = [=, &jobQ, &pendQ]() -> bool {
             std::string fn = jobQ[i].get();
             if (fn.empty()) return 0;
-            int fd = open(fn.c_str(), O_RDWR | O_DIRECT);
+            int mode = O_RDWR;
+            if (P2P) mode |= O_DIRECT;
+            int fd = open(fn.c_str(), mode);
             if (fd == -1) {
                 COUT("Cannot open " << fn);
                 return 1;
