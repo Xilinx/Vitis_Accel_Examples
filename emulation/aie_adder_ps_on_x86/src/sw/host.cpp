@@ -21,8 +21,8 @@
 #include <fstream>
 
 // This is used for the PL Kernels
-#include "xrt/xrt.h"
-#include "xrt/experimental/xrt_kernel.h"
+#include "xrt.h"
+#include "experimental/xrt_kernel.h"
 
 // Using the ADF API that call XRT API
 #include "adf/adf_api/XRTConfig.h"
@@ -109,12 +109,16 @@ int main(int argc, char** argv) {
     // that is outside of the AI Engine graph
     //////////////////////////////////////////
 
-    xrtKernelHandle mm2s_khdl1 = xrtPLKernelOpen(dhdl, top->m_header.uuid, "mm2s");
+    xrtKernelHandle mm2s_khdl1 = xrtPLKernelOpen(dhdl, top->m_header.uuid, "mm2s:{mm2s_1}");
     // Need to provide the kernel handle, and the argument order of the kernel arguments
     // Here the in_bohdl is the input buffer, the nullptr is the streaming interface and must be null,
     // lastly, the size of the data. This info can be found in the kernel definition.
     xrtRunHandle mm2s_rhdl1 = xrtKernelRun(mm2s_khdl1, in_bohdl0, nullptr, sizeIn);
-    printf("run mm2s\n");
+    printf("run mm2s_1\n");
+
+    xrtKernelHandle mm2s_khdl2 = xrtPLKernelOpen(dhdl, top->m_header.uuid, "mm2s:{mm2s_2}");
+    xrtRunHandle mm2s_rhdl2 = xrtKernelRun(mm2s_khdl2, in_bohdl1, nullptr, sizeIn);
+    printf("run mm2s_2\n");
 
     //////////////////////////////////////////
     // s2mm ip
@@ -150,6 +154,11 @@ int main(int argc, char** argv) {
     std::cout << "mm2s_1 completed with status(" << state << ")\n";
     xrtRunClose(mm2s_rhdl1);
     xrtKernelClose(mm2s_khdl1);
+
+    state = xrtRunWait(mm2s_rhdl2);
+    std::cout << "mm2s_2 completed with status(" << state << ")\n";
+    xrtRunClose(mm2s_rhdl2);
+    xrtKernelClose(mm2s_khdl2);
 
     //////////////////////////////////////////
     // wait for s2mm done
