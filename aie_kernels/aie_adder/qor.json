@@ -5,7 +5,7 @@
             "meet_system_timing": "true", 
             "accelerators": [
                 {
-                    "name": "pl_mm2s", 
+                    "name": "mm2s", 
                     "check_timing": "true", 
                     "PipelineType": "none", 
                     "check_latency": "false", 
@@ -18,7 +18,7 @@
                     ]
                 },
                 {
-                    "name": "pl_s2mm", 
+                    "name": "s2mm", 
                     "check_timing": "true", 
                     "PipelineType": "none", 
                     "check_latency": "false", 

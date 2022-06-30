@@ -59,7 +59,7 @@ include ./utils.mk
 
 TCL := tcl/baremetal_bsp.tcl
 
-HOST_SRC := main.cpp
+HOST_SRC := src/main.cpp
 HOST_OBJ := main.o 
 EXECUTABLE := main.elf
 
@@ -73,7 +73,7 @@ PLATFORM_ALLOWLIST += vck190
 
 # Command-line options
 VPP := v++
-
+CP := cp -rf
 VPP_FLAGS := -t $(TARGET) --platform $(PLATFORM) --save-temps -g 
 GCC_FLAGS := -g -c -D__PS_BARE_METAL__ -std=c++14 
 
@@ -97,8 +97,6 @@ LDFLAGS += --start-group,-lxil,-lgcc,-lc,-lstdc++,--end-group
 HOST_CXX = $(XILINX_VITIS)/gnu/aarch64/lin/aarch64-none/bin/aarch64-none-elf-gcc
 
 ############################## Setting Targets ##############################
-CP := cp -rf 
-
 $(FIXED_XSA):  
 	$(VPP) $(VPP_FLAGS) -l --advanced.param compiler.addOutputTypes=hw_export \
 	--vivado.prop fileset.sim_1.xsim.simulate.runtime=400us -o $@
@@ -107,7 +105,7 @@ $(WORKSPACE_FIXED): $(FIXED_XSA)
 	xsct $(TCL) $(APP_NAME) $(FIXED_XSA)
 	$(CP) workspace_fixed/$(APP_NAME)/export/$(APP_NAME)/sw/$(APP_NAME)/standalone_domain .
 
-main.o: $(HOST_SRC) 
+main.o:  
 	$(HOST_CXX) $(GCC_INCLUDES) $(HOST_INC) $(GCC_FLAGS) -o main.o $(HOST_SRC)
 
 $(EXECUTABLE): $(WORKSPACE_FIXED) $(HOST_OBJ)
@@ -115,13 +113,13 @@ $(EXECUTABLE): $(WORKSPACE_FIXED) $(HOST_OBJ)
 	-Wl,-T -Wl,workspace_fixed/standalone/src/lscript.ld -o "$@" \
 	./workspace_fixed/standalone/Debug/src/platform.o -Wl,$(LDFLAGS) 
 
-package: $(FIXED_XSA) $(EXECUTABLE)
+package: $(FIXED_XSA)
 	$(VPP) -t $(TARGET) -p --platform $(PLATFORM) \
 	--package.out_dir $(PACKAGE_OUT) \
-	--package.domain aiengine \
 	--package.boot_mode sd \
+	--package.domain aiengine \
 	--package.image_format=fat32 \
-	--package.ps_elf $(EXECUTABLE),a72-0 $^ 
+	--package.ps_elf $(EXECUTABLE),a72-0 $^
 
 run: all
 	$(LAUNCH_EMULATOR)

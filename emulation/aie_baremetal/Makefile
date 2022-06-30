@@ -44,7 +44,7 @@ help::
 ############################## Setting up Project Variables ##############################
 # Points to top directory of Git repository
 MK_PATH := $(abspath $(lastword $(MAKEFILE_LIST)))
-COMMON_REPO ?= $(shell bash -c 'export MK_PATH=$(MK_PATH); echo $$(MK_PATH%emulation/ps_to_aie_baremetal/*)')
+COMMON_REPO ?= $(shell bash -c 'export MK_PATH=$(MK_PATH); echo $$(MK_PATH%emulation/aie_baremetal/*)')
 PWD = $(shell readlink -f .)
 XF_PROJ_ROOT = $(shell readlink -f $(COMMON_REPO))
 
@@ -139,14 +139,14 @@ $(EXECUTABLE): $(WORKSPACE_FIXED) $(HOST_OBJ)
 	-Wl,-T -Wl,./ps/lscript.ld -o "$@" \
 	./workspace_fixed/standalone/Debug/src/platform.o -Wl,$(LDFLAGS) 
 
-package: $(FIXED_XSA) $(EXECUTABLE)
-	$(VPP) -t $(TARGET) -p --platform $(PLATFORM) \
+package: $(FIXED_XSA) $(GRAPH_O)
+	$(VPP) -p $(VPP_FLAGS) \
 	--package.out_dir $(PACKAGE_OUT) \
 	--package.domain aiengine \
 	--package.boot_mode sd \
 	--package.image_format=fat32 \
-	--package.ps_elf $(EXECUTABLE),a72-0 $^ 
-
+	--package.ps_elf $(EXECUTABLE),a72-0 $^
+	
 run: all
 	$(LAUNCH_EMULATOR)
 
