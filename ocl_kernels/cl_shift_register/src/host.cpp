@@ -101,23 +101,29 @@ int main(int argc, char** argv) {
     }
 
     // Allocate Buffer in Global Memory
-    OCL_CHECK(err, cl::Buffer buffer_signal(context, CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY, size_in_bytes,
-                                            signal.data(), &err));
-    OCL_CHECK(err, cl::Buffer buffer_coeff(context, CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY, coeff_size_in_bytes,
-                                           coeff.data(), &err));
-    OCL_CHECK(err, cl::Buffer buffer_output(context, CL_MEM_USE_HOST_PTR | CL_MEM_WRITE_ONLY, size_in_bytes, out.data(),
-                                            &err));
+    OCL_CHECK(err, cl::Buffer buffer_signal_A(context, CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY, size_in_bytes,
+                                              signal.data(), &err));
+    OCL_CHECK(err, cl::Buffer buffer_coeff_A(context, CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY, coeff_size_in_bytes,
+                                             coeff.data(), &err));
+    OCL_CHECK(err, cl::Buffer buffer_output_A(context, CL_MEM_USE_HOST_PTR | CL_MEM_WRITE_ONLY, size_in_bytes,
+                                              out.data(), &err));
+    OCL_CHECK(err, cl::Buffer buffer_signal_B(context, CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY, size_in_bytes,
+                                              signal.data(), &err));
+    OCL_CHECK(err, cl::Buffer buffer_coeff_B(context, CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY, coeff_size_in_bytes,
+                                             coeff.data(), &err));
+    OCL_CHECK(err, cl::Buffer buffer_output_B(context, CL_MEM_USE_HOST_PTR | CL_MEM_WRITE_ONLY, size_in_bytes,
+                                              out.data(), &err));
 
     // Creating Naive Kernel Object and setting args
     OCL_CHECK(err, cl::Kernel fir_naive_kernel(program, "fir_naive", &err));
 
-    OCL_CHECK(err, err = fir_naive_kernel.setArg(0, buffer_output));
-    OCL_CHECK(err, err = fir_naive_kernel.setArg(1, buffer_signal));
-    OCL_CHECK(err, err = fir_naive_kernel.setArg(2, buffer_coeff));
+    OCL_CHECK(err, err = fir_naive_kernel.setArg(0, buffer_output_A));
+    OCL_CHECK(err, err = fir_naive_kernel.setArg(1, buffer_signal_A));
+    OCL_CHECK(err, err = fir_naive_kernel.setArg(2, buffer_coeff_A));
     OCL_CHECK(err, err = fir_naive_kernel.setArg(3, signal_size));
 
     // Copy input data to device global memory
-    OCL_CHECK(err, err = q.enqueueMigrateMemObjects({buffer_signal, buffer_coeff}, 0 /* 0 means from host*/));
+    OCL_CHECK(err, err = q.enqueueMigrateMemObjects({buffer_signal_A, buffer_coeff_A}, 0 /* 0 means from host*/));
 
     cl::Event event;
     int iterations = xcl::is_emulation() ? 2 : 100;
@@ -125,7 +131,7 @@ int main(int argc, char** argv) {
     // Running naive kernel iterations times
     for (int i = 0; i < iterations; i++) {
         OCL_CHECK(err, err = q.enqueueTask(fir_naive_kernel, nullptr, &event));
-        OCL_CHECK(err, err = q.enqueueMigrateMemObjects({buffer_output}, CL_MIGRATE_MEM_OBJECT_HOST));
+        OCL_CHECK(err, err = q.enqueueMigrateMemObjects({buffer_output_A}, CL_MIGRATE_MEM_OBJECT_HOST));
         q.finish();
         fir_naive_time += get_duration_ns(event);
         verify(gold, out);
@@ -134,16 +140,16 @@ int main(int argc, char** argv) {
     // Creating FIR Shift Register Kernel object and setting args
     OCL_CHECK(err, cl::Kernel fir_sr_kernel(program, "fir_shift_register", &err));
 
-    OCL_CHECK(err, err = fir_sr_kernel.setArg(0, buffer_output));
-    OCL_CHECK(err, err = fir_sr_kernel.setArg(1, buffer_signal));
-    OCL_CHECK(err, err = fir_sr_kernel.setArg(2, buffer_coeff));
+    OCL_CHECK(err, err = fir_sr_kernel.setArg(0, buffer_output_B));
+    OCL_CHECK(err, err = fir_sr_kernel.setArg(1, buffer_signal_B));
+    OCL_CHECK(err, err = fir_sr_kernel.setArg(2, buffer_coeff_B));
     OCL_CHECK(err, err = fir_sr_kernel.setArg(3, signal_size));
 
     uint64_t fir_sr_time = 0;
     // Running Shift Register FIR iterations times
     for (int i = 0; i < iterations; i++) {
         OCL_CHECK(err, err = q.enqueueTask(fir_sr_kernel, nullptr, &event));
-        OCL_CHECK(err, err = q.enqueueMigrateMemObjects({buffer_output}, CL_MIGRATE_MEM_OBJECT_HOST));
+        OCL_CHECK(err, err = q.enqueueMigrateMemObjects({buffer_output_B}, CL_MIGRATE_MEM_OBJECT_HOST));
         q.finish();
         fir_sr_time += get_duration_ns(event);
         verify(gold, out);

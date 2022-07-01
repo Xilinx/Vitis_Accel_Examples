@@ -75,6 +75,13 @@ LDFLAGS += -luuid -lxrt_coreutil
 VPP_FLAGS += -t $(TARGET) --platform $(PLATFORM) --save-temps 
 
 
+# Kernel linker flags
+ifeq ($(findstring u55, $(PLATFORM)), u55)
+VPP_LDFLAGS += --config ./conn_hbm.cfg
+endif
+ifeq ($(findstring u50, $(PLATFORM)), u50)
+VPP_LDFLAGS += --config ./conn_hbm.cfg
+endif
 EXECUTABLE = ./device_only_buffer
 EMCONFIG_DIR = $(TEMP_DIR)
 

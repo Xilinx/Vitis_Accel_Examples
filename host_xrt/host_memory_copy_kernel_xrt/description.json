@@ -96,5 +96,23 @@
             "vitis_hw"
         ],
         "category": "canary"
-    }   
+    },
+    "platform_properties": {
+        "u50": {
+            "v++": {
+                "linker": {
+                    "ldclflags": [ "--config PROJECT/conn_hbm.cfg"
+                      ]
+                }
+            }
+        }, 
+        "u55": {
+            "v++": {
+                "linker": {
+                    "ldclflags": [ "--config PROJECT/conn_hbm.cfg"
+                      ]
+                }
+            }
+        } 
+     }   
 }
