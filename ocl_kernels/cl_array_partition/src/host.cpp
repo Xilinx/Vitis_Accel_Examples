@@ -84,19 +84,33 @@ int main(int argc, char** argv) {
 
     vector<int, aligned_allocator<int> > A(columns * rows);
     vector<int, aligned_allocator<int> > B(columns * rows);
-    vector<int, aligned_allocator<int> > gold(columns * rows, 0);
+    vector<int, aligned_allocator<int> > gold1(columns * rows, 0);
     vector<int, aligned_allocator<int> > C(columns * rows, 0);
+    vector<int, aligned_allocator<int> > D(columns * rows);
+    vector<int, aligned_allocator<int> > E(columns * rows);
+    vector<int, aligned_allocator<int> > F(columns * rows, 0);
+    vector<int, aligned_allocator<int> > gold2(columns * rows, 0);
+
     generate(begin(A), end(A), gen_random);
     generate(begin(B), end(B), gen_random);
+    generate(begin(D), end(D), gen_random);
+    generate(begin(E), end(E), gen_random);
 
     printf("A:\n");
     print(A.data(), columns, rows);
     printf("B:\n");
     print(B.data(), columns, rows);
-    matmul(gold.data(), A.data(), B.data(), columns);
+    matmul(gold1.data(), A.data(), B.data(), columns);
 
-    printf("Gold:\n");
-    print(gold.data(), columns, rows);
+    printf("Gold1:\n");
+    print(gold1.data(), columns, rows);
+    std::cout << "D:\n";
+    print(D.data(), columns, rows);
+    std::cout << "E:\n";
+    print(E.data(), columns, rows);
+    matmul(gold2.data(), D.data(), E.data(), columns);
+    std::cout << "Gold2:\n";
+    print(gold2.data(), columns, rows);
     auto devices = xcl::get_xil_devices();
 
     // read_binary_file() is a utility API which will load the binaryFile
@@ -133,6 +147,12 @@ int main(int argc, char** argv) {
               cl::Buffer buffer_b(context, CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY, array_size_bytes, B.data(), &err));
     OCL_CHECK(err,
               cl::Buffer buffer_c(context, CL_MEM_USE_HOST_PTR | CL_MEM_WRITE_ONLY, array_size_bytes, C.data(), &err));
+OCL_CHECK(err,
+              cl::Buffer buffer_d(context, CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY, array_size_bytes, D.data(), &err));
+    OCL_CHECK(err,
+              cl::Buffer buffer_e(context, CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY, array_size_bytes, E.data(), &err));
+    OCL_CHECK(err,
+              cl::Buffer buffer_f(context, CL_MEM_USE_HOST_PTR | CL_MEM_WRITE_ONLY, array_size_bytes, F.data(), &err));
 
     printf(
         "|-------------------------+-------------------------|\n"
@@ -158,25 +178,26 @@ int main(int argc, char** argv) {
     OCL_CHECK(err, err = event.getProfilingInfo<uint64_t>(CL_PROFILING_COMMAND_END, &nstimeend));
     auto matmul_time = nstimeend - nstimestart;
 
-    verify(gold, C);
+    verify(gold1, C);
     printf("| %-23s | %23lu |\n", "matmul: ", matmul_time);
 
     OCL_CHECK(err, cl::Kernel matmul_partition_kernel(program, "matmul_partition", &err));
 
-    OCL_CHECK(err, err = matmul_partition_kernel.setArg(0, buffer_a));
-    OCL_CHECK(err, err = matmul_partition_kernel.setArg(1, buffer_b));
-    OCL_CHECK(err, err = matmul_partition_kernel.setArg(2, buffer_c));
+    OCL_CHECK(err, err = matmul_partition_kernel.setArg(0, buffer_d));
+    OCL_CHECK(err, err = matmul_partition_kernel.setArg(1, buffer_e));
+    OCL_CHECK(err, err = matmul_partition_kernel.setArg(2, buffer_f));
     OCL_CHECK(err, err = matmul_partition_kernel.setArg(3, columns));
-
+   
+    OCL_CHECK(err, err = q.enqueueMigrateMemObjects({buffer_d, buffer_e}, 0 /* 0 means from host*/));
     OCL_CHECK(err, err = q.enqueueTask(matmul_partition_kernel, nullptr, &event));
-    OCL_CHECK(err, err = q.enqueueMigrateMemObjects({buffer_c}, CL_MIGRATE_MEM_OBJECT_HOST));
+    OCL_CHECK(err, err = q.enqueueMigrateMemObjects({buffer_f}, CL_MIGRATE_MEM_OBJECT_HOST));
     q.finish();
 
     OCL_CHECK(err, err = event.getProfilingInfo<uint64_t>(CL_PROFILING_COMMAND_START, &nstimestart));
     OCL_CHECK(err, err = event.getProfilingInfo<uint64_t>(CL_PROFILING_COMMAND_END, &nstimeend));
     auto matmul_partition_time = nstimeend - nstimestart;
 
-    verify(gold, C);
+    verify(gold2, F);
 
     printf("| %-23s | %23lu |\n", "matmul: partition", matmul_partition_time);
 
