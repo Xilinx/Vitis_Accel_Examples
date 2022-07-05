@@ -49,8 +49,8 @@ include ./utils.mk
 TEMP_DIR := ./_x.$(TARGET).$(XSA)
 BUILD_DIR := ./build_dir.$(TARGET).$(XSA)
 
-LINK_OUTPUT := $(BUILD_DIR)/krnl_vmul.link.xclbin
-LINK_OUTPUT := $(BUILD_DIR)/krnl_vadd.link.xclbin
+LINK_OUTPUT_VMUL := $(BUILD_DIR)/krnl_vmul.link.xclbin
+LINK_OUTPUT_VADD := $(BUILD_DIR)/krnl_vadd.link.xclbin
 PACKAGE_OUT = ./package.$(TARGET)
 
 
@@ -104,12 +104,12 @@ $(TEMP_DIR)/krnl_vadd.xo: src/krnl_vadd.cpp
 
 $(BUILD_DIR)/krnl_vmul.xclbin: $(TEMP_DIR)/krnl_vmul.xo
 	mkdir -p $(BUILD_DIR)
-	v++ $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) -o'$(LINK_OUTPUT)' $(+)
-	v++ -p $(LINK_OUTPUT) $(VPP_FLAGS) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/krnl_vmul.xclbin
+	v++ $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) -o'$(LINK_OUTPUT_VMUL)' $(+)
+	v++ -p $(LINK_OUTPUT_VMUL) $(VPP_FLAGS) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/krnl_vmul.xclbin
 $(BUILD_DIR)/krnl_vadd.xclbin: $(TEMP_DIR)/krnl_vadd.xo
 	mkdir -p $(BUILD_DIR)
-	v++ $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) -o'$(LINK_OUTPUT)' $(+)
-	v++ -p $(LINK_OUTPUT) $(VPP_FLAGS) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/krnl_vadd.xclbin
+	v++ $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) -o'$(LINK_OUTPUT_VADD)' $(+)
+	v++ -p $(LINK_OUTPUT_VADD) $(VPP_FLAGS) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/krnl_vadd.xclbin
 
 ############################## Setting Rules for Host (Building Host Executable) ##############################
 $(EXECUTABLE): $(HOST_SRCS) | check-xrt
