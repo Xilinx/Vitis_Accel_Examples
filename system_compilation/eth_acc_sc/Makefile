@@ -14,7 +14,7 @@ ifneq (,$(filter ${DMA_KIND},nodma))
 	INCLUDE_PATH := include/host
 else ifneq (,$(filter ${DEVICE_ONLY},u200 u250))
 	INCLUDE_PATH := include/ddr4
-else ifneq (,$(filter ${DEVICE_ONLY},u50 u55 u280))
+else ifneq (,$(filter ${DEVICE_ONLY},u50 u50lv u55 u55n u55c u280))
 	INCLUDE_PATH := include/hbm
 else
 	INCLUDE_PATH := include/${DEVICE_ONLY}
