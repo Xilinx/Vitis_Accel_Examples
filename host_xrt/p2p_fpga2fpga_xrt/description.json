@@ -1,0 +1,97 @@
+{
+    "name": "P2P FPGA to FPGA Examples XRT (XRT Native API's)", 
+    "description": [
+        "This is simple example to explain P2P transfer between two FPGA devices using xrt native api's."
+    ],
+    "flow": "vitis",
+    "keywords": [
+        "xrt::bo::flags::p2p"
+    ],
+    "key_concepts": [
+        "P2P",
+        "Multi-FPGA Execution", 
+        "XDMA"
+    ],
+    "num_devices": "2",
+    "platform_type": "pcie",
+    "os": [
+        "Linux"
+    ],
+    "platform_blocklist": [
+        "zc",
+        "u25_",
+        "u30",
+        "vck",
+        "aws",
+        "201910",
+        "u50_gen3x16_xdma_2019"
+    ],
+     "runtime": [
+        "OpenCL"
+    ],
+    "launch": [
+        {
+            "cmd_args": "-x BUILD/increment.xclbin", 
+            "name": "generic launch for all flows"
+        }
+    ], 
+    "host": {
+        "host_exe": "p2p_fpga2fpga_xrt",
+        "compiler": {
+            "sources": [
+                "REPO_DIR/common/includes/cmdparser/cmdlineparser.cpp",
+                "REPO_DIR/common/includes/logger/logger.cpp",
+                "./src/host.cpp"
+            ], 
+            "includepaths": [
+                "REPO_DIR/common/includes/cmdparser",
+                "REPO_DIR/common/includes/logger"
+            ]
+        },
+        "linker" : {
+            "libraries" : ["uuid",
+                           "xrt_coreutil"
+               ]
+        }
+    },
+    "containers": [
+        {
+            "accelerators": [
+                {
+                    "name": "increment", 
+                    "location": "src/increment.cpp"                    
+                }
+            ], 
+            "name": "increment"
+        }
+    ],
+    "contributors": [
+        {
+            "url": "http://www.xilinx.com", 
+            "group": "Xilinx"
+        }
+    ],
+    "testinfo": {
+        "disable": false,
+        "features": [
+            "p2p"
+        ],
+        "profile": "no",
+        "jobs": [
+            {
+                "index": 0,
+                "dependency": [],
+                "env": "",
+                "cmd": "",
+                "max_memory_MB": 32768,
+                "max_time_min": 300
+            }
+        ],
+        "targets": [
+            "vitis_sw_emu",
+            "vitis_hw_emu",
+            "vitis_hw"
+        ],
+        "category": "canary"
+    }
+}
