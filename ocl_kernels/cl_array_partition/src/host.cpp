@@ -147,7 +147,7 @@ int main(int argc, char** argv) {
               cl::Buffer buffer_b(context, CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY, array_size_bytes, B.data(), &err));
     OCL_CHECK(err,
               cl::Buffer buffer_c(context, CL_MEM_USE_HOST_PTR | CL_MEM_WRITE_ONLY, array_size_bytes, C.data(), &err));
-OCL_CHECK(err,
+    OCL_CHECK(err,
               cl::Buffer buffer_d(context, CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY, array_size_bytes, D.data(), &err));
     OCL_CHECK(err,
               cl::Buffer buffer_e(context, CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY, array_size_bytes, E.data(), &err));
@@ -187,7 +187,7 @@ OCL_CHECK(err,
     OCL_CHECK(err, err = matmul_partition_kernel.setArg(1, buffer_e));
     OCL_CHECK(err, err = matmul_partition_kernel.setArg(2, buffer_f));
     OCL_CHECK(err, err = matmul_partition_kernel.setArg(3, columns));
-   
+
     OCL_CHECK(err, err = q.enqueueMigrateMemObjects({buffer_d, buffer_e}, 0 /* 0 means from host*/));
     OCL_CHECK(err, err = q.enqueueTask(matmul_partition_kernel, nullptr, &event));
     OCL_CHECK(err, err = q.enqueueMigrateMemObjects({buffer_f}, CL_MIGRATE_MEM_OBJECT_HOST));

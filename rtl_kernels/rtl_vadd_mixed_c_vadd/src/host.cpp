@@ -36,6 +36,7 @@ int main(int argc, char** argv) {
     std::vector<int, aligned_allocator<int> > source_input1(size);
     std::vector<int, aligned_allocator<int> > source_input2(size);
     std::vector<int, aligned_allocator<int> > source_input3(size);
+    std::vector<int, aligned_allocator<int> > source_input4(size);
     std::vector<int, aligned_allocator<int> > source_krnl0_output(size);
     std::vector<int, aligned_allocator<int> > source_hw_results(size);
     std::vector<int, aligned_allocator<int> > source_sw_results(size);
@@ -45,7 +46,8 @@ int main(int argc, char** argv) {
         source_input1[i] = i;
         source_input2[i] = i;
         source_input3[i] = i;
-        source_sw_results[i] = source_input1[i] + source_input2[i] + source_input3[i];
+        source_input4[i] = i;
+        source_sw_results[i] = source_input1[i] + source_input2[i] + source_input4[i];
         source_krnl0_output[i] = 0;
         source_hw_results[i] = 0;
     }
@@ -87,21 +89,23 @@ int main(int argc, char** argv) {
                                         source_input1.data(), &err));
     OCL_CHECK(err, cl::Buffer buffer_r2(context, CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY, vector_size_bytes,
                                         source_input2.data(), &err));
-    OCL_CHECK(err, cl::Buffer buffer_rw(context, CL_MEM_USE_HOST_PTR | CL_MEM_READ_WRITE, vector_size_bytes,
-                                        source_krnl0_output.data(), &err));
+    OCL_CHECK(err, cl::Buffer buffer_rw_0(context, CL_MEM_USE_HOST_PTR | CL_MEM_READ_WRITE, vector_size_bytes,
+                                          source_krnl0_output.data(), &err));
+    OCL_CHECK(err, cl::Buffer buffer_rw_1(context, CL_MEM_USE_HOST_PTR | CL_MEM_READ_WRITE, vector_size_bytes,
+                                          3 source_input3.data(), &err));
     OCL_CHECK(err, cl::Buffer buffer_r3(context, CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY, vector_size_bytes,
-                                        source_input3.data(), &err));
+                                        source_input4.data(), &err));
     OCL_CHECK(err, cl::Buffer buffer_w(context, CL_MEM_USE_HOST_PTR | CL_MEM_WRITE_ONLY, vector_size_bytes,
                                        source_hw_results.data(), &err));
 
     // Set the "RTL kernel" Arguments
     OCL_CHECK(err, err = rtl_vadd.setArg(0, buffer_r1));
     OCL_CHECK(err, err = rtl_vadd.setArg(1, buffer_r2));
-    OCL_CHECK(err, err = rtl_vadd.setArg(2, buffer_rw));
+    OCL_CHECK(err, err = rtl_vadd.setArg(2, buffer_rw_0));
     OCL_CHECK(err, err = rtl_vadd.setArg(3, size));
 
     // Set the "CL kernel" Arguments
-    OCL_CHECK(err, err = cl_vadd.setArg(0, buffer_rw));
+    OCL_CHECK(err, err = cl_vadd.setArg(0, buffer_rw_1));
     OCL_CHECK(err, err = cl_vadd.setArg(1, buffer_r3));
     OCL_CHECK(err, err = cl_vadd.setArg(2, buffer_w));
     OCL_CHECK(err, err = cl_vadd.setArg(3, size));
@@ -109,8 +113,13 @@ int main(int argc, char** argv) {
     // Copy input data to device global memory
     OCL_CHECK(err, err = q.enqueueMigrateMemObjects({buffer_r1, buffer_r2, buffer_r3}, 0 /* 0 means from host*/));
 
-    // Launch the "RTL kernel" and "CL kernel"
+    // Launch the "RTL kernel"
     OCL_CHECK(err, err = q.enqueueTask(rtl_vadd));
+
+    // This enqueueCopyBuffer() command will copy buffer from buffer_rw_0 to buffer_rw_1
+    OCL_CHECK(err, err = q.enqueueCopyBuffer(buffer_rw_0, buffer_rw_1, 0, 0, vector_size_bytes));
+
+    // Launch the "CL kernel"
     OCL_CHECK(err, err = q.enqueueTask(cl_vadd));
 
     // Copy Result from Device Global Memory to Host Local Memory
@@ -132,7 +141,7 @@ int main(int argc, char** argv) {
         std::cout << "i = " << i << " Software result = " << source_sw_results[i]
                   << " Device result = " << source_hw_results[i] << " input1 = " << source_input1[i]
                   << " input2 = " << source_input2[i] << " krnl0_output = " << source_krnl0_output[i]
-                  << " input3 = " << source_input3[i] << std::endl;
+                  << " input3 = " << source_input4[i] << std::endl;
     }
 
     std::cout << "TEST " << (match ? "FAILED" : "PASSED") << std::endl;

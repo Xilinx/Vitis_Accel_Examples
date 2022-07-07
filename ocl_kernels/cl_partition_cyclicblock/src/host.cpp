@@ -98,8 +98,6 @@ int main(int argc, char** argv) {
     generate(begin(B), end(B), gen_random);
     generate(begin(D), end(D), gen_random);
     generate(begin(E), end(E), gen_random);
-    
-
 
     printf("A:\n");
     print(A, dims);
