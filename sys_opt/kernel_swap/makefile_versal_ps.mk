@@ -60,6 +60,11 @@ BUILD_DIR := ./build_dir.$(TARGET).$(XSA)
 LINK_OUTPUT_VMUL := $(BUILD_DIR)/krnl_vmul.link.xsa
 LINK_OUTPUT_VADD := $(BUILD_DIR)/krnl_vadd.link.xsa
 
+EMU_PS := QEMU
+ifeq ($(TARGET), sw_emu)
+EMU_PS := X86
+endif
+
 # SoC variables
 RUN_APP_SCRIPT = ./run_app.sh
 PACKAGE_OUT = ./package.$(TARGET)
@@ -71,10 +76,22 @@ VPP_PFLAGS :=
 CMD_ARGS = -x1 $(BUILD_DIR)/krnl_vmul.xclbin -x2 $(BUILD_DIR)/krnl_vadd.xclbin
 SD_CARD := $(PACKAGE_OUT)
 
+ifeq ($(EMU_PS), X86)
+CXXFLAGS += -I$(XILINX_XRT)/include -I$(XILINX_VIVADO)/include -Wall -O0 -g -std=c++1y
+LDFLAGS += -L$(XILINX_XRT)/lib -pthread -lOpenCL
+else
 CXXFLAGS += -I$(SYSROOT)/usr/include/xrt -I$(XILINX_VIVADO)/include -Wall -O0 -g -std=c++1y
 LDFLAGS += -L$(SYSROOT)/usr/lib -pthread -lxilinxopencl
+endif
 VPP_PFLAGS+=--package.sd_dir /proj/xbuilds/2022.2_daily_latest/internal_platforms/sw/versal/xrt
 include ./config.mk
+
+#Check for EMU_PS
+ifeq ($(TARGET), $(filter $(TARGET),hw_emu hw))
+ifeq ($(EMU_PS), X86)
+$(error For hw_emu and hw, the design has to run on QEMU. Thus, please give EMU_PS=QEMU for these targets.)
+endif
+endif
 
 ########################## Checking if PLATFORM in allowlist #######################
 PLATFORM_BLOCKLIST += flat zcu102_base_20 zcu104_base_20 vck5000 vck190_base_20 vck190_base_pci zc7 nodma 
@@ -87,7 +104,9 @@ HOST_SRCS += $(XF_PROJ_ROOT)/common/includes/xcl2/xcl2.cpp $(XF_PROJ_ROOT)/commo
 # Host compiler global settings
 CXXFLAGS += -fmessage-length=0
 LDFLAGS += -lrt -lstdc++ 
+ifneq ($(EMU_PS), X86)
 LDFLAGS += --sysroot=$(SYSROOT)
+endif
 ############################## Setting up Kernel Variables ##############################
 # Kernel compiler global settings
 VPP_FLAGS += -t $(TARGET) --platform $(PLATFORM) --save-temps 
@@ -99,7 +118,11 @@ EMCONFIG_DIR = $(TEMP_DIR)
 
 ############################## Setting Targets ##############################
 .PHONY: all clean cleanall docs emconfig
+ifeq ($(EMU_PS), X86)
+all: check-platform check-device $(EXECUTABLE) $(BUILD_DIR)/krnl_vmul.xclbin $(BUILD_DIR)/krnl_vadd.xclbin emconfig
+else
 all: check-platform check-device check_edge_sw $(EXECUTABLE) $(BUILD_DIR)/krnl_vmul.xclbin $(BUILD_DIR)/krnl_vadd.xclbin emconfig sd_card
+endif
 
 .PHONY: host
 host: $(EXECUTABLE)
@@ -121,9 +144,16 @@ $(TEMP_DIR)/krnl_vadd.xo: src/krnl_vadd.cpp
 $(BUILD_DIR)/krnl_vmul.xclbin: $(TEMP_DIR)/krnl_vmul.xo
 	mkdir -p $(BUILD_DIR)
 	v++ $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) -o'$(LINK_OUTPUT_VMUL)' $(+)
+ifeq ($(EMU_PS), X86)
+	v++ -p $(LINK_OUTPUT_VMUL) $(VPP_FLAGS) --package.emu_ps x86 -o $(BUILD_DIR)/krnl_vmul.xclbin    
+endif
 $(BUILD_DIR)/krnl_vadd.xclbin: $(TEMP_DIR)/krnl_vadd.xo
 	mkdir -p $(BUILD_DIR)
 	v++ $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) -o'$(LINK_OUTPUT_VADD)' $(+)
+ifeq ($(EMU_PS), X86)
+	v++ -p $(LINK_OUTPUT_VADD) $(VPP_FLAGS) --package.emu_ps x86 -o $(BUILD_DIR)/krnl_vadd.xclbin
+endif
+
 
 ############################## Preparing sdcard ##############################
 .PHONY: sd_card
@@ -133,14 +163,20 @@ $(SD_CARD): $(BUILD_DIR)/krnl_vmul.xclbin $(BUILD_DIR)/krnl_vadd.xclbin $(EXECUT
 ifeq ($(TARGET),$(filter $(TARGET), hw))
 	v++ $(VPP_FLAGS) -p $(LINK_OUTPUT_VMUL) -o $(BUILD_DIR)/krnl_vmul.xclbin 
 	v++ $(VPP_FLAGS) -p $(LINK_OUTPUT_VADD) -o $(BUILD_DIR)/krnl_vadd.xclbin
-    v++ $(VPP_PFLAGS) $(VPP_FLAGS) -p --package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.sd_file $(SD_IMAGE_FILE) --package.sd_file xrt.ini --package.sd_file $(RUN_APP_SCRIPT) --package.sd_file $(EXECUTABLE) --package.sd_file krnl_vmul.xclbin --package.sd_file krnl_vadd.xclbin
+	v++ $(VPP_PFLAGS) $(VPP_FLAGS) -p --package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.sd_file $(SD_IMAGE_FILE) --package.sd_file xrt.ini --package.sd_file $(RUN_APP_SCRIPT) --package.sd_file $(EXECUTABLE) --package.sd_file krnl_vmul.xclbin --package.sd_file krnl_vadd.xclbin
 else
 	v++ $(VPP_PFLAGS) -p $(LINK_OUTPUT_VMUL) $(VPP_FLAGS) --package.sd_file $(LINK_OUTPUT_VADD) --package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.sd_file $(SD_IMAGE_FILE) --package.sd_file xrt.ini --package.sd_file $(RUN_APP_SCRIPT) --package.sd_file $(EMCONFIG_DIR)/emconfig.json --package.sd_file $(EXECUTABLE) -o $(BUILD_DIR)/$(PACKAGE_OUT)/krnl_vmul.xclbin
 endif
 
 ############################## Setting Rules for Host (Building Host Executable) ##############################
-$(EXECUTABLE): $(HOST_SRCS) | check-vitis check_edge_sw
+$(EXECUTABLE): $(HOST_SRCS)
+ifeq ($(EMU_PS), X86)
+	g++ -o $@ $^ $(CXXFLAGS) $(LDFLAGS)
+else
+	make check_edge_sw
+	make check-vitis
 	$(XILINX_VITIS)/gnu/aarch64/lin/aarch64-linux/bin/aarch64-linux-gnu-g++ -o $@ $^ $(CXXFLAGS) $(LDFLAGS)
+endif
 
 emconfig:$(EMCONFIG_DIR)/emconfig.json
 $(EMCONFIG_DIR)/emconfig.json:
@@ -149,7 +185,12 @@ $(EMCONFIG_DIR)/emconfig.json:
 ############################## Setting Essential Checks and Running Rules ##############################
 run: all
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
+ifeq ($(EMU_PS), X86)
+	cp -rf $(EMCONFIG_DIR)/emconfig.json .
+	XCL_EMULATION_MODE=$(TARGET) $(EXECUTABLE) $(CMD_ARGS)
+else
 	$(LAUNCH_EMULATOR) -run-app $(RUN_APP_SCRIPT) | tee run_app.log; exit $${PIPESTATUS[0]}
+endif
 else
 	$(ECHO) "Please copy the content of sd_card folder and data to an SD Card and run on the board"
 endif
@@ -157,7 +198,11 @@ endif
 .PHONY: test
 test: $(EXECUTABLE)
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
+ifeq ($(EMU_PS), X86)
+	XCL_EMULATION_MODE=$(TARGET) $(EXECUTABLE) $(CMD_ARGS)
+else
 	$(LAUNCH_EMULATOR) -run-app $(RUN_APP_SCRIPT) | tee run_app.log; exit $${PIPESTATUS[0]}
+endif
 else
 	$(ECHO) "Please copy the content of sd_card folder and data to an SD Card and run on the board"
 endif

@@ -56,6 +56,11 @@ include ./utils.mk
 TEMP_DIR := ./_x.$(TARGET).$(XSA)
 BUILD_DIR := ./build_dir.$(TARGET).$(XSA)
 
+EMU_PS := QEMU
+ifeq ($(TARGET), sw_emu)
+EMU_PS := X86
+endif
+
 # SoC variables
 RUN_APP_SCRIPT = ./run_app.sh
 PACKAGE_OUT = ./package.$(TARGET)
@@ -68,10 +73,21 @@ VPP_PFLAGS :=
 CMD_ARGS = -x1 $(BUILD_DIR)/test_kernel_maxi_256bit.xclbin -x2 $(BUILD_DIR)/test_kernel_maxi_512bit.xclbin
 SD_CARD := $(PACKAGE_OUT)
 
+ifeq ($(EMU_PS), X86)
+CXXFLAGS += -I$(XILINX_XRT)/include -I$(XILINX_VIVADO)/include -Wall -O0 -g -std=c++1y
+LDFLAGS += -L$(XILINX_XRT)/lib -pthread -lOpenCL
+else
 CXXFLAGS += -I$(SYSROOT)/usr/include/xrt -I$(XILINX_VIVADO)/include -Wall -O0 -g -std=c++1y
 LDFLAGS += -L$(SYSROOT)/usr/lib -pthread -lxilinxopencl
+endif
 VPP_PFLAGS+=--package.sd_dir /proj/xbuilds/2022.2_daily_latest/internal_platforms/sw/zynqmp/xrt
 
+#Check for EMU_PS
+ifeq ($(TARGET), $(filter $(TARGET),hw_emu hw))
+ifeq ($(EMU_PS), X86)
+$(error For hw_emu and hw, the design has to run on QEMU. Thus, please give EMU_PS=QEMU for these targets.)
+endif
+endif
 ########################## Checking if PLATFORM in allowlist #######################
 PLATFORM_BLOCKLIST += zcu102_base_20 zcu104_base_20 vck zc7 aws-vu9p-f1 samsung u2_ nodma 
 
@@ -84,9 +100,9 @@ HOST_SRCS += $(XF_PROJ_ROOT)/common/includes/xcl2/xcl2.cpp $(XF_PROJ_ROOT)/commo
 # Host compiler global settings
 CXXFLAGS += -fmessage-length=0
 LDFLAGS += -lrt -lstdc++ 
-
+ifneq ($(EMU_PS), X86)
 LDFLAGS += --sysroot=$(SYSROOT)
-
+endif
 ############################## Setting up Kernel Variables ##############################
 # Kernel compiler global settings
 VPP_FLAGS += -t $(TARGET) --platform $(PLATFORM) --save-temps 
@@ -114,7 +130,11 @@ BINARY_CONTAINER_test_kernel_maxi_512bit_OBJS += $(TEMP_DIR)/test_kernel_maxi_51
 CP = cp -rf
 
 .PHONY: all clean cleanall docs emconfig
+ifeq ($(EMU_PS), X86)
+all: check-platform check-device $(EXECUTABLE) $(BINARY_CONTAINERS) emconfig
+else
 all: check-platform check-device check-vitis $(EXECUTABLE) $(BINARY_CONTAINERS) emconfig sd_card
+endif
 
 .PHONY: host
 host: $(EXECUTABLE)
@@ -171,8 +191,13 @@ $(BUILD_DIR)/test_kernel_maxi_512bit.xclbin: $(BINARY_CONTAINER_test_kernel_maxi
 	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) -o'$(BUILD_DIR)/test_kernel_maxi_512bit.xclbin' $(+)
 
 ############################## Setting Rules for Host (Building Host Executable) ##############################
-$(EXECUTABLE): $(HOST_SRCS) | check-xrt
-		$(XILINX_VITIS)/gnu/aarch64/lin/aarch64-linux/bin/aarch64-linux-gnu-g++ -o $@ $^ $(CXXFLAGS) $(LDFLAGS)
+$(EXECUTABLE): $(HOST_SRCS)
+ifeq ($(EMU_PS), X86)
+	g++ -o $@ $^ $(CXXFLAGS) $(LDFLAGS)
+else
+	make check-vitis	
+	$(XILINX_VITIS)/gnu/aarch64/lin/aarch64-linux/bin/aarch64-linux-gnu-g++ -o $@ $^ $(CXXFLAGS) $(LDFLAGS)
+endif
 
 emconfig:$(EMCONFIG_DIR)/emconfig.json
 $(EMCONFIG_DIR)/emconfig.json:
@@ -181,18 +206,27 @@ $(EMCONFIG_DIR)/emconfig.json:
 ############################## Setting Essential Checks and Running Rules ##############################
 run: all
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
+ifeq ($(EMU_PS), X86)
+	cp -rf $(EMCONFIG_DIR)/emconfig.json .
+	XCL_EMULATION_MODE=$(TARGET) $(EXECUTABLE) $(CMD_ARGS)
+else
 	$(LAUNCH_EMULATOR) -run-app $(RUN_APP_SCRIPT) | tee run_app.log; exit $${PIPESTATUS[0]}
 endif
-
-
-.PHONY: test
-test: $(EXECUTABLE)
-ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
-	$(LAUNCH_EMULATOR) -run-app $(RUN_APP_SCRIPT) | tee run_app.log; exit $${PIPESTATUS[0]}
 else
 	$(ECHO) "Please copy the content of sd_card folder and data to an SD Card and run on the board"
 endif
 
+.PHONY: test
+test: $(EXECUTABLE)
+ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
+ifeq ($(EMU_PS), X86)
+	XCL_EMULATION_MODE=$(TARGET) $(EXECUTABLE) $(CMD_ARGS)
+else
+	$(LAUNCH_EMULATOR) -run-app $(RUN_APP_SCRIPT) | tee run_app.log; exit $${PIPESTATUS[0]}
+endif
+else
+	$(ECHO) "Please copy the content of sd_card folder and data to an SD Card and run on the board"
+endif
 
 ############################## Preparing sdcard ##############################
 $(BUILD_DIR)/$(PACKAGE_OUT)/test_kernel_maxi_512bit.xclbin: $(BUILD_DIR)/test_kernel_maxi_256bit.xclbin $(BUILD_DIR)/test_kernel_maxi_512bit.xclbin $(EXECUTABLE)
