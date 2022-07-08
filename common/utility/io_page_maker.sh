@@ -53,25 +53,25 @@
 	cd internal
 	git clone $2
 	cd Vitis_Accel_Examples
-        git remote add upstream $1
+	git remote add upstream $1
 	git fetch upstream
-	git checkout upstream/internal 
-        
+	git checkout upstream/internal
+
 	#make a new branch temp_internal from internal
 	git checkout \-b temp_internal
-	
+
 	#copy rst files from test to internal/source
 	cp -rf ../../'test'/* ./'source'/
-	
+
 	#make html
 	make html > ../../sphinx_log
 	git add ./'source'
-        git commit
+	git commit -m "updated internal"
 	#collect errors/output from "make html" into a log
-	
-	#check and update internal
-	git push --force \-u origin temp_internal
 
+	#check and update internal
+	git push --force \-u origin temp_internal	
+ 
 #update to gh-pages
 
 	
@@ -87,13 +87,13 @@
 
 	#make a new branch update_gh from upstream/gh_pages
 	git checkout \-b update_gh
-	
+
 	#copy build/html from internal clone to master/html in gh-pages
-	cp -rf ../../internal/Vitis_Accel_Examples/build/html ./master
+	cp -rf ../../internal/Vitis_Accel_Examples/build/html ./2022.1
 	
-	#add files for commit 
-	git add ./master
-        git commit
+	#add files for commit
+	git add ./2022.1
+	git commit -m "updated gh_pages"
 	
 	#push to origin
 	git push --force \-u origin update_gh
@@ -102,6 +102,5 @@
 	echo "Update done"
 	echo "Please review the changes on git for pull request"
 	
-
 
 #done
