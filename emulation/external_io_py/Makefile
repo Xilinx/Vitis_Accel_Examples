@@ -22,7 +22,7 @@ XF_PROJ_ROOT = $(shell readlink -f $(COMMON_REPO))
 
 
 ########################## Checking if PLATFORM in allowlist #######################
-PLATFORM_BLOCKLIST += dma vck5000 aws-vu9p-f1 samsung u2_ 
+PLATFORM_BLOCKLIST += aws-vu9p-f1 samsung u2_ 
 PLATFORM_ALLOWLIST += vck190 zc 
 
 ifneq ($(TARGET),$(findstring $(TARGET), sw_emu hw_emu))
@@ -41,9 +41,19 @@ HOST_ARCH := x86
 endif
 
 ifeq ($(DEV_ARCH), zynquplus)
+ifeq ($(HOST_ARCH), aarch64)
 include makefile_zynqmp.mk
+else
+include makefile_us_alveo.mk
+endif
 else ifeq ($(DEV_ARCH), versal)
+ifeq ($(HOST_ARCH), x86)
+include makefile_versal_alveo.mk
+else
 include makefile_versal_ps.mk
+endif
+else
+include makefile_us_alveo.mk
 endif
 
 ############################## Help Section ##############################

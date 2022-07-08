@@ -77,7 +77,7 @@ LDFLAGS += -L$(SYSROOT)/usr/lib -pthread -lxilinxopencl
 VPP_PFLAGS+=--package.sd_dir /proj/xbuilds/2022.2_daily_latest/internal_platforms/sw/versal/xrt
 
 ########################## Checking if PLATFORM in allowlist #######################
-PLATFORM_BLOCKLIST += dma vck5000 aws-vu9p-f1 samsung u2_ 
+PLATFORM_BLOCKLIST += aws-vu9p-f1 samsung u2_ 
 PLATFORM_ALLOWLIST += vck190 zc 
 
 ############################## Setting up Host Variables ##############################

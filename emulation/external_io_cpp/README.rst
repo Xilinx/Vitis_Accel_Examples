@@ -23,7 +23,6 @@ This example will demonstrate emulation of Xilinx Device's IO with a C++ based e
 |
 ..
 
- - All Xilinx DMA Platforms
  - Versal VCK5000
  - AWS VU9P F1
  - Samsung SmartSSD Computation Storage Drive

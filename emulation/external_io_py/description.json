@@ -19,7 +19,6 @@
         "zc"
     ],
     "platform_blocklist": [
-        "dma",
         "vck5000",
         "aws-vu9p-f1",
         "samsung",
