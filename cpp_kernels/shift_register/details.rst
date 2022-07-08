@@ -70,8 +70,8 @@ Following is the log reported while running the design on U250 platform:
 ::
 
    Platform Name: Xilinx
-   INFO: Reading build_dir.hw.xilinx_u250_gen3x16_xdma_3_1_202020_1/fir.xclbin
-   Loading: 'build_dir.hw.xilinx_u250_gen3x16_xdma_3_1_202020_1/fir.xclbin'
+   INFO: Reading build_dir.hw.xilinx_u250_gen3x16_xdma_4_1_202210_1/fir.xclbin
+   Loading: 'build_dir.hw.xilinx_u250_gen3x16_xdma_4_1_202210_1/fir.xclbin'
    Trying to program device[0]: xilinx_u250_gen3x16_xdma_shell_3_1
    Device[0]: program successful!
    Example Testdata Signal_Length=1048576 for 1000 iteration

@@ -26,8 +26,8 @@ Following is the log reported while running the design on U250 platform:
 ::
 
    Platform Name: Xilinx
-   INFO: Reading build_dir.hw.xilinx_u250_gen3x16_xdma_3_1_202020_1/vector_addition.xclbin
-   Loading: 'build_dir.hw.xilinx_u250_gen3x16_xdma_3_1_202020_1/vector_addition.xclbin'
+   INFO: Reading build_dir.hw.xilinx_u250_gen3x16_xdma_4_1_202210_1/vector_addition.xclbin
+   Loading: 'build_dir.hw.xilinx_u250_gen3x16_xdma_4_1_202210_1/vector_addition.xclbin'
    Trying to program device[0]: xilinx_u250_gen3x16_xdma_shell_3_1
    Device[0]: program successful!
    |-------------------------+-------------------------|

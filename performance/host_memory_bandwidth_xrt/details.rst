@@ -25,7 +25,7 @@ Following is the real log reported while running the design on U250 platform:
 ::
 
     Open the device0
-    Load the xclbin ./build_dir.hw.xilinx_u250_gen3x16_xdma_3_1_202020_1/bandwidth.xclbin
+    Load the xclbin ./build_dir.hw.xilinx_u250_gen3x16_xdma_4_1_202210_1/bandwidth.xclbin
     Concurrent Read and Write Throughput = 7.48369 (GB/sec) for buffer size 4.00 KB
     Read Throughput = 0.000335063 (GB/sec) for buffer size 4.00 KB
     Write Throughput = 0.000344473 (GB/sec) for buffer size 4.00 KB

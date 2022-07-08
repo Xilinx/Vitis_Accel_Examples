@@ -94,8 +94,8 @@ Following is the real log reported while running the design on U250 platform:
 
    Found Platform
    Platform Name: Xilinx
-   INFO: Reading ./build_dir.hw.xilinx_u250_gen3x16_xdma_3_1_202020_1/bandwidth.xclbin
-   Loading: './build_dir.hw.xilinx_u250_gen3x16_xdma_3_1_202020_1/bandwidth.xclbin'
+   INFO: Reading ./build_dir.hw.xilinx_u250_gen3x16_xdma_4_1_202210_1/bandwidth.xclbin
+   Loading: './build_dir.hw.xilinx_u250_gen3x16_xdma_4_1_202210_1/bandwidth.xclbin'
    Trying to program device[0]: xilinx_u250_gen3x16_xdma_shell_3_1
    Device[0]: program successful!
    Concurrent Read and Write Throughput = 6.96748 (GB/sec) for buffer size 4.00 KB

@@ -24,7 +24,7 @@ platform:
 
 ::
 
-   Loading: './build_dir.hw.xilinx_u250_gen3x16_xdma_3_1_202020_1/hello.xclbin'
+   Loading: './build_dir.hw.xilinx_u250_gen3x16_xdma_4_1_202210_1/hello.xclbin'
    Trying to program device[0]: xilinx_u250_gen3x16_xdma_shell_3_1
    Device[0]: program successful!
    Commands:      10 iops: 42553.2

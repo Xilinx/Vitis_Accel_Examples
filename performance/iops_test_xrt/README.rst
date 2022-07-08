@@ -60,7 +60,7 @@ platform:
 ::
 
    Open the device0
-   Load the xclbin ./build_dir.hw.xilinx_u250_gen3x16_xdma_3_1_202020_1/hello.xclbin
+   Load the xclbin ./build_dir.hw.xilinx_u250_gen3x16_xdma_4_1_202210_1/hello.xclbin
    Allocated commands, expect 10000, created 10000
    Commands:      10 iops: 84033.6
    Commands:      50 iops: 127226

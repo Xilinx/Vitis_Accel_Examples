@@ -79,10 +79,10 @@ VPP_FLAGS += -t $(TARGET) --platform $(PLATFORM) --save-temps
 # Kernel linker flags
 VPP_LDFLAGS_krnl_vadd += --config ./krnl_vadd.cfg
 # Kernel linker flags
-ifeq ($(findstring u55, $(PLATFORM)), u55)
+ifeq ($(findstring u50, $(PLATFORM)), u50)
 VPP_LDFLAGS += --config ./conn_hbm.cfg
 endif
-ifeq ($(findstring u50, $(PLATFORM)), u50)
+ifeq ($(findstring u55, $(PLATFORM)), u55)
 VPP_LDFLAGS += --config ./conn_hbm.cfg
 endif
 EXECUTABLE = ./host_memory_copy_kernel_xrt

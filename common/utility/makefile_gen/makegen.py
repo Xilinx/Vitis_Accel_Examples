@@ -111,7 +111,7 @@ def mk_run(target, data):
             target.write(arg)
         target.write(" TARGET. Please use the target for running the application)\n")
         target.write("endif\n")
-    target.write("PLATFORM ?= xilinx_u250_gen3x16_xdma_3_1_202020_1\n")
+    target.write("PLATFORM ?= xilinx_u250_gen3x16_xdma_4_1_202210_1\n")
     target.write("DEV_ARCH := $(shell platforminfo -p $(PLATFORM) | grep 'FPGA Family' | sed 's/.*://' | sed '/ai_engine/d' | sed 's/^[[:space:]]*//')\n")
     target.write("CPU_TYPE := $(shell platforminfo -p $(PLATFORM) | grep 'CPU Type' | sed 's/.*://' | sed '/ai_engine/d' | sed 's/^[[:space:]]*//')\n")
     target.write("\n")
