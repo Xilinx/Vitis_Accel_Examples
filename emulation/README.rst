@@ -31,6 +31,16 @@ This section contains Emulation Examples.
 
       * `Building a Bare-Metal System <https://docs.xilinx.com/r/en-US/ug1076-ai-engine-environment/Building-a-Bare-Metal-System>`__
 
+  * - `deadlock_streaming_k2k_mm <deadlock_streaming_k2k_mm>`_
+    - This is a simple kernel to kernel streaming Vector Add and Vector Multiply C Kernel design to demonstrate system level deadlock detection feature in HW Emulation.
+    - **Key Concepts**
+
+      * System Level Deadlock Detection
+
+      **Keywords**
+
+      * systemDeadlockDetection=enable
+
   * - `external_io_cpp <external_io_cpp>`_
     - This example will demonstrate emulation of Xilinx Device's IO with a C++ based external process .
     - **Key Concepts**

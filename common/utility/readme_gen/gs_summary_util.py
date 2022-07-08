@@ -49,7 +49,9 @@ def gen_category2Rst(dir ,outfile, subdircount, ref_data):
     outfile.write(('\n').join(data["description"]))
     outfile.write("\n")
     outfile.write("    - ")
+    outfile.write("\n")
     if 'key_concepts' in data:
+        outfile.write("      ")
         outfile.write("**Key Concepts**\n\n")
         key_concepts = data["key_concepts"]
         for i, kc in enumerate(key_concepts):
@@ -65,8 +67,9 @@ def gen_category2Rst(dir ,outfile, subdircount, ref_data):
                 else:
                     outfile.write(kc)
                     outfile.write("\n\n")
-    if 'keywords' in data:    
-        outfile.write("      **Keywords**\n\n")
+    if 'keywords' in data:  
+        outfile.write("      ")
+        outfile.write("**Keywords**\n\n")
         keywords = data["keywords"]
         for  i, kw in enumerate(keywords):
             outfile.write("      * ")
