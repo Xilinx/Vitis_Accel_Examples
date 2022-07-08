@@ -152,6 +152,7 @@ int main(int argc, char** argv) {
     // Buffers are allocated using CL_MEM_USE_HOST_PTR for efficient memory and
     // Device-to-host communication
     cl::Buffer buffer_in1[NUM_TIMES], buffer_in2[NUM_TIMES], buffer_in3[NUM_TIMES], buffer_in4[NUM_TIMES],
+        buffer_in5[NUM_TIMES], buffer_in6[NUM_TIMES], buffer_in7[NUM_TIMES], buffer_in8[NUM_TIMES],
         buffer_output[NUM_TIMES], buffer_output1[NUM_TIMES];
     for (int i = 0; i < NUM_TIMES; i++) {
         OCL_CHECK(err, buffer_in1[i] = cl::Buffer(context, CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY, vector_size_bytes,
@@ -162,6 +163,15 @@ int main(int argc, char** argv) {
                                                   source_in3[i].data(), &err));
         OCL_CHECK(err, buffer_in4[i] = cl::Buffer(context, CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY, vector_size_bytes,
                                                   source_in4[i].data(), &err));
+        OCL_CHECK(err, buffer_in5[i] = cl::Buffer(context, CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY, vector_size_bytes,
+                                                  source_in1[i].data(), &err));
+        OCL_CHECK(err, buffer_in6[i] = cl::Buffer(context, CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY, vector_size_bytes,
+                                                  source_in2[i].data(), &err));
+        OCL_CHECK(err, buffer_in7[i] = cl::Buffer(context, CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY, vector_size_bytes,
+                                                  source_in3[i].data(), &err));
+        OCL_CHECK(err, buffer_in8[i] = cl::Buffer(context, CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY, vector_size_bytes,
+                                                  source_in4[i].data(), &err));
+
         OCL_CHECK(err, buffer_output[i] = cl::Buffer(context, CL_MEM_USE_HOST_PTR | CL_MEM_WRITE_ONLY,
                                                      vector_size_bytes, source_hw_results[i].data(), &err));
 
@@ -219,16 +229,16 @@ int main(int argc, char** argv) {
     // Kernel without ap_ctrl_chain
     auto start_hs = std::chrono::high_resolution_clock::now();
     for (int i = 0; i < NUM_TIMES; i++) {
-        OCL_CHECK(err, err = krnl_simple_mmult.setArg(0, buffer_in1[i]));
-        OCL_CHECK(err, err = krnl_simple_mmult.setArg(1, buffer_in2[i]));
-        OCL_CHECK(err, err = krnl_simple_mmult.setArg(2, buffer_in3[i]));
-        OCL_CHECK(err, err = krnl_simple_mmult.setArg(3, buffer_in4[i]));
+        OCL_CHECK(err, err = krnl_simple_mmult.setArg(0, buffer_in5[i]));
+        OCL_CHECK(err, err = krnl_simple_mmult.setArg(1, buffer_in6[i]));
+        OCL_CHECK(err, err = krnl_simple_mmult.setArg(2, buffer_in7[i]));
+        OCL_CHECK(err, err = krnl_simple_mmult.setArg(3, buffer_in8[i]));
         OCL_CHECK(err, err = krnl_simple_mmult.setArg(4, buffer_output1[i]));
         OCL_CHECK(err, err = krnl_simple_mmult.setArg(5, MAT_DIM));
 
         cl::Event event;
         // Copy input data to device global memory
-        OCL_CHECK(err, err = q.enqueueMigrateMemObjects({buffer_in1[i], buffer_in2[i], buffer_in3[i], buffer_in4[i]},
+        OCL_CHECK(err, err = q.enqueueMigrateMemObjects({buffer_in5[i], buffer_in6[i], buffer_in7[i], buffer_in8[i]},
                                                         0 /* 0 means from host*/, nullptr, &event));
 
         std::vector<cl::Event> waitList;

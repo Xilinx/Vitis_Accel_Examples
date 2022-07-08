@@ -1,18 +1,18 @@
 /**
-* Copyright (C) 2019-2021 Xilinx, Inc
-*
-* Licensed under the Apache License, Version 2.0 (the "License"). You may
-* not use this file except in compliance with the License. A copy of the
-* License is located at
-*
-*     http://www.apache.org/licenses/LICENSE-2.0
-*
-* Unless required by applicable law or agreed to in writing, software
-* distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
-* WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
-* License for the specific language governing permissions and limitations
-* under the License.
-*/
+ * Copyright (C) 2019-2021 Xilinx, Inc
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"). You may
+ * not use this file except in compliance with the License. A copy of the
+ * License is located at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations
+ * under the License.
+ */
 
 #include "xcl2.hpp"
 #include <algorithm>
@@ -116,38 +116,66 @@ int main(int argc, char** argv) {
     loop_sequential_sw(source_a, source_b, source_sw_results);
 
     // Allocate Buffer in Global Memory
-    OCL_CHECK(err, cl::Buffer buffer_a(context, CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY, input_size_in_bytes,
-                                       source_a.data(), &err));
-    OCL_CHECK(err, cl::Buffer buffer_b(context, CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY, input_size_in_bytes,
-                                       source_b.data(), &err));
-    OCL_CHECK(err, cl::Buffer buffer_result(context, CL_MEM_USE_HOST_PTR | CL_MEM_WRITE_ONLY, output_size_in_bytes,
-                                            source_hw_results.data(), &err));
+    OCL_CHECK(err, cl::Buffer buffer_a0(context, CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY, input_size_in_bytes,
+                                        source_a.data(), &err));
+    OCL_CHECK(err, cl::Buffer buffer_b0(context, CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY, input_size_in_bytes,
+                                        source_b.data(), &err));
+
+    OCL_CHECK(err, cl::Buffer buffer_result0(context, CL_MEM_USE_HOST_PTR | CL_MEM_WRITE_ONLY, output_size_in_bytes,
+                                             source_hw_results.data(), &err));
+    OCL_CHECK(err, cl::Buffer buffer_a1(context, CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY, input_size_in_bytes,
+                                        source_a.data(), &err));
+    OCL_CHECK(err, cl::Buffer buffer_b1(context, CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY, input_size_in_bytes,
+                                        source_b.data(), &err));
+
+    OCL_CHECK(err, cl::Buffer buffer_result1(context, CL_MEM_USE_HOST_PTR | CL_MEM_WRITE_ONLY, output_size_in_bytes,
+                                             source_hw_results.data(), &err));
+    OCL_CHECK(err, cl::Buffer buffer_a2(context, CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY, input_size_in_bytes,
+                                        source_a.data(), &err));
+    OCL_CHECK(err, cl::Buffer buffer_b2(context, CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY, input_size_in_bytes,
+                                        source_b.data(), &err));
+
+    OCL_CHECK(err, cl::Buffer buffer_result2(context, CL_MEM_USE_HOST_PTR | CL_MEM_WRITE_ONLY, output_size_in_bytes,
+                                             source_hw_results.data(), &err));
+    OCL_CHECK(err, cl::Buffer buffer_a3(context, CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY, input_size_in_bytes,
+                                        source_a.data(), &err));
+    OCL_CHECK(err, cl::Buffer buffer_b3(context, CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY, input_size_in_bytes,
+                                        source_b.data(), &err));
+
+    OCL_CHECK(err, cl::Buffer buffer_result3(context, CL_MEM_USE_HOST_PTR | CL_MEM_WRITE_ONLY, output_size_in_bytes,
+                                             source_hw_results.data(), &err));
+    OCL_CHECK(err, cl::Buffer buffer_a4(context, CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY, input_size_in_bytes,
+                                        source_a.data(), &err));
+    OCL_CHECK(err, cl::Buffer buffer_b4(context, CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY, input_size_in_bytes,
+                                        source_b.data(), &err));
+    OCL_CHECK(err, cl::Buffer buffer_result4(context, CL_MEM_USE_HOST_PTR | CL_MEM_WRITE_ONLY, output_size_in_bytes,
+                                             source_hw_results.data(), &err));
 
     OCL_CHECK(err, cl::Kernel dot_product_1(program, "dot_product_1", &err));
 
-    OCL_CHECK(err, err = dot_product_1.setArg(0, buffer_a));
-    OCL_CHECK(err, err = dot_product_1.setArg(1, buffer_b));
-    OCL_CHECK(err, err = dot_product_1.setArg(2, buffer_result));
+    OCL_CHECK(err, err = dot_product_1.setArg(0, buffer_a0));
+    OCL_CHECK(err, err = dot_product_1.setArg(1, buffer_b0));
+    OCL_CHECK(err, err = dot_product_1.setArg(2, buffer_result0));
     OCL_CHECK(err, err = dot_product_1.setArg(3, DATA_SIZE));
     OCL_CHECK(err, err = dot_product_1.setArg(4, reps));
 
     // Copy input data to device global memory
-    OCL_CHECK(err, err = q.enqueueMigrateMemObjects({buffer_a, buffer_b}, 0 /* 0 means from host*/));
+    OCL_CHECK(err, err = q.enqueueMigrateMemObjects({buffer_a0, buffer_b0}, 0 /* 0 means from host*/));
     auto total_start = std::chrono::high_resolution_clock::now();
     OCL_CHECK(err, err = q.enqueueTask(dot_product_1));
     q.finish();
     auto total_end = std::chrono::high_resolution_clock::now();
     auto dot_product_1_time_ns = std::chrono::duration<double, std::nano>(total_end - total_start);
     // Copy Result from Device Global Memory to Host Local Memory
-    OCL_CHECK(err, err = q.enqueueMigrateMemObjects({buffer_result}, CL_MIGRATE_MEM_OBJECT_HOST));
+    OCL_CHECK(err, err = q.enqueueMigrateMemObjects({buffer_result0}, CL_MIGRATE_MEM_OBJECT_HOST));
     q.finish();
     verify(source_sw_results, source_hw_results);
 
     OCL_CHECK(err, cl::Kernel dot_product_2(program, "dot_product_2", &err));
 
-    OCL_CHECK(err, err = dot_product_2.setArg(0, buffer_a));
-    OCL_CHECK(err, err = dot_product_2.setArg(1, buffer_b));
-    OCL_CHECK(err, err = dot_product_2.setArg(2, buffer_result));
+    OCL_CHECK(err, err = dot_product_2.setArg(0, buffer_a1));
+    OCL_CHECK(err, err = dot_product_2.setArg(1, buffer_b1));
+    OCL_CHECK(err, err = dot_product_2.setArg(2, buffer_result1));
     OCL_CHECK(err, err = dot_product_2.setArg(3, DATA_SIZE));
     OCL_CHECK(err, err = dot_product_2.setArg(4, reps));
 
@@ -157,15 +185,15 @@ int main(int argc, char** argv) {
     total_end = std::chrono::high_resolution_clock::now();
     auto dot_product_2_time_ns = std::chrono::duration<double, std::nano>(total_end - total_start);
     // Copy Result from Device Global Memory to Host Local Memory
-    OCL_CHECK(err, err = q.enqueueMigrateMemObjects({buffer_result}, CL_MIGRATE_MEM_OBJECT_HOST));
+    OCL_CHECK(err, err = q.enqueueMigrateMemObjects({buffer_result1}, CL_MIGRATE_MEM_OBJECT_HOST));
     q.finish();
     verify(source_sw_results, source_hw_results);
 
     OCL_CHECK(err, cl::Kernel dot_product_3(program, "dot_product_3", &err));
 
-    OCL_CHECK(err, err = dot_product_3.setArg(0, buffer_a));
-    OCL_CHECK(err, err = dot_product_3.setArg(1, buffer_b));
-    OCL_CHECK(err, err = dot_product_3.setArg(2, buffer_result));
+    OCL_CHECK(err, err = dot_product_3.setArg(0, buffer_a2));
+    OCL_CHECK(err, err = dot_product_3.setArg(1, buffer_b2));
+    OCL_CHECK(err, err = dot_product_3.setArg(2, buffer_result2));
     OCL_CHECK(err, err = dot_product_3.setArg(3, DATA_SIZE));
     OCL_CHECK(err, err = dot_product_3.setArg(4, reps));
 
@@ -175,15 +203,15 @@ int main(int argc, char** argv) {
     total_end = std::chrono::high_resolution_clock::now();
     auto dot_product_3_time_ns = std::chrono::duration<double, std::nano>(total_end - total_start);
     // Copy Result from Device Global Memory to Host Local Memory
-    OCL_CHECK(err, err = q.enqueueMigrateMemObjects({buffer_result}, CL_MIGRATE_MEM_OBJECT_HOST));
+    OCL_CHECK(err, err = q.enqueueMigrateMemObjects({buffer_result2}, CL_MIGRATE_MEM_OBJECT_HOST));
     q.finish();
     verify(source_sw_results, source_hw_results);
 
     OCL_CHECK(err, cl::Kernel dot_product_4(program, "dot_product_4", &err));
 
-    OCL_CHECK(err, err = dot_product_4.setArg(0, buffer_a));
-    OCL_CHECK(err, err = dot_product_4.setArg(1, buffer_b));
-    OCL_CHECK(err, err = dot_product_4.setArg(2, buffer_result));
+    OCL_CHECK(err, err = dot_product_4.setArg(0, buffer_a3));
+    OCL_CHECK(err, err = dot_product_4.setArg(1, buffer_b3));
+    OCL_CHECK(err, err = dot_product_4.setArg(2, buffer_result3));
     OCL_CHECK(err, err = dot_product_4.setArg(3, DATA_SIZE));
     OCL_CHECK(err, err = dot_product_4.setArg(4, reps));
 
@@ -193,15 +221,15 @@ int main(int argc, char** argv) {
     total_end = std::chrono::high_resolution_clock::now();
     auto dot_product_4_time_ns = std::chrono::duration<double, std::nano>(total_end - total_start);
     // Copy Result from Device Global Memory to Host Local Memory
-    OCL_CHECK(err, err = q.enqueueMigrateMemObjects({buffer_result}, CL_MIGRATE_MEM_OBJECT_HOST));
+    OCL_CHECK(err, err = q.enqueueMigrateMemObjects({buffer_result3}, CL_MIGRATE_MEM_OBJECT_HOST));
     q.finish();
     verify(source_sw_results, source_hw_results);
 
     OCL_CHECK(err, cl::Kernel dot_product_5(program, "dot_product_5", &err));
 
-    OCL_CHECK(err, err = dot_product_5.setArg(0, buffer_a));
-    OCL_CHECK(err, err = dot_product_5.setArg(1, buffer_b));
-    OCL_CHECK(err, err = dot_product_5.setArg(2, buffer_result));
+    OCL_CHECK(err, err = dot_product_5.setArg(0, buffer_a4));
+    OCL_CHECK(err, err = dot_product_5.setArg(1, buffer_b4));
+    OCL_CHECK(err, err = dot_product_5.setArg(2, buffer_result4));
     OCL_CHECK(err, err = dot_product_5.setArg(3, DATA_SIZE));
     OCL_CHECK(err, err = dot_product_5.setArg(4, reps));
 
@@ -211,7 +239,7 @@ int main(int argc, char** argv) {
     total_end = std::chrono::high_resolution_clock::now();
     auto dot_product_5_time_ns = std::chrono::duration<double, std::nano>(total_end - total_start);
     // Copy Result from Device Global Memory to Host Local Memory
-    OCL_CHECK(err, err = q.enqueueMigrateMemObjects({buffer_result}, CL_MIGRATE_MEM_OBJECT_HOST));
+    OCL_CHECK(err, err = q.enqueueMigrateMemObjects({buffer_result4}, CL_MIGRATE_MEM_OBJECT_HOST));
     q.finish();
     verify(source_sw_results, source_hw_results);
 

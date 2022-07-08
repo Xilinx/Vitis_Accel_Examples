@@ -94,12 +94,18 @@ int main(int argc, char** argv) {
     }
 
     // Allocate Buffer in Global Memory
-    OCL_CHECK(err, cl::Buffer buffer_a(context, CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY, size_in_bytes, source_a.data(),
-                                       &err));
-    OCL_CHECK(err, cl::Buffer buffer_b(context, CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY, size_in_bytes, source_b.data(),
-                                       &err));
-    OCL_CHECK(err, cl::Buffer buffer_result(context, CL_MEM_USE_HOST_PTR | CL_MEM_WRITE_ONLY, size_in_bytes,
-                                            source_results.data(), &err));
+    OCL_CHECK(err, cl::Buffer buffer_a0(context, CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY, size_in_bytes, source_a.data(),
+                                        &err));
+    OCL_CHECK(err, cl::Buffer buffer_b0(context, CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY, size_in_bytes, source_b.data(),
+                                        &err));
+    OCL_CHECK(err, cl::Buffer buffer_result0(context, CL_MEM_USE_HOST_PTR | CL_MEM_WRITE_ONLY, size_in_bytes,
+                                             source_results.data(), &err));
+    OCL_CHECK(err, cl::Buffer buffer_a1(context, CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY, size_in_bytes, source_a.data(),
+                                        &err));
+    OCL_CHECK(err, cl::Buffer buffer_b1(context, CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY, size_in_bytes, source_b.data(),
+                                        &err));
+    OCL_CHECK(err, cl::Buffer buffer_result1(context, CL_MEM_USE_HOST_PTR | CL_MEM_WRITE_ONLY, size_in_bytes,
+                                             source_results.data(), &err));
 
     vector<int, aligned_allocator<int> > gold(DATA_SIZE);
     transform(begin(source_a), end(source_a), begin(source_b), begin(gold), std::plus<int>());
@@ -109,14 +115,14 @@ int main(int argc, char** argv) {
               << "|-------------------------+-------------------------|\n";
     OCL_CHECK(err, cl::Kernel kernel_vadd(program, "vadd", &err));
 
-    OCL_CHECK(err, err = kernel_vadd.setArg(0, buffer_result));
-    OCL_CHECK(err, err = kernel_vadd.setArg(1, buffer_a));
-    OCL_CHECK(err, err = kernel_vadd.setArg(2, buffer_b));
+    OCL_CHECK(err, err = kernel_vadd.setArg(0, buffer_result0));
+    OCL_CHECK(err, err = kernel_vadd.setArg(1, buffer_a0));
+    OCL_CHECK(err, err = kernel_vadd.setArg(2, buffer_b0));
     OCL_CHECK(err, err = kernel_vadd.setArg(3, DATA_SIZE));
     OCL_CHECK(err, err = kernel_vadd.setArg(4, repeat_counter));
 
     // Copy input data to device global memory
-    OCL_CHECK(err, err = q.enqueueMigrateMemObjects({buffer_a, buffer_b}, 0 /* 0 means from host*/));
+    OCL_CHECK(err, err = q.enqueueMigrateMemObjects({buffer_a0, buffer_b0}, 0 /* 0 means from host*/));
 
     cl::Event event;
     uint64_t nstimestart, nstimeend;
@@ -130,15 +136,15 @@ int main(int argc, char** argv) {
               << "|" << std::right << std::setw(24) << simple_time << " |\n";
 
     // Copy Result from Device Global Memory to Host Local Memory
-    OCL_CHECK(err, err = q.enqueueMigrateMemObjects({buffer_result}, CL_MIGRATE_MEM_OBJECT_HOST));
+    OCL_CHECK(err, err = q.enqueueMigrateMemObjects({buffer_result0}, CL_MIGRATE_MEM_OBJECT_HOST));
     q.finish();
     verify(gold, source_results);
 
     OCL_CHECK(err, cl::Kernel kernel_pipelined(program, "vadd_pipelined", &err));
 
-    OCL_CHECK(err, err = kernel_pipelined.setArg(0, buffer_result));
-    OCL_CHECK(err, err = kernel_pipelined.setArg(1, buffer_a));
-    OCL_CHECK(err, err = kernel_pipelined.setArg(2, buffer_b));
+    OCL_CHECK(err, err = kernel_pipelined.setArg(0, buffer_result1));
+    OCL_CHECK(err, err = kernel_pipelined.setArg(1, buffer_a1));
+    OCL_CHECK(err, err = kernel_pipelined.setArg(2, buffer_b1));
     OCL_CHECK(err, err = kernel_pipelined.setArg(3, DATA_SIZE));
     OCL_CHECK(err, err = kernel_pipelined.setArg(4, repeat_counter));
 
@@ -161,7 +167,7 @@ int main(int argc, char** argv) {
               << "hardware emulation.\n";
 
     // Copy Result from Device Global Memory to Host Local Memory
-    OCL_CHECK(err, err = q.enqueueMigrateMemObjects({buffer_result}, CL_MIGRATE_MEM_OBJECT_HOST));
+    OCL_CHECK(err, err = q.enqueueMigrateMemObjects({buffer_result1}, CL_MIGRATE_MEM_OBJECT_HOST));
     q.finish();
     verify(gold, source_results);
 

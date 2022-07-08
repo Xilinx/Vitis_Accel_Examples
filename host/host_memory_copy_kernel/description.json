@@ -29,7 +29,25 @@
     ], 
     "runtime": [
         "OpenCL"
-    ], 
+    ],
+    "platform_properties": {
+        "u55": {
+            "v++": {
+                "linker": {
+                    "ldclflags": [ "--config PROJECT/connectivity.cfg"
+                      ]
+                }
+            }
+        },
+        "u50": {
+            "v++": {
+                "linker": {
+                    "ldclflags": [ "--config PROJECT/connectivity.cfg"
+                      ]
+                }
+            }
+        }
+    }, 
     "host": {
         "compiler": {
             "sources": [
