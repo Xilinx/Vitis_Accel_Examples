@@ -92,7 +92,7 @@ int main(int argc, char** argv) {
     OCL_CHECK(err, cl::Buffer buffer_rw_0(context, CL_MEM_USE_HOST_PTR | CL_MEM_READ_WRITE, vector_size_bytes,
                                           source_krnl0_output.data(), &err));
     OCL_CHECK(err, cl::Buffer buffer_rw_1(context, CL_MEM_USE_HOST_PTR | CL_MEM_READ_WRITE, vector_size_bytes,
-                                          3 source_input3.data(), &err));
+                                          source_input3.data(), &err));
     OCL_CHECK(err, cl::Buffer buffer_r3(context, CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY, vector_size_bytes,
                                         source_input4.data(), &err));
     OCL_CHECK(err, cl::Buffer buffer_w(context, CL_MEM_USE_HOST_PTR | CL_MEM_WRITE_ONLY, vector_size_bytes,
@@ -123,7 +123,7 @@ int main(int argc, char** argv) {
     OCL_CHECK(err, err = q.enqueueTask(cl_vadd));
 
     // Copy Result from Device Global Memory to Host Local Memory
-    OCL_CHECK(err, err = q.enqueueMigrateMemObjects({buffer_rw, buffer_w}, CL_MIGRATE_MEM_OBJECT_HOST));
+    OCL_CHECK(err, err = q.enqueueMigrateMemObjects({buffer_w}, CL_MIGRATE_MEM_OBJECT_HOST));
     OCL_CHECK(err, err = q.finish());
 
     // OPENCL HOST CODE AREA END
