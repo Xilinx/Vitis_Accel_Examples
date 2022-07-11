@@ -107,12 +107,13 @@ VPP_LINK_FLAGS := -l --platform $(PLATFORM) $(KERNEL_XO) $(GRAPH_O) -t $(TARGET)
 GCC_LIB := -lxrt_coreutil
 GCC_FLAGS := -Wall -c -std=c++14 -Wno-int-to-pointer-cast
 GCC_INCLUDES := -I./src/aie -I./ -I${XILINX_VITIS}/aietools/include
+GCC_LIB += -ladf_api_xrt -L${XILINX_VITIS}/aietools/lib/lnx64.o
 
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu))
-GCC_LIB += -ladf_api_xrt_swemu -L${XILINX_VITIS}/aietools/lib/lnx64.o -L${XILINX_XRT}/lib
+GCC_LIB += -L${XILINX_XRT}/lib
 GCC_FLAGS += -I${XILINX_XRT}/include
 else
-GCC_LIB += -ladf_api_xrt -L${XILINX_VITIS}/aietools/lib/aarch64.o -L$(SYSROOT)/usr/lib --sysroot=$(SYSROOT) 
+GCC_LIB += -L$(SYSROOT)/usr/lib --sysroot=$(SYSROOT) 
 GCC_FLAGS += --sysroot=$(SYSROOT) 
 GCC_INCLUDES += -I$(SYSROOT)/usr/include/xrt -I$(SYSROOT)/usr/include
 endif

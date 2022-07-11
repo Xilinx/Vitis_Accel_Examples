@@ -80,11 +80,10 @@ There are no changes required in the V++ compile and link steps. For the rest of
        **--package.sd_file ./run_app.sh**
        -o vadd.xclbin
        --package.sd_file ./hello_world
-     - $(VPP) -p  -t sw_emu $(LINK_XCLBIN) $(LIBADF)
-       --platform $(PLATFORM_PATH) ​**--package.ps_on_x86** --package.out_dir ./package.sw_emu -o $(XCLBIN)​
+     - $(VPP) -p $(LINK_OUTPUT) $(VPP_FLAGS)​ **--package.emu_ps x86** --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/vadd.xclbin​
    * - Simulation Launch​​
      - **./launch_sw_emu.sh -run-app $(RUN_APP_SCRIPT) | tee run_app.log;​​**
-     - **XCL_EMULATION_MODE=$(TARGET) ./$(PS_APP) $(PS_APP_ARGS)​​**
+     - **XCL_EMULATION_MODE=$(TARGET) ./$(EXECUTABLE) $(CMD_ARGS)​​**
 
 For sw_emu, XRT needs to be installed on the host whereas for hw_emu and hw the user is expected to provide the EDGE_COMMON_SW path.
 

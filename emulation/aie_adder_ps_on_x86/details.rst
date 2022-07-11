@@ -13,19 +13,19 @@ There are no changes required in the V++ compile and link steps. For the rest of
      - x86 Process
    * - Host compilation​
      - GCC_LIB := -lxrt_coreutil **-ladf_api_xrt**
-       **-L${XILINX_VITIS}/aietools/lib/aarch64.o -L$(SYSROOT)/usr/lib --sysroot=$(SYSROOT)​**
+       **-L${XILINX_VITIS}/aietools/lib/aarch64.o -L$(SYSROOT)/usr/lib --sysroot=$(SYSROOT)**
        GCC_FLAGS := -Wall -c -std=c++14 -Wno-int-to-pointer-cast **--sysroot=$(SYSROOT)**
        GCC_INCLUDES := -I./ -I${XILINX_VITIS}/aietools/include 
        **-I$(SYSROOT)/usr/include/xrt -I$(SYSROOT)/usr/include**
-     - GCC_LIB := -lxrt_coreutil  **-ladf_api_xrt_swemu -L${XILINX_VITIS}/aietools/lib/lnx64.o -L${XILINX_XRT}/lib​**
-       GCC_FLAGS := -Wall -c -std=c++14 -Wno-int-to-pointer-cast **-I${XILINX_XRT}/include​**
-       GCC_INCLUDES := -I./ -I${XILINX_VITIS}/aietools/include​
+     - GCC_LIB := -lxrt_coreutil  **-ladf_api_xrt -L${XILINX_VITIS}/aietools/lib/lnx64.o -L${XILINX_XRT}/lib**
+       GCC_FLAGS := -Wall -c -std=c++14 -Wno-int-to-pointer-cast **-I${XILINX_XRT}/include**
+       GCC_INCLUDES := -I./src/aie -I./ -I${XILINX_VITIS}/aietools/include
    * - Package​
      - v++ $(VPP_PFLAGS) -p -t $(TARGET) \​
        --package.defer_aie_run \​
        --platform $(PLATFORM) \​
        --package.out_dir $(PACKAGE_OUT) \​
-       $(XCLBIN) $(GRAPH_O) -o krnl_adder.xclbin​ \
+       $(LINK_OUTPUT) $(GRAPH_O) -o $(XCLBIN)​ \
        **--package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4** \​
        **--package.image_format=ext4** \​
        **--package.boot_mode=sd** \​
@@ -37,10 +37,10 @@ There are no changes required in the V++ compile and link steps. For the rest of
        --package.defer_aie_run \​
        --platform $(PLATFORM) \​
        --package.out_dir $(PACKAGE_OUT) \​
-       $(XCLBIN) $(GRAPH_O) -o krnl_adder.xclbin​
-       **--package.ps_on_x86​**
+       $(LINK_OUTPUT) $(GRAPH_O) -o $(XCLBIN) \​
+       **--package.emu_ps x86​**
    * - Simulation Launch​​
      - **./launch_sw_emu.sh -run-app $(RUN_APP_SCRIPT) | tee run_app.log;​​**
-     - **XCL_EMULATION_MODE=$(TARGET) ./$(PS_APP) $(PS_APP_ARGS)​​**
+     - **XCL_EMULATION_MODE=$(TARGET) ./$(EXECUTABLE) $(CMD_ARGS)​​**
 
 For sw_emu, XRT needs to be installed on the host whereas for hw_emu and hw the user is expected to provide the EDGE_COMMON_SW path.
