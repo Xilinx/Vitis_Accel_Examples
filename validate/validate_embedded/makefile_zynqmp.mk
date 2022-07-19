@@ -172,6 +172,7 @@ $(EMCONFIG_DIR)/emconfig.json:
 run: all
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 ifeq ($(EMU_PS), X86)
+	cp -rf $(PLATFORM_JSON_DIR)/platform.json .
 	cp -rf $(EMCONFIG_DIR)/emconfig.json .
 	XCL_EMULATION_MODE=$(TARGET) $(EXECUTABLE) $(CMD_ARGS)
 else
