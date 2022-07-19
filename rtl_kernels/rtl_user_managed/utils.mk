@@ -21,6 +21,20 @@ COMMON_REPO ?= $(shell bash -c 'export MK_PATH=$(MK_PATH); echo $${MK_PATH%rtl_k
 PWD = $(shell readlink -f .)
 XF_PROJ_ROOT = $(shell readlink -f $(COMMON_REPO))
 
+#Check OS and setting env for xrt c++ api
+GXX_EXTRA_FLAGS := 
+OSDIST = $(shell lsb_release -i |awk -F: '{print tolower($$2)}' | tr -d ' 	' )
+OSREL = $(shell lsb_release -r |awk -F: '{print tolower($$2)}' |tr -d ' 	')
+# for centos and redhat
+ifneq ($(findstring centos,$(OSDIST)),)
+ifeq (7,$(shell echo $(OSREL) | awk -F. '{print tolower($$1)}' ))
+GXX_EXTRA_FLAGS := -D_GLIBCXX_USE_CXX11_ABI=0
+endif
+else ifneq ($(findstring redhat,$(OSDIST)),)
+ifeq (7,$(shell echo $(OSREL) | awk -F. '{print tolower($$1)}' ))
+GXX_EXTRA_FLAGS := -D_GLIBCXX_USE_CXX11_ABI=0
+endif
+endif
 #Setting PLATFORM 
 ifeq ($(PLATFORM),)
 ifneq ($(DEVICE),)

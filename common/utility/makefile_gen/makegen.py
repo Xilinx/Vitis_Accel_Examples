@@ -270,6 +270,24 @@ def device2xsa_gen(target):
     target.write("\n")
 
 def util_checks(target):
+    if "host" in data:
+        if "linker" in data["host"]:
+            if "libraries" in data["host"]["linker"]:
+                if "xrt_coreutil" in data["host"]["linker"]["libraries"] and "uuid" in data["host"]["linker"]["libraries"]:
+                       target.write("#Check OS and setting env for xrt c++ api\n")
+                       target.write("GXX_EXTRA_FLAGS := \n")
+                       target.write("OSDIST = $(shell lsb_release -i |awk -F: '{print tolower($$2)}' | tr -d ' \t' )\n")
+                       target.write("OSREL = $(shell lsb_release -r |awk -F: '{print tolower($$2)}' |tr -d ' \t')\n")
+                       target.write("# for centos and redhat\n")
+                       target.write("ifneq ($(findstring centos,$(OSDIST)),)\n")
+                       target.write("ifeq (7,$(shell echo $(OSREL) | awk -F. '{print tolower($$1)}' ))\n")
+                       target.write("GXX_EXTRA_FLAGS := -D_GLIBCXX_USE_CXX11_ABI=0\n")                       
+                       target.write("endif\n")
+                       target.write("else ifneq ($(findstring redhat,$(OSDIST)),)\n")
+                       target.write("ifeq (7,$(shell echo $(OSREL) | awk -F. '{print tolower($$1)}' ))\n")
+                       target.write("GXX_EXTRA_FLAGS := -D_GLIBCXX_USE_CXX11_ABI=0\n")                                              
+                       target.write("endif\n")
+                       target.write("endif\n")
     target.write("#Setting PLATFORM \n")
     target.write("ifeq ($(PLATFORM),)\n")
     target.write("ifneq ($(DEVICE),)\n")

@@ -76,6 +76,11 @@ def create_params(target,data):
         target.write("\n\n")
     target.write("ifeq ($(EMU_PS), X86)\n")
     target.write("CXXFLAGS += -I$(XILINX_XRT)/include -I$(XILINX_VIVADO)/include -Wall -O0 -g -std=c++1y\n") 
+    if "host" in data:
+        if "linker" in data["host"]:
+            if "libraries" in data["host"]["linker"]:
+                if "xrt_coreutil" in data["host"]["linker"]["libraries"] and "uuid" in data["host"]["linker"]["libraries"]:
+                    target.write("CXXFLAGS += $(GXX_EXTRA_FLAGS)\n")
     target.write("LDFLAGS += -L$(XILINX_XRT)/lib -pthread -lOpenCL\n")
     target.write("else\n")       
     target.write("CXXFLAGS += -I$(SYSROOT)/usr/include/xrt -I$(XILINX_VIVADO)/include -Wall -O0 -g -std=c++1y\n")
