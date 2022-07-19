@@ -336,7 +336,7 @@ def building_kernel(target, data):
             target.write(" -o'$(LINK_OUTPUT)' $(+)\n")
     target.write("ifeq ($(EMU_PS), X86)\n")
     target.write("\tv++ -p $(LINK_OUTPUT) $(VPP_FLAGS) ")
-    target.write("--package.emu_ps x86 -o $(BUILD_DIR)/" + con["name"] + ".xclbin\n")
+    target.write("-o $(BUILD_DIR)/" + con["name"] + ".xclbin\n")
     target.write("endif\n")
     return
 
@@ -589,7 +589,7 @@ def mk_sdcard(target, data):
     if "containers" in data:
         for con in data["containers"]:
             target.write("\tv++ $(VPP_PFLAGS) -p $(LINK_OUTPUT) $(VPP_FLAGS) ")
-            target.write("--package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.sd_file $(SD_IMAGE_FILE) --package.sd_file xrt.ini --package.sd_file $(RUN_APP_SCRIPT) --package.sd_file $(EXECUTABLE) --package.sd_file $(EMCONFIG_DIR)/emconfig.json")
+            target.write("--package.emu_ps qemu --package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.sd_file $(SD_IMAGE_FILE) --package.sd_file xrt.ini --package.sd_file $(RUN_APP_SCRIPT) --package.sd_file $(EXECUTABLE) --package.sd_file $(EMCONFIG_DIR)/emconfig.json")
             for extra_filename in extra_file_list:
                 if ('-' not in extra_filename):
                     target.write(" --package.sd_file ")

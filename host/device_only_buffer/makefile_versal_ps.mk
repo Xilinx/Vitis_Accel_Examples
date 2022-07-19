@@ -148,7 +148,7 @@ $(BUILD_DIR)/device_only_buf.xclbin: $(TEMP_DIR)/madd.xo $(TEMP_DIR)/mmult.xo
 	mkdir -p $(BUILD_DIR)
 	v++ $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) -o'$(LINK_OUTPUT)' $(+)
 ifeq ($(EMU_PS), X86)
-	v++ -p $(LINK_OUTPUT) $(VPP_FLAGS) --package.emu_ps x86 -o $(BUILD_DIR)/device_only_buf.xclbin
+	v++ -p $(LINK_OUTPUT) $(VPP_FLAGS) -o $(BUILD_DIR)/device_only_buf.xclbin
 endif
 ############################## Preparing sdcard ##############################
 .PHONY: sd_card
@@ -163,7 +163,7 @@ vck190_dfx_hw := true
 endif
 endif
 ifeq ($(vck190_dfx_hw), false)
-	v++ $(VPP_PFLAGS) -p $(LINK_OUTPUT) $(VPP_FLAGS) --package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.sd_file $(SD_IMAGE_FILE) --package.sd_file xrt.ini --package.sd_file $(RUN_APP_SCRIPT) --package.sd_file $(EXECUTABLE) --package.sd_file $(EMCONFIG_DIR)/emconfig.json -o $(BUILD_DIR)/device_only_buf.xclbin
+	v++ $(VPP_PFLAGS) -p $(LINK_OUTPUT) $(VPP_FLAGS) --package.emu_ps qemu --package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.sd_file $(SD_IMAGE_FILE) --package.sd_file xrt.ini --package.sd_file $(RUN_APP_SCRIPT) --package.sd_file $(EXECUTABLE) --package.sd_file $(EMCONFIG_DIR)/emconfig.json -o $(BUILD_DIR)/device_only_buf.xclbin
 endif
 
 ############################## Setting Rules for Host (Building Host Executable) ##############################
