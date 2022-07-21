@@ -78,7 +78,6 @@ PACKAGE_OUT = ./package.$(TARGET)
 LAUNCH_EMULATOR = $(PACKAGE_OUT)/launch_$(TARGET).sh
 RESULT_STRING = TEST PASSED
 CMD_ARGS = krnl_adder.xclbin
-vck190_dfx_hw := false
 
 CONFIG_FILE := system.cfg
 include ./utils.mk
@@ -192,6 +191,7 @@ endif
 sd_card: check-device gen_run_app $(XCLBIN)
 
 $(XCLBIN): $(GRAPH_O) $(KERNEL_XO) $(EXECUTABLE)
+	$(PACKAGING_CMD)
 	@echo "COMPLETE: emulation package created."
 ###################################################################################################
 
