@@ -77,6 +77,7 @@ SD_CARD := $(PACKAGE_OUT)
 
 ifeq ($(EMU_PS), X86)
 CXXFLAGS += -I$(XILINX_XRT)/include -I$(XILINX_VIVADO)/include -Wall -O0 -g -std=c++17
+CXXFLAGS += $(GXX_EXTRA_FLAGS)
 LDFLAGS += -L$(XILINX_XRT)/lib -pthread -lOpenCL
 else
 CXXFLAGS += -I$(SYSROOT)/usr/include/xrt -I$(XILINX_VIVADO)/include -Wall -O0 -g -std=c++17
