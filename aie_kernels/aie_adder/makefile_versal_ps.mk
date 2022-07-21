@@ -16,13 +16,25 @@
 #
 
 ############################## Help Section ##############################
-.PHONY: help
-
-help::
+ifneq ($(findstring Makefile, $(MAKEFILE_LIST)), Makefile)
+help:
 	$(ECHO) "Makefile Usage:"
 	$(ECHO) "  make all TARGET=<sw_emu/hw_emu/hw> PLATFORM=<FPGA platform> EDGE_COMMON_SW=<rootfs and kernel image path>"
 	$(ECHO) "      Command to generate the design for specified Target and Shell."
-	$(ECHO) "      EDGE_COMMON_SW is required for SoC shells"
+	$(ECHO) ""
+	$(ECHO) "  make run TARGET=<sw_emu/hw_emu/hw> PLATFORM=<FPGA platform> EDGE_COMMON_SW=<rootfs and kernel image path>"
+	$(ECHO) "      Command to run application in emulation."
+	$(ECHO) ""
+	$(ECHO) "  make build TARGET=<sw_emu/hw_emu/hw> PLATFORM=<FPGA platform> EDGE_COMMON_SW=<rootfs and kernel image path>"
+	$(ECHO) "      Command to build xclbin application."
+	$(ECHO) ""
+	$(ECHO) "  make sd_card TARGET=<sw_emu/hw_emu/hw> PLATFORM=<FPGA platform> EDGE_COMMON_SW=<rootfs and kernel image path>"
+	$(ECHO) "      Command to prepare sd_card files."
+	$(ECHO) ""
+	$(ECHO) "  make host EDGE_COMMON_SW=<rootfs and kernel image path>"
+	$(ECHO) "      Command to build host application."
+	$(ECHO) "      EDGE_COMMON_SW is required for SoC shells. Please download and use the pre-built image from - "
+	$(ECHO) "      https://www.xilinx.com/support/download/index.html/content/xilinx/en/downloadNav/embedded-platforms.html"
 	$(ECHO) ""
 	$(ECHO) "  make clean "
 	$(ECHO) "      Command to remove the generated non-hardware files."
@@ -30,34 +42,15 @@ help::
 	$(ECHO) "  make cleanall"
 	$(ECHO) "      Command to remove all the generated files."
 	$(ECHO) ""
-	$(ECHO) "  make sd_card TARGET=<sw_emu/hw_emu/hw> PLATFORM=<FPGA platform> EDGE_COMMON_SW=<rootfs and kernel image path>"
-	$(ECHO) "      Command to prepare sd_card files."
-	$(ECHO) "      EDGE_COMMON_SW is required for SoC shells"
-	$(ECHO) ""
-	$(ECHO) "  make run TARGET=<sw_emu/hw_emu/hw> PLATFORM=<FPGA platform> EDGE_COMMON_SW=<rootfs and kernel image path>"
-	$(ECHO) "      Command to run application in emulation."
-	$(ECHO) "      EDGE_COMMON_SW is required for SoC shells"
-	$(ECHO) ""
-	$(ECHO) "  make build TARGET=<sw_emu/hw_emu/hw> PLATFORM=<FPGA platform> EDGE_COMMON_SW=<rootfs and kernel image path>"
-	$(ECHO) "      Command to build xclbin application."
-	$(ECHO) "      EDGE_COMMON_SW is required for SoC shells"
-	$(ECHO) ""
-	$(ECHO) "  make host TARGET=<sw_emu/hw_emu/hw> EDGE_COMMON_SW=<rootfs and kernel image path>"
-	$(ECHO) "      Command to build host application."
-	$(ECHO) "      EDGE_COMMON_SW is required for SoC shells. Please download and use the pre-built image from - "
-	$(ECHO) "      https://www.xilinx.com/support/download/index.html/content/xilinx/en/downloadNav/embedded-platforms.html"
-	$(ECHO) ""
-
+endif
 
 ############################## Setting up Project Variables ##############################
-# Points to top directory of Git repository
-MK_PATH := $(abspath $(lastword $(MAKEFILE_LIST)))
-COMMON_REPO ?= $(shell bash -c 'export MK_PATH=$(MK_PATH); echo $${MK_PATH%emulation/aie_adder_ps_on_x86/*}')
-PWD = $(shell readlink -f .)
-XF_PROJ_ROOT = $(shell readlink -f $(COMMON_REPO))
+TARGET := hw_emu
+SYSROOT := $(EDGE_COMMON_SW)/sysroots/cortexa72-cortexa53-xilinx-linux
+SD_IMAGE_FILE := $(EDGE_COMMON_SW)/Image
+CXX :=$(XILINX_VITIS)/gnu/aarch64/lin/aarch64-linux/bin/aarch64-linux-gnu-g++
 
 # Makefile input options
-TARGET := sw_emu
 LINK_OUTPUT := adder.xsa
 XCLBIN := krnl_adder.xclbin
 
@@ -69,7 +62,7 @@ KERNEL := s2mm.cpp mm2s.cpp
 KERNEL_XO := s2mm.xo mm2s.xo 
 
 HOST_SRCS := ./src/sw/host.cpp
-EXECUTABLE = ./aie_adder_ps_on_x86
+EXECUTABLE = ./aie_adder
 
 # SoC variables
 RUN_APP_SCRIPT = ./run_app.sh
@@ -77,7 +70,6 @@ PACKAGE_OUT = ./package.$(TARGET)
 
 LAUNCH_EMULATOR = $(PACKAGE_OUT)/launch_$(TARGET).sh
 RESULT_STRING = TEST PASSED
-CMD_ARGS = krnl_adder.xclbin
 
 CONFIG_FILE := system.cfg
 include ./utils.mk
@@ -95,7 +87,7 @@ AIE_INCLUDE_FLAGS := -include="$(XILINX_VITIS)/aietools/include" -include="./src
 AIE_FLAGS := $(AIE_INCLUDE_FLAGS) --pl-freq=100 -workdir=./Work
 
 ifeq ($(TARGET),sw_emu)
-	AIE_FLAGS += --target=x86sim -Xpreproc='-DNDEBUG'
+	AIE_FLAGS += --target=x86sim
 else
 	AIE_FLAGS += --target=hw
 endif
@@ -103,25 +95,29 @@ endif
 VPP_XO_FLAGS := -c -t $(TARGET) --platform $(PLATFORM) --save-temps -g 
 VPP_LINK_FLAGS := -l --platform $(PLATFORM) $(KERNEL_XO) $(GRAPH_O) -t $(TARGET) --save-temps -g --config $(CONFIG_FILE) -o $(LINK_OUTPUT)
 
-GCC_LIB := -lxrt_coreutil
-GCC_FLAGS := -Wall -c -std=c++14 -Wno-int-to-pointer-cast
-GCC_INCLUDES := -I./src/aie -I./ -I${XILINX_VITIS}/aietools/include
-GCC_LIB += -ladf_api_xrt -L${XILINX_VITIS}/aietools/lib/lnx64.o
+GCC_FLAGS := -Wall -c \
+			 -std=c++14 \
+			 -Wno-int-to-pointer-cast \
+			 --sysroot=$(SYSROOT) \
+
+GCC_INCLUDES := -I$(SYSROOT)/usr/include/xrt \
+				-I$(SYSROOT)/usr/include \
+				-I./ -I./src/aie \
+				-I${XILINX_VITIS}/aietools/include \
+				-I${XILINX_VITIS}/include
+
+
+GCC_LIB := -lxaiengine -ladf_api_xrt -lxrt_core -lxrt_coreutil \
+		   -L$(SYSROOT)/usr/lib \
+		   --sysroot=$(SYSROOT) \
+		   -L${XILINX_VITIS}/aietools/lib/aarch64.o
 
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu))
-GCC_LIB += -L${XILINX_XRT}/lib
-GCC_FLAGS += -I${XILINX_XRT}/include
-else
-GCC_LIB += -L$(SYSROOT)/usr/lib --sysroot=$(SYSROOT) 
-GCC_FLAGS += --sysroot=$(SYSROOT) 
-GCC_INCLUDES += -I$(SYSROOT)/usr/include/xrt -I$(SYSROOT)/usr/include
+        GCC_LIB := -ladf_api_xrt -lxrt_coreutil -L$(SYSROOT)/usr/lib --sysroot=$(SYSROOT) -L${XILINX_VITIS}/aietools/lib/aarch64.o
 endif
 
 .PHONY: all clean cleanall docs emconfig
-all: check-device kernels graph build host emconfig sd_card 
-
-emconfig:
-	emconfigutil --platform $(PLATFORM) --od .
+all: check-device check_edge_sw kernels graph build host sd_card 
 
 ######################################################
 # This step compiles the HLS C kernels and creates an ADF Graph
@@ -142,7 +138,7 @@ aiesim: $(GRAPH_O)
 
 $(GRAPH_O): $(GRAPH)
 	$(AIECC) $(AIE_FLAGS) $(GRAPH)
-	@echo "COMPLETE: libadf.a created."
+	@echo "COMPLETE: libadf.a created."      
 #####################################################
 
 ########################################################
@@ -157,8 +153,7 @@ $(LINK_OUTPUT): $(KERNEL_XO) $(GRAPH_O)
 ########################################################
 
 ############################################################################################################################
-# For hardware and hardware emulation, compile the PS code using x86 compiler and generate the aie_adder_ps_on_x86 executable.
-# For hardware and hardware emulation, compile the PS code using aarch64 compiler and generate the aie_adder_ps_on_x86 executable. This is needed for creating the sd_card.
+# For hardware and hardware emulation, compile the PS code and generate the aie_adder executable. This is needed for creating the sd_card.
 host: $(EXECUTABLE)
 
 $(EXECUTABLE): $(HOST_SRCS)  
@@ -169,33 +164,41 @@ $(EXECUTABLE): $(HOST_SRCS)
 ############################################################################################################################
 
 ##################################################################################################
-# Depending on the TARGET, the packaging will be done.
-PACKAGING_CMD := v++ $(VPP_PFLAGS) -p -t $(TARGET) \
-                 --package.defer_aie_run \
-                 --platform $(PLATFORM) \
-                 --package.out_dir $(PACKAGE_OUT) \
-                 $(LINK_OUTPUT) $(GRAPH_O) -o $(XCLBIN)
-ifneq ($(TARGET),$(filter $(TARGET),sw_emu))
-PACKAGING_CMD += --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 \
-                 --package.image_format=ext4 \
-                 --package.boot_mode=sd \
-                 --package.kernel_image $(SD_IMAGE_FILE) \
-                 --package.sd_dir /proj/xbuilds/2022.2_daily_latest/internal_platforms/sw/versal/xrt \
-                 --package.sd_file $(RUN_APP_SCRIPT) \
-                 --package.sd_file ./emconfig.json \
-                 --package.sd_file aie_adder_ps_on_x86
-else
-PACKAGING_CMD += --package.emu_ps x86
-endif
-###################################################################################################
-
-
-##################################################################################################
-sd_card: check-device gen_run_app $(XCLBIN)
+# Depending on the TARGET, it'll either generate the PDI for hw_emu or hw.
+sd_card: check-device gen_run_app $(XCLBIN)	
 
 $(XCLBIN): $(GRAPH_O) $(KERNEL_XO) $(EXECUTABLE)
-	$(PACKAGING_CMD)
+ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
+	v++ $(VPP_PFLAGS) -p -t $(TARGET) \
+		--platform $(PLATFORM) \
+		--package.out_dir $(PACKAGE_OUT) \
+		--package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 \
+		--package.image_format=ext4 \
+		--package.boot_mode=sd \
+		--package.kernel_image $(SD_IMAGE_FILE) \
+		--package.defer_aie_run \
+		--package.sd_file $(RUN_APP_SCRIPT) \
+		--package.sd_file aie_adder $(LINK_OUTPUT) $(GRAPH_O) -o $(XCLBIN)
 	@echo "COMPLETE: emulation package created."
+else
+ifeq ($(findstring vck190_base_dfx, $(PLATFORM)), vck190_base_dfx)
+	v++ $(VPP_FLAGS) -t hw --platform $(PLATFORM) -p $(LINK_OUTPUT) --package.defer_aie_run -o $(XCLBIN) 
+	v++ $(VPP_PFLAGS) -t hw --platform $(PLATFORM) -p --package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.image_format=ext4 --package.boot_mode=sd --package.kernel_image=$(SD_IMAGE_FILE) --package.sd_file $(RUN_APP_SCRIPT) --package.sd_file aie_adder --package.sd_file $(XCLBIN) --package.sd_file $(GRAPH_O)
+else
+	v++ $(VPP_PFLAGS) -p -t hw \
+		--platform $(PLATFORM) \
+		--package.out_dir $(PACKAGE_OUT) \
+		--package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 \
+		--package.image_format=ext4 \
+		--package.boot_mode=sd \
+		--package.kernel_image=$(SD_IMAGE_FILE) \
+		--package.defer_aie_run \
+		--package.sd_file $(RUN_APP_SCRIPT) \
+		--package.sd_file aie_adder $(LINK_OUTPUT) $(GRAPH_O) -o $(XCLBIN)
+
+	@echo "COMPLETE: hw package created."
+endif
+endif
 ###################################################################################################
 
 ###########################################################################
@@ -203,22 +206,23 @@ $(XCLBIN): $(GRAPH_O) $(KERNEL_XO) $(EXECUTABLE)
 # If the target is for HW, you'll have to follow the Confluence page for
 # running on a board farm system.
 run: all 
-ifeq ($(TARGET),$(filter $(TARGET),sw_emu))
-	$(ECHO) "To make Software Emulation run faster, we are running PS on x86."
-	XCL_EMULATION_MODE=$(TARGET) $(EXECUTABLE) $(CMD_ARGS)
-else
-ifeq ($(TARGET),$(filter $(TARGET),hw_emu))
+ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 	$(LAUNCH_EMULATOR) -run-app $(RUN_APP_SCRIPT) | tee run_app.log; exit $${PIPESTATUS[0]}
 else
 	@echo "Hardware build, no emulation executed."
 endif
+
+check_edge_sw:
+ifndef EDGE_COMMON_SW
+	$(error EDGE_COMMON_SW variable is not set, please download and use the pre-built image from https://www.xilinx.com/support/download/index.html/content/xilinx/en/downloadNav/embedded-platforms.html)
 endif
+
 ############################## Cleaning Rules ##############################
 # Cleaning stuff
 clean:
 	-$(RMDIR) $(EXECUTABLE) $(XCLBIN)/{*sw_emu*,*hw_emu*} 
 	-$(RMDIR) profile_* TempConfig system_estimate.xtxt *.rpt *.csv *.o *.xo *.xpe *.xsa cfg qemu_dts_files emu_qemu_scripts *.db sim *.sh *.a 
-	-$(RMDIR) src/sw/*.ll src/pl_kernels/*.ll src/aie/*.ll *v++* .Xil emconfig.json dltmp* xmltmp* *.log *.jou *.wcfg *.wdb *bin* *summary* *.BIN *.bif *.exe Work *.log *.txt 
+	-$(RMDIR) /src/sw/*.ll /src/pl_kernels/*.ll src/aie/*.ll *v++* .Xil emconfig.json dltmp* xmltmp* *.log *.jou *.wcfg *.wdb *bin* *summary* *.BIN *.bif *.exe Work *.log *.txt 
 
 cleanall: clean
 	-$(RMDIR) build_dir* sd_card*
