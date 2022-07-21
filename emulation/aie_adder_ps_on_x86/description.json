@@ -27,6 +27,10 @@
         "vck5000",
         "dma"
     ],
+    "targets": [
+        "sw_emu", 
+        "hw_emu"
+    ], 
     "os": [
         "Linux"
     ], 
@@ -139,8 +143,7 @@
         ],
         "targets": [
             "vitis_sw_emu",
-            "vitis_hw_emu",
-            "vitis_hw"
+            "vitis_hw_emu"
         ],
         "category": "canary"
     }
