@@ -84,6 +84,10 @@ LDFLAGS += -L$(SYSROOT)/usr/lib -pthread -lxilinxopencl
 endif
 VPP_PFLAGS+=--package.sd_dir /proj/xbuilds/2022.2_daily_latest/internal_platforms/sw/zynqmp/xrt
 
+ifeq ($(TARGET),$(filter $(TARGET),sw_emu))
+VPP_PFLAGS+= --package.emu_ps qemu
+endif
+
 #Check for EMU_PS
 ifeq ($(TARGET), $(filter $(TARGET),hw_emu hw))
 ifeq ($(EMU_PS), X86)
@@ -153,7 +157,7 @@ endif
 sd_card: gen_run_app $(SD_CARD)
 
 $(SD_CARD): $(BUILD_DIR)/krnl_incr.xclbin $(EXECUTABLE)
-	v++ $(VPP_PFLAGS) -p $(LINK_OUTPUT) $(VPP_FLAGS) --package.emu_ps qemu --package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.sd_file $(SD_IMAGE_FILE) --package.sd_file xrt.ini --package.sd_file $(RUN_APP_SCRIPT) --package.sd_file $(EXECUTABLE) --package.sd_file $(EMCONFIG_DIR)/emconfig.json -o $(BUILD_DIR)/krnl_incr.xclbin
+	v++ $(VPP_PFLAGS) -p $(LINK_OUTPUT) $(VPP_FLAGS) --package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.sd_file $(SD_IMAGE_FILE) --package.sd_file xrt.ini --package.sd_file $(RUN_APP_SCRIPT) --package.sd_file $(EXECUTABLE) --package.sd_file $(EMCONFIG_DIR)/emconfig.json -o $(BUILD_DIR)/krnl_incr.xclbin
 
 ############################## Setting Rules for Host (Building Host Executable) ##############################
 $(EXECUTABLE): $(HOST_SRCS)

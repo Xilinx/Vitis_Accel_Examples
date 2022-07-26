@@ -87,6 +87,9 @@ def create_params(target,data):
     target.write("LDFLAGS += -L$(SYSROOT)/usr/lib -pthread -lxilinxopencl\n")
     target.write("endif\n")
     target.write("VPP_PFLAGS+=--package.sd_dir /proj/xbuilds/2022.2_daily_latest/internal_platforms/sw/zynqmp/xrt\n\n")
+    target.write("ifeq ($(TARGET),$(filter $(TARGET),sw_emu))\n")
+    target.write("VPP_PFLAGS+= --package.emu_ps qemu\n")
+    target.write("endif\n\n")
     target.write("#Check for EMU_PS\n")
     target.write("ifeq ($(TARGET), $(filter $(TARGET),hw_emu hw))\n")
     target.write("ifeq ($(EMU_PS), X86)\n")
@@ -574,7 +577,7 @@ def mk_sdcard(target, data):
     if "containers" in data:
         for con in data["containers"]:
             target.write("\tv++ $(VPP_PFLAGS) -p $(LINK_OUTPUT) $(VPP_FLAGS) ")
-            target.write("--package.emu_ps qemu --package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.sd_file $(SD_IMAGE_FILE) --package.sd_file xrt.ini --package.sd_file $(RUN_APP_SCRIPT) --package.sd_file $(EXECUTABLE) --package.sd_file $(EMCONFIG_DIR)/emconfig.json")
+            target.write("--package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.sd_file $(SD_IMAGE_FILE) --package.sd_file xrt.ini --package.sd_file $(RUN_APP_SCRIPT) --package.sd_file $(EXECUTABLE) --package.sd_file $(EMCONFIG_DIR)/emconfig.json")
             for extra_filename in extra_file_list:
                 if ('-' not in extra_filename):
                     target.write(" --package.sd_file ")

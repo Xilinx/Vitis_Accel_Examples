@@ -165,7 +165,7 @@ ifeq ($(TARGET),$(filter $(TARGET), hw))
 	v++ $(VPP_FLAGS) -p $(LINK_OUTPUT_VADD) -o $(BUILD_DIR)/krnl_vadd.xclbin
 	v++ $(VPP_PFLAGS) $(VPP_FLAGS) -p --package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.sd_file $(SD_IMAGE_FILE) --package.sd_file xrt.ini --package.sd_file $(RUN_APP_SCRIPT) --package.sd_file $(EXECUTABLE) --package.sd_file krnl_vmul.xclbin --package.sd_file krnl_vadd.xclbin
 else
-	v++ $(VPP_PFLAGS) -p $(LINK_OUTPUT_VMUL) $(VPP_FLAGS) --package.emu_ps qemu  --package.sd_file $(LINK_OUTPUT_VADD) --package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.sd_file $(SD_IMAGE_FILE) --package.sd_file xrt.ini --package.sd_file $(RUN_APP_SCRIPT) --package.sd_file $(EMCONFIG_DIR)/emconfig.json --package.sd_file $(EXECUTABLE) -o $(BUILD_DIR)/$(PACKAGE_OUT)/krnl_vmul.xclbin
+	v++ $(VPP_PFLAGS) -p $(LINK_OUTPUT_VMUL) $(VPP_FLAGS) --package.sd_file $(LINK_OUTPUT_VADD) --package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.sd_file $(SD_IMAGE_FILE) --package.sd_file xrt.ini --package.sd_file $(RUN_APP_SCRIPT) --package.sd_file $(EMCONFIG_DIR)/emconfig.json --package.sd_file $(EXECUTABLE) -o $(BUILD_DIR)/$(PACKAGE_OUT)/krnl_vmul.xclbin
 endif
 
 ############################## Setting Rules for Host (Building Host Executable) ##############################
