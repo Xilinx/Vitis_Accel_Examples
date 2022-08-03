@@ -23,8 +23,7 @@ This is simple example showcasing Free-running PEs with AXI-streams in system co
 |
 ..
 
- - ZC706 Evaluation board
- - zcu104
+ - All Embedded Zynq Platforms, i.e zc702, zcu102 etc
  - All Versal Platforms, i.e vck190 etc
  - Alveo U25 SmartNIC
  - AWS VU9P F1
