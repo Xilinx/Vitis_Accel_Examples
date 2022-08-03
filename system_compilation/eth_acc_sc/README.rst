@@ -24,6 +24,7 @@ This is simple example showcasing custom AXI-streams to PE interfaces in system 
 ..
 
  - zcu104
+ - Embedded ZCU102
  - All Versal Platforms, i.e vck190 etc
  - AWS VU9P F1
  - All NoDMA Platforms, i.e u50 nodma etc
