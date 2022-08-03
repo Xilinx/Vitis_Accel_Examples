@@ -13,8 +13,7 @@
         "Free Running Kernel"
     ],
     "platform_blocklist": [
-        "zc7",
-        "zcu104",
+        "zc",
         "vck",
         "u25_",
         "aws",
