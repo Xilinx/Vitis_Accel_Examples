@@ -370,6 +370,15 @@ def building_kernel_rtl(target, data):
             if "ldclflags" in con:
                 target.write(" $(VPP_LDFLAGS_"+con["name"]+")")
             target.write(" -o'$(LINK_OUTPUT)' $(+)\n")
+    if "testinfo" in data:
+       if "targets" in data["testinfo"]:
+          if "vitis_sw_emu" in data["testinfo"]["targets"]:
+             if "containers" in data:
+                for con in data["containers"]:
+                    target.write("ifeq ($(EMU_PS), X86)\n")
+                    target.write("\tv++ -p $(LINK_OUTPUT) -t $(TARGET) --platform $(PLATFORM) --package.out_dir $(PACKAGE_OUT) -o ")
+                    target.write("$(BUILD_DIR)/"+ con["name"] + ".xclbin\n")
+                    target.write("endif\n")
     return
 
 def building_host(target, data):
