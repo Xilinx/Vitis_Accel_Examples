@@ -72,16 +72,16 @@ def profile_report(target):
                     target.write("native_xrt_trace=true\n")
                 else:
                     target.write("opencl_trace=true\n")
-                    target.write("device_trace=true\n")
-                    target.write("device_counter=true\n")
+                    target.write("device_trace=fine\n")
+                    target.write("device_counters=true\n")
             else:
                 target.write("opencl_trace=true\n")
-                target.write("device_trace=true\n")
-                target.write("device_counter=true\n")
+                target.write("device_trace=fine\n")
+                target.write("device_counters=true\n")
         else:
             target.write("opencl_trace=true\n")
-            target.write("device_trace=true\n")
-            target.write("device_counter=true\n")
+            target.write("device_trace=fine\n")
+            target.write("device_counters=true\n")
     return
 
 def deprecated_check(target, data):
