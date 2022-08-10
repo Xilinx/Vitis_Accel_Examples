@@ -20,8 +20,17 @@
 
 help::
 	$(ECHO) "Makefile Usage:"
-	$(ECHO) "  make all TARGET=<hw_emu> PLATFORM=<FPGA platform> HOST_ARCH=<> EDGE_COMMON_SW=<>"
+	$(ECHO) "  make fixed_xsa TARGET=<hw_emu> EXTENSIBLE_XSA=<user XSA file>"
+	$(ECHO) "      Command to build the fixed xsa from v++ link with an extensible XSA."
+	$(ECHO) ""
+	$(ECHO) "  make baremetal_elf"
+	$(ECHO) "      Command to generate standalone elf as per user application."
+	$(ECHO) ""
+	$(ECHO) "  make all TARGET=<hw_emu> EXTENSIBLE_XSA=<user XSA file> HOST_ARCH=<aarch64>"
 	$(ECHO) "      Command to generate the baremetal system for specified Target and Shell."
+	$(ECHO) ""
+	$(ECHO) "  make run TARGET=<hw_emu> EXTENSIBLE_XSA=<user XSA file> HOST_ARCH=<aarch64>"
+	$(ECHO) "      Command to run the user application."
 	$(ECHO) ""
 	$(ECHO) "  make clean "
 	$(ECHO) "      Command to remove the generated non-hardware files."
@@ -29,17 +38,6 @@ help::
 	$(ECHO) "  make cleanall"
 	$(ECHO) "      Command to remove all the generated files."
 	$(ECHO) ""
-	$(ECHO) "  make run TARGET=<hw_emu> PLATFORM=<FPGA platform> HOST_ARCH=<> EDGE_COMMON_SW=<>"
-	$(ECHO) "      Command to run the user application."
-	$(ECHO) ""
-	$(ECHO) "  make baremetal_elf TARGET=<hw_emu> PLATFORM=<FPGA platform> EDGE_COMMON_SW=<>"
-	$(ECHO) "      Command to build the bsp sources and libraries required for compilation of user application."
-	$(ECHO) ""
-	$(ECHO) "  make fixed_xsa TARGET=<hw_emu> PLATFORM=<FPGA platform> EDGE_COMMON_SW=<>"
-	$(ECHO) "      Command to build the fixed xsa from v++ link with an extensible platform."
-	$(ECHO) ""
-
-
 
 ############################## Setting up Project Variables ##############################
 # Points to top directory of Git repository
@@ -50,9 +48,16 @@ XF_PROJ_ROOT = $(shell readlink -f $(COMMON_REPO))
 
 # Makefile input options
 TARGET := hw_emu
-FIXED_XSA := vck190_fixed.xsa
+
+EXTENSIBLE_XSA ?= $(PLATFORM_REPO_PATHS)/xilinx_vck190_base_202220_1/hw_emu/hw_emu.xsa 
+PLATFORM := $(EXTENSIBLE_XSA)
+ 
 APP_NAME := vck190_fixed
 WORKSPACE_FIXED := workspace_fixed
+
+FIXED_XSA := vck190_fixed.xsa
+FIXED_PLATFORM := ./workspace_fixed/$(APP_NAME)/export/$(APP_NAME)/$(APP_NAME).xpfm
+
 include ./utils.mk
 
 # File names and locations
@@ -71,6 +76,7 @@ HOST_INC := -I./aie -I./
 
 # SoC variables
 PACKAGE_OUT := ./package.$(TARGET)
+PACKAGE_DIR := $(PACKAGE_OUT)
 LAUNCH_EMULATOR := $(PACKAGE_OUT)/launch_$(TARGET).sh
 
 CONFIG_FILE := system.cfg
@@ -86,7 +92,7 @@ AIECC := aiecompiler
 AIE_INCLUDE_FLAGS := -include="$(XILINX_VITIS)/aietools/include" -include="./aie" -include="./data" -include="./" -include="./aie/kernels"
 AIE_FLAGS := $(AIE_INCLUDE_FLAGS) --pl-freq=100 -workdir=./Work
 
-VPP_FLAGS := -t $(TARGET) --platform $(PLATFORM) --save-temps -g
+VPP_FLAGS := --save-temps -g
  
 GCC_FLAGS := -g -c -D__PS_BARE_METAL__ -std=c++14 
 
@@ -109,46 +115,52 @@ CXXFLAGS += -Wall -O0 -g3 -fmessage-length=0
 LDFLAGS += --start-group,-lxil,-lgcc,-lc,-lstdc++,--end-group 
 HOST_CXX = $(XILINX_VITIS)/gnu/aarch64/lin/aarch64-none/bin/aarch64-none-elf-gcc
 
-############################## Setting Targets ##############################
+############################## Setting Targets #########################################
 CP := cp -rf 
 
+# aie graph compilation
 $(GRAPH_O): $(GRAPH)
 	$(AIECC) $(AIE_FLAGS) $(GRAPH)
 	@echo "COMPLETE: libadf.a created."
 
+# XO generation
 %.xo: pl_kernels/%.cpp
-	$(VPP) $(VPP_FLAGS) -c -k $(basename $(notdir $<)) $< -o $@	
+	$(VPP) -c -t $(TARGET) --platform $(PLATFORM) $(VPP_FLAGS) -k $(basename $(notdir $<)) $< -o $@	
 
+# Fixed XSA generation
 $(FIXED_XSA): $(GRAPH_O) $(PL_O) 
-	$(VPP) $(VPP_FLAGS) -l $(GRAPH_O) $(PL_O) --config system.cfg \
+	$(VPP) -l -t $(TARGET) --platform $(PLATFORM) $(VPP_FLAGS) $(GRAPH_O) $(PL_O) --config system.cfg \
 	--vivado.prop fileset.sim_1.xsim.simulate.runtime=400us -o $@
 
+# Fixed workspace creation with standalone domain
 $(WORKSPACE_FIXED): $(FIXED_XSA)
 	xsct $(TCL) $(APP_NAME) $(FIXED_XSA)
 	$(CP) workspace_fixed/$(APP_NAME)/export/$(APP_NAME)/sw/$(APP_NAME)/standalone_domain .
 
-main.o: $(HOST_SRC) aie_control.o 
-	$(HOST_CXX) $(GCC_INCLUDES) $(HOST_INC) $(GCC_FLAGS) -o main.o $(HOST_SRC)
-	
+# Host object creation  
 aie_control.o: $(AIE_FILE) 
 	$(HOST_CXX) $(GCC_INCLUDES) $(HOST_INC) -I./aie/kernels \
 	$(GCC_FLAGS) -o aie_control.o $(AIE_FILE) 
 
+main.o: $(WORKSPACE_FIXED) aie_control.o 
+	$(HOST_CXX) $(GCC_INCLUDES) $(HOST_INC) $(GCC_FLAGS) -o main.o $(HOST_SRC)
+	
+# Standaone ELF generation
 $(EXECUTABLE): $(WORKSPACE_FIXED) $(HOST_OBJ)
 	$(HOST_CXX) *.o $(GCC_LIB) -mcpu=cortex-a72 \
 	-Wl,-T -Wl,./ps/lscript.ld -o "$@" \
 	./workspace_fixed/standalone/Debug/src/platform.o -Wl,$(LDFLAGS) 
 
+# v++ packaging using fixed platform
 package: $(FIXED_XSA) $(GRAPH_O)
-	$(VPP) -p $(VPP_FLAGS) \
+	$(VPP) -p -t $(TARGET) --platform $(FIXED_PLATFORM) \
 	--package.out_dir $(PACKAGE_OUT) \
 	--package.domain aiengine \
 	--package.boot_mode sd \
 	--package.image_format=fat32 \
-	--package.ps_elf $(EXECUTABLE),a72-0 $^
+	--package.ps_elf $(EXECUTABLE),a72-0 $^ 
 	
-run: all
-	$(LAUNCH_EMULATOR)
+################################ Running Targets ###############################################
 
 aie: $(GRAPH_O)
 
@@ -160,9 +172,14 @@ generate_bsp: $(WORKSPACE_FIXED)
 
 baremetal_elf: $(EXECUTABLE)
 
-all: fixed_xsa baremetal_elf package 
+package: $(PACKAGE_DIR)
 
-############################## Cleaning Rules ##############################
+all: fixed_xsa generate_bsp baremetal_elf package 
+
+run: all
+	$(LAUNCH_EMULATOR)
+
+############################## Cleaning Rules ####################################################
 # Cleaning stuff
 RMDIR = rm -rf
 clean:

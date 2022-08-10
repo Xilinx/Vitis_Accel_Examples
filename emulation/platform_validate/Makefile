@@ -52,7 +52,7 @@ XF_PROJ_ROOT = $(shell readlink -f $(COMMON_REPO))
 # Makefile input options
 TARGET := hw_emu
 
-EXTENSIBLE_XSA ?= $(PLATFORM_REPO_PATHS)/xilinx_vck190_base_202210_1/hw_emu/hw_emu.xsa 
+EXTENSIBLE_XSA ?= $(PLATFORM_REPO_PATHS)/xilinx_vck190_base_202220_1/hw_emu/hw_emu.xsa 
 
 APP_NAME := vck190_fixed
 WORKSPACE_FIXED := workspace_fixed
