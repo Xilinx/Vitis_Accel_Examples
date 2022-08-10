@@ -58,7 +58,7 @@ CXXFLAGS += -I$(XILINX_XRT)/include -I$(XILINX_VIVADO)/include -Wall -O0 -g -std
 LDFLAGS += -L$(XILINX_XRT)/lib -pthread -lOpenCL
 
 ########################## Checking if PLATFORM in allowlist #######################
-PLATFORM_BLOCKLIST += zcu102_base_20 zcu104_base_20 vck zc7 aws-vu9p-f1 samsung u2_ nodma 
+PLATFORM_BLOCKLIST += zc vck aws-vu9p-f1 samsung u2_ nodma 
 
 ############################## Setting up Host Variables ##############################
 #Include Required Host Source Files

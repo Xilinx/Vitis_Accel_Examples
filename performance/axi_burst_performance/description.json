@@ -5,10 +5,8 @@
     ],
     "flow": "vitis",
     "platform_blocklist": [
-        "zcu102_base_20",
-        "zcu104_base_20",
+        "zc",
         "vck",
-        "zc7",
         "aws-vu9p-f1",
         "samsung",
         "u2_",

@@ -19,10 +19,8 @@ This is an AXI Burst Performance check design. It measures the time it takes to 
 |
 ..
 
- - All ZCU102 Platforms except DFX
- - All ZCU104 Platforms except DFX
+ - All Embedded Zynq Platforms, i.e zc702, zcu102 etc
  - All Versal Platforms, i.e vck190 etc
- - ZC706 Evaluation board
  - AWS VU9P F1
  - Samsung SmartSSD Computation Storage Drive
  - Samsung U.2 SmartSSD
