@@ -35,15 +35,7 @@ else
 HOST_ARCH := x86
 endif
 
-ifeq ($(DEV_ARCH), zynquplus)
-ifeq ($(HOST_ARCH), aarch64)
-include makefile_zynqmp.mk
-else
 include makefile_us_alveo.mk
-endif
-else
-include makefile_us_alveo.mk
-endif
 
 ############################## Help Section ##############################
 help:
