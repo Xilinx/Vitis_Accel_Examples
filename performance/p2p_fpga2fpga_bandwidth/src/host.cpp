@@ -116,12 +116,12 @@ int main(int argc, char* argv[]) {
             device[i] = xcl::find_device_bdf_c(device_id, dev_id[i], device_count);
     }
 
-    cl_bool is_nodma;
+    cl_bool dev0_nodma_chk, dev1_nodma_chk;
     uint8_t nodma_cnt = 0;
-    clGetDeviceInfo(device[0], CL_DEVICE_NODMA, sizeof(is_nodma), &is_nodma, nullptr);
-    if (is_nodma) nodma_cnt++;
-    clGetDeviceInfo(device[1], CL_DEVICE_NODMA, sizeof(is_nodma), &is_nodma, nullptr);
-    if (is_nodma) nodma_cnt++;
+    clGetDeviceInfo(device[0], CL_DEVICE_NODMA, sizeof(dev0_nodma_chk), &dev0_nodma_chk, nullptr);
+    if (dev0_nodma_chk) nodma_cnt++;
+    clGetDeviceInfo(device[1], CL_DEVICE_NODMA, sizeof(dev1_nodma_chk), &dev1_nodma_chk, nullptr);
+    if (dev1_nodma_chk) nodma_cnt++;
 
     if (nodma_cnt == 2) {
         std::cout
@@ -194,10 +194,10 @@ int main(int argc, char* argv[]) {
     OCL_CHECK(err, err = clEnqueueMigrateMemObjects(queue[0], 1, &rbo1, 0, 0, nullptr,
                                                     nullptr)); // Send data to the regular buffer of Device1
     OCL_CHECK(err, err = clFinish(queue[0]));
+
     OCL_CHECK(err, err = clEnqueueMigrateMemObjects(queue[1], 1, &rbo2, 0, 0, nullptr,
                                                     nullptr)); // Send data to the regular buffer of Device2
     OCL_CHECK(err, err = clFinish(queue[1]));
-
     //------------------------- P2P
     //-----------------------------------------------------------
     int fd = -1;
@@ -220,103 +220,110 @@ int main(int argc, char* argv[]) {
         if (xcl::is_emulation()) {
             iter = 2; // Reducing iteration to run faster in emulation flow.
         }
+        double dnsduration, dsduration, gbpersec;
+        std::chrono::high_resolution_clock::time_point p2pReadWriteStart, p2pReadWriteEnd;
+        cl_ulong p2pReadWriteTime;
+        if (!dev0_nodma_chk) {
+            //////////////////////// DMA Write by FPGA-1 //////////////////////////
+            std::chrono::high_resolution_clock::time_point p2pReadStart = std::chrono::high_resolution_clock::now();
+            for (int j = 0; j < iter; j++) {
+                OCL_CHECK(err, err = clEnqueueCopyBuffer(queue[0], rbo1, pbo2_imported, 0, 0, bufsize, 0, nullptr,
+                                                         nullptr)); // FPGA1 DMA Write
+            }
+            clFinish(queue[0]);
+            std::chrono::high_resolution_clock::time_point p2pReadEnd = std::chrono::high_resolution_clock::now();
+            cl_ulong p2pReadTime =
+                std::chrono::duration_cast<std::chrono::microseconds>(p2pReadEnd - p2pReadStart).count();
+            ;
+            dnsduration = (double)p2pReadTime;
+            dsduration = dnsduration / ((double)1000000);
+            gbpersec = ((iter * bufsize) / dsduration) / ((double)1024 * 1024 * 1024);
+            std::cout << "Buffer = " << size_str << " Iterations = " << iter
+                      << " Total Data Transfer = " << xcl::convert_size(max_size)
+                      << "\nDevice0 : DMA Write = " << std::setprecision(2) << std::fixed << gbpersec << "GB/s";
 
-        //////////////////////// DMA Write by FPGA-1 //////////////////////////
-        std::chrono::high_resolution_clock::time_point p2pReadStart = std::chrono::high_resolution_clock::now();
-        for (int j = 0; j < iter; j++) {
-            OCL_CHECK(err, err = clEnqueueCopyBuffer(queue[0], rbo1, pbo2_imported, 0, 0, bufsize, 0, nullptr,
-                                                     nullptr)); // FPGA1 DMA Write
-        }
-        clFinish(queue[0]);
-        std::chrono::high_resolution_clock::time_point p2pReadEnd = std::chrono::high_resolution_clock::now();
-        cl_ulong p2pReadTime = std::chrono::duration_cast<std::chrono::microseconds>(p2pReadEnd - p2pReadStart).count();
-        ;
-        double dnsduration = (double)p2pReadTime;
-        double dsduration = dnsduration / ((double)1000000);
-        double gbpersec = ((iter * bufsize) / dsduration) / ((double)1024 * 1024 * 1024);
-        std::cout << "Buffer = " << size_str << " Iterations = " << iter
-                  << " Total Data Transfer = " << xcl::convert_size(max_size)
-                  << "\nDevice0 : DMA Write = " << std::setprecision(2) << std::fixed << gbpersec << "GB/s";
+            //////////////////////// DMA Read by FPGA-1 //////////////////////////
+            p2pReadStart = std::chrono::high_resolution_clock::now();
+            for (int j = 0; j < iter; j++) {
+                OCL_CHECK(err, err = clEnqueueCopyBuffer(queue[0], pbo2_imported, rbo1, 0, 0, bufsize, 0, nullptr,
+                                                         nullptr)); // FPGA1 DMA Read
+            }
+            clFinish(queue[0]);
+            p2pReadEnd = std::chrono::high_resolution_clock::now();
+            p2pReadTime = std::chrono::duration_cast<std::chrono::microseconds>(p2pReadEnd - p2pReadStart).count();
+            ;
+            dnsduration = (double)p2pReadTime;
+            dsduration = dnsduration / ((double)1000000);
+            gbpersec = ((iter * bufsize) / dsduration) / ((double)1024 * 1024 * 1024);
+            std::cout << " DMA Read = " << std::setprecision(2) << std::fixed << gbpersec << "GB/s";
 
-        //////////////////////// DMA Read by FPGA-1 //////////////////////////
-        p2pReadStart = std::chrono::high_resolution_clock::now();
-        for (int j = 0; j < iter; j++) {
-            OCL_CHECK(err, err = clEnqueueCopyBuffer(queue[0], pbo2_imported, rbo1, 0, 0, bufsize, 0, nullptr,
-                                                     nullptr)); // FPGA1 DMA Read
-        }
-        clFinish(queue[0]);
-        p2pReadEnd = std::chrono::high_resolution_clock::now();
-        p2pReadTime = std::chrono::duration_cast<std::chrono::microseconds>(p2pReadEnd - p2pReadStart).count();
-        ;
-        dnsduration = (double)p2pReadTime;
-        dsduration = dnsduration / ((double)1000000);
-        gbpersec = ((iter * bufsize) / dsduration) / ((double)1024 * 1024 * 1024);
-        std::cout << " DMA Read = " << std::setprecision(2) << std::fixed << gbpersec << "GB/s";
+            //////////////////////// FPGA1 Read Write throughput /////////////////
+            p2pReadWriteStart = std::chrono::high_resolution_clock::now();
+            for (int j = 0; j < iter; j++) {
+                OCL_CHECK(err, err = clEnqueueCopyBuffer(queue[0], rbo1, pbo2_imported, 0, 0, bufsize, 0, nullptr,
+                                                         nullptr)); // FPGA1 DMA Write
+                OCL_CHECK(err, err = clEnqueueCopyBuffer(queue[0], pbo2_imported, rbo1, 0, 0, bufsize, 0, nullptr,
+                                                         nullptr)); // FPGA1 DMA Read
+            }
+            clFinish(queue[0]);
 
-        //////////////////////// FPGA1 Read Write throughput /////////////////
-        std::chrono::high_resolution_clock::time_point p2pReadWriteStart = std::chrono::high_resolution_clock::now();
-        for (int j = 0; j < iter; j++) {
-            OCL_CHECK(err, err = clEnqueueCopyBuffer(queue[0], rbo1, pbo2_imported, 0, 0, bufsize, 0, nullptr,
-                                                     nullptr)); // FPGA1 DMA Write
-            OCL_CHECK(err, err = clEnqueueCopyBuffer(queue[0], pbo2_imported, rbo1, 0, 0, bufsize, 0, nullptr,
-                                                     nullptr)); // FPGA1 DMA Read
+            p2pReadWriteEnd = std::chrono::high_resolution_clock::now();
+            p2pReadWriteTime =
+                std::chrono::duration_cast<std::chrono::microseconds>(p2pReadWriteEnd - p2pReadWriteStart).count();
+            ;
+            dnsduration = (double)p2pReadWriteTime;
+            dsduration = dnsduration / ((double)1000000);
+            gbpersec = ((2 * iter * bufsize) / dsduration) / ((double)1024 * 1024 * 1024);
+            std::cout << " DMA Read Write = " << std::setprecision(2) << std::fixed << gbpersec << "GB/s\n";
         }
-        clFinish(queue[0]);
+        if (!dev1_nodma_chk) {
+            //////////////////////// DMA Write by FPGA-2 //////////////////////////
+            std::chrono::high_resolution_clock::time_point p2pWriteStart = std::chrono::high_resolution_clock::now();
+            for (int j = 0; j < iter; j++) {
+                OCL_CHECK(err, err = clEnqueueCopyBuffer(queue[1], rbo2, pbo1_imported, 0, 0, bufsize, 0, nullptr,
+                                                         nullptr)); // FPGA2 DMA Write
+            }
+            clFinish(queue[1]);
+            std::chrono::high_resolution_clock::time_point p2pWriteEnd = std::chrono::high_resolution_clock::now();
+            cl_ulong p2pWriteTime =
+                std::chrono::duration_cast<std::chrono::microseconds>(p2pWriteEnd - p2pWriteStart).count();
+            dnsduration = (double)p2pWriteTime;
+            dsduration = dnsduration / ((double)1000000);
+            gbpersec = ((iter * bufsize) / dsduration) / ((double)1024 * 1024 * 1024);
+            std::cout << "Device1 : DMA Write = " << std::setprecision(2) << std::fixed << gbpersec << "GB/s";
 
-        std::chrono::high_resolution_clock::time_point p2pReadWriteEnd = std::chrono::high_resolution_clock::now();
-        cl_ulong p2pReadWriteTime =
-            std::chrono::duration_cast<std::chrono::microseconds>(p2pReadWriteEnd - p2pReadWriteStart).count();
-        ;
-        dnsduration = (double)p2pReadWriteTime;
-        dsduration = dnsduration / ((double)1000000);
-        gbpersec = ((2 * iter * bufsize) / dsduration) / ((double)1024 * 1024 * 1024);
-        std::cout << " DMA Read Write = " << std::setprecision(2) << std::fixed << gbpersec << "GB/s\n";
-        //////////////////////// DMA Write by FPGA-2 //////////////////////////
-        std::chrono::high_resolution_clock::time_point p2pWriteStart = std::chrono::high_resolution_clock::now();
-        for (int j = 0; j < iter; j++) {
-            OCL_CHECK(err, err = clEnqueueCopyBuffer(queue[1], rbo2, pbo1_imported, 0, 0, bufsize, 0, nullptr,
-                                                     nullptr)); // FPGA2 DMA Write
-        }
-        clFinish(queue[1]);
-        std::chrono::high_resolution_clock::time_point p2pWriteEnd = std::chrono::high_resolution_clock::now();
-        cl_ulong p2pWriteTime =
-            std::chrono::duration_cast<std::chrono::microseconds>(p2pWriteEnd - p2pWriteStart).count();
-        dnsduration = (double)p2pWriteTime;
-        dsduration = dnsduration / ((double)1000000);
-        gbpersec = ((iter * bufsize) / dsduration) / ((double)1024 * 1024 * 1024);
-        std::cout << "Device1 : DMA Write = " << std::setprecision(2) << std::fixed << gbpersec << "GB/s";
+            //////////////////////// DMA Read by FPGA-2 //////////////////////////
+            p2pWriteStart = std::chrono::high_resolution_clock::now();
+            for (int j = 0; j < iter; j++) {
+                OCL_CHECK(err, err = clEnqueueCopyBuffer(queue[1], pbo1_imported, rbo2, 0, 0, bufsize, 0, nullptr,
+                                                         nullptr)); // FPGA2 DMA Read
+            }
+            clFinish(queue[1]);
+            p2pWriteEnd = std::chrono::high_resolution_clock::now();
+            p2pWriteTime = std::chrono::duration_cast<std::chrono::microseconds>(p2pWriteEnd - p2pWriteStart).count();
+            dnsduration = (double)p2pWriteTime;
+            dsduration = dnsduration / ((double)1000000);
+            gbpersec = ((iter * bufsize) / dsduration) / ((double)1024 * 1024 * 1024);
+            std::cout << " DMA Read = " << std::setprecision(2) << std::fixed << gbpersec << "GB/s";
 
-        //////////////////////// DMA Read by FPGA-2 //////////////////////////
-        p2pWriteStart = std::chrono::high_resolution_clock::now();
-        for (int j = 0; j < iter; j++) {
-            OCL_CHECK(err, err = clEnqueueCopyBuffer(queue[1], pbo1_imported, rbo2, 0, 0, bufsize, 0, nullptr,
-                                                     nullptr)); // FPGA2 DMA Read
+            //////////////////////// FPGA2 Read Write throughput /////////////////
+            p2pReadWriteStart = std::chrono::high_resolution_clock::now();
+            for (int j = 0; j < iter; j++) {
+                OCL_CHECK(err, err = clEnqueueCopyBuffer(queue[1], rbo2, pbo1_imported, 0, 0, bufsize, 0, nullptr,
+                                                         nullptr)); // FPGA2 DMA Write
+                OCL_CHECK(err, err = clEnqueueCopyBuffer(queue[1], pbo1_imported, rbo2, 0, 0, bufsize, 0, nullptr,
+                                                         nullptr)); // FPGA2 DMA Read
+            }
+            clFinish(queue[1]);
+            p2pReadWriteEnd = std::chrono::high_resolution_clock::now();
+            p2pReadWriteTime =
+                std::chrono::duration_cast<std::chrono::microseconds>(p2pReadWriteEnd - p2pReadWriteStart).count();
+            ;
+            dnsduration = (double)p2pReadWriteTime;
+            dsduration = dnsduration / ((double)1000000);
+            gbpersec = ((2 * iter * bufsize) / dsduration) / ((double)1024 * 1024 * 1024);
+            std::cout << " DMA Read Write = " << std::setprecision(2) << std::fixed << gbpersec << "GB/s\n\n";
         }
-        clFinish(queue[1]);
-        p2pWriteEnd = std::chrono::high_resolution_clock::now();
-        p2pWriteTime = std::chrono::duration_cast<std::chrono::microseconds>(p2pWriteEnd - p2pWriteStart).count();
-        dnsduration = (double)p2pWriteTime;
-        dsduration = dnsduration / ((double)1000000);
-        gbpersec = ((iter * bufsize) / dsduration) / ((double)1024 * 1024 * 1024);
-        std::cout << " DMA Read = " << std::setprecision(2) << std::fixed << gbpersec << "GB/s";
-
-        //////////////////////// FPGA2 Read Write throughput /////////////////
-        p2pReadWriteStart = std::chrono::high_resolution_clock::now();
-        for (int j = 0; j < iter; j++) {
-            OCL_CHECK(err, err = clEnqueueCopyBuffer(queue[1], rbo2, pbo1_imported, 0, 0, bufsize, 0, nullptr,
-                                                     nullptr)); // FPGA2 DMA Write
-            OCL_CHECK(err, err = clEnqueueCopyBuffer(queue[1], pbo1_imported, rbo2, 0, 0, bufsize, 0, nullptr,
-                                                     nullptr)); // FPGA2 DMA Read
-        }
-        clFinish(queue[1]);
-        p2pReadWriteEnd = std::chrono::high_resolution_clock::now();
-        p2pReadWriteTime =
-            std::chrono::duration_cast<std::chrono::microseconds>(p2pReadWriteEnd - p2pReadWriteStart).count();
-        ;
-        dnsduration = (double)p2pReadWriteTime;
-        dsduration = dnsduration / ((double)1000000);
-        gbpersec = ((2 * iter * bufsize) / dsduration) / ((double)1024 * 1024 * 1024);
-        std::cout << " DMA Read Write = " << std::setprecision(2) << std::fixed << gbpersec << "GB/s\n\n";
     }
 
     clFinish(queue[0]);
