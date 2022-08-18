@@ -76,7 +76,7 @@ CXXFLAGS += -I$(XILINX_XRT)/include -I$(XILINX_VIVADO)/include -Wall -O0 -g -std
 LDFLAGS += -L$(XILINX_XRT)/lib -pthread -lOpenCL
 
 ########################## Checking if PLATFORM in allowlist #######################
-PLATFORM_BLOCKLIST += nodma zc vck u200 u250 2019 u280
+PLATFORM_BLOCKLIST += nodma zc vck u200 u250 2019 u280 u55
 
 ############################## Setting up Host Variables ##############################
 #Include Required Host Source Files
