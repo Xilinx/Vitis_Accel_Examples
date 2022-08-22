@@ -152,10 +152,10 @@ $(EXECUTABLE): $(WORKSPACE_FIXED) $(HOST_OBJ)
 	./workspace_fixed/standalone/Debug/src/platform.o -Wl,$(LDFLAGS) 
 
 # v++ packaging using fixed platform
-package: $(FIXED_XSA) $(GRAPH_O)
+$(PACKAGE_DIR): $(FIXED_XSA) $(GRAPH_O)
 	$(VPP) -p -t $(TARGET) --platform $(FIXED_PLATFORM) \
 	--package.out_dir $(PACKAGE_OUT) \
-	--package.domain aiengine \
+	--package.defer_aie_run  \
 	--package.boot_mode sd \
 	--package.image_format=fat32 \
 	--package.ps_elf $(EXECUTABLE),a72-0 $^ 
