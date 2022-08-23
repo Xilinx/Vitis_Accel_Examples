@@ -69,9 +69,7 @@ DETAILS
 This example demonstrates how a user can run SW Emulation with cycle accurate AIE intended to provide cycle accuracy for AIE with fast, functional PL and PS running in SW emulation.  
 
 The entire system design having AIE interfaced with PL kernels needs to be controlled through software using XRT APIs and such designs can be verified today only through SW Emulation or HW Emulation flow.The cycle accuracy is very important aspect in AIE kernel development. SW_EMU does not provide cycle accuracy while HW_EMU does provides cycle accuracy, it is too slow for users focused only on AIE. The hybrid flow intends to run SW EMulation with cycle accuracy AIE with fast, functional PL and PS.  
-
-   ./aie_adder_ps_on_x86 <krnl_adder XCLBIN>
-
+ 
 Input from the User
 -------------------
 
@@ -84,6 +82,7 @@ Input from the User
 3. Before running the sw_emu flow, set the following environment variables on the terminal:
  
          `setenv XILINXD_LICENSE_FILE 2100@aiengine-eng`: sets the AIE license 
+
          `setenv XILINX_VITIS_EMU_HYBRID 1`: sets the Hybrid flow  
 
 4. Host compilation must be similar to ps_on_x86. Refer `aie_adder_ps_on_x86 <https://gitenterprise.xilinx.com/SDxGitExamples/Vitis_Accel_Examples/blob/master/emulation/aie_adder_ps_on_x86/Makefile>`__
