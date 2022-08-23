@@ -1,0 +1,35 @@
+{
+    "name": "Xilinx AIE2 311a FlexML Tiny Yolo Layer4 PCIe Test",
+    "description": "Auto Generate Micro Code",
+    "flow": "vitis",
+    "gui": false,
+    "platform_type": "pcie",
+    "platform_whitelist": [
+        "vck190"
+    ],
+    "platform_blacklist": [
+        "other"
+    ],
+    "testinfo": {
+        "disable": true,
+        "jobs": [
+            {
+                "index": 0,
+                "dependency": [],
+                "env": "",
+                "cmd": "",
+                "max_memory_MB": {
+                    "vitis_hw_emu": 81920
+                },
+                "max_time_min": {
+                    "vitis_hw_emu": 1440
+                }
+            }
+        ],
+        "targets": [
+            "vitis_hw_emu"
+        ],
+        "category": "canary"
+    }
+}
+

@@ -139,6 +139,9 @@ xclbin: build
 $(BUILD_DIR)/vadd.xclbin: $(TEMP_DIR)/vadd.xo
 	mkdir -p $(BUILD_DIR)
 	v++ $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) -o'$(LINK_OUTPUT)' $(+)
+ifeq ($(EMU_PS), X86)
+	v++ -p $(LINK_OUTPUT) -t $(TARGET) --platform $(PLATFORM) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/vadd.xclbin
+endif
 ############################## Preparing sdcard ##############################
 .PHONY: sd_card
 sd_card: gen_run_app $(SD_CARD)

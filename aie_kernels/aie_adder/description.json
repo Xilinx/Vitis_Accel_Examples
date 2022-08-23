@@ -41,21 +41,23 @@
             ], 
             "includepaths": [
                 "REPO_DIR/common/includes/xcl2",
-                "$(SYSROOT)/usr/include/xrt/", 
-                "./src/aie"                
+                "$(SYSROOT)/usr/include/xrt/",
+                "./src/aie",
+                "./"                
             ],
             "options": "--sysroot=$(SYSROOT)"
         },
         "linker": {
-            "librarypaths": [
-                "$(SYSROOT)/usr/lib/",
+            "libraries": [
                 "xaiengine",
                 "adf_api_xrt",
                 "xrt_core",
-                "xrt_coreutil",
-                "${XILINX_VITIS}/aietools/lib/aarch64.o"
+                "xrt_coreutil"
             ],
-            "options": "--sysroot=$(SYSROOT)"
+            "librarypaths": [
+                "$(SYSROOT)/usr/lib/",
+                "${XILINX_VITIS}/aietools/lib/aarch64.o"
+            ]
         }
     },
     "aiecompiler": {

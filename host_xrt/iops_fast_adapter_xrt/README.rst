@@ -29,6 +29,7 @@ This is simple test design to measure Input/Output Operations per second using F
  - Alveo U50 gen3x4
  - Alveo U200
  - Alveo U250
+ - Alveo U55
  - All Platforms with 2019 Version
  - Alveo U280
 

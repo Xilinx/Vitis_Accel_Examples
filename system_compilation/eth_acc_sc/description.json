@@ -13,6 +13,7 @@
     ],
     "platform_blocklist": [
         "zcu104",
+        "zcu102",
         "vck",
         "aws",
         "nodma"

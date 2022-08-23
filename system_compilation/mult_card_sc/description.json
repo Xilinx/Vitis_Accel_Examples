@@ -66,6 +66,9 @@
     ],
     "testinfo": {
         "disable": false,
+        "features": [
+            "p2p"
+        ],
         "jobs": [
             {
                 "index": 0,

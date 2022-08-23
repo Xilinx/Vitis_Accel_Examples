@@ -21,10 +21,6 @@ else
 endif
 EXTRA_CFLAGS += -I ${INCLUDE_PATH}
 
-ifneq (,$(shell echo $(DEVICE) | awk '/zcu102/'))
-include $(XILINX_VITIS)/system_compiler/examples/vpp_sc_arm.mk
-else
 include $(XILINX_VITIS)/system_compiler/examples/vpp_sc.mk
-endif
 
 test: run
