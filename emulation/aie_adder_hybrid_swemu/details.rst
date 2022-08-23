@@ -16,11 +16,9 @@ Input from the User
 
 3. Before running the sw_emu flow, set the following environment variables on the terminal:
  
-         `setenv XILINXD_LICENSE_FILE 2100@aiengine-eng`: sets the AIE license 
-
          `setenv XILINX_VITIS_EMU_HYBRID 1`: sets the Hybrid flow  
 
-4. Host compilation must be similar to ps_on_x86. Refer `aie_adder_ps_on_x86 <https://gitenterprise.xilinx.com/SDxGitExamples/Vitis_Accel_Examples/blob/master/emulation/aie_adder_ps_on_x86/Makefile>`__
+4. Host compilation must be similar to ps_on_x86. Refer `aie_adder_ps_on_x86 <https://github.com/Xilinx/Vitis_Accel_Examples/tree/master/emulation/aie_adder_ps_on_x86>`__
  
           *Note:* This example Makefile already supports ps on x86 host compilation flow for hybrid software emulation. 
 
