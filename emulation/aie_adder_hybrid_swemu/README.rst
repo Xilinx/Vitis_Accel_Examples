@@ -87,8 +87,8 @@ Input from the User
 
 4. Host compilation must be similar to ps_on_x86. Refer `aie_adder_ps_on_x86 <https://gitenterprise.xilinx.com/SDxGitExamples/Vitis_Accel_Examples/blob/master/emulation/aie_adder_ps_on_x86/Makefile>`__
  
-*Note:* This example Makefile already supports ps on x86 host compilation flow for hybrid software emulation. 
+          *Note:* This example Makefile already supports ps on x86 host compilation flow for hybrid software emulation. 
 
-5. Use `make run TARGET=sw_emu` to run for the software emulation target. 
+5. Use ``make run TARGET=sw_emu`` to run for the software emulation target. 
 
 For more comprehensive documentation, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.
