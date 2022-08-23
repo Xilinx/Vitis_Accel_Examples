@@ -43,6 +43,16 @@ Application code is located in the src directory. Accelerator binary files will 
 
 ::
 
+   data/golden.txt
+   data/input0.txt
+   data/input1.txt
+   src/aie/adder.cc
+   src/aie/graph.cpp
+   src/aie/graph.h
+   src/aie/kernel.h
+   src/pl_kernels/mm2s.cpp
+   src/pl_kernels/s2mm.cpp
+   src/sw/host.cpp
    
 COMMAND LINE ARGUMENTS
 ----------------------
@@ -71,13 +81,15 @@ Input from the User
 
 2. The vitis compile and link flow (v++ -c and v++ -l) must use the sw_emu target.  
 
-3. Before running the sw_emu flow, set the following environment variables on the terminal: 
+3. Before running the sw_emu flow, set the following environment variables on the terminal:
+ 
          `setenv XILINXD_LICENSE_FILE 2100@aiengine-eng`: sets the AIE license 
          `setenv XILINX_VITIS_EMU_HYBRID 1`: sets the Hybrid flow  
 
-4. Host compilation must be similar to ps_on_x86. Refer `aie_adder_ps_on_x86 <https://gitenterprise.xilinx.com/SDxGitExamples/Vitis_Accel_Examples/blob/master/emulation/aie_adder_ps_on_x86/Makefile>`__ example to see host compilation.  
+4. Host compilation must be similar to ps_on_x86. Refer `aie_adder_ps_on_x86 <https://gitenterprise.xilinx.com/SDxGitExamples/Vitis_Accel_Examples/blob/master/emulation/aie_adder_ps_on_x86/Makefile>`__
+ 
 *Note:* This example Makefile already supports ps on x86 host compilation flow for hybrid software emulation. 
 
-4. Use `make run TARGET=sw_emu` to run the example for the software emulation target. 
+5. Use `make run TARGET=sw_emu` to run for the software emulation target. 
 
 For more comprehensive documentation, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.
