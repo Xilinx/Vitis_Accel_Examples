@@ -136,7 +136,8 @@
         "O_DIRECT": "https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Special-Data-Transfer-Models",
         "read_register": "https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Writing-Host-Applications-with-XRT-API",
         "write_register": "https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Writing-Host-Applications-with-XRT-API",
-        "emulationMode=func": "https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Working-with-Functional-Model-of-the-HLS-Kernel"
+        "emulationMode=func": "https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Working-with-Functional-Model-of-the-HLS-Kernel",
+        "hls::print": "https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/hls-print-Function"
                   
     },
     "key_concepts": {
