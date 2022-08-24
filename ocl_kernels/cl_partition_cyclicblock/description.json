@@ -18,7 +18,8 @@
     "platform_blocklist": [
         "zc702",
         "nodma",
-        "u2_"
+        "u2_",
+        "vck190_base_dfx"
     ],
     "os": [
         "Linux"
