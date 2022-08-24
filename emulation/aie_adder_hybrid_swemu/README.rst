@@ -68,7 +68,9 @@ DETAILS
 
 This example demonstrates how a user can run SW Emulation with cycle accurate AIE intended to provide cycle accuracy for AIE with fast, functional PL and PS running in SW emulation.  
 
-The entire system design having AIE interfaced with PL kernels needs to be controlled through software using XRT APIs and such designs can be verified today only through SW Emulation or HW Emulation flow.The cycle accuracy is very important aspect in AIE kernel development. SW_EMU does not provide cycle accuracy while HW_EMU does provides cycle accuracy, it is too slow for users focused only on AIE. The hybrid flow intends to run SW EMulation with cycle accuracy AIE with fast, functional PL and PS.  
+The entire system design having AIE interfaced with PL kernels needs to be controlled through software using XRT APIs and such designs can be verified only through SW Emulation or HW Emulation flow.The cycle accuracy is very important aspect in AIE kernel development. SW_EMU does not provide cycle accuracy while HW_EMU does provides cycle accuracy but it is too slow for the users focused only on AIE. The hybrid flow intends to run SW Emulation with cycle accurate AIE keeping the PL as functional.
+
+On the top, the PS on x86 flow in hybrid software emulation helps to run SW_EMU faster unlike the QEMU flow that requires overhead of creating sd_card.img, booting petalinux on full QEMU machine thereby taking additional time.  
  
 Input from the User
 -------------------
