@@ -38,7 +38,7 @@
         "OpenCL"
     ], 
     "host": {
-       "host_exe": "aie_adder_ps_on_x86",
+       "host_exe": "aie_adder_hybrid_swemu",
         "compiler": {
             "sources": [
                 "REPO_DIR/common/includes/xcl2/xcl2.cpp",

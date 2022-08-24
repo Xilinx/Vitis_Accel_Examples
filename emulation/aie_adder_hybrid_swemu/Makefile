@@ -52,7 +52,7 @@ help::
 ############################## Setting up Project Variables ##############################
 # Points to top directory of Git repository
 MK_PATH := $(abspath $(lastword $(MAKEFILE_LIST)))
-COMMON_REPO ?= $(shell bash -c 'export MK_PATH=$(MK_PATH); echo $${MK_PATH%emulation/aie_adder_ps_on_x86/*}')
+COMMON_REPO ?= $(shell bash -c 'export MK_PATH=$(MK_PATH); echo $${MK_PATH%emulation/aie_adder_hybrid_swemu/*}')
 PWD = $(shell readlink -f .)
 XF_PROJ_ROOT = $(shell readlink -f $(COMMON_REPO))
 
@@ -69,7 +69,7 @@ KERNEL := s2mm.cpp mm2s.cpp
 KERNEL_XO := s2mm.xo mm2s.xo 
 
 HOST_SRCS := ./src/sw/host.cpp
-EXECUTABLE = ./aie_adder_ps_on_x86
+EXECUTABLE = ./aie_adder_hybrid_swemu
 
 # SoC variables
 RUN_APP_SCRIPT = ./run_app.sh
@@ -152,8 +152,8 @@ $(LINK_OUTPUT): $(KERNEL_XO) $(GRAPH_O)
 ########################################################
 
 ############################################################################################################################
-# For hardware and hardware emulation, compile the PS code using x86 compiler and generate the aie_adder_ps_on_x86 executable.
-# For hardware and hardware emulation, compile the PS code using aarch64 compiler and generate the aie_adder_ps_on_x86 executable. This is needed for creating the sd_card.
+# For hardware and hardware emulation, compile the PS code using x86 compiler and generate the aie_adder_hybrid_swemu executable.
+# For hardware and hardware emulation, compile the PS code using aarch64 compiler and generate the aie_adder_hybrid_swemu executable. This is needed for creating the sd_card.
 host: $(EXECUTABLE)
 
 $(EXECUTABLE): $(HOST_SRCS)  
@@ -178,7 +178,7 @@ PACKAGING_CMD += --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 \
                  --package.sd_dir /proj/xbuilds/2022.2_daily_latest/internal_platforms/sw/versal/xrt \
                  --package.sd_file $(RUN_APP_SCRIPT) \
                  --package.sd_file ./emconfig.json \
-                 --package.sd_file aie_adder_ps_on_x86
+                 --package.sd_file aie_adder_hybrid_swemu
 else
 PACKAGING_CMD += --package.emu_ps x86
 endif

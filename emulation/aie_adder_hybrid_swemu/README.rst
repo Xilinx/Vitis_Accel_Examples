@@ -61,7 +61,7 @@ Once the environment has been configured, the application can be executed by
 
 ::
 
-   ./aie_adder_ps_on_x86 <krnl_adder XCLBIN>
+   ./aie_adder_hybrid_swemu <krnl_adder XCLBIN>
 
 DETAILS
 -------
@@ -85,7 +85,7 @@ Input from the User
  
          `setenv XILINX_VITIS_EMU_HYBRID 1`: sets the Hybrid flow  
 
-4. Host compilation must be similar to ps_on_x86. Refer `aie_adder_ps_on_x86 <https://github.com/Xilinx/Vitis_Accel_Examples/tree/master/emulation/aie_adder_ps_on_x86>`__
+4. Host compilation must be similar to ps_on_x86. 
  
           *Note:* This example Makefile already supports ps on x86 host compilation flow for hybrid software emulation. 
 
