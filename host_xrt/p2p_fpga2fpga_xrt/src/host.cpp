@@ -55,6 +55,18 @@ int main(int argc, char** argv) {
     std::cout << "Open the device2 : " << device_index2 << std::endl;
     auto device2 = xrt::device(device_index2);
 
+    auto nodma_cnt = 0;
+    if (device1.get_info<xrt::info::device::nodma>()) nodma_cnt++;
+    if (device2.get_info<xrt::info::device::nodma>()) nodma_cnt++;
+
+    if (nodma_cnt == 2) {
+        std::cout
+            << "WARNING: P2P transfer can only be done between xdma and nodma devices but not between 2 nodma devices. "
+               "Please run this "
+               "design on machine with both xdma and nodma devices.\n";
+        return 0;
+    }
+
     size_t vector_size_bytes = sizeof(int) * DATA_SIZE;
 
     auto krnl = xrt::kernel(device1, uuid, "increment");
