@@ -29,6 +29,7 @@ This is simple example to explain P2P transfer between two FPGA devices using xr
  - All Versal Platforms, i.e vck190 etc
  - AWS VU9P F1
  - All Platforms with 201910 Version
+ - Samsung U.2 SmartSSD
  - Alveo U50 gen3x16 xdma 2019 Version
 
 .. raw:: html
