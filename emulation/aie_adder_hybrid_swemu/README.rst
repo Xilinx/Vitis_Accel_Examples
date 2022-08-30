@@ -77,13 +77,13 @@ Input from the User
 
 1. Compile the ADF graph for hw target 
 
-        `aiecompiler --target=hw -include="$(XILINX_VITIS)/aietools/include" -include="./src/aie" -include="./data" -include="./" --pl-freq=100 -workdir=./_aie`
+        `aiecompiler --target=hw -Xpreproc=-D_HYBRID_EMU_ -include="$(XILINX_VITIS)/aietools/include" -include="./src/aie" -include="./data" -include="./" --pl-freq=100 -workdir=./_aie`
 
 2. The vitis compile and link flow (v++ -c and v++ -l) must use the sw_emu target.  
 
-3. Before running the sw_emu flow, set the following environment variables on the terminal:
+3. The following environment variables on the terminal:
  
-         `setenv XILINX_VITIS_EMU_HYBRID 1`: sets the Hybrid flow  
+         `setenv XILINX_VITIS_EMU_HYBRID 1`: sets the Hybrid flow (required for link and runtime) 
 
 4. Host compilation must be similar to ps_on_x86. 
  

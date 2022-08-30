@@ -88,13 +88,14 @@ PLATFORM_ALLOWLIST += vck190
 
 # Command-line options
 VPP := v++
-AIECC := aiecompiler
+AIECC := aiecompiler 
 AIESIM := aiesimulator
 
 AIE_INCLUDE_FLAGS := -include="$(XILINX_VITIS)/aietools/include" -include="./src/aie" -include="./data" -include="./"
 AIE_FLAGS := $(AIE_INCLUDE_FLAGS) --pl-freq=100 -workdir=./_aie
 
 AIE_FLAGS += --target=hw
+AIE_HYBRID += -Xpreproc=-D_HYBRID_EMU_
 
 VPP_XO_FLAGS := -c -t $(TARGET) --platform $(PLATFORM) --save-temps -g 
 VPP_LINK_FLAGS := -l --platform $(PLATFORM) $(KERNEL_XO) $(GRAPH_O) -t $(TARGET) --save-temps -g --config $(CONFIG_FILE) -o $(LINK_OUTPUT)
@@ -136,7 +137,7 @@ aiesim: $(GRAPH_O)
 	$(AIESIM) --pkg-dir=./_aie 
 
 $(GRAPH_O): $(GRAPH)
-	$(AIECC) $(AIE_FLAGS) $(GRAPH)
+	$(AIECC) $(AIE_HYBRID) $(AIE_FLAGS) $(GRAPH)
 	@echo "COMPLETE: libadf.a created."
 #####################################################
 
