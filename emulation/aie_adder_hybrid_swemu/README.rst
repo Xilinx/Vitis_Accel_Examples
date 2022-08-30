@@ -81,7 +81,7 @@ Input from the User
 
 2. The vitis compile and link flow (v++ -c and v++ -l) must use the sw_emu target.  
 
-3. The following environment variables on the terminal:
+3. Set the following environment variables on the terminal:
  
          `setenv XILINX_VITIS_EMU_HYBRID 1`: sets the Hybrid flow (required for link and runtime) 
 
