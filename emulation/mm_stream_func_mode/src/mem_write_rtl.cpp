@@ -18,13 +18,11 @@
 #include <hls_stream.h>
 
 extern "C" {
-void mem_read2(int* mem, hls::stream<ap_axiu<32, 0, 0, 0> >& stream, int size) {
-mem_read:
+void mem_write_rtl(hls::stream<ap_axiu<32, 0, 0, 0> >& stream, int* mem, int size) {
+mem_write:
     for (int i = 0; i < size; i++) {
-        int a = mem[i];
-        ap_axiu<32, 0, 0, 0> v;
-        v.data = a;
-        stream.write(v);
+        ap_axiu<32, 0, 0, 0> v = stream.read();
+        mem[i] = v.data;
     }
 }
 }

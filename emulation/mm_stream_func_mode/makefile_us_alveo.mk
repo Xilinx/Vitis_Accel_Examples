@@ -49,7 +49,7 @@ include ./utils.mk
 TEMP_DIR := ./_x.$(TARGET).$(XSA)
 BUILD_DIR := ./build_dir.$(TARGET).$(XSA)
 
-LINK_OUTPUT := $(BUILD_DIR)/krnl_incr.link.xsa
+LINK_OUTPUT := $(BUILD_DIR)/krnl_incr.link.xclbin
 PACKAGE_OUT = ./package.$(TARGET)
 
 VPP_PFLAGS := 
@@ -58,7 +58,6 @@ include config.mk
 
 CXXFLAGS += -I$(XILINX_XRT)/include -I$(XILINX_VIVADO)/include -Wall -O0 -g -std=c++1y
 LDFLAGS += -L$(XILINX_XRT)/lib -pthread -lOpenCL
-
 
 ########################## Checking if PLATFORM in allowlist #######################
 ############################## Setting up Host Variables ##############################
@@ -72,12 +71,14 @@ LDFLAGS += -lrt -lstdc++
 ############################## Setting up Kernel Variables ##############################
 # Kernel compiler global settings
 VPP_FLAGS += -t $(TARGET) --platform $(PLATFORM) --save-temps 
+VPP_FLAGS_mem_read_func +=  --config ./hw_emu_func.cfg
 VPP_FLAGS_increment_func +=  --config ./hw_emu_func.cfg
+VPP_FLAGS_mem_write_func +=  --config ./hw_emu_func.cfg
 
 
 # Kernel linker flags
 VPP_LDFLAGS_krnl_incr += --config ./krnl_incr.cfg
-EXECUTABLE = ./stream_func_mode
+EXECUTABLE = ./mm_stream_func_mode
 EMCONFIG_DIR = $(TEMP_DIR)
 
 ############################## Setting Targets ##############################
@@ -94,33 +95,33 @@ build: check-vitis check-device $(BUILD_DIR)/krnl_incr.xclbin
 xclbin: build
 
 ############################## Setting Rules for Binary Containers (Building Kernels) ##############################
-$(TEMP_DIR)/mem_read1.xo: src/mem_read1.cpp
+$(TEMP_DIR)/mem_read_func.xo: src/mem_read_func.cpp
 	mkdir -p $(TEMP_DIR)
-	v++ $(VPP_FLAGS) -c -k mem_read1 --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
+	v++ $(VPP_FLAGS) $(VPP_FLAGS_mem_read_func) -c -k mem_read_func --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
 $(TEMP_DIR)/increment_func.xo: src/increment_func.cpp
 	mkdir -p $(TEMP_DIR)
 	v++ $(VPP_FLAGS) $(VPP_FLAGS_increment_func) -c -k increment_func --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
-$(TEMP_DIR)/mem_write1.xo: src/mem_write1.cpp
+$(TEMP_DIR)/mem_write_func.xo: src/mem_write_func.cpp
 	mkdir -p $(TEMP_DIR)
-	v++ $(VPP_FLAGS) -c -k mem_write1 --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
-$(TEMP_DIR)/mem_read2.xo: src/mem_read2.cpp
+	v++ $(VPP_FLAGS) $(VPP_FLAGS_mem_write_func) -c -k mem_write_func --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
+$(TEMP_DIR)/mem_read_rtl.xo: src/mem_read_rtl.cpp
 	mkdir -p $(TEMP_DIR)
-	v++ $(VPP_FLAGS) -c -k mem_read2 --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
+	v++ $(VPP_FLAGS) -c -k mem_read_rtl --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
 $(TEMP_DIR)/increment_rtl.xo: src/increment_rtl.cpp
 	mkdir -p $(TEMP_DIR)
 	v++ $(VPP_FLAGS) -c -k increment_rtl --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
-$(TEMP_DIR)/mem_write2.xo: src/mem_write2.cpp
+$(TEMP_DIR)/mem_write_rtl.xo: src/mem_write_rtl.cpp
 	mkdir -p $(TEMP_DIR)
-	v++ $(VPP_FLAGS) -c -k mem_write2 --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
+	v++ $(VPP_FLAGS) -c -k mem_write_rtl --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
 
-$(BUILD_DIR)/krnl_incr.xclbin: $(TEMP_DIR)/mem_read1.xo $(TEMP_DIR)/increment_func.xo $(TEMP_DIR)/mem_write1.xo $(TEMP_DIR)/mem_read2.xo $(TEMP_DIR)/increment_rtl.xo $(TEMP_DIR)/mem_write2.xo
+$(BUILD_DIR)/krnl_incr.xclbin: $(TEMP_DIR)/mem_read_func.xo $(TEMP_DIR)/increment_func.xo $(TEMP_DIR)/mem_write_func.xo $(TEMP_DIR)/mem_read_rtl.xo $(TEMP_DIR)/increment_rtl.xo $(TEMP_DIR)/mem_write_rtl.xo
 	mkdir -p $(BUILD_DIR)
 	v++ $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) $(VPP_LDFLAGS_krnl_incr) -o'$(LINK_OUTPUT)' $(+)
 	v++ -p $(LINK_OUTPUT) $(VPP_FLAGS) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/krnl_incr.xclbin
 
 ############################## Setting Rules for Host (Building Host Executable) ##############################
 $(EXECUTABLE): $(HOST_SRCS) | check-xrt
-	g++ -o $@ $^ $(CXXFLAGS) $(LDFLAGS)
+		g++ -o $@ $^ $(CXXFLAGS) $(LDFLAGS)
 
 emconfig:$(EMCONFIG_DIR)/emconfig.json
 $(EMCONFIG_DIR)/emconfig.json:
@@ -138,7 +139,6 @@ ifneq ($(TARGET),$(findstring $(TARGET), hw_emu))
 $(error Application supports only hw_emu TARGET. Please use the target for running the application)
 endif
 
-
 .PHONY: test
 test: $(EXECUTABLE)
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
@@ -149,7 +149,6 @@ endif
 ifneq ($(TARGET),$(findstring $(TARGET), hw_emu))
 $(warning WARNING:Application supports only hw_emu TARGET. Please use the target for running the application)
 endif
-
 
 
 ############################## Cleaning Rules ##############################

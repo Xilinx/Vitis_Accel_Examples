@@ -31,33 +31,33 @@ output.
         This Kernel reads from its input stream and writes into Global Memory.
 
     There are two types of kernel in this example based on
-    generated model sources that is Rtl(increment_rtl, mem_read1, mem_write1) and
-    functional with systemC wrapper on C(increment_func, mem_read2, mem_write2).
-                     ________________
-                    |                |<----- Global Memory
-                    |   mem_read1    |
-                    |________________|------+
-                     ________________       | AXI4 Stream
-                    |                |<-----+
-                    | increment_rtl  |
-                    |________________|----->+
-                     ________________       | AXI4 Stream
-                    |                |<-----+
-                    |  mem_write1    |
-                    |________________|-----> Global Memory
+    generated model sources that is Rtl(increment_rtl, mem_read_func, mem_write_func) and
+    functional with systemC wrapper on C(increment_func, mem_read_rtl, mem_write_rtl).
+                     ___________________
+                    |                   |<----- Global Memory
+                    |   mem_read_rtl    |
+                    |___________________|------+
+                     ___________________       | AXI4 Stream
+                    |                   |<-----+
+                    | increment_rtl     |
+                    |___________________|----->+
+                     ___________________       | AXI4 Stream
+                    |                   |<-----+
+                    |  mem_write_rtl    |
+                    |___________________|-----> Global Memory
 
-                     ________________
-                    |                |<------ Global Memory
-                    |   mem_read2    |
-                    |________________|------+
-                     ________________       | AXI4 Stream (TLM)
-                    |                |<-----+
-                    | increment_func |
-                    |________________|----->+
-                     ________________       | AXI4 Stream (TLM)
-                    |                |<-----+
-                    |  mem_write2    |
-                    |________________|-----> Global Memory
+                     ___________________
+                    |                   |<------ Global Memory
+                    |   mem_read_func   |
+                    |___________________|------+
+                     ___________________       | AXI4 Stream (TLM)
+                    |                   |<-----+
+                    | increment_func    |
+                    |___________________|----->+
+                     ___________________        | AXI4 Stream (TLM)
+                    |                   |<-----+
+                    |  mem_write_func   |
+                    |___________________|-----> Global Memory
 
 
 
@@ -101,7 +101,7 @@ int main(int argc, char** argv) {
     cl_int err;
     cl::CommandQueue q;
     cl::Context context;
-    cl::Kernel krnl_mem_read1, krnl_mem_write1, krnl_mem_read2, krnl_mem_write2;
+    cl::Kernel krnl_mem_read_func, krnl_mem_write_func, krnl_mem_read_rtl, krnl_mem_write_rtl;
 
     // Reducing the data size for emulation mode
     char* xcl_mode = getenv("XCL_EMULATION_MODE");
@@ -144,10 +144,10 @@ int main(int argc, char** argv) {
             std::cout << "Failed to program device[" << i << "] with xclbin file!\n";
         } else {
             std::cout << "Device[" << i << "]: program successful!\n";
-            OCL_CHECK(err, krnl_mem_read1 = cl::Kernel(program, "mem_read1", &err));
-            OCL_CHECK(err, krnl_mem_write1 = cl::Kernel(program, "mem_write1", &err));
-            OCL_CHECK(err, krnl_mem_read2 = cl::Kernel(program, "mem_read2", &err));
-            OCL_CHECK(err, krnl_mem_write2 = cl::Kernel(program, "mem_write2", &err));
+            OCL_CHECK(err, krnl_mem_read_func = cl::Kernel(program, "mem_read_func", &err));
+            OCL_CHECK(err, krnl_mem_write_func = cl::Kernel(program, "mem_write_func", &err));
+            OCL_CHECK(err, krnl_mem_read_rtl = cl::Kernel(program, "mem_read_rtl", &err));
+            OCL_CHECK(err, krnl_mem_write_rtl = cl::Kernel(program, "mem_write_rtl", &err));
             valid_device = true;
             break; // we break because we found a valid device
         }
@@ -169,10 +169,10 @@ int main(int argc, char** argv) {
     // Set the Kernel Arguments
     int size = data_size;
     auto start_rd_incrFunc_wr = std::chrono::high_resolution_clock::now();
-    OCL_CHECK(err, err = krnl_mem_read1.setArg(0, buffer_input_A));
-    OCL_CHECK(err, err = krnl_mem_read1.setArg(2, size));
-    OCL_CHECK(err, err = krnl_mem_write1.setArg(1, buffer_output_A));
-    OCL_CHECK(err, err = krnl_mem_write1.setArg(2, size));
+    OCL_CHECK(err, err = krnl_mem_read_func.setArg(0, buffer_input_A));
+    OCL_CHECK(err, err = krnl_mem_read_func.setArg(2, size));
+    OCL_CHECK(err, err = krnl_mem_write_func.setArg(1, buffer_output_A));
+    OCL_CHECK(err, err = krnl_mem_write_func.setArg(2, size));
     // Copy input data to device global memory
     std::cout << "Copying data..." << std::endl;
     OCL_CHECK(err, err = q.enqueueWriteBuffer({buffer_input_A}, CL_TRUE, 0, vector_size_bytes, source_input.data(),
@@ -181,9 +181,9 @@ int main(int argc, char** argv) {
     OCL_CHECK(err, err = q.finish());
 
     // Launch the Kernel
-    std::cout << "Launching Kernels mem_read1 & mem_write1 ..." << std::endl;
-    OCL_CHECK(err, err = q.enqueueTask(krnl_mem_read1));
-    OCL_CHECK(err, err = q.enqueueTask(krnl_mem_write1));
+    std::cout << "Launching Kernels mem_read_func & mem_write_func ..." << std::endl;
+    OCL_CHECK(err, err = q.enqueueTask(krnl_mem_read_func));
+    OCL_CHECK(err, err = q.enqueueTask(krnl_mem_write_func));
 
     // wait for all kernels to finish their operations
     OCL_CHECK(err, err = q.finish());
@@ -208,10 +208,10 @@ int main(int argc, char** argv) {
         }
     }
     auto start_rd_incrRtl_wr = std::chrono::high_resolution_clock::now();
-    OCL_CHECK(err, err = krnl_mem_read2.setArg(0, buffer_input_B));
-    OCL_CHECK(err, err = krnl_mem_read2.setArg(2, size));
-    OCL_CHECK(err, err = krnl_mem_write2.setArg(1, buffer_output_B));
-    OCL_CHECK(err, err = krnl_mem_write2.setArg(2, size));
+    OCL_CHECK(err, err = krnl_mem_read_rtl.setArg(0, buffer_input_B));
+    OCL_CHECK(err, err = krnl_mem_read_rtl.setArg(2, size));
+    OCL_CHECK(err, err = krnl_mem_write_rtl.setArg(1, buffer_output_B));
+    OCL_CHECK(err, err = krnl_mem_write_rtl.setArg(2, size));
     // Copy input data to device global memory
     std::cout << "Copying data..." << std::endl;
     OCL_CHECK(err, err = q.enqueueWriteBuffer({buffer_input_B}, CL_TRUE, 0, vector_size_bytes, source_input.data(),
@@ -220,10 +220,10 @@ int main(int argc, char** argv) {
     OCL_CHECK(err, err = q.finish());
 
     // Launch the Kernel
-    std::cout << "Launching Kernels mem_read2 & mem_write2 ..." << std::endl;
+    std::cout << "Launching Kernels mem_read_rtl & mem_write_rtl ..." << std::endl;
     std::cout << "Launching Kernel..." << std::endl;
-    OCL_CHECK(err, err = q.enqueueTask(krnl_mem_read2));
-    OCL_CHECK(err, err = q.enqueueTask(krnl_mem_write2));
+    OCL_CHECK(err, err = q.enqueueTask(krnl_mem_read_rtl));
+    OCL_CHECK(err, err = q.enqueueTask(krnl_mem_write_rtl));
 
     // wait for all kernels to finish their operations
     OCL_CHECK(err, err = q.finish());

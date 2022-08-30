@@ -5,7 +5,7 @@
             "meet_system_timing": "true", 
             "accelerators": [
                 {
-                    "name": "mem_read2", 
+                    "name": "mem_read_rtl", 
                     "check_timing": "true", 
                     "PipelineType": "none", 
                     "check_latency": "true", 
@@ -31,7 +31,7 @@
                     ] 
                 },
                 {
-                    "name": "mem_write2", 
+                    "name": "mem_write_rtl", 
                     "check_timing": "true", 
                     "PipelineType": "none", 
                     "check_latency": "true", 

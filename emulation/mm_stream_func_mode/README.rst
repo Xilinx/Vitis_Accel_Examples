@@ -1,5 +1,5 @@
-Functional Hardware Emulation (Stream Free Running HLS C/C++ Kernel)
-====================================================================
+Functional Hardware Emulation (MM & Streaming HLS C/C++ Kernel)
+===============================================================
 
 This example demonstrates how a user can run functional model of HLS kernel in HW Emulation.
 
@@ -17,10 +17,10 @@ Application code is located in the src directory. Accelerator binary files will 
    src/host.cpp
    src/increment_func.cpp
    src/increment_rtl.cpp
-   src/mem_read1.cpp
-   src/mem_read2.cpp
-   src/mem_write1.cpp
-   src/mem_write2.cpp
+   src/mem_read_func.cpp
+   src/mem_read_rtl.cpp
+   src/mem_write_func.cpp
+   src/mem_write_rtl.cpp
    
 COMMAND LINE ARGUMENTS
 ----------------------

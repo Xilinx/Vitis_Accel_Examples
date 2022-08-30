@@ -1,5 +1,5 @@
 {
-    "name": "Functional Hardware Emulation (Stream Free Running HLS C/C++ Kernel)", 
+    "name": "Functional Hardware Emulation (MM & Streaming HLS C/C++ Kernel)", 
     "description": [
         "This example demonstrates how a user can run functional model of HLS kernel in HW Emulation."
     ],
@@ -21,7 +21,7 @@
         "OpenCL"
     ], 
     "host": {
-        "host_exe": "stream_func_mode",
+        "host_exe": "mm_stream_func_mode",
         "compiler": {
             "sources": [
                 "REPO_DIR/common/includes/xcl2/xcl2.cpp",
@@ -36,8 +36,9 @@
         {
             "accelerators": [
                 {
-                    "name": "mem_read1",
-                    "location": "src/mem_read1.cpp"
+                    "name": "mem_read_func",
+                    "clflags": "--config ./hw_emu_func.cfg",
+                    "location": "src/mem_read_func.cpp"
                 },
                 {
                     "name": "increment_func",
@@ -45,20 +46,21 @@
                     "location": "src/increment_func.cpp"
                 },
                 {
-                    "name": "mem_write1", 
-                    "location": "src/mem_write1.cpp"
+                    "name": "mem_write_func",
+                    "clflags": "--config ./hw_emu_func.cfg",                     
+                    "location": "src/mem_write_func.cpp"
                 },
                 {
-                    "name": "mem_read2", 
-                    "location": "src/mem_read2.cpp"
+                    "name": "mem_read_rtl", 
+                    "location": "src/mem_read_rtl.cpp"
                 },
                 {
                     "name": "increment_rtl", 
                     "location": "src/increment_rtl.cpp"
                 },
                 {
-                    "name": "mem_write2", 
-                    "location": "src/mem_write2.cpp"
+                    "name": "mem_write_rtl", 
+                    "location": "src/mem_write_rtl.cpp"
                 }
             ], 
             "name": "krnl_incr",
