@@ -32,6 +32,7 @@ This example of 2ddr to demonstrate on how to use 2ddr XSA. How to create buffer
  - Samsung U.2 SmartSSD
  - X3 Compute Shell
  - All NoDMA Platforms, i.e u50 nodma etc
+ - Versal V70
 
 .. raw:: html
 

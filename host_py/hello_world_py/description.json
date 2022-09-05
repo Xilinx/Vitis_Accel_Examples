@@ -16,7 +16,8 @@
     "platform_blocklist": [
         "nodma",
         "zc",
-        "vck"
+        "vck",
+        "v70"
     ], 
     "os": [
         "Linux"

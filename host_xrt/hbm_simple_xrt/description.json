@@ -22,7 +22,8 @@
         "samsung",
         "u2_",
         "x3522pv",
-        "nodma"
+        "nodma",
+        "v70"
     ],
     "platform_type": "pcie",
     "os": [

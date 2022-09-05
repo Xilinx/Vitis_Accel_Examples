@@ -34,6 +34,7 @@ This is a HBM bandwidth example using a pseudo random 1024 bit data access patte
  - Samsung U.2 SmartSSD
  - X3 Compute Shell
  - All NoDMA Platforms, i.e u50 nodma etc
+ - Versal V70
 
 .. raw:: html
 

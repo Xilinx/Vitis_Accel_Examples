@@ -40,6 +40,7 @@
         "x3522pv": "X3 Compute Shell",
         "u280": "Alveo U280",
         "u55n": "Alveo U55n",
-        "vck190_base_dfx": "Versal DFX platform"
+        "vck190_base_dfx": "Versal DFX platform",
+        "v70": "Versal V70"
     }
 }

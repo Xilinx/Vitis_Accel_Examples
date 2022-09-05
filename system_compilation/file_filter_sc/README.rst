@@ -29,6 +29,7 @@ This is simple example showcasing the P2P and H2C file transfers in system compi
  - Samsung U.2 SmartSSD
  - Alveo U25 SmartNIC
  - AWS VU9P F1
+ - Versal V70
 
 .. raw:: html
 

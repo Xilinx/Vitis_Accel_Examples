@@ -34,6 +34,7 @@ This is a simple example of vector addition to describe how to use HLS kernels w
  - Samsung U.2 SmartSSD
  - X3 Compute Shell
  - All NoDMA Platforms, i.e u50 nodma etc
+ - Versal V70
 
 .. raw:: html
 

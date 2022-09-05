@@ -30,6 +30,7 @@ This simple example implements a HW pipeline of three tasks, matrix multiplicati
  - Alveo U25 SmartNIC
  - Samsung U.2 SmartSSD
  - AWS VU9P F1
+ - Versal V70
 
 .. raw:: html
 

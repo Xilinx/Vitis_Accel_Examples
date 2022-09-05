@@ -32,6 +32,7 @@ This is a Host Memory Example to describe how data can be copied between host-on
  - All Platforms with 2019 Version
  - All Platforms with 2018 Version
  - Samsung U.2 SmartSSD
+ - Versal V70
 
 .. raw:: html
 

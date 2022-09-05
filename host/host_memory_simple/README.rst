@@ -33,6 +33,7 @@ This is simple host memory example to describe how a user kernel can access the 
  - All Platforms with 2018 Version
  - Samsung SmartSSD Computation Storage Drive
  - Samsung U.2 SmartSSD
+ - Versal V70
 
 .. raw:: html
 

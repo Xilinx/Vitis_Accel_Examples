@@ -47,6 +47,7 @@ Command line argument flags:
  - Alveo U55n
  - Samsung SmartSSD Computation Storage Drive
  - Alveo U280
+ - Versal V70
 
 .. raw:: html
 

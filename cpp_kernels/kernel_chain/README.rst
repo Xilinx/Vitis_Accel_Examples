@@ -26,6 +26,7 @@ This is a kernel containing the cascaded Matrix Multiplication using dataflow. a
  - All Embedded Zynq Platforms, i.e zc702, zcu102 etc
  - Samsung U.2 SmartSSD
  - All NoDMA Platforms, i.e u50 nodma etc
+ - Versal V70
 
 .. raw:: html
 

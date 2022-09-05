@@ -8,7 +8,8 @@
         "samsung",
         "u2_",
         "x3522pv",
-        "nodma"
+        "nodma",
+        "v70"
     ], 
     "description": [
         "This example of 2ddr is to demonstrate how to use multiple ddr and create buffers in each DDR."

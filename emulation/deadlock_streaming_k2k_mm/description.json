@@ -16,7 +16,8 @@
         "u2_",
         "vck",
         "zc",
-        "nodma"
+        "nodma",
+        "v70"
     ],
      "targets": [
         "hw_emu"

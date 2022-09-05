@@ -29,6 +29,7 @@ This is gmio transfers example which explains different ways of data movements b
  - All Versal Platforms, i.e vck190 etc
  - Alveo U280
  - AWS VU9P F1
+ - Versal V70
 
 .. raw:: html
 

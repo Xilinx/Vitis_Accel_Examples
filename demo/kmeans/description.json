@@ -25,7 +25,8 @@
         "u25_",
         "u55n",
         "samsung",
-        "u280"
+        "u280",
+        "v70"
     ],	
     "runtime": [
         "OpenCL"

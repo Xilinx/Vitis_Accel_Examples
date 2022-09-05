@@ -25,6 +25,7 @@ This is an AXI Burst Performance check design. It measures the time it takes to 
  - Samsung SmartSSD Computation Storage Drive
  - Samsung U.2 SmartSSD
  - All NoDMA Platforms, i.e u50 nodma etc
+ - Versal V70
 
 .. raw:: html
 

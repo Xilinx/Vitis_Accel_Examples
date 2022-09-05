@@ -30,6 +30,7 @@ This is a simple design that verifies if the platform has basic functionalities 
  - All Platforms with 2018 Version
  - Samsung SmartSSD Computation Storage Drive
  - Samsung U.2 SmartSSD
+ - Versal V70
 
 .. raw:: html
 
