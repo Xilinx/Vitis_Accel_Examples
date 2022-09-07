@@ -32,6 +32,7 @@ This is simple test design to measure Input/Output Operations per second using F
  - Alveo U55
  - All Platforms with 2019 Version
  - Alveo U280
+ - Samsung U.2 SmartSSD
 
 .. raw:: html
 
