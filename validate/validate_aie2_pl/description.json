@@ -1,17 +1,17 @@
 {
-    "name": "Xilinx AIE2 311a FlexML Tiny Yolo Layer4 PCIe Test",
+    "name": "Xilinx AIE2 AXI_STREAM based PCIe Test",
     "description": "Auto Generate Micro Code",
     "flow": "vitis",
     "gui": false,
     "platform_type": "pcie",
     "platform_whitelist": [
-        "vck190"
+        "v70"
     ],
     "platform_blacklist": [
         "other"
     ],
     "testinfo": {
-        "disable": true,
+        "disable": false,
         "jobs": [
             {
                 "index": 0,

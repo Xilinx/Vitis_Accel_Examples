@@ -13,13 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-// compile aie_runtime_control.cpp
+#ifndef FUNCTION_INCLUDES_H
+#define FUNCTION_INCLUDES_H
 
-#include "adf/adf_api/AIERuntimeControl.h"
-namespace adf {
-// Declare function, use in aie_runtime_control.cpp
-uint64_t getExternalBufferAddress(std::string externalBufferName);
-}
-using namespace adf;
-#include "aie_runtime_control.cpp"
-#include "aie_runtime_control_impl.hpp"
+#define NUM_SAMPLES1 32
+#define NUM_SAMPLES2 16
+#define NUM_ITERATIONS1 4
+#define NUM_ITERATIONS2 8
+#define AIE_CORE_COL 25
+#define AIE_CORE_ROW 0
+
+#endif

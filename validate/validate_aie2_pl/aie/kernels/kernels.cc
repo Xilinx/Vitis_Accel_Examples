@@ -13,10 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#ifndef AIE_RUNTIME_CONTROL_WRAP_HPP
-#define AIE_RUNTIME_CONTROL_WRAP_HPP
+/* A simple kernel
+ */
+#include <adf.h>
+#include "include.h"
 
-#include "aie_runtime_control_impl.hpp"
-void executeRuntimeControl();
-
-#endif //__AIE_RUNTIME_CONTROL_WRAP_HPP__
+void simple(input_window_int32 * win, output_window_int32 * wout) {
+  int32 tmp;
+  printf("simple: Entering...\n");
+  for (unsigned i=0; i<32; i++) {
+    window_readincr(win, tmp);
+    printf("simple: i=%d, win=%d, wout=%d\n", i, tmp, tmp+1);
+    tmp++;
+    window_writeincr(wout, tmp);
+  }
+  printf("simple: Returning...\n");
+}

@@ -1,6 +1,6 @@
 MK_PATH := $(abspath $(lastword $(MAKEFILE_LIST)))
 CUR_DIR := $(patsubst %/,%,$(dir $(MK_PATH)))
-MLLIB_ROOT := $(CUR_DIR)/mllib
+XF_PROJ_ROOT ?= $(shell bash -c 'export MK_PATH=$(MK_PATH); echo $${MK_PATH%/tests/*}')
 
 check_vivado:
 ifeq (,$(wildcard $(XILINX_VIVADO)/bin/vivado))
@@ -14,33 +14,36 @@ endif
 XILINX_VITIS_AIETOOLS := $(XILINX_VITIS)/aietools
 TARGET   := hw_emu
 
-PLATFORM = /proj/xbuilds/Vitis_HW_EMU/2022.2/xilinx_v70_hw_emu_202220_1/2022.2_0727_2230/xilinx_v70_hw_emu_202220_1/xilinx_v70_hw_emu_202220_1.xpfm
 
-PL_CTRL_AXIMM_CH_NUM ?= 1
+#PLATFORM = /proj/xbuilds/2022.2_daily_latest/xbb/dsadev/opt/xilinx/platforms/xilinx_v70_gen5x8_qdma_2_202220_1/xilinx_v70_gen5x8_qdma_2_202220_1.xpfm
+
+PLATFORM = $(DEVICE)
+#PLATFORM = /proj/xbuilds/Vitis_HW_EMU/2022.2/xilinx_v70_hw_emu_202220_1/2022.2_0817_2230/xilinx_v70_hw_emu_202220_1/xilinx_v70_hw_emu_202220_1.xpfm
+AIE_DEVICE := xcvc2802-vsvh1760-2LHP-e-S-es1 
+
 #########################compile ADF#############################################
-GRAPH    = src/graph.cpp
 LIBADF  = libadf.a
+AIE_CXXFLAGS += --pl-freq=1000 -workdir=$(CUR_DIR)/Work
+AIE_CXXFLAGS += -I $(XILINX_VITIS_AIETOOLS)/include
+AIE_CXXFLAGS += -I $(CUR_DIR)/aie
+AIE_CXXFLAGS += -I $(CUR_DIR)/aie/kernels
+AIE_CXXFLAGS += --aiearch=aie-ml
+AIE_CXXFLAGS +=  --dataflow --platform=${PLATFORM}
+#AIE_CXXFLAGS += --phydevice=$(AIE_DEVICE)
+#AIE_CXXFLAGS += -I $(CUR_DIR)
+AIE_CXXFLAGS += -v
 .PHONY: aie
 aie: ${LIBADF}
 
-${LIBADF}: ${GRAPH}
-	aiecompiler --aiearch=aie-ml -v -log-level=5 --enable-multi-layer --enable-core-processor-bus --disable-dma-autostart --disable-multirate-analysis --dataflow --platform=${PLATFORM} --output=graph.json src/graph.cpp
+${LIBADF}:./aie/graph.cpp
+	aiecompiler $(AIE_CXXFLAGS) $^
 
-######################call ucode gen tool to generate ucode######################
-.PHONY: ucode_gen
-XOS = ./tools/pl_controller_hw.xo
-ucode_gen: ./tools/ucode_gen.sh ${XOS}
+XOS = ./pl_kernels/pl_controller_top.xo
+XOS += ./pl_kernels/sender_receiver.xo
 
-./tools/ucode_gen.sh ${XOS}:
-	make -f ${CUR_DIR}/pl_controller/Makefile PLATFORM=$(PLATFORM) PL_CTRL_AXIMM_CH_NUM=$(PL_CTRL_AXIMM_CH_NUM) DEST_DIR=./tools install
+$(XOS):./pl_kernels/*.cpp
+	make -C pl_kernels/
 
-UCODE := ucode.bin
-.PHONY: ucode
-ucode: ${UCODE}
-
-${UCODE}:./tools/ucode_gen.sh libadf.a 
-	./tools/ucode_gen.sh -i ./Work/ps/c_rts -o ${UCODE} -c $(PL_CTRL_AXIMM_CH_NUM)
-#######################compile to generate xclbin################################ 
 #LINK_TARGET_FMT := xclbin
 ifneq (,$(wildcard $(XILINX_VITIS)/bin/v++))
 VITIS_VER = $(shell v++ --version | grep 'v++' | sed 's/^[[:space:]]*//' | sed -e 's/^[*]* v++ v//g' | cut -d " " -f1)
@@ -54,10 +57,13 @@ endif
 XCLBIN   = aie_base_graph.${LINK_TARGET_FMT}
 VPP_SPEC = ${CUR_DIR}/system.cfg
 VCC      = v++
-VPP_LDFLAGS= --save-temps --verbose --config ${VPP_SPEC}
+VPP_LDFLAGS += --save-temps --verbose --config ${VPP_SPEC}
+ifeq ($(TARGET),hw_emu)
+VPP_LDFLAGS += --advanced.param compiler.userPostSysLinkOverlayTcl=post_sys_link.tcl
+endif
 
 ${XCLBIN}: ${LIBADF} ${VPP_SPEC} ${XOS} | check_vpp
-	${VCC} -g -l --platform ${PLATFORM} ${LIBADF} ${XOS} --vivado.prop fileset.sim_1.xsim.simulate.runtime=800us \
+	${VCC} -g -l --platform ${PLATFORM} ${LIBADF} ${XOS} --vivado.prop fileset.sim_1.xsim.simulate.runtime=6000us \
 	      	-t ${TARGET} ${VPP_LDFLAGS} -o $@
 	
 ####################compile PS code###############################################
@@ -77,8 +83,8 @@ LD_LIBRARY_PATH := $(XILINX_VIVADO)/tps/lnx64/gcc-8.3.0/lib64:$(LD_LIBRARY_PATH)
 endif
 endif
 
-${HOST_EXE}: sw/*.cpp ${CUR_DIR}/pl_controller/ps_helper/*.cpp
-	make -C sw/ CXX=$(CXX) PL_CTRL_AXIMM_CH_NUM=$(PL_CTRL_AXIMM_CH_NUM)
+${HOST_EXE}: sw/*.cpp
+	make -C sw/ CXX=$(CXX)
 
 ##################run hardware emulation######################################################
 .PHONY: package run_hw_emu
@@ -92,8 +98,8 @@ package_${TARGET}: ${LIBADF} ${XCLBIN} ${HOST_EXE}
 		--package.defer_aie_run \
 		${XCLBIN} ${LIBADF} 
 
-HOST_ARGS = ${UCODE}
-run_hw_emu: package.hw_emu/launch_hw_emu.sh
+HOST_ARGS = ./Work/ps/c_rts/aie_control_config.json ./Work/reports/dma_lock_report.json
+run_hw_emu: ${UCODE} package.hw_emu/launch_hw_emu.sh
 	emconfigutil --platform $(PLATFORM) --nd 1
 	@echo "Running Emulation: $(HOST_PREAMBLE) ./$(HOST_EXE) $(FINAL_XCLBIN)"
 	XCL_EMULATION_MODE=$(TARGET) \
@@ -101,7 +107,9 @@ run_hw_emu: package.hw_emu/launch_hw_emu.sh
 	grep "Test passed" launch_hw_emu.log || exit 1
 .PHONY: run
 
-run: aie ucode_gen ucode ${XCLBIN} host package run_hw_emu
+run: aie ${UCODE} ${XCLBIN} host package run_hw_emu
+all: aie ${UCODE} ${XCLBIN} host package 
+.PHONY: all
 
 .PHONY: clean
 clean:

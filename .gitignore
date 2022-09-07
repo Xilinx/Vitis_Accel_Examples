@@ -18,3 +18,9 @@ lib/
 *_LOCAL_*
 *_REMOTE_*
 *.swp
+log.*
+*.txt
+*.bin
+*.xclbin
+build*
+_x*

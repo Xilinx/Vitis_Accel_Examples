@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#pragma once
+#ifndef FUNCTION_KERNELS_H
+#define FUNCTION_KERNELS_H
+#include <hls_stream.h>
+void simple(input_window_int32 *win, output_window_int32 *wout);
 
-#include "adf.h"
-
-void dummy_conv2d(input_window<uint8>* ifm, input_window<uint8>* wts, output_window<uint8>* ofm);
-void dummy_conv2d_with_print(input_window<uint8>* ifm, input_window<uint8>* wts, output_window<uint8>* ofm);
+#endif
