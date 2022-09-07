@@ -59,7 +59,7 @@ CXXFLAGS += -I$(XILINX_XRT)/include -I$(XILINX_VIVADO)/include -Wall -O0 -g -std
 LDFLAGS += -L$(XILINX_XRT)/lib -pthread -lOpenCL
 include config.mk
 ########################## Checking if PLATFORM in allowlist #######################
-PLATFORM_BLOCKLIST += zc vck190 vck5000 aws-vu9p-f1_shell 2019 2018 u2_ u25_ u30 u50lv u50_gen3x4 
+PLATFORM_BLOCKLIST += zc vck190 vck5000 aws-vu9p-f1_shell 2019 2018 u2_ u25_ u30 u50lv u50_gen3x4 v70 
 ############################## Setting up Host Variables ##############################
 #Include Required Host Source Files
 CXXFLAGS += -I$(XF_PROJ_ROOT)/common/includes/xcl2

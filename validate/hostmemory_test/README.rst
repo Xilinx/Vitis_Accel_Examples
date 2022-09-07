@@ -33,6 +33,7 @@ This host memory design explains how direct host memory access can be done by th
  - Alveo U30
  - Alveo U50lv
  - Alveo U50 gen3x4
+ - Versal V70
 
 .. raw:: html
 
