@@ -23,14 +23,8 @@ This example showcases how to configure various PLRAM parameters like Memory Siz
 |
 ..
 
- - Alveo U25 SmartNIC
- - Alveo U30
  - All Embedded Zynq Platforms, i.e zc702, zcu102 etc
  - All Versal Platforms, i.e vck190 etc
- - Samsung SmartSSD Computation Storage Drive
- - Samsung U.2 SmartSSD
- - X3 Compute Shell
- - All NoDMA Platforms, i.e u50 nodma etc
 
 .. raw:: html
 

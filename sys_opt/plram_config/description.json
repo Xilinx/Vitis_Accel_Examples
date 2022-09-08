@@ -14,14 +14,8 @@
         "PLRAMs"
     ], 
     "platform_blocklist": [
-        "u25_",
-        "u30",
         "zc",
-        "vck", 
-        "samsung",
-        "u2_",
-        "x3522pv",
-        "nodma"    
+        "vck" 
     ], 
     "os": [
         "Linux"
