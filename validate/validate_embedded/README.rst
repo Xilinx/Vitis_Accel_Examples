@@ -29,6 +29,7 @@ This is a simple design that verifies if the platform has basic functionalities.
  - All Platforms with 2019 Version
  - All Platforms with 2018 Version
  - Versal VCK5000
+ - Versal V70
 
 .. raw:: html
 
