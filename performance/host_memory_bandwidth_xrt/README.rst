@@ -33,6 +33,7 @@ This is host memory bandwidth example to describe host memory and kernel bandwid
  - All Platforms with 2018 Version
  - Samsung SmartSSD Computation Storage Drive
  - Samsung U.2 SmartSSD
+ - Versal V70
 
 .. raw:: html
 

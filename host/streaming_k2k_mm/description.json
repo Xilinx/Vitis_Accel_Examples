@@ -17,7 +17,8 @@
         "u2_",
         "vck",
         "zc",
-        "nodma"
+        "nodma",
+        "v70"
     ], 
     "os": [
         "Linux"

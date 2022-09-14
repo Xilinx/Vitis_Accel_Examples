@@ -25,6 +25,7 @@ This example showcases how to configure various PLRAM parameters like Memory Siz
 
  - All Embedded Zynq Platforms, i.e zc702, zcu102 etc
  - All Versal Platforms, i.e vck190 etc
+ - Versal V70
 
 .. raw:: html
 

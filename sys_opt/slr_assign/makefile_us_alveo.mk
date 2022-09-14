@@ -58,7 +58,7 @@ CXXFLAGS += -I$(XILINX_XRT)/include -I$(XILINX_VIVADO)/include -Wall -O0 -g -std
 LDFLAGS += -L$(XILINX_XRT)/lib -pthread -lOpenCL
 
 ########################## Checking if PLATFORM in allowlist #######################
-PLATFORM_BLOCKLIST += u25_ u30 zc vck samsung u2_ x3522pv nodma 
+PLATFORM_BLOCKLIST += u25_ u30 zc vck samsung u2_ x3522pv nodma v70 
 ############################## Setting up Host Variables ##############################
 #Include Required Host Source Files
 CXXFLAGS += -I$(XF_PROJ_ROOT)/common/includes/xcl2

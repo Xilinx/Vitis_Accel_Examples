@@ -15,7 +15,8 @@
     ], 
     "platform_blocklist": [
         "zc",
-        "vck" 
+        "vck",
+        "v70" 
     ], 
     "os": [
         "Linux"

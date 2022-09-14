@@ -28,6 +28,7 @@ This is a simple kernel to kernel streaming Vector Add and Vector Multiply C Ker
  - All Versal Platforms, i.e vck190 etc
  - All Embedded Zynq Platforms, i.e zc702, zcu102 etc
  - All NoDMA Platforms, i.e u50 nodma etc
+ - Versal V70
 
 .. raw:: html
 

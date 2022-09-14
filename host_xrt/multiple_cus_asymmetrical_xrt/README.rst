@@ -31,6 +31,7 @@ This is simple example of vector addition to demonstrate how to connect each com
  - All Embedded Zynq Platforms, i.e zc702, zcu102 etc
  - X3 Compute Shell
  - All NoDMA Platforms, i.e u50 nodma etc
+ - Versal V70
 
 .. raw:: html
 
