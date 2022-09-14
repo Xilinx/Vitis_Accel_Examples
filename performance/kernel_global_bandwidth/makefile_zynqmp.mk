@@ -98,7 +98,7 @@ endif
 endif
 
 ########################## Checking if PLATFORM in allowlist #######################
-PLATFORM_BLOCKLIST += u2_ u30 u50 u55 vck5000 
+PLATFORM_BLOCKLIST += u2_ u30 u50 u55 vck5000 v70 
 ############################## Setting up Host Variables ##############################
 #Include Required Host Source Files
 CXXFLAGS += -I$(XF_PROJ_ROOT)/common/includes/xcl2
