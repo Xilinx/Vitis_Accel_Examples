@@ -21,10 +21,10 @@ VPP_FLAGS += -t $(TARGET)
 
 all:pl_controller_top.xo  sender_receiver.xo
 pl_controller_top.xo: pl_controller_top.cpp
-	v++ -c ${VPP_FLAGS} --platform ${PLATFORM} -k pl_controller_top --kernel_frequency 125 $< -o $@ --verbose --save-temps
+	v++ -c ${VPP_FLAGS} --platform ${PLATFORM} -k pl_controller_top --kernel_frequency 250 $< -o $@ --verbose --save-temps
 
 sender_receiver.xo: sender_receiver.cpp
-	v++ -c ${VPP_FLAGS} --platform ${PLATFORM} -k sender_receiver --kernel_frequency 125 $< -o $@ --verbose --save-temps
+	v++ -c ${VPP_FLAGS} --platform ${PLATFORM} -k sender_receiver --kernel_frequency 250 $< -o $@ --verbose --save-temps
 
 #merge_kernel.xo: merge_kernel.cpp
 #	v++ -c ${VPP_FLAGS} --platform ${PLATFORM} -k merge_kernel --kernel_frequency 250 $< -o $@ --verbose --save-temps

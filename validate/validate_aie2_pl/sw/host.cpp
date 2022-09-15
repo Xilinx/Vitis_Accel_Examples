@@ -66,17 +66,39 @@ int main(int argc, char *argv[]) {
   ret = xrtDeviceLoadXclbinFile(dhdl, xclbinFilename);
   if (ret) {
     printf("Xclbin Load fail\n");
+  } else {
+    printf("Xclbin Load successful!\n");
   }
+
   xuid_t uuid;
-  xrtDeviceGetXclbinUUID(dhdl, uuid);
+  ret = xrtDeviceGetXclbinUUID(dhdl, uuid);
+  if (ret) {
+    printf("ERROR : UUID Load fail, return %d \n", ret);
+  } else {
+    printf("UUID Load successful!\n");
+  }
+
+  xrtKernelHandle sender_receiver_k1 =
+      xrtPLKernelOpen(dhdl, uuid, "sender_receiver:{sender_receiver_1}");
+  xrtKernelHandle controller_k1 =
+      xrtPLKernelOpen(dhdl, uuid, "pl_controller_top:{controller_1}");
+  int group_id_sendr_by_c = xrtKernelArgGroupId(sender_receiver_k1, 1);
+  int group_id_ctrl_by_c = xrtKernelArgGroupId(controller_k1, 4);
+  printf("INFO : xrtKernelArgGroupId return %d \n", group_id_sendr_by_c);
+  printf("INFO: from C API -> group_id_sendr : %d, controller_k1: %d\n",
+         group_id_sendr_by_c, group_id_ctrl_by_c);
+  int group_id_sendr = group_id_sendr_by_c;
+  int group_id_ctrl = group_id_ctrl_by_c;
 
   // output memory
   mem_size = num_sample * num_iter * sizeof(int);
-  xrtBufferHandle out_bo1 = xrtBOAlloc(dhdl, mem_size, 0, 2 /*group_id*/);
+  xrtBufferHandle out_bo1 =
+      xrtBOAlloc(dhdl, mem_size, 0, group_id_sendr /*group_id*/); // group_id = 0 passed on board xcvc2802-vsvh1760-2MP-i-S-es1
   int *host_out1 = (int *)xrtBOMap(out_bo1);
 
   // input memory
-  xrtBufferHandle in_bo1 = xrtBOAlloc(dhdl, mem_size, 0, 2 /*group_id*/);
+  xrtBufferHandle in_bo1 =
+      xrtBOAlloc(dhdl, mem_size, 0, group_id_sendr /*group_id*/); // group_id = 0 passed on board xcvc2802-vsvh1760-2MP-i-S-es1
   int *host_in1 = (int *)xrtBOMap(in_bo1);
 
   std::cout << " memory allocation complete" << std::endl;
@@ -91,7 +113,7 @@ int main(int argc, char *argv[]) {
 
   int32_t num_pm = m_pl_ctrl.get_microcode_size(); /// sizeof(int32_t);
   xrtBufferHandle pm_bo =
-      xrtBOAlloc(dhdl, (num_pm + 1) * sizeof(uint32_t), 0, 2);
+      xrtBOAlloc(dhdl, (num_pm + 1) * sizeof(uint32_t), 0, group_id_ctrl); // group_id = 0 passed on board xcvc2802-vsvh1760-2MP-i-S-es1
   uint32_t *host_pm = (uint32_t *)xrtBOMap(pm_bo);
 
   m_pl_ctrl.copy_to_device_buff(host_pm + 1);
@@ -102,8 +124,6 @@ int main(int argc, char *argv[]) {
             /*OFFSET=*/0);
   std::cout << "sync pm buffer complete" << std::endl;
   // start sender_receiver kernels
-  xrtKernelHandle sender_receiver_k1 =
-      xrtPLKernelOpen(dhdl, uuid, "sender_receiver:{sender_receiver_1}");
   xrtRunHandle sender_receiver_r1 = xrtRunOpen(sender_receiver_k1);
   xrtRunSetArg(sender_receiver_r1, 0, num_iter);
   xrtRunSetArg(sender_receiver_r1, 1, num_sample);
@@ -122,8 +142,6 @@ int main(int argc, char *argv[]) {
   // char*)&num_sample,sizeof(int));
 
   // start pl controller
-  xrtKernelHandle controller_k1 =
-      xrtPLKernelOpen(dhdl, uuid, "pl_controller_top:{controller_1}");
   xrtRunHandle controller_r1 = xrtRunOpen(controller_k1);
   int ctrl_pkt_id = 0;
   xrtRunSetArg(controller_r1, 2, ctrl_pkt_id);
