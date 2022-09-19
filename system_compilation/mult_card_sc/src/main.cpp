@@ -25,6 +25,20 @@
         std::lock_guard<std::mutex> guard(g_cout_mutex); \
         std::cout << X << '\n';                          \
     }
+void hls_top_sw(char* buf, int sz, int* cnt) {
+    int lcl[26];
+    for (int i = 0; i < 26; i++) {
+        lcl[i] = 0;
+    }
+    for (int i = 0; i < sz; i++) {
+        char c = buf[i];
+        if (c >= 'a' && c <= 'z') c += 'A' - 'a';
+        if (c >= 'A' && c <= 'Z') lcl[c - 'A']++;
+    }
+    for (int i = 0; i < 26; i++) {
+        cnt[i] = lcl[i];
+    }
+}
 
 void run_sw(int argc, char** argv, std::map<std::string, int[26]>& cnt) {
     for (int arg = 2; arg < argc; arg++) {
@@ -45,7 +59,7 @@ void run_sw(int argc, char** argv, std::map<std::string, int[26]>& cnt) {
         int rv = pread(fd, buf, sz, 0);
         assert(rv == sz);
         auto& c = cnt[fn];
-        xacc::hls_top(buf, sz, c);
+        hls_top_sw(buf, sz, c);
         std::cout << "File " << fn << " on sw\n";
         for (int i = 0; i < 26; i++) {
             std::cout << ' ' << (char)('A' + i) << '=' << c[i];
