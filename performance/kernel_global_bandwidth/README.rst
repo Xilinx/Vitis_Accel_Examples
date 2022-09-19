@@ -24,6 +24,7 @@ Bandwidth test of global to local memory.
  - Alveo U50
  - Alveo U55
  - Versal VCK5000
+ - Versal V70
 
 .. raw:: html
 
