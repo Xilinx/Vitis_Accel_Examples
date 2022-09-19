@@ -22,7 +22,7 @@ XF_PROJ_ROOT = $(shell readlink -f $(COMMON_REPO))
 
 
 ########################## Checking if PLATFORM in allowlist #######################
-PLATFORM_BLOCKLIST += samsung u2_ vck zc nodma v70 
+PLATFORM_BLOCKLIST += samsung u2_ nodma v70 
 ifneq ($(TARGET),$(findstring $(TARGET), hw_emu))
 $(error Application supports only hw_emu TARGET. Please use the target for running the application)
 endif
@@ -38,7 +38,21 @@ else
 HOST_ARCH := x86
 endif
 
+ifeq ($(DEV_ARCH), zynquplus)
+ifeq ($(HOST_ARCH), aarch64)
+include makefile_zynqmp.mk
+else
 include makefile_us_alveo.mk
+endif
+else ifeq ($(DEV_ARCH), versal)
+ifeq ($(HOST_ARCH), x86)
+include makefile_versal_alveo.mk
+else
+include makefile_versal_ps.mk
+endif
+else
+include makefile_us_alveo.mk
+endif
 
 ############################## Help Section ##############################
 help:
