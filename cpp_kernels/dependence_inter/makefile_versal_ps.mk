@@ -75,6 +75,7 @@ VPP_PFLAGS :=
 CMD_ARGS = $(BUILD_DIR)/vconv.xclbin
 SD_CARD := $(PACKAGE_OUT)
 vck190_dfx_hw := false
+dfx_chk := $(shell $(XF_PROJ_ROOT)/common/utility/custom_dfx_check.sh $(PLATFORM) $(XF_PROJ_ROOT))
 
 ifeq ($(EMU_PS), X86)
 CXXFLAGS += -I$(XILINX_XRT)/include -I$(XILINX_VIVADO)/include -Wall -O0 -g -std=c++1y
@@ -149,7 +150,7 @@ endif
 sd_card: gen_run_app $(SD_CARD)
 
 $(SD_CARD): $(BUILD_DIR)/vconv.xclbin $(EXECUTABLE)
-ifeq ($(findstring vck190_base_dfx, $(PLATFORM)), vck190_base_dfx)
+ifeq ($(dfx_chk), true)
 ifeq ($(TARGET),$(filter $(TARGET), hw))
 	v++ $(VPP_FLAGS) -p $(LINK_OUTPUT) -o $(BUILD_DIR)/vconv.xclbin 
 	v++ $(VPP_PFLAGS) $(VPP_FLAGS) -p --package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.sd_file $(SD_IMAGE_FILE) --package.sd_file xrt.ini --package.sd_file $(RUN_APP_SCRIPT) --package.sd_file $(EXECUTABLE) --package.sd_file $(BUILD_DIR)/vconv.xclbin
