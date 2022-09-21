@@ -171,18 +171,8 @@ PACKAGING_CMD := v++ $(VPP_PFLAGS) -p -t $(TARGET) \
                  --platform $(PLATFORM) \
                  --package.out_dir $(PACKAGE_OUT) \
                  $(LINK_OUTPUT) $(GRAPH_O) -o $(XCLBIN)
-ifneq ($(TARGET),$(filter $(TARGET),sw_emu))
-PACKAGING_CMD += --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 \
-                 --package.image_format=ext4 \
-                 --package.boot_mode=sd \
-                 --package.kernel_image $(SD_IMAGE_FILE) \
-                 --package.sd_dir /proj/xbuilds/2022.2_daily_latest/internal_platforms/sw/versal/xrt \
-                 --package.sd_file $(RUN_APP_SCRIPT) \
-                 --package.sd_file ./emconfig.json \
-                 --package.sd_file aie_adder_hybrid_swemu
-else
 PACKAGING_CMD += --package.emu_ps x86
-endif
+
 ###################################################################################################
 
 
@@ -199,16 +189,9 @@ $(XCLBIN): $(GRAPH_O) $(KERNEL_XO) $(EXECUTABLE)
 # If the target is for HW, you'll have to follow the Confluence page for
 # running on a board farm system.
 run: all 
-ifeq ($(TARGET),$(filter $(TARGET),sw_emu))
 	$(ECHO) "To make Software Emulation run faster, we are running PS on x86."
 	XCL_EMULATION_MODE=$(TARGET) $(EXECUTABLE) $(CMD_ARGS)
-else
-ifeq ($(TARGET),$(filter $(TARGET),hw_emu))
-	$(LAUNCH_EMULATOR) -run-app $(RUN_APP_SCRIPT) | tee run_app.log; exit $${PIPESTATUS[0]}
-else
-	@echo "Hardware build, no emulation executed."
-endif
-endif
+
 ############################## Cleaning Rules ##############################
 # Cleaning stuff
 clean:

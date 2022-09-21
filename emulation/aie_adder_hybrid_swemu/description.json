@@ -28,8 +28,7 @@
         "dma"
     ],
     "targets": [
-        "sw_emu", 
-        "hw_emu"
+        "sw_emu" 
     ], 
     "os": [
         "Linux"
@@ -142,8 +141,7 @@
             }
         ],
         "targets": [
-            "vitis_sw_emu",
-            "vitis_hw_emu"
+            "vitis_sw_emu"
         ],
         "category": "canary"
     }
