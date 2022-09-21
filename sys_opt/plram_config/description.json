@@ -15,7 +15,10 @@
     ], 
     "platform_blocklist": [
         "zc",
-        "vck" 
+        "vck",
+        "u280",
+        "u55c",
+        "u55n" 
     ], 
     "os": [
         "Linux"
