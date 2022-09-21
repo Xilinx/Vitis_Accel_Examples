@@ -84,6 +84,7 @@ VPP_PFLAGS :=
 CMD_ARGS = $(BUILD_DIR)/vadd.xclbin
 SDCARD := sd_card
 vck190_dfx_hw := false
+dfx_chk := $(shell $(XF_PROJ_ROOT)/common/utility/custom_dfx_check.sh $(PLATFORM) $(XF_PROJ_ROOT))
 
 #Running sw_emu using x86 requires OpenCL compile and linker flags to be sourced from the XILINX_XRT
 #Running hw_emu, hw using QEMU requires OpenCL compile and linker flags to be sourced from the SYSROOT
@@ -190,7 +191,7 @@ endif
 #For sw_emu, sd_card generation is not required as runnning PS on x86
 sd_card: $(BINARY_CONTAINERS) $(EXECUTABLE) gen_run_app
 ifneq ($(TARGET),$(filter $(TARGET),sw_emu))
-ifeq ($(findstring vck190_base_dfx, $(PLATFORM)), vck190_base_dfx)
+ifeq ($(dfx_chk), true)
 ifeq ($(TARGET),$(filter $(TARGET), hw))
 	$(VPP) $(VPP_FLAGS) -p $(LINK_OUTPUT) -o vadd.xclbin 
 	$(VPP) $(VPP_PFLAGS) $(VPP_FLAGS) -p --package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.sd_file $(SD_IMAGE_FILE) --package.sd_file xrt.ini --package.sd_file $(RUN_APP_SCRIPT) --package.sd_file $(EXECUTABLE) --package.sd_file vadd.xclbin
