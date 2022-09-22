@@ -22,8 +22,8 @@ help:
 	$(ECHO) "  make all TARGET=<sw_emu/hw_emu/hw> PLATFORM=<FPGA platform> EDGE_COMMON_SW=<rootfs and kernel image path>"
 	$(ECHO) "      Command to generate the design for specified Target and Shell."
 	$(ECHO) ""
-	$(ECHO) "  make run TARGET=<sw_emu/hw_emu/hw> PLATFORM=<FPGA platform> EDGE_COMMON_SW=<rootfs and kernel image path>"
-	$(ECHO) "      Command to run application in emulation."
+	$(ECHO) "  make run TARGET=<sw_emu/hw_emu/hw> PLATFORM=<FPGA platform> EMU_PS=<X86/QEMU> EDGE_COMMON_SW=<rootfs and kernel image path>"
+	$(ECHO) "      Command to run application in emulation.Default sw_emu will run on x86 ,to launch on qemu specify EMU_PS=QEMU."
 	$(ECHO) ""
 	$(ECHO) "  make build TARGET=<sw_emu/hw_emu/hw> PLATFORM=<FPGA platform> EDGE_COMMON_SW=<rootfs and kernel image path>"
 	$(ECHO) "      Command to build xclbin application."
@@ -31,7 +31,7 @@ help:
 	$(ECHO) "  make sd_card TARGET=<sw_emu/hw_emu/hw> PLATFORM=<FPGA platform> EDGE_COMMON_SW=<rootfs and kernel image path>"
 	$(ECHO) "      Command to prepare sd_card files."
 	$(ECHO) ""
-	$(ECHO) "  make host EDGE_COMMON_SW=<rootfs and kernel image path>"
+	$(ECHO) "  make host TARGET=<sw_emu/hw_emu/hw> EDGE_COMMON_SW=<rootfs and kernel image path>"
 	$(ECHO) "      Command to build host application."
 	$(ECHO) "      EDGE_COMMON_SW is required for SoC shells. Please download and use the pre-built image from - "
 	$(ECHO) "      https://www.xilinx.com/support/download/index.html/content/xilinx/en/downloadNav/embedded-platforms.html"
@@ -48,11 +48,28 @@ endif
 TARGET := hw_emu
 SYSROOT := $(EDGE_COMMON_SW)/sysroots/cortexa72-cortexa53-xilinx-linux
 SD_IMAGE_FILE := $(EDGE_COMMON_SW)/Image
-CXX :=$(XILINX_VITIS)/gnu/aarch64/lin/aarch64-linux/bin/aarch64-linux-gnu-g++
+EMU_PS := QEMU
+ifeq ($(TARGET), sw_emu)
+EMU_PS := X86
+endif
+
+ifeq ($(EMU_PS),X86)
+CXX := g++
+else
+CXX := $(XILINX_VITIS)/gnu/aarch64/lin/aarch64-linux/bin/aarch64-linux-gnu-g++
+endif
+
+#Check for EMU_PS
+ifeq ($(TARGET), $(filter $(TARGET),hw_emu hw))
+ifeq ($(EMU_PS), X86)
+$(error For hw_emu and hw, the design has to run on QEMU. Thus, please give EMU_PS=QEMU for these targets.)
+endif
+endif
 
 # Makefile input options
 LINK_OUTPUT := adder.xsa
 XCLBIN := krnl_adder.xclbin
+
 
 # File names and locations
 GRAPH := src/aie/graph.cpp
@@ -87,7 +104,7 @@ AIE_INCLUDE_FLAGS := -include="$(XILINX_VITIS)/aietools/include" -include="./src
 AIE_FLAGS := $(AIE_INCLUDE_FLAGS) --pl-freq=100 -workdir=./Work
 
 ifeq ($(TARGET),sw_emu)
-	AIE_FLAGS += --target=x86sim
+	AIE_FLAGS += --target=x86sim -Xpreproc='-DNDEBUG'       
 else
 	AIE_FLAGS += --target=hw
 endif
@@ -113,11 +130,17 @@ GCC_LIB := -lxaiengine -ladf_api_xrt -lxrt_core -lxrt_coreutil \
 		   -L${XILINX_VITIS}/aietools/lib/aarch64.o
 
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu))
-        GCC_LIB := -ladf_api_xrt -lxrt_coreutil -L$(SYSROOT)/usr/lib --sysroot=$(SYSROOT) -L${XILINX_VITIS}/aietools/lib/aarch64.o
+ifeq ($(EMU_PS), X86)
+       GCC_LIB := -ladf_api_xrt -lxrt_coreutil -L${XILINX_VITIS}/aietools/lib/lnx64.o -L${XILINX_XRT}/lib
+       GCC_FLAGS := -Wall -c -std=c++14 -Wno-int-to-pointer-cast -I${XILINX_XRT}/include
+       GCC_INCLUDES := -I./src/aie -I./ -I${XILINX_VITIS}/aietools/include
+else
+       GCC_LIB := -ladf_api_xrt -lxrt_coreutil -L$(SYSROOT)/usr/lib --sysroot=$(SYSROOT) -L${XILINX_VITIS}/aietools/lib/aarch64.o
+endif
 endif
 
 .PHONY: all clean cleanall docs emconfig
-all: check-device check_edge_sw kernels graph build host sd_card 
+all: check-device kernels graph build host emconfig sd_card 
 
 ######################################################
 # This step compiles the HLS C kernels and creates an ADF Graph
@@ -156,7 +179,10 @@ $(LINK_OUTPUT): $(KERNEL_XO) $(GRAPH_O)
 # For hardware and hardware emulation, compile the PS code and generate the aie_adder executable. This is needed for creating the sd_card.
 host: $(EXECUTABLE)
 
-$(EXECUTABLE): $(HOST_SRCS)  
+$(EXECUTABLE): $(HOST_SRCS) 
+ifneq ($(EMU_PS), X86)
+	make check_edge_sw
+endif 
 		$(CXX) $(GCC_FLAGS) $(GCC_INCLUDES) -o aie_control_xrt.o ./Work/ps/c_rts/aie_control_xrt.cpp
 		$(CXX) $(HOST_SRCS) $(GCC_FLAGS) $(GCC_INCLUDES) -o main.o
 		$(CXX) *.o $(GCC_LIB) -o $(EXECUTABLE)
@@ -169,6 +195,13 @@ sd_card: check-device gen_run_app $(XCLBIN)
 
 $(XCLBIN): $(GRAPH_O) $(KERNEL_XO) $(EXECUTABLE)
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
+ifeq ($(EMU_PS), X86)
+	v++ $(VPP_PFLAGS) -p -t $(TARGET) \
+                 --package.defer_aie_run \
+                 --platform $(PLATFORM) \
+                 --package.out_dir $(PACKAGE_OUT) \
+                 $(LINK_OUTPUT) $(GRAPH_O) -o $(XCLBIN)
+else
 	v++ $(VPP_PFLAGS) -p -t $(TARGET) \
 		--platform $(PLATFORM) \
 		--package.out_dir $(PACKAGE_OUT) \
@@ -181,6 +214,7 @@ ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 		--package.sd_file $(RUN_APP_SCRIPT) \
 		--package.sd_file aie_adder $(LINK_OUTPUT) $(GRAPH_O) -o $(XCLBIN)
 	@echo "COMPLETE: emulation package created."
+endif
 else
 ifeq ($(findstring vck190_base_dfx, $(PLATFORM)), vck190_base_dfx)
 	v++ $(VPP_FLAGS) -t hw --platform $(PLATFORM) -p $(LINK_OUTPUT) --package.defer_aie_run -o $(XCLBIN) 
@@ -209,7 +243,11 @@ endif
 # running on a board farm system.
 run: all 
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
+ifeq ($(EMU_PS), X86)
+	XCL_EMULATION_MODE=$(TARGET) $(EXECUTABLE) $(CMD_ARGS)
+else
 	$(LAUNCH_EMULATOR) -run-app $(RUN_APP_SCRIPT) | tee run_app.log; exit $${PIPESTATUS[0]}
+endif
 else
 	@echo "Hardware build, no emulation executed."
 endif
