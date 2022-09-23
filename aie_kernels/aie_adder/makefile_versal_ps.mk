@@ -87,6 +87,7 @@ PACKAGE_OUT = ./package.$(TARGET)
 
 LAUNCH_EMULATOR = $(PACKAGE_OUT)/launch_$(TARGET).sh
 RESULT_STRING = TEST PASSED
+CMD_ARGS = krnl_adder.xclbin
 
 CONFIG_FILE := system.cfg
 include ./utils.mk
@@ -140,7 +141,14 @@ endif
 endif
 
 .PHONY: all clean cleanall docs emconfig
-all: check-device kernels graph build host emconfig sd_card 
+ifeq ($(EMU_PS), X86)
+all: check-device kernels graph build host emconfig sd_card
+else
+all:  check-device check_edge_sw kernels graph build host emconfig sd_card
+endif
+
+emconfig:
+	emconfigutil --platform $(PLATFORM) --od .
 
 ######################################################
 # This step compiles the HLS C kernels and creates an ADF Graph
