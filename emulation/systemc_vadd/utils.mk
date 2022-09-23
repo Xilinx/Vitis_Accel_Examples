@@ -17,10 +17,6 @@ ifeq ($(DEBUG), yes)
 VPP_LDFLAGS += --dk list_ports
 endif
 
-ifneq ($(TARGET), hw)
-VPP_FLAGS += -g
-endif
-
 ############################## Setting up Project Variables ##############################
 # Points to top directory of Git repository
 MK_PATH := $(abspath $(lastword $(MAKEFILE_LIST)))
