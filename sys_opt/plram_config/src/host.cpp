@@ -75,12 +75,9 @@ int main(int argc, char** argv) {
     }
 
     // Allocate Buffer in Global Memory
-    OCL_CHECK(err, cl::Buffer buffer_in1(context, CL_MEM_READ_ONLY, vector_size_bytes,
-                                         nullptr, &err));
-    OCL_CHECK(err, cl::Buffer buffer_in2(context, CL_MEM_READ_ONLY, vector_size_bytes,
-                                         nullptr, &err));
-    OCL_CHECK(err, cl::Buffer buffer_output(context, CL_MEM_WRITE_ONLY, vector_size_bytes,
-                                            nullptr, &err));
+    OCL_CHECK(err, cl::Buffer buffer_in1(context, CL_MEM_READ_ONLY, vector_size_bytes, nullptr, &err));
+    OCL_CHECK(err, cl::Buffer buffer_in2(context, CL_MEM_READ_ONLY, vector_size_bytes, nullptr, &err));
+    OCL_CHECK(err, cl::Buffer buffer_output(context, CL_MEM_WRITE_ONLY, vector_size_bytes, nullptr, &err));
 
     int size = DATA_SIZE;
     OCL_CHECK(err, err = krnl_vector_add.setArg(0, buffer_in1));
