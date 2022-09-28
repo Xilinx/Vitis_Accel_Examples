@@ -36,6 +36,9 @@ endif
 CXXFLAGS += -std=c++17 -I$(XILINX_HLS)/include/ -I$(XILINX_VIVADO)/include/ -I${XILINX_XRT}/include/ -g -Wall -c -fmessage-length=0 -I${XILINX_VITIS}/aietools/include ${HOST_INC}
 CXXFLAGS += -DPL_CTRL_AXIMM_CH_NUM=$(PL_CTRL_AXIMM_CH_NUM)
 
+CXXFLAGS += -D$(TEST_FLOW)
+$(info "$(CXXFLAGS)")
+
 LDFLAGS += -lgcc -lc -lxilinxopencl -lxrt_coreutil -lpthread -lrt -ldl -lcrypt -lstdc++ -L${XILINX_XRT}/lib/ -Wl,-rpath-link,$(XILINX_XRT)/lib
 
 .PHONY: clean

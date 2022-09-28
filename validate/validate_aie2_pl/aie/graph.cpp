@@ -22,9 +22,9 @@ using namespace adf;
 
 simpleGraph mygraph;
 
-PLIO *din0 = new PLIO("Datain0", plio_32_bits, "data/input0.txt");
-PLIO *dout0 = new PLIO("Dataout0", plio_32_bits, "data/output0.txt");
-PLIO *ctrlIn = new PLIO("Ctrlin0", plio_32_bits, "data/ctrlIn.txt");
+PLIO* din0 = new PLIO("Datain0", plio_32_bits, "data/input0.txt");
+PLIO* dout0 = new PLIO("Dataout0", plio_32_bits, "data/output0.txt");
+PLIO* ctrlIn = new PLIO("Ctrlin0", plio_32_bits, "data/ctrlIn.txt");
 
 simulation::platform<2, 1> platform(din0, ctrlIn, dout0);
 
@@ -33,23 +33,21 @@ connect<> net1(mygraph.out0, platform.sink[0]);
 connect<> net2(platform.src[1], mygraph.ctrl_in);
 
 #if defined(__AIESIM__) || defined(__ADF_FRONTEND__)
-int main(int argc, char **argv) {
-  mygraph.init();
+int main(int argc, char** argv) {
+    mygraph.init();
 
-  std::cout << "main(): Starting first graph run sequence..." << std::endl;
-  mygraph.run(NUM_ITERATIONS1);
-  std::cout << "main(): Waiting for first graph run sequence to finish..."
-            << std::endl;
-  mygraph.wait();
-  std::cout << "main(): Done with first graph run sequence." << std::endl;
+    std::cout << "main(): Starting first graph run sequence..." << std::endl;
+    mygraph.run(NUM_ITERATIONS1);
+    std::cout << "main(): Waiting for first graph run sequence to finish..." << std::endl;
+    mygraph.wait();
+    std::cout << "main(): Done with first graph run sequence." << std::endl;
 
-  std::cout << "main(): Starting second graph run sequence..." << std::endl;
-  mygraph.run(NUM_ITERATIONS2);
-  std::cout << "main(): Waiting for second graph run sequence to finish..."
-            << std::endl;
-  mygraph.end();
-  std::cout << "main(): Done with second graph run sequence." << std::endl;
+    std::cout << "main(): Starting second graph run sequence..." << std::endl;
+    mygraph.run(NUM_ITERATIONS2);
+    std::cout << "main(): Waiting for second graph run sequence to finish..." << std::endl;
+    mygraph.end();
+    std::cout << "main(): Done with second graph run sequence." << std::endl;
 
-  return 0;
+    return 0;
 }
 #endif
