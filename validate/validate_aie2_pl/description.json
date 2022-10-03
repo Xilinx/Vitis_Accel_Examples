@@ -7,6 +7,8 @@
     "platform_whitelist": [
         "v70"
     ],
+    "match_makefile" : "false",
+    "match_ini" : "false",
     "platform_blacklist": [
         "other"
     ],
