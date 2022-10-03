@@ -29,6 +29,7 @@ This example showcases how to configure various PLRAM parameters like Memory Siz
  - Alveo U280
  - Alveo U55c
  - Alveo U55n
+ - Samsung U.2 SmartSSD
 
 .. raw:: html
 
