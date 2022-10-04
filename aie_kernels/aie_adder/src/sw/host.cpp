@@ -21,8 +21,8 @@
 #include <fstream>
 
 // This is used for the PL Kernels
-#include "xrt/xrt.h"
-#include "xrt/experimental/xrt_kernel.h"
+#include "xrt.h"
+#include "experimental/xrt_kernel.h"
 
 // Using the ADF API that call XRT API
 #include "adf/adf_api/XRTConfig.h"
