@@ -16,6 +16,7 @@
 #include "stream_krnl.hpp"
 
 void fsk_acc::ldst(int* A, int* X, int sz, hls::stream<AXI>& AS, hls::stream<AXI>& XS) {
+ #pragma HLS PIPELINE
     for (int i = 0; i < sz; i++) {
         AXI ld;
         ld.data = A[i];
@@ -24,7 +25,7 @@ void fsk_acc::ldst(int* A, int* X, int sz, hls::stream<AXI>& AS, hls::stream<AXI
     }
 
     AXI st{0};
-    for (int i = 0; i < sz; i++) {
+    for (int i = 0; !st.last; i++) {
         st = XS.read();
         X[i] = st.data;
     }
