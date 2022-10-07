@@ -14,10 +14,10 @@
     ], 
     "platform_blocklist": [
         "flat",
-        "zcu102_base_20",
+        "zcu102",
         "zcu104_base_20",
         "vck5000",
-        "vck190_base_20",
+        "vck190",
         "vck190_base_pci",
         "zc7",
         "nodma"

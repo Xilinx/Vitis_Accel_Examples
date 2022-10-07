@@ -94,7 +94,7 @@ endif
 endif
 
 ########################## Checking if PLATFORM in allowlist #######################
-PLATFORM_BLOCKLIST += flat zcu102_base_20 zcu104_base_20 vck5000 vck190_base_20 vck190_base_pci zc7 nodma 
+PLATFORM_BLOCKLIST += flat zcu102 zcu104_base_20 vck5000 vck190 vck190_base_pci zc7 nodma 
 ############################## Setting up Host Variables ##############################
 #Include Required Host Source Files
 CXXFLAGS += -I$(XF_PROJ_ROOT)/common/includes/xcl2
