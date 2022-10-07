@@ -26,10 +26,10 @@ help::
 	$(ECHO) "  make baremetal_elf"
 	$(ECHO) "      Command to generate standalone elf as per user application."
 	$(ECHO) ""
-	$(ECHO) "  make all TARGET=<hw_emu> EXTENSIBLE_XSA=<user XSA file> HOST_ARCH=<aarch64>"
+	$(ECHO) "  make all TARGET=<hw_emu> EXTENSIBLE_XSA=<user XSA file>"
 	$(ECHO) "      Command to generate the baremetal system for specified Target and Shell."
 	$(ECHO) ""
-	$(ECHO) "  make run TARGET=<hw_emu> EXTENSIBLE_XSA=<user XSA file> HOST_ARCH=<aarch64>"
+	$(ECHO) "  make run TARGET=<hw_emu> EXTENSIBLE_XSA=<user XSA file>"
 	$(ECHO) "      Command to run the user application."
 	$(ECHO) ""
 	$(ECHO) "  make clean "
@@ -50,7 +50,6 @@ XF_PROJ_ROOT = $(shell readlink -f $(COMMON_REPO))
 TARGET := hw_emu
 
 EXTENSIBLE_XSA ?= $(PLATFORM_REPO_PATHS)/xilinx_vck190_base_202220_1/hw_emu/hw_emu.xsa 
-PLATFORM := $(EXTENSIBLE_XSA)
  
 APP_NAME := vck190_fixed
 WORKSPACE_FIXED := workspace_fixed
@@ -125,11 +124,11 @@ $(GRAPH_O): $(GRAPH)
 
 # XO generation
 %.xo: pl_kernels/%.cpp
-	$(VPP) -c -t $(TARGET) --platform $(PLATFORM) $(VPP_FLAGS) -k $(basename $(notdir $<)) $< -o $@	
+	$(VPP) -c -t $(TARGET) --platform $(EXTENSIBLE_XSA) $(VPP_FLAGS) -k $(basename $(notdir $<)) $< -o $@	
 
 # Fixed XSA generation
 $(FIXED_XSA): $(GRAPH_O) $(PL_O) 
-	$(VPP) -l -t $(TARGET) --platform $(PLATFORM) $(VPP_FLAGS) $(GRAPH_O) $(PL_O) --config system.cfg \
+	$(VPP) -l -t $(TARGET) --platform $(EXTENSIBLE_XSA) $(VPP_FLAGS) $(GRAPH_O) $(PL_O) --config system.cfg \
 	--vivado.prop fileset.sim_1.xsim.simulate.runtime=400us -o $@
 
 # Fixed workspace creation with standalone domain
