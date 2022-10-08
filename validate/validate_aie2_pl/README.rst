@@ -59,7 +59,8 @@ Once the environment has been configured, the application can be executed by
 
 ::
 
-   ./main.exe final.xclbin ./Work/ps/c_rts/aie_control_config.json ./Work/reports/dma_lock_report.json
+   make xclbin TARGET=hw PLATFORM=<path to local xpfm>
+   ./host.exe final.xclbin ./Work/ps/c_rts/aie_control_config.json ./Work/reports/dma_lock_report.json
 
 If application can be executed successfully, you will get the list just showing below,
 
@@ -81,24 +82,50 @@ If application can be executed successfully, you will get the list just showing 
 
 .. code::
 
-   kernel set argument done
-   bo sync to device done
-   kernel started
-   Waiting PL controller done.....
-   PL controller done!
-   Graph wait done
-   INFO::[ Vitis-EM 22 ] [Time elapsed: 21 minute(s) 16 seconds, Emulation time: 0.378542 ms]
-   Data transfer between kernel(s) and global memory(s)
-   controller_1:m_axi_gmem_aie_ctrl-S_AXI_AIE          RD = 14.344 KB              WR = 1.852 KB        
-   controller_1:m_axi_gmem_aie_ctrl2-DDR          RD = 0.000 KB               WR = 0.000 KB        
-   controller_1:m_axi_gmem_cfg-DDR          RD = 0.055 KB               WR = 0.000 KB        
-   controller_1:m_axi_gmem_out-DDR          RD = 0.000 KB               WR = 0.004 KB        
-   controller_1:m_axi_gmem_ucode-DDR          RD = 3.285 KB               WR = 0.000 KB        
+   Xclbin Load successful!
+   UUID Load successful!
+   memory allocation complete
+   sync pm buffer complete
+   start sender-receiver kernel
+   start pl controller kernel
+   host_out1[0]=1
+   host_out1[1]=2
+   host_out1[2]=3
+   host_out1[3]=4
+   host_out1[4]=5
+   host_out1[5]=6
+   host_out1[6]=7
+   host_out1[7]=8
+   host_out1[8]=9
+   host_out1[9]=10
+   host_out1[10]=11
+   host_out1[11]=12
+   host_out1[12]=13
+   host_out1[13]=14
+   host_out1[14]=15
+   host_out1[15]=16
+   host_out1[16]=17
+   host_out1[17]=18
+   host_out1[18]=19
+   host_out1[19]=20
+   host_out1[20]=21
+   host_out1[21]=22
+   host_out1[22]=23
+   host_out1[23]=24
+   host_out1[24]=25
+   host_out1[25]=26
+   host_out1[26]=27
+   host_out1[27]=28
+   host_out1[28]=29
+   host_out1[29]=30
+   host_out1[30]=31
+   host_out1[31]=32
+   qemu-system-microblazeel: /ps_pmc_rp@0: Disconnected clk=26532985404 ns
    
-   check: nerr=0
-   qemu-system-microblazeel: /ps_pmc_rp@0: Disconnected clk=1264875165098 ns
-   
-   Test passed
+   INFO: [HW-EMU 06-0] Waiting for the simulator process to exit
+   INFO: [HW-EMU 06-1] All the simulator processes exited successfully
+   INFO: [HW-EMU 07-0] Please refer the path "*/validate/validate_aie2_pl/build_dir.hw_emu.xilinx_v70_gen5x8_qdma_2_202220_1/.run/78892/hw_em/device0/binary_0/behav_waveform/xsim/simulate.log" for more detailed simulation infos, errors and warnings.
+   TEST PASSEDTest passed
 
 .. raw:: html
 
