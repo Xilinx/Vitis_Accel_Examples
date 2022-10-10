@@ -5,11 +5,15 @@
     ],
     "flow": "vitis",
     "config_make": "config.mk",
+    "match_makefile": "false",
     "keywords": [
         "emulationMode=func" 
     ], 
     "key_concepts": [
         "Emulation Functional mode" 
+    ],
+     "platform_blocklist": [
+        "vck190_base_dfx"
     ],
     "targets": [
         "hw_emu"
