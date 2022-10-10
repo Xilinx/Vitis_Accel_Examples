@@ -94,7 +94,8 @@ In the Makefile, add the VPP flags at v++ link
         $(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) $(VPP_LDFLAGS_krnl_stream_vadd_vmult) -o'$(LINK_OUTPUT)   
 
 3. In the xrt.ini file, enable the PL deadlock detection for intra kernel deadlock diagnosis - 
-    .. code:: cpp
+
+    ::
         [Debug] 
         pl_deadlock_detction=true
 
