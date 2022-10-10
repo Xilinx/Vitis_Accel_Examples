@@ -28,15 +28,14 @@ using namespace adf;
 using namespace std;
 
 int main(int argc, char* argv[]) {
-    if (argc != 4) {
-        std::cout << "Usage: " << argv[0] << " <xclbin, aie_ctrl_file, dma_lock_file>" << std::endl;
+    if (argc != 2) {
+        std::cout << "Usage: " << argv[0] << " <xclbin>" << std::endl;
         return EXIT_FAILURE;
     }
     char* xclbinFilename = argv[1];
-    char* aie_ctrl_file = argv[2];
-    char* dma_lock_file = argv[3];
+
     // instance of plController
-    xf::plctrl::plController m_pl_ctrl(aie_ctrl_file, dma_lock_file);
+    xf::plctrl::plController m_pl_ctrl("aie_control_config.json", "dma_lock_report.json");
 
     int num_iter = 1;
     int num_sample = 32;
@@ -172,9 +171,9 @@ int main(int argc, char* argv[]) {
     // post-processing data;
     int i;
     for (i = 0; i < mem_size / sizeof(int); i++) {
-        // if (*(host_out1 + i) != *(host_in1 + i) + 1) {
+        //if (*(host_out1 + i) != *(host_in1 + i) + 1) {
         //    match = 1;
-        std::cout << "host_out1[" << i << "]=" << host_out1[i] << std::endl;
+            std::cout << "host_out1[" << i << "]=" << host_out1[i] << std::endl;
         //}
     }
     // release memory
