@@ -20,16 +20,16 @@
 
 help::
 	$(ECHO) "Makefile Usage:"
-	$(ECHO) "  make fixed_xsa TARGET=<hw_emu> EXTENSIBLE_XSA=<user XSA file>"
+	$(ECHO) "  make fixed_xsa EXTENSIBLE_XSA=<user XSA file>"
 	$(ECHO) "      Command to build the fixed xsa from v++ link with an extensible XSA."
 	$(ECHO) ""
 	$(ECHO) "  make baremetal_elf"
 	$(ECHO) "      Command to generate standalone elf as per user application."
 	$(ECHO) ""
-	$(ECHO) "  make all TARGET=<hw_emu> EXTENSIBLE_XSA=<user XSA file>"
+	$(ECHO) "  make all EXTENSIBLE_XSA=<user XSA file>"
 	$(ECHO) "      Command to generate the baremetal system for specified Target and Shell."
 	$(ECHO) ""
-	$(ECHO) "  make run TARGET=<hw_emu> EXTENSIBLE_XSA=<user XSA file>"
+	$(ECHO) "  make run EXTENSIBLE_XSA=<user XSA file>"
 	$(ECHO) "      Command to run the user application."
 	$(ECHO) ""
 	$(ECHO) "  make clean "
@@ -50,7 +50,6 @@ PWD = $(shell readlink -f .)
 XF_PROJ_ROOT = $(shell readlink -f $(COMMON_REPO))
 
 # Makefile input options
-TARGET := hw_emu
 
 EXTENSIBLE_XSA ?= $(PLATFORM_REPO_PATHS)/xilinx_vck190_base_202220_1/hw_emu/hw_emu.xsa 
 
@@ -70,9 +69,9 @@ HOST_OBJ := main.o
 EXECUTABLE := main.elf
 
 # SoC variables
-PACKAGE_OUT := ./package.$(TARGET)
+PACKAGE_OUT := ./package.hw_emu
 PACKAGE_DIR := $(PACKAGE_OUT)
-LAUNCH_EMULATOR := $(PACKAGE_OUT)/launch_$(TARGET).sh
+LAUNCH_EMULATOR := $(PACKAGE_OUT)/launch_hw_emu.sh
 
 ########################## Checking if PLATFORM in whitelist #######################
 PLATFORM_BLOCKLIST += samsung u2_ zc nodma  
@@ -111,7 +110,7 @@ LDFLAGS += --start-group,-lxil,-lgcc,-lc,-lstdc++,--end-group
 
 # Fixed XSA generation
 $(FIXED_XSA):  
-	$(VPP) -l $(VPP_FLAGS) -t $(TARGET) --platform $(EXTENSIBLE_XSA) \
+	$(VPP) -l $(VPP_FLAGS) -t hw_emu --platform $(EXTENSIBLE_XSA) \
 	--advanced.param compiler.addOutputTypes=hw_export \
 	--vivado.prop fileset.sim_1.xsim.simulate.runtime=400us -o $@
 
@@ -132,7 +131,7 @@ $(EXECUTABLE): $(WORKSPACE_FIXED) $(HOST_OBJ)
 
 # v++ packaging using fixed platform
 $(PACKAGE_DIR): $(EXECUTABLE)
-	$(VPP) -p -t $(TARGET) --platform $(FIXED_PLATFORM) \
+	$(VPP) -p -t hw_emu --platform $(FIXED_PLATFORM) \
 	--package.out_dir $(PACKAGE_OUT) \
 	--package.boot_mode sd \
 	--package.ps_elf $(EXECUTABLE),a72-0 
