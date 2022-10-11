@@ -14,8 +14,6 @@
     "platform_blocklist": [
         "samsung",
         "u2_",
-        "vck",
-        "zc",
         "nodma",
         "v70"
     ],
@@ -28,7 +26,6 @@
     "runtime": [
         "OpenCL"
     ],
-    "platform_type": "pcie", 
     "host": {
         "linker": {
             "options": "-pthread"

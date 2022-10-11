@@ -49,13 +49,14 @@ include ./utils.mk
 TEMP_DIR := ./_x.$(TARGET).$(XSA)
 BUILD_DIR := ./build_dir.$(TARGET).$(XSA)
 
-LINK_OUTPUT := $(BUILD_DIR)/krnl_stream_vadd_vmult.link.xclbin
+LINK_OUTPUT := $(BUILD_DIR)/krnl_stream_vadd_vmult.link.xsa
 PACKAGE_OUT = ./package.$(TARGET)
 
 VPP_PFLAGS := 
 CMD_ARGS = $(BUILD_DIR)/krnl_stream_vadd_vmult.xclbin
 CXXFLAGS += -I$(XILINX_XRT)/include -I$(XILINX_VIVADO)/include -Wall -O0 -g -std=c++1y
 LDFLAGS += -L$(XILINX_XRT)/lib -pthread -lOpenCL
+
 
 ########################## Checking if PLATFORM in allowlist #######################
 PLATFORM_BLOCKLIST += samsung u2_ nodma v70 
@@ -108,7 +109,7 @@ $(BUILD_DIR)/krnl_stream_vadd_vmult.xclbin: $(TEMP_DIR)/krnl_stream_vadd.xo $(TE
 
 ############################## Setting Rules for Host (Building Host Executable) ##############################
 $(EXECUTABLE): $(HOST_SRCS) | check-xrt
-		g++ -o $@ $^ $(CXXFLAGS) $(LDFLAGS)
+	g++ -o $@ $^ $(CXXFLAGS) $(LDFLAGS)
 
 emconfig:$(EMCONFIG_DIR)/emconfig.json
 $(EMCONFIG_DIR)/emconfig.json:
@@ -126,6 +127,7 @@ ifneq ($(TARGET),$(findstring $(TARGET), hw_emu))
 $(error Application supports only hw_emu TARGET. Please use the target for running the application)
 endif
 
+
 .PHONY: test
 test: $(EXECUTABLE)
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
@@ -136,6 +138,7 @@ endif
 ifneq ($(TARGET),$(findstring $(TARGET), hw_emu))
 $(warning WARNING:Application supports only hw_emu TARGET. Please use the target for running the application)
 endif
+
 
 
 ############################## Cleaning Rules ##############################
