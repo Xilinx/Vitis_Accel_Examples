@@ -25,7 +25,7 @@ This example shows how HLS introduces the capability of resizing the port width 
 
  - All NoDMA Platforms, i.e u50 nodma etc
  - Samsung U.2 SmartSSD
- - Versal DFX platform
+ - Versal VCK190
 
 .. raw:: html
 

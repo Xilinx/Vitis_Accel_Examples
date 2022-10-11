@@ -18,7 +18,8 @@
         "Cyclic Partition"
     ],
     "platform_blocklist": [
-        "nodma"
+        "nodma",
+        "vck190_base_dfx"
      ],    
     "os": [
         "Linux"
