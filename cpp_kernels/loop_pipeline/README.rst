@@ -24,6 +24,7 @@ This example demonstrates how loop pipelining can be used to improve the perform
 ..
 
  - All NoDMA Platforms, i.e u50 nodma etc
+ - All ZCU102 Base Platforms
 
 .. raw:: html
 
