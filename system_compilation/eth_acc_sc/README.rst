@@ -29,6 +29,10 @@ This is simple example showcasing custom AXI-streams to PE interfaces in system 
  - AWS VU9P F1
  - All NoDMA Platforms, i.e u50 nodma etc
  - Versal V70
+ - Alveo U50
+ - Alveo U280
+ - Alveo U250
+ - Alveo U200
 
 .. raw:: html
 

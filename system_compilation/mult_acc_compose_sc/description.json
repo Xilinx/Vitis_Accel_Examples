@@ -13,6 +13,8 @@
     ],
     "platform_blocklist": [
         "zc",
+        "u200",
+        "u50",
         "vck",
         "aws",
         "nodma"

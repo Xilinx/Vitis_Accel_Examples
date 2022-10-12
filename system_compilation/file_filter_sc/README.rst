@@ -25,6 +25,8 @@ This is simple example showcasing the P2P and H2C file transfers in system compi
 
  - All NoDMA Platforms, i.e u50 nodma etc
  - All Embedded Zynq Platforms, i.e zc702, zcu102 etc
+ - Alveo U50
+ - Alveo U200
  - All Versal Platforms, i.e vck190 etc
  - Samsung U.2 SmartSSD
  - Alveo U25 SmartNIC

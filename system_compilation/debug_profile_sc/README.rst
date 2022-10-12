@@ -24,6 +24,8 @@ This simple example implements a HW pipeline of three tasks, matrix multiplicati
 ..
 
  - All NoDMA Platforms, i.e u50 nodma etc
+ - Alveo U50
+ - Alveo U250
  - All Embedded Zynq Platforms, i.e zc702, zcu102 etc
  - All Versal Platforms, i.e vck190 etc
  - Alveo U55
