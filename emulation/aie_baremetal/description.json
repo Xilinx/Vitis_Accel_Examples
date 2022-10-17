@@ -127,7 +127,7 @@
         "env_vars": [
                 {
                 "_JAVA_OPTIONS": "-Duser.home=./config_area", 
-                "DISPLAY: ""
+                "DISPLAY": ""
                 }
         ]
     }
