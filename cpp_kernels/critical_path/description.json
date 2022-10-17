@@ -9,7 +9,8 @@
         "Improve Timing"
     ],
     "platform_blocklist": [
-        "nodma"
+        "nodma",
+        "u50lv"
      ],
     "os": [
         "Linux"

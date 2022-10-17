@@ -24,6 +24,8 @@ In this example we have multiple accelerators in one xclbin, and compose them in
 ..
 
  - All Embedded Zynq Platforms, i.e zc702, zcu102 etc
+ - Alveo U200
+ - Alveo U50
  - All Versal Platforms, i.e vck190 etc
  - AWS VU9P F1
  - All NoDMA Platforms, i.e u50 nodma etc

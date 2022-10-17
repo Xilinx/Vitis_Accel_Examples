@@ -118,6 +118,9 @@ ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 else
 	$(EXECUTABLE) $(CMD_ARGS)
 endif
+ifneq ($(TARGET),$(findstring $(TARGET), hw hw_emu))
+$(error Application supports only hw hw_emu TARGET. Please use the target for running the application)
+endif
 
 .PHONY: test
 test: $(EXECUTABLE)
@@ -126,6 +129,10 @@ ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 else
 	$(EXECUTABLE) $(CMD_ARGS)
 endif
+ifneq ($(TARGET),$(findstring $(TARGET), hw hw_emu))
+$(warning WARNING:Application supports only hw hw_emu TARGET. Please use the target for running the application)
+endif
+
 
 ############################## Cleaning Rules ##############################
 # Cleaning stuff

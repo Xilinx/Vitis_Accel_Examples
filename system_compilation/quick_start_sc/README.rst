@@ -24,6 +24,10 @@ This is quick start example based on a video filtering usecase to describe syste
 ..
 
  - Alveo U25 SmartNIC
+ - Alveo U50
+ - Alveo U200
+ - Alveo U55c
+ - Alveo U280
  - All NoDMA Platforms, i.e u50 nodma etc
  - All Embedded Zynq Platforms, i.e zc702, zcu102 etc
  - All Versal Platforms, i.e vck190 etc

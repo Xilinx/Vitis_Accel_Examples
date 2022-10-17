@@ -57,7 +57,7 @@ include ./utils.mk
 TEMP_DIR := ./_x.$(TARGET).$(XSA)
 BUILD_DIR := ./build_dir.$(TARGET).$(XSA)
 
-LINK_OUTPUT := $(BUILD_DIR)/krnl_port_widen.link.xclbin
+LINK_OUTPUT := $(BUILD_DIR)/krnl_stream_vadd_vmult.link.xclbin
 
 EMU_PS := QEMU
 ifeq ($(TARGET), sw_emu)
@@ -72,7 +72,7 @@ LAUNCH_EMULATOR = $(PACKAGE_OUT)/launch_$(TARGET).sh
 RESULT_STRING = TEST PASSED
 
 VPP_PFLAGS := 
-CMD_ARGS = $(BUILD_DIR)/krnl_port_widen.xclbin
+CMD_ARGS = $(BUILD_DIR)/krnl_stream_vadd_vmult.xclbin
 SD_CARD := $(PACKAGE_OUT)
 
 ifeq ($(EMU_PS), X86)
@@ -95,74 +95,68 @@ endif
 endif
 
 ########################## Checking if PLATFORM in allowlist #######################
-PLATFORM_BLOCKLIST += nodma u2_ vck190 zcu102_base_20 
+PLATFORM_BLOCKLIST += samsung u2_ nodma v70 
 ############################## Setting up Host Variables ##############################
 #Include Required Host Source Files
 CXXFLAGS += -I$(XF_PROJ_ROOT)/common/includes/xcl2
-HOST_SRCS += $(XF_PROJ_ROOT)/common/includes/xcl2/xcl2.cpp ./src/host.cpp 
+HOST_SRCS += $(XF_PROJ_ROOT)/common/includes/xcl2/xcl2.cpp src/host.cpp 
 # Host compiler global settings
 CXXFLAGS += -fmessage-length=0
 LDFLAGS += -lrt -lstdc++ 
+LDFLAGS += -pthread
 ifneq ($(EMU_PS), X86)
 LDFLAGS += --sysroot=$(SYSROOT)
 endif
 ############################## Setting up Kernel Variables ##############################
 # Kernel compiler global settings
-VPP_FLAGS += 
 VPP_FLAGS += -t $(TARGET) --platform $(PLATFORM) --save-temps 
-VPP_FLAGS_dot_product_4 +=  --config krnl_dot_product_4.cfg
+VPP_FLAGS_krnl_stream_vadd +=  --config krnl_compile.cfg
+VPP_FLAGS_krnl_stream_vmult +=  --config krnl_compile.cfg
 
 
-EXECUTABLE = ./port_width_widening
+# Kernel linker flags
+VPP_LDFLAGS_krnl_stream_vadd_vmult += --config ./krnl_stream_vadd_vmult.cfg --config krnl_link.cfg
+EXECUTABLE = ./deadlock_streaming_k2k_mm
 EMCONFIG_DIR = $(TEMP_DIR)
 
 ############################## Setting Targets ##############################
 .PHONY: all clean cleanall docs emconfig
 ifeq ($(EMU_PS), X86)
-all: check-platform check-device $(EXECUTABLE) $(BUILD_DIR)/krnl_port_widen.xclbin emconfig
+all: check-platform check-device $(EXECUTABLE) $(BUILD_DIR)/krnl_stream_vadd_vmult.xclbin emconfig
 else
-all: check-platform check-device check_edge_sw $(EXECUTABLE) $(BUILD_DIR)/krnl_port_widen.xclbin emconfig sd_card
+all: check-platform check-device check_edge_sw $(EXECUTABLE) $(BUILD_DIR)/krnl_stream_vadd_vmult.xclbin emconfig sd_card
 endif
 
 .PHONY: host
 host: $(EXECUTABLE)
 
 .PHONY: build
-build: check-vitis check-device $(BUILD_DIR)/krnl_port_widen.xclbin
+build: check-vitis check-device $(BUILD_DIR)/krnl_stream_vadd_vmult.xclbin
 
 .PHONY: xclbin
 xclbin: build
 
 ############################## Setting Rules for Binary Containers (Building Kernels) ##############################
-$(TEMP_DIR)/dot_product_1.xo: src/dot_product_1.cpp
+$(TEMP_DIR)/krnl_stream_vadd.xo: src/krnl_stream_vadd.cpp
 	mkdir -p $(TEMP_DIR)
-	v++ $(VPP_FLAGS) -c -k dot_product_1 --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
-$(TEMP_DIR)/dot_product_2.xo: src/dot_product_2.cpp
+	v++ $(VPP_FLAGS) $(VPP_FLAGS_krnl_stream_vadd) -c -k krnl_stream_vadd --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
+$(TEMP_DIR)/krnl_stream_vmult.xo: src/krnl_stream_vmult.cpp
 	mkdir -p $(TEMP_DIR)
-	v++ $(VPP_FLAGS) -c -k dot_product_2 --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
-$(TEMP_DIR)/dot_product_3.xo: src/dot_product_3.cpp
-	mkdir -p $(TEMP_DIR)
-	v++ $(VPP_FLAGS) -c -k dot_product_3 --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
-$(TEMP_DIR)/dot_product_4.xo: src/dot_product_4.cpp
-	mkdir -p $(TEMP_DIR)
-	v++ $(VPP_FLAGS) $(VPP_FLAGS_dot_product_4) -c -k dot_product_4 --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
-$(TEMP_DIR)/dot_product_5.xo: src/dot_product_5.cpp
-	mkdir -p $(TEMP_DIR)
-	v++ $(VPP_FLAGS) -c -k dot_product_5 --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
+	v++ $(VPP_FLAGS) $(VPP_FLAGS_krnl_stream_vmult) -c -k krnl_stream_vmult --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
 
-$(BUILD_DIR)/krnl_port_widen.xclbin: $(TEMP_DIR)/dot_product_1.xo $(TEMP_DIR)/dot_product_2.xo $(TEMP_DIR)/dot_product_3.xo $(TEMP_DIR)/dot_product_4.xo $(TEMP_DIR)/dot_product_5.xo
+$(BUILD_DIR)/krnl_stream_vadd_vmult.xclbin: $(TEMP_DIR)/krnl_stream_vadd.xo $(TEMP_DIR)/krnl_stream_vmult.xo
 	mkdir -p $(BUILD_DIR)
-	v++ $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) -o'$(LINK_OUTPUT)' $(+)
+	v++ $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) $(VPP_LDFLAGS_krnl_stream_vadd_vmult) -o'$(LINK_OUTPUT)' $(+)
 
 ifeq ($(EMU_PS), X86)
-	v++ -p $(LINK_OUTPUT) $(VPP_FLAGS) -o $(BUILD_DIR)/krnl_port_widen.xclbin
+	v++ -p $(LINK_OUTPUT) $(VPP_FLAGS) -o $(BUILD_DIR)/krnl_stream_vadd_vmult.xclbin
 endif
 ############################## Preparing sdcard ##############################
 .PHONY: sd_card
 sd_card: gen_run_app $(SD_CARD)
 
-$(SD_CARD): $(BUILD_DIR)/krnl_port_widen.xclbin $(EXECUTABLE)
-	v++ $(VPP_PFLAGS) -p $(LINK_OUTPUT) $(VPP_FLAGS) --package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.sd_file $(SD_IMAGE_FILE) --package.sd_file xrt.ini --package.sd_file $(RUN_APP_SCRIPT) --package.sd_file $(EXECUTABLE) --package.sd_file $(EMCONFIG_DIR)/emconfig.json -o $(BUILD_DIR)/krnl_port_widen.xclbin
+$(SD_CARD): $(BUILD_DIR)/krnl_stream_vadd_vmult.xclbin $(EXECUTABLE)
+	v++ $(VPP_PFLAGS) -p $(LINK_OUTPUT) $(VPP_FLAGS) --package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.sd_file $(SD_IMAGE_FILE) --package.sd_file xrt.ini --package.sd_file $(RUN_APP_SCRIPT) --package.sd_file $(EXECUTABLE) --package.sd_file $(EMCONFIG_DIR)/emconfig.json -o $(BUILD_DIR)/krnl_stream_vadd_vmult.xclbin
 
 ############################## Setting Rules for Host (Building Host Executable) ##############################
 $(EXECUTABLE): $(HOST_SRCS)
@@ -190,6 +184,9 @@ endif
 else
 	$(ECHO) "Please copy the content of sd_card folder and data to an SD Card and run on the board"
 endif
+ifneq ($(TARGET),$(findstring $(TARGET), hw_emu))
+$(error Application supports only hw_emu TARGET. Please use the target for running the application)
+endif
 
 
 .PHONY: test
@@ -203,6 +200,10 @@ endif
 else
 	$(ECHO) "Please copy the content of sd_card folder and data to an SD Card and run on the board"
 endif
+ifneq ($(TARGET),$(findstring $(TARGET), hw_emu))
+$(warning WARNING:Application supports only hw_emu TARGET. Please use the target for running the application)
+endif
+
 
 check_edge_sw:
 ifndef EDGE_COMMON_SW

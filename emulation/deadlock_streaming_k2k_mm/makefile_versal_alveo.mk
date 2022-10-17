@@ -49,58 +49,63 @@ include ./utils.mk
 TEMP_DIR := ./_x.$(TARGET).$(XSA)
 BUILD_DIR := ./build_dir.$(TARGET).$(XSA)
 
-LINK_OUTPUT := $(BUILD_DIR)/vector_addition.link.xsa
+LINK_OUTPUT := $(BUILD_DIR)/krnl_stream_vadd_vmult.link.xsa
 PACKAGE_OUT = ./package.$(TARGET)
 
 VPP_PFLAGS := 
-CMD_ARGS = $(BUILD_DIR)/vector_addition.xclbin
+CMD_ARGS = $(BUILD_DIR)/krnl_stream_vadd_vmult.xclbin
 CXXFLAGS += -I$(XILINX_XRT)/include -I$(XILINX_VIVADO)/include -Wall -O0 -g -std=c++1y
 LDFLAGS += -L$(XILINX_XRT)/lib -pthread -lOpenCL
 
 
 ########################## Checking if PLATFORM in allowlist #######################
-PLATFORM_BLOCKLIST += nodma zcu102_base_20 
+PLATFORM_BLOCKLIST += samsung u2_ nodma v70 
 ############################## Setting up Host Variables ##############################
 #Include Required Host Source Files
 CXXFLAGS += -I$(XF_PROJ_ROOT)/common/includes/xcl2
-HOST_SRCS += $(XF_PROJ_ROOT)/common/includes/xcl2/xcl2.cpp ./src/host.cpp 
+HOST_SRCS += $(XF_PROJ_ROOT)/common/includes/xcl2/xcl2.cpp src/host.cpp 
 # Host compiler global settings
 CXXFLAGS += -fmessage-length=0
 LDFLAGS += -lrt -lstdc++ 
+LDFLAGS += -pthread
 
 ############################## Setting up Kernel Variables ##############################
 # Kernel compiler global settings
 VPP_FLAGS += -t $(TARGET) --platform $(PLATFORM) --save-temps 
+VPP_FLAGS_krnl_stream_vadd +=  --config krnl_compile.cfg
+VPP_FLAGS_krnl_stream_vmult +=  --config krnl_compile.cfg
 
 
-EXECUTABLE = ./loop_pipeline
+# Kernel linker flags
+VPP_LDFLAGS_krnl_stream_vadd_vmult += --config ./krnl_stream_vadd_vmult.cfg --config krnl_link.cfg
+EXECUTABLE = ./deadlock_streaming_k2k_mm
 EMCONFIG_DIR = $(TEMP_DIR)
 
 ############################## Setting Targets ##############################
 .PHONY: all clean cleanall docs emconfig
-all: check-platform check-device check-vitis $(EXECUTABLE) $(BUILD_DIR)/vector_addition.xclbin emconfig
+all: check-platform check-device check-vitis $(EXECUTABLE) $(BUILD_DIR)/krnl_stream_vadd_vmult.xclbin emconfig
 
 .PHONY: host
 host: $(EXECUTABLE)
 
 .PHONY: build
-build: check-vitis check-device $(BUILD_DIR)/vector_addition.xclbin
+build: check-vitis check-device $(BUILD_DIR)/krnl_stream_vadd_vmult.xclbin
 
 .PHONY: xclbin
 xclbin: build
 
 ############################## Setting Rules for Binary Containers (Building Kernels) ##############################
-$(TEMP_DIR)/vadd.xo: src/vector_addition_BAD.cpp
+$(TEMP_DIR)/krnl_stream_vadd.xo: src/krnl_stream_vadd.cpp
 	mkdir -p $(TEMP_DIR)
-	v++ $(VPP_FLAGS) -c -k vadd --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
-$(TEMP_DIR)/vadd_pipelined.xo: src/vector_addition.cpp
+	v++ $(VPP_FLAGS) $(VPP_FLAGS_krnl_stream_vadd) -c -k krnl_stream_vadd --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
+$(TEMP_DIR)/krnl_stream_vmult.xo: src/krnl_stream_vmult.cpp
 	mkdir -p $(TEMP_DIR)
-	v++ $(VPP_FLAGS) -c -k vadd_pipelined --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
+	v++ $(VPP_FLAGS) $(VPP_FLAGS_krnl_stream_vmult) -c -k krnl_stream_vmult --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
 
-$(BUILD_DIR)/vector_addition.xclbin: $(TEMP_DIR)/vadd.xo $(TEMP_DIR)/vadd_pipelined.xo
+$(BUILD_DIR)/krnl_stream_vadd_vmult.xclbin: $(TEMP_DIR)/krnl_stream_vadd.xo $(TEMP_DIR)/krnl_stream_vmult.xo
 	mkdir -p $(BUILD_DIR)
-	v++ $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) -o'$(LINK_OUTPUT)' $(+)
-	v++ -p $(LINK_OUTPUT) $(VPP_FLAGS) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/vector_addition.xclbin
+	v++ $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) $(VPP_LDFLAGS_krnl_stream_vadd_vmult) -o'$(LINK_OUTPUT)' $(+)
+	v++ -p $(LINK_OUTPUT) $(VPP_FLAGS) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/krnl_stream_vadd_vmult.xclbin
 
 ############################## Setting Rules for Host (Building Host Executable) ##############################
 $(EXECUTABLE): $(HOST_SRCS) | check-xrt
@@ -118,6 +123,9 @@ ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 else
 	$(EXECUTABLE) $(CMD_ARGS)
 endif
+ifneq ($(TARGET),$(findstring $(TARGET), hw_emu))
+$(error Application supports only hw_emu TARGET. Please use the target for running the application)
+endif
 
 
 .PHONY: test
@@ -127,6 +135,10 @@ ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 else
 	$(EXECUTABLE) $(CMD_ARGS)
 endif
+ifneq ($(TARGET),$(findstring $(TARGET), hw_emu))
+$(warning WARNING:Application supports only hw_emu TARGET. Please use the target for running the application)
+endif
+
 
 
 ############################## Cleaning Rules ##############################

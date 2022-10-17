@@ -59,7 +59,7 @@ LDFLAGS += -L$(XILINX_XRT)/lib -pthread -lOpenCL
 
 
 ########################## Checking if PLATFORM in allowlist #######################
-PLATFORM_BLOCKLIST += nodma 
+PLATFORM_BLOCKLIST += nodma u50lv 
 ############################## Setting up Host Variables ##############################
 #Include Required Host Source Files
 CXXFLAGS += -I$(XF_PROJ_ROOT)/common/includes/xcl2

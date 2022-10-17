@@ -21,6 +21,10 @@
     ],
     "platform_blocklist": [
         "u25_",
+        "u50",
+        "u200",
+        "u55c",
+        "u280",
         "nodma",
         "zc",
         "vck",

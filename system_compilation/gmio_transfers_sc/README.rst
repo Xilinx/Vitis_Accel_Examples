@@ -30,6 +30,9 @@ This is gmio transfers example which explains different ways of data movements b
  - Alveo U280
  - AWS VU9P F1
  - Versal V70
+ - Alveo U50
+ - Alveo U250
+ - Alveo U200
 
 .. raw:: html
 

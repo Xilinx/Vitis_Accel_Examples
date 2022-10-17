@@ -26,6 +26,10 @@
         "v70"
     ],
     "platform_type": "pcie",
+     "targets": [
+        "hw", 
+        "hw_emu"
+    ], 
     "os": [
         "Linux"
     ], 
@@ -88,7 +92,6 @@
             }
         ],
         "targets": [
-            "vitis_sw_emu",
             "vitis_hw_emu",
             "vitis_hw"
         ],

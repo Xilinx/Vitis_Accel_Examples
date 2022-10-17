@@ -173,11 +173,11 @@ VPP_LDFLAGS_v70_pcie_pl_controller.xclbin += --kernel_frequency 250
 endif
 
 ifeq ($(HOST_ARCH), x86)
-BINARY_CONTAINERS += $(BUILD_DIR)/VPP_LDFLAGS_v70_pcie_pl_controller.xclbin.xsa
-BINARY_CONTAINERS_PKG += $(BUILD_DIR)/VPP_LDFLAGS_v70_pcie_pl_controller.xclbin.xclbin
+BINARY_CONTAINERS += $(BUILD_DIR)/v70_pl_controller.xsa
+BINARY_CONTAINERS_PKG += $(BUILD_DIR)/v70_pl_controller.xclbin
 else
-BINARY_CONTAINERS += $(BUILD_DIR)/VPP_LDFLAGS_v70_pcie_pl_controller.xclbin_pkg.xclbin
-BINARY_CONTAINERS_PKG += $(BUILD_DIR)/VPP_LDFLAGS_v70_pcie_pl_controller.xclbin.xclbin
+BINARY_CONTAINERS += $(BUILD_DIR)/v70_pl_controller.xsa
+BINARY_CONTAINERS_PKG += $(BUILD_DIR)/v70_pl_controller.xclbin
 endif
 
 # ################ Setting Rules for Binary Containers (Building Kernels) ################
@@ -259,7 +259,7 @@ $(SD_CARD): $(EXE_FILE) $(BINARY_CONTAINERS) $(RUN_SCRIPT) $(EMCONFIG)
 	@echo "Generating sd_card folder...."
 	mkdir -p $(SD_CARD)
 	chmod a+rx $(BUILD_DIR)/run_script.sh
-	${VPP} -p -t ${TARGET} -f ${XPLATFORM} ${AIE_CONTAINER} ${BINARY_CONTAINERS} -o ./final.xclbin --package.boot_mode=ospi --package.defer_aie_run
+	${VPP} -p -t ${TARGET} -f ${XPLATFORM} ${AIE_CONTAINER} ${BINARY_CONTAINERS} -o ./pl_controller_aie.xclbin --package.boot_mode=ospi --package.defer_aie_run
 	@echo "### ***** sd_card generation done! ***** ###"
 
 .PHONY: sd_card
@@ -272,7 +272,7 @@ else
 RUN_DEPS += $(EXE_FILE) $(BINARY_CONTAINERS) $(EMCONFIG)
 RUN_DEPS += $(SD_CARD)
 endif
-HOST_ARGS += $(CUR_DIR)/final.xclbin aie_control_config.json dma_lock_report.json
+HOST_ARGS += $(CUR_DIR)/pl_controller_aie.xclbin
 run: check_device  $(RUN_DEPS)
 #x86sim
 ifeq ($(TARGET), x86sim)
@@ -348,7 +348,7 @@ endif
 
 .PHONY: xclbin
 ifeq ($(HOST_ARCH), x86)
-xclbin:  check_vpp $(BINARY_CONTAINERS) $(AIE_CONTAINER) $(BINARY_CONTAINERS_PKG)
+xclbin:  check_vpp check_device $(BINARY_CONTAINERS) $(AIE_CONTAINER) $(BINARY_CONTAINERS_PKG) $(RUN_DEPS)
 else
 xclbin:  check_vpp check_sysroot $(BINARY_CONTAINERS) $(AIE_CONTAINER) $(BINARY_CONTAINERS_PKG)
 endif
@@ -378,7 +378,7 @@ cleanall: cleanh cleank
 	-$(RMDIR) $(CUR_DIR)/launch_hw_emu.sh
 	-$(RMDIR) $(CUR_DIR)/*.txt
 	-$(RMDIR) $(CUR_DIR)/aie.merged.cdo.bin
-	-$(RMDIR) $(CUR_DIR)/final.xclbin.package_summary
+	-$(RMDIR) $(CUR_DIR)/pl_controller_aie.xclbin.package_summary
 	-$(RMDIR) $(CUR_DIR)/*.bin
 	-$(RMDIR) $(CUR_DIR)/libadf.a
 	-$(RMDIR) $(CUR_DIR)/boot_image.bif
