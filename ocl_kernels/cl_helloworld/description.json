@@ -8,7 +8,8 @@
         "OpenCL Host APIs"
     ],
     "platform_blocklist": [
-        "nodma"
+        "nodma",
+        "u250"
     ], 
     "os": [
         "Linux"
