@@ -357,6 +357,9 @@
 <li class="toctree-l2"><a class="reference internal" href="ps_on_x86.html">Embedded SW-Emulation using x86 PS</a></li>
 <li class="toctree-l2"><a class="reference internal" href="stream_func_mode.html">Functional Hardware Emulation (Stream Free Running HLS C/C++ Kernel)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="systemc_vadd.html">SystemC Vadd</a></li>
+<li class="toctree-l2"><a class="reference internal" href="aie_baremetal.html">AIE Bare-Metal Emulation Test</a></li>
+<li class="toctree-l2"><a class="reference internal" href="deadlock_streaming_k2k_mm.html">System Deadlock Detection: Stream Kernel to Kernel Memory Mapped</a></li>
+<li class="toctree-l2"><a class="reference internal" href="platform_validate.html">Platform Validate Bare-Metal Emulation Test</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="performance.html">Performance Examples</a></li>
@@ -519,6 +522,13 @@ $(XCLBIN) $(GRAPH_O) -o krnl_adder.xclbin​
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">data</span><span class="o">/</span><span class="n">golden</span><span class="o">.</span><span class="n">txt</span>
 <span class="n">data</span><span class="o">/</span><span class="n">input0</span><span class="o">.</span><span class="n">txt</span>
 <span class="n">data</span><span class="o">/</span><span class="n">input1</span><span class="o">.</span><span class="n">txt</span>
+<span class="n">src</span><span class="o">/</span><span class="n">aie</span><span class="o">/</span><span class="n">adder</span><span class="o">.</span><span class="n">cc</span>
+<span class="n">src</span><span class="o">/</span><span class="n">aie</span><span class="o">/</span><span class="n">graph</span><span class="o">.</span><span class="n">cpp</span>
+<span class="n">src</span><span class="o">/</span><span class="n">aie</span><span class="o">/</span><span class="n">graph</span><span class="o">.</span><span class="n">h</span>
+<span class="n">src</span><span class="o">/</span><span class="n">aie</span><span class="o">/</span><span class="n">kernel</span><span class="o">.</span><span class="n">h</span>
+<span class="n">src</span><span class="o">/</span><span class="n">pl_kernels</span><span class="o">/</span><span class="n">mm2s</span><span class="o">.</span><span class="n">cpp</span>
+<span class="n">src</span><span class="o">/</span><span class="n">pl_kernels</span><span class="o">/</span><span class="n">s2mm</span><span class="o">.</span><span class="n">cpp</span>
+<span class="n">src</span><span class="o">/</span><span class="n">sw</span><span class="o">/</span><span class="n">host</span><span class="o">.</span><span class="n">cpp</span>
 </pre></div>
 </div>
 <p>Access these files in the github repo by <a class="reference external" href="https://github.com/Xilinx/Vitis_Accel_Examples/tree/master/emulation/aie_adder_ps_on_x86">clicking here</a>.</p>

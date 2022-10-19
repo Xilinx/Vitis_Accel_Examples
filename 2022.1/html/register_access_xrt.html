@@ -462,7 +462,7 @@
   <div class="section" id="register-access-xrt-native-api-s">
 <h1>Register access (XRT Native API’s)<a class="headerlink" href="#register-access-xrt-native-api-s" title="Permalink to this headline">¶</a></h1>
 <p>This is simple example which demonstrate register read &amp; write using native xrt api’s.</p>
-<p><strong>KEYWORDS:</strong> read_register, write_register, cu_access_mode, exclusive</p>
+<p><strong>KEYWORDS:</strong> <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Writing-Host-Applications-with-XRT-API">read_register</a>, <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Writing-Host-Applications-with-XRT-API">write_register</a>, cu_access_mode, exclusive</p>
 <p>To read and write from the AXI-Lite register space corresponding to a CU, the CU must be opened in exclusive mode (in shared mode, multiple processes can access the CU’s address space, hence it is unsafe if they are trying to access/change registers at the same time leading to a potential race behavior). The required APIs for kernel register read and write are</p>
 <blockquote>
 <div><ul class="simple">

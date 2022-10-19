@@ -451,7 +451,7 @@
 <h1>Streaming System Compiler<a class="headerlink" href="#streaming-system-compiler" title="Permalink to this headline">¶</a></h1>
 <p>This is simple example showcasing Free-running PEs with AXI-streams in system compiler environment.</p>
 <p><strong>KEY CONCEPTS:</strong> <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Free-Running-Kernel">Free Running Kernel</a></p>
-<p><strong>KEYWORDS:</strong> vpp::stream, hls::axis, <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/HLS-Stream-Library">hls::stream</a></p>
+<p><strong>KEYWORDS:</strong> <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Stream-connections-using-vpp-stream">vpp::stream</a>, <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/AXI4-Stream-Interfaces">hls::axis</a>, <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/HLS-Stream-Library">hls::stream</a></p>
 <p>This example demonstrates on accelerator containing free-running processing elements with feedback AXI-stream connections. The example also showcases the usage of stream depth.</p>
 <p>In System Compiler PE’s are referred as Streaming Free Running pipelined elements if the PE once programmed on the device is always executing without start/stop per transaction and PE operates on data asychronously with other PEs in the pipeline. Therefore, all of its interfaces (function arguments) must be streams.</p>
 <ol class="arabic simple">
@@ -474,11 +474,11 @@
 <p><strong>EXCLUDED PLATFORMS:</strong></p>
 <blockquote>
 <div><ul class="simple">
-<li><p>ZC706 Evaluation board</p></li>
-<li><p>zcu104</p></li>
+<li><p>All Embedded Zynq Platforms, i.e zc702, zcu102 etc</p></li>
 <li><p>All Versal Platforms, i.e vck190 etc</p></li>
 <li><p>Alveo U25 SmartNIC</p></li>
 <li><p>AWS VU9P F1</p></li>
+<li><p>All NoDMA Platforms, i.e u50 nodma etc</p></li>
 </ul>
 </div></blockquote>
 <div class="section" id="design-files">

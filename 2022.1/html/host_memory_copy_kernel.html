@@ -468,7 +468,7 @@
   <div class="section" id="host-memory-copy-kernel">
 <h1>Host Memory Copy Kernel<a class="headerlink" href="#host-memory-copy-kernel" title="Permalink to this headline">¶</a></h1>
 <p>This is a Host Memory Example to describe how data can be copied between host-only buffer and device-only buffer using User Copy Kernel.</p>
-<p><strong>KEY CONCEPTS:</strong> host memory</p>
+<p><strong>KEY CONCEPTS:</strong> <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Best-Practices-for-Host-Programming">host memory</a></p>
 <p><strong>KEYWORDS:</strong> XCL_MEM_EXT_HOST_ONLY, CL_MEM_HOST_NO_ACCESS, <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Buffer-Creation-and-Data-Transfer">enqueueMapBuffer</a></p>
 <p>Here a user copy kernel is instantiated inside container which copies data between host and device memory.</p>
 <p>Host only buffer is created using <code class="docutils literal notranslate"><span class="pre">XCL_MEM_EXT_HOST_ONLY</span></code> flag whereas device only buffer is created using <code class="docutils literal notranslate"><span class="pre">CL_MEM_HOST_NO_ACCESS</span></code> flag. The following data transfers take place in the example -</p>

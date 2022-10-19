@@ -72,6 +72,5 @@ Once the environment has been configured, the application can be executed by
 
 ::
 
-  python3 ./src/host.py -k <vadd XCLBIN>
-  
+   ./src/host.py -k <vadd XCLBIN>
 

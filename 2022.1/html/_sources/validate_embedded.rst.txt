@@ -3,7 +3,7 @@ Validate Embedded Platform
 
 This is a simple design that verifies if the platform has basic functionalities. It also tests the possible bandwidth between Kernel and Global Memory.
 
-**KEY CONCEPTS:** Bandwidth
+**KEY CONCEPTS:** `Bandwidth <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Best-Practices-for-Kernel-Development>`__
 
 
 This example contains verify test and bandwidth test to validate embedded platforms.

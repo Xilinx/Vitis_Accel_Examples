@@ -3,9 +3,9 @@ Functional Hardware Emulation (Stream Free Running HLS C/C++ Kernel)
 
 This example demonstrates how a user can run functional model of HLS kernel in HW Emulation.
 
-**KEY CONCEPTS:** Emulation Functional mode
+**KEY CONCEPTS:** `Emulation Functional mode <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Working-with-Functional-Model-of-the-HLS-Kernel>`__
 
-**KEYWORDS:** emulationMode=func
+**KEYWORDS:** `emulationMode=func <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Working-with-Functional-Model-of-the-HLS-Kernel>`__
 
 
 This example demonstrates the simulation of HLS C/C++ streaming free running kernel in functional mode. 

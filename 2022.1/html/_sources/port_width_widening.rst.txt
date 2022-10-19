@@ -122,6 +122,7 @@ dot_product_5              1.26024
 **EXCLUDED PLATFORMS:** 
 
  - All NoDMA Platforms, i.e u50 nodma etc
+ - Samsung U.2 SmartSSD
 
 DESIGN FILES
 ------------

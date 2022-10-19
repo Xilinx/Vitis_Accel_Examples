@@ -64,23 +64,6 @@ XSA (3DDR):
       ../src/<config_file.cfg> 5.Define NDDR_BANKS 3 in kernel “#define
       NDDR_BANKS 3” at the top of kernel.cl
 
-XSA (4DDR):
-
-Note: The selected platform must support 4DDR.
-
-1. Add a .cfg file in the /src folder with the following entries:
-   [Connecttivity] sp=bandwidth_1.m_axi_gmem0:DDR[0]
-   sp=bandwidth_1.m_axi_gmem1:DDR[1]
-   sp=bandwidth_1.m_axi_gmem2:DDR[2]
-   sp=bandwidth_1.m_axi_gmem2:DDR[3]
-   2. > Properties > C/C++ Build > Settings > Vitis V++ Kernel Compiler
-   > Miscellaneous > Other flags 3.In “Other flags” box enter following
-
-   a. –max_memory_ports all 4. > Properties > C/C++ Build > Settings >
-      Vitis V++ Kernel Linker > Miscellaneous > Other flags –config
-      ../src/<config_file.cfg> 5.Define NDDR_BANKS 4 in kernel “#define
-      NDDR_BANKS 4” at the top of kernel.cl
-
 **EXCLUDED PLATFORMS:** 
 
  - Samsung U.2 SmartSSD
