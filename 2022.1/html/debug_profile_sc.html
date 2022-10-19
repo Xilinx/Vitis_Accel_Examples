@@ -451,8 +451,8 @@
   <div class="section" id="debug-and-profile-system-compiler">
 <h1>Debug and Profile System Compiler<a class="headerlink" href="#debug-and-profile-system-compiler" title="Permalink to this headline">¶</a></h1>
 <p>This simple example implements a HW pipeline of three tasks, matrix multiplication along with two different increments to the matrix values.</p>
-<p><strong>KEY CONCEPTS:</strong> Debug, Profiling</p>
-<p><strong>KEYWORDS:</strong> PROFILE_KERNEL, PROFILE_PORT, PROFILE_OFFLOAD, vpp::stream&lt;&gt;</p>
+<p><strong>KEY CONCEPTS:</strong> <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Enabling-Profile-and-Debug-when-Linking">Debug</a>, <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Profiling-Optimizing-and-Debugging-the-Application">Profiling</a></p>
+<p><strong>KEYWORDS:</strong> <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Debugging-and-Validation">PROFILE_KERNEL</a>, <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Debugging-and-Validation">PROFILE_PORT</a>, <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Debugging-and-Validation">PROFILE_OFFLOAD</a>, <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Stream-connections-using-vpp-stream">vpp::stream&lt;&gt;</a></p>
 <p>This example demonstrates the debug and profile options in system compiler.
 When run with TARGET=hw_emu, it can be used to see the results of HW emulation waveforms automatically created.
 When run with TARGET=hw, and it can be used to see the timeline traces (auto created) from a profiling run on the card. By default host-side traces are created, and device traces are enabled with configurations in include/&lt;platform&gt;/profile.hpp and using -D ENABLE_HW_PROFILING=1</p>

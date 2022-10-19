@@ -464,7 +464,7 @@
   <div class="section" id="wide-memory-read-write">
 <h1>Wide Memory Read/Write<a class="headerlink" href="#wide-memory-read-write" title="Permalink to this headline">¶</a></h1>
 <p>This is simple example of vector addition to demonstrate Wide Memory Access using ap_uint&lt;512&gt; data type. Based on input argument type, V++ compiler will figure our the memory datawidth between Global Memory and Kernel. For this example, ap_uint&lt;512&gt; datatype is used, so Memory datawidth will be 16 x (integer bit size) = 16 x 32 = 512 bit.</p>
-<p><strong>KEY CONCEPTS:</strong> Kernel to DDR, <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/AXI-Burst-Transfers">wide memory access</a>, <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/AXI-Burst-Transfers">burst read and write</a></p>
+<p><strong>KEY CONCEPTS:</strong> <a class="reference external" href="https://docs.xilinx.com/r/2021.2-English/ug1393-vitis-application-acceleration/Mapping-Kernel-Ports-to-Memory">Kernel to DDR</a>, <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/AXI-Burst-Transfers">wide memory access</a>, <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/AXI-Burst-Transfers">burst read and write</a></p>
 <p><strong>KEYWORDS:</strong> <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/C-Arbitrary-Precision-Integer-Types">ap_uint&lt;&gt;</a>, <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/C-Arbitrary-Precision-Integer-Types">ap_int.h</a></p>
 <p>This example demonstrates the use of <code class="docutils literal notranslate"><span class="pre">ap_uint&lt;&gt;</span></code> datatype which
 enables <code class="docutils literal notranslate"><span class="pre">V++</span></code> to figure out the memory datawidth for the kernel to
@@ -495,6 +495,7 @@ pipeline to these loops.</p>
 <div><ul class="simple">
 <li><p>Embedded ZC702</p></li>
 <li><p>All NoDMA Platforms, i.e u50 nodma etc</p></li>
+<li><p>Samsung U.2 SmartSSD</p></li>
 </ul>
 </div></blockquote>
 <div class="section" id="design-files">

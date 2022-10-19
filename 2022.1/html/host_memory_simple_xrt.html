@@ -462,8 +462,8 @@
   <div class="section" id="host-memory-simple-xrt-xrt-native-api-s">
 <h1>Host Memory Simple XRT (XRT Native API’s)<a class="headerlink" href="#host-memory-simple-xrt-xrt-native-api-s" title="Permalink to this headline">¶</a></h1>
 <p>This is simple host memory example to describe how a user kernel can access the host memory using xrt native api’s.</p>
-<p><strong>KEY CONCEPTS:</strong> host memory, address translation unit</p>
-<p><strong>KEYWORDS:</strong> host_only, HOST[0]</p>
+<p><strong>KEY CONCEPTS:</strong> <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Best-Practices-for-Host-Programming">host memory</a>, address translation unit</p>
+<p><strong>KEYWORDS:</strong> host_only, <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Mapping-Kernel-Ports-to-Memory">HOST[0]</a></p>
 <p>This example illustrates the use of <code class="docutils literal notranslate"><span class="pre">host_only</span></code> Buffer which resides
 in the host memory and directly transferred to/from the kernel</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">xrt</span><span class="o">::</span><span class="n">bo</span><span class="o">::</span><span class="n">flags</span> <span class="n">flags</span> <span class="o">=</span> <span class="n">xrt</span><span class="o">::</span><span class="n">bo</span><span class="o">::</span><span class="n">flags</span><span class="o">::</span><span class="n">host_only</span><span class="p">;</span>

@@ -453,8 +453,8 @@
   <div class="section" id="host-memory-bandwidth-xrt-xrt-native-api-s">
 <h1>Host Memory Bandwidth XRT (XRT Native API’s)<a class="headerlink" href="#host-memory-bandwidth-xrt-xrt-native-api-s" title="Permalink to this headline">¶</a></h1>
 <p>This is host memory bandwidth example to describe host memory and kernel bandwidth test using native xrt api’s.</p>
-<p><strong>KEY CONCEPTS:</strong> host memory, bandwidth, address translation unit</p>
-<p><strong>KEYWORDS:</strong> host_only, HOST[0]</p>
+<p><strong>KEY CONCEPTS:</strong> <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Best-Practices-for-Host-Programming">host memory</a>, bandwidth, address translation unit</p>
+<p><strong>KEYWORDS:</strong> host_only, <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Mapping-Kernel-Ports-to-Memory">HOST[0]</a></p>
 <p>This is a host application to test Host Memory bandwidth. It contains 3 kernels namely read_bandwidth, write_bandwidth and bandwidth (for concurrent read and write).The host application runs all 3 kernels with variable buffer sizes and measures the bandwidth for each case. Finally the design reports the maximum bandwidth achieved for each case.</p>
 <p>The host allocates a buffer into specific host-only buffer using <code class="docutils literal notranslate"><span class="pre">host_only</span></code> flag.</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">xrt</span><span class="o">::</span><span class="n">bo</span><span class="o">::</span><span class="n">flags</span> <span class="n">flags</span> <span class="o">=</span> <span class="n">xrt</span><span class="o">::</span><span class="n">bo</span><span class="o">::</span><span class="n">flags</span><span class="o">::</span><span class="n">host_only</span><span class="p">;</span>

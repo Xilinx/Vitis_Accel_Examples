@@ -70,6 +70,13 @@ Application code is located in the src directory. Accelerator binary files will 
    data/golden.txt
    data/input0.txt
    data/input1.txt
+   src/aie/adder.cc
+   src/aie/graph.cpp
+   src/aie/graph.h
+   src/aie/kernel.h
+   src/pl_kernels/mm2s.cpp
+   src/pl_kernels/s2mm.cpp
+   src/sw/host.cpp
    
 Access these files in the github repo by `clicking here <https://github.com/Xilinx/Vitis_Accel_Examples/tree/master/emulation/aie_adder_ps_on_x86>`__.
 

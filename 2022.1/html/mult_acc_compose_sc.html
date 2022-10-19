@@ -451,7 +451,7 @@
 <h1>Multiple Accelerators System Compiler<a class="headerlink" href="#multiple-accelerators-system-compiler" title="Permalink to this headline">¶</a></h1>
 <p>In this example we have multiple accelerators in one xclbin, and compose them into a pipeline, with or without CPU processing in-between the PEs.</p>
 <p><strong>KEY CONCEPTS:</strong> Multiple Accelerators</p>
-<p><strong>KEYWORDS:</strong> sync_outputs, custom_sync_outputs</p>
+<p><strong>KEYWORDS:</strong> sync_outputs, <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/VPP_ACC-Class-API">custom_sync_outputs</a></p>
 <p>This example demonstrates the usage of multile accelerators into single xclbin and compose them into a pipeline with CPU processing in between the PE’s.</p>
 <p><strong>EXCLUDED PLATFORMS:</strong></p>
 <blockquote>
@@ -459,6 +459,7 @@
 <li><p>All Embedded Zynq Platforms, i.e zc702, zcu102 etc</p></li>
 <li><p>All Versal Platforms, i.e vck190 etc</p></li>
 <li><p>AWS VU9P F1</p></li>
+<li><p>All NoDMA Platforms, i.e u50 nodma etc</p></li>
 </ul>
 </div></blockquote>
 <div class="section" id="design-files">
@@ -467,7 +468,6 @@
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">src</span><span class="o">/</span><span class="nb">filter</span><span class="o">.</span><span class="n">cpp</span>
 <span class="n">src</span><span class="o">/</span><span class="nb">filter</span><span class="o">.</span><span class="n">hpp</span>
 <span class="n">src</span><span class="o">/</span><span class="n">main</span><span class="o">.</span><span class="n">cpp</span>
-<span class="n">src</span><span class="o">/</span><span class="n">nodma_config</span><span class="o">.</span><span class="n">hpp</span>
 <span class="n">src</span><span class="o">/</span><span class="n">u200_config</span><span class="o">.</span><span class="n">hpp</span>
 <span class="n">src</span><span class="o">/</span><span class="n">u25_config</span><span class="o">.</span><span class="n">hpp</span>
 <span class="n">src</span><span class="o">/</span><span class="n">u2_config</span><span class="o">.</span><span class="n">hpp</span>

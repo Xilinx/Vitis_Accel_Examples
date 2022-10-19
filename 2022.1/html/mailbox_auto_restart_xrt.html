@@ -462,8 +462,8 @@
   <div class="section" id="mailbox-and-auto-restart-xrt-native-api-s">
 <h1>Mailbox and Auto-Restart (XRT Native API’s)<a class="headerlink" href="#mailbox-and-auto-restart-xrt-native-api-s" title="Permalink to this headline">¶</a></h1>
 <p>This is a simple example demonstrating the Mailbox and Auto-restart features for writing registers to and reading registers from a never-ending kernel.</p>
-<p><strong>KEY CONCEPTS:</strong> Mailbox, Auto-restart</p>
-<p><strong>KEYWORDS:</strong> set_arg, get_arg, write(), read(), STABLE</p>
+<p><strong>KEY CONCEPTS:</strong> <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Using-the-Mailbox">Mailbox</a>, <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Auto-Restarting-Mode">Auto-restart</a></p>
+<p><strong>KEYWORDS:</strong> <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Scenario-2-Kernel-Using-Auto-Restart-and-Mailbox">set_arg</a>, get_arg, write(), read(), STABLE</p>
 <p>Auto-restarting kernels can run continuously after being started once by the host application. The main advantage of auto-restarting kernels is that they run semi-autonomously operating as data-driven kernels without the need for frequent interaction with the host application and for software control. But auto-restarting kernels also offer semi-synchronization through the mailbox, which is the ability to exchange data with the host application in an asynchronous, non-blocking, and safe way.</p>
 <p>The Auto-restart and mailbox features must be enabled at kernel compile time. Contents of <code class="docutils literal notranslate"><span class="pre">runPre.tcl</span></code> file is below:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">::</span><span class="n">common</span><span class="p">::</span><span class="n">set_param</span> <span class="n">hls</span><span class="o">.</span><span class="n">enable_hidden_option_error</span> <span class="n">false</span>

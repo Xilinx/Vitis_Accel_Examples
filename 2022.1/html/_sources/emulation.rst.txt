@@ -13,3 +13,6 @@ This section contains Emulation Examples.
    ps_on_x86.rst
    stream_func_mode.rst
    systemc_vadd.rst
+   aie_baremetal.rst
+   deadlock_streaming_k2k_mm.rst
+   platform_validate.rst

@@ -511,24 +511,6 @@ NDDR_BANKS 3” at the top of kernel.cl</p></li>
 </ol>
 </li>
 </ol>
-<p>XSA (4DDR):</p>
-<p>Note: The selected platform must support 4DDR.</p>
-<ol class="arabic simple">
-<li><p>Add a .cfg file in the /src folder with the following entries:
-[Connecttivity] sp=bandwidth_1.m_axi_gmem0:DDR[0]
-sp=bandwidth_1.m_axi_gmem1:DDR[1]
-sp=bandwidth_1.m_axi_gmem2:DDR[2]
-sp=bandwidth_1.m_axi_gmem2:DDR[3]
-2. &gt; Properties &gt; C/C++ Build &gt; Settings &gt; Vitis V++ Kernel Compiler
-&gt; Miscellaneous &gt; Other flags 3.In “Other flags” box enter following</p>
-<ol class="loweralpha simple">
-<li><p>–max_memory_ports all 4. &gt; Properties &gt; C/C++ Build &gt; Settings &gt;
-Vitis V++ Kernel Linker &gt; Miscellaneous &gt; Other flags –config
-../src/&lt;config_file.cfg&gt; 5.Define NDDR_BANKS 4 in kernel “#define
-NDDR_BANKS 4” at the top of kernel.cl</p></li>
-</ol>
-</li>
-</ol>
 <p><strong>EXCLUDED PLATFORMS:</strong></p>
 <blockquote>
 <div><ul class="simple">

@@ -357,6 +357,9 @@
 <li class="toctree-l2"><a class="reference internal" href="ps_on_x86.html">Embedded SW-Emulation using x86 PS</a></li>
 <li class="toctree-l2"><a class="reference internal" href="stream_func_mode.html">Functional Hardware Emulation (Stream Free Running HLS C/C++ Kernel)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="systemc_vadd.html">SystemC Vadd</a></li>
+<li class="toctree-l2"><a class="reference internal" href="aie_baremetal.html">AIE Bare-Metal Emulation Test</a></li>
+<li class="toctree-l2"><a class="reference internal" href="deadlock_streaming_k2k_mm.html">System Deadlock Detection: Stream Kernel to Kernel Memory Mapped</a></li>
+<li class="toctree-l2"><a class="reference internal" href="platform_validate.html">Platform Validate Bare-Metal Emulation Test</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="performance.html">Performance Examples</a></li>
@@ -487,7 +490,7 @@ $(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) $(XOS) --temp_dir $(TEMP_DIR)  -o&#39;$(LI
 <span class="c1">#User is free to choose his own way of packing as long as it is in-line with C types</span>
 <span class="n">format_string</span> <span class="o">=</span> <span class="s2">&quot;&lt;&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">payload</span><span class="o">.</span><span class="n">data_length</span><span class="o">/</span><span class="mi">4</span><span class="p">))</span><span class="o">+</span><span class="s2">&quot;I&quot;</span>
 <span class="n">payload</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="nb">bytes</span><span class="p">(</span><span class="nb">bytearray</span><span class="p">(</span><span class="n">struct</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">format_string</span><span class="p">,</span> <span class="o">*</span><span class="nb">tuple</span><span class="p">(</span><span class="n">rand_int</span><span class="p">))))</span>
-<span class="n">payload</span><span class="o">.</span><span class="n">tlast</span> <span class="o">=</span> <span class="kc">True</span> <span class="c1"># to mark end of packet. This is user&#39;s choice based on application</span>
+<span class="n">payload</span><span class="o">.</span><span class="n">tlast</span> <span class="o">=</span> <span class="bp">True</span> <span class="c1"># to mark end of packet. This is user&#39;s choice based on application</span>
 </pre></div>
 </div>
 <ol class="arabic simple" start="3">
@@ -537,7 +540,7 @@ $(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) $(XOS) --temp_dir $(TEMP_DIR)  -o&#39;$(LI
 <span class="c1">#User is free to choose his own way of packing as long as it is in-line with C types</span>
 <span class="n">format_string</span> <span class="o">=</span> <span class="s2">&quot;&lt;&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">payload</span><span class="o">.</span><span class="n">data_length</span><span class="o">/</span><span class="mi">4</span><span class="p">))</span><span class="o">+</span><span class="s2">&quot;I&quot;</span>
 <span class="n">payload</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="nb">bytes</span><span class="p">(</span><span class="nb">bytearray</span><span class="p">(</span><span class="n">struct</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">format_string</span><span class="p">,</span> <span class="o">*</span><span class="nb">tuple</span><span class="p">(</span><span class="n">rand_int</span><span class="p">))))</span>
-<span class="n">payload</span><span class="o">.</span><span class="n">tlast</span> <span class="o">=</span> <span class="kc">True</span> <span class="c1"># to mark end of packet. This is user&#39;s choice based on application</span>
+<span class="n">payload</span><span class="o">.</span><span class="n">tlast</span> <span class="o">=</span> <span class="bp">True</span> <span class="c1"># to mark end of packet. This is user&#39;s choice based on application</span>
 </pre></div>
 </div>
 <ol class="arabic simple" start="3">

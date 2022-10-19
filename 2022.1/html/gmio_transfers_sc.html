@@ -450,19 +450,21 @@
   <div class="section" id="gmio-transfers-system-compiler">
 <h1>GMIO Transfers System Compiler<a class="headerlink" href="#gmio-transfers-system-compiler" title="Permalink to this headline">¶</a></h1>
 <p>This is gmio transfers example which explains different ways of data movements between host and device for compute unit processing.</p>
-<p><strong>KEY CONCEPTS:</strong> System Compiler</p>
-<p><strong>KEYWORDS:</strong> DATA_COPY, ZERO_COPY, ACCESS_PATTERN, SEQUENTIAL, RANDOM</p>
+<p><strong>KEY CONCEPTS:</strong> <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Using-Vitis-System-Compilation-Mode">System Compiler</a></p>
+<p><strong>KEYWORDS:</strong> <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Guidance-Macros">DATA_COPY</a>, <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Guidance-Macros">ZERO_COPY</a>, <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Guidance-Macros">ACCESS_PATTERN</a>, <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Quick-Start-Example">SEQUENTIAL</a>, <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Guidance-Macros">RANDOM</a></p>
 <p>This example demonstrates the Sequential &amp; Randon data transfer between host and device compute units.</p>
-<ul>
-<li><p>ACCESS_PATTERN(&lt;port&gt;, &lt;pattern&gt;)</p>
-<p>This macro is used to specify the data access pattern on a given CU port/memory interface. Based on the access pattern system compiler can generate an appropriate data mover plugin for the kernel. Where &lt;port&gt; is the kernel port and  &lt;pattern&gt; can be sequential/random.</p>
-</li>
-<li><p>DATA_COPY(&lt;port&gt;, &lt;port&gt;[&lt;num&gt;])</p>
-<p>Specifies the amount of data to be copied by the data mover at runtime between host and device for CU processing for given port. The “port” needs to be replaced by port name ( kernel function argument name). The “num” specifies the number of data elements to be transferred the size of data. The num can be a constant or it can beitself an expression in terms of scalar kernel arguments.</p>
-</li>
-<li><p>ZERO_COPY(&lt;port&gt;, &lt;port&gt;[&lt;num&gt;])
-Do not use a data mover plugin. The CU is assumed to be in direct connection with global DDR memory. It lets the kernel use a M-AXI interface to directly talk to the device DDR. The CU is responsible for any on-chip caching of data needed.  The “port” needs to be replaced by port name ( CU argument name). The “num” specifies thenumber of data elements to be transferred essentially the size of data. The “num” can be a constant or it can be itself an expression in terms of some scalar CU arguments.</p></li>
+<ul class="simple">
+<li><p>ACCESS_PATTERN(&lt;port&gt;, &lt;pattern&gt;)</p></li>
 </ul>
+<p>This macro is used to specify the data access pattern on a given CU port/memory interface. Based on the access pattern system compiler can generate an appropriate data mover plugin for the kernel. Where &lt;port&gt; is the kernel port and  &lt;pattern&gt; can be sequential/random.</p>
+<ul class="simple">
+<li><p>DATA_COPY(&lt;port&gt;, &lt;port&gt;[&lt;num&gt;])</p></li>
+</ul>
+<p>Specifies the amount of data to be copied by the data mover at runtime between host and device for CU processing for given port. The “port” needs to be replaced by port name ( kernel function argument name). The “num” specifies the number of data elements to be transferred the size of data. The num can be a constant or it can be itself an expression in terms of scalar kernel arguments.</p>
+<ul class="simple">
+<li><p>ZERO_COPY(&lt;port&gt;, &lt;port&gt;[&lt;num&gt;])</p></li>
+</ul>
+<p>Do not use a data mover plugin. The CU is assumed to be in direct connection with global DDR memory. It lets the kernel use a M-AXI interface to directly talk to the device DDR. The CU is responsible for any on-chip caching of data needed.  The “port” needs to be replaced by port name ( CU argument name). The “num” specifies the number of data elements to be transferred essentially the size of data. The “num” can be a constant or it can be itself an expression in terms of some scalar CU arguments.</p>
 <p><strong>EXCLUDED PLATFORMS:</strong></p>
 <blockquote>
 <div><ul class="simple">

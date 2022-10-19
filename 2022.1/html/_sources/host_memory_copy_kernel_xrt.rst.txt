@@ -3,7 +3,7 @@ Kernel XRT (XRT Native API's)
 
 This is a Host Memory Example to describe how data can be copied using xrt native api's between host-only buffer and device-only buffer using User Copy Kernel.
 
-**KEY CONCEPTS:** host memory
+**KEY CONCEPTS:** `host memory <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Best-Practices-for-Host-Programming>`__
 
 **KEYWORDS:** host_only, device_only
 

@@ -43,6 +43,7 @@ approximately.
 **EXCLUDED PLATFORMS:** 
 
  - All NoDMA Platforms, i.e u50 nodma etc
+ - Samsung U.2 SmartSSD
 
 DESIGN FILES
 ------------

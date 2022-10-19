@@ -470,8 +470,8 @@
   <div class="section" id="host-memory-simple">
 <h1>Host Memory Simple<a class="headerlink" href="#host-memory-simple" title="Permalink to this headline">¶</a></h1>
 <p>This is simple host memory example to describe how a user kernel can access the host memory. The host memory allocation is done through the host code. The kernel reads data from host memory and writes result to host memory.</p>
-<p><strong>KEY CONCEPTS:</strong> host memory, address translation unit</p>
-<p><strong>KEYWORDS:</strong> XCL_MEM_EXT_HOST_ONLY, HOST[0]</p>
+<p><strong>KEY CONCEPTS:</strong> <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Best-Practices-for-Host-Programming">host memory</a>, address translation unit</p>
+<p><strong>KEYWORDS:</strong> XCL_MEM_EXT_HOST_ONLY, <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Mapping-Kernel-Ports-to-Memory">HOST[0]</a></p>
 <p>Host Memory IP is used by the kernels to read and write data directly from/to the Host Memory. Unlike the XDMA data transfer, this data transfer mechanism does not utlize global memories (DDR, HBM, PLRAM ,etc) on the card. Host-memory provides DMA bypass capability that is primarily used for data transfer on a No-DMA platform.</p>
 <div class="section" id="kernel-compilation">
 <h2>Kernel Compilation<a class="headerlink" href="#kernel-compilation" title="Permalink to this headline">¶</a></h2>

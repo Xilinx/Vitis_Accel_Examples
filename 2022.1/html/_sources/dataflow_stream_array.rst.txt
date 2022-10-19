@@ -57,6 +57,7 @@ Finally, result is written back from stream to global memory buffer.
 **EXCLUDED PLATFORMS:** 
 
  - All NoDMA Platforms, i.e u50 nodma etc
+ - Samsung U.2 SmartSSD
 
 DESIGN FILES
 ------------
