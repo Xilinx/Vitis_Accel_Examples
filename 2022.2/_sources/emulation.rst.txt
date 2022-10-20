@@ -1,0 +1,18 @@
+Emulation Examples
+==================
+
+This section contains Emulation Examples.
+
+.. toctree::
+   :maxdepth: 1
+   :caption: List of Examples
+
+   aie_adder_hybrid_swemu.rst
+   aie_adder_ps_on_x86.rst
+   external_io_cpp.rst
+   external_io_py.rst
+   mm_stream_func_mode.rst
+   systemc_vadd.rst
+   aie_baremetal.rst
+   deadlock_streaming_k2k_mm.rst
+   platform_validate.rst
