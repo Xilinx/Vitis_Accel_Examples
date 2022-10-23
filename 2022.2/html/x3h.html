@@ -57,8 +57,8 @@
   <link rel="stylesheet" href="_static/css/pro.min.css" media="all" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Stream Kernel to Kernel Memory Mapped" href="streaming_k2k_mm.html" />
-    <link rel="prev" title="Stream Free Running Kernel (HLS C/C++)" href="streaming_free_running_k2k.html" /> 
+    <link rel="next" title="X3 NTG: IP Tables RX Vitis System Compiler" href="ip_table_rx.html" />
+    <link rel="prev" title="PS Validate Kernel" href="ps_validate_test.html" /> 
 	</head>
 	<body>
 		<div class="xilinx-bs3"/>
@@ -341,38 +341,7 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="hello_world.html">Hello World</a></li>
 <li class="toctree-l1"><a class="reference internal" href="aie_kernels.html">AIE Examples</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="host.html">Host OpenCL</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="concurrent_kernel_execution.html">Concurrent Kernel Execution</a></li>
-<li class="toctree-l2"><a class="reference internal" href="copy_buffer.html">Copy Buffer</a></li>
-<li class="toctree-l2"><a class="reference internal" href="data_transfer.html">Data Transfer</a></li>
-<li class="toctree-l2"><a class="reference internal" href="device_query.html">Device Query (CPP)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="debug_profile.html">Debug Profile</a></li>
-<li class="toctree-l2"><a class="reference internal" href="errors.html">Error Handling</a></li>
-<li class="toctree-l2"><a class="reference internal" href="errors_cpp.html">Error Handling (CPP)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="hbm_simple.html">HBM Simple</a></li>
-<li class="toctree-l2"><a class="reference internal" href="hbm_large_buffers.html">HBM Large Buffers</a></li>
-<li class="toctree-l2"><a class="reference internal" href="hbm_rama_ip.html">HBM Bandwidth for large buffers using RAMA IP</a></li>
-<li class="toctree-l2"><a class="reference internal" href="iops_test.html">IOPS Test</a></li>
-<li class="toctree-l2"><a class="reference internal" href="multiple_cus_asymmetrical.html">Multiple Compute Units (Asymmetrical)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="mult_compute_units.html">Multiple Compute Units</a></li>
-<li class="toctree-l2"><a class="reference internal" href="overlap.html">Overlap Host and Kernel</a></li>
-<li class="toctree-l2"><a class="reference internal" href="p2p_simple.html">P2P Simple Example</a></li>
-<li class="toctree-l2"><a class="reference internal" href="p2p_bandwidth.html">P2P bandwidth Example</a></li>
-<li class="toctree-l2"><a class="reference internal" href="p2p_overlap_bandwidth.html">P2P overlap bandwidth Example</a></li>
-<li class="toctree-l2"><a class="reference internal" href="p2p_fpga2fpga.html">P2P FPGA to FPGA Example</a></li>
-<li class="toctree-l2"><a class="reference internal" href="host_memory_simple.html">Host Memory Simple</a></li>
-<li class="toctree-l2"><a class="reference internal" href="host_memory_copy_buffer.html">Host Memory Copy Buffer</a></li>
-<li class="toctree-l2"><a class="reference internal" href="host_memory_copy_kernel.html">Host Memory Copy Kernel</a></li>
-<li class="toctree-l2"><a class="reference internal" href="streaming_free_running_k2k.html">Stream Free Running Kernel (HLS C/C++)</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Device Only Buffer</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#host-code-guidelines">Host code Guidelines</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#design-files">DESIGN FILES</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#command-line-arguments">COMMAND LINE ARGUMENTS</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="streaming_k2k_mm.html">Stream Kernel to Kernel Memory Mapped</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="host.html">Host OpenCL</a></li>
 <li class="toctree-l1"><a class="reference internal" href="host_xrt.html">Host Native XRT</a></li>
 <li class="toctree-l1"><a class="reference internal" href="host_py.html">Host Python</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cpp.html">C++ Kernels</a></li>
@@ -384,7 +353,10 @@
 <li class="toctree-l1"><a class="reference internal" href="rtl.html">RTL Kernels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ocl.html">OpenCL Kernels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="validate.html">Validate</a></li>
-<li class="toctree-l1"><a class="reference internal" href="x3h.html">X3 NTG Examples</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">X3 NTG Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ip_table_rx.html">X3 NTG: IP Tables RX Vitis System Compiler</a></li>
+</ul>
+</li>
 </ul>
 <p class="caption"><span class="caption-text">Common Utilities</span></p>
 <ul>
@@ -400,7 +372,7 @@
 			
 			<p class="caption"><span class="caption-text">This Page</span></p>
 				<ul class="current">
-				  <li class="toctree-l1"><a href="_sources/device_only_buffer.rst.txt"
+				  <li class="toctree-l1"><a href="_sources/x3h.rst.txt"
 						rel="nofollow">Show Source</a></li>
 				</ul>
           
@@ -446,15 +418,13 @@
     
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
-          <li><a href="host.html">Host OpenCL</a> &raquo;</li>
-        
-      <li>Device Only Buffer</li>
+      <li>X3 NTG Examples</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="_sources/device_only_buffer.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/x3h.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -467,43 +437,14 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="device-only-buffer">
-<h1>Device Only Buffer<a class="headerlink" href="#device-only-buffer" title="Permalink to this headline">¶</a></h1>
-<p>This example will demonstrate how to create buffers in global memory which are not mapped to host. The device only memory allocation is done through the host code. The kernel can read data from device memory and write result to device memory.</p>
-<p><strong>KEY CONCEPTS:</strong> Device only buffer</p>
-<p><strong>KEYWORDS:</strong> CL_MEM_HOST_NO_ACCESS</p>
-<p>Device only buffers are used by the kernels to read and write data directly from/to the Device Memory. When xrt allocates memory on the device for a buffer object, it tries to determine which bank to allocate the buffer. Bank assignment can be done explicitly in the host application through the use of cl_mem_ext_ptr or can be automatically inferred based on device CU connectivity.</p>
-<div class="section" id="host-code-guidelines">
-<h2>Host code Guidelines<a class="headerlink" href="#host-code-guidelines" title="Permalink to this headline">¶</a></h2>
-<p>XRT OpenCL introduces a new buffer extension Flag <code class="docutils literal notranslate"><span class="pre">CL_MEM_HOST_NO_ACCESS</span></code> that should be used to denote a Device-only buffer</p>
-<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">OCL_CHECK</span><span class="p">(</span><span class="n">err</span><span class="p">,</span> <span class="n">cl</span><span class="o">::</span><span class="n">Buffer</span> <span class="n">dev_only_buf</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">CL_MEM_READ_WRITE</span> <span class="o">|</span>
-                                                  <span class="n">CL_MEM_HOST_NO_ACCESS</span><span class="p">,</span>
-                                     <span class="n">size_in_bytes</span><span class="p">,</span> <span class="k">nullptr</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">err</span><span class="p">));</span>
-</pre></div>
-</div>
-<p><strong>EXCLUDED PLATFORMS:</strong></p>
-<blockquote>
-<div><ul class="simple">
-<li><p>All NoDMA Platforms, i.e u50 nodma etc</p></li>
+  <div class="section" id="x3-ntg-examples">
+<h1>X3 NTG Examples<a class="headerlink" href="#x3-ntg-examples" title="Permalink to this headline">¶</a></h1>
+<p>This section contains X3 NTG Examples.</p>
+<div class="toctree-wrapper compound">
+<p class="caption"><span class="caption-text">List of Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="ip_table_rx.html">X3 NTG: IP Tables RX Vitis System Compiler</a></li>
 </ul>
-</div></blockquote>
-</div>
-<div class="section" id="design-files">
-<h2>DESIGN FILES<a class="headerlink" href="#design-files" title="Permalink to this headline">¶</a></h2>
-<p>Application code is located in the src directory. Accelerator binary files will be compiled to the xclbin directory. The xclbin directory is required by the Makefile and its contents will be filled during compilation. A listing of all the files in this example is shown below</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">src</span><span class="o">/</span><span class="n">host</span><span class="o">.</span><span class="n">cpp</span>
-<span class="n">src</span><span class="o">/</span><span class="n">madd</span><span class="o">.</span><span class="n">cpp</span>
-<span class="n">src</span><span class="o">/</span><span class="n">mmult</span><span class="o">.</span><span class="n">cpp</span>
-</pre></div>
-</div>
-<p>Access these files in the github repo by <a class="reference external" href="https://github.com/Xilinx/Vitis_Accel_Examples/tree/master/host/device_only_buffer">clicking here</a>.</p>
-</div>
-<div class="section" id="command-line-arguments">
-<h2>COMMAND LINE ARGUMENTS<a class="headerlink" href="#command-line-arguments" title="Permalink to this headline">¶</a></h2>
-<p>Once the environment has been configured, the application can be executed by</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">device_only_buffer</span> <span class="o">&lt;</span><span class="n">device_only_buf</span> <span class="n">XCLBIN</span><span class="o">&gt;</span>
-</pre></div>
-</div>
 </div>
 </div>
 
@@ -523,10 +464,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="streaming_k2k_mm.html" class="btn btn-neutral float-right" title="Stream Kernel to Kernel Memory Mapped" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="ip_table_rx.html" class="btn btn-neutral float-right" title="X3 NTG: IP Tables RX Vitis System Compiler" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="streaming_free_running_k2k.html" class="btn btn-neutral float-left" title="Stream Free Running Kernel (HLS C/C++)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="ps_validate_test.html" class="btn btn-neutral float-left" title="PS Validate Kernel" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
