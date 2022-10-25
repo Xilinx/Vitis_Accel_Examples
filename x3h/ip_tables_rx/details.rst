@@ -1,38 +1,5 @@
-Xilinx IPTables RX Filter
-=========================
-
-Xilinx IPTables RX Filter offload engine.
-
-DESIGN FILES
-------------
-
-Application code is located in the src directory. Accelerator binary files will be compiled to the xclbin directory. The xclbin directory is required by the Makefile and its contents will be filled during compilation. A listing of all the files in this example is shown below
-
-::
-
-   src/host.cpp
-   src/iptfiltersc.cpp
-   src/iptparser.hpp
-   src/kernel/iptfilterRxsc.cpp
-   src/kernel/iptfilterRxsc.hpp
-   src/meta_handler_rx.cpp
-   src/meta_handler_rx.hpp
-   src/net_utils.hpp
-   src/packet_filter_sc.hpp
-   src/x3_specs.hpp
-   src/x3host.py
-   
-COMMAND LINE ARGUMENTS
-----------------------
-
-Once the environment has been configured, the application can be executed by
-
-::
-
-   ./host.exe
-
-DETAILS
--------
+X3 NTG: IP Tables RX Vitis System Compiler
+===========================================
 
 Device
 -------
@@ -68,5 +35,3 @@ Args   Depiction         Meaning
 -----  ----------------  ----------------------------------------
 -n     --ntg             python script to send/rcv network data
 =====  ================  ========================================
-
-For more comprehensive documentation, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.
