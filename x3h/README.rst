@@ -12,6 +12,10 @@ This section contains X3 Hybrid Platform Examples.
     - **Key Concepts/Keywords**
   * - `ip_tables_rx <ip_tables_rx>`_
     - Xilinx IPTables RX Filter offload engine.
+    - `combine_bw_hm_passthrough <combine_bw_hm_passthrough>`_
+    - Xilinx Combine Bandwidth Hostmemory and Kernel.
+    - `rx_exerciser_tx_passthrough <rx_exerciser_tx_passthrough>`_
+    - Xilinx Tx Passthrough and Rx Exerciser.
     - 
 
 

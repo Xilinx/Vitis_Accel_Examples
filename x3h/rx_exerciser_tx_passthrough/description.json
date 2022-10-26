@@ -1,0 +1,112 @@
+{
+    "name": "Xilinx RX Exerciser Loop Design",
+    "description": [
+        "Xilinx RX Exerciser Loop Design"
+    ],
+    "flow": "vitis",
+    "launch": [
+        {
+            "cmd_args": "BUILD/exerciser_loop_rx.xclbin ./packet_gen_python/packetGen.py",
+            "name": "generic launch for all flows"
+        }
+    ],
+    "config_make": "config.mk",
+    "default_device": "xilinx_x3522p_gen4x8_hn10g_M7_1_202110_1",
+    "platform_blacklist": [
+        "zc",
+        "samsung",
+        "nodma",
+        "2018",
+        "qep"
+    ],
+    "host": {
+        "host_exe": "x3_exerciser_loop_rx",
+        "compiler": {
+            "sources": [
+                "./src/host.cpp",
+                "LIB_DIR/common/libs/xcl2/xcl2.cpp"
+            ]
+        }
+    },
+    "v++": {
+        "build_datafiles": [
+            "PROJECT/connectivity.cfg"
+        ],
+        "compiler": {
+            "includepaths": [
+                "LIB_DIR/L2/tests/src"
+            ],
+            "symbols": [
+                "NO_SYNTH"
+            ]
+        }
+    },
+    "containers": [
+        {
+            "name": "exerciser_loop_rx",
+            "ldclflags": "--config PROJECT/connectivity.cfg",
+            "accelerators": [
+                {
+                    "name": "packet_passthrough_tx_v1",
+                    "location": "LIB_DIR/L2/src/packet_passthrough_tx_v1.cpp",
+                    "frequency": 500.0
+                },
+                {
+                    "name": "exerciser_rx",
+                    "location": "LIB_DIR/L2/src/exerciser_rx.cpp"
+                },
+                {
+                    "name": "exerciser_config_rx",
+                    "location": "LIB_DIR/L2/src/exerciser_config_rx.cpp"
+                }
+            ]
+        }
+    ],
+    "testinfo": {
+        "disable": false,
+        "jobs": [
+            {
+                "index": 0,
+                "dependency": [],
+                "env": "",
+                "cmd": "",
+                "max_memory_MB": {
+                    "vitis_hw_build": 40960,
+                    "vitis_hw_emu": 28672,
+                    "vitis_sw_emu": 10240,
+                    "vitis_hw_run": 10240
+                },
+                "max_time_min": {
+                    "vitis_hw_build": 470,
+                    "vitis_hw_emu": 300,
+                    "vitis_sw_emu": 25,
+                    "vitis_hw_run": 10
+                }
+            }
+        ],
+        "targets": [
+            "vitis_sw_emu",
+            "vitis_hw_emu",
+            "vitis_hw"
+        ],
+        "category": "canary"
+    },
+    "platform_properties": {
+        "vck190": {
+            "host": {
+                "linker": {
+                    "librarypaths": [
+                        "$(SYSROOT)/usr/lib",
+                        "${SYSROOT}/opt/xilinx/xrt/lib"
+                    ]
+                },
+                "compiler": {
+                    "includepaths": [
+                        "$(SYSROOT)/usr/include"
+                    ],
+                    "options": "--sysroot=$(SYSROOT)"
+                }
+            }
+        }
+    }
+}
