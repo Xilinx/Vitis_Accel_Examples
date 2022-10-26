@@ -1,5 +1,5 @@
-PS Validate Kernel 
-===================
+PS Bandwidth Test 
+==================
 
 This PS validate kernel tests PS kernel functionality.
 

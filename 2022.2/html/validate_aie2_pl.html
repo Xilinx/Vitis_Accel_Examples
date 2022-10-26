@@ -57,8 +57,8 @@
   <link rel="stylesheet" href="_static/css/pro.min.css" media="all" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Xilinx AIE2 Validate Test" href="validate_aie2_pl.html" />
-    <link rel="prev" title="Combine_Bandwidth_Hostmemory" href="combine_bw_hm.html" /> 
+    <link rel="next" title="PS AIE Kernel" href="ps_aie_gmio_test.html" />
+    <link rel="prev" title="Xilinx AIE Validate Test" href="validate_aie_pl.html" /> 
 	</head>
 	<body>
 		<div class="xilinx-bs3"/>
@@ -358,12 +358,12 @@
 <li class="toctree-l2"><a class="reference internal" href="verify_test.html">Verify Kernel</a></li>
 <li class="toctree-l2"><a class="reference internal" href="validate_embedded.html">Validate Embedded Platform</a></li>
 <li class="toctree-l2"><a class="reference internal" href="combine_bw_hm.html">Combine_Bandwidth_Hostmemory</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Xilinx AIE Validate Test</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="validate_aie_pl.html">Xilinx AIE Validate Test</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Xilinx AIE2 Validate Test</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#design-files">DESIGN FILES</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#command-line-arguments">COMMAND LINE ARGUMENTS</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="validate_aie2_pl.html">Xilinx AIE2 Validate Test</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ps_aie_gmio_test.html">PS AIE Kernel</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ps_bandwidth_test.html">PS Bandwidth Test</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ps_validate_test.html">PS Validate Kernel</a></li>
@@ -385,7 +385,7 @@
 			
 			<p class="caption"><span class="caption-text">This Page</span></p>
 				<ul class="current">
-				  <li class="toctree-l1"><a href="_sources/validate_aie_pl.rst.txt"
+				  <li class="toctree-l1"><a href="_sources/validate_aie2_pl.rst.txt"
 						rel="nofollow">Show Source</a></li>
 				</ul>
           
@@ -433,13 +433,13 @@
         
           <li><a href="validate.html">Validate</a> &raquo;</li>
         
-      <li>Xilinx AIE Validate Test</li>
+      <li>Xilinx AIE2 Validate Test</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="_sources/validate_aie_pl.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/validate_aie2_pl.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -452,49 +452,98 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="xilinx-aie-validate-test">
-<h1>Xilinx AIE Validate Test<a class="headerlink" href="#xilinx-aie-validate-test" title="Permalink to this headline">¶</a></h1>
-<p>Xilinx AIE Validate example</p>
+  <div class="section" id="xilinx-aie2-validate-test">
+<h1>Xilinx AIE2 Validate Test<a class="headerlink" href="#xilinx-aie2-validate-test" title="Permalink to this headline">¶</a></h1>
+<p>Xilinx AIE2 Validate example.</p>
 <p><strong>EXCLUDED PLATFORMS:</strong></p>
 <blockquote>
 <div><ul class="simple">
-<li><p>Alveo U25 SmartNIC</p></li>
-<li><p>Alveo U30</p></li>
-<li><p>Alveo U200</p></li>
-<li><p>All Embedded Zynq Platforms, i.e zc702, zcu102 etc</p></li>
-<li><p>Versal VCK190</p></li>
-<li><p>Alveo U250</p></li>
-<li><p>AWS VU9P F1</p></li>
-<li><p>Samsung SmartSSD Computation Storage Drive</p></li>
-<li><p>Samsung U.2 SmartSSD</p></li>
-<li><p>X3 Compute Shell</p></li>
-<li><p>All NoDMA Platforms, i.e u50 nodma etc</p></li>
+<li><p>Versal V70</p></li>
 </ul>
 </div></blockquote>
 <div class="section" id="design-files">
 <h2>DESIGN FILES<a class="headerlink" href="#design-files" title="Permalink to this headline">¶</a></h2>
 <p>Application code is located in the src directory. Accelerator binary files will be compiled to the xclbin directory. The xclbin directory is required by the Makefile and its contents will be filled during compilation. A listing of all the files in this example is shown below</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pl_controller</span><span class="o">/</span><span class="n">L2</span><span class="o">/</span><span class="n">src</span><span class="o">/</span><span class="n">hw</span><span class="o">/</span><span class="n">pl_controller_kernel</span><span class="o">.</span><span class="n">cpp</span>
-<span class="n">pl_controller</span><span class="o">/</span><span class="n">L2</span><span class="o">/</span><span class="n">src</span><span class="o">/</span><span class="n">sw</span><span class="o">/</span><span class="n">pl_controller</span><span class="o">.</span><span class="n">cpp</span>
-<span class="n">pl_ctrl_aie_asyn</span><span class="o">/</span><span class="n">src</span><span class="o">/</span><span class="n">aie</span><span class="o">/</span><span class="n">graph</span><span class="o">.</span><span class="n">cpp</span>
-<span class="n">pl_ctrl_aie_asyn</span><span class="o">/</span><span class="n">src</span><span class="o">/</span><span class="n">aie</span><span class="o">/</span><span class="n">graph</span><span class="o">.</span><span class="n">h</span>
-<span class="n">pl_ctrl_aie_asyn</span><span class="o">/</span><span class="n">src</span><span class="o">/</span><span class="n">aie</span><span class="o">/</span><span class="n">kernels</span><span class="o">.</span><span class="n">h</span>
-<span class="n">pl_ctrl_aie_asyn</span><span class="o">/</span><span class="n">src</span><span class="o">/</span><span class="n">aie</span><span class="o">/</span><span class="n">kernels</span><span class="o">/</span><span class="n">include</span><span class="o">.</span><span class="n">h</span>
-<span class="n">pl_ctrl_aie_asyn</span><span class="o">/</span><span class="n">src</span><span class="o">/</span><span class="n">aie</span><span class="o">/</span><span class="n">kernels</span><span class="o">/</span><span class="n">kernels</span><span class="o">.</span><span class="n">cc</span>
-<span class="n">pl_ctrl_aie_asyn</span><span class="o">/</span><span class="n">src</span><span class="o">/</span><span class="n">host</span><span class="o">/</span><span class="n">host</span><span class="o">.</span><span class="n">cpp</span>
-<span class="n">pl_ctrl_aie_asyn</span><span class="o">/</span><span class="n">src</span><span class="o">/</span><span class="n">xclbin</span><span class="o">/</span><span class="n">pl_kernels</span><span class="o">/</span><span class="n">sender_receiver</span><span class="o">.</span><span class="n">cpp</span>
-<span class="n">pl_ctrl_aie_asyn</span><span class="o">/</span><span class="n">src</span><span class="o">/</span><span class="n">xclbin</span><span class="o">/</span><span class="n">pl_kernels</span><span class="o">/</span><span class="n">sender_receiver</span><span class="o">.</span><span class="n">hpp</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pl_controller</span><span class="o">/</span><span class="n">kernel</span><span class="o">/</span><span class="n">ctrl_pkt_utils</span><span class="o">.</span><span class="n">hpp</span>
+<span class="n">pl_controller</span><span class="o">/</span><span class="n">kernel</span><span class="o">/</span><span class="n">dma_ctrl</span><span class="o">.</span><span class="n">hpp</span>
+<span class="n">pl_controller</span><span class="o">/</span><span class="n">kernel</span><span class="o">/</span><span class="n">enums</span><span class="o">.</span><span class="n">hpp</span>
+<span class="n">pl_controller</span><span class="o">/</span><span class="n">kernel</span><span class="o">/</span><span class="n">graph_ctrl</span><span class="o">.</span><span class="n">hpp</span>
+<span class="n">pl_controller</span><span class="o">/</span><span class="n">kernel</span><span class="o">/</span><span class="n">pl_controller_kernel</span><span class="o">.</span><span class="n">hpp</span>
+<span class="n">pl_controller</span><span class="o">/</span><span class="n">kernel</span><span class="o">/</span><span class="n">pl_controller_top</span><span class="o">.</span><span class="n">cpp</span>
+<span class="n">pl_controller</span><span class="o">/</span><span class="n">kernel</span><span class="o">/</span><span class="n">sender_receiver</span><span class="o">.</span><span class="n">cpp</span>
+<span class="n">pl_controller</span><span class="o">/</span><span class="n">kernel</span><span class="o">/</span><span class="n">sender_receiver</span><span class="o">.</span><span class="n">hpp</span>
+<span class="n">pl_controller</span><span class="o">/</span><span class="n">kernel</span><span class="o">/</span><span class="n">utils</span><span class="o">.</span><span class="n">hpp</span>
+<span class="n">aie</span><span class="o">/</span><span class="n">graph</span><span class="o">.</span><span class="n">h</span>
+<span class="n">aie</span><span class="o">/</span><span class="n">graph</span><span class="o">.</span><span class="n">cpp</span>
+<span class="n">aie</span><span class="o">/</span><span class="n">kernels</span><span class="o">.</span><span class="n">h</span>
+<span class="n">aie</span><span class="o">/</span><span class="n">kernels</span><span class="o">/</span><span class="n">include</span><span class="o">.</span><span class="n">h</span>
+<span class="n">aie</span><span class="o">/</span><span class="n">kernels</span><span class="o">/</span><span class="n">kernels</span><span class="o">.</span><span class="n">cc</span>
+<span class="n">sw</span><span class="o">/</span><span class="n">host</span><span class="o">.</span><span class="n">cpp</span>
+<span class="n">sw</span><span class="o">/</span><span class="n">pl_controller</span><span class="o">.</span><span class="n">cpp</span>
+<span class="n">sw</span><span class="o">/</span><span class="n">pl_controller</span><span class="o">.</span><span class="n">hpp</span>
 </pre></div>
 </div>
-<p>Access these files in the github repo by <a class="reference external" href="https://github.com/Xilinx/Vitis_Accel_Examples/tree/master/validate/validate_aie_pl">clicking here</a>.</p>
 </div>
 <div class="section" id="command-line-arguments">
 <h2>COMMAND LINE ARGUMENTS<a class="headerlink" href="#command-line-arguments" title="Permalink to this headline">¶</a></h2>
 <p>Once the environment has been configured, the application can be executed by</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">host</span><span class="o">.</span><span class="n">exe</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">make</span> <span class="n">xclbin</span> <span class="n">TARGET</span><span class="o">=</span><span class="n">hw</span> <span class="n">PLATFORM</span><span class="o">=&lt;</span><span class="n">path</span> <span class="n">to</span> <span class="n">local</span> <span class="n">xpfm</span><span class="o">&gt;</span>
+<span class="o">./</span><span class="n">host</span><span class="o">.</span><span class="n">exe</span> <span class="n">final</span><span class="o">.</span><span class="n">xclbin</span> <span class="o">./</span><span class="n">Work</span><span class="o">/</span><span class="n">ps</span><span class="o">/</span><span class="n">c_rts</span><span class="o">/</span><span class="n">aie_control_config</span><span class="o">.</span><span class="n">json</span> <span class="o">./</span><span class="n">Work</span><span class="o">/</span><span class="n">reports</span><span class="o">/</span><span class="n">dma_lock_report</span><span class="o">.</span><span class="n">json</span>
 </pre></div>
 </div>
+<p>If application can be executed successfully, you will get the list just showing below,</p>
+<details><summary>
+
+<b>Example output:</b></summary><div class="line-block">
+<div class="line"><br /></div>
 </div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Xclbin Load successful!
+UUID Load successful!
+memory allocation complete
+sync pm buffer complete
+start sender-receiver kernel
+start pl controller kernel
+host_out1[0]=1
+host_out1[1]=2
+host_out1[2]=3
+host_out1[3]=4
+host_out1[4]=5
+host_out1[5]=6
+host_out1[6]=7
+host_out1[7]=8
+host_out1[8]=9
+host_out1[9]=10
+host_out1[10]=11
+host_out1[11]=12
+host_out1[12]=13
+host_out1[13]=14
+host_out1[14]=15
+host_out1[15]=16
+host_out1[16]=17
+host_out1[17]=18
+host_out1[18]=19
+host_out1[19]=20
+host_out1[20]=21
+host_out1[21]=22
+host_out1[22]=23
+host_out1[23]=24
+host_out1[24]=25
+host_out1[25]=26
+host_out1[26]=27
+host_out1[27]=28
+host_out1[28]=29
+host_out1[29]=30
+host_out1[30]=31
+host_out1[31]=32
+qemu-system-microblazeel: /ps_pmc_rp@0: Disconnected clk=26532985404 ns
+
+INFO: [HW-EMU 06-0] Waiting for the simulator process to exit
+INFO: [HW-EMU 06-1] All the simulator processes exited successfully
+INFO: [HW-EMU 07-0] Please refer the path &quot;*/validate/validate_aie2_pl/build_dir.hw_emu.xilinx_v70_gen5x8_qdma_2_202220_1/.run/78892/hw_em/device0/binary_0/behav_waveform/xsim/simulate.log&quot; for more detailed simulation infos, errors and warnings.
+TEST PASSEDTest passed
+</pre></div>
+</div>
+</details></div>
 </div>
 
 
@@ -513,10 +562,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="validate_aie2_pl.html" class="btn btn-neutral float-right" title="Xilinx AIE2 Validate Test" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="ps_aie_gmio_test.html" class="btn btn-neutral float-right" title="PS AIE Kernel" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="combine_bw_hm.html" class="btn btn-neutral float-left" title="Combine_Bandwidth_Hostmemory" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="validate_aie_pl.html" class="btn btn-neutral float-left" title="Xilinx AIE Validate Test" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
