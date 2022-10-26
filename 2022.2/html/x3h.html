@@ -57,8 +57,8 @@
   <link rel="stylesheet" href="_static/css/pro.min.css" media="all" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Vadd 2 Kernel Clocks (RTL Kernel)" href="rtl_vadd_2clks.html" />
-    <link rel="prev" title="RTL Stream Kernel to Kernel and Memory Mapped (RTL Kernel)" href="rtl_streaming_k2k_mm.html" /> 
+    <link rel="next" title="Xilinx IPTables RX Filter" href="ip_tables_rx.html" />
+    <link rel="prev" title="PS Validate Kernel" href="ps_validate_test.html" /> 
 	</head>
 	<body>
 		<div class="xilinx-bs3"/>
@@ -350,25 +350,13 @@
 <li class="toctree-l1"><a class="reference internal" href="performance.html">Performance Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sys_opt.html">System Optimization Kernels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sys_compiler.html">System Compiler Examples</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="rtl.html">RTL Kernels</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="rtl_adder_streams.html">Adder With Streams (RTL Kernel)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="rtl_streaming_free_running_k2k.html">Stream Free Running Kernel (RTL Kernel)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="rtl_streaming_k2k_mm.html">RTL Stream Kernel to Kernel and Memory Mapped (RTL Kernel)</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Vadd Simple (RTL Kernel)</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#design-files">DESIGN FILES</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#command-line-arguments">COMMAND LINE ARGUMENTS</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="rtl_vadd_2clks.html">Vadd 2 Kernel Clocks (RTL Kernel)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="rtl_vadd_2kernels.html">Vadd 2 Kernels (RTL Kernel)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="rtl_vadd_hw_debug.html">Hardware Debug (RTL Kernel)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="rtl_vadd_mixed_c_vadd.html">Mixed Kernels (RTL &amp; C)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="rtl_user_managed.html">User Managed IP (RTL Kernel)</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="rtl.html">RTL Kernels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ocl.html">OpenCL Kernels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="validate.html">Validate</a></li>
-<li class="toctree-l1"><a class="reference internal" href="x3h.html">X3 Hybrid Examples</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">X3 Hybrid Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ip_tables_rx.html">Xilinx IPTables RX Filter</a></li>
+</ul>
+</li>
 </ul>
 <p class="caption"><span class="caption-text">Common Utilities</span></p>
 <ul>
@@ -384,7 +372,7 @@
 			
 			<p class="caption"><span class="caption-text">This Page</span></p>
 				<ul class="current">
-				  <li class="toctree-l1"><a href="_sources/rtl_vadd.rst.txt"
+				  <li class="toctree-l1"><a href="_sources/x3h.rst.txt"
 						rel="nofollow">Show Source</a></li>
 				</ul>
           
@@ -430,15 +418,13 @@
     
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
-          <li><a href="rtl.html">RTL Kernels</a> &raquo;</li>
-        
-      <li>Vadd Simple (RTL Kernel)</li>
+      <li>X3 Hybrid Examples</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="_sources/rtl_vadd.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/x3h.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -451,55 +437,14 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="vadd-simple-rtl-kernel">
-<h1>Vadd Simple (RTL Kernel)<a class="headerlink" href="#vadd-simple-rtl-kernel" title="Permalink to this headline">¶</a></h1>
-<p>This is a simple example of vector addition using RTL kernel and supports all flows including sw_emu using C-Model.</p>
-<p><strong>KEY CONCEPTS:</strong> <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/RTL-Kernels">RTL Kernel</a>, <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Software-Model-and-Host-Code-Example">RTL C-Model</a></p>
-<p><strong>KEYWORDS:</strong> <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Packaging-the-RTL-Code-as-a-Vitis-XO">kernel_files</a></p>
-<p>This example demonstrates simple vector addition with RTL kernel. Two
-vectors are transferred from host to kernel, added and the result is
-written back to host and verified.</p>
-<p>RTL kernels can be integrated to Vitis using <code class="docutils literal notranslate"><span class="pre">RTL</span> <span class="pre">Kernel</span> <span class="pre">Wizard</span></code>.
-These kernels have the same software interface model as OpenCL and C/C++
-kernels. That is, they are seen by the host application as functions
-with a void return value, scalar arguments, and pointer arguments.</p>
-<p>The RTL Kernel Wizard automates some of the steps that need to be taken
-to ensure that the RTL IP is packaged into a kernel that can be
-integrated into a system in Vitis environment.</p>
-<p>The example also supports sw_emu by running the vadd.cpp code provided in the <code class="docutils literal notranslate"><span class="pre">package_xo</span></code> command as follows:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>package_xo -xo_path ${xoname} -kernel_name krnl_vadd_rtl -ip_directory ./packaged_kernel_${suffix} -kernel_files src/krnl_vadd/vadd_CModel.cpp
-</pre></div>
-</div>
-<p><strong>EXCLUDED PLATFORMS:</strong></p>
-<blockquote>
-<div><ul class="simple">
-<li><p>All NoDMA Platforms, i.e u50 nodma etc</p></li>
+  <div class="section" id="x3-hybrid-examples">
+<h1>X3 Hybrid Examples<a class="headerlink" href="#x3-hybrid-examples" title="Permalink to this headline">¶</a></h1>
+<p>This section contains X3 Hybrid Platform Examples.</p>
+<div class="toctree-wrapper compound">
+<p class="caption"><span class="caption-text">List of Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="ip_tables_rx.html">Xilinx IPTables RX Filter</a></li>
 </ul>
-</div></blockquote>
-<div class="section" id="design-files">
-<h2>DESIGN FILES<a class="headerlink" href="#design-files" title="Permalink to this headline">¶</a></h2>
-<p>Application code is located in the src directory. Accelerator binary files will be compiled to the xclbin directory. The xclbin directory is required by the Makefile and its contents will be filled during compilation. A listing of all the files in this example is shown below</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">src</span><span class="o">/</span><span class="n">host</span><span class="o">.</span><span class="n">cpp</span>
-<span class="n">src</span><span class="o">/</span><span class="n">krnl_vadd</span><span class="o">/</span><span class="n">gen_xo</span><span class="o">.</span><span class="n">tcl</span>
-<span class="n">src</span><span class="o">/</span><span class="n">krnl_vadd</span><span class="o">/</span><span class="n">hdl</span><span class="o">/</span><span class="n">krnl_vadd_rtl</span><span class="o">.</span><span class="n">v</span>
-<span class="n">src</span><span class="o">/</span><span class="n">krnl_vadd</span><span class="o">/</span><span class="n">hdl</span><span class="o">/</span><span class="n">krnl_vadd_rtl_adder</span><span class="o">.</span><span class="n">sv</span>
-<span class="n">src</span><span class="o">/</span><span class="n">krnl_vadd</span><span class="o">/</span><span class="n">hdl</span><span class="o">/</span><span class="n">krnl_vadd_rtl_axi_read_master</span><span class="o">.</span><span class="n">sv</span>
-<span class="n">src</span><span class="o">/</span><span class="n">krnl_vadd</span><span class="o">/</span><span class="n">hdl</span><span class="o">/</span><span class="n">krnl_vadd_rtl_axi_write_master</span><span class="o">.</span><span class="n">sv</span>
-<span class="n">src</span><span class="o">/</span><span class="n">krnl_vadd</span><span class="o">/</span><span class="n">hdl</span><span class="o">/</span><span class="n">krnl_vadd_rtl_control_s_axi</span><span class="o">.</span><span class="n">v</span>
-<span class="n">src</span><span class="o">/</span><span class="n">krnl_vadd</span><span class="o">/</span><span class="n">hdl</span><span class="o">/</span><span class="n">krnl_vadd_rtl_counter</span><span class="o">.</span><span class="n">sv</span>
-<span class="n">src</span><span class="o">/</span><span class="n">krnl_vadd</span><span class="o">/</span><span class="n">hdl</span><span class="o">/</span><span class="n">krnl_vadd_rtl_int</span><span class="o">.</span><span class="n">sv</span>
-<span class="n">src</span><span class="o">/</span><span class="n">krnl_vadd</span><span class="o">/</span><span class="n">package_kernel</span><span class="o">.</span><span class="n">tcl</span>
-<span class="n">src</span><span class="o">/</span><span class="n">krnl_vadd</span><span class="o">/</span><span class="n">vadd_cmodel</span><span class="o">.</span><span class="n">cpp</span>
-</pre></div>
-</div>
-<p>Access these files in the github repo by <a class="reference external" href="https://github.com/Xilinx/Vitis_Accel_Examples/tree/master/rtl_kernels/rtl_vadd">clicking here</a>.</p>
-</div>
-<div class="section" id="command-line-arguments">
-<h2>COMMAND LINE ARGUMENTS<a class="headerlink" href="#command-line-arguments" title="Permalink to this headline">¶</a></h2>
-<p>Once the environment has been configured, the application can be executed by</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">rtl_vadd</span> <span class="o">&lt;</span><span class="n">vadd</span> <span class="n">XCLBIN</span><span class="o">&gt;</span>
-</pre></div>
-</div>
 </div>
 </div>
 
@@ -519,10 +464,10 @@ integrated into a system in Vitis environment.</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="rtl_vadd_2clks.html" class="btn btn-neutral float-right" title="Vadd 2 Kernel Clocks (RTL Kernel)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="ip_tables_rx.html" class="btn btn-neutral float-right" title="Xilinx IPTables RX Filter" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="rtl_streaming_k2k_mm.html" class="btn btn-neutral float-left" title="RTL Stream Kernel to Kernel and Memory Mapped (RTL Kernel)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="ps_validate_test.html" class="btn btn-neutral float-left" title="PS Validate Kernel" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

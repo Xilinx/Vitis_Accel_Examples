@@ -7,7 +7,6 @@ Previous Versions
 Vitis Accel Examples documentation is organized by release versions.
 Use the following links to browse Vitis Accel Examples documentation for a specific release.
 
-
 - |2022_2|_
 - |2022_1|_
 - |2021_2|_
