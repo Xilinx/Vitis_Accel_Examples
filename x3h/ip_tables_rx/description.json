@@ -21,7 +21,7 @@
                 "LIB_DIR/common/libs/xcl2/xcl2.cpp"
             ],
             "includepaths": [
-                "LIB_DIR/L2/tests/src/",
+                "LIB_DIR/L2/tests/src/"
             ]
         }
     },
