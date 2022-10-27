@@ -198,9 +198,9 @@ def mk_help(target):
     target.write("\t$(ECHO) \"      Command to prepare sd_card files.\"\n")
     target.write("\t$(ECHO) \"\"\n")
     target.write("\t$(ECHO) \"  make run TARGET=<sw_emu/hw_emu/hw> PLATFORM=<FPGA platform>");
-    target.write(" EDGE_COMMON_SW=<rootfs and kernel image path>")
+    target.write(" EMU_PS=<X86/QEMU> EDGE_COMMON_SW=<rootfs and kernel image path>")
     target.write("\"\n")
-    target.write("\t$(ECHO) \"      Command to run application in emulation.\"\n")
+    target.write("\t$(ECHO) \"      Command to run application in emulation.Default sw_emu will run on x86 ,to launch on qemu specify EMU_PS=QEMU.\"\n")
     target.write("\t$(ECHO) \"\"\n")
     target.write("\t$(ECHO) \"  make build TARGET=<sw_emu/hw_emu/hw> PLATFORM=<FPGA platform>");
     target.write(" EDGE_COMMON_SW=<rootfs and kernel image path>")
