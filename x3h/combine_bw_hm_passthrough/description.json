@@ -10,7 +10,7 @@
     "runtime": [
         "OpenCL"
     ],
-    "platform_blacklist": [
+    "platform_blocklist": [
         "_u25_",
         "u30",
         "u50lv",
