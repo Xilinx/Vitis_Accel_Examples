@@ -140,19 +140,6 @@ XRT Native API's for optimized interfacing with Xilinx Devices.
       * host_only
       * `HOST[0] <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Mapping-Kernel-Ports-to-Memory>`__
 
-  * - `iops_fast_adapter_xrt <iops_fast_adapter_xrt>`_
-    - This is simple test design to measure Input/Output Operations per second using Fast Adapter. In this design, a simple kernel is enqueued many times and overall IOPS is measured using XRT native api's.
-    - 
-      **Key Concepts**
-
-      * Input/Output Operations per second
-
-      * Fast Adapter
-
-      **Keywords**
-
-      * nextDescriptorAddr
-
   * - `mailbox_auto_restart_xrt <mailbox_auto_restart_xrt>`_
     - This is a simple example demonstrating the Mailbox and Auto-restart features for writing registers to and reading registers from a never-ending kernel.
     - 
@@ -186,6 +173,20 @@ XRT Native API's for optimized interfacing with Xilinx Devices.
       * `Multiple compute units <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Symmetrical-and-Asymmetrical-Compute-Units>`__
       * `Task Level Parallelism <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Task-Parallelism>`__
 
+  * - `p2p_fpga2fpga_xrt <p2p_fpga2fpga_xrt>`_
+    - This is simple example to explain P2P transfer between two FPGA devices using xrt native api's.
+    - 
+      **Key Concepts**
+
+      * `P2P <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/p2p>`__
+      * Multi-FPGA Execution
+
+      * XDMA
+
+      **Keywords**
+
+      * xrt::bo::flags::p2p
+
   * - `p2p_simple_xrt <p2p_simple_xrt>`_
     - This is simple example of vector increment to describe P2P between FPGA and NVMe SSD using xrt native api's.
     - 
@@ -203,16 +204,6 @@ XRT Native API's for optimized interfacing with Xilinx Devices.
       * pwrite
       * `O_DIRECT <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Special-Data-Transfer-Models>`__
       * O_RDWR
-
-  * - `register_access_xrt <register_access_xrt>`_
-    - This is simple example which demonstrate register read & write using native xrt api's.
-    - 
-      **Keywords**
-
-      * `read_register <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Writing-Host-Applications-with-XRT-API>`__
-      * `write_register <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Writing-Host-Applications-with-XRT-API>`__
-      * cu_access_mode
-      * exclusive
 
   * - `streaming_free_running_k2k_xrt <streaming_free_running_k2k_xrt>`_
     - This is simple example which demonstrate how to use and configure a free running kernel.
