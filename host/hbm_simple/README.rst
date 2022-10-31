@@ -143,4 +143,4 @@ if data_transfer_trace is off. Following is the content of xrt.ini file :
    opencl_trace=true
    trace_buffer_size=2M
 
-For more comprehensive documentation, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.
+To visit github.io of this repository, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.

@@ -170,7 +170,7 @@ def details(target):
                 if 2 <= i :
                     target.write(x)
         target.write("\n")
-    target.write("For more comprehensive documentation, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.")
+    target.write("To visit github.io of this repository, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.")
     return
 
 # Get the argument from the description

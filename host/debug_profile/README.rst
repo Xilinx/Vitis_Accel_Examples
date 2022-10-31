@@ -115,4 +115,4 @@ When used in this simple example:
 
 it prints the "Number of elements" and "buffer size" for C simulation, SW emulation, RTL cosimulation and HW emulation. It is ignored in HW flow and does not impact the kernel functionality.
 
-For more comprehensive documentation, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.
+To visit github.io of this repository, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.

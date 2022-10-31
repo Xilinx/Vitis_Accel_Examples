@@ -67,4 +67,4 @@ The API xrt::bo::copy also has overloaded version to provide a different
 offset than 0 for both the source and the destination buffer.
 
 
-For more comprehensive documentation, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.
+To visit github.io of this repository, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.

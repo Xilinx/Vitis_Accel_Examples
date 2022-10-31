@@ -91,4 +91,4 @@ Input from the User
 
 5. Use ``make run TARGET=sw_emu`` to run for the software emulation target. 
 
-For more comprehensive documentation, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.
+To visit github.io of this repository, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.

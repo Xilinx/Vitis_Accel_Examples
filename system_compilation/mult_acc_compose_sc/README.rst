@@ -67,4 +67,4 @@ DETAILS
 
 This example demonstrates the usage of multile accelerators into single xclbin and compose them into a pipeline with CPU processing in between the PE's.
 
-For more comprehensive documentation, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.
+To visit github.io of this repository, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.

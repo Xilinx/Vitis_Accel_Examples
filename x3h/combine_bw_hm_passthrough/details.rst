@@ -1,67 +1,6 @@
 Combine_Bandwidth_Hostmemory(C)
 ===============================
 
-This is a simple design that verifies if the platform has basic functionalities It also tests the possible bandwidth between Kernel and Global Memory and validates direct host memory access from kernel.
-
-.. raw:: html
-
- <details>
-
-.. raw:: html
-
- <summary> 
-
- <b>EXCLUDED PLATFORMS:</b>
-
-.. raw:: html
-
- </summary>
-|
-..
-
- - Alveo U25 SmartNIC
- - Alveo U30
- - Alveo U50lv
- - Alveo U50 gen3x4
- - All Embedded Zynq Platforms, i.e zc702, zcu102 etc
- - All Versal Platforms, i.e vck190 etc
- - AWS VU9P F1
- - All Platforms with 2019 Version
- - All Platforms with 2018 Version
- - Samsung SmartSSD Computation Storage Drive
- - Samsung U.2 SmartSSD
- - Versal V70
-
-.. raw:: html
-
- </details>
-
-.. raw:: html
-
-DESIGN FILES
-------------
-
-Application code is located in the src directory. Accelerator binary files will be compiled to the xclbin directory. The xclbin directory is required by the Makefile and its contents will be filled during compilation. A listing of all the files in this example is shown below
-
-::
-
-   src/bandwidth.cpp
-   src/host.cpp
-   src/hostmemory.cpp
-   src/verify.cpp
-   
-COMMAND LINE ARGUMENTS
-----------------------
-
-Once the environment has been configured, the application can be executed by
-
-::
-
-   ./combine_bw_hm.exe platform_test_path
-
-DETAILS
--------
-
 This example contains verify test, bandwidth test and host memory test kernels to validate FPGA.
 
 In the verify test we have extremely simple HLS C Kernel to verify that the platform has basic functionality. It will make a call to the kernel with an empty global buffer. The kernel will then write the string of characters "Hello World" into the buffer and return. The host will copy this buffer locally and then print out the resulting buffer contents.
@@ -102,4 +41,20 @@ Using the ``sp`` option  in the platform_hostmemory.cfg file, AXI-Master Port is
    sp=hostmemory.input:HOST[0]
    sp=hostmemory.output:HOST[0]
 
-To visit github.io of this repository, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.
+BUILD INSTRUCTIONS
+------------------
+
+Instruction below can be used to generate XCLBIN for Hardware (Board) flow.
+
+::
+
+    make all TARGET=hw  DEVICE=<path to xilinx_x3522p_gen4x8_hn10g_M7_1_202110_1.xpfm file> 
+
+Instruction below can be used to generate XCLBIN for Hardware Emulation Flow.
+
+:: 
+
+    make run TARGET=hw_emu DEVICE=<path to xilinx_x3522p_gen4x8_hn10g_1_202220_1.xpfm emulation platform>
+
+Note: In case of emulation flow platform file is present under /proj/xbuilds/Vitis_HW_EMU/2022.2/xilinx_x3522p_gen4x8_hn10g_1_202220_1/2022.2_component_verified.
+

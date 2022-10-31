@@ -77,4 +77,4 @@ and write) which are then performed concurrently using ``Dataflow``.
        compute_add(inStream, outStream, inc, size);
        write_result(out, outStream, size);
 
-For more comprehensive documentation, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.
+To visit github.io of this repository, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.

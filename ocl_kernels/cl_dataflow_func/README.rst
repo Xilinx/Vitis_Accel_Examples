@@ -74,4 +74,4 @@ global memory, ``compute_add`` for addition of these inputs and
        write_result(out,buffer_out,size);
    }
 
-For more comprehensive documentation, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.
+To visit github.io of this repository, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.

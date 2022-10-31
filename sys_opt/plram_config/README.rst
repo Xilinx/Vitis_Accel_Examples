@@ -90,4 +90,4 @@ PLRAM can be assigned to a buffer by using ``sp`` tags in the vadd.cfg file alon
    sp=vadd_1.in2:PLRAM[1]
    sp=vadd_1.out:PLRAM[1]
 
-For more comprehensive documentation, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.
+To visit github.io of this repository, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.

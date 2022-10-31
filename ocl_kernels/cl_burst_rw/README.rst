@@ -76,4 +76,4 @@ read/write:
 -  Aligned memory : Memory addresses for read/write should be
    contiguous.
 
-For more comprehensive documentation, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.
+To visit github.io of this repository, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.

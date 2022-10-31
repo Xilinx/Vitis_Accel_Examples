@@ -24,6 +24,7 @@ Bandwidth test of global to local memory.
  - Alveo U50
  - Alveo U55
  - Versal VCK5000
+ - Alveo U250
  - Versal V70
 
 .. raw:: html
@@ -114,4 +115,4 @@ XSA (3DDR):
       ../src/<config_file.cfg> 5.Define NDDR_BANKS 3 in kernel “#define
       NDDR_BANKS 3” at the top of kernel.cl
 
-For more comprehensive documentation, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.
+To visit github.io of this repository, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.

@@ -12,7 +12,7 @@
     ],
     "config_make": "config.mk",
     "default_device": "xilinx_x3522p_gen4x8_hn10g_M7_1_202110_1",
-    "platform_blacklist": [
+    "platform_blocklist": [
         "zc",
         "samsung",
         "nodma",
@@ -90,23 +90,5 @@
             "vitis_hw"
         ],
         "category": "canary"
-    },
-    "platform_properties": {
-        "vck190": {
-            "host": {
-                "linker": {
-                    "librarypaths": [
-                        "$(SYSROOT)/usr/lib",
-                        "${SYSROOT}/opt/xilinx/xrt/lib"
-                    ]
-                },
-                "compiler": {
-                    "includepaths": [
-                        "$(SYSROOT)/usr/include"
-                    ],
-                    "options": "--sysroot=$(SYSROOT)"
-                }
-            }
-        }
-    }
+    }    
 }

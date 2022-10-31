@@ -12,7 +12,8 @@ This section contains AIE Examples.
     - **Key Concepts/Keywords**
   * - `aie_adder <aie_adder>`_
     - This simple example demonstrate the flow to create aie Kernel and how to connect aie Kernel to PL Kernels and validate the design running on the AI Engine.
-    - **Key Concepts**
+    - 
+      **Key Concepts**
 
       * `AI Engine <https://docs.xilinx.com/r/en-US/ug1076-ai-engine-environment/AI-Engine/Programmable-Logic-Integration>`__
       * `Adaptive Data Flow <https://docs.xilinx.com/r/en-US/ug1076-ai-engine-environment/Adaptive-Data-Flow-Graph-Specification-Reference>`__

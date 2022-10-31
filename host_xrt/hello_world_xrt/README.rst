@@ -94,4 +94,4 @@ This is a simple hello world example to explain the XRT Native API's
     currently loaded xclbin. Most interaction with kernel objects are through
     xrt::run objects created from the kernel object to represent an execution of the kernel 
 
-For more comprehensive documentation, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.
+To visit github.io of this repository, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.

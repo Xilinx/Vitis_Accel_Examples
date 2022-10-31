@@ -138,4 +138,4 @@ the design on U50 platform:
 By default we are going with 3 compute units of kernel as we have power
 consumption limitation while targeting U50 platform.
 
-For more comprehensive documentation, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.
+To visit github.io of this repository, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.

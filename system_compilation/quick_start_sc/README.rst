@@ -107,4 +107,4 @@ Specifies the amount of data to be copied by the data mover at runtime between h
 - SYS_PORT(<port>, <memBank>)
 Specifies which memory bank to use for a given port connection (identical for all CU's). The "memBank" specifies the bank name such as DDR[0] etc and "port" is the CU argument name.
 
-For more comprehensive documentation, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.
+To visit github.io of this repository, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.

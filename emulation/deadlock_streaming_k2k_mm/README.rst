@@ -25,8 +25,6 @@ This is a simple kernel to kernel streaming Vector Add and Vector Multiply C Ker
 
  - Samsung SmartSSD Computation Storage Drive
  - Samsung U.2 SmartSSD
- - All Versal Platforms, i.e vck190 etc
- - All Embedded Zynq Platforms, i.e zc702, zcu102 etc
  - All NoDMA Platforms, i.e u50 nodma etc
  - Versal V70
 
@@ -93,8 +91,6 @@ In the Makefile, add the VPP flags at v++ link
         VPP_LDFLAGS_krnl_stream_vadd_vmult += --config ./krnl_stream_vadd_vmult.cfg --config krnl_link.cfg
         $(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) $(VPP_LDFLAGS_krnl_stream_vadd_vmult) -o'$(LINK_OUTPUT)   
 
-3. In the xrt.ini file, enable the PL deadlock detection `pl_deadlock_detection=true` for intra kernel deadlock diagnosis. 
- 
 Output
 -------
 
@@ -111,4 +107,4 @@ This example is run with `debug_mode=batch` and generates waveform database file
 * Upon opening the waveform, you will find "CU stalls" object for each kernel functions. 
 * Users can see the stall signals (in orange) generated from streams of the kernels responsible for the deadlock in the design.    
 
-For more comprehensive documentation, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.
+To visit github.io of this repository, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.

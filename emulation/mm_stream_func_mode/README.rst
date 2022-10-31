@@ -7,6 +7,30 @@ This example demonstrates how a user can run functional model of HLS kernel in H
 
 **KEYWORDS:** `emulationMode=func <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Working-with-Functional-Model-of-the-HLS-Kernel>`__
 
+.. raw:: html
+
+ <details>
+
+.. raw:: html
+
+ <summary> 
+
+ <b>EXCLUDED PLATFORMS:</b>
+
+.. raw:: html
+
+ </summary>
+|
+..
+
+ - Versal DFX platform
+
+.. raw:: html
+
+ </details>
+
+.. raw:: html
+
 DESIGN FILES
 ------------
 
@@ -84,4 +108,4 @@ Below is the wall-clock time for the kernels to finish the execution in function
 
 * Note: All the kernel logics are same and there is no change in the kernel code. Only mode of compilation differs. 
 
-For more comprehensive documentation, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.
+To visit github.io of this repository, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.

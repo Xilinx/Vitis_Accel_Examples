@@ -87,4 +87,4 @@ apply_watermark.cfg file along with the port name and kernel name.
    sp=apply_watermark_1.input:DDR[0]
    sp=apply_watermark_1.output:DDR[1]
 
-For more comprehensive documentation, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.
+To visit github.io of this repository, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.

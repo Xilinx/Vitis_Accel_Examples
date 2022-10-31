@@ -1,5 +1,5 @@
-PS Validate Kernel (C)
-======================
+PS Bandwidth Test (C)
+=====================
 
 This PS validate kernel tests PS kernel functionality.
 
@@ -88,4 +88,4 @@ Following is the real log reported when running the design on VCK5000:
    Throughput (Type: DDR) : 23461MB/s
    TEST PASSED
 
-For more comprehensive documentation, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.
+To visit github.io of this repository, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.

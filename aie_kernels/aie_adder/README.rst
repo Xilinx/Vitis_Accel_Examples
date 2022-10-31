@@ -146,4 +146,4 @@ The stream_connect (sc) options defines connections between the ports of the AI 
 
 From the config file, we define connections between the streaming outputs of mm2s_1 & mm2s_2 and the DataIn0 & Datain1 input port of the AI Engine graph respectively. The output port DataOut of the AI Engine graph is connected to the streaming input port of s2mm.   
 
-For more comprehensive documentation, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.
+To visit github.io of this repository, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.
