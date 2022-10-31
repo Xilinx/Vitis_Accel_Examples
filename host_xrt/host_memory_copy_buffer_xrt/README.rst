@@ -88,4 +88,4 @@ Host only buffer is created using ``host_only`` flag whereas device only buffer 
 
   hostonly_bo_out.copy(deviceonly_bo_out);
 
-For more comprehensive documentation, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.
+To visit github.io of this repository, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.

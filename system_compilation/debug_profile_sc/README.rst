@@ -91,4 +91,4 @@ Input from the user
 
       EXTRA_VPPFLAGS += -D ENABLE_HW_PROFILING=1
 
-For more comprehensive documentation, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.
+To visit github.io of this repository, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.

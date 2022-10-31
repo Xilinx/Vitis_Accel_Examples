@@ -75,4 +75,4 @@ Using host_only flag we mention that the buffer is host only buffer
 and the flag is passed as argument during buffer creation.
 
 
-For more comprehensive documentation, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.
+To visit github.io of this repository, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.

@@ -3,6 +3,40 @@ Combine_Bandwidth_Hostmemory(C)
 
 This is a simple design that verifies if the platform has basic functionalities It also tests the possible bandwidth between Kernel and Global Memory and validates direct host memory access from kernel.
 
+.. raw:: html
+
+ <details>
+
+.. raw:: html
+
+ <summary> 
+
+ <b>EXCLUDED PLATFORMS:</b>
+
+.. raw:: html
+
+ </summary>
+|
+..
+
+ - _u25_
+ - Alveo U30
+ - Alveo U50lv
+ - Alveo U50 gen3x4
+ - All Embedded Zynq Platforms, i.e zc702, zcu102 etc
+ - All Versal Platforms, i.e vck190 etc
+ - AWS VU9P F1
+ - All Platforms with 2019 Version
+ - All Platforms with 2018 Version
+ - Samsung SmartSSD Computation Storage Drive
+ - _u2_
+
+.. raw:: html
+
+ </details>
+
+.. raw:: html
+
 DESIGN FILES
 ------------
 
@@ -13,24 +47,10 @@ Application code is located in the src directory. Accelerator binary files will 
    src/bandwidth.cpp
    src/host.cpp
    src/hostmemory.cpp
+   src/packet_passthrough_rx_v1.cpp
+   src/packet_passthrough_tx_v1.cpp
    src/verify.cpp
-
-BUILD INSTRUCTIONS
-------------------
-
-Instruction below can be used to generate XCLBIN for Hardware (Board) flow.
-
-::
-
-    make all TARGET=hw  DEVICE=<path to xilinx_x3522p_gen4x8_hn10g_M7_1_202110_1.xpfm file> 
-
-Instruction below can be used to generate XCLBIN for Hardware Emulation Flow.
-
-:: 
-
-    make run TARGET=hw_emu DEVICE=<path to xilinx_x3522p_gen4x8_hn10g_1_202220_1.xpfm emulation platform>
-
-Note: In case of emulation flow platform file is present under /proj/xbuilds/Vitis_HW_EMU/2022.2/xilinx_x3522p_gen4x8_hn10g_1_202220_1/2022.2_component_verified
+   src/x3_specs.hpp
    
 COMMAND LINE ARGUMENTS
 ----------------------
@@ -84,4 +104,22 @@ Using the ``sp`` option  in the platform_hostmemory.cfg file, AXI-Master Port is
    sp=hostmemory.input:HOST[0]
    sp=hostmemory.output:HOST[0]
 
-For more comprehensive documentation, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.
+BUILD INSTRUCTIONS
+------------------
+
+Instruction below can be used to generate XCLBIN for Hardware (Board) flow.
+
+::
+
+    make all TARGET=hw  DEVICE=<path to xilinx_x3522p_gen4x8_hn10g_M7_1_202110_1.xpfm file> 
+
+Instruction below can be used to generate XCLBIN for Hardware Emulation Flow.
+
+:: 
+
+    make run TARGET=hw_emu DEVICE=<path to xilinx_x3522p_gen4x8_hn10g_1_202220_1.xpfm emulation platform>
+
+Note: In case of emulation flow platform file is present under /proj/xbuilds/Vitis_HW_EMU/2022.2/xilinx_x3522p_gen4x8_hn10g_1_202220_1/2022.2_component_verified.
+
+
+To visit github.io of this repository, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.

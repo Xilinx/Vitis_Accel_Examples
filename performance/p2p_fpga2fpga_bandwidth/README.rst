@@ -133,4 +133,4 @@ Disable P2P
    GEN 3x16        2               true            false
    ...
 
-For more comprehensive documentation, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.
+To visit github.io of this repository, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.

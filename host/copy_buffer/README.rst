@@ -67,4 +67,4 @@ Note: Only CDMA enabled platforms will copy the buffer directly using
 ``clEnqueueCopyBuffer`` API. Please check platform Info to make sure if
 platform is CDMA enabled or not.
 
-For more comprehensive documentation, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.
+To visit github.io of this repository, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.

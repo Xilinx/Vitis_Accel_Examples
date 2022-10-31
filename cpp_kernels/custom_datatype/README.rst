@@ -91,4 +91,4 @@ Custom datatypes can be used to reduce the number of
 kernels and memory. It can also help to reduce execution time to set
 kernel arguments if number of kernel arguments is large.
 
-For more comprehensive documentation, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.
+To visit github.io of this repository, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.

@@ -23,7 +23,6 @@ This example will demonstrate emulation of Xilinx Device's IO with a Python base
 |
 ..
 
- - All Xilinx DMA Platforms
  - Versal VCK5000
  - AWS VU9P F1
  - Samsung SmartSSD Computation Storage Drive
@@ -185,4 +184,4 @@ Connections to the Custom IP's specified in xo's are made using ``krnl_incr.cfg`
 
 Note : xo instance name specified on v++ command line  becomes a key which will be used by the external process to refer to a particular stream port 
 
-For more comprehensive documentation, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.
+To visit github.io of this repository, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.

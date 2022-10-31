@@ -92,4 +92,4 @@ this example we are using RAM_1P with latency 2 for input buffers.
    #pragma HLS BIND_STORAGE variable=v2_buffer type=RAM_1P impl=LUTRAM latency=2
    #pragma HLS BIND_STORAGE variable=vout_buffer type=RAM_1P impl=URAM
 
-For more comprehensive documentation, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.
+To visit github.io of this repository, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.

@@ -170,4 +170,4 @@ platform:
         p2p        537ms     11050ms       4.86%      116.39MB/s   
    Test passed!
 
-For more comprehensive documentation, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.
+To visit github.io of this repository, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.

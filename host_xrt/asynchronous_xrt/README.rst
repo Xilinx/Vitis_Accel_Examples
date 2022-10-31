@@ -76,4 +76,4 @@ Executing multiple tasks through queue
 
 In line number 86 and 87, ``bo0`` and ``bo1`` host-to-device data transfers are enqueued through two separate queues to achieve parallel transfers. To synchronize between these two queues, the returned event from the ``queue_bo1`` is enqueued in the ``main_queue``, similar to a task enqueue (line 88). As a result, any other task submitted after that event won't execute until the event is finished. So, in the above code example, subsequent task in the ``main_queue`` (such as kernel execution) would wait till the ``bo1_event`` is completed. By submitting an event returned from a ``queue::enqueue`` to another queue, we can synchronize among the queues.
 
-For more comprehensive documentation, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.
+To visit github.io of this repository, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.

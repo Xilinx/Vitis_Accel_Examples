@@ -51,4 +51,4 @@ Steps to run the Bare-Metal Emulation Test
 
 * To run all the steps at once, use ``make run TARGET=hw_emu EXTENSIBLE_XSA=$PLATFORM_REPO_PATHS/xilinx_vck190_base_202220_1/hw_emu/hw_emu.xsa``
 
-For more comprehensive documentation, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.
+To visit github.io of this repository , `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.

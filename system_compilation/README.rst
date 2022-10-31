@@ -12,7 +12,8 @@ This section contains System Compiler based Examples.
     - **Key Concepts/Keywords**
   * - `debug_profile_sc <debug_profile_sc>`_
     - This simple example implements a HW pipeline of three tasks, matrix multiplication along with two different increments to the matrix values.
-    - **Key Concepts**
+    - 
+      **Key Concepts**
 
       * `Debug <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Enabling-Profile-and-Debug-when-Linking>`__
       * `Profiling <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Profiling-Optimizing-and-Debugging-the-Application>`__
@@ -25,7 +26,8 @@ This section contains System Compiler based Examples.
 
   * - `eth_acc_sc <eth_acc_sc>`_
     - This is simple example showcasing custom AXI-streams to PE interfaces in system compiler environment.
-    - **Key Concepts**
+    - 
+      **Key Concepts**
 
       * `Asyncronous host interactions <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Asynchronous-Host-Control-of-Accelerator>`__
       * Custom AXI-Streams
@@ -36,7 +38,8 @@ This section contains System Compiler based Examples.
 
   * - `file_filter_sc <file_filter_sc>`_
     - This is simple example showcasing the P2P and H2C file transfers in system compiler environment.
-    - **Key Concepts**
+    - 
+      **Key Concepts**
 
       * `P2P <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/p2p>`__
       * SSD
@@ -54,7 +57,8 @@ This section contains System Compiler based Examples.
 
   * - `gmio_transfers_sc <gmio_transfers_sc>`_
     - This is gmio transfers example which explains different ways of data movements between host and device for compute unit processing.
-    - **Key Concepts**
+    - 
+      **Key Concepts**
 
       * `System Compiler <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Using-Vitis-System-Compilation-Mode>`__
       **Keywords**
@@ -67,7 +71,8 @@ This section contains System Compiler based Examples.
 
   * - `mult_acc_compose_sc <mult_acc_compose_sc>`_
     - In this example we have multiple accelerators in one xclbin, and compose them into a pipeline, with or without CPU processing in-between the PEs.
-    - **Key Concepts**
+    - 
+      **Key Concepts**
 
       * Multiple Accelerators
 
@@ -78,7 +83,8 @@ This section contains System Compiler based Examples.
 
   * - `mult_card_sc <mult_card_sc>`_
     - This is simple example showcasing the P2P and H2C mode of application code controlling a multi-card accelerator design in system compiler environment.
-    - **Key Concepts**
+    - 
+      **Key Concepts**
 
       * Multiple Cards
 
@@ -95,7 +101,8 @@ This section contains System Compiler based Examples.
 
   * - `quick_start_sc <quick_start_sc>`_
     - This is quick start example based on a video filtering usecase to describe system compiler usage in Vitis Environment.
-    - **Key Concepts**
+    - 
+      **Key Concepts**
 
       * `System Compiler <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Using-Vitis-System-Compilation-Mode>`__
       **Keywords**
@@ -113,7 +120,8 @@ This section contains System Compiler based Examples.
 
   * - `streaming_sc <streaming_sc>`_
     - This is simple example showcasing Free-running PEs with AXI-streams in system compiler environment.
-    - **Key Concepts**
+    - 
+      **Key Concepts**
 
       * `Free Running Kernel <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Free-Running-Kernel>`__
       **Keywords**

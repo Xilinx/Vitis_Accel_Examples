@@ -77,4 +77,4 @@ result_local[LOCAL_MEM_SIZE];
                v1_local[j] = in1 [i + j];
            }
 
-For more comprehensive documentation, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.
+To visit github.io of this repository, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.

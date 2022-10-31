@@ -1,64 +1,5 @@
-Xilinx RX Exerciser Loop Design
-===============================
-
-Xilinx RX Exerciser Loop Design
-
-.. raw:: html
-
- <details>
-
-.. raw:: html
-
- <summary> 
-
- <b>EXCLUDED PLATFORMS:</b>
-
-.. raw:: html
-
- </summary>
-|
-..
-
- - All Embedded Zynq Platforms, i.e zc702, zcu102 etc
- - Samsung SmartSSD Computation Storage Drive
- - All NoDMA Platforms, i.e u50 nodma etc
- - All Platforms with 2018 Version
- - qep
-
-.. raw:: html
-
- </details>
-
-.. raw:: html
-
-DESIGN FILES
-------------
-
-Application code is located in the src directory. Accelerator binary files will be compiled to the xclbin directory. The xclbin directory is required by the Makefile and its contents will be filled during compilation. A listing of all the files in this example is shown below
-
-::
-
-   src/exerciser_config.hpp
-   src/exerciser_config_rx.cpp
-   src/exerciser_rx.cpp
-   src/general_def.hpp
-   src/host.cpp
-   src/packet_passthrough_tx_v1.cpp
-   src/pkt_fwd_rx.hpp
-   src/pkt_fwd_utils.hpp
-   src/x3_specs.hpp
-   
-COMMAND LINE ARGUMENTS
-----------------------
-
-Once the environment has been configured, the application can be executed by
-
-::
-
-   ./x3_exerciser_loop_rx <exerciser_loop_rx XCLBIN> ./packet_gen_python/packetGen.py
-
-DETAILS
--------
+Tx Passthrough & Rx Exersicer
+=============================
 
 This design demonstrates passthrough of data from  NIC to MAC (Tx) path whereas from MAC to NIC path data is exercised by processing or dropping of packets. This designs only  process only IPv4 UDP packets without VLANs (other packets go through the design untouched). Default UDP Destination port should be 0x1234 to take some action on packet based command in payload. first 2 bytes of payload will be considered as command words. Format of these two bytes are as below:
 
@@ -156,5 +97,3 @@ Following is the connectivity configuration of this design.
 
     [clock]
     id=3:packet_passthrough_tx_v1_1
-
-To visit github.io of this repository, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.

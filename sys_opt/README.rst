@@ -12,7 +12,8 @@ System Optimization examples focussed towards hardware optimization using HLS C/
     - **Key Concepts/Keywords**
   * - `advanced_config <advanced_config>`_
     - This is simple example to describe how user can provide various advanced options in Vitis flow.
-    - **Key Concepts**
+    - 
+      **Key Concepts**
 
       * `Using custom Tcl <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/hls-Options>`__
       * `Setting Kernel Clock Frequency <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Vitis-Compiler-Command>`__
@@ -27,7 +28,8 @@ System Optimization examples focussed towards hardware optimization using HLS C/
 
   * - `kernel_swap <kernel_swap>`_
     - This example shows how host can swap the kernels and share same buffer between two kernels which are exist in separate binary containers. Dynamic platforms does not persist the buffer data so host has to migrate data from device to host memory before swapping the next kernel. After kernel swap, host has to migrate the buffer back to device.
-    - **Key Concepts**
+    - 
+      **Key Concepts**
 
       * Handling Buffer sharing across multiple binaries
 
@@ -40,7 +42,8 @@ System Optimization examples focussed towards hardware optimization using HLS C/
 
   * - `multiple_devices <multiple_devices>`_
     - This example show how to take advantage of multiple FPGAs on a system. It will show how to initialized an OpenCL context, allocate memory on the two devices and execute a kernel on each FPGA.
-    - **Key Concepts**
+    - 
+      **Key Concepts**
 
       * `OpenCL Host APIs <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/OpenCL-Programming>`__
       * Multi-FPGA Execution
@@ -52,7 +55,8 @@ System Optimization examples focussed towards hardware optimization using HLS C/
 
   * - `multiple_process <multiple_process>`_
     - This example will demonstrate how to run multiple processes to utilize multiple kernels simultaneously on an FPGA device. Multiple processes can share access to the same device provided each process uses the same xclbin. Processes share access to all device resources but there is no support for exclusive access to resources by any process.
-    - **Key Concepts**
+    - 
+      **Key Concepts**
 
       * `Concurrent execution <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Task-Parallelism>`__
       * Multiple HLS kernels
@@ -68,7 +72,8 @@ System Optimization examples focussed towards hardware optimization using HLS C/
 
   * - `plram_config <plram_config>`_
     - This example showcases how to configure various PLRAM parameters like Memory Size, Memory Type(BRAM/URAM) etc.
-    - **Key Concepts**
+    - 
+      **Key Concepts**
 
       * Vitis Memory Hierarchy
 
@@ -81,7 +86,8 @@ System Optimization examples focussed towards hardware optimization using HLS C/
 
   * - `slr_assign <slr_assign>`_
     - This is simple example to describe SLR assignment information for a platform design. This example highlights how to provide extra input to assign the logic of the kernel into a nominated SLR. In this example we are assigning first kernel(Vector Multiplication) to SLR0 and assigning the second kernel(Vector Addition) to SLR1
-    - **Key Concepts**
+    - 
+      **Key Concepts**
 
       * `SLR Assignments <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Assigning-Kernels-to-SLRs>`__
       **Keywords**

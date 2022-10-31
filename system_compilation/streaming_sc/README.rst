@@ -83,4 +83,4 @@ In System Compiler PE's are referred as Streaming Free Running pipelined element
       ldst(A, X, sz, AS, XS);
       incr(AS, XS);}
 
-For more comprehensive documentation, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.
+To visit github.io of this repository, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.

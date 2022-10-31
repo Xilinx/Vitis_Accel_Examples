@@ -86,4 +86,4 @@ The explicit xlr assignment of kernels can be done using the ``slr`` option  in 
    slr=vmult_1:SLR1
    slr=vadd_1:SLR1
 
-For more comprehensive documentation, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.
+To visit github.io of this repository, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.

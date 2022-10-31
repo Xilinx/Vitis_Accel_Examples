@@ -81,4 +81,4 @@ PLRAM can be assigned to a buffer by using ``sp`` tags in the mmult.cfg file alo
    sp=mmult_1.b:DDR[0]
    sp=mmult_1.c:PLRAM[1]
 
-For more comprehensive documentation, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.
+To visit github.io of this repository, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.

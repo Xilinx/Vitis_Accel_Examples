@@ -22,6 +22,7 @@ This example shows a normal coding style which could lead to critical path issue
 ..
 
  - All NoDMA Platforms, i.e u50 nodma etc
+ - Alveo U50lv
 
 .. raw:: html
 
@@ -96,4 +97,4 @@ and thus improve the performance and timing of kernel execution.
            }
            x += DATA_SIZE;       
 
-For more comprehensive documentation, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.
+To visit github.io of this repository, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.

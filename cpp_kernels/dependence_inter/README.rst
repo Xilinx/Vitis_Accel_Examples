@@ -92,4 +92,4 @@ design with larger II factor which in turn leads to slow performance.
        }
    }
 
-For more comprehensive documentation, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.
+To visit github.io of this repository, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.

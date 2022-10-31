@@ -157,4 +157,4 @@ Connections to the Custom IP's specified in xo's are made using ``krnl_incr.cfg`
 
 Note : xo instance name specified on v++ command line  becomes a key which will be used by the external process to refer to a particular stream port 
 
-For more comprehensive documentation, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.
+To visit github.io of this repository, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.

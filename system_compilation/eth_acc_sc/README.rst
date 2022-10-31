@@ -103,4 +103,4 @@ This example demonstrates hardware pipeline with asynchronous host interactions 
    - If latency is important we should use slave-bridge (NYI)
    - Complex control layer over axi-lite
 
-For more comprehensive documentation, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.
+To visit github.io of this repository, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.

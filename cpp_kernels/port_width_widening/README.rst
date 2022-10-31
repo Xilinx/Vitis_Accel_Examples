@@ -171,4 +171,4 @@ dot_product_4              1.14755
 dot_product_5              1.26024              
 ========================== =====================
 
-For more comprehensive documentation, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.
+To visit github.io of this repository, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.

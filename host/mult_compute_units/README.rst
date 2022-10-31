@@ -72,4 +72,4 @@ out of order execution mode enabled.
 CL_QUEUE_PROFILING_ENABLE \| CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE,
 &err));
 
-For more comprehensive documentation, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.
+To visit github.io of this repository, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.

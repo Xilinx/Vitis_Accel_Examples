@@ -103,4 +103,4 @@ device. Until all the child processes are finished, parent process
 **LIMITATION**: In Emulation flow, Debug and Profile will not function
 correctly when multi-process has been enabled.
 
-For more comprehensive documentation, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.
+To visit github.io of this repository, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.
