@@ -143,6 +143,6 @@
         "targets": [
             "vitis_sw_emu"
         ],
-        "category": "canary"
+        "category": "new_feature"
     }
 }
