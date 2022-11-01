@@ -34,6 +34,7 @@ This is a HBM bandwidth example using a pseudo random 1024 bit data access patte
  - Samsung U.2 SmartSSD
  - X3 Compute Shell
  - All NoDMA Platforms, i.e u50 nodma etc
+ - Versal V70
 
 .. raw:: html
 
@@ -137,4 +138,4 @@ the design on U50 platform:
 By default we are going with 3 compute units of kernel as we have power
 consumption limitation while targeting U50 platform.
 
-For more comprehensive documentation, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.
+To visit github.io of this repository, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.

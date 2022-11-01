@@ -30,6 +30,7 @@ This is a HBM bandwidth check design. Design contains 3 compute units of a kerne
  - Samsung U.2 SmartSSD
  - X3 Compute Shell
  - All NoDMA Platforms, i.e u50 nodma etc
+ - Versal V70
 
 .. raw:: html
 
@@ -165,4 +166,4 @@ throughput greater than 400GBps
    THROUGHPUT = 421.3 GB/s
    TEST PASSED
 
-For more comprehensive documentation, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.
+To visit github.io of this repository, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.

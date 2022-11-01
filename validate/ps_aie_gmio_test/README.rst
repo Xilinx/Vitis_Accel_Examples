@@ -66,4 +66,4 @@ Once the environment has been configured, the application can be executed by
 
    ./ps_aie_gmio_test.exe -p $(GEN_DIR)
 
-For more comprehensive documentation, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.
+To visit github.io of this repository, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.

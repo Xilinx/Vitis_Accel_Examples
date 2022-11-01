@@ -32,6 +32,7 @@ This is a Host Memory Example to describe how data can be copied using xrt nativ
  - All Platforms with 2019 Version
  - All Platforms with 2018 Version
  - Samsung U.2 SmartSSD
+ - Versal V70
 
 .. raw:: html
 
@@ -72,4 +73,4 @@ Host only buffer is created using ``host_only`` flag whereas device only buffer 
 
 3. Enqueue kernel ``copy_kernel`` to copy the DEVICE_ONLY output buffer ``deviceonly_bo_out`` into  HOST_ONLY output buffer ``hostonly_bo_out``.
 
-For more comprehensive documentation, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.
+To visit github.io of this repository, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.

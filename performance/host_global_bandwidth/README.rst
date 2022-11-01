@@ -22,6 +22,7 @@ Host to global memory bandwidth test
  - All Versal Platforms, i.e vck190 etc
  - All NoDMA Platforms, i.e u50 nodma etc
  - All Embedded Zynq Platforms, i.e zc702, zcu102 etc
+ - Versal V70
 
 .. raw:: html
 
@@ -125,4 +126,4 @@ platform:
 
    TEST PASSED
 
-For more comprehensive documentation, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.
+To visit github.io of this repository, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.

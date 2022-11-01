@@ -45,8 +45,11 @@ Command line argument flags:
  - Samsung U.2 SmartSSD
  - Alveo U25 SmartNIC
  - Alveo U55n
+ - Alveo U55c
  - Samsung SmartSSD Computation Storage Drive
  - Alveo U280
+ - Alveo U250
+ - Versal V70
 
 .. raw:: html
 
@@ -112,4 +115,4 @@ platform with 8 compute units:
      Total K-Means Compute Time :   15208.3733 ms
    ------------------------------------------------------
 
-For more comprehensive documentation, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.
+To visit github.io of this repository, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.

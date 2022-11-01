@@ -95,7 +95,6 @@ There are no changes required in the V++ compile and link steps. For the rest of
        **--package.image_format=ext4** \​
        **--package.boot_mode=sd** \​
        **--package.kernel_image $(SD_IMAGE_FILE)** \ ​
-       **--package.sd_dir /proj/xbuilds/2022.2_daily_latest/internal_platforms/sw/versal/xrt** \
        **--package.sd_file $(RUN_APP_SCRIPT)** \​
        **--package.sd_file aie_adder_ps_on_x86​**
      - v++ $(VPP_PFLAGS) -p -t sw_emu \​
@@ -110,4 +109,4 @@ There are no changes required in the V++ compile and link steps. For the rest of
 
 For sw_emu, XRT needs to be installed on the host whereas for hw_emu and hw the user is expected to provide the EDGE_COMMON_SW path.
 
-For more comprehensive documentation, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.
+To visit github.io of this repository, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.

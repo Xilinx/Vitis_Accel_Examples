@@ -25,10 +25,13 @@ This is simple example showcasing the P2P and H2C file transfers in system compi
 
  - All NoDMA Platforms, i.e u50 nodma etc
  - All Embedded Zynq Platforms, i.e zc702, zcu102 etc
+ - Alveo U50
+ - Alveo U200
  - All Versal Platforms, i.e vck190 etc
  - Samsung U.2 SmartSSD
  - Alveo U25 SmartNIC
  - AWS VU9P F1
+ - Versal V70
 
 .. raw:: html
 
@@ -61,4 +64,4 @@ DETAILS
 
 This example demonstrates the P2P and H2C file transfers and protability across alveo with and without SSD. In this design we also capture user synchronization of input and output buffers to ACC.
 
-For more comprehensive documentation, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.
+To visit github.io of this repository, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.

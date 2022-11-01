@@ -131,4 +131,4 @@ pointer could be null and either CL_MEM_USE_HOST_PTR or
 CL_MEM_COPY_HOST_PTR are passed into the flags parameter. In this case
 we passed zero(0) as the size of the buffer.
 
-For more comprehensive documentation, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.
+To visit github.io of this repository, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.

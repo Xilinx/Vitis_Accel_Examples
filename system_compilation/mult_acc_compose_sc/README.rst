@@ -24,6 +24,8 @@ In this example we have multiple accelerators in one xclbin, and compose them in
 ..
 
  - All Embedded Zynq Platforms, i.e zc702, zcu102 etc
+ - Alveo U200
+ - Alveo U50
  - All Versal Platforms, i.e vck190 etc
  - AWS VU9P F1
  - All NoDMA Platforms, i.e u50 nodma etc
@@ -65,4 +67,4 @@ DETAILS
 
 This example demonstrates the usage of multile accelerators into single xclbin and compose them into a pipeline with CPU processing in between the PE's.
 
-For more comprehensive documentation, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.
+To visit github.io of this repository, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.

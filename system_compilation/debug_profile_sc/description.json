@@ -16,12 +16,15 @@
     ],
     "platform_blocklist": [
         "nodma",
+        "u50",
+        "u250",
         "zc",
         "vck",
         "u55",
         "u25_",
         "u2_",
-        "aws"
+        "aws",
+        "v70"
     ], 
     "os": [
         "Linux"

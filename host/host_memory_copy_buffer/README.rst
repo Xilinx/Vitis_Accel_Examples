@@ -94,4 +94,4 @@ Host only buffer is created using ``XCL_MEM_EXT_HOST_ONLY`` flag whereas device 
                                       size_in_bytes, 0, nullptr)); // transfer
 
 
-For more comprehensive documentation, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.
+To visit github.io of this repository, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.

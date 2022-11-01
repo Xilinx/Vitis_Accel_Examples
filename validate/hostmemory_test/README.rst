@@ -33,6 +33,7 @@ This host memory design explains how direct host memory access can be done by th
  - Alveo U30
  - Alveo U50lv
  - Alveo U50 gen3x4
+ - Versal V70
 
 .. raw:: html
 
@@ -96,4 +97,4 @@ Following is the real log reported when running the design on U250:
    Throughput: 15220 MB/s
    TEST PASSED
 
-For more comprehensive documentation, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.
+To visit github.io of this repository, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.

@@ -10,7 +10,8 @@
         "aws-vu9p-f1",
         "samsung",
         "u2_",
-        "nodma"
+        "nodma",
+        "v70"
     ], 
     "match_makefile": "false",
     "runtime": [

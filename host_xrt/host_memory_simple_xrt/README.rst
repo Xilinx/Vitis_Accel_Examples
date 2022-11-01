@@ -33,6 +33,7 @@ This is simple host memory example to describe how a user kernel can access the 
  - All Platforms with 2018 Version
  - Samsung SmartSSD Computation Storage Drive
  - Samsung U.2 SmartSSD
+ - Versal V70
 
 .. raw:: html
 
@@ -74,4 +75,4 @@ Using host_only flag we mention that the buffer is host only buffer
 and the flag is passed as argument during buffer creation.
 
 
-For more comprehensive documentation, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.
+To visit github.io of this repository, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.

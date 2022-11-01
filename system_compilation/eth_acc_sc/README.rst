@@ -28,6 +28,11 @@ This is simple example showcasing custom AXI-streams to PE interfaces in system 
  - All Versal Platforms, i.e vck190 etc
  - AWS VU9P F1
  - All NoDMA Platforms, i.e u50 nodma etc
+ - Versal V70
+ - Alveo U50
+ - Alveo U280
+ - Alveo U250
+ - Alveo U200
 
 .. raw:: html
 
@@ -98,4 +103,4 @@ This example demonstrates hardware pipeline with asynchronous host interactions 
    - If latency is important we should use slave-bridge (NYI)
    - Complex control layer over axi-lite
 
-For more comprehensive documentation, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.
+To visit github.io of this repository, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.

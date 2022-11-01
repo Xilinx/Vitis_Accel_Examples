@@ -93,4 +93,4 @@ migrating the data via host memory space
    // Wrtie chunk_size bytes starting at offset 0 from p2pPtr into fd
      pwrite(fd, p2pPtr, chunk_size, 0);
 
-For more comprehensive documentation, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.
+To visit github.io of this repository, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.

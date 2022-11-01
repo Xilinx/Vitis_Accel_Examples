@@ -30,6 +30,7 @@ This is a simple design that verifies if the platform has basic functionalities 
  - All Platforms with 2018 Version
  - Samsung SmartSSD Computation Storage Drive
  - Samsung U.2 SmartSSD
+ - Versal V70
 
 .. raw:: html
 
@@ -101,4 +102,4 @@ Using the ``sp`` option  in the platform_hostmemory.cfg file, AXI-Master Port is
    sp=hostmemory.input:HOST[0]
    sp=hostmemory.output:HOST[0]
 
-For more comprehensive documentation, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.
+To visit github.io of this repository, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.

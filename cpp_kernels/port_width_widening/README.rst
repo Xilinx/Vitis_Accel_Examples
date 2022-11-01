@@ -25,7 +25,8 @@ This example shows how HLS introduces the capability of resizing the port width 
 
  - All NoDMA Platforms, i.e u50 nodma etc
  - Samsung U.2 SmartSSD
- - Versal DFX platform
+ - Versal VCK190
+ - All ZCU102 Base Platforms
 
 .. raw:: html
 
@@ -170,4 +171,4 @@ dot_product_4              1.14755
 dot_product_5              1.26024              
 ========================== =====================
 
-For more comprehensive documentation, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.
+To visit github.io of this repository, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.

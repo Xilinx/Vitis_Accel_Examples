@@ -33,6 +33,7 @@ This is simple host memory example to describe how a user kernel can access the 
  - All Platforms with 2018 Version
  - Samsung SmartSSD Computation Storage Drive
  - Samsung U.2 SmartSSD
+ - Versal V70
 
 .. raw:: html
 
@@ -90,4 +91,4 @@ XRT OpenCL introduces a new buffer extension Flag ``XCL_MEM_EXT_HOST_ONLY`` that
                                                      CL_MEM_EXT_PTR_XILINX,
                                         size_in_bytes, &host_buffer_ext, &err));
 
-For more comprehensive documentation, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.
+To visit github.io of this repository, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.

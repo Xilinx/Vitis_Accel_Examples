@@ -103,4 +103,4 @@ only way specify dependency. Normal in-order command queues do not need
 this because dependency is enforced in the order the operation was
 enqueued.
 
-For more comprehensive documentation, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.
+To visit github.io of this repository, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.

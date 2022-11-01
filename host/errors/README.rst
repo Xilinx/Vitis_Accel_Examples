@@ -145,4 +145,4 @@ pointer is correct and that you are transferring less than the size of
 the buffer. Here we tried to transfer data that was larger than the size
 of the buffer.
 
-For more comprehensive documentation, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.
+To visit github.io of this repository, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.

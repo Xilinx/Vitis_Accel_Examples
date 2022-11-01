@@ -24,10 +24,10 @@ This example shows how host can swap the kernels and share same buffer between t
 ..
 
  - All Samsung U.2 flat
- - All ZCU102 Platforms except DFX
- - All ZCU104 Platforms except DFX
+ - Embedded ZCU102
+ - All ZCU104 Base Platforms
  - Versal VCK5000
- - vck190_base_20
+ - Versal VCK190
  - vck190_base_pci
  - ZC706 Evaluation board
  - All NoDMA Platforms, i.e u50 nodma etc
@@ -109,4 +109,4 @@ execution.
 
    q.enqueueMigrateMemObjects({d_temp}, 0/* 0 means from host*/);
 
-For more comprehensive documentation, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.
+To visit github.io of this repository, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.

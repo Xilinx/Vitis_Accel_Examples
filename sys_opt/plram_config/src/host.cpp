@@ -75,12 +75,9 @@ int main(int argc, char** argv) {
     }
 
     // Allocate Buffer in Global Memory
-    OCL_CHECK(err, cl::Buffer buffer_in1(context, CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY, vector_size_bytes,
-                                         source_in1.data(), &err));
-    OCL_CHECK(err, cl::Buffer buffer_in2(context, CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY, vector_size_bytes,
-                                         source_in2.data(), &err));
-    OCL_CHECK(err, cl::Buffer buffer_output(context, CL_MEM_USE_HOST_PTR | CL_MEM_WRITE_ONLY, vector_size_bytes,
-                                            source_hw_results.data(), &err));
+    OCL_CHECK(err, cl::Buffer buffer_in1(context, CL_MEM_READ_ONLY, vector_size_bytes, nullptr, &err));
+    OCL_CHECK(err, cl::Buffer buffer_in2(context, CL_MEM_READ_ONLY, vector_size_bytes, nullptr, &err));
+    OCL_CHECK(err, cl::Buffer buffer_output(context, CL_MEM_WRITE_ONLY, vector_size_bytes, nullptr, &err));
 
     int size = DATA_SIZE;
     OCL_CHECK(err, err = krnl_vector_add.setArg(0, buffer_in1));
@@ -89,13 +86,17 @@ int main(int argc, char** argv) {
     OCL_CHECK(err, err = krnl_vector_add.setArg(3, size));
 
     // Copy input data to device global memory
-    OCL_CHECK(err, err = q.enqueueMigrateMemObjects({buffer_in1, buffer_in2}, 0 /* 0 means from host*/));
+    OCL_CHECK(err, err = q.enqueueWriteBuffer({buffer_in1}, CL_TRUE, 0, vector_size_bytes, source_in1.data(), nullptr,
+                                              nullptr));
+    OCL_CHECK(err, err = q.enqueueWriteBuffer({buffer_in2}, CL_TRUE, 0, vector_size_bytes, source_in2.data(), nullptr,
+                                              nullptr));
 
     // Launch the Kernel
     OCL_CHECK(err, err = q.enqueueTask(krnl_vector_add));
 
     // Copy Result from Device Global Memory to Host Local Memory
-    OCL_CHECK(err, err = q.enqueueMigrateMemObjects({buffer_output}, CL_MIGRATE_MEM_OBJECT_HOST));
+    OCL_CHECK(err, err = q.enqueueReadBuffer({buffer_output}, CL_TRUE, 0, vector_size_bytes, source_hw_results.data(),
+                                             nullptr, nullptr));
     q.finish();
     // OPENCL HOST CODE AREA END
 

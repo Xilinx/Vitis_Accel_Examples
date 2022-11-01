@@ -20,6 +20,7 @@
     "runtime": [
         "OpenCL"
     ],
+    "match_makefile": "false",
     "gui": "false", 
     "host": {
         "host_exe": "systemc_vadd",
@@ -62,6 +63,7 @@
     ],
     "testinfo": {
         "disable": false,
+	"profile": "no",
         "jobs": [
             {
                 "index": 0,

@@ -29,6 +29,10 @@ This is gmio transfers example which explains different ways of data movements b
  - All Versal Platforms, i.e vck190 etc
  - Alveo U280
  - AWS VU9P F1
+ - Versal V70
+ - Alveo U50
+ - Alveo U250
+ - Alveo U200
 
 .. raw:: html
 
@@ -70,4 +74,4 @@ Specifies the amount of data to be copied by the data mover at runtime between h
 - ZERO_COPY(<port>, <port>[<num>])
 Do not use a data mover plugin. The CU is assumed to be in direct connection with global DDR memory. It lets the kernel use a M-AXI interface to directly talk to the device DDR. The CU is responsible for any on-chip caching of data needed.  The "port" needs to be replaced by port name ( CU argument name). The "num" specifies the number of data elements to be transferred essentially the size of data. The "num" can be a constant or it can be itself an expression in terms of some scalar CU arguments.
 
-For more comprehensive documentation, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.
+To visit github.io of this repository, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.

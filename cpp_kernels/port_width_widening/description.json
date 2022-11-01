@@ -13,7 +13,8 @@
     "platform_blocklist": [
         "nodma",
         "u2_",
-        "vck190_base_dfx"
+        "vck190",
+        "zcu102_base_20"
      ],
     "contributors": [
         {

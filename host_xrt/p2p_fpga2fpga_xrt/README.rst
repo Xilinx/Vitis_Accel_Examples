@@ -29,6 +29,7 @@ This is simple example to explain P2P transfer between two FPGA devices using xr
  - All Versal Platforms, i.e vck190 etc
  - AWS VU9P F1
  - All Platforms with 201910 Version
+ - Samsung U.2 SmartSSD
  - Alveo U50 gen3x16 xdma 2019 Version
 
 .. raw:: html
@@ -82,4 +83,4 @@ Following is the real log reported while running on U50 platform and U200 platfo
    Total Time : 208670 (microseconds)
    TEST PASSED
 
-For more comprehensive documentation, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.
+To visit github.io of this repository, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.

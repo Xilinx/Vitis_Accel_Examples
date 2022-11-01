@@ -22,6 +22,7 @@ This example is a simple OpenCL application. It will highlight the basic flow of
 ..
 
  - All NoDMA Platforms, i.e u50 nodma etc
+ - Alveo U250
 
 .. raw:: html
 
@@ -95,4 +96,4 @@ read/write should be contiguous.
            readB: for (int j = 0 ; j < size ; j++) {
                    arrayB[j] = b[i+j]; }
 
-For more comprehensive documentation, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.
+To visit github.io of this repository, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.

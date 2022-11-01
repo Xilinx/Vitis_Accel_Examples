@@ -34,27 +34,23 @@ Application code is located in the src directory. Accelerator binary files will 
 
 ::
 
-   pl_controller/kernel/access_axi_mb.hpp
-   pl_controller/kernel/maxi.hpp
-   pl_controller/kernel/pl_controller_hw.cpp
-   pl_controller/kernel/pl_controller_hw.hpp
-   pl_controller/kernel/ucode_process.hpp
-   pl_controller/ps_helper/pl_controller_sw.cpp
-   pl_controller/ps_helper/pl_controller_sw.hpp
-   pl_controller/ps_helper/pl_controller_sw_xrt.cpp
-   pl_controller/ps_helper/pl_controller_sw_xrt.hpp
-   pl_controller/ucode_gen/aie_runtime_control_impl.cpp
-   pl_controller/ucode_gen/aie_runtime_control_impl.hpp
-   pl_controller/ucode_gen/aie_runtime_control_wrap.cpp
-   pl_controller/ucode_gen/aie_runtime_control_wrap.hpp
-   pl_controller/ucode_gen/gen_micro_code.cpp
-   pl_controller/ucode_gen/ucode_utils.hpp
-   src/graph.h
-   src/graph.cpp
-   src/kernels.h
-   src/kernels.cpp
-   sw/golden.hpp
-   sw/main.cpp
+   pl_controller/kernel/ctrl_pkt_utils.hpp
+   pl_controller/kernel/dma_ctrl.hpp
+   pl_controller/kernel/enums.hpp
+   pl_controller/kernel/graph_ctrl.hpp
+   pl_controller/kernel/pl_controller_kernel.hpp
+   pl_controller/kernel/pl_controller_top.cpp
+   pl_controller/kernel/sender_receiver.cpp
+   pl_controller/kernel/sender_receiver.hpp
+   pl_controller/kernel/utils.hpp
+   aie/graph.h
+   aie/graph.cpp
+   aie/kernels.h
+   aie/kernels/include.h
+   aie/kernels/kernels.cc
+   sw/host.cpp
+   sw/pl_controller.cpp
+   sw/pl_controller.hpp
    
 COMMAND LINE ARGUMENTS
 ----------------------
@@ -63,7 +59,8 @@ Once the environment has been configured, the application can be executed by
 
 ::
 
-   ./main.exe final.xclbin ucode.bin
+   make xclbin TARGET=hw PLATFORM=<path to local xpfm>
+   ./host.exe final.xclbin ./Work/ps/c_rts/aie_control_config.json ./Work/reports/dma_lock_report.json
 
 If application can be executed successfully, you will get the list just showing below,
 
@@ -85,53 +82,50 @@ If application can be executed successfully, you will get the list just showing 
 
 .. code::
 
-   loadMicroCode: name=g.ifm_ddr, id=0
-   loadMicroCode: name=g.wts_ddr, id=1
-   loadMicroCode: name=g.ofm_ddr, id=2
-   core_iter_size=8
-   core_control_size=8
-   ucode_size=3364, cfg_buf_size=40
-   group_id=2
-   setAddress: name=g.ifm_ddr, id=0, addr=826781212672
-   setAddress: name=g.wts_ddr, id=1, addr=826781425664
-   setAddress: name=g.ofm_ddr, id=2, addr=826781507584
-   high_addr = 512, low_addr = 0
-   kernel start setting argument
-   kernel set argument done
-   bo sync to device done
-   kernel started
-   Waiting PL controller done.....
-   INFO::[ Vitis-EM 22 ] [Time elapsed: 5 minute(s) 10 seconds, Emulation time: 0.093771 ms]
-   Data transfer between kernel(s) and global memory(s)
-   controller_1:m_axi_gmem_aie_ctrl-S_AXI_AIE          RD = 2.562 KB               WR = 0.234 KB        
-   controller_1:m_axi_gmem_aie_ctrl2-DDR          RD = 0.000 KB               WR = 0.000 KB        
-   controller_1:m_axi_gmem_cfg-DDR          RD = 0.055 KB               WR = 0.000 KB        
-   controller_1:m_axi_gmem_out-DDR          RD = 0.000 KB               WR = 0.004 KB        
-   controller_1:m_axi_gmem_ucode-DDR          RD = 3.285 KB               WR = 0.000 KB
+   Xclbin Load successful!
+   UUID Load successful!
+   memory allocation complete
+   sync pm buffer complete
+   start sender-receiver kernel
+   start pl controller kernel
+   host_out1[0]=1
+   host_out1[1]=2
+   host_out1[2]=3
+   host_out1[3]=4
+   host_out1[4]=5
+   host_out1[5]=6
+   host_out1[6]=7
+   host_out1[7]=8
+   host_out1[8]=9
+   host_out1[9]=10
+   host_out1[10]=11
+   host_out1[11]=12
+   host_out1[12]=13
+   host_out1[13]=14
+   host_out1[14]=15
+   host_out1[15]=16
+   host_out1[16]=17
+   host_out1[17]=18
+   host_out1[18]=19
+   host_out1[19]=20
+   host_out1[20]=21
+   host_out1[21]=22
+   host_out1[22]=23
+   host_out1[23]=24
+   host_out1[24]=25
+   host_out1[25]=26
+   host_out1[26]=27
+   host_out1[27]=28
+   host_out1[28]=29
+   host_out1[29]=30
+   host_out1[30]=31
+   host_out1[31]=32
+   qemu-system-microblazeel: /ps_pmc_rp@0: Disconnected clk=26532985404 ns
    
-   INFO::[ Vitis-EM 22 ] [Time elapsed: 21 minute(s) 5 seconds, Emulation time: 0.375197 ms]
-   Data transfer between kernel(s) and global memory(s)
-   controller_1:m_axi_gmem_aie_ctrl-S_AXI_AIE          RD = 14.324 KB              WR = 1.820 KB        
-   controller_1:m_axi_gmem_aie_ctrl2-DDR          RD = 0.000 KB               WR = 0.000 KB        
-   controller_1:m_axi_gmem_cfg-DDR          RD = 0.055 KB               WR = 0.000 KB        
-   controller_1:m_axi_gmem_out-DDR          RD = 0.000 KB               WR = 0.004 KB        
-   controller_1:m_axi_gmem_ucode-DDR          RD = 3.285 KB               WR = 0.000 KB
-   
-   out_buf=841
-   PL controller done!
-   Graph wait done
-   INFO::[ Vitis-EM 22 ] [Time elapsed: 21 minute(s) 16 seconds, Emulation time: 0.378542 ms]
-   Data transfer between kernel(s) and global memory(s)
-   controller_1:m_axi_gmem_aie_ctrl-S_AXI_AIE          RD = 14.344 KB              WR = 1.852 KB        
-   controller_1:m_axi_gmem_aie_ctrl2-DDR          RD = 0.000 KB               WR = 0.000 KB        
-   controller_1:m_axi_gmem_cfg-DDR          RD = 0.055 KB               WR = 0.000 KB        
-   controller_1:m_axi_gmem_out-DDR          RD = 0.000 KB               WR = 0.004 KB        
-   controller_1:m_axi_gmem_ucode-DDR          RD = 3.285 KB               WR = 0.000 KB        
-   
-   check: nerr=0
-   qemu-system-microblazeel: /ps_pmc_rp@0: Disconnected clk=1264875165098 ns
-   
-   Test passed
+   INFO: [HW-EMU 06-0] Waiting for the simulator process to exit
+   INFO: [HW-EMU 06-1] All the simulator processes exited successfully
+   INFO: [HW-EMU 07-0] Please refer the path "*/validate/validate_aie2_pl/build_dir.hw_emu.xilinx_v70_gen5x8_qdma_2_202220_1/.run/78892/hw_em/device0/binary_0/behav_waveform/xsim/simulate.log" for more detailed simulation infos, errors and warnings.
+   TEST PASSEDTest passed
 
 .. raw:: html
 
@@ -139,4 +133,4 @@ If application can be executed successfully, you will get the list just showing 
 
 .. raw:: html
 
-For more comprehensive documentation, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.
+To visit github.io of this repository , `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.

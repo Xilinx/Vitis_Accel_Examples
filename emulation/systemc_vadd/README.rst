@@ -167,4 +167,4 @@ Generating XO from source file has many intermediate steps like generating packa
         vadd.xo: vadd.cpp
             create_sc_xo vadd.cpp
 
-For more comprehensive documentation, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.
+To visit github.io of this repository, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.

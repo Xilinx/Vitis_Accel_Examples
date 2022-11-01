@@ -22,6 +22,7 @@ XF_PROJ_ROOT = $(shell readlink -f $(COMMON_REPO))
 
 
 ########################## Checking if PLATFORM in allowlist #######################
+PLATFORM_BLOCKLIST += vck190_base_dfx 
 ifneq ($(TARGET),$(findstring $(TARGET), hw_emu))
 $(error Application supports only hw_emu TARGET. Please use the target for running the application)
 endif
@@ -71,8 +72,8 @@ help:
 	$(ECHO) "  make sd_card TARGET=<sw_emu/hw_emu/hw> PLATFORM=<FPGA platform> EDGE_COMMON_SW=<rootfs and kernel image path>"
 	$(ECHO) "      Command to prepare sd_card files."
 	$(ECHO) ""
-	$(ECHO) "  make run TARGET=<sw_emu/hw_emu/hw> PLATFORM=<FPGA platform> EDGE_COMMON_SW=<rootfs and kernel image path>"
-	$(ECHO) "      Command to run application in emulation."
+	$(ECHO) "  make run TARGET=<sw_emu/hw_emu/hw> PLATFORM=<FPGA platform> EMU_PS=<X86/QEMU> EDGE_COMMON_SW=<rootfs and kernel image path>"
+	$(ECHO) "      Command to run application in emulation.Default sw_emu will run on x86 ,to launch on qemu specify EMU_PS=QEMU."
 	$(ECHO) ""
 	$(ECHO) "  make build TARGET=<sw_emu/hw_emu/hw> PLATFORM=<FPGA platform> EDGE_COMMON_SW=<rootfs and kernel image path>"
 	$(ECHO) "      Command to build xclbin application."

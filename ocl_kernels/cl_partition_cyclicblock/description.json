@@ -19,7 +19,8 @@
         "zc702",
         "nodma",
         "u2_",
-        "vck190_base_dfx"
+        "vck190_base_dfx",
+        "u200"
     ],
     "os": [
         "Linux"

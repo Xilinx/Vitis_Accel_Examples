@@ -28,6 +28,7 @@ This is a simple kernel to kernel streaming Vector Add and Vector Multiply C Ker
  - All Versal Platforms, i.e vck190 etc
  - All Embedded Zynq Platforms, i.e zc702, zcu102 etc
  - All NoDMA Platforms, i.e u50 nodma etc
+ - Versal V70
 
 .. raw:: html
 
@@ -96,4 +97,4 @@ Content of ``krnl_stream_vadd_vmult.cfg`` file is below:
 Above specify that ``out`` port of ``krnl_stream_vadd_1`` kernel is
 connected to ``in2`` port of ``krnl_stream_vmult_1``. The FIFO depth of this stream is 64.
 
-For more comprehensive documentation, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.
+To visit github.io of this repository, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.

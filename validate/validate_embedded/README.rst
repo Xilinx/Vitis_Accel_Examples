@@ -29,6 +29,7 @@ This is a simple design that verifies if the platform has basic functionalities.
  - All Platforms with 2019 Version
  - All Platforms with 2018 Version
  - Versal VCK5000
+ - Versal V70
 
 .. raw:: html
 
@@ -99,4 +100,4 @@ Following is the real log reported while running the design on zcu102_base_dfx p
    INFO: TEST PASSED
    INFO: INFO: host run completed.
 
-For more comprehensive documentation, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.
+To visit github.io of this repository, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.

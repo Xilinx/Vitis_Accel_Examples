@@ -3,22 +3,11 @@
 # be overridden through the make command line
 #+-------------------------------------------------------------------------------
 
-PROFILE := no
-
-#Generates profile summary report
-ifeq ($(PROFILE), yes)
-VPP_LDFLAGS += --profile.data all:all:all
-endif
-
 DEBUG := no
 
 #Generates debug summary report
 ifeq ($(DEBUG), yes)
 VPP_LDFLAGS += --dk list_ports
-endif
-
-ifneq ($(TARGET), hw)
-VPP_FLAGS += -g
 endif
 
 ############################## Setting up Project Variables ##############################
@@ -79,18 +68,6 @@ ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 	$(ECHO) 'export XILINX_VITIS=$$PWD' >> run_app.sh
 	$(ECHO) 'export XCL_EMULATION_MODE=$(TARGET)' >> run_app.sh
 endif
-	$(ECHO) 'if [ -d xrt/aarch64-xilinx-linux/ ]' >> run_app.sh
-	$(ECHO) 'then' >> run_app.sh
-	$(ECHO) 'cd xrt/aarch64-xilinx-linux/' >> run_app.sh
-	$(ECHO) 'elif [ -d xrt/versal ]' >> run_app.sh
-	$(ECHO) 'then' >> run_app.sh
-	$(ECHO) 'cd xrt/versal' >> run_app.sh
-	$(ECHO) 'else' >> run_app.sh
-	$(ECHO) 'echo "unable to find xrt folder sub directories"' >> run_app.sh
-	$(ECHO) 'fi' >> run_app.sh
-	$(ECHO) './reinstall_xrt.sh' >> run_app.sh
-	$(ECHO) 'return_code=$$?' >> run_app.sh
-	$(ECHO) 'cd -' >> run_app.sh
 	$(ECHO) '$(EXECUTABLE) vadd.xclbin' >> run_app.sh
 	$(ECHO) 'return_code=$$?' >> run_app.sh
 	$(ECHO) 'if [ $$return_code -ne 0 ]; then' >> run_app.sh

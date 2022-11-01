@@ -31,6 +31,7 @@ This is simple example of vector addition to demonstrate how to connect each com
  - All Embedded Zynq Platforms, i.e zc702, zcu102 etc
  - X3 Compute Shell
  - All NoDMA Platforms, i.e u50 nodma etc
+ - Versal V70
 
 .. raw:: html
 
@@ -106,4 +107,4 @@ The kernel object which is created above is very specific to ``vadd_1``
 compute unit. Using this Kernel Object, host can directly access to this
 fix compute unit.
 
-For more comprehensive documentation, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.
+To visit github.io of this repository, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.

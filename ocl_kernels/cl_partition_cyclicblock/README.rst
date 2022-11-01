@@ -27,6 +27,7 @@ This example shows how to use array block and cyclic partitioning to improve per
  - All NoDMA Platforms, i.e u50 nodma etc
  - Samsung U.2 SmartSSD
  - Versal DFX platform
+ - Alveo U200
 
 .. raw:: html
 
@@ -79,4 +80,4 @@ read/write ports.
     int A[MAX_DIM * MAX_DIM] __attribute__((xcl_array_partition(cyclic, MAX_DIM, 1)));
     int B[MAX_DIM * MAX_DIM] __attribute__((xcl_array_partition(block, MAX_DIM, 1)));
 
-For more comprehensive documentation, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.
+To visit github.io of this repository, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.

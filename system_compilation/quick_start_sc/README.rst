@@ -24,10 +24,15 @@ This is quick start example based on a video filtering usecase to describe syste
 ..
 
  - Alveo U25 SmartNIC
+ - Alveo U50
+ - Alveo U200
+ - Alveo U55c
+ - Alveo U280
  - All NoDMA Platforms, i.e u50 nodma etc
  - All Embedded Zynq Platforms, i.e zc702, zcu102 etc
  - All Versal Platforms, i.e vck190 etc
  - AWS VU9P F1
+ - Alveo U55n
 
 .. raw:: html
 
@@ -102,4 +107,4 @@ Specifies the amount of data to be copied by the data mover at runtime between h
 - SYS_PORT(<port>, <memBank>)
 Specifies which memory bank to use for a given port connection (identical for all CU's). The "memBank" specifies the bank name such as DDR[0] etc and "port" is the CU argument name.
 
-For more comprehensive documentation, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.
+To visit github.io of this repository, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.

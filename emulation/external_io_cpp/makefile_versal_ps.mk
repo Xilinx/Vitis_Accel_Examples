@@ -70,11 +70,11 @@ VPP_PFLAGS :=
 CMD_ARGS = $(BUILD_DIR)/increment.xclbin
 SD_CARD := $(PACKAGE_OUT)
 vck190_dfx_hw := false
+dfx_chk := $(shell $(XF_PROJ_ROOT)/common/utility/custom_dfx_check.sh $(PLATFORM) $(XF_PROJ_ROOT))
 XOS = $(XILINX_VITIS)/data/emulation/XO/sim_ipc_axis_master_32.xo  $(XILINX_VITIS)/data/emulation/XO/sim_ipc_axis_slave_32.xo
 
 CXXFLAGS += -I$(SYSROOT)/usr/include/xrt -I$(XILINX_VIVADO)/include -Wall -O0 -g -std=c++1y
 LDFLAGS += -L$(SYSROOT)/usr/lib -pthread -lxilinxopencl
-VPP_PFLAGS+=--package.sd_dir /proj/xbuilds/2022.2_daily_latest/internal_platforms/sw/versal/xrt
 
 ########################## Checking if PLATFORM in allowlist #######################
 PLATFORM_BLOCKLIST += aws-vu9p-f1 samsung u2_ 
@@ -124,7 +124,7 @@ $(BUILD_DIR)/increment.xclbin: $(TEMP_DIR)/increment.xo
 sd_card: gen_run_app $(SD_CARD)
 
 $(SD_CARD): $(BUILD_DIR)/increment.xclbin $(EXECUTABLE)
-ifeq ($(findstring vck190_base_dfx, $(PLATFORM)), vck190_base_dfx)
+ifeq ($(dfx_chk), true)
 ifeq ($(TARGET),$(filter $(TARGET), hw))
 	v++ $(VPP_FLAGS) -p $(LINK_OUTPUT) -o $(BUILD_DIR)/increment.xclbin 
 	v++ $(VPP_PFLAGS) $(VPP_FLAGS) -p --package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.sd_file $(SD_IMAGE_FILE) --package.sd_file xrt.ini --package.sd_file $(RUN_APP_SCRIPT) --package.sd_file $(EXECUTABLE) --package.sd_file $(BUILD_DIR)/increment.xclbin

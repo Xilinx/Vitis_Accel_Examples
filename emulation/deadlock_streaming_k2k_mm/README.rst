@@ -25,9 +25,8 @@ This is a simple kernel to kernel streaming Vector Add and Vector Multiply C Ker
 
  - Samsung SmartSSD Computation Storage Drive
  - Samsung U.2 SmartSSD
- - All Versal Platforms, i.e vck190 etc
- - All Embedded Zynq Platforms, i.e zc702, zcu102 etc
  - All NoDMA Platforms, i.e u50 nodma etc
+ - Versal V70
 
 .. raw:: html
 
@@ -108,4 +107,4 @@ This example is run with `debug_mode=batch` and generates waveform database file
 * Upon opening the waveform, you will find "CU stalls" object for each kernel functions. 
 * Users can see the stall signals (in orange) generated from streams of the kernels responsible for the deadlock in the design.    
 
-For more comprehensive documentation, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.
+To visit github.io of this repository, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.

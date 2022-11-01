@@ -69,4 +69,4 @@ XRT OpenCL introduces a new buffer extension Flag ``CL_MEM_HOST_NO_ACCESS`` that
 
 
 
-For more comprehensive documentation, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.
+To visit github.io of this repository, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.

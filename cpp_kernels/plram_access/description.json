@@ -21,7 +21,8 @@
         "samsung",
         "u2_",
         "x3522pv",
-        "nodma"    
+        "nodma",
+        "v70"
     ], 
     "os": [
         "Linux"

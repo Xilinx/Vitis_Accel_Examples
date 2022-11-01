@@ -198,9 +198,9 @@ def mk_help(target):
     target.write("\t$(ECHO) \"      Command to prepare sd_card files.\"\n")
     target.write("\t$(ECHO) \"\"\n")
     target.write("\t$(ECHO) \"  make run TARGET=<sw_emu/hw_emu/hw> PLATFORM=<FPGA platform>");
-    target.write(" EDGE_COMMON_SW=<rootfs and kernel image path>")
+    target.write(" EMU_PS=<X86/QEMU> EDGE_COMMON_SW=<rootfs and kernel image path>")
     target.write("\"\n")
-    target.write("\t$(ECHO) \"      Command to run application in emulation.\"\n")
+    target.write("\t$(ECHO) \"      Command to run application in emulation.Default sw_emu will run on x86 ,to launch on qemu specify EMU_PS=QEMU.\"\n")
     target.write("\t$(ECHO) \"\"\n")
     target.write("\t$(ECHO) \"  make build TARGET=<sw_emu/hw_emu/hw> PLATFORM=<FPGA platform>");
     target.write(" EDGE_COMMON_SW=<rootfs and kernel image path>")
@@ -344,18 +344,6 @@ def util_checks(target):
         target.write("\t$(ECHO) 'export XILINX_VITIS=$$PWD' >> run_app.sh\n")
         target.write("\t$(ECHO) 'export XCL_EMULATION_MODE=$(TARGET)' >> run_app.sh\n")
         target.write("endif\n")
-        target.write("\t$(ECHO) 'if [ -d xrt/aarch64-xilinx-linux/ ]' >> run_app.sh\n")		
-        target.write("\t$(ECHO) 'then' >> run_app.sh\n")		
-        target.write("\t$(ECHO) 'cd xrt/aarch64-xilinx-linux/' >> run_app.sh\n")		
-        target.write("\t$(ECHO) 'elif [ -d xrt/versal ]' >> run_app.sh\n")		
-        target.write("\t$(ECHO) 'then' >> run_app.sh\n")		
-        target.write("\t$(ECHO) 'cd xrt/versal' >> run_app.sh\n")		
-        target.write("\t$(ECHO) 'else' >> run_app.sh\n")		
-        target.write("\t$(ECHO) 'echo \"unable to find xrt folder sub directories\"' >> run_app.sh\n")		
-        target.write("\t$(ECHO) 'fi' >> run_app.sh\n")		
-        target.write("\t$(ECHO) './reinstall_xrt.sh' >> run_app.sh\n")		
-        target.write("\t$(ECHO) 'return_code=$$?' >> run_app.sh\n")		
-        target.write("\t$(ECHO) 'cd -' >> run_app.sh\n")
         target.write("\t$(ECHO) '$(EXECUTABLE)")
         if "launch" in data:	
             if "cmd_args" in data["launch"][0]:

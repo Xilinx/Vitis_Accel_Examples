@@ -33,6 +33,7 @@ This example shows the usage of PLRAM and how to use it with simple matrix multi
  - Samsung U.2 SmartSSD
  - X3 Compute Shell
  - All NoDMA Platforms, i.e u50 nodma etc
+ - Versal V70
 
 .. raw:: html
 
@@ -80,4 +81,4 @@ PLRAM can be assigned to a buffer by using ``sp`` tags in the mmult.cfg file alo
    sp=mmult_1.b:DDR[0]
    sp=mmult_1.c:PLRAM[1]
 
-For more comprehensive documentation, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.
+To visit github.io of this repository, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.

@@ -27,7 +27,10 @@ This is simple example showcasing Free-running PEs with AXI-streams in system co
  - All Versal Platforms, i.e vck190 etc
  - Alveo U25 SmartNIC
  - AWS VU9P F1
- - All NoDMA Platforms, i.e u50 nodma etc
+ - Alveo U55c
+ - Alveo U50
+ - Alveo U250
+ - Alveo U50lv
 
 .. raw:: html
 
@@ -80,4 +83,4 @@ In System Compiler PE's are referred as Streaming Free Running pipelined element
       ldst(A, X, sz, AS, XS);
       incr(AS, XS);}
 
-For more comprehensive documentation, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.
+To visit github.io of this repository, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.

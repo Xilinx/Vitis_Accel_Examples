@@ -30,6 +30,9 @@ This is simple example showcasing the P2P and H2C mode of application code contr
  - Alveo U25 SmartNIC
  - AWS VU9P F1
  - Alveo U280
+ - Alveo U250
+ - Alveo U55c
+ - Alveo U50
 
 .. raw:: html
 
@@ -62,4 +65,4 @@ DETAILS
 
 This example demonstrates the P2P and H2C mode of application code controlling a multi-card accelerator design.
 
-For more comprehensive documentation, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.
+To visit github.io of this repository, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.

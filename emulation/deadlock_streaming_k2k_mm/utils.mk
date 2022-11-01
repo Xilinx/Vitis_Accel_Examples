@@ -70,6 +70,21 @@ check-device:
 	    then echo "[Warning]: The platform $(PLATFORM) not in allowlist."; \
 	fi;
 
+gen_run_app:
+	rm -rf run_app.sh
+	$(ECHO) 'export LD_LIBRARY_PATH=/mnt:/tmp:$$LD_LIBRARY_PATH' >> run_app.sh
+	$(ECHO) 'export PATH=$$PATH:/sbin' >> run_app.sh
+	$(ECHO) 'export XILINX_XRT=/usr' >> run_app.sh
+ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
+	$(ECHO) 'export XILINX_VITIS=$$PWD' >> run_app.sh
+	$(ECHO) 'export XCL_EMULATION_MODE=$(TARGET)' >> run_app.sh
+endif
+	$(ECHO) '$(EXECUTABLE) krnl_stream_vadd_vmult.xclbin' >> run_app.sh
+	$(ECHO) 'return_code=$$?' >> run_app.sh
+	$(ECHO) 'if [ $$return_code -ne 0 ]; then' >> run_app.sh
+	$(ECHO) 'echo "ERROR: host run failed, RC=$$return_code"' >> run_app.sh
+	$(ECHO) 'fi' >> run_app.sh
+	$(ECHO) 'echo "INFO: host run completed."' >> run_app.sh
 check-platform:
 ifndef PLATFORM
 	$(error PLATFORM not set. Please set the PLATFORM properly and rerun. Run "make help" for more details.)

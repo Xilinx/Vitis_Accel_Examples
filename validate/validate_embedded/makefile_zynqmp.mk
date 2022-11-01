@@ -84,7 +84,6 @@ else
 CXXFLAGS += -I$(SYSROOT)/usr/include/xrt -I$(XILINX_VIVADO)/include -Wall -O0 -g -std=c++1y
 LDFLAGS += -L$(SYSROOT)/usr/lib -pthread -lxilinxopencl
 endif
-VPP_PFLAGS+=--package.sd_dir /proj/xbuilds/2022.2_daily_latest/internal_platforms/sw/zynqmp/xrt
 
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu))
 VPP_PFLAGS+= --package.emu_ps qemu
@@ -98,7 +97,7 @@ endif
 endif
 
 ########################## Checking if PLATFORM in allowlist #######################
-PLATFORM_BLOCKLIST += dma u30 aws samsung u2_ 2019 2018 vck5000 
+PLATFORM_BLOCKLIST += dma u30 aws samsung u2_ 2019 2018 vck5000 v70
 ############################## Setting up Host Variables ##############################
 #Include Required Host Source Files
 CXXFLAGS += -I$(XF_PROJ_ROOT)/common/includes/xcl2

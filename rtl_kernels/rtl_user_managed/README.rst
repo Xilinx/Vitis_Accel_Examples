@@ -136,4 +136,4 @@ The RTL Kernel Wizard automates some of the steps that need to be taken
 to ensure that the RTL IP is packaged into a kernel that can be
 integrated into a system in Vitis environment.
 
-For more comprehensive documentation, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.
+To visit github.io of this repository, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.

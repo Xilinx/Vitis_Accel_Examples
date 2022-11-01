@@ -24,12 +24,15 @@ This simple example implements a HW pipeline of three tasks, matrix multiplicati
 ..
 
  - All NoDMA Platforms, i.e u50 nodma etc
+ - Alveo U50
+ - Alveo U250
  - All Embedded Zynq Platforms, i.e zc702, zcu102 etc
  - All Versal Platforms, i.e vck190 etc
  - Alveo U55
  - Alveo U25 SmartNIC
  - Samsung U.2 SmartSSD
  - AWS VU9P F1
+ - Versal V70
 
 .. raw:: html
 
@@ -88,4 +91,4 @@ Input from the user
 
       EXTRA_VPPFLAGS += -D ENABLE_HW_PROFILING=1
 
-For more comprehensive documentation, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.
+To visit github.io of this repository, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.

@@ -23,15 +23,13 @@ This example showcases how to configure various PLRAM parameters like Memory Siz
 |
 ..
 
- - Alveo U25 SmartNIC
- - Alveo U30
  - All Embedded Zynq Platforms, i.e zc702, zcu102 etc
  - All Versal Platforms, i.e vck190 etc
- - Samsung SmartSSD Computation Storage Drive
- - Samsung U.2 SmartSSD
+ - Versal V70
+ - Alveo U280
  - Alveo U55c
- - X3 Compute Shell
- - All NoDMA Platforms, i.e u50 nodma etc
+ - Alveo U55n
+ - Samsung U.2 SmartSSD
 
 .. raw:: html
 
@@ -92,4 +90,4 @@ PLRAM can be assigned to a buffer by using ``sp`` tags in the vadd.cfg file alon
    sp=vadd_1.in2:PLRAM[1]
    sp=vadd_1.out:PLRAM[1]
 
-For more comprehensive documentation, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.
+To visit github.io of this repository, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.

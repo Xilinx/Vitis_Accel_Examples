@@ -74,4 +74,4 @@ Vector addition in kernel is divided into 4 sub-tasks(read input 1, read input 2
        compute_add(in1_stream, in2_stream, out_stream, size);
        store_result(out, out_stream, size);
 
-For more comprehensive documentation, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.
+To visit github.io of this repository, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.

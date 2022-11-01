@@ -117,4 +117,4 @@ compiler automatically applies ``loop unrolling`` to the ``shift_loop``.
            output_r[j] = acc;
        }
 
-For more comprehensive documentation, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.
+To visit github.io of this repository, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.

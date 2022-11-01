@@ -24,6 +24,7 @@ This example demonstrates how loop pipelining can be used to improve the perform
 ..
 
  - All NoDMA Platforms, i.e u50 nodma etc
+ - All ZCU102 Base Platforms
 
 .. raw:: html
 
@@ -95,4 +96,4 @@ Following is the log reported while running the design on U250 platform:
    Please refer to profile summary for kernel execution time for hardware emulation.
    TEST PASSED.
 
-For more comprehensive documentation, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.
+To visit github.io of this repository, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.

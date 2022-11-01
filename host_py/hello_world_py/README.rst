@@ -26,6 +26,7 @@ This is simple example to describe the usage of python based host code in Vitis 
  - All NoDMA Platforms, i.e u50 nodma etc
  - All Embedded Zynq Platforms, i.e zc702, zcu102 etc
  - All Versal Platforms, i.e vck190 etc
+ - Versal V70
 
 .. raw:: html
 
@@ -94,4 +95,4 @@ This is a simple hello world example to explain python based host code.
     The kernel is created by finding matching kernel instances in the 
     currently loaded xclbin.
 
-For more comprehensive documentation, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.
+To visit github.io of this repository, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.

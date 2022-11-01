@@ -20,10 +20,13 @@
     "platform_blocklist": [
         "nodma",
         "zc",
+        "u50",
+        "u200",
         "vck",
         "u2_",
         "u25_",
-        "aws"
+        "aws",
+        "v70"
     ], 
     "os": [
         "Linux"
