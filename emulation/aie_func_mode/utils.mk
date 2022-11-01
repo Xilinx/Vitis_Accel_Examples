@@ -79,35 +79,10 @@ CXX := $(XILINX_VITIS)/gnu/aarch64/lin/aarch64-linux/bin/aarch64-linux-gnu-g++
 endif
 
 gen_run_app:
-ifneq ($(TARGET),$(filter $(TARGET),sw_emu))
 	rm -rf run_app.sh
 	$(ECHO) 'export LD_LIBRARY_PATH=/mnt:/tmp:$$LD_LIBRARY_PATH' >> run_app.sh
 	$(ECHO) 'export PATH=$$PATH:/sbin' >> run_app.sh
 	$(ECHO) 'export XILINX_XRT=/usr' >> run_app.sh
-ifeq ($(TARGET),$(filter $(TARGET),hw_emu))
-	$(ECHO) 'export XILINX_VITIS=$$PWD' >> run_app.sh
-	$(ECHO) 'export XCL_EMULATION_MODE=$(TARGET)' >> run_app.sh
-endif
-	$(ECHO) 'if [ -d xrt/aarch64-xilinx-linux/ ]' >> run_app.sh
-	$(ECHO) 'then' >> run_app.sh
-	$(ECHO) 'cd xrt/aarch64-xilinx-linux/' >> run_app.sh
-	$(ECHO) 'elif [ -d xrt/versal ]' >> run_app.sh
-	$(ECHO) 'then' >> run_app.sh
-	$(ECHO) 'cd xrt/versal' >> run_app.sh
-	$(ECHO) 'else' >> run_app.sh
-	$(ECHO) 'echo "unable to find xrt folder sub directories"' >> run_app.sh
-	$(ECHO) 'fi' >> run_app.sh
-	$(ECHO) './reinstall_xrt.sh' >> run_app.sh
-	$(ECHO) 'return_code=$$?' >> run_app.sh
-	$(ECHO) 'cd -' >> run_app.sh
-	$(ECHO) 'dmesg -n 4 && echo "Hide DRM messages..."' >> run_app.sh
-	$(ECHO) '$(EXECUTABLE) krnl_adder.xclbin' >> run_app.sh
-	$(ECHO) 'return_code=$$?' >> run_app.sh
-	$(ECHO) 'if [ $$return_code -ne 0 ]; then' >> run_app.sh
-	$(ECHO) 'echo "ERROR: host run failed, RC=$$return_code"' >> run_app.sh
-	$(ECHO) 'fi' >> run_app.sh
-	$(ECHO) 'echo "INFO: host run completed."' >> run_app.sh
-endif
 check-platform:
 ifndef PLATFORM
 	$(error PLATFORM not set. Please set the PLATFORM properly and rerun. Run "make help" for more details.)

@@ -51,8 +51,8 @@ SD_IMAGE_FILE := $(EDGE_COMMON_SW)/Image
 CXX :=$(XILINX_VITIS)/gnu/aarch64/lin/aarch64-linux/bin/aarch64-linux-gnu-g++
 
 # Makefile input options
-LINK_OUTPUT := sys_lab8.xsa
-XCLBIN := lab8.xclbin
+LINK_OUTPUT := sys_aie-pl_func.xsa
+XCLBIN := aie-pl_func.xclbin
 
 # File names and locations
 GRAPH := src/aie/graph.cpp
@@ -92,8 +92,8 @@ else
 	AIE_FLAGS += --target=hw
 endif
 
-VPP_XO_FLAGS := -c -t $(TARGET) --platform $(PLATFORM) --save-temps -g --config hw_emu_func.cfg 
-VPP_LINK_FLAGS := -l --platform $(PLATFORM) $(KERNEL_XO) $(GRAPH_O) -t $(TARGET) --save-temps -g --config $(CONFIG_FILE) -o $(LINK_OUTPUT)
+VPP_XO_FLAGS := --save-temps -g --config hw_emu_func.cfg 
+VPP_LINK_FLAGS := $(KERNEL_XO) $(GRAPH_O) --save-temps -g --config $(CONFIG_FILE) -o $(LINK_OUTPUT)
 
 GCC_FLAGS := -Wall -c \
 			 -std=c++14 \
@@ -107,7 +107,7 @@ GCC_INCLUDES := -I$(SYSROOT)/usr/include/xrt \
 				-I${XILINX_VITIS}/include
 
 
-GCC_LIB := -lxaiengine -ladf_api_xrt -lxrt_core -lxrt_coreutil \
+GCC_LIB := -lxaiengine  -ladf_api_xrt -lxrt_coreutil -lxilinxopencl \
 		   -L$(SYSROOT)/usr/lib \
 		   --sysroot=$(SYSROOT) \
 		   -L${XILINX_VITIS}/aietools/lib/aarch64.o
@@ -127,11 +127,11 @@ kernels: check-device $(KERNEL_XO)
 	@echo "COMPLETE: Kernels Created."	
 
 s2mm.xo: src/pl_kernels/s2mm.cpp
-	$(VPP) $(VPP_XO_FLAGS) -k $(basename $(notdir $<)) $< -o $@
+	$(VPP) -c -t $(TARGET) --platform $(PLATFORM) $(VPP_XO_FLAGS) -k $(basename $(notdir $<)) $< -o $@
 mm2s.xo: src/pl_kernels/mm2s.cpp
-	$(VPP) $(VPP_XO_FLAGS) -k $(basename $(notdir $<)) $< -o $@
+	$(VPP) -c -t $(TARGET) --platform $(PLATFORM) $(VPP_XO_FLAGS) -k $(basename $(notdir $<)) $< -o $@
 polar_clip.xo: src/pl_kernels/polar_clip.cpp
-	$(VPP) $(VPP_XO_FLAGS) -k $(basename $(notdir $<)) $< -o $@
+	$(VPP) -c -t $(TARGET) --platform $(PLATFORM) $(VPP_XO_FLAGS) -k $(basename $(notdir $<)) $< -o $@
 
 
 graph: check-device $(GRAPH_O)
@@ -151,7 +151,7 @@ $(GRAPH_O): $(GRAPH)
 build: check-device $(LINK_OUTPUT)
 
 $(LINK_OUTPUT): $(KERNEL_XO) $(GRAPH_O) 
-	$(VPP) $(VPP_LINK_FLAGS) || (echo "task: [xclbin] failed error code: $$?"; exit 1)       
+	$(VPP) -l --platform $(PLATFORM) -t $(TARGET) $(VPP_LINK_FLAGS) || (echo "task: [xclbin] failed error code: $$?"; exit 1)       
 	@echo "COMPLETE:.xsa created"
 ########################################################
 
@@ -182,7 +182,7 @@ ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 		--package.defer_aie_run \
 		--package.sd_dir /proj/xbuilds/2022.2_daily_latest/internal_platforms/sw/versal/xrt  \
 		--package.sd_file $(RUN_APP_SCRIPT) \
-		--package.sd_file aie_adder $(LINK_OUTPUT) $(GRAPH_O) -o $(XCLBIN)
+		--package.sd_file aie_func_mode $(LINK_OUTPUT) $(GRAPH_O) -o $(XCLBIN)
 	@echo "COMPLETE: emulation package created."
 else
 ifeq ($(findstring vck190_base_dfx, $(PLATFORM)), vck190_base_dfx)
