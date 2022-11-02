@@ -40,12 +40,12 @@ enum IPTCommand {IPT_RULE_UPDATE = 1, IPT_RULE_INSERT, IPT_RULE_DELETE, IPT_RULE
                  IPT_INIT_DATA, IPT_GET_STATS, IPT_SET_DEFAULTS};
 template <class T>
 using ApGenericStream = vpp::stream<T, 32>;
-using ApDataStream = vpp::stream<X3Data, 512>;
+using ApDataStream = vpp::stream<X3Data, 32>;
 
 template <int DWIDTH>
-using ApUintStream = vpp::stream<ap_uint<DWIDTH>, 32>;
+using ApUintStream = vpp::stream<ap_uint<DWIDTH>, 2>;
 template <int DWIDTH>
-using AxiWordStream = vpp::stream<AXIWord_dt<DWIDTH>, 32>;
+using AxiWordStream = vpp::stream<AXIWord_dt<DWIDTH>, 2>;
 
 struct __attribute__((packed)) IPv4InfoPack_dt{
     ap_uint<32> src_ip_address;
@@ -58,7 +58,7 @@ struct __attribute__((packed)) IPv4InfoPack_dt{
 };
 
 template <class T>
-using ApDsStream = vpp::stream<T, 32>;
+using ApDsStream = vpp::stream<T, 2>;
 
 
 #ifdef SW_EMU_TEST

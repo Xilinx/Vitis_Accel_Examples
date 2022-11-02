@@ -18,7 +18,7 @@
 #include "ap_int.h"
 
 const auto X3_DWIDTH = 32;
-const auto X3_UWIDTH = 9;
+const auto X3_UWIDTH = 8;
 
 const auto X3_RX_DWIDTH = 32;
 const auto X3_RX_UWIDTH = 128;

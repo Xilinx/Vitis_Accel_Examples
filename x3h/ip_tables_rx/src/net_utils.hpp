@@ -58,7 +58,7 @@ using X3RxData = X3RxData_dt<X3_RX_DWIDTH, X3_RX_UWIDTH>;
 using X3TxData = X3TxData_dt<X3_TX_DWIDTH, X3_TX_UWIDTH>;
 using X3TxMetaRsp = X3TxMeta_dt<X3_TX_META_RES_DWIDTH>;
 
-using RxPktStream = vpp::stream<X3RxData, 512>;
+using RxPktStream = vpp::stream<X3RxData, 32>;
 using TxPktStream = vpp::stream<X3TxData, 512>;
 
 template <int DWIDTH, int KEEPW = 0>
