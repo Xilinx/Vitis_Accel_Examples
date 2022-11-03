@@ -31,7 +31,6 @@ ready to be compiled and executed on Vitis supported boards and accelerated clou
    rtl.rst
    ocl.rst
    validate.rst
-   x3h.rst
    
 .. toctree::
    :maxdepth: 1
