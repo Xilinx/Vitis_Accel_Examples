@@ -44,6 +44,7 @@ ALL TIMES.
 #include <stdlib.h>
 #include <fstream>
 #include <iostream>
+#include <chrono>
 #include "host.h"
 #include "input.h"
 #include "golden.h"
@@ -144,6 +145,8 @@ int main(int argc, char* argv[]) {
     // Data will be migrated to kernel space
     q1.enqueueMigrateMemObjects({buffer_in},0/* 0 means from host*/);
 
+    auto start_time = std::chrono::high_resolution_clock::now();
+
     //Launch the Kernel
     q2.enqueueTask(krnl_s2mm);
     q1.enqueueTask(krnl_mm2s);
@@ -155,6 +158,10 @@ int main(int argc, char* argv[]) {
 
     q1.finish();
     q2.finish();
+
+    auto end_time = std::chrono::high_resolution_clock::now();
+    auto elapsed_time = std::chrono::duration<double>(end_time - start_time).count();
+    std::cout << "Runtime: " << elapsed_time << "s" << std::endl;
 
     //Verify the result
     int match = 0;
