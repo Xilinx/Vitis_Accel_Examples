@@ -1,5 +1,5 @@
 {
-    "name": "AIE Adder with PL as HLS functional kernels", 
+    "name": "AIE App with PL as HLS functional kernels", 
     "description": [
         "This example demonstrates the flow on how to connect aie Kernel to PL HLS functional Kernels and validate the design running on the AI Engine."
     ],

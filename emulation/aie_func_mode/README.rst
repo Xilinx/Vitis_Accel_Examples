@@ -1,5 +1,5 @@
-AIE Adder with PL as HLS functional kernels
-===========================================
+AIE App with PL as HLS functional kernels
+=========================================
 
 This example demonstrates the flow on how to connect aie Kernel to PL HLS functional Kernels and validate the design running on the AI Engine.
 

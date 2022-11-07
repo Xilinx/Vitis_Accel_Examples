@@ -1,5 +1,5 @@
-Functional Hardware Emulation (Stream Free Running HLS C/C++ Kernel)
-=====================================================================
+AIE App with PL as HLS functional kernels
+=========================================
 
 This example demonstrates the flow on how to connect aie Kernel to PL HLS functional Kernels and validate the design running on the AI Engine. The PL kernels in this AIE design are simulated in the functional mode. The functional mode in v++ generates the SCTLM code for the HLS kernel. The functional model of the PL HLS kernel is applicable when user wants to speedup the emulation by compiling desired kernels in functional mode. 
 In this example, there is one AIE kernel and two PL HLS kernels ``pl_kernels/mm2s.cpp``, ``pl_kernels/s2mm.cpp`` and ``pl_kernels/polar_clip.cpp`` compiled in functional mode. 
