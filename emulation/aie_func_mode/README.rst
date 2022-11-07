@@ -73,8 +73,8 @@ Once the environment has been configured, the application can be executed by
 DETAILS
 -------
 
-This example demonstrates the flow on how to connect aie Kernel to PL HLS functional Kernels and validate the design running on the AI Engine. The PL kernels in this AIE design are simulated in the functional mode. The functional mode in v++ generates the SCTLM code for the HLS kernel. The functional model of the PL HLS kernel is applicable when user wants to speedup the emulation by compiling desired kernels in functional mode. 
-In this example, there is one AIE kernel and two PL HLS kernels ``pl_kernels/mm2s.cpp``, ``pl_kernels/s2mm.cpp`` and ``pl_kernels/polar_clip.cpp`` compiled in functional mode. 
+This example demonstrates the flow on how to connect aie Kernel to PL HLS functional Kernels and validate the design running on the AI Engine. The PL kernels in this AIE design are simulated in the functional mode. The functional mode in v++ generates the SCTLM code for the HLS kernel. The functional model of the PL HLS kernel is applicable when user wants to speedup the emulation by compiling desired kernels in functional mode instead of the default RTL. 
+In this example, there is one AIE kernel and three PL HLS kernels ``pl_kernels/mm2s.cpp``, ``pl_kernels/s2mm.cpp`` and ``pl_kernels/polar_clip.cpp`` compiled in functional mode. 
 
 XO generation
 --------------
@@ -99,6 +99,7 @@ Input from the user
 Speedup Benchmark   
 ------------------
 
+Below is the runtime recorded for each suite of PL HLS kernels when compiled in functional mode vs the RTL. The speedup is observed as of 3x (approx). 
 ============================= ========================
      Kernel                    Runtime (s) 
 ============================= ========================
