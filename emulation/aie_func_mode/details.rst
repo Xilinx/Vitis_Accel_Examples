@@ -27,7 +27,8 @@ Input from the user
 Speedup Benchmark   
 ------------------
 
-Below is the runtime recorded for each suite of PL HLS kernels when compiled in functional mode vs the RTL. The speedup is observed as of 3x (approx). 
+Below is the runtime recorded for each suite of PL HLS kernels when compiled in functional mode vs the RTL. The speedup is observed as of 3x (approx).
+ 
 ============================= ========================
      Kernel                    Runtime (s) 
 ============================= ========================
