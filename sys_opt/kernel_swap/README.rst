@@ -27,6 +27,7 @@ This example shows how host can swap the kernels and share same buffer between t
  - Embedded ZCU102
  - All ZCU104 Base Platforms
  - Versal VCK5000
+ - Versal V70
  - Versal VCK190
  - vck190_base_pci
  - ZC706 Evaluation board
