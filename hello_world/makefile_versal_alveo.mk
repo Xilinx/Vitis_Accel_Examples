@@ -41,7 +41,7 @@ endif
 
 ############################## Setting up Project Variables ##############################
 TARGET := hw
-VPP_LDFLAGS := 
+VPP_LDFLAGS :=
 include ./utils.mk
 
 TEMP_DIR := ./_x.$(TARGET).$(XSA)

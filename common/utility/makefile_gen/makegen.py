@@ -185,18 +185,6 @@ def mk_help(target):
     target.write("\"\n")
     target.write("\t$(ECHO) \"      Command to generate the design for specified Target and Shell.\"\n")
     target.write("\t$(ECHO) \"\"\n")
-    target.write("\t$(ECHO) \"  make clean \"\n");
-    target.write("\t$(ECHO) \"      Command to remove the generated non-hardware files.\"\n")
-    target.write("\t$(ECHO) \"\"\n")
-    target.write("\t$(ECHO) \"  make cleanall\"\n")
-    target.write("\t$(ECHO) \"      Command to remove all the generated files.\"\n")
-    target.write("\t$(ECHO) \"\"\n")
-    target.write("\t$(ECHO) \"  make test PLATFORM=<FPGA platform>\"\n")    
-    target.write("\t$(ECHO) \"      Command to run the application. This is same as 'run' target but does not have any makefile dependency.\"\n")  
-    target.write("\t$(ECHO) \"\"\n")
-    target.write("\t$(ECHO) \"  make sd_card TARGET=<sw_emu/hw_emu/hw> PLATFORM=<FPGA platform> EDGE_COMMON_SW=<rootfs and kernel image path>\"\n");
-    target.write("\t$(ECHO) \"      Command to prepare sd_card files.\"\n")
-    target.write("\t$(ECHO) \"\"\n")
     target.write("\t$(ECHO) \"  make run TARGET=<sw_emu/hw_emu/hw> PLATFORM=<FPGA platform>");
     target.write(" EMU_PS=<X86/QEMU> EDGE_COMMON_SW=<rootfs and kernel image path>")
     target.write("\"\n")
@@ -214,6 +202,18 @@ def mk_help(target):
     target.write("\t$(ECHO) \"      EDGE_COMMON_SW is required for SoC shells. Please download and use the pre-built image from - \"\n")
     target.write("\t$(ECHO) \"      https://www.xilinx.com/support/download/index.html/content/xilinx/en/downloadNav/embedded-platforms.html\"\n")
     target.write("\t$(ECHO) \"\"\n")
+    target.write("\t$(ECHO) \"  make sd_card TARGET=<sw_emu/hw_emu/hw> PLATFORM=<FPGA platform> EDGE_COMMON_SW=<rootfs and kernel image path>\"\n");
+    target.write("\t$(ECHO) \"      Command to prepare sd_card files.\"\n")
+    target.write("\t$(ECHO) \"\"\n")
+    target.write("\t$(ECHO) \"  make clean \"\n");
+    target.write("\t$(ECHO) \"      Command to remove the generated non-hardware files.\"\n")
+    target.write("\t$(ECHO) \"\"\n")
+    target.write("\t$(ECHO) \"  make cleanall\"\n")
+    target.write("\t$(ECHO) \"      Command to remove all the generated files.\"\n")
+    target.write("\t$(ECHO) \"\"\n")
+
+
+   
 
 def report_gen(target, data):
     target.write("#+-------------------------------------------------------------------------------\n")

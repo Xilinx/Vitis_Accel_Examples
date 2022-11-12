@@ -37,7 +37,7 @@ help:
 	$(ECHO) "  make cleanall"
 	$(ECHO) "      Command to remove all the generated files."
 	$(ECHO) ""
-       
+
 endif
 
 ############################## Setting up Project Variables ##############################

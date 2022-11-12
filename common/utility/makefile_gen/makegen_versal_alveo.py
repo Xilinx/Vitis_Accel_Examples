@@ -32,6 +32,7 @@ def mk_copyright(target):
 def create_params(target,data): 
     target.write("############################## Setting up Project Variables ##############################\n")      
     target.write("TARGET := hw\n")
+    target.write("VPP_LDFLAGS :=\n")
     target.write("include ./utils.mk\n")
     target.write("\n")
     target.write("TEMP_DIR := ./_x.$(TARGET).$(XSA)\n")
@@ -147,7 +148,7 @@ def add_kernel_flags(target, data):
     if "v++" in data:
         target.write("VPP_FLAGS += \n")
     target.write("VPP_FLAGS += ")
-    target.write("-t $(TARGET) --platform $(PLATFORM) --save-temps \n")  
+    target.write("--save-temps \n")  
     if "containers" in data:
         for con in data["containers"]:
             for acc in con["accelerators"]:
@@ -279,10 +280,12 @@ def building_kernel(target, data):
                         target.write("\n")
                     else:
                         target.write("\tv++ ")
+                        target.write("-c ")
                         target.write("$(VPP_FLAGS) ")
+                        target.write("-t $(TARGET) --platform $(PLATFORM) ")
                         if "clflags" in acc:
                             target.write("$(VPP_FLAGS_"+acc["name"]+") ")
-                        target.write("-c -k ")
+                        target.write("-k ")
                         target.write(acc["name"])
                         target.write(" --temp_dir ")
                         target.write("$(TEMP_DIR) ")
@@ -303,15 +306,15 @@ def building_kernel(target, data):
                     target.write(".xo")
             target.write("\n")
             target.write("\tmkdir -p $(BUILD_DIR)\n")
-            target.write("\tv++ $(VPP_FLAGS) ")
-            target.write("-l $(VPP_LDFLAGS) --temp_dir ")
+            target.write("\tv++ -l $(VPP_FLAGS) $(VPP_LDFLAGS) -t $(TARGET) --platform $(PLATFORM) ")
+            target.write("--temp_dir ")
             target.write("$(TEMP_DIR)")
 
             if "ldclflags" in con:
                 target.write(" $(VPP_LDFLAGS_"+con["name"]+")")
             target.write(" -o'$(LINK_OUTPUT)' $(+)\n")
 
-            target.write("\tv++ -p $(LINK_OUTPUT) $(VPP_FLAGS) ")
+            target.write("\tv++ -p $(LINK_OUTPUT) $(VPP_FLAGS) -t $(TARGET) --platform $(PLATFORM) ")
             target.write("--package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/" + con["name"] + ".xclbin\n")
     target.write("\n")
     return
@@ -333,8 +336,8 @@ def building_kernel_rtl(target, data):
                     target.write(".xo")
             target.write("\n")
             target.write("\tmkdir -p $(BUILD_DIR)\n")
-            target.write("\tv++ $(VPP_FLAGS) ")
-            target.write("-l $(VPP_LDFLAGS) --temp_dir ")
+            target.write("\tv++ -l $(VPP_LDFLAGS) $(VPP_FLAGS) ")
+            target.write("-t $(TARGET) --platform $(PLATFORM) --temp_dir ")
             target.write("$(TEMP_DIR)")
 
             if "ldclflags" in con:
@@ -545,15 +548,6 @@ def mk_help(target):
     target.write("\"\n")
     target.write("\t$(ECHO) \"      Command to generate the design for specified Target and Shell.\"\n")
     target.write("\t$(ECHO) \"\"\n")
-    target.write("\t$(ECHO) \"  make clean \"\n");
-    target.write("\t$(ECHO) \"      Command to remove the generated non-hardware files.\"\n")
-    target.write("\t$(ECHO) \"\"\n")
-    target.write("\t$(ECHO) \"  make cleanall\"\n")
-    target.write("\t$(ECHO) \"      Command to remove all the generated files.\"\n")
-    target.write("\t$(ECHO) \"\"\n")
-    target.write("\t$(ECHO) \"  make test PLATFORM=<FPGA platform>\"\n")    
-    target.write("\t$(ECHO) \"      Command to run the application. This is same as 'run' target but does not have any makefile dependency.\"\n")  
-    target.write("\t$(ECHO) \"\"\n")
     target.write("\t$(ECHO) \"  make run TARGET=<sw_emu/hw_emu/hw> PLATFORM=<FPGA platform>");
     target.write("\"\n")
     target.write("\t$(ECHO) \"      Command to run application in emulation.\"\n")
@@ -565,6 +559,12 @@ def mk_help(target):
     target.write("\t$(ECHO) \"  make host");
     target.write("\"\n")
     target.write("\t$(ECHO) \"      Command to build host application.\"\n")
+    target.write("\t$(ECHO) \"\"\n")
+    target.write("\t$(ECHO) \"  make clean \"\n");
+    target.write("\t$(ECHO) \"      Command to remove the generated non-hardware files.\"\n")
+    target.write("\t$(ECHO) \"\"\n")
+    target.write("\t$(ECHO) \"  make cleanall\"\n")
+    target.write("\t$(ECHO) \"      Command to remove all the generated files.\"\n")
     target.write("\t$(ECHO) \"\"\n")
     target.write("endif\n")
     target.write("\n")
