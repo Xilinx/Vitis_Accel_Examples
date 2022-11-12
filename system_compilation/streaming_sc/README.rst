@@ -31,6 +31,7 @@ This is simple example showcasing Free-running PEs with AXI-streams in system co
  - Alveo U50
  - Alveo U250
  - Alveo U50lv
+ - Versal V70
 
 .. raw:: html
 

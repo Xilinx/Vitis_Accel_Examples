@@ -33,6 +33,7 @@ This is quick start example based on a video filtering usecase to describe syste
  - All Versal Platforms, i.e vck190 etc
  - AWS VU9P F1
  - Alveo U55n
+ - Versal V70
 
 .. raw:: html
 
