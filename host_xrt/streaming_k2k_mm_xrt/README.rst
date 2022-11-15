@@ -25,7 +25,7 @@ This is a simple kernel to kernel streaming Vector Add and Vector Multiply C Ker
 
  - Samsung SmartSSD Computation Storage Drive
  - Samsung U.2 SmartSSD
- - All Versal Platforms, i.e vck190 etc
+ - Versal VCK190
  - All Embedded Zynq Platforms, i.e zc702, zcu102 etc
  - All NoDMA Platforms, i.e u50 nodma etc
 
