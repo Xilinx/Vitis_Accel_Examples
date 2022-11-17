@@ -19,7 +19,6 @@ Xilinx AIE2 Validate example.
 |
 ..
 
- - Versal V70
 
 .. raw:: html
 

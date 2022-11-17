@@ -4,7 +4,7 @@
     "flow": "vitis",
     "gui": false,
     "platform_type": "pcie",
-    "platform_whitelist": [
+    "platform_allowlist": [
         "v70"
     ],
     "match_makefile" : "false",
