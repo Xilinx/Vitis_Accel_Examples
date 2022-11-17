@@ -69,8 +69,13 @@ def create_params(target,data):
             target.write(cmdargs)
     target.write("\n")
     target.write("SD_CARD := $(PACKAGE_OUT)\n")
-    target.write("vck190_dfx_hw := false\n")
+    target.write("dfx_hw := false\n")
     target.write("dfx_chk := $(shell $(XF_PROJ_ROOT)/common/utility/custom_dfx_check.sh $(PLATFORM) $(XF_PROJ_ROOT))\n")
+    target.write("ifeq ($(dfx_chk), true)\n")
+    target.write("ifeq ($(TARGET), hw)\n")
+    target.write("dfx_hw := true\n")
+    target.write("endif\n")
+    target.write("endif\n")
     target.write("\n")
     if "config_make" in data:
         target.write("include ")
@@ -561,8 +566,7 @@ def mk_sdcard(target, data):
                     arg = arg.replace('REPO_DIR','$(XF_PROJ_ROOT)')
                     arg = arg.replace('PROJECT', '.')
                     extra_file_list.append(arg)  
-    target.write("ifeq ($(dfx_chk), true)\n")
-    target.write("ifeq ($(TARGET),$(filter $(TARGET), hw))\n")
+    target.write("ifeq ($(dfx_hw), true)\n")
     if "containers" in data:
         for con in data["containers"]:
             target.write("\tv++ -p $(VPP_FLAGS) $(LINK_OUTPUT) -t $(TARGET) --platform $(PLATFORM) -o $(BUILD_DIR)/")
@@ -579,10 +583,7 @@ def mk_sdcard(target, data):
             target.write(" --package.sd_file $(BUILD_DIR)/")
             target.write(con["name"])
             target.write(".xclbin\n")
-    target.write("vck190_dfx_hw := true\n")
-    target.write("endif\n")
-    target.write("endif\n")
-    target.write("ifeq ($(vck190_dfx_hw), false)\n")
+    target.write("else\n")
     if "containers" in data:
         for con in data["containers"]:
             target.write("\tv++ -p $(VPP_PFLAGS) $(LINK_OUTPUT) $(VPP_FLAGS) -t $(TARGET) --platform $(PLATFORM) ")
