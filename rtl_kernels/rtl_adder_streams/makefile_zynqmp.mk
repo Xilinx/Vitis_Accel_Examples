@@ -133,7 +133,7 @@ build: check-vitis check-device $(LINK_OUTPUT)
 xclbin: build
 
 # Building kernel
-$(BUILD_DIR)/adder.xclbin: $(TEMP_DIR)/input.xo $(TEMP_DIR)/adder.xo $(TEMP_DIR)/output.xo
+$(LINK_OUTPUT): $(TEMP_DIR)/input.xo $(TEMP_DIR)/adder.xo $(TEMP_DIR)/output.xo
 	mkdir -p $(BUILD_DIR)
 	v++ -l $(VPP_FLAGS) $(VPP_LDFLAGS) -t $(TARGET) --platform $(PLATFORM) --temp_dir $(TEMP_DIR) $(VPP_LDFLAGS_adder) -o'$(LINK_OUTPUT)' $(+)
 ############################## Preparing sdcard ##############################

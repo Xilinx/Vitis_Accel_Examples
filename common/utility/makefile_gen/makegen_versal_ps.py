@@ -348,11 +348,9 @@ def building_kernel(target, data):
 
 def building_kernel_rtl(target, data):
     target.write("# Building kernel\n")
+    target.write("$(LINK_OUTPUT):") 
     if "containers" in data:
         for con in data["containers"]:
-            target.write("$(BUILD_DIR)/")
-            target.write(con["name"])
-            target.write(".xclbin:")
             if "accelerators" in con:
                 for acc in con["accelerators"]:
                     if "kernel_type" in acc and acc["kernel_type"] == "SystemC":
