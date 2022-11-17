@@ -21,6 +21,7 @@
 #include "xrt/xrt_bo.h"
 #include "xrt/xrt_device.h"
 #include "xrt/xrt_kernel.h"
+#include <fstream>
 static const int COUNT = 1024;
 
 static void printHelp() {
@@ -97,7 +98,6 @@ int main(int argc, char** argv) {
     std::fill(bo1_map, bo1_map + COUNT, 0);
 
     // Fill our data sets with pattern
-    int bufReference[COUNT];
     bo0_map[0] = 'h';
     bo0_map[1] = 'e';
     bo0_map[2] = 'l';
@@ -106,7 +106,6 @@ int main(int argc, char** argv) {
     for (int i = 5; i < COUNT; ++i) {
         bo0_map[i] = 0;
         bo1_map[i] = i;
-        bufReference[i] = i;
     }
 
     bo0.sync(XCL_BO_SYNC_BO_TO_DEVICE, DATA_SIZE, 0);
