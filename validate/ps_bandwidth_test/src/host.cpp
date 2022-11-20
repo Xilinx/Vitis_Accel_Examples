@@ -75,7 +75,6 @@ int main(int argc, char** argv) {
         return EOPNOTSUPP;
     }
 
-    auto num_devices = xrt::system::enumerate_devices();
 
     auto device = xrt::device{dev_id};
 
