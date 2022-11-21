@@ -9,7 +9,8 @@
     "platform_blocklist": [
         "vck",
         "zc706",
-        "nodma"
+        "nodma",
+        "v70"
     ],
     "contributors": [
         {
