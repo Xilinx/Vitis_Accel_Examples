@@ -27,6 +27,7 @@ This is simple example which demonstrate how to use and configure a free running
  - All Versal Platforms, i.e vck190 etc
  - ZC706 Evaluation board
  - All NoDMA Platforms, i.e u50 nodma etc
+ - Versal V70
 
 .. raw:: html
 
