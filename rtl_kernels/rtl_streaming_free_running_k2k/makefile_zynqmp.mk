@@ -75,7 +75,7 @@ LDFLAGS += -L$(SYSROOT)/usr/lib -pthread -lxilinxopencl
 include config.mk
 
 ########################## Checking if PLATFORM in allowlist #######################
-PLATFORM_BLOCKLIST += 2018 vck zc706 nodma 
+PLATFORM_BLOCKLIST += 2018 vck zc706 nodma v70 
 ############################## Setting up Host Variables ##############################
 #Include Required Host Source Files
 CXXFLAGS += -I$(XF_PROJ_ROOT)/common/includes/xcl2
