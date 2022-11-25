@@ -48,6 +48,8 @@ endif
 TARGET := hw_emu
 SYSROOT := $(EDGE_COMMON_SW)/sysroots/cortexa72-cortexa53-xilinx-linux
 SD_IMAGE_FILE := $(EDGE_COMMON_SW)/Image
+include ./utils.mk
+
 EMU_PS := QEMU
 ifeq ($(TARGET), sw_emu)
 EMU_PS := X86
@@ -70,6 +72,13 @@ endif
 LINK_OUTPUT := adder.xsa
 XCLBIN := krnl_adder.xclbin
 
+dfx_hw := false
+dfx_chk := $(shell $(XF_PROJ_ROOT)/common/utility/custom_dfx_check.sh $(PLATFORM) $(XF_PROJ_ROOT))
+ifeq ($(dfx_chk), true)
+ifeq ($(TARGET), hw)
+dfx_hw := true
+endif
+endif
 
 # File names and locations
 GRAPH := src/aie/graph.cpp
@@ -90,7 +99,6 @@ RESULT_STRING = TEST PASSED
 CMD_ARGS = krnl_adder.xclbin
 
 CONFIG_FILE := system.cfg
-include ./utils.mk
 
 ########################## Checking if PLATFORM in allowlist #######################
 PLATFORM_BLOCKLIST += zc vck5000 aws-vu9p-f1 samsung u2_ dma 
@@ -223,8 +231,8 @@ else
 	@echo "COMPLETE: emulation package created."
 endif
 else
-ifeq ($(findstring vck190_base_dfx, $(PLATFORM)), vck190_base_dfx)
-	v++ $(VPP_FLAGS) -t hw --platform $(PLATFORM) -p $(LINK_OUTPUT) $(GRAPH_O) --package.defer_aie_run -o $(XCLBIN) 
+ifeq ($(dfx_hw), true)
+	v++ $(VPP_FLAGS) -t hw --platform $(PLATFORM) -p $(LINK_OUTPUT) $(GRAPH_O) --package.defer_aie_run -o $(XCLBIN)
 	v++ $(VPP_PFLAGS) -t hw --platform $(PLATFORM) -p --package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.image_format=ext4 --package.boot_mode=sd --package.kernel_image=$(SD_IMAGE_FILE) --package.sd_file $(RUN_APP_SCRIPT) --package.sd_file aie_adder --package.sd_file $(XCLBIN) 
 
 	@echo "### ***** dfx sd_card generation done! ***** ###"
