@@ -74,6 +74,14 @@ RESULT_STRING = TEST PASSED
 CONFIG_FILE := system.cfg
 include ./utils.mk
 
+dfx_hw := false
+dfx_chk := $(shell $(XF_PROJ_ROOT)/common/utility/custom_dfx_check.sh $(PLATFORM) $(XF_PROJ_ROOT))
+ifeq ($(dfx_chk), true)
+ifeq ($(TARGET), hw)
+dfx_hw := true
+endif
+endif
+
 ########################## Checking if PLATFORM in allowlist #######################
 PLATFORM_BLOCKLIST += zc vck5000 aws-vu9p-f1 samsung u2_ dma 
 PLATFORM_ALLOWLIST += vck190
@@ -185,7 +193,7 @@ ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 		--package.sd_file aie_func_mode $(LINK_OUTPUT) $(GRAPH_O) -o $(XCLBIN)
 	@echo "COMPLETE: emulation package created."
 else
-ifeq ($(findstring vck190_base_dfx, $(PLATFORM)), vck190_base_dfx)
+ifeq ($(dfx_hw), true)
 	v++ $(VPP_FLAGS) -t hw --platform $(PLATFORM) -p $(LINK_OUTPUT) --package.defer_aie_run -o $(XCLBIN) 
 	v++ $(VPP_PFLAGS) -t hw --platform $(PLATFORM) -p --package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.image_format=ext4 --package.boot_mode=sd --package.kernel_image=$(SD_IMAGE_FILE) --package.sd_dir /proj/xbuilds/2022.2_daily_latest/internal_platforms/sw/versal/xrt --package.sd_file $(RUN_APP_SCRIPT) --package.sd_file aie_adder --package.sd_file $(XCLBIN) --package.sd_file $(GRAPH_O)
 else
