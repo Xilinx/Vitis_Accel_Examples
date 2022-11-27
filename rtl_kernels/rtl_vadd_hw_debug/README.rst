@@ -28,6 +28,7 @@ This is an example that showcases the Hardware Debug of Vector Addition RTL Kern
 
  - All Versal Platforms, i.e vck190 etc
  - All NoDMA Platforms, i.e u50 nodma etc
+ - Versal V70
 
 .. raw:: html
 

@@ -69,6 +69,7 @@ RESULT_STRING = TEST PASSED
 VPP_PFLAGS := 
 CMD_ARGS = $(BUILD_DIR)/increment.xclbin
 SD_CARD := $(PACKAGE_OUT)
+
 dfx_hw := false
 dfx_chk := $(shell $(XF_PROJ_ROOT)/common/utility/custom_dfx_check.sh $(PLATFORM) $(XF_PROJ_ROOT))
 ifeq ($(dfx_chk), true)
@@ -76,8 +77,8 @@ ifeq ($(TARGET), hw)
 dfx_hw := true
 endif
 endif
-XOS = $(XILINX_VITIS)/data/emulation/XO/sim_ipc_axis_master_32.xo  $(XILINX_VITIS)/data/emulation/XO/sim_ipc_axis_slave_32.xo
 
+XOS = $(XILINX_VITIS)/data/emulation/XO/sim_ipc_axis_master_32.xo  $(XILINX_VITIS)/data/emulation/XO/sim_ipc_axis_slave_32.xo
 CXXFLAGS += -I$(SYSROOT)/usr/include/xrt -I$(XILINX_VIVADO)/include -Wall -O0 -g -std=c++1y
 LDFLAGS += -L$(SYSROOT)/usr/lib -pthread -lxilinxopencl
 

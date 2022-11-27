@@ -74,6 +74,7 @@ RESULT_STRING = TEST PASSED
 VPP_PFLAGS := 
 CMD_ARGS = -x $(BUILD_DIR)/mbox_autorestart.xclbin
 SD_CARD := $(PACKAGE_OUT)
+
 dfx_hw := false
 dfx_chk := $(shell $(XF_PROJ_ROOT)/common/utility/custom_dfx_check.sh $(PLATFORM) $(XF_PROJ_ROOT))
 ifeq ($(dfx_chk), true)

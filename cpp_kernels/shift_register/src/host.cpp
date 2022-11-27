@@ -131,7 +131,7 @@ int main(int argc, char** argv) {
     uint32_t iterations = xcl::is_emulation() ? 2 : 100;
     uint64_t fir_naive_time = 0;
     // Running naive kernel iterations times
-    for (int i = 0; i < iterations; i++) {
+    for (uint32_t i = 0; i < iterations; i++) {
         OCL_CHECK(err, err = q.enqueueTask(fir_naive_kernel, nullptr, &event));
         OCL_CHECK(err, err = q.enqueueMigrateMemObjects({buffer_output_A}, CL_MIGRATE_MEM_OBJECT_HOST));
         q.finish();
@@ -150,7 +150,7 @@ int main(int argc, char** argv) {
 
     uint64_t fir_sr_time = 0;
     // Running Shift Register FIR iterations times
-    for (int i = 0; i < iterations; i++) {
+    for (uint32_t i = 0; i < iterations; i++) {
         OCL_CHECK(err, err = q.enqueueTask(fir_sr_kernel, nullptr, &event));
         OCL_CHECK(err, err = q.enqueueMigrateMemObjects({buffer_output_B}, CL_MIGRATE_MEM_OBJECT_HOST));
         q.finish();
