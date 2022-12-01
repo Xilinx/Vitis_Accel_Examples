@@ -55,6 +55,7 @@
                 "hw": "1"
             }
         ],
+	"profile": "no",
         "disable": false,
         "jobs": [
             {

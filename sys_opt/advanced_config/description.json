@@ -68,6 +68,7 @@
         }
     ],
     "testinfo": {
+	"profile": "no",
         "disable": false,
         "jobs": [
             {
