@@ -94,8 +94,10 @@ AIESIM := aiesimulator
 AIE_INCLUDE_FLAGS := -include="$(XILINX_VITIS)/aietools/include" -include="./src/aie" -include="./data" -include="./"
 AIE_FLAGS := $(AIE_INCLUDE_FLAGS) --pl-freq=100 -workdir=./_aie
 
+
 AIE_FLAGS += --target=hw
-AIE_HYBRID += -Xpreproc=-D_HYBRID_EMU_
+AIE_HYBRID += -Xpreproc=-D_HYBRID_EMU_ 
+export XILINX_VITIS_EMU_HYBRID=1
 
 VPP_XO_FLAGS := -c -t $(TARGET) --platform $(PLATFORM) --save-temps -g 
 VPP_LINK_FLAGS := -l --platform $(PLATFORM) $(KERNEL_XO) $(GRAPH_O) -t $(TARGET) --save-temps -g --config $(CONFIG_FILE) -o $(LINK_OUTPUT)
@@ -148,7 +150,7 @@ $(GRAPH_O): $(GRAPH)
 build: check-device $(LINK_OUTPUT)
 
 $(LINK_OUTPUT): $(KERNEL_XO) $(GRAPH_O) 
-	$(VPP) $(VPP_LINK_FLAGS) || (echo "task: [xclbin] failed error code: $$?"; exit 1)       
+	XILINX_VITIS_EMU_HYBRID=1 $(VPP) $(VPP_LINK_FLAGS) || (echo "task: [xclbin] failed error code: $$?"; exit 1)       
 	@echo "COMPLETE:.xsa created"
 ########################################################
 
@@ -190,7 +192,7 @@ $(XCLBIN): $(GRAPH_O) $(KERNEL_XO) $(EXECUTABLE)
 # running on a board farm system.
 run: all 
 	$(ECHO) "To make Software Emulation run faster, we are running PS on x86."
-	XCL_EMULATION_MODE=$(TARGET) $(EXECUTABLE) $(CMD_ARGS)
+	XILINX_VITIS_EMU_HYBRID=1 XCL_EMULATION_MODE=$(TARGET) $(EXECUTABLE) $(CMD_ARGS)
 
 ############################## Cleaning Rules ##############################
 # Cleaning stuff
