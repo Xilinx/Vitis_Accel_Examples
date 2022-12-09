@@ -79,7 +79,6 @@ dfx_hw := true
 endif
 endif
 
-
 ifeq ($(EMU_PS), X86)
 CXXFLAGS += -I$(XILINX_XRT)/include -I$(XILINX_VIVADO)/include -Wall -O0 -g -std=c++1y
 LDFLAGS += -L$(XILINX_XRT)/lib -pthread -lOpenCL
@@ -152,7 +151,7 @@ endif
 sd_card: gen_run_app emconfig $(SD_CARD)
 
 $(SD_CARD): $(EXECUTABLE) $(LINK_OUTPUT)
-ifeq ($(dfx_hw ), true)
+ifeq ($(dfx_hw), true)
 	v++ -p $(VPP_FLAGS) $(LINK_OUTPUT) -t $(TARGET) --platform $(PLATFORM) -o $(BUILD_DIR)/vadd.xclbin 
 	v++ -p $(VPP_PFLAGS) $(VPP_FLAGS) -t $(TARGET) --platform $(PLATFORM) --package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.sd_file $(SD_IMAGE_FILE) --package.sd_file xrt.ini --package.sd_file $(RUN_APP_SCRIPT) --package.sd_file $(EXECUTABLE) --package.sd_file $(BUILD_DIR)/vadd.xclbin
 else

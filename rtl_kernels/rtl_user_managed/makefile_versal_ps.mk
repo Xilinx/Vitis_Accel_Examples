@@ -71,8 +71,13 @@ RESULT_STRING = TEST PASSED
 VPP_PFLAGS := 
 CMD_ARGS = -x $(BUILD_DIR)/vadd.xclbin
 SD_CARD := $(PACKAGE_OUT)
-vck190_dfx_hw := false
+dfx_hw := false
 dfx_chk := $(shell $(XF_PROJ_ROOT)/common/utility/custom_dfx_check.sh $(PLATFORM) $(XF_PROJ_ROOT))
+ifeq ($(dfx_chk), true)
+ifeq ($(TARGET), hw)
+dfx_hw := true
+endif
+endif
 
 include config.mk
 
@@ -144,14 +149,10 @@ $(LINK_OUTPUT): $(TEMP_DIR)/vadd.xo
 sd_card: gen_run_app emconfig $(SD_CARD)
 
 $(SD_CARD): $(EXECUTABLE) $(LINK_OUTPUT)
-ifeq ($(dfx_chk), true)
-ifeq ($(TARGET),$(filter $(TARGET), hw))
+ifeq ($(dfx_hw), true)
 	v++ -p $(VPP_FLAGS) $(LINK_OUTPUT) -t $(TARGET) --platform $(PLATFORM) -o $(BUILD_DIR)/vadd.xclbin 
 	v++ -p $(VPP_PFLAGS) $(VPP_FLAGS) -t $(TARGET) --platform $(PLATFORM) --package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.sd_file $(SD_IMAGE_FILE) --package.sd_file xrt.ini --package.sd_file $(RUN_APP_SCRIPT) --package.sd_file $(EXECUTABLE) --package.sd_file $(BUILD_DIR)/vadd.xclbin
-vck190_dfx_hw := true
-endif
-endif
-ifeq ($(vck190_dfx_hw), false)
+else
 	v++ -p $(VPP_PFLAGS) $(LINK_OUTPUT) $(VPP_FLAGS) -t $(TARGET) --platform $(PLATFORM) --package.out_dir $(PACKAGE_OUT) --package.rootfs $(EDGE_COMMON_SW)/rootfs.ext4 --package.sd_file $(SD_IMAGE_FILE) --package.sd_file xrt.ini --package.sd_file $(RUN_APP_SCRIPT) --package.sd_file $(EXECUTABLE) --package.sd_file $(EMCONFIG_DIR)/emconfig.json -o $(BUILD_DIR)/vadd.xclbin
 endif
 
