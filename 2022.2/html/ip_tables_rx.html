@@ -57,7 +57,7 @@
   <link rel="stylesheet" href="_static/css/pro.min.css" media="all" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Common Files" href="common.html" />
+    <link rel="next" title="Combine_Bandwidth_Hostmemory" href="combine_bw_hm_passthrough.html" />
     <link rel="prev" title="X3 Hybrid Examples" href="x3h.html" /> 
 	</head>
 	<body>
@@ -356,14 +356,16 @@
 <li class="toctree-l1 current"><a class="reference internal" href="x3h.html">X3 Hybrid Examples</a><ul class="current">
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Xilinx IPTables RX Filter</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#device">Device</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#run-instructions">Run Instructions</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#arguments">Arguments</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#run-instructions">Run Instructions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#arguments">Arguments</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#design-files">DESIGN FILES</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#command-line-arguments">COMMAND LINE ARGUMENTS</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#design-files">DESIGN FILES</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#command-line-arguments">COMMAND LINE ARGUMENTS</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="combine_bw_hm_passthrough.html">Combine_Bandwidth_Hostmemory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rx_exerciser_tx_passthrough.html">Xilinx RX Exerciser Loop Design</a></li>
 </ul>
 </li>
 </ul>
@@ -451,23 +453,29 @@
   <div class="section" id="xilinx-iptables-rx-filter">
 <h1>Xilinx IPTables RX Filter<a class="headerlink" href="#xilinx-iptables-rx-filter" title="Permalink to this headline">¶</a></h1>
 <p>Xilinx IPTables RX Filter offload engine.</p>
+<p>This design showcase an application for the X3 hybrid NIC based on providing IPTables-like functionality on the NIC using System Compiler.</p>
+<p>We hope that customers will be able to use this example to make it easy for them to begin using the programmable capabilities of the X3 NIC. They may use it as a starting point and customize it to their needs, or write their own from scratch with a similar structure.</p>
+<p>IPTables is a Linux firewall system to apply packet filters to network traffic. It consists of the iptables utility that configures the current rules and the netfilter kernel module(s) that implement the rules in the kernel. Although the IPTables system has numerous tables and filter points, this example will only be concerned with the INPUT filter chain. Each chain contains a list of rules. The packet is compared to each rule in sequence until a rule matches and a decision is made (e.g. to accept or drop the packet).</p>
 <div class="section" id="device">
 <h2>Device<a class="headerlink" href="#device" title="Permalink to this headline">¶</a></h2>
-<p>xilinx_x3522p_gen4x8_hn10g_1_202220_1</p>
-<p>Follow the instructions below to run IP Tables Vitis application in
-hardware emulation flow.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">xilinx_x3522p_gen4x8_hn10g_1_202220_1</span>
+
+<span class="n">Follow</span> <span class="n">the</span> <span class="n">instructions</span> <span class="n">below</span> <span class="n">to</span> <span class="n">run</span> <span class="n">IP</span> <span class="n">Tables</span> <span class="n">Vitis</span> <span class="n">application</span> <span class="ow">in</span>
+<span class="n">hardware</span> <span class="n">emulation</span> <span class="n">flow</span><span class="o">.</span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="run-instructions">
 <h2>Run Instructions<a class="headerlink" href="#run-instructions" title="Permalink to this headline">¶</a></h2>
 <p>Following instructions are used to run application.</p>
-<dl class="simple">
-<dt>::</dt><dd><p>$ setenv PLATFORM_PATH &lt;path to platform&gt;
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ setenv PLATFORM_PATH &lt;path to platform&gt;
 $ setenv XCL_EMULATION_MODE hw_emu
-$ ./host-hw_emu.exe -n ./src/x3host.py -p test.pcap -f 0 -r ./iptable.rules</p>
-</dd>
-</dl>
+$ ./host-hw_emu.exe -n ./src/x3host.py -p test.pcap -f 0 -r ./iptable.rules
+</pre></div>
+</div>
+</div>
 <div class="section" id="arguments">
-<h3>Arguments<a class="headerlink" href="#arguments" title="Permalink to this headline">¶</a></h3>
+<h2>Arguments<a class="headerlink" href="#arguments" title="Permalink to this headline">¶</a></h2>
 <p>Following is the arguments expected by the host executable to run the application</p>
 <table class="docutils align-default">
 <colgroup>
@@ -498,10 +506,8 @@ $ ./host-hw_emu.exe -n ./src/x3host.py -p test.pcap -f 0 -r ./iptable.rules</p>
 </tr>
 </tbody>
 </table>
-</div>
-</div>
 <div class="section" id="design-files">
-<h2>DESIGN FILES<a class="headerlink" href="#design-files" title="Permalink to this headline">¶</a></h2>
+<h3>DESIGN FILES<a class="headerlink" href="#design-files" title="Permalink to this headline">¶</a></h3>
 <p>Application code is located in the src directory. Accelerator binary files will be compiled to the xclbin directory. The xclbin directory is required by the Makefile and its contents will be filled during compilation. A listing of all the files in this example is shown below</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">src</span><span class="o">/</span><span class="n">host</span><span class="o">.</span><span class="n">cpp</span>
 <span class="n">src</span><span class="o">/</span><span class="n">iptfiltersc</span><span class="o">.</span><span class="n">cpp</span>
@@ -519,10 +525,11 @@ $ ./host-hw_emu.exe -n ./src/x3host.py -p test.pcap -f 0 -r ./iptable.rules</p>
 <p>Access these files in the github repo by <a class="reference external" href="https://github.com/Xilinx/Vitis_Accel_Examples/tree/master/x3h/ip_tables_rx">clicking here</a>.</p>
 </div>
 <div class="section" id="command-line-arguments">
-<h2>COMMAND LINE ARGUMENTS<a class="headerlink" href="#command-line-arguments" title="Permalink to this headline">¶</a></h2>
+<h3>COMMAND LINE ARGUMENTS<a class="headerlink" href="#command-line-arguments" title="Permalink to this headline">¶</a></h3>
 <p>Once the environment has been configured, the application can be executed by</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">host</span><span class="o">.</span><span class="n">exe</span>
 </pre></div>
+</div>
 </div>
 </div>
 </div>
@@ -543,7 +550,7 @@ $ ./host-hw_emu.exe -n ./src/x3host.py -p test.pcap -f 0 -r ./iptable.rules</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="common.html" class="btn btn-neutral float-right" title="Common Files" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="combine_bw_hm_passthrough.html" class="btn btn-neutral float-right" title="Combine_Bandwidth_Hostmemory" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="x3h.html" class="btn btn-neutral float-left" title="X3 Hybrid Examples" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

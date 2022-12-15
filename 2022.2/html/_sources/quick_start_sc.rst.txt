@@ -57,6 +57,7 @@ Specifies which memory bank to use for a given port connection (identical for al
  - All Versal Platforms, i.e vck190 etc
  - AWS VU9P F1
  - Alveo U55n
+ - Versal V70
 
 DESIGN FILES
 ------------

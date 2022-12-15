@@ -371,6 +371,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="validate.html">Validate</a></li>
+<li class="toctree-l1"><a class="reference internal" href="x3h.html">X3 Hybrid Examples</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Common Utilities</span></p>
 <ul>
@@ -456,7 +457,7 @@
   <div class="section" id="wide-memory-read-write-opencl-kernel">
 <h1>Wide Memory Read/Write (OpenCL Kernel)<a class="headerlink" href="#wide-memory-read-write-opencl-kernel" title="Permalink to this headline">¶</a></h1>
 <p>This is simple example of vector addition to demonstrate Wide Memory Access using uint16 data type. Based on input argument type, V++ compiler will figure our the memory datawidth between Global Memory and Kernel. For this example, uint16 datatype is used, so Memory datawidth will be 16 x (integer bit size) = 16 x 32 = 512 bit.</p>
-<p><strong>KEY CONCEPTS:</strong> <a class="reference external" href="https://docs.xilinx.com/r/2022.2-English/ug1393-vitis-application-acceleration/Mapping-Kernel-Ports-to-Memory">Kernel to DDR</a>, <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/AXI-Burst-Transfers">wide memory access</a>, <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/AXI-Burst-Transfers">burst read and write</a></p>
+<p><strong>KEY CONCEPTS:</strong> <a class="reference external" href="https://docs.xilinx.com/r/2021.2-English/ug1393-vitis-application-acceleration/Mapping-Kernel-Ports-to-Memory">Kernel to DDR</a>, <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/AXI-Burst-Transfers">wide memory access</a>, <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/AXI-Burst-Transfers">burst read and write</a></p>
 <p><strong>KEYWORDS:</strong> uint16, <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/OpenCL-Attributes">xcl_pipeline_loop</a></p>
 <p>This example demonstrates the use of <code class="docutils literal notranslate"><span class="pre">ap_uint&lt;&gt;</span></code> datatype which
 enables <code class="docutils literal notranslate"><span class="pre">V++</span></code> to figure out the memory datawidth for the kernel to

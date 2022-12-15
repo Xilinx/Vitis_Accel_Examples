@@ -39,6 +39,7 @@ In System Compiler PE's are referred as Streaming Free Running pipelined element
  - Alveo U50
  - Alveo U250
  - Alveo U50lv
+ - Versal V70
 
 DESIGN FILES
 ------------

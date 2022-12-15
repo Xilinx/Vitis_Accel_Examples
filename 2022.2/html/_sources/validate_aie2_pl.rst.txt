@@ -3,9 +3,28 @@ Xilinx AIE2 Validate Test
 
 Xilinx AIE2 Validate example. 
 
-**EXCLUDED PLATFORMS:**
+.. raw:: html
 
- - Versal V70
+ <details>
+
+.. raw:: html
+
+ <summary> 
+
+ <b>EXCLUDED PLATFORMS:</b>
+
+.. raw:: html
+
+ </summary>
+|
+..
+
+
+.. raw:: html
+
+ </details>
+
+.. raw:: html
 
 DESIGN FILES
 ------------
@@ -112,3 +131,5 @@ If application can be executed successfully, you will get the list just showing 
  </details>
 
 .. raw:: html
+
+To visit github.io of this repository , `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.

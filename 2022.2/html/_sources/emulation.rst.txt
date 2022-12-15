@@ -9,6 +9,7 @@ This section contains Emulation Examples.
 
    aie_adder_hybrid_swemu.rst
    aie_adder_ps_on_x86.rst
+   aie_func_mode.rst
    external_io_cpp.rst
    external_io_py.rst
    mm_stream_func_mode.rst
