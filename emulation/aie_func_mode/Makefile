@@ -230,6 +230,9 @@ ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 else
 	@echo "Hardware build, no emulation executed."
 endif
+ifneq ($(TARGET),$(findstring $(TARGET), hw_emu))
+$(error Application supports only hw_emu TARGET. Please use the target for running the application)
+endif
 
 check_edge_sw:
 ifndef EDGE_COMMON_SW
