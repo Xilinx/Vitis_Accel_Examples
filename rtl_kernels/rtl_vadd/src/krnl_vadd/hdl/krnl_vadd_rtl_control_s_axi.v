@@ -113,7 +113,7 @@ localparam
     WRRESP               = 2'd2,
     RDIDLE               = 2'd0,
     RDDATA               = 2'd1,
-    ADDR_BITS         = 6;
+    ADDR_BITS            = C_S_AXI_ADDR_WIDTH;
 
 //------------------------Local signal-------------------
     reg  [1:0]                    wstate = WRIDLE;
