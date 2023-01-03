@@ -4,6 +4,7 @@
         "Xilinx RX Exerciser Loop Design"
     ],
     "flow": "vitis",
+    "gui": "false",
     "launch": [
         {
             "cmd_args": "BUILD/exerciser_loop_rx.xclbin ./packet_gen_python/packetGen.py",

@@ -29,7 +29,8 @@
     ], 
     "runtime": [
         "OpenCL"
-    ], 
+    ],
+    "gui": "false", 
     "host": {
         "host_exe": "external_io_py",
         "compiler": {

@@ -12,7 +12,9 @@
     "runtime": [
         "OpenCL"
     ],
+    
     "match_makefile" : "false",
+    "gui": "false",
     "match_ini" : "false",
     "host": {
         "host_exe": "host.exe",
