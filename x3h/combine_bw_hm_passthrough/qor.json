@@ -1,0 +1,43 @@
+{
+    "containers": [
+        {
+            "name": "combine_bw_hm", 
+            "meet_system_timing": "true", 
+            "accelerators": [
+                {
+                    "name": "verify", 
+                    "check_timing": "true", 
+                    "PipelineType": "none", 
+                    "check_latency": "true", 
+                    "check_warning": "false"
+                },
+                {
+                    "name": "bandwidth", 
+                    "check_timing": "true", 
+                    "PipelineType": "none", 
+                    "check_latency": "true", 
+                    "check_warning": "false", 
+                    "loops": [
+                        {
+                            "name": "read_write_inner", 
+                            "PipelineII": "1"
+                        }
+                    ]
+                },
+                {
+                    "name": "hostmemory", 
+                    "check_timing": "true", 
+                    "PipelineType": "none", 
+                    "check_latency": "true", 
+                    "check_warning": "false", 
+                    "loops": [
+                        {
+                            "name": "read_write_inner", 
+                            "PipelineII": "1"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

@@ -45,6 +45,12 @@ help:
 endif
 
 ############################## Setting up Project Variables ##############################
+# Points to top directory of Git repository
+MK_PATH := $(abspath $(lastword $(MAKEFILE_LIST)))
+COMMON_REPO ?= $(shell bash -c 'export MK_PATH=$(MK_PATH); echo $${MK_PATH%emulation/aie_func_mode/*}')
+PWD = $(shell readlink -f .)
+XF_PROJ_ROOT = $(shell readlink -f $(COMMON_REPO))
+
 TARGET := hw_emu
 SYSROOT := $(EDGE_COMMON_SW)/sysroots/cortexa72-cortexa53-xilinx-linux
 SD_IMAGE_FILE := $(EDGE_COMMON_SW)/Image
@@ -223,6 +229,9 @@ ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 	$(LAUNCH_EMULATOR) -run-app $(RUN_APP_SCRIPT) | tee run_app.log; exit $${PIPESTATUS[0]}
 else
 	@echo "Hardware build, no emulation executed."
+endif
+ifneq ($(TARGET),$(findstring $(TARGET), hw_emu))
+$(error Application supports only hw_emu TARGET. Please use the target for running the application)
 endif
 
 check_edge_sw:

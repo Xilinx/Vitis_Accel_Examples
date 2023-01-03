@@ -25,6 +25,7 @@
     "runtime": [
         "OpenCL"
     ],
+    "gui": "false",
     "match_makefile": "false",
     "host": {
         "host_exe": "src/host.py",
