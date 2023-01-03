@@ -22,10 +22,6 @@ help::
 	$(ECHO) "      Command to generate the design for specified Target and Shell."
 	$(ECHO) "      By default, HOST_ARCH=x86 HOST_ARCH is required for SoC shells"
 	$(ECHO) ""
-	$(ECHO) "  make sd_card TARGET=<hw/hw_emu/> PLATFORM=<FPGA platform> HOST_ARCH=<>"
-	$(ECHO) "      Command to prepare sd_card files."
-	$(ECHO) "      By default, HOST_ARCH=x86 HOST_ARCH is required for SoC shells"
-	$(ECHO) ""
 	$(ECHO) "  make run TARGET=<hw/hw_emu/> PLATFORM=<FPGA platform> HOST_ARCH=<>"
 	$(ECHO) "      Command to run application in emulation."
 	$(ECHO) "      By default, HOST_ARCH=x86 HOST_ARCH required for SoC shells"
@@ -46,6 +42,10 @@ help::
 	$(ECHO) "  Please download and use the pre-built image from  - "
 	$(ECHO) "  https://www.xilinx.com/support/download/index.html/content/xilinx/en/downloadNav/embedded-platforms.html. For example,"
 	$(ECHO) "       export EDGE_COMMON_SW=< path-to-rootfs-and-Image-files >"
+	$(ECHO) ""
+	$(ECHO) "  make sd_card TARGET=<hw/hw_emu/> PLATFORM=<FPGA platform> HOST_ARCH=<>"
+	$(ECHO) "      Command to prepare sd_card files."
+	$(ECHO) "      By default, HOST_ARCH=x86 HOST_ARCH is required for SoC shells"
 	$(ECHO) ""
 	$(ECHO) "  make clean "
 	$(ECHO) "      Command to remove the generated non-hardware files."
@@ -97,14 +97,12 @@ RUN_DEPS :=
 ifeq ($(HOST_ARCH), x86)
 CXXFLAGS += -fmessage-length=0 -I$(CUR_DIR)/sw -I$(XILINX_XRT)/include -I$(XILINX_HLS)/include -std=c++14 -O3 -Wall -Wno-unknown-pragmas -Wno-unused-label  
 LDFLAGS += -pthread -L$(XILINX_XRT)/lib -L$(XILINX_HLS)/lnx64/tools/fpo_v7_1  -Wl,--as-needed -lOpenCL -lxrt_coreutil -lgmp -lmpfr -lIp_floating_point_v7_1_bitacc_cmodel 
-VPP_FLAGS += -t $(TARGET) --platform $(XPLATFORM) --save-temps 
-VPP_LDFLAGS += --optimize 2 -R 2 
 else ifeq ($(HOST_ARCH), aarch64)
 CXXFLAGS += -I$(CUR_DIR)/sw -fmessage-length=0 --sysroot=$(SYSROOT)  -I$(SYSROOT)/usr/include/xrt -I$(XILINX_HLS)/include -std=c++14 -O3 -Wall -Wno-unknown-pragmas -Wno-unused-label 
 LDFLAGS += -pthread -L$(SYSROOT)/usr/lib -L$(XILINX_VITIS_AIETOOLS)/lib/aarch64.o -Wl,--as-needed -lxilinxopencl -lxrt_coreutil 
-VPP_FLAGS += -t $(TARGET) --platform $(XPLATFORM) --save-temps 
-VPP_LDFLAGS += --optimize 2 -R 2 
 endif
+VPP_FLAGS += --save-temps 
+VPP_LDFLAGS += --optimize 2 -R 2 
 CXXFLAGS += $(EXTRA_CXXFLAGS)
 VPP_FLAGS += $(EXTRA_VPP_FLAGS)
 
@@ -184,18 +182,18 @@ endif
 $(TEMP_DIR)/pl_controller_top.xo: $(CUR_DIR)//pl_kernels/pl_controller_top.cpp 
 	$(ECHO) "Compiling Kernel: pl_controller_top"
 	mkdir -p $(TEMP_DIR)
-	$(VPP) -c $(VPP_FLAGS_pl_controller_top) $(VPP_FLAGS) -k pl_controller_top -I'$(<D)' --temp_dir $(TEMP_DIR) --report_dir $(TEMP_REPORT_DIR) -o'$@' '$<'
+	$(VPP) -c $(VPP_FLAGS_pl_controller_top) $(VPP_FLAGS) -t $(TARGET) --platform $(XPLATFORM) -k pl_controller_top -I'$(<D)' --temp_dir $(TEMP_DIR) --report_dir $(TEMP_REPORT_DIR) -o'$@' '$<'
 BINARY_CONTAINER_v70_pcie_pl_controller.xclbin_OBJS += $(TEMP_DIR)/pl_controller_top.xo
 $(TEMP_DIR)/sender_receiver.xo: $(CUR_DIR)//pl_kernels/sender_receiver.cpp 
 	$(ECHO) "Compiling Kernel: sender_receiver"
 	mkdir -p $(TEMP_DIR)
-	$(VPP) -c $(VPP_FLAGS_sender_receiver) $(VPP_FLAGS) -k sender_receiver -I'$(<D)' --temp_dir $(TEMP_DIR) --report_dir $(TEMP_REPORT_DIR) -o'$@' '$<'
+	$(VPP) -c $(VPP_FLAGS_sender_receiver) $(VPP_FLAGS) -t $(TARGET) --platform $(XPLATFORM) -k sender_receiver -I'$(<D)' --temp_dir $(TEMP_DIR) --report_dir $(TEMP_REPORT_DIR) -o'$@' '$<'
 BINARY_CONTAINER_v70_pcie_pl_controller.xclbin_OBJS += $(TEMP_DIR)/sender_receiver.xo
 BINARY_CONTAINERS_DEPS += $(BINARY_CONTAINER_v70_pcie_pl_controller.xclbin_OBJS)
 BINARY_CONTAINERS_DEPS += $(AIE_CONTAINER)
 $(BINARY_CONTAINERS): $(BINARY_CONTAINERS_DEPS)
 	mkdir -p $(BUILD_DIR)
-	$(VPP) -l $(VPP_FLAGS) --temp_dir $(TEMP_DIR) --report_dir $(BUILD_REPORT_DIR) $(VPP_LDFLAGS)  $(VPP_LDFLAGS_v70_pcie_pl_controller.xclbin) -o $@ $^ 
+	$(VPP) -l $(VPP_FLAGS) -t $(TARGET) --platform $(XPLATFORM) --temp_dir $(TEMP_DIR) --report_dir $(BUILD_REPORT_DIR) $(VPP_LDFLAGS)  $(VPP_LDFLAGS_v70_pcie_pl_controller.xclbin) -o $@ $^ 
 
 $(BINARY_CONTAINERS_PKG): $(AIE_CONTAINER) $(BINARY_CONTAINERS)
 	${VPP} -p -t ${TARGET} -f ${XPLATFORM} ${AIE_CONTAINER} ${BINARY_CONTAINERS} -o ./${BINARY_CONTAINERS_PKG}

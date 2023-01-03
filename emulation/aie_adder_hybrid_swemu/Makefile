@@ -24,16 +24,6 @@ help::
 	$(ECHO) "      Command to generate the design for specified Target and Shell."
 	$(ECHO) "      EDGE_COMMON_SW is required for SoC shells"
 	$(ECHO) ""
-	$(ECHO) "  make clean "
-	$(ECHO) "      Command to remove the generated non-hardware files."
-	$(ECHO) ""
-	$(ECHO) "  make cleanall"
-	$(ECHO) "      Command to remove all the generated files."
-	$(ECHO) ""
-	$(ECHO) "  make sd_card TARGET=<sw_emu/hw_emu/hw> PLATFORM=<FPGA platform> EDGE_COMMON_SW=<rootfs and kernel image path>"
-	$(ECHO) "      Command to prepare sd_card files."
-	$(ECHO) "      EDGE_COMMON_SW is required for SoC shells"
-	$(ECHO) ""
 	$(ECHO) "  make run TARGET=<sw_emu/hw_emu/hw> PLATFORM=<FPGA platform> EDGE_COMMON_SW=<rootfs and kernel image path>"
 	$(ECHO) "      Command to run application in emulation."
 	$(ECHO) "      EDGE_COMMON_SW is required for SoC shells"
@@ -47,6 +37,17 @@ help::
 	$(ECHO) "      EDGE_COMMON_SW is required for SoC shells. Please download and use the pre-built image from - "
 	$(ECHO) "      https://www.xilinx.com/support/download/index.html/content/xilinx/en/downloadNav/embedded-platforms.html"
 	$(ECHO) ""
+	$(ECHO) "  make sd_card TARGET=<sw_emu/hw_emu/hw> PLATFORM=<FPGA platform> EDGE_COMMON_SW=<rootfs and kernel image path>"
+	$(ECHO) "      Command to prepare sd_card files."
+	$(ECHO) "      EDGE_COMMON_SW is required for SoC shells"
+	$(ECHO) ""
+	$(ECHO) "  make clean "
+	$(ECHO) "      Command to remove the generated non-hardware files."
+	$(ECHO) ""
+	$(ECHO) "  make cleanall"
+	$(ECHO) "      Command to remove all the generated files."
+	$(ECHO) ""
+
 
 
 ############################## Setting up Project Variables ##############################
@@ -81,7 +82,7 @@ CMD_ARGS = krnl_adder.xclbin
 
 CONFIG_FILE := system.cfg
 include ./utils.mk
-
+VPP_PFLAGS:=
 ########################## Checking if PLATFORM in allowlist #######################
 PLATFORM_BLOCKLIST += zc vck5000 aws-vu9p-f1 samsung u2_ dma 
 PLATFORM_ALLOWLIST += vck190
@@ -97,11 +98,11 @@ AIE_FLAGS := $(AIE_INCLUDE_FLAGS) --pl-freq=100 -workdir=./_aie
 AIE_FLAGS += --target=hw
 AIE_HYBRID += -Xpreproc=-D_HYBRID_EMU_ 
 
-VPP_XO_FLAGS := -c -t $(TARGET) --platform $(PLATFORM) --save-temps -g 
-VPP_LINK_FLAGS := -l --platform $(PLATFORM) $(KERNEL_XO) $(GRAPH_O) -t $(TARGET) --save-temps -g --config $(CONFIG_FILE) -o $(LINK_OUTPUT)
+VPP_XO_FLAGS := --save-temps -g 
+VPP_LINK_FLAGS := -l $(KERNEL_XO) $(GRAPH_O) --save-temps -g --config $(CONFIG_FILE) -o $(LINK_OUTPUT)
 
 GCC_LIB := -lxrt_coreutil -ladf_api_xrt
-GCC_FLAGS := -Wall -c -std=c++14 -Wno-int-to-pointer-cast
+GCC_FLAGS := -Wall  -std=c++14 -Wno-int-to-pointer-cast
 GCC_INCLUDES := -I./src/aie -I./ -I${XILINX_VITIS}/aietools/include
 
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu))
@@ -127,9 +128,9 @@ kernels: check-device $(KERNEL_XO)
 	@echo "COMPLETE: Kernels Created."	
 
 s2mm.xo: src/pl_kernels/s2mm.cpp
-	$(VPP) $(VPP_XO_FLAGS) -k $(basename $(notdir $<)) $< -o $@
+	$(VPP) -c $(VPP_XO_FLAGS) -t $(TARGET) --platform $(PLATFORM) -k $(basename $(notdir $<)) $< -o $@
 mm2s.xo: src/pl_kernels/mm2s.cpp
-	$(VPP) $(VPP_XO_FLAGS) -k $(basename $(notdir $<)) $< -o $@
+	$(VPP) -c $(VPP_XO_FLAGS) -t $(TARGET) --platform $(PLATFORM) -k $(basename $(notdir $<)) $< -o $@
 
 graph: check-device $(GRAPH_O)
 
@@ -148,7 +149,7 @@ $(GRAPH_O): $(GRAPH)
 build: check-device $(LINK_OUTPUT)
 
 $(LINK_OUTPUT): $(KERNEL_XO) $(GRAPH_O) 
-	XILINX_VITIS_EMU_HYBRID=1 $(VPP) $(VPP_LINK_FLAGS) || (echo "task: [xclbin] failed error code: $$?"; exit 1)       
+	XILINX_VITIS_EMU_HYBRID=1 $(VPP) $(VPP_LINK_FLAGS) --platform $(PLATFORM) -t $(TARGET) || (echo "task: [xclbin] failed error code: $$?"; exit 1)       
 	@echo "COMPLETE:.xsa created"
 ########################################################
 
@@ -158,15 +159,15 @@ $(LINK_OUTPUT): $(KERNEL_XO) $(GRAPH_O)
 host: $(EXECUTABLE)
 
 $(EXECUTABLE): $(HOST_SRCS)  
-		$(CXX) $(GCC_FLAGS) $(GCC_INCLUDES) -o aie_control_xrt.o ./_aie/ps/c_rts/aie_control_xrt.cpp
-		$(CXX) $(HOST_SRCS) $(GCC_FLAGS) $(GCC_INCLUDES) -o main.o
+		$(CXX) -c $(GCC_FLAGS) $(GCC_INCLUDES) -o aie_control_xrt.o ./_aie/ps/c_rts/aie_control_xrt.cpp
+		$(CXX) -c $(HOST_SRCS) $(GCC_FLAGS) $(GCC_INCLUDES) -o main.o
 		$(CXX) *.o $(GCC_LIB) -o $(EXECUTABLE)
 	@echo "COMPLETE: Host application created."
 ############################################################################################################################
 
 ##################################################################################################
 # Depending on the TARGET, the packaging will be done.
-PACKAGING_CMD := v++ $(VPP_PFLAGS) -p -t $(TARGET) \
+PACKAGING_CMD := v++ -p $(VPP_PFLAGS) -t $(TARGET) \
                  --package.defer_aie_run \
                  --platform $(PLATFORM) \
                  --package.out_dir $(PACKAGE_OUT) \

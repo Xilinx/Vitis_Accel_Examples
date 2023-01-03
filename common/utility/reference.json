@@ -138,6 +138,7 @@
         "write_register": "https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Writing-Host-Applications-with-XRT-API",
         "emulationMode=func": "https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Working-with-Functional-Model-of-the-HLS-Kernel",
         "hls::print": "https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/hls-print-Function"
+
                   
     },
     "key_concepts": {
@@ -223,6 +224,6 @@
         "Mailbox": "https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Using-the-Mailbox",
         "Asyncronous host interactions": "https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Asynchronous-Host-Control-of-Accelerator",
         "Emulation Functional mode": "https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Working-with-Functional-Model-of-the-HLS-Kernel"
-  
+	  
     }
 }
