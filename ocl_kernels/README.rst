@@ -15,11 +15,11 @@ This section contains OpenCL Kernel Examples.
     - 
       **Key Concepts**
 
-      * `Kernel Optimization <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Kernel-Optimization>`__
-      * `Array Partition <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/pragma-HLS-array_partition>`__
+      * `Kernel Optimization <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Optimizing-Data-Movement>`__
+      * `Array Partition <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/Array-Partitioning>`__
       **Keywords**
 
-      * `xcl_array_partition <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/xcl_array_partition>`__
+      * xcl_array_partition
       * `complete <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/pragma-HLS-array_partition>`__
 
   * - `cl_burst_rw <cl_burst_rw>`_
@@ -38,7 +38,7 @@ This section contains OpenCL Kernel Examples.
     - 
       **Key Concepts**
 
-      * `Function/Task Level Parallelism <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Task-Parallelism>`__
+      * `Function/Task Level Parallelism <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Kernel-Execution>`__
       **Keywords**
 
       * `xcl_dataflow <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/xcl_dataflow>`__
@@ -79,7 +79,7 @@ This section contains OpenCL Kernel Examples.
     - 
       **Key Concepts**
 
-      * `Kernel Optimization <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Kernel-Optimization>`__
+      * `Kernel Optimization <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Optimizing-Data-Movement>`__
       * `2port BRAM Utilization <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/Port-Level-I/O-Memory-Interface-Protocol>`__
       * two read/write Local Memory
 
@@ -92,27 +92,27 @@ This section contains OpenCL Kernel Examples.
     - 
       **Key Concepts**
 
-      * `Kernel Optimization <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Kernel-Optimization>`__
+      * `Kernel Optimization <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Optimizing-Data-Movement>`__
       * Loop reorder to improve II
 
       **Keywords**
 
-      * `xcl_pipeline_loop <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/OpenCL-Attributes>`__
-      * `xcl_array_partition <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/xcl_array_partition>`__
+      * xcl_pipeline_loop
+      * xcl_array_partition
 
   * - `cl_partition_cyclicblock <cl_partition_cyclicblock>`_
     - This example shows how to use array block and cyclic partitioning to improve performance of a kernel
     - 
       **Key Concepts**
 
-      * `Kernel Optimization <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Kernel-Optimization>`__
+      * `Kernel Optimization <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Optimizing-Data-Movement>`__
       * Array Partitioning
 
       * `Block Partition <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/pragma-HLS-array_partition>`__
       * `Cyclic Partition <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/pragma-HLS-array_partition>`__
       **Keywords**
 
-      * `xcl_array_partition <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/xcl_array_partition>`__
+      * xcl_array_partition
       * `cyclic <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/pragma-HLS-array_partition>`__
       * `block <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/pragma-HLS-array_partition>`__
 
@@ -121,12 +121,12 @@ This section contains OpenCL Kernel Examples.
     - 
       **Key Concepts**
 
-      * `Kernel Optimization <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Kernel-Optimization>`__
+      * `Kernel Optimization <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Optimizing-Data-Movement>`__
       * `Shift Register <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/Inferring-Shift-Registers>`__
       * `FIR <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/Inferring-Shift-Registers>`__
       **Keywords**
 
-      * `xcl_array_partition <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/xcl_array_partition>`__
+      * xcl_array_partition
       * getProfilingInfo
 
   * - `cl_systolic_array <cl_systolic_array>`_
@@ -138,12 +138,12 @@ This section contains OpenCL Kernel Examples.
     - 
       **Key Concepts**
 
-      * `Kernel to DDR <https://docs.xilinx.com/r/2021.2-English/ug1393-vitis-application-acceleration/Mapping-Kernel-Ports-to-Memory>`__
+      * `Kernel to DDR <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Mapping-Kernel-Ports-to-Memory>`__
       * `wide memory access <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/AXI-Burst-Transfers>`__
       * `burst read and write <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/AXI-Burst-Transfers>`__
       **Keywords**
 
       * uint16
-      * `xcl_pipeline_loop <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/OpenCL-Attributes>`__
+      * xcl_pipeline_loop
 
 

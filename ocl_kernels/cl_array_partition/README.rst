@@ -3,9 +3,9 @@ Array Partitioning (OpenCL Kernel)
 
 This example shows how to use array partitioning to improve performance of a kernel
 
-**KEY CONCEPTS:** `Kernel Optimization <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Kernel-Optimization>`__, `Array Partition <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/pragma-HLS-array_partition>`__
+**KEY CONCEPTS:** `Kernel Optimization <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Optimizing-Data-Movement>`__, `Array Partition <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/Array-Partitioning>`__
 
-**KEYWORDS:** `xcl_array_partition <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/xcl_array_partition>`__, `complete <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/pragma-HLS-array_partition>`__
+**KEYWORDS:** xcl_array_partition, `complete <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/pragma-HLS-array_partition>`__
 
 .. raw:: html
 

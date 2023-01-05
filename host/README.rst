@@ -15,7 +15,7 @@ OpenCL host code for optimized interfacing with Xilinx Devices.
     - 
       **Key Concepts**
 
-      * `Concurrent execution <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Task-Parallelism>`__
+      * `Concurrent execution <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Task-Parallelism-Using-Different-Kernels>`__
       * `Out of Order Command Queues <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Single-Out-of-Order-Command-Queue>`__
       * `Multiple Command Queues <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Multiple-In-Order-Command-Queues>`__
       **Keywords**
@@ -68,8 +68,8 @@ OpenCL host code for optimized interfacing with Xilinx Devices.
       **Keywords**
 
       * `debug_mode=gui/batch <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Enable-Waveform-Debugging-with-the-Vitis-Compiler-Command>`__
-      * `user_range <https://docs.xilinx.com/r/2021.1-English/ug1393-vitis-application-acceleration/Profiling-of-C-Code?tocId=Mr4opDBD1mYmK4fSMoQH5g>`__
-      * `user_event <https://docs.xilinx.com/r/2021.1-English/ug1393-vitis-application-acceleration/Profiling-of-C-Code?tocId=Mr4opDBD1mYmK4fSMoQH5g>`__
+      * `user_range <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Profiling-of-C-Code?tocId=otfY_eDsLHW5VXil1mNBfg>`__
+      * `user_event <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Profiling-of-C-Code?tocId=otfY_eDsLHW5VXil1mNBfg>`__
       * `hls::print <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/hls-print-Function>`__
 
   * - `device_only_buffer <device_only_buffer>`_
@@ -180,7 +180,7 @@ OpenCL host code for optimized interfacing with Xilinx Devices.
       * `host memory <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Best-Practices-for-Host-Programming>`__
       **Keywords**
 
-      * XCL_MEM_EXT_HOST_ONLY
+      * `XCL_MEM_EXT_HOST_ONLY <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Assigning-DDR-Bank-in-Host-Code>`__
       * CL_MEM_HOST_NO_ACCESS
       * enqueueCopyBuffer
 
@@ -192,7 +192,7 @@ OpenCL host code for optimized interfacing with Xilinx Devices.
       * `host memory <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Best-Practices-for-Host-Programming>`__
       **Keywords**
 
-      * XCL_MEM_EXT_HOST_ONLY
+      * `XCL_MEM_EXT_HOST_ONLY <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Assigning-DDR-Bank-in-Host-Code>`__
       * CL_MEM_HOST_NO_ACCESS
       * `enqueueMapBuffer <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Buffer-Creation-and-Data-Transfer>`__
 
@@ -206,7 +206,7 @@ OpenCL host code for optimized interfacing with Xilinx Devices.
 
       **Keywords**
 
-      * XCL_MEM_EXT_HOST_ONLY
+      * `XCL_MEM_EXT_HOST_ONLY <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Assigning-DDR-Bank-in-Host-Code>`__
       * `HOST[0] <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Mapping-Kernel-Ports-to-Memory>`__
 
   * - `iops_test <iops_test>`_
@@ -236,7 +236,7 @@ OpenCL host code for optimized interfacing with Xilinx Devices.
       **Key Concepts**
 
       * `Multiple Compute Units <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Symmetrical-and-Asymmetrical-Compute-Units>`__
-      * `Task Level Parallelism <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Task-Parallelism>`__
+      * `Task Level Parallelism <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/Data-driven-Task-level-Parallelism>`__
 
   * - `overlap <overlap>`_
     - This examples demonstrates techniques that allow user to overlap Host(CPU) and FPGA computation in an application. It will cover asynchronous operations and event object.
@@ -261,14 +261,14 @@ OpenCL host code for optimized interfacing with Xilinx Devices.
     - 
       **Key Concepts**
 
-      * `P2P <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/p2p>`__
+      * `P2P <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Special-Data-Transfer-Models>`__
       * SmartSSD
 
       * XDMA
 
       **Keywords**
 
-      * XCL_MEM_EXT_P2P_BUFFER
+      * `XCL_MEM_EXT_P2P_BUFFER <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Assigning-DDR-Bank-in-Host-Code>`__
       * pread
       * pwrite
 
@@ -277,28 +277,28 @@ OpenCL host code for optimized interfacing with Xilinx Devices.
     - 
       **Key Concepts**
 
-      * `P2P <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/p2p>`__
+      * `P2P <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Special-Data-Transfer-Models>`__
       * Multi-FPGA Execution
 
       * XDMA
 
       **Keywords**
 
-      * XCL_MEM_EXT_P2P_BUFFER
+      * `XCL_MEM_EXT_P2P_BUFFER <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Assigning-DDR-Bank-in-Host-Code>`__
 
   * - `p2p_overlap_bandwidth <p2p_overlap_bandwidth>`_
     - This is simple example to test Synchronous and Asyncronous data transfer between SSD and FPGA.
     - 
       **Key Concepts**
 
-      * `P2P <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/p2p>`__
+      * `P2P <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Special-Data-Transfer-Models>`__
       * SmartSSD
 
       * XDMA
 
       **Keywords**
 
-      * XCL_MEM_EXT_P2P_BUFFER
+      * `XCL_MEM_EXT_P2P_BUFFER <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Assigning-DDR-Bank-in-Host-Code>`__
       * pread
       * pwrite
 
@@ -307,14 +307,14 @@ OpenCL host code for optimized interfacing with Xilinx Devices.
     - 
       **Key Concepts**
 
-      * `P2P <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/p2p>`__
+      * `P2P <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Special-Data-Transfer-Models>`__
       * NVMe SSD
 
       * SmartSSD
 
       **Keywords**
 
-      * XCL_MEM_EXT_P2P_BUFFER
+      * `XCL_MEM_EXT_P2P_BUFFER <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Assigning-DDR-Bank-in-Host-Code>`__
       * pread
       * pwrite
       * `O_DIRECT <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Special-Data-Transfer-Models>`__
@@ -329,7 +329,7 @@ OpenCL host code for optimized interfacing with Xilinx Devices.
       **Keywords**
 
       * `ap_ctrl_none <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/Block-Level-Control-Protocols>`__
-      * `stream_connect <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Specifying-Streaming-Connections-between-Compute-Units>`__
+      * `stream_connect <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Specifying-Streaming-Connections>`__
 
   * - `streaming_k2k_mm <streaming_k2k_mm>`_
     - This is a simple kernel to kernel streaming Vector Add and Vector Multiply C Kernel design with 2 memory mapped input to kernel 1, 1 Stream output from kernel 1 to input of kernel 2, 1 memory mapped input to kernel 2, and 1 memory mapped output that demonstrates on how to process a stream of data for computation between two kernels. This design also illustrates how to set FIFO depth for AXIS connections i.e. for the stream connecting the two kernels
@@ -341,6 +341,6 @@ OpenCL host code for optimized interfacing with Xilinx Devices.
       * `AXIS FIFO depth <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/Specifying-Compiler-Created-FIFO-Depth>`__
       **Keywords**
 
-      * `stream_connect <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Specifying-Streaming-Connections-between-Compute-Units>`__
+      * `stream_connect <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Specifying-Streaming-Connections>`__
 
 

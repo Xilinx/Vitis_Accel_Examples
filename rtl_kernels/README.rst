@@ -15,8 +15,8 @@ RTL Kernel Based Examples
     - 
       **Key Concepts**
 
-      * `RTL Kernel <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/RTL-Kernels>`__
-      * `Multiple RTL Kernels <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/RTL-Kernels>`__
+      * `RTL Kernel <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Generate-RTL-Kernel>`__
+      * `Multiple RTL Kernels <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Generate-RTL-Kernel>`__
 
   * - `rtl_streaming_free_running_k2k <rtl_streaming_free_running_k2k>`_
     - This is simple example which demonstrate how to use and configure a free running RTL kernel.
@@ -24,7 +24,7 @@ RTL Kernel Based Examples
       **Key Concepts**
 
       * `Read/Write Stream <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Host-Coding-for-Free-Running-Kernels>`__
-      * `RTL Kernel <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/RTL-Kernels>`__
+      * `RTL Kernel <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Generate-RTL-Kernel>`__
       * `Free Running Kernel <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Free-Running-Kernel>`__
       **Keywords**
 
@@ -37,7 +37,7 @@ RTL Kernel Based Examples
       **Key Concepts**
 
       * `Read/Write Stream <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Host-Coding-for-Free-Running-Kernels>`__
-      * `RTL Kernel <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/RTL-Kernels>`__
+      * `RTL Kernel <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Generate-RTL-Kernel>`__
       **Keywords**
 
       * `ap_axiu <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Streaming-Data-Transfers>`__
@@ -54,13 +54,13 @@ RTL Kernel Based Examples
       * `package_xo <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/package_xo-Command>`__
       * `ctrl_protocol <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/package_xo-Command>`__
       * `user_managed <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Creating-User-Managed-RTL-Kernels>`__
-      * `xrt::ip <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Setting-Up-User-Managed-Kernels-and-Argument-Buffers>`__
+      * `xrt::ip <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Working-with-User-Managed-Kernels>`__
       * `xrt::xclbin <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Specifying-the-Device-ID-and-Loading-the-XCLBIN>`__
       * xrt::kernel::get_kernels
       * xrt::kernel::get_cus
       * xrt::kernel::get_args
       * xrt::arg::get_offset
-      * xrt::ip::write_register
+      * `xrt::ip::write_register <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Working-with-User-Managed-Kernels>`__
       * xrt::ip::read_register
 
   * - `rtl_vadd <rtl_vadd>`_
@@ -68,7 +68,7 @@ RTL Kernel Based Examples
     - 
       **Key Concepts**
 
-      * `RTL Kernel <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/RTL-Kernels>`__
+      * `RTL Kernel <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Generate-RTL-Kernel>`__
       * `RTL C-Model <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Software-Model-and-Host-Code-Example>`__
       **Keywords**
 
@@ -79,7 +79,7 @@ RTL Kernel Based Examples
     - 
       **Key Concepts**
 
-      * `RTL Kernel <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/RTL-Kernels>`__
+      * `RTL Kernel <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Generate-RTL-Kernel>`__
       * `Multiple Kernel Clocks <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/hls-Options>`__
       **Keywords**
 
@@ -93,7 +93,7 @@ RTL Kernel Based Examples
     - 
       **Key Concepts**
 
-      * `Multiple RTL Kernels <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/RTL-Kernels>`__
+      * `Multiple RTL Kernels <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Generate-RTL-Kernel>`__
 
   * - `rtl_vadd_hw_debug <rtl_vadd_hw_debug>`_
     - This is an example that showcases the Hardware Debug of Vector Addition RTL Kernel in Hardware.

@@ -19,8 +19,6 @@ This section contains Python based Host Examples.
 
       **Keywords**
 
-      * xrt_binding
-      * utils_binding
       * pyxrt
 
 

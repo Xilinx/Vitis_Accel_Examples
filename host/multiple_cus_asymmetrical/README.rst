@@ -3,7 +3,7 @@ Multiple Compute Units (Asymmetrical) (C)
 
 This is simple example of vector addition to demonstrate how to connect each compute unit to different banks and how to use these compute units in host applications
 
-**KEY CONCEPTS:** `Multiple Compute Units <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Symmetrical-and-Asymmetrical-Compute-Units>`__, `Task Level Parallelism <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Task-Parallelism>`__
+**KEY CONCEPTS:** `Multiple Compute Units <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Symmetrical-and-Asymmetrical-Compute-Units>`__, `Task Level Parallelism <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/Data-driven-Task-level-Parallelism>`__
 
 .. raw:: html
 

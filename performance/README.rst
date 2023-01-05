@@ -51,7 +51,7 @@ List of examples that cover performance related aspect.
 
       **Keywords**
 
-      * XCL_MEM_EXT_HOST_ONLY
+      * `XCL_MEM_EXT_HOST_ONLY <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Assigning-DDR-Bank-in-Host-Code>`__
       * `HOST[0] <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Mapping-Kernel-Ports-to-Memory>`__
 
   * - `host_memory_bandwidth_xrt <host_memory_bandwidth_xrt>`_
@@ -86,13 +86,13 @@ List of examples that cover performance related aspect.
     - 
       **Key Concepts**
 
-      * `P2P <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/p2p>`__
+      * `P2P <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Special-Data-Transfer-Models>`__
       * Multi-FPGA Execution
 
       * XDMA
 
       **Keywords**
 
-      * XCL_MEM_EXT_P2P_BUFFER
+      * `XCL_MEM_EXT_P2P_BUFFER <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Assigning-DDR-Bank-in-Host-Code>`__
 
 

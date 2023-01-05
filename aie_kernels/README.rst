@@ -15,13 +15,13 @@ This section contains AIE Examples.
     - 
       **Key Concepts**
 
-      * `AI Engine <https://docs.xilinx.com/r/en-US/ug1076-ai-engine-environment/AI-Engine/Programmable-Logic-Integration>`__
-      * `Adaptive Data Flow <https://docs.xilinx.com/r/en-US/ug1076-ai-engine-environment/Adaptive-Data-Flow-Graph-Specification-Reference>`__
-      * `Graph <https://docs.xilinx.com/r/en-US/ug1076-ai-engine-environment/graph>`__
+      * `AI Engine <https://docs.xilinx.com/r/en-US/ug1076-ai-engine-environment/Overview>`__
+      * `Adaptive Data Flow <https://docs.xilinx.com/r/en-US/ug1079-ai-engine-kernel-coding/Adaptive-Data-Flow-Graph-Specification-Reference>`__
+      * `Graph <https://docs.xilinx.com/r/en-US/ug1076-ai-engine-environment/Overview>`__
       **Keywords**
 
       * `aiecompiler <https://docs.xilinx.com/r/en-US/ug1076-ai-engine-environment/Compiling-an-AI-Engine-Graph-Application>`__
       * `aiesimulator <https://docs.xilinx.com/r/en-US/ug1076-ai-engine-environment/Simulating-an-AI-Engine-Graph-Application>`__
-      * `stream_connect <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Specifying-Streaming-Connections-between-Compute-Units>`__
+      * `stream_connect <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Specifying-Streaming-Connections>`__
 
 
