@@ -171,11 +171,11 @@ VPP_LDFLAGS_v70_pcie_pl_controller.xclbin += --kernel_frequency 250
 endif
 
 ifeq ($(HOST_ARCH), x86)
-BINARY_CONTAINERS += $(BUILD_DIR)/v70_pl_controller.xsa
-BINARY_CONTAINERS_PKG += $(BUILD_DIR)/v70_pl_controller.xclbin
+BINARY_CONTAINERS += $(BUILD_DIR)/pl_controller.xsa
+BINARY_CONTAINERS_PKG += $(BUILD_DIR)/pl_controller.xclbin
 else
-BINARY_CONTAINERS += $(BUILD_DIR)/v70_pl_controller.xsa
-BINARY_CONTAINERS_PKG += $(BUILD_DIR)/v70_pl_controller.xclbin
+BINARY_CONTAINERS += $(BUILD_DIR)/pl_controller.xsa
+BINARY_CONTAINERS_PKG += $(BUILD_DIR)/pl_controller.xclbin
 endif
 
 # ################ Setting Rules for Binary Containers (Building Kernels) ################

@@ -59,7 +59,7 @@ Once the environment has been configured, the application can be executed by
 ::
 
    make xclbin TARGET=hw PLATFORM=<path to local xpfm>
-   ./host.exe final.xclbin ./Work/ps/c_rts/aie_control_config.json ./Work/reports/dma_lock_report.json
+   ./host.exe pl_controller_aie.xclbin ./Work/ps/c_rts/aie_control_config.json ./Work/reports/dma_lock_report.json
 
 If application can be executed successfully, you will get the list just showing below,
 
