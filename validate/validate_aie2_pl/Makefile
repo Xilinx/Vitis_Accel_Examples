@@ -172,10 +172,10 @@ endif
 
 ifeq ($(HOST_ARCH), x86)
 BINARY_CONTAINERS += $(BUILD_DIR)/pl_controller.xsa
-BINARY_CONTAINERS_PKG += $(BUILD_DIR)/pl_controller.xclbin
+BINARY_CONTAINERS_PKG += $(BUILD_DIR)/pl_controller_aie.xclbin
 else
 BINARY_CONTAINERS += $(BUILD_DIR)/pl_controller.xsa
-BINARY_CONTAINERS_PKG += $(BUILD_DIR)/pl_controller.xclbin
+BINARY_CONTAINERS_PKG += $(BUILD_DIR)/pl_controller_aie.xclbin
 endif
 
 # ################ Setting Rules for Binary Containers (Building Kernels) ################
@@ -257,7 +257,7 @@ $(SD_CARD): $(EXE_FILE) $(BINARY_CONTAINERS) $(RUN_SCRIPT) $(EMCONFIG)
 	@echo "Generating sd_card folder...."
 	mkdir -p $(SD_CARD)
 	chmod a+rx $(BUILD_DIR)/run_script.sh
-	${VPP} -p -t ${TARGET} -f ${XPLATFORM} ${AIE_CONTAINER} ${BINARY_CONTAINERS} -o ./pl_controller_aie.xclbin --package.boot_mode=ospi --package.defer_aie_run
+	${VPP} -p -t ${TARGET} -f ${XPLATFORM} ${AIE_CONTAINER} ${BINARY_CONTAINERS} -o $(BUILD_DIR)/pl_controller_aie.xclbin --package.boot_mode=ospi --package.defer_aie_run
 	@echo "### ***** sd_card generation done! ***** ###"
 
 .PHONY: sd_card
@@ -270,7 +270,7 @@ else
 RUN_DEPS += $(EXE_FILE) $(BINARY_CONTAINERS) $(EMCONFIG)
 RUN_DEPS += $(SD_CARD)
 endif
-HOST_ARGS += $(CUR_DIR)/pl_controller_aie.xclbin
+HOST_ARGS += $(CUR_DIR)/$(BUILD_DIR)/pl_controller_aie.xclbin
 run: check_device  $(RUN_DEPS)
 #x86sim
 ifeq ($(TARGET), x86sim)
