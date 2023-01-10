@@ -4,7 +4,6 @@
         "Xilinx RX Exerciser Loop Design"
     ],
     "flow": "vitis",
-    "gui": "false",
     "launch": [
         {
             "cmd_args": "BUILD/exerciser_loop_rx.xclbin ./packet_gen_python/packetGen.py",
@@ -18,7 +17,12 @@
         "samsung",
         "nodma",
         "2018",
-        "qep"
+        "qep",
+	"u200",
+	"u250",
+	"u280",
+	"u50_gen3x16",
+	"u55c_gen3x16"
     ],
     "host": {
         "host_exe": "x3_exerciser_loop_rx",
