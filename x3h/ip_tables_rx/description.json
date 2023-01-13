@@ -12,9 +12,23 @@
     "runtime": [
         "OpenCL"
     ],
-    
+    "platform_blocklist": [
+        "_u25_",
+        "u200",
+	"u250",
+	"u280",
+	"u50_gen3x16",
+	"u55c_gen3x16",
+        "u30",
+        "u50lv",
+        "u50_gen3x4",
+        "zc",
+        "vck", 
+        "aws-vu9p-f1",
+        "samsung",
+        "_u2_"
+    ],
     "match_makefile" : "false",
-    "gui": "false",
     "match_ini" : "false",
     "host": {
         "host_exe": "host.exe",
