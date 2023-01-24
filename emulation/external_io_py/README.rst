@@ -3,9 +3,9 @@ External IO Python based generator(HLS C/C++ Kernel)
 
 This example will demonstrate emulation of Xilinx Device's IO with a Python based external process.
 
-**KEY CONCEPTS:** `Traffic Generator <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Using-I/O-Traffic-Generators>`__, `Traffic generation using Python <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Writing-Traffic-Generators-in-Python>`__
+**KEY CONCEPTS:** `Traffic Generator <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Working-with-I/O-Traffic-Generators>`__, `Traffic generation using Python <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Writing-Traffic-Generators-in-Python>`__
 
-**KEYWORDS:** `sim_ipc_axis_master <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Adding-Traffic-Generators-to-Your-Design>`__, `sim_ipc_axis_slave <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Adding-Traffic-Generators-to-Your-Design>`__, `gt_master <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Using-I/O-Traffic-Generators>`__, `gt_slave <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Using-I/O-Traffic-Generators>`__
+**KEYWORDS:** `sim_ipc_axis_master <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Adding-Traffic-Generators-to-Your-Design>`__, `sim_ipc_axis_slave <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Adding-Traffic-Generators-to-Your-Design>`__, `gt_master <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Writing-Traffic-Generators-in-C>`__, `gt_slave <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Writing-Traffic-Generators-in-C>`__
 
 .. raw:: html
 

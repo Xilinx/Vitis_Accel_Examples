@@ -15,9 +15,9 @@ This section contains HLS C/C++ Kernel Examples. The main purpose of C++ kernels
     - 
       **Key Concepts**
 
-      * `Kernel Optimization <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Kernel-Optimization>`__
-      * `HLS C Kernel <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Interfaces>`__
-      * `Array Partition <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/pragma-HLS-array_partition>`__
+      * `Kernel Optimization <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Optimizing-Data-Movement>`__
+      * `HLS C Kernel <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/C/C-Kernel>`__
+      * `Array Partition <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/Array-Partitioning>`__
       **Keywords**
 
       * `#pragma HLS ARRAY_PARTITION <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/pragma-HLS-array_partition>`__
@@ -34,10 +34,10 @@ This section contains HLS C/C++ Kernel Examples. The main purpose of C++ kernels
 
       * `BIND_OP <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/pragma-HLS-bind_op>`__
       * `BIND_STORAGE <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/pragma-HLS-bind_storage>`__
-      * `impl <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/pragma-HLS-bind_op>`__
-      * `op <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/pragma-HLS-bind_op>`__
-      * `type <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/pragma-HLS-bind_op>`__
-      * `latency <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/pragma-HLS-bind_op>`__
+      * impl
+      * op
+      * type
+      * `latency <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Latency-Information>`__
 
   * - `burst_rw <burst_rw>`_
     - This is simple example of using AXI4-master interface for burst read and write
@@ -47,9 +47,9 @@ This section contains HLS C/C++ Kernel Examples. The main purpose of C++ kernels
       * `burst access <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/AXI-Burst-Transfers>`__
       **Keywords**
 
-      * `memcpy <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/Defining-Interfaces>`__
-      * `max_read_burst_length <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/AXI-Burst-Transfers>`__
-      * `max_write_burst_length <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/AXI-Burst-Transfers>`__
+      * `memcpy <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/Offset-and-Modes-of-Operation>`__
+      * `max_read_burst_length <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/Options-for-Controlling-AXI4-Burst-Behavior>`__
+      * `max_write_burst_length <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/Options-for-Controlling-AXI4-Burst-Behavior>`__
 
   * - `critical_path <critical_path>`_
     - This example shows a normal coding style which could lead to critical path issue and design will give degraded timing.  Example also contains better coding style which can improve design timing.
@@ -77,10 +77,10 @@ This section contains HLS C/C++ Kernel Examples. The main purpose of C++ kernels
     - 
       **Key Concepts**
 
-      * `Task Level Parallelism <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Task-Parallelism>`__
+      * `Task Level Parallelism <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/Data-driven-Task-level-Parallelism>`__
       **Keywords**
 
-      * `dataflow <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/Optimization-Techniques-in-Vitis-HLS>`__
+      * `dataflow <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/Dataflow>`__
       * `hls::stream <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/HLS-Stream-Library>`__
 
   * - `dataflow_stream_array <dataflow_stream_array>`_
@@ -88,11 +88,10 @@ This section contains HLS C/C++ Kernel Examples. The main purpose of C++ kernels
     - 
       **Key Concepts**
 
-      * Array of Stream
-
+      * `Array of Stream <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/Specifying-Arrays-as-Stream-of-Blocks>`__
       **Keywords**
 
-      * `dataflow <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/Optimization-Techniques-in-Vitis-HLS>`__
+      * `dataflow <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/Dataflow>`__
       * `hls::stream <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/HLS-Stream-Library>`__
 
   * - `dependence_inter <dependence_inter>`_
@@ -115,7 +114,7 @@ This section contains HLS C/C++ Kernel Examples. The main purpose of C++ kernels
       * `Multiple Banks <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Using-Multiple-DDR-Banks>`__
       **Keywords**
 
-      * `m_axi_auto_max_ports <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/MAXI>`__
+      * `m_axi_auto_max_ports <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/M_AXI-Bundles>`__
       * `sp <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/connectivity-Options>`__
       * `connectivity <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/connectivity-Options>`__
 
@@ -125,15 +124,14 @@ This section contains HLS C/C++ Kernel Examples. The main purpose of C++ kernels
       **Key Concepts**
 
       * `ap_ctrl_chain <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/Block-Level-Control-Protocols>`__
-      * PLRAM
-
+      * `PLRAM <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/PLRAM-Configuration-and-Use>`__
 
   * - `lmem_2rw <lmem_2rw>`_
     - This is simple example of vector addition to demonstrate how to utilize both ports of Local Memory.
     - 
       **Key Concepts**
 
-      * `Kernel Optimization <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Kernel-Optimization>`__
+      * `Kernel Optimization <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Optimizing-Data-Movement>`__
       * `2port BRAM Utilization <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/Port-Level-I/O-Memory-Interface-Protocol>`__
       * two read/write Local Memory
 
@@ -146,7 +144,7 @@ This section contains HLS C/C++ Kernel Examples. The main purpose of C++ kernels
     - 
       **Key Concepts**
 
-      * `Kernel Optimization <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Kernel-Optimization>`__
+      * `Kernel Optimization <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Optimizing-Data-Movement>`__
       * `Loop Pipelining <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/Function-and-Loop-Pipelining>`__
       **Keywords**
 
@@ -157,7 +155,7 @@ This section contains HLS C/C++ Kernel Examples. The main purpose of C++ kernels
     - 
       **Key Concepts**
 
-      * `Kernel Optimization <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Kernel-Optimization>`__
+      * `Kernel Optimization <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Optimizing-Data-Movement>`__
       * Loop reorder to improve II
 
       **Keywords**
@@ -169,7 +167,7 @@ This section contains HLS C/C++ Kernel Examples. The main purpose of C++ kernels
     - 
       **Key Concepts**
 
-      * `Kernel Optimization <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Kernel-Optimization>`__
+      * `Kernel Optimization <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Optimizing-Data-Movement>`__
       * Array Partitioning
 
       * `Block Partition <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/pragma-HLS-array_partition>`__
@@ -209,7 +207,7 @@ This section contains HLS C/C++ Kernel Examples. The main purpose of C++ kernels
     - 
       **Key Concepts**
 
-      * `Kernel Optimization <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Kernel-Optimization>`__
+      * `Kernel Optimization <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Optimizing-Data-Movement>`__
       * `Shift Register <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/Inferring-Shift-Registers>`__
       * `FIR <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/Inferring-Shift-Registers>`__
       **Keywords**
@@ -229,7 +227,7 @@ This section contains HLS C/C++ Kernel Examples. The main purpose of C++ kernels
     - 
       **Key Concepts**
 
-      * `Kernel to DDR <https://docs.xilinx.com/r/2021.2-English/ug1393-vitis-application-acceleration/Mapping-Kernel-Ports-to-Memory>`__
+      * `Kernel to DDR <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Mapping-Kernel-Ports-to-Memory>`__
       * `wide memory access <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/AXI-Burst-Transfers>`__
       * `burst read and write <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/AXI-Burst-Transfers>`__
       **Keywords**

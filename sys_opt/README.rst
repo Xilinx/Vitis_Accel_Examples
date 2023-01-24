@@ -16,11 +16,11 @@ System Optimization examples focussed towards hardware optimization using HLS C/
       **Key Concepts**
 
       * `Using custom Tcl <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/hls-Options>`__
-      * `Setting Kernel Clock Frequency <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Vitis-Compiler-Command>`__
+      * `Setting Kernel Clock Frequency <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Managing-Clock-Frequencies>`__
       * `Clock Uncertainity <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/hls-Options>`__
       **Keywords**
 
-      * `config <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Vitis-Compiler-General-Options>`__
+      * `config <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/v-General-Options>`__
       * set_clock_uncertainity
       * `clock <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/clock-Options>`__
       * `freqHz <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/clock-Options>`__
@@ -58,7 +58,7 @@ System Optimization examples focussed towards hardware optimization using HLS C/
     - 
       **Key Concepts**
 
-      * `Concurrent execution <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Task-Parallelism>`__
+      * `Concurrent execution <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Task-Parallelism-Using-Different-Kernels>`__
       * Multiple HLS kernels
 
       * Multiple Process Support

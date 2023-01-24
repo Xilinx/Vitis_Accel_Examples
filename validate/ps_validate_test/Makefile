@@ -23,15 +23,6 @@ help::
 	$(ECHO) "  make all TARGET=<sw_emu/hw_emu/hw> PLATFORM=<FPGA platform>"
 	$(ECHO) "      Command to generate the design for specified Target and Shell."
 	$(ECHO) ""
-	$(ECHO) "  make clean "
-	$(ECHO) "      Command to remove the generated non-hardware files."
-	$(ECHO) ""
-	$(ECHO) "  make cleanall"
-	$(ECHO) "      Command to remove all the generated files."
-	$(ECHO) ""
-	$(ECHO) "  make test PLATFORM=<FPGA platform>"
-	$(ECHO) "     Command to run the application. This is same as 'run' target but does not have any makefile dependency."
-	$(ECHO) ""
 	$(ECHO) "  make run TARGET=<sw_emu/hw_emu/hw> PLATFORM=<FPGA platform>"
 	$(ECHO) "      Command to run application in emulation."
 	$(ECHO) ""
@@ -41,6 +32,13 @@ help::
 	$(ECHO) "  make host"
 	$(ECHO) "      Command to build host application."
 	$(ECHO) ""
+	$(ECHO) "  make clean "
+	$(ECHO) "      Command to remove the generated non-hardware files."
+	$(ECHO) ""
+	$(ECHO) "  make cleanall"
+	$(ECHO) "      Command to remove all the generated files."
+	$(ECHO) ""
+
 
 ############################## Setting up Project Variables ##############################
 # Points to top directory of Git repository
@@ -96,7 +94,7 @@ LDFLAGS += -lboost_filesystem -lboost_system
 
 ############################## Setting up Kernel Variables ##############################
 # Kernel compiler global settings
-VPP_FLAGS += -t $(TARGET) --platform $(PLATFORM) --save-temps 
+VPP_FLAGS += --save-temps 
 
 EXECUTABLE = ./ps_validate_test.exe
 EMCONFIG_DIR = $(TEMP_DIR)
@@ -142,12 +140,12 @@ $(ps_target): $(ps_OBJS)
 ############################## Setting Rules for Binary Containers (Building Kernels) ##############################
 $(TEMP_DIR)/bandwidth.xo: src/bandwidth.cpp
 	mkdir -p $(TEMP_DIR)
-	$(VPP) $(VPP_FLAGS) -c -k bandwidth --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
+	$(VPP) -c $(VPP_FLAGS) -t $(TARGET) --platform $(PLATFORM) -k bandwidth --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
 $(BUILD_DIR)/$(LINK_OUTPUT): $(BINARY_CONTAINER_bandwidth_OBJS)
 	mkdir -p $(BUILD_DIR)
-	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR)  -o'$(LINK_OUTPUT)' $(+)
+	$(VPP) -l $(VPP_FLAGS) -t $(TARGET) --platform $(PLATFORM) $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR)  -o'$(LINK_OUTPUT)' $(+)
 $(BINARY_CONTAINERS_TEMP): $(BUILD_DIR)/$(LINK_OUTPUT)
-	$(VPP) -p $(LINK_OUTPUT) $(VPP_FLAGS) --package.out_dir $(PACKAGE_OUT) -o $(BINARY_CONTAINERS_TEMP)
+	$(VPP) -p $(LINK_OUTPUT) $(VPP_FLAGS) -t $(TARGET) --platform $(PLATFORM) --package.out_dir $(PACKAGE_OUT) -o $(BINARY_CONTAINERS_TEMP)
 $(BINARY_CONTAINERS): $(BINARY_CONTAINERS_TEMP)
 	xclbinutil --add-pskernel $(ps_target) --input $(BINARY_CONTAINERS_TEMP) --output $(BINARY_CONTAINERS) --force
 	mkdir -p $(GEN_DIR) && $(CP) $(BINARY_CONTAINERS) $(GEN_DIR)

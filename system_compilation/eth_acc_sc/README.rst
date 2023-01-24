@@ -3,7 +3,7 @@ Ethernet System Compiler
 
 This is simple example showcasing custom AXI-streams to PE interfaces in system compiler environment.
 
-**KEY CONCEPTS:** `Asyncronous host interactions <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Asynchronous-Host-Control-of-Accelerator>`__, Custom AXI-Streams
+**KEY CONCEPTS:** `Asyncronous host interactions <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Asynchronous-Host-Control-of-Accelerator>`__, `Custom AXI-Streams <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Stream-connections-using-vpp-stream>`__
 
 **KEYWORDS:** `compute_async <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Asynchronous-Host-Control-of-Accelerator>`__
 

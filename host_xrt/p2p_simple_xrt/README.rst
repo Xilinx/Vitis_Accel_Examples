@@ -3,7 +3,7 @@ P2P Simple Example XRT (XRT Native API's)
 
 This is simple example of vector increment to describe P2P between FPGA and NVMe SSD using xrt native api's.
 
-**KEY CONCEPTS:** `P2P <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/p2p>`__, NVMe SSD, SmartSSD
+**KEY CONCEPTS:** `P2P <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Special-Data-Transfer-Models>`__, NVMe SSD, SmartSSD
 
 **KEYWORDS:** xrt::bo::flags::p2p, pread, pwrite, `O_DIRECT <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Special-Data-Transfer-Models>`__, O_RDWR
 

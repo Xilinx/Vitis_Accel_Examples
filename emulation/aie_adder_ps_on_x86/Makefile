@@ -24,16 +24,6 @@ help::
 	$(ECHO) "      Command to generate the design for specified Target and Shell."
 	$(ECHO) "      EDGE_COMMON_SW is required for SoC shells"
 	$(ECHO) ""
-	$(ECHO) "  make clean "
-	$(ECHO) "      Command to remove the generated non-hardware files."
-	$(ECHO) ""
-	$(ECHO) "  make cleanall"
-	$(ECHO) "      Command to remove all the generated files."
-	$(ECHO) ""
-	$(ECHO) "  make sd_card TARGET=<sw_emu/hw_emu/hw> PLATFORM=<FPGA platform> EDGE_COMMON_SW=<rootfs and kernel image path>"
-	$(ECHO) "      Command to prepare sd_card files."
-	$(ECHO) "      EDGE_COMMON_SW is required for SoC shells"
-	$(ECHO) ""
 	$(ECHO) "  make run TARGET=<sw_emu/hw_emu/hw> PLATFORM=<FPGA platform> EDGE_COMMON_SW=<rootfs and kernel image path>"
 	$(ECHO) "      Command to run application in emulation."
 	$(ECHO) "      EDGE_COMMON_SW is required for SoC shells"
@@ -47,6 +37,17 @@ help::
 	$(ECHO) "      EDGE_COMMON_SW is required for SoC shells. Please download and use the pre-built image from - "
 	$(ECHO) "      https://www.xilinx.com/support/download/index.html/content/xilinx/en/downloadNav/embedded-platforms.html"
 	$(ECHO) ""
+	$(ECHO) "  make sd_card TARGET=<sw_emu/hw_emu/hw> PLATFORM=<FPGA platform> EDGE_COMMON_SW=<rootfs and kernel image path>"
+	$(ECHO) "      Command to prepare sd_card files."
+	$(ECHO) "      EDGE_COMMON_SW is required for SoC shells"
+	$(ECHO) ""
+	$(ECHO) "  make clean "
+	$(ECHO) "      Command to remove the generated non-hardware files."
+	$(ECHO) ""
+	$(ECHO) "  make cleanall"
+	$(ECHO) "      Command to remove all the generated files."
+	$(ECHO) ""
+
 
 
 ############################## Setting up Project Variables ##############################
@@ -100,8 +101,8 @@ else
 	AIE_FLAGS += --target=hw
 endif
 
-VPP_XO_FLAGS := -c -t $(TARGET) --platform $(PLATFORM) --save-temps -g 
-VPP_LINK_FLAGS := -l --platform $(PLATFORM) $(KERNEL_XO) $(GRAPH_O) -t $(TARGET) --save-temps -g --config $(CONFIG_FILE) -o $(LINK_OUTPUT)
+VPP_XO_FLAGS := --save-temps -g 
+VPP_LINK_FLAGS :=  $(KERNEL_XO) $(GRAPH_O) --save-temps -g --config $(CONFIG_FILE) -o $(LINK_OUTPUT)
 
 GCC_LIB := -lxrt_coreutil -ladf_api_xrt
 GCC_FLAGS := -Wall -c -std=c++14 -Wno-int-to-pointer-cast
@@ -130,9 +131,9 @@ kernels: check-device $(KERNEL_XO)
 	@echo "COMPLETE: Kernels Created."	
 
 s2mm.xo: src/pl_kernels/s2mm.cpp
-	$(VPP) $(VPP_XO_FLAGS) -k $(basename $(notdir $<)) $< -o $@
+	$(VPP) -c $(VPP_XO_FLAGS) -t $(TARGET) --platform $(PLATFORM) -k $(basename $(notdir $<)) $< -o $@
 mm2s.xo: src/pl_kernels/mm2s.cpp
-	$(VPP) $(VPP_XO_FLAGS) -k $(basename $(notdir $<)) $< -o $@
+	$(VPP) -c $(VPP_XO_FLAGS) -t $(TARGET) --platform $(PLATFORM) -k $(basename $(notdir $<)) $< -o $@
 
 graph: check-device $(GRAPH_O)
 
@@ -151,7 +152,7 @@ $(GRAPH_O): $(GRAPH)
 build: check-device $(LINK_OUTPUT)
 
 $(LINK_OUTPUT): $(KERNEL_XO) $(GRAPH_O) 
-	$(VPP) $(VPP_LINK_FLAGS) || (echo "task: [xclbin] failed error code: $$?"; exit 1)       
+	$(VPP) -l $(VPP_LINK_FLAGS) --platform $(PLATFORM) -t $(TARGET) || (echo "task: [xclbin] failed error code: $$?"; exit 1)       
 	@echo "COMPLETE:.xsa created"
 ########################################################
 
@@ -169,7 +170,7 @@ $(EXECUTABLE): $(HOST_SRCS)
 
 ##################################################################################################
 # Depending on the TARGET, the packaging will be done.
-PACKAGING_CMD := v++ $(VPP_PFLAGS) -p -t $(TARGET) \
+PACKAGING_CMD := v++ -p $(VPP_PFLAGS) -t $(TARGET) \
                  --package.defer_aie_run \
                  --platform $(PLATFORM) \
                  --package.out_dir $(PACKAGE_OUT) \
@@ -189,9 +190,9 @@ endif
 
 
 ##################################################################################################
-sd_card: check-device gen_run_app $(XCLBIN)
+sd_card: check-device gen_run_app emconfig $(SD_CARD)
 
-$(XCLBIN): $(GRAPH_O) $(KERNEL_XO) $(EXECUTABLE)
+$(SD_CARD): $(GRAPH_O) $(KERNEL_XO) $(EXECUTABLE) $(LINK_OUTPUT)
 	$(PACKAGING_CMD)
 	@echo "COMPLETE: emulation package created."
 ###################################################################################################
@@ -214,7 +215,7 @@ endif
 ############################## Cleaning Rules ##############################
 # Cleaning stuff
 clean:
-	-$(RMDIR) $(EXECUTABLE) $(XCLBIN)/{*sw_emu*,*hw_emu*} 
+	-$(RMDIR) $(EXECUTABLE) *.xclbin/{*sw_emu*,*hw_emu*} 
 	-$(RMDIR) profile_* TempConfig system_estimate.xtxt *.rpt *.csv *.o *.xo *.xpe *.xsa cfg qemu_dts_files emu_qemu_scripts *.db sim *.sh *.a 
 	-$(RMDIR) src/sw/*.ll src/pl_kernels/*.ll src/aie/*.ll *v++* .Xil emconfig.json dltmp* xmltmp* *.log *.jou *.wcfg *.wdb *bin* *summary* *.BIN *.bif *.exe Work *.log *.txt 
 

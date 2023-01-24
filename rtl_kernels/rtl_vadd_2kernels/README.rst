@@ -3,7 +3,7 @@ Vadd 2 Kernels (RTL Kernel)
 
 This example has two RTL Kernels. Both Kernel_0 and Kernel_1 perform vector addition. The Kernel_1 reads the output from Kernel_0 as one of two inputs.
 
-**KEY CONCEPTS:** `Multiple RTL Kernels <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/RTL-Kernels>`__
+**KEY CONCEPTS:** `Multiple RTL Kernels <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Generate-RTL-Kernel>`__
 
 .. raw:: html
 
