@@ -13,6 +13,7 @@
         "samsung",
         "u2_",
         "zc",
+	"u50_gen3x16",
         "nodma"
     ],  
     "platform_whitelist": [
