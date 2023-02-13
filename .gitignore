@@ -24,3 +24,6 @@ log.*
 *.xclbin
 build*
 _x*
+!x3h/rx_exerciser_tx_passthrough/pcaprecv.txt
+!x3h/rx_exerciser_tx_passthrough/pcapsend.txt
+
