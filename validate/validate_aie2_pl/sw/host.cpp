@@ -37,7 +37,7 @@ int main(int argc, char* argv[]) {
     // instance of plController
     xf::plctrl::plController m_pl_ctrl("aie_control_config.json", "dma_lock_report.json");
 
-    int num_iter = 1;
+    int num_iter = 2;
     int num_sample = 32;
 
     m_pl_ctrl.enqueue_set_aie_iteration("mygraph", num_iter);
@@ -57,7 +57,9 @@ int main(int argc, char* argv[]) {
     int match = 0;
     int mem_size = 0;
     // Open xclbin
-    auto dhdl = xrtDeviceOpen(0); // device index=0
+    int device_id = 2;
+    auto dhdl = xrtDeviceOpen(device_id); // device index=0
+    printf("Device open id = %d\n", device_id);
     if (!dhdl) {
         printf("Device open error\n");
     }
@@ -81,17 +83,11 @@ int main(int argc, char* argv[]) {
         xrtPLKernelOpen(dhdl, uuid, "sender_receiver:{sender_receiver_1}");
     xrtKernelHandle controller_k1 =
         xrtPLKernelOpen(dhdl, uuid, "pl_controller_top:{controller_1}");
-    //  int group_id_sendr_by_c = xrtKernelArgGroupId(sender_receiver_k1, 2);
-    //  int group_id_ctrl_by_c = xrtKernelArgGroupId(controller_k1, 4);
-    //  printf("INFO : xrtKernelArgGroupId return %d \n", group_id_sendr_by_c);
-    //  printf("INFO: from C API -> group_id_sendr : %d, controller_k1: %d\n",
-    //         group_id_sendr_by_c, group_id_ctrl_by_c);
-    //  int group_id_sendr = group_id_sendr_by_c;
-    //  int group_id_ctrl = group_id_ctrl_by_c;
 
     // output memory
     mem_size = num_sample * num_iter * sizeof(int);
 #ifndef HW_EMU_TEST
+    printf("test on board!\n");
     xrtBufferHandle out_bo1 =
         xrtBOAlloc(dhdl, mem_size, 0, 0 /*group_id*/); // group_id = 0 passed on board xcvc2802-vsvh1760-2MP-i-S-es1
 #else
@@ -170,11 +166,11 @@ int main(int argc, char* argv[]) {
     xrtBOSync(out_bo1, XCL_BO_SYNC_BO_FROM_DEVICE, mem_size, /*OFFSET=*/0);
     // post-processing data;
     int i;
-    for (i = 0; i < mem_size / sizeof(int); i++) {
-        //if (*(host_out1 + i) != *(host_in1 + i) + 1) {
-        //    match = 1;
-            std::cout << "host_out1[" << i << "]=" << host_out1[i] << std::endl;
-        //}
+    for (i = 1; i < mem_size / sizeof(int); i++) {
+        if (*(host_out1 + i) != *(host_in1 + i) + 1) {
+            match = 1;
+            std::cout << "host_out1[" << i << "]=" << host_out1[i] << " host_in1[" << i << "]=" << host_in1[i] << std::endl;
+        }
     }
     // release memory
     xrtRunClose(sender_receiver_r1);
@@ -182,14 +178,12 @@ int main(int argc, char* argv[]) {
 
     xrtRunClose(controller_r1);
     xrtKernelClose(controller_k1);
-    // xrtRunClose(merge_r1);
-    // xrtKernelClose(merge_k1);
 
     xrtBOFree(out_bo1);
     xrtBOFree(in_bo1);
     xrtBOFree(pm_bo);
     xrtDeviceClose(dhdl);
-
+    
     std::cout << "TEST " << (match ? "FAILED" : "PASSED") << std::endl;
     return (match ? EXIT_FAILURE : EXIT_SUCCESS);
 }
