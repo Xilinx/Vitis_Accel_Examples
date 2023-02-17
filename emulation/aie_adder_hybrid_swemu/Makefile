@@ -93,7 +93,7 @@ AIECC := aiecompiler
 AIESIM := aiesimulator
 
 AIE_INCLUDE_FLAGS := -include="$(XILINX_VITIS)/aietools/include" -include="./src/aie" -include="./data" -include="./"
-AIE_FLAGS := $(AIE_INCLUDE_FLAGS) --pl-freq=100 -workdir=./_aie
+AIE_FLAGS := --platform $(PLAtFORM) $(AIE_INCLUDE_FLAGS) --pl-freq=100 -workdir=./_aie
 
 AIE_FLAGS += --target=hw
 AIE_HYBRID += -Xpreproc=-D_HYBRID_EMU_ 
