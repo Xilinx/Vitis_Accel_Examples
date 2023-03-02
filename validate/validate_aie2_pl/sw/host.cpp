@@ -142,15 +142,6 @@ int main(int argc, char* argv[]) {
     xrtRunSetArg(sender_receiver_r1, 3, out_bo1);
     xrtRunStart(sender_receiver_r1);
     std::cout << " start sender-receiver kernel" << std::endl;
-    ////start merge kernel
-    // xrtKernelHandle merge_k1 = xrtPLKernelOpen(dhdl, uuid,
-    // "merge_kernel:{merge_kernel_1}");
-    // xrtRunHandle merge_r1 = xrtRunOpen(merge_k1);
-    // xrtRunStart(merge_r1);
-    // std::cout<< "start merge kernel"<<std::endl;
-    // auto ghdl=xrtGraphOpen(dhdl,uuid,"mygraph");
-    // ret=xrtGraphUpdateRTP(ghdl,"mygraph.first.in[1]",(const
-    // char*)&num_sample,sizeof(int));
 
     // start pl controller
     xrtRunHandle controller_r1 = xrtRunOpen(controller_k1);
@@ -162,20 +153,39 @@ int main(int argc, char* argv[]) {
     // start input kernels
 
     xrtRunWait(controller_r1);
+    xrtRunWait(sender_receiver_r1);
     // sync output memory
     xrtBOSync(out_bo1, XCL_BO_SYNC_BO_FROM_DEVICE, mem_size, /*OFFSET=*/0);
     // post-processing data;
     int i;
-    for (i = 1; i < mem_size / sizeof(int); i++) {
+    for (i = 0; i < mem_size / sizeof(int); i++) {
         if (*(host_out1 + i) != *(host_in1 + i) + 1) {
             match = 1;
             std::cout << "host_out1[" << i << "]=" << host_out1[i] << " host_in1[" << i << "]=" << host_in1[i] << std::endl;
         }
     }
+
+
     // release memory
     xrtRunClose(sender_receiver_r1);
     xrtKernelClose(sender_receiver_k1);
 
+/*    uint32_t dbg_buf0[8];
+    uint32_t dbg_buf1[8];
+    xrtKernelHandle sender_receiver_k2 =
+        xrtPLKernelOpenExclusive(dhdl, uuid, "sender_receiver");
+    xrtKernelReadRegister(sender_receiver_k2, 0x40, dbg_buf0);
+    xrtKernelReadRegister(sender_receiver_k2, 0x60, dbg_buf1);
+    xrtKernelReadRegister(sender_receiver_k2, 0x64, &dbg_buf1[1]);
+    xrtKernelReadRegister(sender_receiver_k2, 0x68, &dbg_buf1[2]);
+    std::cout << "Debug buffer of transactions from PL: " << std::endl
+              << "dbg_buf0[0] = " << dbg_buf0[0] << std::endl
+              << "dbg_buf1[0] = " << dbg_buf1[0] << std::endl
+              << "dbg_buf1[1] = " << dbg_buf1[1] << std::endl
+              << "dbg_buf1[2] = " << dbg_buf1[2] << std::endl;
+    
+    xrtKernelClose(sender_receiver_k2);
+*/
     xrtRunClose(controller_r1);
     xrtKernelClose(controller_k1);
 
