@@ -25,8 +25,9 @@ std::vector<char> generate_data() {
     const unsigned int DATA_WIDTH = 4; //! in Bytes
 
     unsigned int num_beats = std::rand() % MAX_BEATS + 1;
-    unsigned int data_length = 4; //:num_beats * DATA_WIDTH;
-
+    //unsigned int data_length = 4; //:num_beats * DATA_WIDTH;
+    unsigned int data_length = num_beats * DATA_WIDTH;
+    
     //! Initialize vector size...
     std::vector<char> v_data(data_length);
 
