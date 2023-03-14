@@ -20,7 +20,7 @@
 
 help::
 	$(ECHO) "Makefile Usage:"
-	$(ECHO) "  make all TARGET=<sw_emu/hw_emu/hw> PLATFORM=<FPGA platform>"
+	$(ECHO) "  make all TARGET=<sw_emu/hw_emu/hw> PLATFORM=<FPGA platform> EDGE_COMMON_SW=<rootfs and kernel image path>."
 	$(ECHO) "      Command to generate the design for specified Target and Shell."
 	$(ECHO) ""
 	$(ECHO) "  make clean "
@@ -32,14 +32,16 @@ help::
 	$(ECHO) "  make test PLATFORM=<FPGA platform>"
 	$(ECHO) "     Command to run the application. This is same as 'run' target but does not have any makefile dependency."
 	$(ECHO) ""
-	$(ECHO) "  make run TARGET=<sw_emu/hw_emu/hw> PLATFORM=<FPGA platform>"
+	$(ECHO) "  make run TARGET=<sw_emu/hw_emu/hw> PLATFORM=<FPGA platform> EDGE_COMMON_SW=<rootfs and kernel image path>"
 	$(ECHO) "      Command to run application in emulation."
 	$(ECHO) ""
-	$(ECHO) "  make build TARGET=<sw_emu/hw_emu/hw> PLATFORM=<FPGA platform>"
+	$(ECHO) "  make build TARGET=<sw_emu/hw_emu/hw> PLATFORM=<FPGA platform> EDGE_COMMON_SW=<rootfs and kernel image path>"
 	$(ECHO) "      Command to build xclbin application."
 	$(ECHO) ""
 	$(ECHO) "  make host"
 	$(ECHO) "      Command to build host application."
+	$(ECHO) "      EDGE_COMMON_SW is required for SoC shells. Please download and use the pre-built image from - "
+	$(ECHO) "      https://www.xilinx.com/support/download/index.html/content/xilinx/en/downloadNav/embedded-platforms.html"
 	$(ECHO) ""
 
 ############################## Setting up Project Variables ##############################
@@ -52,7 +54,7 @@ XF_PROJ_ROOT = $(shell readlink -f $(COMMON_REPO))
 
 TARGET := hw
 HOST_ARCH := x86
-SYSROOT := 
+SYSROOT := $(EDGE_COMMON_SW)/sysroots/cortexa72-cortexa53-xilinx-linux
 
 include ./utils.mk
 
@@ -136,8 +138,7 @@ CROSS_COMPILE := $(XILINX_VITIS)/gnu/aarch64/lin/aarch64-linux/bin/aarch64-linux
 CROSSCXX := $(CROSS_COMPILE)g++
 ps_target = aie_kernel.so
 ps_OBJS = aie_kernel.o
-SYSROOT = /proj/xbuilds/2022.2_daily_latest/internal_platforms/sw/versal/xilinx-versal/sysroots/aarch64-xilinx-linux
-CROSSCFLAGS = -I$(SYSROOT)//usr/include/xrt -I$(SYSROOT)/ -fPIC -fvisibility=hidden -lrt --sysroot=$(SYSROOT) -Ilibs -I$(XILINX_VITIS_AIETOOLS)/include
+CROSSCFLAGS = -I$(XILINX_XRT)/include -I$(SYSROOT)/usr/include/xrt -I$(SYSROOT)/ -fPIC -fvisibility=hidden -lrt --sysroot=$(SYSROOT) -Ilibs -I$(XILINX_VITIS_AIETOOLS)/include
 CROSSCFLAGS += -Wall -O2 -g -D__PS_ENABLE_AIE__
 
 CROSSLDFLAGS = -shared -lxrt_core -L$(SYSROOT)/usr/lib -lxilinxopencl -lpthread -lrt -ldl -lcrypt -lstdc++ --sysroot=$(SYSROOT)
@@ -151,16 +152,19 @@ BINARY_CONTAINERS_PKG += $(BUILD_DIR)/ps_aie.xclbin
 CP = cp -rf
 
 .PHONY: all clean cleanall docs emconfig
-all: check-platform check-device check-vitis $(EXECUTABLE) $(ps_target) $(BINARY_CONTAINERS) $(BINARY_CONTAINERS_TEMP) $(BINARY_CONTAINERS_PKG) emconfig
+all: check-platform check-device check-vitis check_edge_sw $(EXECUTABLE) $(ps_target) $(BINARY_CONTAINERS) $(BINARY_CONTAINERS_TEMP) $(BINARY_CONTAINERS_PKG) emconfig
 
 .PHONY: host
 host: $(EXECUTABLE)
 
 .PHONY: build
-build: check-vitis check-device $(ps_target) $(BINARY_CONTAINERS) $(BINARY_CONTAINERS_TEMP) $(BINARY_CONTAINERS_PKG)
+build: check-vitis check-device check_edge_sw $(ps_target) $(BINARY_CONTAINERS) $(BINARY_CONTAINERS_TEMP) $(BINARY_CONTAINERS_PKG)
 
 .PHONY: xclbin
 xclbin: build
+
+.PHONY: ps_kernel
+ps_kernel: check_edge_sw $(ps_target)
 
 ############################## Setting Rules for PS Kernel objects (Building PS Kernels) ##############################
 $(ps_OBJS) : ./src/aie_kernel.cpp
@@ -218,6 +222,10 @@ else
 	$(EXECUTABLE) $(CMD_ARGS)
 endif
 
+check_edge_sw:
+ifndef EDGE_COMMON_SW
+	$(error EDGE_COMMON_SW variable is not set, please download and use the pre-built image from https://www.xilinx.com/support/download/index.html/content/xilinx/en/downloadNav/embedded-platforms.html)
+endif
 
 ############################## Cleaning Rules ##############################
 # Cleaning stuff
