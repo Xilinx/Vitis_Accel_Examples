@@ -119,7 +119,4 @@ Instruction below can be used to generate XCLBIN for Hardware Emulation Flow.
 
     make run TARGET=hw_emu DEVICE=<path to xilinx_x3522p_gen4x8_hn10g_1_202220_1.xpfm emulation platform>
 
-Note: In case of emulation flow platform file is present under /proj/xbuilds/Vitis_HW_EMU/2022.2/xilinx_x3522p_gen4x8_hn10g_1_202220_1/2022.2_component_verified.
-
-
 To visit github.io of this repository, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.
