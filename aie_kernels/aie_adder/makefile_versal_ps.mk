@@ -268,6 +268,17 @@ else
 	@echo "Hardware build, no emulation executed."
 endif
 
+test: $(EXECUTABLE)
+ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
+ifeq ($(EMU_PS), X86)
+	XCL_EMULATION_MODE=$(TARGET) $(EXECUTABLE) $(CMD_ARGS)
+else
+	$(LAUNCH_EMULATOR) -run-app $(RUN_APP_SCRIPT) | tee run_app.log; exit $${PIPESTATUS[0]}
+endif
+else
+	@echo "Hardware build, no emulation executed."
+endif
+
 check_edge_sw:
 ifndef EDGE_COMMON_SW
 	$(error EDGE_COMMON_SW variable is not set, please download and use the pre-built image from https://www.xilinx.com/support/download/index.html/content/xilinx/en/downloadNav/embedded-platforms.html)
