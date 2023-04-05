@@ -3,9 +3,9 @@ Hello World (HLS C/C++ Kernel)
 
 This is simple example of vector addition to describe how to use HLS kernels in Vitis Environment. The kernel uses HLS Dataflow which allows the user to schedule multiple task together to achieve higher throughput.
 
-**KEY CONCEPTS:** `HLS C Kernel <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Interfaces>`__, `OpenCL Host APIs <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/OpenCL-Programming>`__, `Task Level Parallelism <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Task-Parallelism>`__
+**KEY CONCEPTS:** `HLS C Kernel <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/C/C-Kernel>`__, `OpenCL Host APIs <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/OpenCL-Programming>`__, `Task Level Parallelism <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/Data-driven-Task-level-Parallelism>`__
 
-**KEYWORDS:** `gmem <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/C/C-Kernels>`__, `#pragma HLS INTERFACE <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/HLS-Pragmas>`__, `m_axi <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/Defining-Interfaces>`__, `dataflow <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/Optimization-Techniques-in-Vitis-HLS>`__, `hls::stream <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/HLS-Stream-Library>`__
+**KEYWORDS:** `gmem <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Mapping-Kernel-Ports-to-Memory>`__, `#pragma HLS INTERFACE <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/HLS-Pragmas>`__, `m_axi <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/Defining-Interfaces>`__, `dataflow <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/Dataflow>`__, `hls::stream <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/HLS-Stream-Library>`__
 
 .. raw:: html
 

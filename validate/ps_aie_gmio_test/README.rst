@@ -3,7 +3,7 @@ PS AIE Kernel (C)
 
 This PS AIE kernel tests PS kernel controlling AIE.
 
-**KEY CONCEPTS:** PS Kernel, AIE
+**KEY CONCEPTS:** PS Kernel, `AIE <https://docs.xilinx.com/r/en-US/ug1076-ai-engine-environment/AI-Engine-Components>`__
 
 .. raw:: html
 

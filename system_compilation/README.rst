@@ -30,8 +30,7 @@ This section contains System Compiler based Examples.
       **Key Concepts**
 
       * `Asyncronous host interactions <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Asynchronous-Host-Control-of-Accelerator>`__
-      * Custom AXI-Streams
-
+      * `Custom AXI-Streams <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Stream-connections-using-vpp-stream>`__
       **Keywords**
 
       * `compute_async <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Asynchronous-Host-Control-of-Accelerator>`__
@@ -41,7 +40,7 @@ This section contains System Compiler based Examples.
     - 
       **Key Concepts**
 
-      * `P2P <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/p2p>`__
+      * `P2P <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Special-Data-Transfer-Models>`__
       * SSD
 
       * Syncronization
@@ -78,7 +77,7 @@ This section contains System Compiler based Examples.
 
       **Keywords**
 
-      * sync_outputs
+      * `sync_outputs <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/VPP_ACC-Class-API>`__
       * `custom_sync_outputs <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/VPP_ACC-Class-API>`__
 
   * - `mult_card_sc <mult_card_sc>`_
@@ -88,7 +87,7 @@ This section contains System Compiler based Examples.
 
       * Multiple Cards
 
-      * `P2P <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/p2p>`__
+      * `P2P <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Special-Data-Transfer-Models>`__
       * `H2C <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Special-Data-Transfer-Models>`__
       * Syncronization
 

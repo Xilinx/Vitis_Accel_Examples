@@ -22,10 +22,6 @@ help::
 	$(ECHO) "      Command to generate the design for specified Target and Shell."
 	$(ECHO) "      By default, HOST_ARCH=x86 HOST_ARCH is required for SoC shells"
 	$(ECHO) ""
-	$(ECHO) "  make sd_card TARGET=<hw/hw_emu/> PLATFORM=<FPGA platform> HOST_ARCH=<>"
-	$(ECHO) "      Command to prepare sd_card files."
-	$(ECHO) "      By default, HOST_ARCH=x86 HOST_ARCH is required for SoC shells"
-	$(ECHO) ""
 	$(ECHO) "  make run TARGET=<hw/hw_emu/> PLATFORM=<FPGA platform> HOST_ARCH=<>"
 	$(ECHO) "      Command to run application in emulation."
 	$(ECHO) "      By default, HOST_ARCH=x86 HOST_ARCH required for SoC shells"
@@ -47,6 +43,10 @@ help::
 	$(ECHO) "  https://www.xilinx.com/support/download/index.html/content/xilinx/en/downloadNav/embedded-platforms.html. For example,"
 	$(ECHO) "       export EDGE_COMMON_SW=< path-to-rootfs-and-Image-files >"
 	$(ECHO) ""
+	$(ECHO) "  make sd_card TARGET=<hw/hw_emu/> PLATFORM=<FPGA platform> HOST_ARCH=<>"
+	$(ECHO) "      Command to prepare sd_card files."
+	$(ECHO) "      By default, HOST_ARCH=x86 HOST_ARCH is required for SoC shells"
+	$(ECHO) ""
 	$(ECHO) "  make clean "
 	$(ECHO) "      Command to remove the generated non-hardware files."
 	$(ECHO) ""
@@ -65,7 +65,7 @@ COMMON_REPO ?= $(shell bash -c 'export MK_PATH=$(MK_PATH); echo $${MK_PATH%valid
 XF_PROJ_ROOT = $(shell readlink -f $(COMMON_REPO))
 
 # setting devault value
-TARGET ?= hw_emu
+TARGET ?= hw
 HOST_ARCH ?= x86
 
 #setting PLATFORM
@@ -95,16 +95,14 @@ RUN_DEPS :=
 
 # get global setting
 ifeq ($(HOST_ARCH), x86)
-CXXFLAGS += -fmessage-length=0 -I$(CUR_DIR)/sw -I$(XILINX_XRT)/include -I$(XILINX_HLS)/include -std=c++14 -O3 -Wall -Wno-unknown-pragmas -Wno-unused-label  
-LDFLAGS += -pthread -L$(XILINX_XRT)/lib -L$(XILINX_HLS)/lnx64/tools/fpo_v7_1  -Wl,--as-needed -lOpenCL -lxrt_coreutil -lgmp -lmpfr -lIp_floating_point_v7_1_bitacc_cmodel 
-VPP_FLAGS += -t $(TARGET) --platform $(XPLATFORM) --save-temps 
-VPP_LDFLAGS += --optimize 2 -R 2 
+CXXFLAGS += -fmessage-length=0 -I$(CUR_DIR)/sw -I$(XILINX_XRT)/include -I$(XILINX_HLS)/include -std=c++14 -O3 -g -Wall -Wno-unknown-pragmas -Wno-unused-label  
+LDFLAGS += -pthread -L$(XILINX_XRT)/lib -L$(XILINX_HLS)/lnx64/tools/fpo_v7_1  -Wl,--as-needed -lOpenCL -lxrt_coreutil -lgmp 
 else ifeq ($(HOST_ARCH), aarch64)
 CXXFLAGS += -I$(CUR_DIR)/sw -fmessage-length=0 --sysroot=$(SYSROOT)  -I$(SYSROOT)/usr/include/xrt -I$(XILINX_HLS)/include -std=c++14 -O3 -Wall -Wno-unknown-pragmas -Wno-unused-label 
 LDFLAGS += -pthread -L$(SYSROOT)/usr/lib -L$(XILINX_VITIS_AIETOOLS)/lib/aarch64.o -Wl,--as-needed -lxilinxopencl -lxrt_coreutil 
-VPP_FLAGS += -t $(TARGET) --platform $(XPLATFORM) --save-temps 
-VPP_LDFLAGS += --optimize 2 -R 2 
 endif
+VPP_FLAGS += --save-temps 
+VPP_LDFLAGS += --optimize 2 -R 2 
 CXXFLAGS += $(EXTRA_CXXFLAGS)
 VPP_FLAGS += $(EXTRA_VPP_FLAGS)
 
@@ -142,7 +140,7 @@ ifeq ($(TARGET),sw_emu)
 CXXFLAGS += -D SW_EMU_TEST
 endif
 ifeq ($(TARGET),hw_emu)
-CXXFLAGS += -D HW_EMU_TEST
+CXXFLAGS += -D HW_EMU_TEST -g
 endif
 ifeq ($(TARGET),hw)
 CXXFLAGS += -D HW_TEST
@@ -159,7 +157,7 @@ EXE_FILE_DEPS := $(HOST_SRCS) $(EXE_FILE_DEPS)
 
 ########################## Kernel compiler global settings ##########################
 VPP_FLAGS +=  -I $(CUR_DIR)//pl_kernels -I $(XILINX_VITIS)/aietools/include
-VPP_LDFLAGS +=   --config $(CUR_DIR)/system.cfg
+VPP_LDFLAGS += -g  --config $(CUR_DIR)/system.cfg
 
 ######################### binary container global settings ##########################
 VPP_FLAGS_pl_controller_top += --verbose
@@ -174,28 +172,28 @@ endif
 
 ifeq ($(HOST_ARCH), x86)
 BINARY_CONTAINERS += $(BUILD_DIR)/pl_controller.xsa
-BINARY_CONTAINERS_PKG += $(BUILD_DIR)/pl_controller.xclbin
+BINARY_CONTAINERS_PKG += $(BUILD_DIR)/pl_controller_aie.xclbin
 else
 BINARY_CONTAINERS += $(BUILD_DIR)/pl_controller.xsa
-BINARY_CONTAINERS_PKG += $(BUILD_DIR)/pl_controller.xclbin
+BINARY_CONTAINERS_PKG += $(BUILD_DIR)/pl_controller_aie.xclbin
 endif
 
 # ################ Setting Rules for Binary Containers (Building Kernels) ################
 $(TEMP_DIR)/pl_controller_top.xo: $(CUR_DIR)//pl_kernels/pl_controller_top.cpp 
 	$(ECHO) "Compiling Kernel: pl_controller_top"
 	mkdir -p $(TEMP_DIR)
-	$(VPP) -c $(VPP_FLAGS_pl_controller_top) $(VPP_FLAGS) -k pl_controller_top -I'$(<D)' --temp_dir $(TEMP_DIR) --report_dir $(TEMP_REPORT_DIR) -o'$@' '$<'
+	$(VPP) -c $(VPP_FLAGS_pl_controller_top) $(VPP_FLAGS) -t $(TARGET) --platform $(XPLATFORM) -k pl_controller_top -I'$(<D)' --temp_dir $(TEMP_DIR) --report_dir $(TEMP_REPORT_DIR) -o'$@' '$<'
 BINARY_CONTAINER_v70_pcie_pl_controller.xclbin_OBJS += $(TEMP_DIR)/pl_controller_top.xo
 $(TEMP_DIR)/sender_receiver.xo: $(CUR_DIR)//pl_kernels/sender_receiver.cpp 
 	$(ECHO) "Compiling Kernel: sender_receiver"
 	mkdir -p $(TEMP_DIR)
-	$(VPP) -c $(VPP_FLAGS_sender_receiver) $(VPP_FLAGS) -k sender_receiver -I'$(<D)' --temp_dir $(TEMP_DIR) --report_dir $(TEMP_REPORT_DIR) -o'$@' '$<'
+	$(VPP) -c $(VPP_FLAGS_sender_receiver) $(VPP_FLAGS) -t $(TARGET) --platform $(XPLATFORM) -k sender_receiver -I'$(<D)' --temp_dir $(TEMP_DIR) --report_dir $(TEMP_REPORT_DIR) -o'$@' '$<'
 BINARY_CONTAINER_v70_pcie_pl_controller.xclbin_OBJS += $(TEMP_DIR)/sender_receiver.xo
 BINARY_CONTAINERS_DEPS += $(BINARY_CONTAINER_v70_pcie_pl_controller.xclbin_OBJS)
 BINARY_CONTAINERS_DEPS += $(AIE_CONTAINER)
 $(BINARY_CONTAINERS): $(BINARY_CONTAINERS_DEPS)
 	mkdir -p $(BUILD_DIR)
-	$(VPP) -l $(VPP_FLAGS) --temp_dir $(TEMP_DIR) --report_dir $(BUILD_REPORT_DIR) $(VPP_LDFLAGS)  $(VPP_LDFLAGS_v70_pcie_pl_controller.xclbin) -o $@ $^ 
+	$(VPP) -l $(VPP_FLAGS) -t $(TARGET) --platform $(XPLATFORM) --temp_dir $(TEMP_DIR) --report_dir $(BUILD_REPORT_DIR) $(VPP_LDFLAGS)  $(VPP_LDFLAGS_v70_pcie_pl_controller.xclbin) -o $@ $^ 
 
 $(BINARY_CONTAINERS_PKG): $(AIE_CONTAINER) $(BINARY_CONTAINERS)
 	${VPP} -p -t ${TARGET} -f ${XPLATFORM} ${AIE_CONTAINER} ${BINARY_CONTAINERS} -o ./${BINARY_CONTAINERS_PKG}
@@ -259,7 +257,7 @@ $(SD_CARD): $(EXE_FILE) $(BINARY_CONTAINERS) $(RUN_SCRIPT) $(EMCONFIG)
 	@echo "Generating sd_card folder...."
 	mkdir -p $(SD_CARD)
 	chmod a+rx $(BUILD_DIR)/run_script.sh
-	${VPP} -p -t ${TARGET} -f ${XPLATFORM} ${AIE_CONTAINER} ${BINARY_CONTAINERS} -o ./pl_controller_aie.xclbin --package.boot_mode=ospi --package.defer_aie_run
+	${VPP} -p -t ${TARGET} -f ${XPLATFORM} ${AIE_CONTAINER} ${BINARY_CONTAINERS} -o $(BUILD_DIR)/pl_controller_aie.xclbin --package.boot_mode=ospi --package.defer_aie_run
 	@echo "### ***** sd_card generation done! ***** ###"
 
 .PHONY: sd_card
@@ -272,7 +270,7 @@ else
 RUN_DEPS += $(EXE_FILE) $(BINARY_CONTAINERS) $(EMCONFIG)
 RUN_DEPS += $(SD_CARD)
 endif
-HOST_ARGS += $(CUR_DIR)/pl_controller_aie.xclbin
+HOST_ARGS += $(CUR_DIR)/$(BUILD_DIR)/pl_controller_aie.xclbin
 run: check_device  $(RUN_DEPS)
 #x86sim
 ifeq ($(TARGET), x86sim)
@@ -290,6 +288,7 @@ ifeq ($(HOST_ARCH), x86)
 	cp Work/reports/dma_lock_report.json ./
 	cp Work/ps/c_rts/aie_control_config.json ./
 	LD_LIBRARY_PATH=$(LIBRARY_PATH):$$LD_LIBRARY_PATH \
+	ENABLE_AIE_DBG_TRACE=true \
 	XCL_EMULATION_MODE=$(TARGET) $(EXE_FILE) $(HOST_ARGS)
 
 else

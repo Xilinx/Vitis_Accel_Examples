@@ -88,7 +88,7 @@ VPP := v++
 AIECC := aiecompiler
 
 AIE_INCLUDE_FLAGS := -include="$(XILINX_VITIS)/aietools/include" -include="./aie" -include="./data" -include="./" -include="./aie/kernels"
-AIE_FLAGS := $(AIE_INCLUDE_FLAGS) --pl-freq=100 -workdir=./Work
+AIE_FLAGS := --platform $(EXTENSIBLE_XSA) $(AIE_INCLUDE_FLAGS) --pl-freq=100 -workdir=./Work
 
 VPP_FLAGS := --save-temps -g
  

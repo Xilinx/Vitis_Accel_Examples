@@ -3,9 +3,9 @@ Advanced Configuration
 
 This is simple example to describe how user can provide various advanced options in Vitis flow.
 
-**KEY CONCEPTS:** `Using custom Tcl <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/hls-Options>`__, `Setting Kernel Clock Frequency <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Vitis-Compiler-Command>`__, `Clock Uncertainity <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/hls-Options>`__
+**KEY CONCEPTS:** `Using custom Tcl <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/hls-Options>`__, `Setting Kernel Clock Frequency <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Managing-Clock-Frequencies>`__, `Clock Uncertainity <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/hls-Options>`__
 
-**KEYWORDS:** `config <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Vitis-Compiler-General-Options>`__, set_clock_uncertainity, `clock <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/clock-Options>`__, `freqHz <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/clock-Options>`__, `hls.pre_tcl <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/hls-Options>`__
+**KEYWORDS:** `config <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/v-General-Options>`__, set_clock_uncertainity, `clock <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/clock-Options>`__, `freqHz <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/clock-Options>`__, `hls.pre_tcl <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/hls-Options>`__
 
 .. raw:: html
 

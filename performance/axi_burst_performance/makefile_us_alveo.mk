@@ -22,15 +22,6 @@ help:
 	$(ECHO) "  make all TARGET=<sw_emu/hw_emu/hw> PLATFORM=<FPGA platform>"
 	$(ECHO) "      Command to generate the design for specified Target and Shell."
 	$(ECHO) ""
-	$(ECHO) "  make clean "
-	$(ECHO) "      Command to remove the generated non-hardware files."
-	$(ECHO) ""
-	$(ECHO) "  make cleanall"
-	$(ECHO) "      Command to remove all the generated files."
-	$(ECHO) ""
-	$(ECHO) "  make test PLATFORM=<FPGA platform>"
-	$(ECHO) "     Command to run the application. This is same as 'run' target but does not have any makefile dependency."
-	$(ECHO) ""
 	$(ECHO) "  make run TARGET=<sw_emu/hw_emu/hw> PLATFORM=<FPGA platform>" 
 	$(ECHO) "      Command to run application in emulation."
 	$(ECHO) ""
@@ -40,9 +31,17 @@ help:
 	$(ECHO) "  make host"
 	$(ECHO) "      Command to build host application."
 	$(ECHO) ""
+	$(ECHO) "  make clean "
+	$(ECHO) "      Command to remove the generated non-hardware files."
+	$(ECHO) ""
+	$(ECHO) "  make cleanall"
+	$(ECHO) "      Command to remove all the generated files."
+	$(ECHO) ""
+
 endif
 
 TARGET := hw
+VPP_LDFLAGS :=
 include ./utils.mk
 
 TEMP_DIR := ./_x.$(TARGET).$(XSA)
@@ -72,7 +71,7 @@ LDFLAGS += -lrt -lstdc++
 
 ############################## Setting up Kernel Variables ##############################
 # Kernel compiler global settings
-VPP_FLAGS += -t $(TARGET) --platform $(PLATFORM) --save-temps 
+VPP_FLAGS += --save-temps 
 
 EXECUTABLE = ./axi_burst_performance
 EMCONFIG_DIR = $(TEMP_DIR)
@@ -111,48 +110,48 @@ xclbin: build
 ############################## Setting Rules for Binary Containers (Building Kernels) ##############################
 $(TEMP_DIR)/test_kernel_maxi_256bit_1.xo: src/test_kernel_maxi_256bit_1.cpp
 	mkdir -p $(TEMP_DIR)
-	$(VPP) $(VPP_FLAGS) -c -k test_kernel_maxi_256bit_1 --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
+	$(VPP) -c $(VPP_FLAGS) -t $(TARGET) --platform $(PLATFORM) -k test_kernel_maxi_256bit_1 --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
 $(TEMP_DIR)/test_kernel_maxi_256bit_2.xo: src/test_kernel_maxi_256bit_2.cpp
 	mkdir -p $(TEMP_DIR)
-	$(VPP) $(VPP_FLAGS) -c -k test_kernel_maxi_256bit_2 --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
+	$(VPP) -c $(VPP_FLAGS) -t $(TARGET) --platform $(PLATFORM) -k test_kernel_maxi_256bit_2 --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
 $(TEMP_DIR)/test_kernel_maxi_256bit_3.xo: src/test_kernel_maxi_256bit_3.cpp
 	mkdir -p $(TEMP_DIR)
-	$(VPP) $(VPP_FLAGS) -c -k test_kernel_maxi_256bit_3 --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
+	$(VPP) -c $(VPP_FLAGS) -t $(TARGET) --platform $(PLATFORM) -k test_kernel_maxi_256bit_3 --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
 $(TEMP_DIR)/test_kernel_maxi_256bit_4.xo: src/test_kernel_maxi_256bit_4.cpp
 	mkdir -p $(TEMP_DIR)
-	$(VPP) $(VPP_FLAGS) -c -k test_kernel_maxi_256bit_4 --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
+	$(VPP) -c $(VPP_FLAGS) -t $(TARGET) --platform $(PLATFORM) -k test_kernel_maxi_256bit_4 --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
 $(TEMP_DIR)/test_kernel_maxi_256bit_5.xo: src/test_kernel_maxi_256bit_5.cpp
 	mkdir -p $(TEMP_DIR)
-	$(VPP) $(VPP_FLAGS) -c -k test_kernel_maxi_256bit_5 --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
+	$(VPP) -c $(VPP_FLAGS) -t $(TARGET) --platform $(PLATFORM) -k test_kernel_maxi_256bit_5 --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
 $(TEMP_DIR)/test_kernel_maxi_256bit_6.xo: src/test_kernel_maxi_256bit_6.cpp
 	mkdir -p $(TEMP_DIR)
-	$(VPP) $(VPP_FLAGS) -c -k test_kernel_maxi_256bit_6 --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
+	$(VPP) -c $(VPP_FLAGS) -t $(TARGET) --platform $(PLATFORM) -k test_kernel_maxi_256bit_6 --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
 $(TEMP_DIR)/test_kernel_maxi_512bit_1.xo: src/test_kernel_maxi_512bit_1.cpp
 	mkdir -p $(TEMP_DIR)
-	$(VPP) $(VPP_FLAGS) -c -k test_kernel_maxi_512bit_1 --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
+	$(VPP) -c $(VPP_FLAGS) -t $(TARGET) --platform $(PLATFORM) -k test_kernel_maxi_512bit_1 --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
 $(TEMP_DIR)/test_kernel_maxi_512bit_2.xo: src/test_kernel_maxi_512bit_2.cpp
 	mkdir -p $(TEMP_DIR)
-	$(VPP) $(VPP_FLAGS) -c -k test_kernel_maxi_512bit_2 --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
+	$(VPP) -c $(VPP_FLAGS) -t $(TARGET) --platform $(PLATFORM) -k test_kernel_maxi_512bit_2 --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
 $(TEMP_DIR)/test_kernel_maxi_512bit_3.xo: src/test_kernel_maxi_512bit_3.cpp
 	mkdir -p $(TEMP_DIR)
-	$(VPP) $(VPP_FLAGS) -c -k test_kernel_maxi_512bit_3 --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
+	$(VPP) -c $(VPP_FLAGS) -t $(TARGET) --platform $(PLATFORM) -k test_kernel_maxi_512bit_3 --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
 $(TEMP_DIR)/test_kernel_maxi_512bit_4.xo: src/test_kernel_maxi_512bit_4.cpp
 	mkdir -p $(TEMP_DIR)
-	$(VPP) $(VPP_FLAGS) -c -k test_kernel_maxi_512bit_4 --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
+	$(VPP) -c $(VPP_FLAGS) -t $(TARGET) --platform $(PLATFORM) -k test_kernel_maxi_512bit_4 --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
 $(TEMP_DIR)/test_kernel_maxi_512bit_5.xo: src/test_kernel_maxi_512bit_5.cpp
 	mkdir -p $(TEMP_DIR)
-	$(VPP) $(VPP_FLAGS) -c -k test_kernel_maxi_512bit_5 --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
+	$(VPP) -c $(VPP_FLAGS) -t $(TARGET) --platform $(PLATFORM) -k test_kernel_maxi_512bit_5 --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
 $(TEMP_DIR)/test_kernel_maxi_512bit_6.xo: src/test_kernel_maxi_512bit_6.cpp
 	mkdir -p $(TEMP_DIR)
-	$(VPP) $(VPP_FLAGS) -c -k test_kernel_maxi_512bit_6 --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
+	$(VPP) -c $(VPP_FLAGS) -t $(TARGET) --platform $(PLATFORM) -k test_kernel_maxi_512bit_6 --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
 $(BUILD_DIR)/test_kernel_maxi_256bit.xclbin: $(BINARY_CONTAINER_test_kernel_maxi_256bit_OBJS)
 	mkdir -p $(BUILD_DIR)
-	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR)  -o'$(BUILD_DIR)/test_kernel_maxi_256bit.link.xclbin' $(+)
-	$(VPP) -p $(BUILD_DIR)/test_kernel_maxi_256bit.link.xclbin $(VPP_FLAGS) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/test_kernel_maxi_256bit.xclbin
+	$(VPP) -l $(VPP_FLAGS) -t $(TARGET) --platform $(PLATFORM) $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR)  -o'$(BUILD_DIR)/test_kernel_maxi_256bit.link.xclbin' $(+)
+	$(VPP) -p $(BUILD_DIR)/test_kernel_maxi_256bit.link.xclbin $(VPP_FLAGS) -t $(TARGET) --platform $(PLATFORM) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/test_kernel_maxi_256bit.xclbin
 
 $(BUILD_DIR)/test_kernel_maxi_512bit.xclbin: $(BINARY_CONTAINER_test_kernel_maxi_512bit_OBJS)
 	mkdir -p $(BUILD_DIR)
-	$(VPP) $(VPP_FLAGS) -l $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR)  -o'$(BUILD_DIR)/test_kernel_maxi_512bit.link.xclbin' $(+)
+	$(VPP) -l $(VPP_FLAGS) $(VPP_LDFLAGS) -t $(TARGET) --platform $(PLATFORM) --temp_dir $(TEMP_DIR)  -o'$(BUILD_DIR)/test_kernel_maxi_512bit.link.xclbin' $(+)
 	$(VPP) -p $(BUILD_DIR)/test_kernel_maxi_512bit.link.xclbin -t $(TARGET) --platform $(PLATFORM) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/test_kernel_maxi_512bit.xclbin
 
 ############################## Setting Rules for Host (Building Host Executable) ##############################
@@ -183,7 +182,7 @@ endif
 ############################## Cleaning Rules ##############################
 # Cleaning stuff
 clean:
-	-$(RMDIR) $(EXECUTABLE) $(XCLBIN)/{*sw_emu*,*hw_emu*} 
+	-$(RMDIR) $(EXECUTABLE) *.xclbin/{*sw_emu*,*hw_emu*} 
 	-$(RMDIR) profile_* TempConfig system_estimate.xtxt *.rpt *.csv 
 	-$(RMDIR) src/*.ll *v++* .Xil emconfig.json dltmp* xmltmp* *.log *.jou *.wcfg *.wdb
 

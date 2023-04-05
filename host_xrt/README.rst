@@ -16,12 +16,12 @@ XRT Native API's for optimized interfacing with Xilinx Devices.
       **Key Concepts**
 
       * `XRT Native API <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Setting-Up-XRT-Managed-Kernels-and-Kernel-Arguments>`__
-      * `Asynchronous Programming <https://xilinx.github.io/XRT/2022.1/html/xrt_native_apis.html?highlight=queue#asynchornous-programming-with-xrt-experimental>`__
+      * `Asynchronous Programming <https://xilinx.github.io/XRT/2022.2/html/xrt_native_apis.html?highlight=queue#asynchornous-programming-with-xrt-experimental>`__
       **Keywords**
 
-      * `xrt::queue <https://xilinx.github.io/XRT/2022.1/html/xrt_native_apis.html?highlight=queue#executing-multiple-tasks-through-queue>`__
-      * `enqueue <https://xilinx.github.io/XRT/2022.1/html/xrt_native_apis.html?highlight=queue#executing-multiple-tasks-through-queue>`__
-      * `wait() <https://xilinx.github.io/XRT/2022.1/html/xrt_native_apis.html?highlight=queue#using-events-to-synchronize-among-the-queues>`__
+      * `xrt::queue <https://xilinx.github.io/XRT/2022.2/html/xrt_native_apis.html?highlight=queue#executing-multiple-tasks-through-queue>`__
+      * `enqueue <https://xilinx.github.io/XRT/2022.2/html/xrt_native_apis.html?highlight=queue#executing-multiple-tasks-through-queue>`__
+      * `wait() <https://xilinx.github.io/XRT/2022.2/html/xrt_native_apis.html?highlight=queue#executing-multiple-tasks-through-queue>`__
 
   * - `copy_buffer_xrt <copy_buffer_xrt>`_
     - This Copy Buffer example demonstrate how one buffer can be copied from another buffer.
@@ -45,8 +45,8 @@ XRT Native API's for optimized interfacing with Xilinx Devices.
       * `Read Buffers <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Buffer-Creation-and-Data-Transfer>`__
       **Keywords**
 
-      * `xrt::bo::write <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Transferring-Data-between-Host-and-Kernels>`__
-      * `xrt::bo::read <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Transferring-Data-between-Host-and-Kernels>`__
+      * `xrt::bo::write <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Transferring-Data-between-Software-and-PL-Kernels>`__
+      * `xrt::bo::read <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Transferring-Data-between-Software-and-PL-Kernels>`__
 
   * - `device_only_buffer_xrt <device_only_buffer_xrt>`_
     - This example will demonstrate how to create buffers in global memory which are not mapped to host.
@@ -88,20 +88,20 @@ XRT Native API's for optimized interfacing with Xilinx Devices.
       **Key Concepts**
 
       * `XRT Native API <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Setting-Up-XRT-Managed-Kernels-and-Kernel-Arguments>`__
-      * `Task Level Parallelism <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Task-Parallelism>`__
+      * `Task Level Parallelism <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/Data-driven-Task-level-Parallelism>`__
       **Keywords**
 
       * `xrt::device <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Specifying-the-Device-ID-and-Loading-the-XCLBIN>`__
       * load_xclbin
-      * `xrt::bo <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Transferring-Data-between-Host-and-Kernels>`__
+      * `xrt::bo <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Writing-Host-Applications-with-XRT-API>`__
       * `xrt::kernel <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Setting-Up-XRT-Managed-Kernels-and-Kernel-Arguments>`__
-      * `map <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Transferring-Data-between-Host-and-Kernels>`__
-      * `sync <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Transferring-Data-between-Host-and-Kernels>`__
-      * XCL_BO_SYNC_BO_TO_DEVICE
-      * XCL_BO_SYNC_BO_FROM_DEVICE
-      * `gmem <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/C/C-Kernels>`__
+      * `map <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Transferring-Data-between-Software-and-PL-Kernels>`__
+      * `sync <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Transferring-Data-between-Software-and-PL-Kernels>`__
+      * `XCL_BO_SYNC_BO_TO_DEVICE <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Writing-Host-Applications-with-XRT-API>`__
+      * `XCL_BO_SYNC_BO_FROM_DEVICE <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Writing-Host-Applications-with-XRT-API>`__
+      * `gmem <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Mapping-Kernel-Ports-to-Memory>`__
       * `#pragma HLS INTERFACE <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/HLS-Pragmas>`__
-      * `dataflow <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/Optimization-Techniques-in-Vitis-HLS>`__
+      * `dataflow <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/Dataflow>`__
       * `hls::stream <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/HLS-Stream-Library>`__
 
   * - `host_memory_copy_buffer_xrt <host_memory_copy_buffer_xrt>`_
@@ -149,7 +149,7 @@ XRT Native API's for optimized interfacing with Xilinx Devices.
       * `Auto-restart <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Auto-Restarting-Mode>`__
       **Keywords**
 
-      * `set_arg <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Scenario-2-Kernel-Using-Auto-Restart-and-Mailbox>`__
+      * `set_arg <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Working-with-XRT-Managed-Kernels>`__
       * get_arg
       * write()
       * read()
@@ -171,14 +171,14 @@ XRT Native API's for optimized interfacing with Xilinx Devices.
       **Key Concepts**
 
       * `Multiple compute units <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Symmetrical-and-Asymmetrical-Compute-Units>`__
-      * `Task Level Parallelism <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Task-Parallelism>`__
+      * `Task Level Parallelism <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/Data-driven-Task-level-Parallelism>`__
 
   * - `p2p_fpga2fpga_xrt <p2p_fpga2fpga_xrt>`_
     - This is simple example to explain P2P transfer between two FPGA devices using xrt native api's.
     - 
       **Key Concepts**
 
-      * `P2P <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/p2p>`__
+      * `P2P <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Special-Data-Transfer-Models>`__
       * Multi-FPGA Execution
 
       * XDMA
@@ -192,7 +192,7 @@ XRT Native API's for optimized interfacing with Xilinx Devices.
     - 
       **Key Concepts**
 
-      * `P2P <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/p2p>`__
+      * `P2P <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Special-Data-Transfer-Models>`__
       * NVMe SSD
 
       * SmartSSD
@@ -214,7 +214,7 @@ XRT Native API's for optimized interfacing with Xilinx Devices.
       **Keywords**
 
       * `ap_ctrl_none <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/Block-Level-Control-Protocols>`__
-      * `stream_connect <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Specifying-Streaming-Connections-between-Compute-Units>`__
+      * `stream_connect <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Specifying-Streaming-Connections>`__
 
   * - `streaming_k2k_mm_xrt <streaming_k2k_mm_xrt>`_
     - This is a simple kernel to kernel streaming Vector Add and Vector Multiply C Kernel design with 2 memory mapped input to kernel 1, 1 Stream output from kernel 1 to input of kernel 2, 1 memory mapped input to kernel 2, and 1 memory mapped output that demonstrates on how to process a stream of data for computation between two kernels using XRT Native APIs. This design also illustrates how to set FIFO depth for AXIS connections i.e. for the stream connecting the two kernels
@@ -226,6 +226,6 @@ XRT Native API's for optimized interfacing with Xilinx Devices.
       * `AXIS FIFO depth <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/Specifying-Compiler-Created-FIFO-Depth>`__
       **Keywords**
 
-      * `stream_connect <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Specifying-Streaming-Connections-between-Compute-Units>`__
+      * `stream_connect <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Specifying-Streaming-Connections>`__
 
 

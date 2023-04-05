@@ -5,7 +5,7 @@ This is simple host memory example to describe how host-only memory can be copie
 
 **KEY CONCEPTS:** `host memory <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Best-Practices-for-Host-Programming>`__
 
-**KEYWORDS:** XCL_MEM_EXT_HOST_ONLY, CL_MEM_HOST_NO_ACCESS, enqueueCopyBuffer
+**KEYWORDS:** `XCL_MEM_EXT_HOST_ONLY <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Assigning-DDR-Bank-in-Host-Code>`__, CL_MEM_HOST_NO_ACCESS, enqueueCopyBuffer
 
 .. raw:: html
 

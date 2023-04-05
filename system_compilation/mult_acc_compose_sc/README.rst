@@ -5,7 +5,7 @@ In this example we have multiple accelerators in one xclbin, and compose them in
 
 **KEY CONCEPTS:** Multiple Accelerators
 
-**KEYWORDS:** sync_outputs, `custom_sync_outputs <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/VPP_ACC-Class-API>`__
+**KEYWORDS:** `sync_outputs <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/VPP_ACC-Class-API>`__, `custom_sync_outputs <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/VPP_ACC-Class-API>`__
 
 .. raw:: html
 

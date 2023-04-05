@@ -5,7 +5,7 @@ This is simple example to describe the usage of python based host code in Vitis 
 
 **KEY CONCEPTS:** Python Host
 
-**KEYWORDS:** xrt_binding, utils_binding, pyxrt
+**KEYWORDS:** pyxrt
 
 .. raw:: html
 

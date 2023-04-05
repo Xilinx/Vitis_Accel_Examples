@@ -3,9 +3,9 @@ P2P bandwidth Example
 
 This is simple example to test data transfer between SSD and FPGA.
 
-**KEY CONCEPTS:** `P2P <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/p2p>`__, SmartSSD, XDMA
+**KEY CONCEPTS:** `P2P <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Special-Data-Transfer-Models>`__, SmartSSD, XDMA
 
-**KEYWORDS:** XCL_MEM_EXT_P2P_BUFFER, pread, pwrite
+**KEYWORDS:** `XCL_MEM_EXT_P2P_BUFFER <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Assigning-DDR-Bank-in-Host-Code>`__, pread, pwrite
 
 .. raw:: html
 

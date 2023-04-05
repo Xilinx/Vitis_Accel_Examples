@@ -32,7 +32,7 @@ The main purpose of validate kernels is to test basic HW functionality during br
 
       **Keywords**
 
-      * XCL_MEM_EXT_HOST_ONLY
+      * `XCL_MEM_EXT_HOST_ONLY <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Assigning-DDR-Bank-in-Host-Code>`__
       * `HOST[0] <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Mapping-Kernel-Ports-to-Memory>`__
 
   * - `ps_aie_gmio_test <ps_aie_gmio_test>`_
@@ -42,8 +42,7 @@ The main purpose of validate kernels is to test basic HW functionality during br
 
       * PS Kernel
 
-      * AIE
-
+      * `AIE <https://docs.xilinx.com/r/en-US/ug1076-ai-engine-environment/AI-Engine-Components>`__
 
   * - `ps_bandwidth_test <ps_bandwidth_test>`_
     - This PS validate kernel tests PS kernel functionality.
@@ -62,8 +61,31 @@ The main purpose of validate kernels is to test basic HW functionality during br
 
 
   * - `validate_aie2_pl <validate_aie2_pl>`_
-    - Xilinx AIE2 AXI_STREAM based PCIe Test
-    -
+    - A
+u
+t
+o
+ 
+G
+e
+n
+e
+r
+a
+t
+e
+ 
+M
+i
+c
+r
+o
+ 
+C
+o
+d
+e
+    - 
 
   * - `validate_aie_pl <validate_aie_pl>`_
     - Xilinx AIE Validate example
