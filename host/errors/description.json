@@ -58,7 +58,7 @@
         }
     ], 
     "testinfo": {
-        "negative": "true",
+        "negative": true,
         "disable": false,
         "jobs": [
             {
