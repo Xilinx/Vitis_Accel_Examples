@@ -19,6 +19,18 @@ Xilinx AIE2 Validate example.
 |
 ..
 
+ - Alveo U25 SmartNIC
+ - Alveo U30
+ - Alveo U200
+ - All Embedded Zynq Platforms, i.e zc702, zcu102 etc
+ - Versal VCK190
+ - Versal VCK5000
+ - Alveo U250
+ - AWS VU9P F1
+ - Samsung SmartSSD Computation Storage Drive
+ - Samsung U.2 SmartSSD
+ - X3 Compute Shell
+ - All NoDMA Platforms, i.e u50 nodma etc
 
 .. raw:: html
 
