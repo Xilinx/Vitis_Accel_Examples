@@ -133,18 +133,18 @@ GCC_INCLUDES := -I$(SYSROOT)/usr/include/xrt \
 				-I${XILINX_VITIS}/include
 
 
-GCC_LIB := -lxaiengine -ladf_api_xrt -lxrt_core -lxrt_coreutil \
+GCC_LIB := -lxrt_core -lxrt_coreutil \
 		   -L$(SYSROOT)/usr/lib \
 		   --sysroot=$(SYSROOT) \
 		   -L${XILINX_VITIS}/aietools/lib/aarch64.o
 
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu))
 ifeq ($(EMU_PS), X86)
-       GCC_LIB := -ladf_api_xrt -lxrt_coreutil -L${XILINX_VITIS}/aietools/lib/lnx64.o -L${XILINX_XRT}/lib
+       GCC_LIB := -lxrt_coreutil -L${XILINX_VITIS}/aietools/lib/lnx64.o -L${XILINX_XRT}/lib
        GCC_FLAGS := -Wall -c -std=c++14 -Wno-int-to-pointer-cast -I${XILINX_XRT}/include
        GCC_INCLUDES := -I./src/aie -I./ -I${XILINX_VITIS}/aietools/include
 else
-       GCC_LIB := -ladf_api_xrt -lxrt_coreutil -L$(SYSROOT)/usr/lib --sysroot=$(SYSROOT) -L${XILINX_VITIS}/aietools/lib/aarch64.o
+       GCC_LIB := -lxrt_coreutil -L$(SYSROOT)/usr/lib --sysroot=$(SYSROOT) -L${XILINX_VITIS}/aietools/lib/aarch64.o
 endif
 endif
 
@@ -199,7 +199,6 @@ $(EXECUTABLE): $(HOST_SRCS)
 ifneq ($(EMU_PS), X86)
 	make check_edge_sw
 endif 
-		$(CXX) $(GCC_FLAGS) $(GCC_INCLUDES) -o aie_control_xrt.o ./Work/ps/c_rts/aie_control_xrt.cpp
 		$(CXX) $(HOST_SRCS) $(GCC_FLAGS) $(GCC_INCLUDES) -o main.o
 		$(CXX) *.o $(GCC_LIB) -o $(EXECUTABLE)
 	@echo "COMPLETE: Host application created."
