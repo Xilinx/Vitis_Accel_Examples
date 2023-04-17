@@ -3,9 +3,9 @@ P2P FPGA to FPGA Bandwidth Example
 
 This is simple example to explain performance bandwidth for P2P transfer between two FPGA devices.
 
-**KEY CONCEPTS:** `P2P <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/p2p>`__, Multi-FPGA Execution, XDMA
+**KEY CONCEPTS:** `P2P <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Special-Data-Transfer-Models>`__, Multi-FPGA Execution, XDMA
 
-**KEYWORDS:** XCL_MEM_EXT_P2P_BUFFER
+**KEYWORDS:** `XCL_MEM_EXT_P2P_BUFFER <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Assigning-DDR-Bank-in-Host-Code>`__
 
 
 PCIe peer-to-peer communication (P2P) is a PCIe feature which enables

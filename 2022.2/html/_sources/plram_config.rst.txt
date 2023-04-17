@@ -46,7 +46,9 @@ PLRAM can be assigned to a buffer by using ``sp`` tags in the vadd.cfg file alon
  - Versal V70
  - Alveo U280
  - Alveo U55c
+ - u50_gen3x16
  - Alveo U55n
+ - Alveo U200
  - Samsung U.2 SmartSSD
 
 DESIGN FILES

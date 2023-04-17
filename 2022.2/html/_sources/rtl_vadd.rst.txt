@@ -3,7 +3,7 @@ Vadd Simple (RTL Kernel)
 
 This is a simple example of vector addition using RTL kernel and supports all flows including sw_emu using C-Model.
 
-**KEY CONCEPTS:** `RTL Kernel <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/RTL-Kernels>`__, `RTL C-Model <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Software-Model-and-Host-Code-Example>`__
+**KEY CONCEPTS:** `RTL Kernel <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Generate-RTL-Kernel>`__, `RTL C-Model <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Software-Model-and-Host-Code-Example>`__
 
 **KEYWORDS:** `kernel_files <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Packaging-the-RTL-Code-as-a-Vitis-XO>`__
 

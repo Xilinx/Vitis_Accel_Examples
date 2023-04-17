@@ -5,7 +5,7 @@ This is a simple example demonstrating the Mailbox and Auto-restart features for
 
 **KEY CONCEPTS:** `Mailbox <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Using-the-Mailbox>`__, `Auto-restart <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Auto-Restarting-Mode>`__
 
-**KEYWORDS:** `set_arg <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Scenario-2-Kernel-Using-Auto-Restart-and-Mailbox>`__, get_arg, write(), read(), STABLE
+**KEYWORDS:** `set_arg <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Working-with-XRT-Managed-Kernels>`__, get_arg, write(), read(), STABLE
 
 
 Auto-restarting kernels can run continuously after being started once by the host application. The main advantage of auto-restarting kernels is that they run semi-autonomously operating as data-driven kernels without the need for frequent interaction with the host application and for software control. But auto-restarting kernels also offer semi-synchronization through the mailbox, which is the ability to exchange data with the host application in an asynchronous, non-blocking, and safe way. 
