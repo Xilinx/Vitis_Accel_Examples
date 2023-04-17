@@ -5,7 +5,7 @@ This example of 2ddr is to demonstrate how to use multiple ddr and create buffer
 
 **KEY CONCEPTS:** `Multiple Banks <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Using-Multiple-DDR-Banks>`__
 
-**KEYWORDS:** `m_axi_auto_max_ports <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/MAXI>`__, `sp <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/connectivity-Options>`__, `connectivity <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/connectivity-Options>`__
+**KEYWORDS:** `m_axi_auto_max_ports <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/M_AXI-Bundles>`__, `sp <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/connectivity-Options>`__, `connectivity <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/connectivity-Options>`__
 
 
 This example demonstrates how buffers can be created in two different

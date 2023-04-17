@@ -3,7 +3,7 @@ PS AIE Kernel
 
 This PS AIE kernel tests PS kernel controlling AIE.
 
-**KEY CONCEPTS:** PS Kernel, AIE
+**KEY CONCEPTS:** PS Kernel, `AIE <https://docs.xilinx.com/r/en-US/ug1076-ai-engine-environment/AI-Engine-Components>`__
 
 
 **EXCLUDED PLATFORMS:** 
@@ -36,7 +36,6 @@ Application code is located in the src directory. Accelerator binary files will 
    src/include.h
    src/kernels.h
    src/kernels/mm.cc
-   src/sk_types.h
    
 Access these files in the github repo by `clicking here <https://github.com/Xilinx/Vitis_Accel_Examples/tree/master/validate/ps_aie_gmio_test>`__.
 

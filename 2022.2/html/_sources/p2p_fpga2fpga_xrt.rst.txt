@@ -3,7 +3,7 @@ P2P FPGA to FPGA Examples XRT (XRT Native API's)
 
 This is simple example to explain P2P transfer between two FPGA devices using xrt native api's.
 
-**KEY CONCEPTS:** `P2P <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/p2p>`__, Multi-FPGA Execution, XDMA
+**KEY CONCEPTS:** `P2P <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Special-Data-Transfer-Models>`__, Multi-FPGA Execution, XDMA
 
 **KEYWORDS:** xrt::bo::flags::p2p
 

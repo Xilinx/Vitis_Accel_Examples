@@ -65,6 +65,11 @@ Note: In case of emulation flow platform file is present under /proj/xbuilds/Vit
 **EXCLUDED PLATFORMS:** 
 
  - _u25_
+ - Alveo U200
+ - Alveo U250
+ - Alveo U280
+ - u50_gen3x16
+ - u55c_gen3x16
  - Alveo U30
  - Alveo U50lv
  - Alveo U50 gen3x4

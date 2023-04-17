@@ -465,8 +465,8 @@
   <div class="section" id="dataflow-using-array-of-hls-stream">
 <h1>Dataflow Using Array of HLS Stream<a class="headerlink" href="#dataflow-using-array-of-hls-stream" title="Permalink to this headline">¶</a></h1>
 <p>This is simple example of Multiple Stages Vector Addition to demonstrate Array of Stream usage in HLS C Kernel Code.</p>
-<p><strong>KEY CONCEPTS:</strong> Array of Stream</p>
-<p><strong>KEYWORDS:</strong> <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/Optimization-Techniques-in-Vitis-HLS">dataflow</a>, <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/HLS-Stream-Library">hls::stream</a></p>
+<p><strong>KEY CONCEPTS:</strong> <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/Specifying-Arrays-as-Stream-of-Blocks">Array of Stream</a></p>
+<p><strong>KEYWORDS:</strong> <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/Dataflow">dataflow</a>, <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/HLS-Stream-Library">hls::stream</a></p>
 <p>This example demonstrates the use of an array of <code class="docutils literal notranslate"><span class="pre">HLS</span> <span class="pre">streams</span></code> in
 kernels, with different depth set for each of the streams.</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">static</span> <span class="n">hls</span><span class="o">::</span><span class="n">stream</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">streamArray</span><span class="p">[</span><span class="n">STAGES</span> <span class="o">+</span> <span class="mi">1</span><span class="p">];</span>

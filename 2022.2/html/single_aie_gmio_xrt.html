@@ -56,9 +56,7 @@
   <link rel="stylesheet" href="_static/css/header-footer.min.css" type="text/css" />
   <link rel="stylesheet" href="_static/css/pro.min.css" media="all" />
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Array Block and Cyclic Partitioning (OpenCL Kernel)" href="cl_partition_cyclicblock.html" />
-    <link rel="prev" title="Two Parallel Read/Write on Local Memory (OpenCL Kernel)" href="cl_lmem_2rw.html" /> 
+    <link rel="search" title="Search" href="search.html" /> 
 	</head>
 	<body>
 		<div class="xilinx-bs3"/>
@@ -338,7 +336,7 @@
 <li class="toctree-l1"><a class="reference internal" href="compile_execute.html">Compilation and Execution</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Category of Examples</span></p>
-<ul class="current">
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="hello_world.html">Hello World</a></li>
 <li class="toctree-l1"><a class="reference internal" href="aie_kernels.html">AIE Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="host.html">Host OpenCL</a></li>
@@ -351,25 +349,7 @@
 <li class="toctree-l1"><a class="reference internal" href="sys_opt.html">System Optimization Kernels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sys_compiler.html">System Compiler Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="rtl.html">RTL Kernels</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="ocl.html">OpenCL Kernels</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="cl_array_partition.html">Array Partitioning (OpenCL Kernel)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="cl_burst_rw.html">Burst Read/Write (OpenCL Kernel)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="cl_dataflow_func.html">Dataflow Function OpenCL (OpenCL Kernel)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="cl_dataflow_subfunc.html">Dataflow SubFunction OpenCL (OpenCL Kernel)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="cl_gmem_2banks.html">Global Memory Two Banks (OpenCL Kernel)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="cl_helloworld.html">Hello World (OpenCL Kernel)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="cl_lmem_2rw.html">Two Parallel Read/Write on Local Memory (OpenCL Kernel)</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Loop Reordering (OpenCL Kernel)</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#design-files">DESIGN FILES</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#command-line-arguments">COMMAND LINE ARGUMENTS</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="cl_partition_cyclicblock.html">Array Block and Cyclic Partitioning (OpenCL Kernel)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="cl_shift_register.html">Shift Register (OpenCL Kernel)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="cl_systolic_array.html">Systolic Array Implementation (OpenCL Kernel)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="cl_wide_mem_rw.html">Wide Memory Read/Write (OpenCL Kernel)</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="ocl.html">OpenCL Kernels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="validate.html">Validate</a></li>
 <li class="toctree-l1"><a class="reference internal" href="x3h.html">X3 Hybrid Examples</a></li>
 </ul>
@@ -387,7 +367,7 @@
 			
 			<p class="caption"><span class="caption-text">This Page</span></p>
 				<ul class="current">
-				  <li class="toctree-l1"><a href="_sources/cl_loop_reorder.rst.txt"
+				  <li class="toctree-l1"><a href="_sources/single_aie_gmio_xrt.rst.txt"
 						rel="nofollow">Show Source</a></li>
 				</ul>
           
@@ -433,15 +413,13 @@
     
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
-          <li><a href="ocl.html">OpenCL Kernels</a> &raquo;</li>
-        
-      <li>Loop Reordering (OpenCL Kernel)</li>
+      <li>Single AIE GMIO XRT</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="_sources/cl_loop_reorder.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/single_aie_gmio_xrt.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -454,54 +432,88 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="loop-reordering-opencl-kernel">
-<h1>Loop Reordering (OpenCL Kernel)<a class="headerlink" href="#loop-reordering-opencl-kernel" title="Permalink to this headline">¶</a></h1>
-<p>This is a simple example of matrix multiplication (Row x Col) to demonstrate how to achieve better pipeline II factor by loop reordering.</p>
-<p><strong>KEY CONCEPTS:</strong> <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Optimizing-Data-Movement">Kernel Optimization</a>, Loop reorder to improve II</p>
-<p><strong>KEYWORDS:</strong> xcl_pipeline_loop, xcl_array_partition</p>
-<p>This example demonstrates how changing the order of loop can improve the
-performance of the kernel. In this case, loop reordering helps us
-achieve better <code class="docutils literal notranslate"><span class="pre">Initiation</span> <span class="pre">Interval</span></code>(II).</p>
-<p>If matrix multiplication is performed with the commented code,
-Initiation Interval achieved is 32.</p>
-<p>With the reordered loop where j and k variables are interchanged as
-shown below, II achieved is 1. Reordering avoids the adder tree for the
-sum(output) of a single output element.</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">__attribute__</span><span class="p">((</span><span class="n">xcl_loop_tripcount</span><span class="p">(</span><span class="n">c_size</span><span class="p">,</span> <span class="n">c_size</span><span class="p">)))</span>
-   <span class="nl">lreorder1</span><span class="p">:</span> <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">size</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-       <span class="n">__attribute__</span><span class="p">((</span><span class="n">xcl_pipeline_loop</span><span class="p">(</span><span class="mi">1</span><span class="p">)))</span>
-       <span class="n">__attribute__</span><span class="p">((</span><span class="n">xcl_loop_tripcount</span><span class="p">(</span><span class="n">c_size</span><span class="p">,</span> <span class="n">c_size</span><span class="p">)))</span>
-       <span class="nl">lreorder2</span><span class="p">:</span> <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">k</span> <span class="o">&lt;</span> <span class="n">size</span><span class="p">;</span> <span class="n">k</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-           <span class="n">__attribute__</span><span class="p">((</span><span class="n">xcl_loop_tripcount</span><span class="p">(</span><span class="n">c_size</span><span class="p">,</span> <span class="n">c_size</span><span class="p">)))</span>
-           <span class="nl">lreorder3</span><span class="p">:</span> <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">MAX_SIZE</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-               <span class="kt">int</span> <span class="n">result</span> <span class="o">=</span> <span class="p">(</span><span class="n">k</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="o">?</span> <span class="mi">0</span> <span class="o">:</span> <span class="n">temp_sum</span><span class="p">[</span><span class="n">j</span><span class="p">];</span>
-               <span class="n">result</span> <span class="o">+=</span> <span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">k</span><span class="p">]</span> <span class="o">*</span> <span class="n">B</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">];</span>
-               <span class="n">temp_sum</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">result</span><span class="p">;</span>
-               <span class="k">if</span> <span class="p">(</span><span class="n">k</span><span class="o">==</span> <span class="n">size</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="n">C</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">result</span><span class="p">;</span>
-           <span class="p">}</span>
-       <span class="p">}</span>
-   <span class="p">}</span>
+  <div class="section" id="single-aie-gmio-xrt">
+<h1>Single AIE GMIO XRT<a class="headerlink" href="#single-aie-gmio-xrt" title="Permalink to this headline">¶</a></h1>
+<p>This simple example demonstrate how to work with the GMIO interface in AI Engine simulator and hardware flows.</p>
+<p><strong>KEY CONCEPTS:</strong> <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1076-ai-engine-environment/Overview">AI Engine</a>, <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1076-ai-engine-environment/Overview">Graph</a></p>
+<p><strong>KEYWORDS:</strong> <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1076-ai-engine-environment/Compiling-an-AI-Engine-Graph-Application">aiecompiler</a>, <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1076-ai-engine-environment/Simulating-an-AI-Engine-Graph-Application">aiesimulator</a>, async, xrt::aie::bo</p>
+<p>This simple design is to demonstrate about XRT API to support asynchronous GMIO transferring. Here we are having the support of xrt::aie::bo class async fuction for asynchronously transfering the input and output buffers.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>xrt::aie::bo” class has “async” function to support async GMIO transferring.
+</pre></div>
+</div>
+<p>XRT API is able to support graph run, RTP update, graph wait and GMIO transferring for now.</p>
+<p><strong>How to use the Feature</strong></p>
+<blockquote>
+<div><p>Control AIE graph, GMIO with XRT API only.</p>
+</div></blockquote>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">auto</span> <span class="n">device</span> <span class="o">=</span> <span class="n">xrt</span><span class="o">::</span><span class="n">device</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span> <span class="c1">//device index=0</span>
+
+<span class="k">auto</span> <span class="n">uuid</span> <span class="o">=</span> <span class="n">device</span><span class="p">.</span><span class="n">load_xclbin</span><span class="p">(</span><span class="n">xclbinFilename</span><span class="p">);</span>
+
+<span class="c1">//Create input buffer using xrt native api and allocate the size.</span>
+
+<span class="k">auto</span> <span class="n">din_buffer</span>  <span class="o">=</span> <span class="n">xrt</span><span class="o">::</span><span class="n">aie</span><span class="o">::</span><span class="n">bo</span> <span class="p">(</span><span class="n">device</span><span class="p">,</span> <span class="n">BLOCK_SIZE_in_Bytes</span><span class="p">,</span> <span class="n">xrt</span><span class="o">::</span><span class="n">bo</span><span class="o">::</span><span class="n">flags</span><span class="o">::</span><span class="n">normal</span><span class="p">,</span> <span class="cm">/*memory group*/</span><span class="mi">0</span><span class="p">);</span>
+
+<span class="c1">//map the buffer and get the buffer pointer.</span>
+
+<span class="kt">int</span><span class="o">*</span> <span class="n">dinArray</span><span class="o">=</span> <span class="n">din_buffer</span><span class="p">.</span><span class="n">map</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">*&gt;</span><span class="p">();</span>
+
+<span class="k">auto</span> <span class="n">dout_buffer</span>  <span class="o">=</span> <span class="n">xrt</span><span class="o">::</span><span class="n">aie</span><span class="o">::</span><span class="n">bo</span> <span class="p">(</span><span class="n">device</span><span class="p">,</span> <span class="n">BLOCK_SIZE_in_Bytes</span><span class="p">,</span> <span class="n">xrt</span><span class="o">::</span><span class="n">bo</span><span class="o">::</span><span class="n">flags</span><span class="o">::</span><span class="n">normal</span><span class="p">,</span> <span class="cm">/*memory group*/</span><span class="mi">0</span><span class="p">);</span>
+
+<span class="kt">int</span><span class="o">*</span> <span class="n">doutArray</span><span class="o">=</span> <span class="n">dout_buffer</span><span class="p">.</span><span class="n">map</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">*&gt;</span><span class="p">();</span>
+
+<span class="c1">//pre-processing</span>
+
+<span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;</span><span class="n">ITERATION</span><span class="o">*</span><span class="mi">1024</span><span class="o">/</span><span class="mi">4</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">){</span>
+
+<span class="n">dinArray</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">i</span><span class="p">;</span>
+
+<span class="p">}</span>
+
+<span class="c1">//Transfer input buffer asynchronously.</span>
+
+<span class="n">din_buffer</span><span class="p">.</span><span class="n">async</span><span class="p">(</span><span class="s">&quot;gr.gmioIn&quot;</span><span class="p">,</span><span class="n">XCL_BO_SYNC_BO_GMIO_TO_AIE</span><span class="p">,</span><span class="n">BLOCK_SIZE_in_Bytes</span><span class="p">,</span><span class="cm">/*offset*/</span><span class="mi">0</span><span class="p">);</span>
+
+<span class="c1">//Instantiate graph object using xrt api.</span>
+
+<span class="k">auto</span> <span class="n">ghdl</span><span class="o">=</span><span class="n">xrt</span><span class="o">::</span><span class="n">graph</span><span class="p">(</span><span class="n">device</span><span class="p">,</span><span class="n">uuid</span><span class="p">,</span><span class="s">&quot;gr&quot;</span><span class="p">);</span>
+
+<span class="n">ghdl</span><span class="p">.</span><span class="n">run</span><span class="p">(</span><span class="n">ITERATION</span><span class="p">);</span>
+
+<span class="n">dout_buffer</span><span class="p">.</span><span class="n">async</span><span class="p">(</span><span class="s">&quot;gr.gmioOut&quot;</span><span class="p">,</span><span class="n">XCL_BO_SYNC_BO_AIE_TO_GMIO</span><span class="p">,</span><span class="n">BLOCK_SIZE_in_Bytes</span><span class="p">,</span><span class="cm">/*offset*/</span><span class="mi">0</span><span class="p">);</span>
+
+<span class="c1">//wait to complete graph.</span>
+
+<span class="n">ghdl</span><span class="p">.</span><span class="n">wait</span><span class="p">();</span>
 </pre></div>
 </div>
 <p><strong>EXCLUDED PLATFORMS:</strong></p>
 <blockquote>
 <div><ul class="simple">
-<li><p>All NoDMA Platforms, i.e u50 nodma etc</p></li>
+<li><p>All Embedded Zynq Platforms, i.e zc702, zcu102 etc</p></li>
+<li><p>AWS VU9P F1</p></li>
+<li><p>Samsung SmartSSD Computation Storage Drive</p></li>
+<li><p>Samsung U.2 SmartSSD</p></li>
+<li><p>Versal VCK5000</p></li>
+<li><p>All Xilinx DMA Platforms</p></li>
 </ul>
 </div></blockquote>
 <div class="section" id="design-files">
 <h2>DESIGN FILES<a class="headerlink" href="#design-files" title="Permalink to this headline">¶</a></h2>
 <p>Application code is located in the src directory. Accelerator binary files will be compiled to the xclbin directory. The xclbin directory is required by the Makefile and its contents will be filled during compilation. A listing of all the files in this example is shown below</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">src</span><span class="o">/</span><span class="n">host</span><span class="o">.</span><span class="n">cpp</span>
-<span class="n">src</span><span class="o">/</span><span class="n">mmult</span><span class="o">.</span><span class="n">cl</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">src</span><span class="o">/</span><span class="n">aie</span><span class="o">/</span><span class="n">graph</span><span class="o">.</span><span class="n">cpp</span>
+<span class="n">src</span><span class="o">/</span><span class="n">aie</span><span class="o">/</span><span class="n">graph</span><span class="o">.</span><span class="n">h</span>
+<span class="n">src</span><span class="o">/</span><span class="n">aie</span><span class="o">/</span><span class="n">kernel</span><span class="o">.</span><span class="n">h</span>
+<span class="n">src</span><span class="o">/</span><span class="n">aie</span><span class="o">/</span><span class="n">weighted_sum</span><span class="o">.</span><span class="n">cc</span>
+<span class="n">src</span><span class="o">/</span><span class="n">sw</span><span class="o">/</span><span class="n">host</span><span class="o">.</span><span class="n">cpp</span>
 </pre></div>
 </div>
-<p>Access these files in the github repo by <a class="reference external" href="https://github.com/Xilinx/Vitis_Accel_Examples/tree/master/ocl_kernels/cl_loop_reorder">clicking here</a>.</p>
+<p>Access these files in the github repo by <a class="reference external" href="https://github.com/Xilinx/Vitis_Accel_Examples/tree/master/aie_kernels/single_aie_gmio_xrt">clicking here</a>.</p>
 </div>
 <div class="section" id="command-line-arguments">
 <h2>COMMAND LINE ARGUMENTS<a class="headerlink" href="#command-line-arguments" title="Permalink to this headline">¶</a></h2>
 <p>Once the environment has been configured, the application can be executed by</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">cl_loop_reorder</span> <span class="o">&lt;</span><span class="n">mmult</span> <span class="n">XCLBIN</span><span class="o">&gt;</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">single_aie_gmio_xrt</span>
 </pre></div>
 </div>
 </div>
@@ -520,15 +532,6 @@ sum(output) of a single output element.</p>
 
 
 	  <!-- Sphinx Page Footer block -->
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="cl_partition_cyclicblock.html" class="btn btn-neutral float-right" title="Array Block and Cyclic Partitioning (OpenCL Kernel)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="cl_lmem_2rw.html" class="btn btn-neutral float-left" title="Two Parallel Read/Write on Local Memory (OpenCL Kernel)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
-    </div>
   
 
   <hr/>

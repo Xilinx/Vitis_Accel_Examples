@@ -5,7 +5,7 @@ This is simple example of vector addition to describe how to use BIND OP and STO
 
 **KEY CONCEPTS:** `BIND OP <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/pragma-HLS-bind_op>`__, `BIND STORAGE <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/pragma-HLS-bind_storage>`__
 
-**KEYWORDS:** `BIND_OP <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/pragma-HLS-bind_op>`__, `BIND_STORAGE <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/pragma-HLS-bind_storage>`__, `impl <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/pragma-HLS-bind_op>`__, `op <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/pragma-HLS-bind_op>`__, `type <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/pragma-HLS-bind_op>`__, `latency <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/pragma-HLS-bind_op>`__
+**KEYWORDS:** `BIND_OP <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/pragma-HLS-bind_op>`__, `BIND_STORAGE <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/pragma-HLS-bind_storage>`__, impl, op, type, `latency <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Latency-Information>`__
 
 
 In this design we propose a easy way to specify hardware resource and

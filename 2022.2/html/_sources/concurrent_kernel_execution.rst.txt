@@ -3,7 +3,7 @@ Concurrent Kernel Execution
 
 This example will demonstrate how to use multiple and out of order command queues to simultaneously execute multiple kernels on an FPGA.
 
-**KEY CONCEPTS:** `Concurrent execution <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Task-Parallelism>`__, `Out of Order Command Queues <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Single-Out-of-Order-Command-Queue>`__, `Multiple Command Queues <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Multiple-In-Order-Command-Queues>`__
+**KEY CONCEPTS:** `Concurrent execution <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Task-Parallelism-Using-Different-Kernels>`__, `Out of Order Command Queues <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Single-Out-of-Order-Command-Queue>`__, `Multiple Command Queues <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Multiple-In-Order-Command-Queues>`__
 
 **KEYWORDS:** `CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Single-Out-of-Order-Command-Queue>`__, `setCallback <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Single-Out-of-Order-Command-Queue>`__
 

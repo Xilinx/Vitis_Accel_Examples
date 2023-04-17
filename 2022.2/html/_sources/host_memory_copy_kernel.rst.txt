@@ -5,7 +5,7 @@ This is a Host Memory Example to describe how data can be copied between host-on
 
 **KEY CONCEPTS:** `host memory <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Best-Practices-for-Host-Programming>`__
 
-**KEYWORDS:** XCL_MEM_EXT_HOST_ONLY, CL_MEM_HOST_NO_ACCESS, `enqueueMapBuffer <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Buffer-Creation-and-Data-Transfer>`__
+**KEYWORDS:** `XCL_MEM_EXT_HOST_ONLY <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Assigning-DDR-Bank-in-Host-Code>`__, CL_MEM_HOST_NO_ACCESS, `enqueueMapBuffer <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Buffer-Creation-and-Data-Transfer>`__
 
 
 Here a user copy kernel is instantiated inside container which copies data between host and device memory.

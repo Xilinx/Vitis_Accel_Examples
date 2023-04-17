@@ -3,7 +3,7 @@ Local Memory Two Parallel Read/Write
 
 This is simple example of vector addition to demonstrate how to utilize both ports of Local Memory.
 
-**KEY CONCEPTS:** `Kernel Optimization <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Kernel-Optimization>`__, `2port BRAM Utilization <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/Port-Level-I/O-Memory-Interface-Protocol>`__, two read/write Local Memory
+**KEY CONCEPTS:** `Kernel Optimization <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Optimizing-Data-Movement>`__, `2port BRAM Utilization <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/Port-Level-I/O-Memory-Interface-Protocol>`__, two read/write Local Memory
 
 **KEYWORDS:** `#pragma HLS UNROLL FACTOR=2 <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/pragma-HLS-unroll>`__
 

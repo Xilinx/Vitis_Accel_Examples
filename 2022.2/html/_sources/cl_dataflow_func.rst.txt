@@ -3,7 +3,7 @@ Dataflow Function OpenCL (OpenCL Kernel)
 
 This is simple example of vector addition to demonstrate Dataflow functionality in OpenCL Kernel. OpenCL Dataflow allows user to run multiple functions together to achieve higher throughput.
 
-**KEY CONCEPTS:** `Function/Task Level Parallelism <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Task-Parallelism>`__
+**KEY CONCEPTS:** `Function/Task Level Parallelism <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Kernel-Execution>`__
 
 **KEYWORDS:** `xcl_dataflow <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/xcl_dataflow>`__, `xclDataflowFifoDepth <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/advanced-Options>`__
 

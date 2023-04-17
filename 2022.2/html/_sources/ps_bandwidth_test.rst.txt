@@ -55,7 +55,6 @@ Application code is located in the src directory. Accelerator binary files will 
    src/bandwidth.cpp
    src/host.cpp
    src/ps_bandwidth.c
-   src/sk_types.h
    
 Access these files in the github repo by `clicking here <https://github.com/Xilinx/Vitis_Accel_Examples/tree/master/validate/ps_bandwidth_test>`__.
 
