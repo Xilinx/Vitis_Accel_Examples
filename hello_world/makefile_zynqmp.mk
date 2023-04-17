@@ -169,7 +169,6 @@ ifeq ($(EMU_PS), X86)
 	XCL_EMULATION_MODE=$(TARGET) $(EXECUTABLE) $(CMD_ARGS)
 else
 	bash -c '$(LAUNCH_EMULATOR) -run-app $(RUN_APP_SCRIPT) | tee run_app.log; exit $${PIPESTATUS[0]}'
-	#fix of CR-1160534
 endif
 else
 	$(ECHO) "Please copy the content of sd_card folder and data to an SD Card and run on the board"
