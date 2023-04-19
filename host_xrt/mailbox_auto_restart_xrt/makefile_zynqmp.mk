@@ -178,6 +178,10 @@ else
 	$(ECHO) "Please copy the content of sd_card folder and data to an SD Card and run on the board"
 endif
 
+ifneq ($(TARGET),$(findstring $(TARGET), hw hw_emu))
+$(error Application supports only hw hw_emu TARGET. Please use the target for running the application)
+endif
+
 .PHONY: test
 test: $(EXECUTABLE)
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
