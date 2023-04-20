@@ -262,7 +262,7 @@ ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 ifeq ($(EMU_PS), X86)
 	XCL_EMULATION_MODE=$(TARGET) $(EXECUTABLE) $(CMD_ARGS)
 else
-	$(LAUNCH_EMULATOR) -run-app $(RUN_APP_SCRIPT) | tee run_app.log; exit $${PIPESTATUS[0]}
+	bash -c '$(LAUNCH_EMULATOR) -run-app $(RUN_APP_SCRIPT) | tee run_app.log; exit $${PIPESTATUS[0]}'
 endif
 else
 	@echo "Hardware build, no emulation executed."
@@ -273,7 +273,7 @@ ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 ifeq ($(EMU_PS), X86)
 	XCL_EMULATION_MODE=$(TARGET) $(EXECUTABLE) $(CMD_ARGS)
 else
-	$(LAUNCH_EMULATOR) -run-app $(RUN_APP_SCRIPT) | tee run_app.log; exit $${PIPESTATUS[0]}
+	bash -c '$(LAUNCH_EMULATOR) -run-app $(RUN_APP_SCRIPT) | tee run_app.log; exit $${PIPESTATUS[0]}'
 endif
 else
 	@echo "Hardware build, no emulation executed."
