@@ -17,6 +17,10 @@
     ], 
     "platform_blocklist": [
         "nodma"
+    ],
+    "targets": [
+        "hw_emu", 
+        "hw"
     ], 
     "os": [
         "Linux"
@@ -87,7 +91,6 @@
             }
         ],
         "targets": [
-            "vitis_sw_emu",
             "vitis_hw_emu",
             "vitis_hw"
         ],
