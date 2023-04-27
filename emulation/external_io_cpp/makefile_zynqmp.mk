@@ -141,7 +141,7 @@ run_blocking: all
 	./scripts/env_setup.sh
 	./scripts/launch_master_slave.sh BLOCKING &
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
-	$(LAUNCH_EMULATOR) -disable-host-completion-check -run-app $(RUN_APP_SCRIPT) | tee run_app.log; exit $${PIPESTATUS[0]}
+	bash -c '$(LAUNCH_EMULATOR) -disable-host-completion-check -run-app $(RUN_APP_SCRIPT) | tee run_app.log; exit $${PIPESTATUS[0]}'
 	./scripts/check_result.sh BLOCKING
 endif
 ifneq ($(TARGET),$(findstring $(TARGET), sw_emu hw_emu))
@@ -153,7 +153,7 @@ run_non_blocking: all
 	./scripts/env_setup.sh
 	./scripts/launch_master_slave.sh NON_BLOCKING &
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
-	$(LAUNCH_EMULATOR) -disable-host-completion-check -run-app $(RUN_APP_SCRIPT) | tee run_app.log; exit $${PIPESTATUS[0]}
+	bash -c '$(LAUNCH_EMULATOR) -disable-host-completion-check -run-app $(RUN_APP_SCRIPT) | tee run_app.log; exit $${PIPESTATUS[0]}'
 	./scripts/check_result.sh NON_BLOCKING
 endif
 ifneq ($(TARGET),$(findstring $(TARGET), sw_emu hw_emu))
@@ -163,7 +163,7 @@ endif
 .PHONY: test
 test: $(EXECUTABLE)
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
-	$(LAUNCH_EMULATOR) -disable-host-completion-check -run-app $(RUN_APP_SCRIPT) | tee run_app.log; exit $${PIPESTATUS[0]}
+	bash -c '$(LAUNCH_EMULATOR) -disable-host-completion-check -run-app $(RUN_APP_SCRIPT) | tee run_app.log; exit $${PIPESTATUS[0]}'
 endif
 ifneq ($(TARGET),$(findstring $(TARGET), sw_emu hw_emu))
 $(warning WARNING:Application supports only sw_emu hw_emu TARGET. Please use the target for running the application)
