@@ -471,7 +471,7 @@ def mk_run(target, data):
     target.write("\tcp -rf $(EMCONFIG_DIR)/emconfig.json .\n")
     target.write("\tXCL_EMULATION_MODE=$(TARGET) $(EXECUTABLE) $(CMD_ARGS)\n")
     target.write("else\n")
-    target.write("\t$(LAUNCH_EMULATOR) -run-app $(RUN_APP_SCRIPT) | tee run_app.log; exit $${PIPESTATUS[0]}\n")
+    target.write("\tbash -c '$(LAUNCH_EMULATOR) -run-app $(RUN_APP_SCRIPT) | tee run_app.log; exit $${PIPESTATUS[0]}'\n")
     target.write("endif\n")
 	
     if "post_launch" in data:
@@ -508,7 +508,7 @@ def mk_run(target, data):
     target.write("ifeq ($(EMU_PS), X86)\n")
     target.write("\tXCL_EMULATION_MODE=$(TARGET) $(EXECUTABLE) $(CMD_ARGS)\n")
     target.write("else\n")
-    target.write("\t$(LAUNCH_EMULATOR) -run-app $(RUN_APP_SCRIPT) | tee run_app.log; exit $${PIPESTATUS[0]}\n")
+    target.write("\tbash -c '$(LAUNCH_EMULATOR) -run-app $(RUN_APP_SCRIPT) | tee run_app.log; exit $${PIPESTATUS[0]}'\n")
     target.write("endif\n")
 	
     if "post_launch" in data:

@@ -134,7 +134,7 @@ package_$(TARGET): $(GRAPH_O) $(LINK_OUTPUT) $(EXECUTABLE)
 
 run: all 
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
-	$(LAUNCH_EMULATOR) -run-app $(RUN_APP_SCRIPT) | tee run_app.log; exit $${PIPESTATUS[0]}
+	bash -c '$(LAUNCH_EMULATOR) -run-app $(RUN_APP_SCRIPT) | tee run_app.log; exit $${PIPESTATUS[0]}'
 else
 	@echo "Hardware build, no emulation executed."
 endif
