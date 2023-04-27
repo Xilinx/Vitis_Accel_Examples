@@ -19,7 +19,8 @@
     ],
     "platform_blocklist": [
         "nodma",
-        "vck190_base_dfx"
+        "vck190_base_dfx",
+	"zcu102_base"
      ],    
     "os": [
         "Linux"
