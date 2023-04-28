@@ -127,7 +127,7 @@ int main(int argc, char* argv[]) {
         msduration = duration / iter;
 
         /* Profiling information */
-        dsduration = duration / ((double)1000000);
+        dsduration = msduration / ((double)1000000);
         bpersec = (dbytes / dsduration);
         gbpersec = (bpersec) / ((double)1024 * 1024 * 1024);
 
@@ -145,7 +145,7 @@ int main(int argc, char* argv[]) {
         msduration = duration / iter;
 
         /* Profiling information */
-        dsduration = duration / ((double)1000000);
+        dsduration = msduration / ((double)1000000);
         bpersec = (dbytes / dsduration);
         gbpersec = (bpersec) / ((double)1024 * 1024 * 1024);
 

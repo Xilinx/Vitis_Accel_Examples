@@ -107,7 +107,7 @@ build: check-vitis check-device $(BUILD_DIR)/myadder.xclbin
 xclbin: build
 
 # Building kernel
-$(LINK_OUTPUT): $(TEMP_DIR)/myadder.xo $(TEMP_DIR)/krnl_mm2s.xo $(TEMP_DIR)/krnl_s2mm.xo
+$(BUILD_DIR)/myadder.xclbin: $(TEMP_DIR)/myadder.xo $(TEMP_DIR)/krnl_mm2s.xo $(TEMP_DIR)/krnl_s2mm.xo
 	mkdir -p $(BUILD_DIR)
 	v++ -l $(VPP_FLAGS) $(VPP_LDFLAGS) -t $(TARGET) --platform $(PLATFORM) --temp_dir $(TEMP_DIR) $(VPP_LDFLAGS_myadder) -o'$(LINK_OUTPUT)' $(+)
 ############################## Preparing sdcard ##############################
@@ -128,7 +128,7 @@ $(EMCONFIG_DIR)/emconfig.json:
 ############################## Setting Essential Checks and Running Rules ##############################
 run: all
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
-	$(LAUNCH_EMULATOR) -run-app $(RUN_APP_SCRIPT) | tee run_app.log; exit $${PIPESTATUS[0]}
+	bash -c '$(LAUNCH_EMULATOR) -run-app $(RUN_APP_SCRIPT) | tee run_app.log; exit $${PIPESTATUS[0]}'
 else
 	$(ECHO) "Please copy the content of sd_card folder and data to an SD Card and run on the board"
 endif
@@ -140,7 +140,7 @@ endif
 .PHONY: test
 test: $(EXECUTABLE)
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
-	$(LAUNCH_EMULATOR) -run-app $(RUN_APP_SCRIPT) | tee run_app.log; exit $${PIPESTATUS[0]}
+	bash -c '$(LAUNCH_EMULATOR) -run-app $(RUN_APP_SCRIPT) | tee run_app.log; exit $${PIPESTATUS[0]}'
 else
 	$(ECHO) "Please copy the content of sd_card folder and data to an SD Card and run on the board"
 endif

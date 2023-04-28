@@ -67,6 +67,7 @@ CXXFLAGS += -I$(XF_PROJ_ROOT)/common/includes/logger
 HOST_SRCS += $(XF_PROJ_ROOT)/common/includes/cmdparser/cmdlineparser.cpp $(XF_PROJ_ROOT)/common/includes/logger/logger.cpp ./src/host.cpp 
 # Host compiler global settings
 CXXFLAGS += -fmessage-length=0
+CXXFLAGS += $(GXX_EXTRA_FLAGS)
 LDFLAGS += -lrt -lstdc++ 
 LDFLAGS += -luuid -lxrt_coreutil
 

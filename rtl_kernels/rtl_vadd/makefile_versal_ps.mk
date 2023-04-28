@@ -177,7 +177,7 @@ ifeq ($(EMU_PS), X86)
 	cp -rf $(EMCONFIG_DIR)/emconfig.json .
 	XCL_EMULATION_MODE=$(TARGET) $(EXECUTABLE) $(CMD_ARGS)
 else
-	$(LAUNCH_EMULATOR) -run-app $(RUN_APP_SCRIPT) | tee run_app.log; exit $${PIPESTATUS[0]}
+	bash -c '$(LAUNCH_EMULATOR) -run-app $(RUN_APP_SCRIPT) | tee run_app.log; exit $${PIPESTATUS[0]}'
 endif
 else
 	$(ECHO) "Please copy the content of sd_card folder and data to an SD Card and run on the board"
@@ -189,7 +189,7 @@ ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 ifeq ($(EMU_PS), X86)
 	XCL_EMULATION_MODE=$(TARGET) $(EXECUTABLE) $(CMD_ARGS)
 else
-	$(LAUNCH_EMULATOR) -run-app $(RUN_APP_SCRIPT) | tee run_app.log; exit $${PIPESTATUS[0]}
+	bash -c '$(LAUNCH_EMULATOR) -run-app $(RUN_APP_SCRIPT) | tee run_app.log; exit $${PIPESTATUS[0]}'
 endif
 else
 	$(ECHO) "Please copy the content of sd_card folder and data to an SD Card and run on the board"

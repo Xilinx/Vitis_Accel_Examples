@@ -14,196 +14,118 @@
 * under the License.
 */
 
-#include "graph.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
-#include <fstream>
 
-// This is used for the PL Kernels
-#include "xrt.h"
-#include "experimental/xrt_kernel.h"
-
-// Using the ADF API that call XRT API
-#include "adf/adf_api/XRTConfig.h"
-simpleGraph addergraph;
-
-static std::vector<char> load_xclbin(xrtDeviceHandle device, const std::string& fnm) {
-    if (fnm.empty()) throw std::runtime_error("No xclbin specified");
-
-    // load bit stream
-    std::ifstream stream(fnm);
-    stream.seekg(0, stream.end);
-    size_t size = stream.tellg();
-    stream.seekg(0, stream.beg);
-
-    std::vector<char> header(size);
-    stream.read(header.data(), size);
-
-    auto top = reinterpret_cast<const axlf*>(header.data());
-    if (xrtDeviceLoadXclbin(device, top)) throw std::runtime_error("Xclbin loading failed");
-
-    return header;
-}
+// XRT APIS are used for both the AIE Graph and PL Kernels
+#include "xrt/xrt_kernel.h"
+#include "xrt/xrt_graph.h"
 
 #define DATA_SIZE 1024
 #define N_ITER DATA_SIZE / 4
 
-int main(int argc, char** argv) {
-    //////////////////////////////////////////
-    // Open xclbin
-    //////////////////////////////////////////
-    auto dhdl = xrtDeviceOpen(0); // Open Device the local device
-    if (dhdl == nullptr) throw std::runtime_error("No valid device handle found. Make sure using right xclOpen index.");
-    auto xclbin = load_xclbin(dhdl, "krnl_adder.xclbin");
-    auto top = reinterpret_cast<const axlf*>(xclbin.data());
-    adf::registerXRT(dhdl, top->m_header.uuid);
+int main(int argc, char** argv) 
+{
+    xuid_t uuid;
+    auto dhdl = xrtDeviceOpen(0);
+    xrtDeviceLoadXclbinFile(dhdl, "krnl_adder.xclbin");
+    xrtDeviceGetXclbinUUID(dhdl, uuid);
 
-    int sizeIn = DATA_SIZE;
+    printf("xrtGraphOpen\n"); 
+    auto ghdl = xrtGraphOpen(dhdl, uuid, "addergraph"); 
+
+    printf("xrtPLKernelOpen\n"); 
+    auto mm2s_khdl1 = xrtPLKernelOpen(dhdl, uuid, "mm2s:{mm2s_1}");
+    auto mm2s_khdl2 = xrtPLKernelOpen(dhdl, uuid, "mm2s:{mm2s_2}");
+    auto s2mm_khdl  = xrtPLKernelOpen(dhdl, uuid, "s2mm:{s2mm}");
+
+    int sizeIn  = DATA_SIZE;
     int sizeOut = DATA_SIZE;
 
     int* DataInput0 = new int[sizeIn];
     int* DataInput1 = new int[sizeIn];
-    int* golden = new int[sizeOut];
+    int* golden     = new int[sizeOut];
 
     for (int i = 0; i < sizeIn; i++) {
         DataInput0[i] = rand() % 100;
         DataInput1[i] = rand() % 100;
     }
 
-    //////////////////////////////////////////
-    // input memory
-    // Allocating the input size of sizeIn to MM2S
-    // This is using low-level XRT call xclAllocBO to allocate the memory
-    //////////////////////////////////////////
+    printf("xrtBOAlloc\n");
+    xrtBufferHandle in_bohdl0 = xrtBOAlloc(dhdl, sizeIn  * sizeof(int), 0, 0);
+    xrtBufferHandle in_bohdl1 = xrtBOAlloc(dhdl, sizeIn  * sizeof(int), 0, 0);
+    xrtBufferHandle out_bohdl = xrtBOAlloc(dhdl, sizeOut * sizeof(int), 0, 0);
 
-    xrtBufferHandle in_bohdl0 = xrtBOAlloc(dhdl, sizeIn * sizeof(int), 0, 0);
+    printf("xrtBOMap\n");
     auto in_bomapped0 = reinterpret_cast<uint32_t*>(xrtBOMap(in_bohdl0));
     memcpy(in_bomapped0, DataInput0, sizeIn * sizeof(int));
     printf("Input memory virtual addr 0x%px\n", in_bomapped0);
 
-    xrtBufferHandle in_bohdl1 = xrtBOAlloc(dhdl, sizeIn * sizeof(int), 0, 0);
     auto in_bomapped1 = reinterpret_cast<uint32_t*>(xrtBOMap(in_bohdl1));
     memcpy(in_bomapped1, DataInput1, sizeIn * sizeof(int));
     printf("Input memory virtual addr 0x%px\n", in_bomapped1);
 
-    std::cout << "in_bohdl0 in_bohdl1 sync started\n";
-    xrtBOSync(in_bohdl0, XCL_BO_SYNC_BO_TO_DEVICE, sizeIn * sizeof(int), 0);
-    xrtBOSync(in_bohdl1, XCL_BO_SYNC_BO_TO_DEVICE, sizeIn * sizeof(int), 0);
-    std::cout << "in_bohdl0 in_bohdl1 sync done\n";
-
-    //////////////////////////////////////////
-    // output memory
-    // Allocating the output size of sizeOut to S2MM
-    // This is using low-level XRT call xclAllocBO to allocate the memory
-    //////////////////////////////////////////
-
-    xrtBufferHandle out_bohdl = xrtBOAlloc(dhdl, sizeOut * sizeof(int), 0, 0);
     auto out_bomapped = reinterpret_cast<uint32_t*>(xrtBOMap(out_bohdl));
     memset(out_bomapped, 0xABCDEF00, sizeOut * sizeof(int));
     printf("Output memory virtual addr 0x%px\n", out_bomapped);
 
-    //////////////////////////////////////////
-    // mm2s ip
-    // Using the xrtPLKernelOpen function to manually control the PL Kernel
-    // that is outside of the AI Engine graph
-    //////////////////////////////////////////
+    printf("xrtBOSync\n");
+    xrtBOSync(in_bohdl0, XCL_BO_SYNC_BO_TO_DEVICE, sizeIn * sizeof(int), 0);
+    xrtBOSync(in_bohdl1, XCL_BO_SYNC_BO_TO_DEVICE, sizeIn * sizeof(int), 0);
 
-    xrtKernelHandle mm2s_khdl1 = xrtPLKernelOpen(dhdl, top->m_header.uuid, "mm2s:{mm2s_1}");
-    // Need to provide the kernel handle, and the argument order of the kernel arguments
-    // Here the in_bohdl is the input buffer, the nullptr is the streaming interface and must be null,
-    // lastly, the size of the data. This info can be found in the kernel definition.
+    printf("xrtKernelRun\n");
     xrtRunHandle mm2s_rhdl1 = xrtKernelRun(mm2s_khdl1, in_bohdl0, nullptr, sizeIn);
-    printf("run mm2s_1\n");
-
-    xrtKernelHandle mm2s_khdl2 = xrtPLKernelOpen(dhdl, top->m_header.uuid, "mm2s:{mm2s_2}");
     xrtRunHandle mm2s_rhdl2 = xrtKernelRun(mm2s_khdl2, in_bohdl1, nullptr, sizeIn);
-    printf("run mm2s_2\n");
+    xrtRunHandle s2mm_rhdl  = xrtKernelRun(s2mm_khdl,  out_bohdl, nullptr, sizeOut);
+  
+    printf("xrtGraphRun\n"); 
+    xrtGraphRun(ghdl, N_ITER);
 
-    //////////////////////////////////////////
-    // s2mm ip
-    // Using the xrtPLKernelOpen function to manually control the PL Kernel
-    // that is outside of the AI Engine graph
-    //////////////////////////////////////////
+    printf("xrtGraphEnd\n"); 
+    xrtGraphEnd(ghdl, 0);
 
-    xrtKernelHandle s2mm_khdl = xrtPLKernelOpen(dhdl, top->m_header.uuid, "s2mm");
-    // Need to provide the kernel handle, and the argument order of the kernel arguments
-    // Here the out_bohdl is the output buffer, the nullptr is the streaming interface and must be null,
-    // lastly, the size of the data. This info can be found in the kernel definition.
-    xrtRunHandle s2mm_rhdl = xrtKernelRun(s2mm_khdl, out_bohdl, nullptr, sizeOut);
-    printf("run s2mm\n");
+    printf("xrtRunWait\n");
+    xrtRunWait(mm2s_rhdl1);
+    xrtRunWait(mm2s_rhdl2);
+    xrtRunWait(s2mm_rhdl);
 
-    //////////////////////////////////////////
-    // graph execution for AIE
-    //////////////////////////////////////////
-
-    printf("graph init. This does nothing because CDO in boot PDI already configures AIE.\n");
-    addergraph.init();
-
-    printf("graph run\n");
-    addergraph.run(N_ITER);
-
-    addergraph.end();
-    printf("graph end\n");
-
-    //////////////////////////////////////////
-    // wait for mm2s done
-    //////////////////////////////////////////
-
-    auto state = xrtRunWait(mm2s_rhdl1);
-    std::cout << "mm2s_1 completed with status(" << state << ")\n";
+    printf("xrtRunClose\n");
     xrtRunClose(mm2s_rhdl1);
-    xrtKernelClose(mm2s_khdl1);
-
-    state = xrtRunWait(mm2s_rhdl2);
-    std::cout << "mm2s_2 completed with status(" << state << ")\n";
     xrtRunClose(mm2s_rhdl2);
-    xrtKernelClose(mm2s_khdl2);
-
-    //////////////////////////////////////////
-    // wait for s2mm done
-    //////////////////////////////////////////
-
-    state = xrtRunWait(s2mm_rhdl);
-    std::cout << "s2mm completed with status(" << state << ")\n";
     xrtRunClose(s2mm_rhdl);
-    xrtKernelClose(s2mm_khdl);
 
+    printf("xrtBOSync\n");
     xrtBOSync(out_bohdl, XCL_BO_SYNC_BO_FROM_DEVICE, sizeOut * sizeof(int), 0);
 
-    //////////////////////////////////////////
-    // Comparing the execution data to the golden data
-    //////////////////////////////////////////
-
+    // Compare results
     int errorCount = 0;
-    {
-        for (int i = 0; i < sizeOut; i++) {
-            golden[i] = DataInput0[i] + DataInput1[i];
-            if ((signed)out_bomapped[i] != golden[i]) {
-                printf("Error found @ %d, %d != %d\n", i, out_bomapped[i], golden[i]);
-                errorCount++;
-            }
+    for (int i = 0; i < sizeOut; i++) {
+        golden[i] = DataInput0[i] + DataInput1[i];
+        if ((signed)out_bomapped[i] != golden[i]) {
+            // printf("Error found @ %d, %d != %d\n", i, out_bomapped[i], golden[i]);
+            errorCount++;
         }
-
-        if (errorCount)
-            printf("Test failed with %d errors\n", errorCount);
-        else
-            printf("TEST PASSED\n");
     }
 
-    //////////////////////////////////////////
-    // clean up XRT
-    //////////////////////////////////////////
-    std::cout << "Releasing host Buffers...\n";
+    // Clean up
+    printf("Releasing objects\n"); 
     delete[] DataInput0;
     delete[] DataInput1;
     delete[] golden;
-
-    std::cout << "Releasing remaining XRT objects...\n";
+    xrtGraphClose(ghdl);
+    xrtKernelClose(mm2s_khdl1);
+    xrtKernelClose(mm2s_khdl2);
+    xrtKernelClose(s2mm_khdl);
     xrtBOFree(in_bohdl0);
     xrtBOFree(in_bohdl1);
     xrtBOFree(out_bohdl);
     xrtDeviceClose(dhdl);
+
+    if (errorCount)
+        printf("Test failed with %d errors\n", errorCount);
+    else
+        printf("TEST PASSED\n");
 
     return errorCount;
 }

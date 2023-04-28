@@ -78,7 +78,7 @@ endif
 
 # #################### Checking if PLATFORM in allowlist ############################
 PLATFORM_ALLOWLIST +=  v70
-PLATFORM_BLOCKLIST +=  other
+PLATFORM_BLOCKLIST += u25_ u30 u200 zc vck190 vck5000 u250 aws-vu9p-f1 samsung u2_ x3522pv nodma 
 
 include ./utils.mk
 TEMP_DIR := _x_temp.$(TARGET).$(PLATFORM_NAME)
@@ -140,7 +140,7 @@ ifeq ($(TARGET),sw_emu)
 CXXFLAGS += -D SW_EMU_TEST
 endif
 ifeq ($(TARGET),hw_emu)
-CXXFLAGS += -D HW_EMU_TEST -g
+CXXFLAGS += -D HW_EMU_TEST
 endif
 ifeq ($(TARGET),hw)
 CXXFLAGS += -D HW_TEST
@@ -157,7 +157,7 @@ EXE_FILE_DEPS := $(HOST_SRCS) $(EXE_FILE_DEPS)
 
 ########################## Kernel compiler global settings ##########################
 VPP_FLAGS +=  -I $(CUR_DIR)//pl_kernels -I $(XILINX_VITIS)/aietools/include
-VPP_LDFLAGS += -g  --config $(CUR_DIR)/system.cfg
+VPP_LDFLAGS +=  --config $(CUR_DIR)/system.cfg
 
 ######################### binary container global settings ##########################
 VPP_FLAGS_pl_controller_top += --verbose

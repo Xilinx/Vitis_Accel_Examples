@@ -4,6 +4,7 @@
         "This example demonstrates the flow on how to connect aie Kernel to PL HLS functional Kernels and validate the design running on the AI Engine."
     ],
     "flow": "versal",
+    "gui": false,
     "keywords": [
         "aiecompiler", 
         "aiesimulator",
@@ -12,7 +13,8 @@
     "key_concepts": [
         "AI Engine", 
         "Adaptive Data Flow", 
-        "Graph"
+        "Graph",
+	"HLS Kernel functional model"	
     ],
     "platform_allowlist": [
         "vck190"
@@ -78,20 +80,23 @@
                     "pl-freq": 100,
                     "workdir": "./Work",
                     "name": "libadf.a",
-                    "aie_kernel_files":["./src/aie/adder.cc"]
+                    "aie_kernel_files":[
+			    "./src/aie/kernels/classifiers/classify.cc",
+			    "./src/aie/kernels/interpolators/hb27_2i.cc"
+		    ]
                 }
             ]
         }
     ],
     "data": [
         "PROJECT/data/golden.txt",
-        "PROJECT/data/input0.txt",
+        "PROJECT/data/input.txt",
         "PROJECT/data/input1.txt"
     ],
     "v++": {
         "linker": {
                     "cflags": [
-                        "--config PROJECT/system.cfg"
+                        "--config hw_emu_func.cfg"
                     ]
                 },
         "package": {
@@ -105,14 +110,19 @@
         {
             "accelerators": [
                 {
-                    "name": "pl_mm2s", 
+                    "name": "mm2s", 
                     "location": "src/pl_kernels/mm2s.cpp",
                     "clflags": "--config ./hw_emu_func.cfg",
                     "num_compute_units": "2"
                 }, 
                 {
-                    "name": "pl_s2mm", 
+                    "name": "s2mm", 
                     "location": "src/pl_kernels/s2mm.cpp",
+                    "clflags": "--config ./hw_emu_func.cfg"
+                }, 
+                {
+                    "name": "polar_clip", 
+                    "location": "src/pl_kernels/polar_clip.cpp",
                     "clflags": "--config ./hw_emu_func.cfg"
                 } 
             ], 
