@@ -12,7 +12,8 @@
         "SystemC" 
     ],
     "platform_blocklist": [
-        "nodma"
+        "nodma",
+	"xilinx_zcu102_base_dfx_202310_1"
     ], 
     "os": [
         "Linux"
