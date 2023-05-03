@@ -11,7 +11,8 @@
         "Device only buffer"              
     ],
     "platform_blocklist": [
-        "nodma"
+        "nodma",
+        "Xilinx_vck190_base_dfx_202310_1"
     ],
     "os": [
         "Linux"
