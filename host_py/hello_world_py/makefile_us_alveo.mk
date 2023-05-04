@@ -67,7 +67,7 @@ LDFLAGS += -lrt -lstdc++
 # Kernel compiler global settings
 VPP_FLAGS += --save-temps 
 
-
+PYTHON_INSTALL ?= /usr/bin
 EXECUTABLE = ./src/host.py
 EMCONFIG_DIR = $(TEMP_DIR)
 
@@ -99,17 +99,17 @@ $(EMCONFIG_DIR)/emconfig.json:
 run: all
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 	cp -rf $(EMCONFIG_DIR)/emconfig.json .
-	XCL_EMULATION_MODE=$(TARGET) python3 $(HOST_SRCS) $(CMD_ARGS)
+	XCL_EMULATION_MODE=$(TARGET) ${PYTHON_INSTALL}/python3 $(HOST_SRCS) $(CMD_ARGS)
 else
-	python3 $(HOST_SRCS) $(CMD_ARGS)
+	${PYTHON_INSTALL}/python3 $(HOST_SRCS) $(CMD_ARGS)
 endif
 
 .PHONY: test
 test:
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
-	XCL_EMULATION_MODE=$(TARGET) python3 $(HOST_SRCS) $(CMD_ARGS)
+	XCL_EMULATION_MODE=$(TARGET) ${PYTHON_INSTALL}/python3 $(HOST_SRCS) $(CMD_ARGS)
 else
-	python3 $(HOST_SRCS) $(CMD_ARGS)
+	${PYTHON_INSTALL}/python3 $(HOST_SRCS) $(CMD_ARGS)
 endif
 
 ############################## Cleaning Rules ##############################
