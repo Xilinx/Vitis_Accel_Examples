@@ -31,7 +31,8 @@
         "samsung",
         "u2_",
         "x3522pv",
-        "nodma"
+        "nodma",
+        "vck5000"
     ],
     "gui": false,     
     "host": {
