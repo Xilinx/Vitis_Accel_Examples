@@ -61,17 +61,17 @@ static ap_uint<32> generateControlHeader(ap_uint<32> localByteAddress,
 #pragma HLS inline
   ap_uint<32> header = 0;
   // Local Byte Address
-  header(17, 0) = localByteAddress;
+  header(19, 0) = localByteAddress;
   // Number of data beats(1-4)
-  header(19, 18) = numOfBeats;
+  header(21, 20) = numOfBeats;
   // operation
   // 00: write without return packet
   // 01: read with return packet
   // 10: write with return packet
   // 11: reserved
-  header(21, 20) = operation;
+  header(23, 22) = operation;
   // reserved 2'b00
-  header(23, 22) = 0;
+  //header(23, 22) = 0;
   // stream ID for return packet
   header(28, 24) = returnStrmID;
   // reserved 2'b00

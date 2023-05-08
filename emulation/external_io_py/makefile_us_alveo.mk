@@ -113,12 +113,12 @@ run: run_blocking run_non_blocking
 
 run_blocking: all
 	$(ECHO) "Feeding the kernel with a Blocking External Traffic Generator"
-	./scripts/pre.sh
-	./scripts/py_exec.sh BLOCKING &
+	./scripts/env_setup.sh
+	./scripts/launch_master_slave.sh BLOCKING &
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 	cp -rf $(EMCONFIG_DIR)/emconfig.json .
 	XCL_EMULATION_MODE=$(TARGET) $(EXECUTABLE) $(CMD_ARGS)
-	./scripts/post.sh BLOCKING
+	./scripts/check_result.sh BLOCKING
 endif
 ifneq ($(TARGET),$(findstring $(TARGET), sw_emu hw_emu))
 $(error Application supports only sw_emu hw_emu TARGET. Please use the target for running the application)
@@ -126,12 +126,12 @@ endif
 	
 run_non_blocking: all
 	$(ECHO) "Feeding the kernel with a Non-blocking External Traffic Generator"
-	./scripts/pre.sh
-	./scripts/py_exec.sh NON_BLOCKING &
+	./scripts/env_setup.sh
+	./scripts/launch_master_slave.sh NON_BLOCKING &
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 	cp -rf $(EMCONFIG_DIR)/emconfig.json .
 	XCL_EMULATION_MODE=$(TARGET) $(EXECUTABLE) $(CMD_ARGS)
-	./scripts/post.sh NON_BLOCKING
+	./scripts/check_result.sh NON_BLOCKING
 endif
 ifneq ($(TARGET),$(findstring $(TARGET), sw_emu hw_emu))
 $(error Application supports only sw_emu hw_emu TARGET. Please use the target for running the application)

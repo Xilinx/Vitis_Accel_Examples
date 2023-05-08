@@ -120,6 +120,9 @@ else
 	$(EXECUTABLE) $(CMD_ARGS)
 endif
 
+ifneq ($(TARGET),$(findstring $(TARGET), hw hw_emu))
+$(error Application supports only hw hw_emu TARGET. Please use the target for running the application)
+endif
 
 .PHONY: test
 test: $(EXECUTABLE)

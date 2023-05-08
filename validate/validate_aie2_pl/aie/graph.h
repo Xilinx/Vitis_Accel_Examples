@@ -49,8 +49,8 @@ class simpleGraph : public graph {
         // Constrain AIE kernels to the same row, otherwise tiles may be flipped.
         // Constrain buffers such that addressmap is identical.
         location<kernel>(first) = tile(AIE_CORE_COL, AIE_CORE_ROW);
-        location<buffer>(first.in[0]) = {address(AIE_CORE_COL, AIE_CORE_ROW, 0x0),
-                                         address(AIE_CORE_COL, AIE_CORE_ROW, 0x4000)}; // {0,16} KB
+        location<buffer>(first.in[0]) = {address(AIE_CORE_COL, AIE_CORE_ROW, 0x100),
+                                         address(AIE_CORE_COL, AIE_CORE_ROW, 0x4100)}; // {0,16} KB
         location<buffer>(first.out[0]) = {address(AIE_CORE_COL, AIE_CORE_ROW, 0x400),
                                           address(AIE_CORE_COL, AIE_CORE_ROW, 0x4400)}; // {1,17} KB
         location<stack>(first) = location<kernel>(first);

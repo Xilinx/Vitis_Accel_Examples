@@ -1,3 +1,4 @@
+validate_aie_pl
 *.jou
 profile_summary.html
 profile_summary.csv
@@ -24,3 +25,6 @@ log.*
 *.xclbin
 build*
 _x*
+!x3h/rx_exerciser_tx_passthrough/pcaprecv.txt
+!x3h/rx_exerciser_tx_passthrough/pcapsend.txt
+

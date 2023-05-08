@@ -102,12 +102,12 @@
         {
             "accelerators": [
                 {
-                    "name": "pl_mm2s", 
+                    "name": "mm2s", 
                     "location": "src/pl_kernels/mm2s.cpp",
                     "num_compute_units": "2"
                 }, 
                 {
-                    "name": "pl_s2mm", 
+                    "name": "s2mm", 
                     "location": "src/pl_kernels/s2mm.cpp"
                 } 
             ], 

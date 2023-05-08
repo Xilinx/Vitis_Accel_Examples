@@ -138,11 +138,11 @@ run: run_blocking run_non_blocking
 
 run_blocking: all
 	$(ECHO) "Feeding the kernel with a Blocking External Traffic Generator"
-	./scripts/pre.sh
-	./scripts/py_exec.sh BLOCKING &
+	./scripts/env_setup.sh
+	./scripts/launch_master_slave.sh BLOCKING &
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
-	$(LAUNCH_EMULATOR) -disable-host-completion-check -run-app $(RUN_APP_SCRIPT) | tee run_app.log; exit $${PIPESTATUS[0]}
-	./scripts/post.sh BLOCKING
+	bash -c '$(LAUNCH_EMULATOR) -disable-host-completion-check -run-app $(RUN_APP_SCRIPT) | tee run_app.log; exit $${PIPESTATUS[0]}'
+	./scripts/check_result.sh BLOCKING
 endif
 ifneq ($(TARGET),$(findstring $(TARGET), sw_emu hw_emu))
 $(error Application supports only sw_emu hw_emu TARGET. Please use the target for running the application)
@@ -150,11 +150,11 @@ endif
 
 run_non_blocking: all
 	$(ECHO) "Feeding the kernel with a Non-blocking External Traffic Generator"
-	./scripts/pre.sh
-	./scripts/py_exec.sh NON_BLOCKING &
+	./scripts/env_setup.sh
+	./scripts/launch_master_slave.sh NON_BLOCKING &
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
-	$(LAUNCH_EMULATOR) -disable-host-completion-check -run-app $(RUN_APP_SCRIPT) | tee run_app.log; exit $${PIPESTATUS[0]}
-	./scripts/post.sh NON_BLOCKING
+	bash -c '$(LAUNCH_EMULATOR) -disable-host-completion-check -run-app $(RUN_APP_SCRIPT) | tee run_app.log; exit $${PIPESTATUS[0]}'
+	./scripts/check_result.sh NON_BLOCKING
 endif
 ifneq ($(TARGET),$(findstring $(TARGET), sw_emu hw_emu))
 $(error Application supports only sw_emu hw_emu TARGET. Please use the target for running the application)
@@ -163,7 +163,7 @@ endif
 .PHONY: test
 test: $(EXECUTABLE)
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
-	$(LAUNCH_EMULATOR) -disable-host-completion-check -run-app $(RUN_APP_SCRIPT) | tee run_app.log; exit $${PIPESTATUS[0]}
+	bash -c '$(LAUNCH_EMULATOR) -disable-host-completion-check -run-app $(RUN_APP_SCRIPT) | tee run_app.log; exit $${PIPESTATUS[0]}'
 endif
 ifneq ($(TARGET),$(findstring $(TARGET), sw_emu hw_emu))
 $(warning WARNING:Application supports only sw_emu hw_emu TARGET. Please use the target for running the application)
