@@ -13,7 +13,8 @@
         "FIR"
     ],
     "platform_blocklist": [
-        "nodma"
+        "nodma",
+        "xilinx_zcu102_base_dfx"
      ],    
     "os": [
         "Linux"
