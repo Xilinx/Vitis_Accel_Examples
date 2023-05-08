@@ -20,7 +20,8 @@
         "nodma",
         "u2_",
         "vck190_base_dfx",
-        "u200"
+        "u200",
+        "u250"
     ],
     "os": [
         "Linux"

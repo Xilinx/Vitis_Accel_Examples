@@ -25,7 +25,8 @@
         "samsung",
         "u2_",
         "vck5000",
-        "dma"
+        "dma",
+        "xilinx_vck190_base_dfx"
     ],
     "targets": [
         "hw_emu"
