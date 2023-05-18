@@ -1,0 +1,15 @@
+System Optimization Kernels
+===========================
+
+This page contains examples for system optimizations. The focus of the examples is towards hardware optimization using HLS C/C++ kernels for Xilinx devices.
+
+.. toctree::
+   :maxdepth: 1
+   :caption: List of Examples
+
+   advanced_config.rst
+   kernel_swap.rst
+   multiple_devices.rst
+   multiple_process.rst
+   plram_config.rst
+   slr_assign.rst
