@@ -193,7 +193,6 @@ ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 		--package.image_format=ext4 \
 		--package.boot_mode=sd \
 		--package.kernel_image $(SD_IMAGE_FILE) \
-		--package.sd_dir /proj/xbuilds/2023.1_daily_latest/internal_platforms/sw/versal/xrt  \
 		--package.sd_file $(RUN_APP_SCRIPT) \
 		--package.sd_file aie_func_mode $(LINK_OUTPUT) $(GRAPH_O) -o $(XCLBIN)
 	@echo "COMPLETE: emulation package created."
@@ -210,7 +209,6 @@ else
 		--package.boot_mode=sd \
 		--package.kernel_image=$(SD_IMAGE_FILE) \
 		--package.defer_aie_run \
-		--package.sd_dir /proj/xbuilds/2023.1_daily_latest/internal_platforms/sw/versal/xrt  \
 		--package.sd_file $(RUN_APP_SCRIPT) \
 		--package.sd_file aie_adder $(LINK_OUTPUT) $(GRAPH_O) -o $(XCLBIN)
 
@@ -221,8 +219,7 @@ endif
 
 ###########################################################################
 # If the target is for HW_EMU, launch the emulator
-# If the target is for HW, you'll have to follow the Confluence page for
-# running on a board farm system.
+
 run: all 
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 	bash -c '$(LAUNCH_EMULATOR) -run-app $(RUN_APP_SCRIPT) | tee run_app.log; exit $${PIPESTATUS[0]}'
