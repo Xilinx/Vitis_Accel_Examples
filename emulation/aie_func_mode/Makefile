@@ -219,8 +219,7 @@ endif
 
 ###########################################################################
 # If the target is for HW_EMU, launch the emulator
-# If the target is for HW, you'll have to follow the Confluence page for
-# running on a board farm system.
+
 run: all 
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 	bash -c '$(LAUNCH_EMULATOR) -run-app $(RUN_APP_SCRIPT) | tee run_app.log; exit $${PIPESTATUS[0]}'
