@@ -97,6 +97,7 @@ Following is the log reported while running the design on U250 platform:
 **EXCLUDED PLATFORMS:** 
 
  - All NoDMA Platforms, i.e u50 nodma etc
+ - xilinx_zcu102_base_dfx
 
 DESIGN FILES
 ------------

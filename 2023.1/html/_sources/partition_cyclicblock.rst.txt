@@ -57,6 +57,7 @@ Following is the log reported while running the design on U250 platform:
 
  - All NoDMA Platforms, i.e u50 nodma etc
  - Versal DFX platform
+ - zcu102_base
 
 DESIGN FILES
 ------------

@@ -54,6 +54,7 @@ Below is the runtime recorded for each suite of PL HLS kernels when compiled in 
  - Samsung U.2 SmartSSD
  - Versal VCK5000
  - All Xilinx DMA Platforms
+ - xilinx_vck190_base_dfx
 
 DESIGN FILES
 ------------

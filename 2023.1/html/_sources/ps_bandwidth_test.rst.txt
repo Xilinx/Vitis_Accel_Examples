@@ -44,6 +44,7 @@ Following is the real log reported when running the design on VCK5000:
  - Samsung U.2 SmartSSD
  - X3 Compute Shell
  - All NoDMA Platforms, i.e u50 nodma etc
+ - Versal VCK5000
 
 DESIGN FILES
 ------------

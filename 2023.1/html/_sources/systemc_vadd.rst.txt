@@ -125,6 +125,7 @@ Generating XO from source file has many intermediate steps like generating packa
 **EXCLUDED PLATFORMS:** 
 
  - All NoDMA Platforms, i.e u50 nodma etc
+ - xilinx_zcu102_base_dfx_202310_1
 
 DESIGN FILES
 ------------

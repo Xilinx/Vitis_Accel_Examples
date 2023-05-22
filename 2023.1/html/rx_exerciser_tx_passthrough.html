@@ -57,8 +57,8 @@
   <link rel="stylesheet" href="_static/css/pro.min.css" media="all" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Shift Register (OpenCL Kernel)" href="cl_shift_register.html" />
-    <link rel="prev" title="Loop Reordering (OpenCL Kernel)" href="cl_loop_reorder.html" /> 
+    <link rel="next" title="Common Files" href="common.html" />
+    <link rel="prev" title="Combine_Bandwidth_Hostmemory" href="combine_bw_hm_passthrough.html" /> 
 	</head>
 	<body>
 		<div class="xilinx-bs3"/>
@@ -351,27 +351,24 @@
 <li class="toctree-l1"><a class="reference internal" href="sys_opt.html">System Optimization Kernels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sys_compiler.html">System Compiler Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="rtl.html">RTL Kernels</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="ocl.html">OpenCL Kernels</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="cl_array_partition.html">Array Partitioning (OpenCL Kernel)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="cl_burst_rw.html">Burst Read/Write (OpenCL Kernel)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="cl_dataflow_func.html">Dataflow Function OpenCL (OpenCL Kernel)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="cl_dataflow_subfunc.html">Dataflow SubFunction OpenCL (OpenCL Kernel)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="cl_gmem_2banks.html">Global Memory Two Banks (OpenCL Kernel)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="cl_helloworld.html">Hello World (OpenCL Kernel)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="cl_lmem_2rw.html">Two Parallel Read/Write on Local Memory (OpenCL Kernel)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="cl_loop_reorder.html">Loop Reordering (OpenCL Kernel)</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Array Block and Cyclic Partitioning (OpenCL Kernel)</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="ocl.html">OpenCL Kernels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="validate.html">Validate</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="x3h.html">X3 Hybrid Examples</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="ip_tables_rx.html">Xilinx IPTables RX Filter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="combine_bw_hm_passthrough.html">Combine_Bandwidth_Hostmemory</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Xilinx RX Exerciser Loop Design</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#key-design-files">KEY DESIGN FILES</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#build-instructions">BUILD INSTRUCTIONS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#run-instructions">Run Instructions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#connectivity-configuration">Connectivity Configuration</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="#design-files">DESIGN FILES</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#command-line-arguments">COMMAND LINE ARGUMENTS</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="cl_shift_register.html">Shift Register (OpenCL Kernel)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="cl_systolic_array.html">Systolic Array Implementation (OpenCL Kernel)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="cl_wide_mem_rw.html">Wide Memory Read/Write (OpenCL Kernel)</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="validate.html">Validate</a></li>
-<li class="toctree-l1"><a class="reference internal" href="x3h.html">X3 Hybrid Examples</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Common Utilities</span></p>
 <ul>
@@ -387,7 +384,7 @@
 			
 			<p class="caption"><span class="caption-text">This Page</span></p>
 				<ul class="current">
-				  <li class="toctree-l1"><a href="_sources/cl_partition_cyclicblock.rst.txt"
+				  <li class="toctree-l1"><a href="_sources/rx_exerciser_tx_passthrough.rst.txt"
 						rel="nofollow">Show Source</a></li>
 				</ul>
           
@@ -433,15 +430,15 @@
     
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
-          <li><a href="ocl.html">OpenCL Kernels</a> &raquo;</li>
+          <li><a href="x3h.html">X3 Hybrid Examples</a> &raquo;</li>
         
-      <li>Array Block and Cyclic Partitioning (OpenCL Kernel)</li>
+      <li>Xilinx RX Exerciser Loop Design</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="_sources/cl_partition_cyclicblock.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/rx_exerciser_tx_passthrough.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -454,54 +451,109 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="array-block-and-cyclic-partitioning-opencl-kernel">
-<h1>Array Block and Cyclic Partitioning (OpenCL Kernel)<a class="headerlink" href="#array-block-and-cyclic-partitioning-opencl-kernel" title="Permalink to this headline">¶</a></h1>
-<p>This example shows how to use array block and cyclic partitioning to improve performance of a kernel</p>
-<p><strong>KEY CONCEPTS:</strong> <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Optimizing-Data-Movement">Kernel Optimization</a>, Array Partitioning, <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/pragma-HLS-array_partition">Block Partition</a>, <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/pragma-HLS-array_partition">Cyclic Partition</a></p>
-<p><strong>KEYWORDS:</strong> xcl_array_partition, <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/pragma-HLS-array_partition">cyclic</a>, <a class="reference external" href="https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/pragma-HLS-array_partition">block</a></p>
-<p>This example demonstrates how to use array <code class="docutils literal notranslate"><span class="pre">block</span></code> and <code class="docutils literal notranslate"><span class="pre">cyclic</span></code>
-partitioning to improve the performance of the kernel. Matrix
-multiplication is performed in this example which would require repeated
-access to rows of former matrix and columns of latter. Array can be
-partitioned across different dimensions to reduce the latency of these
-transfers.</p>
-<p><code class="docutils literal notranslate"><span class="pre">xcl_array_partition</span></code> attribute is used to partition an array into
-multiple smaller arrays with more number of ports for read and write
-operations. This results in improved throughput of the design.</p>
-<p>Arrays can be partitioned in three ways, <code class="docutils literal notranslate"><span class="pre">cyclic</span></code> where elements are
-put into smaller arrays one by one in the interleaved manner untill the
-whole array is partitioned, <code class="docutils literal notranslate"><span class="pre">block</span></code> where elements are put into
-smaller arrays from continuous blocks of original array and <code class="docutils literal notranslate"><span class="pre">complete</span></code>
-where array is decomposed into individual elements each having own
-read/write ports.</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span> <span class="n">A</span><span class="p">[</span><span class="n">MAX_DIM</span> <span class="o">*</span> <span class="n">MAX_DIM</span><span class="p">]</span> <span class="n">__attribute__</span><span class="p">((</span><span class="n">xcl_array_partition</span><span class="p">(</span><span class="n">cyclic</span><span class="p">,</span> <span class="n">MAX_DIM</span><span class="p">,</span> <span class="mi">1</span><span class="p">)));</span>
-<span class="kt">int</span> <span class="n">B</span><span class="p">[</span><span class="n">MAX_DIM</span> <span class="o">*</span> <span class="n">MAX_DIM</span><span class="p">]</span> <span class="n">__attribute__</span><span class="p">((</span><span class="n">xcl_array_partition</span><span class="p">(</span><span class="n">block</span><span class="p">,</span> <span class="n">MAX_DIM</span><span class="p">,</span> <span class="mi">1</span><span class="p">)));</span>
+  <div class="section" id="xilinx-rx-exerciser-loop-design">
+<h1>Xilinx RX Exerciser Loop Design<a class="headerlink" href="#xilinx-rx-exerciser-loop-design" title="Permalink to this headline">¶</a></h1>
+<p>Xilinx RX Exerciser Loop Design</p>
+<p>This design demonstrates passthrough of data from  NIC to MAC (Tx) path whereas from MAC to NIC path data is exercised by processing or dropping of packets. This designs only  process only IPv4 UDP packets without VLANs (other packets go through the design untouched). Default UDP Destination port should be 0x1234 to take some action on packet based command in payload. first 2 bytes of payload will be considered as command words. Format of these two bytes are as below:</p>
+<p>1 byte: action_id : Determines the operation to be performed on the packet.</p>
+<blockquote>
+<div><p>0 - No operation (NOP), Packet is passed through design unmodified</p>
+<p>4 - Drop the packet</p>
+<p>5 - Modify the first 16bit of payload with value from the table with table_key key</p>
+<p>6 - Insert 16bit value from the table with table_key key are inserted after the command word header. Insert operation   means the length fields of UDP and IPv4 will be updated.</p>
+</div></blockquote>
+<p>2 byte: table_key (applicable only for 5 and 6 action IDs)</p>
+<div class="section" id="key-design-files">
+<h2>KEY DESIGN FILES<a class="headerlink" href="#key-design-files" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference external" href="src">src</a> - Containing host and kernels sources and headers</p>
+<blockquote>
+<div><p><a class="reference external" href="src/exerciser_rx.cpp">src/exerciser_rx.cpp</a> - exerciser vitis kernel which can process the UDP packet as per command word. Default destination port is 0x1234, and pre-initialized table.</p>
+<p><a class="reference external" href="src/exerciser_config.hpp">src/exerciser_config.hpp</a> - exerciser config Kernel which can modify the default configuration of execiser kernel using XRT Host API command.</p>
+<p><a class="reference external" href="src/passthrough_tx_v1.cpp">src/passthrough_tx_v1.cpp</a> - this is passthrough kernel in tx path of X3.</p>
+<p><a class="reference external" href="src/pkt_fwd_rx.hpp">src/pkt_fwd_rx.hpp</a> - Low level HLS APIs to process UDP frame.</p>
+<p><a class="reference external" href="src/host.cpp">src/host.cpp</a> - XRT Hots application to change the default kernel configuration. Design can modify host code and re-compile and run to make changes in exerciser.</p>
+</div></blockquote>
+<p><a class="reference external" href="packet_gen_python">packet_gen_python</a> - Containing Python scripts to drive and recieve network traffic in emulation</p>
+<blockquote>
+<div><p><a class="reference external" href="packet_gen_python/packetGen.py">packet_gen_python/packetGen.py</a> - Network traffic python script to generate and recieve network traffic using Frame level API</p>
+<p><a class="reference external" href="packet_gen_python/pcapRun.py">packet_gen_python/pcapRun.py</a> - Network traffic python script to generate and recieve network traffic using PCAP level API</p>
+<p><a class="reference external" href="test.pcap">test.pcap</a> Sample PCAP file which will be used as input pcap file to run PCAP level API flow testing.</p>
+</div></blockquote>
+</div>
+<div class="section" id="build-instructions">
+<h2>BUILD INSTRUCTIONS<a class="headerlink" href="#build-instructions" title="Permalink to this headline">¶</a></h2>
+<p>Instruction below can be used to generate XCLBIN for Hardware (Board) flow.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">make</span> <span class="nb">all</span> <span class="n">TARGET</span><span class="o">=</span><span class="n">hw</span>  <span class="n">DEVICE</span><span class="o">=&lt;</span><span class="n">path</span> <span class="n">to</span> <span class="n">X3</span> <span class="n">xpfm</span> <span class="n">file</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>Instruction below can be used to generate XCLBIN for Hardware Emulation Flow.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">make</span> <span class="nb">all</span> <span class="n">TARGET</span><span class="o">=</span><span class="n">hw_emu</span> <span class="n">DEVICE</span><span class="o">=&lt;</span><span class="n">path</span> <span class="n">to</span> <span class="n">X3</span> <span class="n">xpfm</span> <span class="n">emulation</span> <span class="n">platform</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="run-instructions">
+<h2>Run Instructions<a class="headerlink" href="#run-instructions" title="Permalink to this headline">¶</a></h2>
+<p>In this design,  both type of python scripts are provided 1) Frame based NTG API Flow and 2) PCAP file based Emulation</p>
+<p>Please run following command for Frame Based NTG API Flow run</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./&lt;</span><span class="n">build</span> <span class="n">directory</span><span class="o">&gt;/</span><span class="n">x3_exerciser_loop_rx</span> <span class="o">./&lt;</span><span class="n">build</span> <span class="n">directory</span><span class="o">&gt;/</span><span class="n">exerciser_loop_rx</span><span class="o">.</span><span class="n">xclbin</span> <span class="o">./</span><span class="n">packet_gen_python</span><span class="o">/</span><span class="n">packetGen</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+<p>Please run following command for PCAP Based NTG API Flow run</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./&lt;</span><span class="n">build</span> <span class="n">directory</span><span class="o">&gt;/</span><span class="n">x3_exerciser_loop_rx</span> <span class="o">./&lt;</span><span class="n">build</span> <span class="n">directory</span><span class="o">&gt;/</span><span class="n">exerciser_loop_rx</span><span class="o">.</span><span class="n">xclbin</span> <span class="o">./</span><span class="n">packet_gen_python</span><span class="o">/</span><span class="n">pcapRun</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+<div class="section" id="connectivity-configuration">
+<h3>Connectivity Configuration<a class="headerlink" href="#connectivity-configuration" title="Permalink to this headline">¶</a></h3>
+<p>Following is the connectivity configuration of this design.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">connectivity</span><span class="p">]</span>
+<span class="n">stream_connect</span><span class="o">=</span><span class="n">MNicTx0</span><span class="p">:</span><span class="n">packet_passthrough_tx_v1_1</span><span class="o">.</span><span class="n">tx_in</span>
+<span class="n">stream_connect</span><span class="o">=</span><span class="n">MMacTxMetaRsp0</span><span class="p">:</span><span class="n">packet_passthrough_tx_v1_1</span><span class="o">.</span><span class="n">tx_meta_res_in</span>
+<span class="n">stream_connect</span><span class="o">=</span><span class="n">MNicTxPause0</span><span class="p">:</span><span class="n">packet_passthrough_tx_v1_1</span><span class="o">.</span><span class="n">tx_pause_in</span>
+<span class="n">stream_connect</span><span class="o">=</span><span class="n">packet_passthrough_tx_v1_1</span><span class="o">.</span><span class="n">tx_meta_res_out</span><span class="p">:</span><span class="n">SNicTxMetaRsp0</span>
+<span class="n">stream_connect</span><span class="o">=</span><span class="n">packet_passthrough_tx_v1_1</span><span class="o">.</span><span class="n">tx_out</span><span class="p">:</span><span class="n">SMacTx0</span>
+<span class="n">stream_connect</span><span class="o">=</span><span class="n">packet_passthrough_tx_v1_1</span><span class="o">.</span><span class="n">tx_pause_out</span><span class="p">:</span><span class="n">SMacTxPause0</span>
+<span class="n">stream_connect</span><span class="o">=</span><span class="n">MMacRx0</span><span class="p">:</span><span class="n">exerciser_rx_1</span><span class="o">.</span><span class="n">rx_in</span><span class="p">:</span><span class="mi">512</span>
+<span class="n">stream_connect</span><span class="o">=</span><span class="n">exerciser_rx_1</span><span class="o">.</span><span class="n">rx_out</span><span class="p">:</span><span class="n">SNicRx0</span>
+<span class="n">stream_connect</span><span class="o">=</span><span class="n">exerciser_config_rx_1</span><span class="o">.</span><span class="n">table_data</span><span class="p">:</span><span class="n">exerciser_rx_1</span><span class="o">.</span><span class="n">table_in</span>
+<span class="n">stream_connect</span><span class="o">=</span><span class="n">exerciser_config_rx_1</span><span class="o">.</span><span class="n">udp_dest</span><span class="p">:</span><span class="n">exerciser_rx_1</span><span class="o">.</span><span class="n">udp_dest</span>
+<span class="n">sp</span><span class="o">=</span><span class="n">exerciser_config_rx_1</span><span class="o">.</span><span class="n">m_axi_gmem</span><span class="p">:</span><span class="n">HOST</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="p">[</span><span class="n">clock</span><span class="p">]</span>
+<span class="nb">id</span><span class="o">=</span><span class="mi">3</span><span class="p">:</span><span class="n">packet_passthrough_tx_v1_1</span>
 </pre></div>
 </div>
 <p><strong>EXCLUDED PLATFORMS:</strong></p>
 <blockquote>
 <div><ul class="simple">
-<li><p>Embedded ZC702</p></li>
+<li><p>All Embedded Zynq Platforms, i.e zc702, zcu102 etc</p></li>
+<li><p>Samsung SmartSSD Computation Storage Drive</p></li>
 <li><p>All NoDMA Platforms, i.e u50 nodma etc</p></li>
-<li><p>Samsung U.2 SmartSSD</p></li>
-<li><p>Versal DFX platform</p></li>
-<li><p>Alveo U200</p></li>
-<li><p>Alveo U250</p></li>
+<li><p>All Platforms with 2018 Version</p></li>
+<li><p>qep</p></li>
 </ul>
 </div></blockquote>
+</div>
+</div>
 <div class="section" id="design-files">
 <h2>DESIGN FILES<a class="headerlink" href="#design-files" title="Permalink to this headline">¶</a></h2>
 <p>Application code is located in the src directory. Accelerator binary files will be compiled to the xclbin directory. The xclbin directory is required by the Makefile and its contents will be filled during compilation. A listing of all the files in this example is shown below</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">src</span><span class="o">/</span><span class="n">host</span><span class="o">.</span><span class="n">cpp</span>
-<span class="n">src</span><span class="o">/</span><span class="n">matmul</span><span class="o">.</span><span class="n">cl</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">src</span><span class="o">/</span><span class="n">exerciser_config</span><span class="o">.</span><span class="n">hpp</span>
+<span class="n">src</span><span class="o">/</span><span class="n">exerciser_config_rx</span><span class="o">.</span><span class="n">cpp</span>
+<span class="n">src</span><span class="o">/</span><span class="n">exerciser_rx</span><span class="o">.</span><span class="n">cpp</span>
+<span class="n">src</span><span class="o">/</span><span class="n">general_def</span><span class="o">.</span><span class="n">hpp</span>
+<span class="n">src</span><span class="o">/</span><span class="n">host</span><span class="o">.</span><span class="n">cpp</span>
+<span class="n">src</span><span class="o">/</span><span class="n">packet_passthrough_tx_v1</span><span class="o">.</span><span class="n">cpp</span>
+<span class="n">src</span><span class="o">/</span><span class="n">pkt_fwd_rx</span><span class="o">.</span><span class="n">hpp</span>
+<span class="n">src</span><span class="o">/</span><span class="n">pkt_fwd_utils</span><span class="o">.</span><span class="n">hpp</span>
+<span class="n">src</span><span class="o">/</span><span class="n">x3_specs</span><span class="o">.</span><span class="n">hpp</span>
 </pre></div>
 </div>
-<p>Access these files in the github repo by <a class="reference external" href="https://github.com/Xilinx/Vitis_Accel_Examples/tree/master/ocl_kernels/cl_partition_cyclicblock">clicking here</a>.</p>
+<p>Access these files in the github repo by <a class="reference external" href="https://github.com/Xilinx/Vitis_Accel_Examples/tree/master/x3h/rx_exerciser_tx_passthrough">clicking here</a>.</p>
 </div>
 <div class="section" id="command-line-arguments">
 <h2>COMMAND LINE ARGUMENTS<a class="headerlink" href="#command-line-arguments" title="Permalink to this headline">¶</a></h2>
 <p>Once the environment has been configured, the application can be executed by</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">cl_partition_cyclicblock</span> <span class="o">&lt;</span><span class="n">matmul</span> <span class="n">XCLBIN</span><span class="o">&gt;</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">x3_exerciser_loop_rx</span> <span class="o">&lt;</span><span class="n">exerciser_loop_rx</span> <span class="n">XCLBIN</span><span class="o">&gt;</span> <span class="o">./</span><span class="n">packet_gen_python</span><span class="o">/</span><span class="n">packetGen</span><span class="o">.</span><span class="n">py</span>
 </pre></div>
 </div>
 </div>
@@ -523,10 +575,10 @@ read/write ports.</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="cl_shift_register.html" class="btn btn-neutral float-right" title="Shift Register (OpenCL Kernel)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="common.html" class="btn btn-neutral float-right" title="Common Files" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="cl_loop_reorder.html" class="btn btn-neutral float-left" title="Loop Reordering (OpenCL Kernel)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="combine_bw_hm_passthrough.html" class="btn btn-neutral float-left" title="Combine_Bandwidth_Hostmemory" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

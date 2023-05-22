@@ -38,6 +38,7 @@ read/write ports.
  - Samsung U.2 SmartSSD
  - Versal DFX platform
  - Alveo U200
+ - Alveo U250
 
 DESIGN FILES
 ------------
