@@ -30,6 +30,7 @@ CL_QUEUE_PROFILING_ENABLE \| CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE,
 **EXCLUDED PLATFORMS:** 
 
  - All NoDMA Platforms, i.e u50 nodma etc
+ - xilinx_zcu102_base_dfx
 
 DESIGN FILES
 ------------

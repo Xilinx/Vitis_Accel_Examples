@@ -24,6 +24,7 @@ and the flag is passed as argument during buffer creation.
 **EXCLUDED PLATFORMS:** 
 
  - All NoDMA Platforms, i.e u50 nodma etc
+ - Xilinx_vck190_base_dfx_202310_1
 
 DESIGN FILES
 ------------
