@@ -10,7 +10,7 @@
 #See the License for the specific language governing permissions and
 #limitations under the License.
 #
-#PLATFORM = /proj/xbuilds/Vitis_HW_EMU/2022.2/xilinx_v70_hw_emu_202220_1/2022.2_0817_2230/xilinx_v70_hw_emu_202220_1/xilinx_v70_hw_emu_202220_1.xpfm
+#PLATFORM = /proj/xbuilds/Vitis_HW_EMU/2023.1/xilinx_v70_hw_emu_202310_1/2023.1_0408_2230/xilinx_v70_hw_emu_202310_1/xilinx_v70_hw_emu_202310_1.xpfm
 PLATFORM = $(DEVICE)
 TARGET := hw
 

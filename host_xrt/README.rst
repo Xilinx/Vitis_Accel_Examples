@@ -16,12 +16,12 @@ XRT Native API's for optimized interfacing with Xilinx Devices.
       **Key Concepts**
 
       * `XRT Native API <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Setting-Up-XRT-Managed-Kernels-and-Kernel-Arguments>`__
-      * `Asynchronous Programming <https://xilinx.github.io/XRT/2022.2/html/xrt_native_apis.html?highlight=queue#asynchornous-programming-with-xrt-experimental>`__
+      * `Asynchronous Programming <https://xilinx.github.io/XRT/2023.1/html/xrt_native_apis.html?highlight=queue#asynchornous-programming-with-xrt-experimental>`__
       **Keywords**
 
-      * `xrt::queue <https://xilinx.github.io/XRT/2022.2/html/xrt_native_apis.html?highlight=queue#executing-multiple-tasks-through-queue>`__
-      * `enqueue <https://xilinx.github.io/XRT/2022.2/html/xrt_native_apis.html?highlight=queue#executing-multiple-tasks-through-queue>`__
-      * `wait() <https://xilinx.github.io/XRT/2022.2/html/xrt_native_apis.html?highlight=queue#executing-multiple-tasks-through-queue>`__
+      * `xrt::queue <https://xilinx.github.io/XRT/2023.1/html/xrt_native_apis.html?highlight=queue#executing-multiple-tasks-through-queue>`__
+      * `enqueue <https://xilinx.github.io/XRT/2023.1/html/xrt_native_apis.html?highlight=queue#executing-multiple-tasks-through-queue>`__
+      * `wait() <https://xilinx.github.io/XRT/2023.1/html/xrt_native_apis.html?highlight=queue#executing-multiple-tasks-through-queue>`__
 
   * - `copy_buffer_xrt <copy_buffer_xrt>`_
     - This Copy Buffer example demonstrate how one buffer can be copied from another buffer.

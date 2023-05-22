@@ -45,6 +45,7 @@ TARGET := hw
 SYSROOT := $(EDGE_COMMON_SW)/sysroots/aarch64-xilinx-linux/
 SD_IMAGE_FILE := $(EDGE_COMMON_SW)/Image
 CXX :=aarch64-linux-gnu-g++
+
 PLATFORM = $(PLATFORM_REPO_PATHS)/xilinx_vck190_base_202310_1/xilinx_vck190_base_202310_1.xpfm
 XPFM	 = vck190_xpfm
 
