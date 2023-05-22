@@ -89,10 +89,10 @@
 	git checkout \-b update_gh
 
 	#copy build/html from internal clone to master/html in gh-pages
-	cp -rf ../../internal/Vitis_Accel_Examples/build/html ./2022.2
+	cp -rf ../../internal/Vitis_Accel_Examples/build/html ./2023.1
 	
 	#add files for commit
-	git add ./2022.2
+	git add ./2023.1
 	git commit -m "updated gh_pages"
 	
 	#push to origin
