@@ -187,8 +187,6 @@ $(XCLBIN): $(GRAPH_O) $(KERNEL_XO) $(EXECUTABLE)
 
 ###########################################################################
 # If the target is for HW_EMU, launch the emulator
-# If the target is for HW, you'll have to follow the Confluence page for
-# running on a board farm system.
 run: all 
 	$(ECHO) "To make Software Emulation run faster, we are running PS on x86."
 	XILINX_VITIS_EMU_HYBRID=1 XCL_EMULATION_MODE=$(TARGET) $(EXECUTABLE) $(CMD_ARGS)
