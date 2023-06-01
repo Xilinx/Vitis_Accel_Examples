@@ -77,10 +77,10 @@ System Optimization examples focussed towards hardware optimization using HLS C/
 
       * Vitis Memory Hierarchy
 
-      * `PLRAMs <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/PLRAM-Configuration-and-Use>`__
+      * `PLRAMs <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Assigning-AXI-Interfaces-to-PLRAM>`__
       **Keywords**
 
-      * `PLRAM <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/PLRAM-Configuration-and-Use>`__
+      * `PLRAM <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Assigning-AXI-Interfaces-to-PLRAM>`__
       * BRAM
       * URAM
 

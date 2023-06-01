@@ -3,9 +3,9 @@ PLRAM Config (C)
 
 This example showcases how to configure various PLRAM parameters like Memory Size, Memory Type(BRAM/URAM) etc.
 
-**KEY CONCEPTS:** Vitis Memory Hierarchy, `PLRAMs <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/PLRAM-Configuration-and-Use>`__
+**KEY CONCEPTS:** Vitis Memory Hierarchy, `PLRAMs <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Assigning-AXI-Interfaces-to-PLRAM>`__
 
-**KEYWORDS:** `PLRAM <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/PLRAM-Configuration-and-Use>`__, BRAM, URAM
+**KEYWORDS:** `PLRAM <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Assigning-AXI-Interfaces-to-PLRAM>`__, BRAM, URAM
 
 .. raw:: html
 
@@ -28,7 +28,9 @@ This example showcases how to configure various PLRAM parameters like Memory Siz
  - Versal V70
  - Alveo U280
  - Alveo U55c
+ - u50_gen3x16
  - Alveo U55n
+ - Alveo U200
  - Samsung U.2 SmartSSD
 
 .. raw:: html

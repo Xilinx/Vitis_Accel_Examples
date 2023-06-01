@@ -145,8 +145,8 @@ XRT Native API's for optimized interfacing with Xilinx Devices.
     - 
       **Key Concepts**
 
-      * `Mailbox <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Using-the-Mailbox>`__
-      * `Auto-restart <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Auto-Restarting-Mode>`__
+      * `Mailbox <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/Using-the-Mailbox>`__
+      * `Auto-restart <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/Auto-Restarting-Mode>`__
       **Keywords**
 
       * `set_arg <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Working-with-XRT-Managed-Kernels>`__
@@ -221,8 +221,8 @@ XRT Native API's for optimized interfacing with Xilinx Devices.
     - 
       **Key Concepts**
 
-      * `Read/Write Stream <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Host-Coding-for-Free-Running-Kernels>`__
-      * `Create/Release Stream <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Host-Coding-for-Free-Running-Kernels>`__
+      * `Read/Write Stream <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Writing-the-Software-Application>`__
+      * `Create/Release Stream <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Writing-the-Software-Application>`__
       * `AXIS FIFO depth <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/Specifying-Compiler-Created-FIFO-Depth>`__
       **Keywords**
 

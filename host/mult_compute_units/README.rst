@@ -24,6 +24,7 @@ This is simple Example of Multiple Compute units to showcase how a single kernel
 ..
 
  - All NoDMA Platforms, i.e u50 nodma etc
+ - xilinx_zcu102_base_dfx
 
 .. raw:: html
 

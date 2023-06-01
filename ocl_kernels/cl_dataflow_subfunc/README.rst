@@ -5,7 +5,7 @@ This is simple example of vector addition to demonstrate how OpenCL Dataflow all
 
 **KEY CONCEPTS:** SubFunction Level Parallelism
 
-**KEYWORDS:** `xcl_dataflow <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/xcl_dataflow>`__, `xclDataflowFifoDepth <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/advanced-Options>`__
+**KEYWORDS:** xcl_dataflow, `xclDataflowFifoDepth <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/advanced-Options>`__
 
 .. raw:: html
 

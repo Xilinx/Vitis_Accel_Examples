@@ -55,7 +55,6 @@ Application code is located in the src directory. Accelerator binary files will 
    src/include.h
    src/kernels.h
    src/kernels/mm.cc
-   src/sk_types.h
    
 COMMAND LINE ARGUMENTS
 ----------------------

@@ -3,9 +3,9 @@ PLRAM Memory Access (C)
 
 This example shows the usage of PLRAM and how to use it with simple matrix multiplication (Row x Col).
 
-**KEY CONCEPTS:** Vitis Memory Hierarchy, `PLRAMs <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/PLRAM-Configuration-and-Use>`__
+**KEY CONCEPTS:** Vitis Memory Hierarchy, `PLRAMs <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Assigning-AXI-Interfaces-to-PLRAM>`__
 
-**KEYWORDS:** `PLRAM <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/PLRAM-Configuration-and-Use>`__
+**KEYWORDS:** `PLRAM <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Assigning-AXI-Interfaces-to-PLRAM>`__
 
 .. raw:: html
 

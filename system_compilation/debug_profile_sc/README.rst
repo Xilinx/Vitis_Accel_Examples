@@ -3,7 +3,7 @@ Debug and Profile System Compiler
 
 This simple example implements a HW pipeline of three tasks, matrix multiplication along with two different increments to the matrix values.
 
-**KEY CONCEPTS:** `Debug <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Enabling-Profile-and-Debug-when-Linking>`__, `Profiling <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Profiling-Optimizing-and-Debugging-the-Application>`__
+**KEY CONCEPTS:** `Debug <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Enabling-Profile-and-Debug-when-Linking>`__, `Profiling <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Profiling-and-Debugging-the-Application>`__
 
 **KEYWORDS:** `PROFILE_KERNEL <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Debugging-and-Validation>`__, `PROFILE_PORT <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Debugging-and-Validation>`__, `PROFILE_OFFLOAD <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Debugging-and-Validation>`__, `vpp::stream<> <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Stream-connections-using-vpp-stream>`__
 
