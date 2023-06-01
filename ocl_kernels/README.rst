@@ -41,7 +41,7 @@ This section contains OpenCL Kernel Examples.
       * `Function/Task Level Parallelism <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Kernel-Execution>`__
       **Keywords**
 
-      * `xcl_dataflow <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/xcl_dataflow>`__
+      * xcl_dataflow
       * `xclDataflowFifoDepth <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/advanced-Options>`__
 
   * - `cl_dataflow_subfunc <cl_dataflow_subfunc>`_
@@ -53,7 +53,7 @@ This section contains OpenCL Kernel Examples.
 
       **Keywords**
 
-      * `xcl_dataflow <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/xcl_dataflow>`__
+      * xcl_dataflow
       * `xclDataflowFifoDepth <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/advanced-Options>`__
 
   * - `cl_gmem_2banks <cl_gmem_2banks>`_
@@ -61,7 +61,8 @@ This section contains OpenCL Kernel Examples.
     - 
       **Key Concepts**
 
-      * `Multiple Banks <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Using-Multiple-DDR-Banks>`__
+      * Multiple Banks
+
       **Keywords**
 
       * `sp <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/connectivity-Options>`__
@@ -85,7 +86,7 @@ This section contains OpenCL Kernel Examples.
 
       **Keywords**
 
-      * `opencl_unroll_hint <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/OpenCL-Attributes>`__
+      * opencl_unroll_hint
 
   * - `cl_loop_reorder <cl_loop_reorder>`_
     - This is a simple example of matrix multiplication (Row x Col) to demonstrate how to achieve better pipeline II factor by loop reordering.

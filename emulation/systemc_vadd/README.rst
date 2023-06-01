@@ -24,6 +24,7 @@ This is simple example of vector addition to describe usage of custom SystemC in
 ..
 
  - All NoDMA Platforms, i.e u50 nodma etc
+ - xilinx_zcu102_base_dfx_202310_1
 
 .. raw:: html
 

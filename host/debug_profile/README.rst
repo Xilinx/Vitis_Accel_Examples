@@ -5,7 +5,7 @@ This is simple example of vector addition and printing profile data (wall clock 
 
 **KEY CONCEPTS:** `Use of Profile API <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Profiling-the-Application>`__, `Waveform Dumping and loading <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Waveform-View-and-Live-Waveform-Viewer>`__
 
-**KEYWORDS:** `debug_mode=gui/batch <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Enable-Waveform-Debugging-with-the-Vitis-Compiler-Command>`__, `user_range <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Profiling-of-C-Code?tocId=otfY_eDsLHW5VXil1mNBfg>`__, `user_event <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Profiling-of-C-Code?tocId=otfY_eDsLHW5VXil1mNBfg>`__, `hls::print <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/hls-print-Function>`__
+**KEYWORDS:** `debug_mode=gui/batch <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Enable-Waveform-Debugging-with-the-Vitis-Compiler-Command>`__, `user_range <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Profiling-of-C-Code?tocId=otfY_eDsLHW5VXil1mNBfg>`__, `user_event <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Profiling-of-C-Code?tocId=otfY_eDsLHW5VXil1mNBfg>`__, `hls::print <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/HLS-print-Function>`__
 
 .. raw:: html
 

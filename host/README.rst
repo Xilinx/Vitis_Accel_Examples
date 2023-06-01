@@ -70,7 +70,7 @@ OpenCL host code for optimized interfacing with Xilinx Devices.
       * `debug_mode=gui/batch <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Enable-Waveform-Debugging-with-the-Vitis-Compiler-Command>`__
       * `user_range <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Profiling-of-C-Code?tocId=otfY_eDsLHW5VXil1mNBfg>`__
       * `user_event <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Profiling-of-C-Code?tocId=otfY_eDsLHW5VXil1mNBfg>`__
-      * `hls::print <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/hls-print-Function>`__
+      * `hls::print <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/HLS-print-Function>`__
 
   * - `device_only_buffer <device_only_buffer>`_
     - This example will demonstrate how to create buffers in global memory which are not mapped to host. The device only memory allocation is done through the host code. The kernel can read data from device memory and write result to device memory.
@@ -336,8 +336,8 @@ OpenCL host code for optimized interfacing with Xilinx Devices.
     - 
       **Key Concepts**
 
-      * `Read/Write Stream <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Host-Coding-for-Free-Running-Kernels>`__
-      * `Create/Release Stream <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Host-Coding-for-Free-Running-Kernels>`__
+      * `Read/Write Stream <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Writing-the-Software-Application>`__
+      * `Create/Release Stream <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Writing-the-Software-Application>`__
       * `AXIS FIFO depth <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/Specifying-Compiler-Created-FIFO-Depth>`__
       **Keywords**
 

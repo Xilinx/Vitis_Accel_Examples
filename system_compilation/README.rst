@@ -16,7 +16,7 @@ This section contains System Compiler based Examples.
       **Key Concepts**
 
       * `Debug <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Enabling-Profile-and-Debug-when-Linking>`__
-      * `Profiling <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Profiling-Optimizing-and-Debugging-the-Application>`__
+      * `Profiling <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Profiling-and-Debugging-the-Application>`__
       **Keywords**
 
       * `PROFILE_KERNEL <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Debugging-and-Validation>`__
