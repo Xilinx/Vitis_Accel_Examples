@@ -3,7 +3,7 @@ Stream Chain Matrix Multiplication
 
 This is a kernel containing the cascaded Matrix Multiplication using dataflow. ap_ctrl_chain is enabled for this kernel to showcase how multiple enqueue of Kernel calls can be overlapped to give higher performance. ap_ctrl_chain allow kernel to start processing of next kernel operation before completing the current kernel operation.
 
-**KEY CONCEPTS:** `ap_ctrl_chain <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/Block-Level-Control-Protocols>`__, `PLRAM <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/PLRAM-Configuration-and-Use>`__
+**KEY CONCEPTS:** `ap_ctrl_chain <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/Block-Level-Control-Protocols>`__, `PLRAM <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Assigning-AXI-Interfaces-to-PLRAM>`__
 
 
 This examples demonstrates how ‘ap_ctrl_chain’ in HLS Kernel can help to

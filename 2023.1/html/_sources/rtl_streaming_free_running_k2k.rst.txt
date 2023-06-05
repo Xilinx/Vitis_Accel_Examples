@@ -3,7 +3,7 @@ Stream Free Running Kernel (RTL Kernel)
 
 This is simple example which demonstrate how to use and configure a free running RTL kernel.
 
-**KEY CONCEPTS:** `Read/Write Stream <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Host-Coding-for-Free-Running-Kernels>`__, `RTL Kernel <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Generate-RTL-Kernel>`__, `Free Running Kernel <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Free-Running-Kernel>`__
+**KEY CONCEPTS:** `Read/Write Stream <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Writing-the-Software-Application>`__, `RTL Kernel <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Generate-RTL-Kernel>`__, `Free Running Kernel <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Free-Running-Kernel>`__
 
 **KEYWORDS:** `ap_axiu <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Streaming-Data-Transfers>`__, `hls::stream <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/HLS-Stream-Library>`__
 
