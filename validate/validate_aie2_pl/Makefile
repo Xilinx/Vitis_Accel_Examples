@@ -125,7 +125,7 @@ AIETARGET := hw
 else
 AIETARGET := $(TARGET)
 endif
-AIE_CXXFLAGS += --target=$(AIETARGET) --platform=$(XPLATFORM) --pl-freq=1000 --dataflow -v --aiearch=aie-ml
+AIE_CXXFLAGS += --target=$(AIETARGET) --platform=$(XPLATFORM) --pl-freq=1000 --dataflow -v 
 AIE_CXXFLAGS += -I $(XILINX_VITIS_AIETOOLS)/include
 AIE_CONTAINER = $(TEMP_DIR)/libadf.a
 AIE_CXXFLAGS += -I $(CUR_DIR)/aie
