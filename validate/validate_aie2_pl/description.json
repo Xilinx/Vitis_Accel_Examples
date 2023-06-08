@@ -93,7 +93,7 @@
                 {
                     "location": "PROJECT/Work/ps/c_rts/aie_control_xrt.cpp", 
                     "workdir": "./Work", 
-                    "option": "--pl-freq=1000 --dataflow -v --aiearch=aie-ml",
+                    "option": "--pl-freq=1000 -v",
                     "name": "libadf.a"
                 }
             ]
