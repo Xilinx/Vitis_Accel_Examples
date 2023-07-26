@@ -98,7 +98,7 @@ AIECC := aiecompiler
 AIESIM := aiesimulator
 
 AIE_INCLUDE_FLAGS := -include="$(XILINX_VITIS)/aietools/include" -include="./src/aie" -include="./data" -include="./"
-AIE_FLAGS := $(AIE_INCLUDE_FLAGS) --pl-freq=100 -workdir=./Work
+AIE_FLAGS := --platform $(PLATFORM) $(AIE_INCLUDE_FLAGS) --pl-freq=100 -workdir=./Work
 
 ifeq ($(TARGET),sw_emu)
 	AIE_FLAGS += --target=x86sim
