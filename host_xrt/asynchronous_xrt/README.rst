@@ -3,9 +3,9 @@ Asynchronous XRT (XRT Native API's)
 
 This is simple example which showcases asynchronous programming mechanism through the user-defined queues.
 
-**KEY CONCEPTS:** `XRT Native API <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Setting-Up-XRT-Managed-Kernels-and-Kernel-Arguments>`__, `Asynchronous Programming <https://xilinx.github.io/XRT/2022.2/html/xrt_native_apis.html?highlight=queue#asynchornous-programming-with-xrt-experimental>`__
+**KEY CONCEPTS:** `XRT Native API <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Setting-Up-XRT-Managed-Kernels-and-Kernel-Arguments>`__, `Asynchronous Programming <https://xilinx.github.io/XRT/2023.1/html/xrt_native_apis.html?highlight=queue#asynchornous-programming-with-xrt-experimental>`__
 
-**KEYWORDS:** `xrt::queue <https://xilinx.github.io/XRT/2022.2/html/xrt_native_apis.html?highlight=queue#executing-multiple-tasks-through-queue>`__, `enqueue <https://xilinx.github.io/XRT/2022.2/html/xrt_native_apis.html?highlight=queue#executing-multiple-tasks-through-queue>`__, `wait() <https://xilinx.github.io/XRT/2022.2/html/xrt_native_apis.html?highlight=queue#executing-multiple-tasks-through-queue>`__
+**KEYWORDS:** `xrt::queue <https://xilinx.github.io/XRT/2023.1/html/xrt_native_apis.html?highlight=queue#executing-multiple-tasks-through-queue>`__, `enqueue <https://xilinx.github.io/XRT/2023.1/html/xrt_native_apis.html?highlight=queue#executing-multiple-tasks-through-queue>`__, `wait() <https://xilinx.github.io/XRT/2023.1/html/xrt_native_apis.html?highlight=queue#executing-multiple-tasks-through-queue>`__
 
 .. raw:: html
 

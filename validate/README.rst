@@ -61,30 +61,7 @@ The main purpose of validate kernels is to test basic HW functionality during br
 
 
   * - `validate_aie2_pl <validate_aie2_pl>`_
-    - A
-u
-t
-o
- 
-G
-e
-n
-e
-r
-a
-t
-e
- 
-M
-i
-c
-r
-o
- 
-C
-o
-d
-e
+    - Xilinx AIE2 Validate example
     - 
 
   * - `validate_aie_pl <validate_aie_pl>`_

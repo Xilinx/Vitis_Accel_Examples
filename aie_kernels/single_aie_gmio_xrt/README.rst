@@ -3,9 +3,9 @@ Single AIE GMIO XRT
 
 This simple example demonstrate how to work with the GMIO interface in AI Engine simulator and hardware flows.
 
-**KEY CONCEPTS:** `AI Engine <https://docs.xilinx.com/r/en-US/ug1076-ai-engine-environment/AI-Engine/Programmable-Logic-Integration>`__, `Graph <https://docs.xilinx.com/r/en-US/ug1076-ai-engine-environment/graph>`__
+**KEY CONCEPTS:** `AI Engine <https://docs.xilinx.com/r/en-US/ug1076-ai-engine-environment/Overview>`__, `Graph <https://docs.xilinx.com/r/en-US/ug1076-ai-engine-environment/Overview>`__
 
-**KEYWORDS:** `aiecompiler <https://docs.xilinx.com/r/en-US/ug1076-ai-engine-environment/Compiling-an-AI-Engine-Graph-Application>`__, `aiesimulator <https://docs.xilinx.com/r/en-US/ug1076-ai-engine-environment/Simulating-an-AI-Engine-Graph-Application>`__, `async <https://docs.xilinx.com/r/en-US/ug1076-ai-engine-environment/Controlling-AI-Engine-GMIO-Transfers>`__, `xrt::aie::bo <https://docs.xilinx.com/r/en-US/ug1076-ai-engine-environment/Controlling-AI-Engine-GMIO-Transfers>`__
+**KEYWORDS:** `aiecompiler <https://docs.xilinx.com/r/en-US/ug1076-ai-engine-environment/Compiling-an-AI-Engine-Graph-Application>`__, `aiesimulator <https://docs.xilinx.com/r/en-US/ug1076-ai-engine-environment/Simulating-an-AI-Engine-Graph-Application>`__, async, xrt::aie::bo
 
 .. raw:: html
 

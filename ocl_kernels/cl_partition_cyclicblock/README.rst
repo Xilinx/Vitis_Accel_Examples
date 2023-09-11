@@ -28,6 +28,7 @@ This example shows how to use array block and cyclic partitioning to improve per
  - Samsung U.2 SmartSSD
  - Versal DFX platform
  - Alveo U200
+ - Alveo U250
 
 .. raw:: html
 

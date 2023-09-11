@@ -16,12 +16,12 @@ XRT Native API's for optimized interfacing with Xilinx Devices.
       **Key Concepts**
 
       * `XRT Native API <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Setting-Up-XRT-Managed-Kernels-and-Kernel-Arguments>`__
-      * `Asynchronous Programming <https://xilinx.github.io/XRT/2022.2/html/xrt_native_apis.html?highlight=queue#asynchornous-programming-with-xrt-experimental>`__
+      * `Asynchronous Programming <https://xilinx.github.io/XRT/2023.1/html/xrt_native_apis.html?highlight=queue#asynchornous-programming-with-xrt-experimental>`__
       **Keywords**
 
-      * `xrt::queue <https://xilinx.github.io/XRT/2022.2/html/xrt_native_apis.html?highlight=queue#executing-multiple-tasks-through-queue>`__
-      * `enqueue <https://xilinx.github.io/XRT/2022.2/html/xrt_native_apis.html?highlight=queue#executing-multiple-tasks-through-queue>`__
-      * `wait() <https://xilinx.github.io/XRT/2022.2/html/xrt_native_apis.html?highlight=queue#executing-multiple-tasks-through-queue>`__
+      * `xrt::queue <https://xilinx.github.io/XRT/2023.1/html/xrt_native_apis.html?highlight=queue#executing-multiple-tasks-through-queue>`__
+      * `enqueue <https://xilinx.github.io/XRT/2023.1/html/xrt_native_apis.html?highlight=queue#executing-multiple-tasks-through-queue>`__
+      * `wait() <https://xilinx.github.io/XRT/2023.1/html/xrt_native_apis.html?highlight=queue#executing-multiple-tasks-through-queue>`__
 
   * - `copy_buffer_xrt <copy_buffer_xrt>`_
     - This Copy Buffer example demonstrate how one buffer can be copied from another buffer.
@@ -145,8 +145,8 @@ XRT Native API's for optimized interfacing with Xilinx Devices.
     - 
       **Key Concepts**
 
-      * `Mailbox <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Using-the-Mailbox>`__
-      * `Auto-restart <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Auto-Restarting-Mode>`__
+      * `Mailbox <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/Using-the-Mailbox>`__
+      * `Auto-restart <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/Auto-Restarting-Mode>`__
       **Keywords**
 
       * `set_arg <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Working-with-XRT-Managed-Kernels>`__
@@ -221,8 +221,8 @@ XRT Native API's for optimized interfacing with Xilinx Devices.
     - 
       **Key Concepts**
 
-      * `Read/Write Stream <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Host-Coding-for-Free-Running-Kernels>`__
-      * `Create/Release Stream <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Host-Coding-for-Free-Running-Kernels>`__
+      * `Read/Write Stream <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Writing-the-Software-Application>`__
+      * `Create/Release Stream <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Writing-the-Software-Application>`__
       * `AXIS FIFO depth <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/Specifying-Compiler-Created-FIFO-Depth>`__
       **Keywords**
 

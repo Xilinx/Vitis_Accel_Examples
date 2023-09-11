@@ -5,7 +5,7 @@ This is simple example of vector addition to demonstrate how to utilized both po
 
 **KEY CONCEPTS:** `Kernel Optimization <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Optimizing-Data-Movement>`__, `2port BRAM Utilization <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/Port-Level-I/O-Memory-Interface-Protocol>`__, two read/write Local Memory
 
-**KEYWORDS:** `opencl_unroll_hint <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/OpenCL-Attributes>`__
+**KEYWORDS:** opencl_unroll_hint
 
 .. raw:: html
 

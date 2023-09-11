@@ -25,6 +25,7 @@ This example shows how to use array block and cyclic partitioning to improve per
 
  - All NoDMA Platforms, i.e u50 nodma etc
  - Versal DFX platform
+ - zcu102_base
 
 .. raw:: html
 

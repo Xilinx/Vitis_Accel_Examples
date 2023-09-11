@@ -34,6 +34,7 @@ This PS validate kernel tests PS kernel functionality.
  - Samsung U.2 SmartSSD
  - X3 Compute Shell
  - All NoDMA Platforms, i.e u50 nodma etc
+ - Versal VCK5000
 
 .. raw:: html
 
@@ -51,7 +52,6 @@ Application code is located in the src directory. Accelerator binary files will 
    src/bandwidth.cpp
    src/host.cpp
    src/ps_bandwidth.c
-   src/sk_types.h
    
 COMMAND LINE ARGUMENTS
 ----------------------

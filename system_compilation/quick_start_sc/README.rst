@@ -34,6 +34,7 @@ This is quick start example based on a video filtering usecase to describe syste
  - AWS VU9P F1
  - Alveo U55n
  - Versal V70
+ - Alveo U250
 
 .. raw:: html
 

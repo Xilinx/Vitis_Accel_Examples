@@ -24,6 +24,7 @@ This example demonstrates how to shift values in registers in each clock cycle
 ..
 
  - All NoDMA Platforms, i.e u50 nodma etc
+ - xilinx_zcu102_base_dfx
 
 .. raw:: html
 

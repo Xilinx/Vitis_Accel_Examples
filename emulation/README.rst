@@ -26,22 +26,6 @@ This section contains Emulation Examples.
       * `aiesimulator <https://docs.xilinx.com/r/en-US/ug1076-ai-engine-environment/Simulating-an-AI-Engine-Graph-Application>`__
       * `stream_connect <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Specifying-Streaming-Connections>`__
 
-  * - `aie_adder_ps_on_x86 <aie_adder_ps_on_x86>`_
-    - This example demonstrates how a user can run the PS App as an x86 process instead of ARM process for an AIE design.
-    - 
-      **Key Concepts**
-
-      * `Compiling and Linking for x86 <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Compiling-and-Linking-for-x86>`__
-      * `Compiling and Linking for Arm <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Compiling-and-Linking-for-Arm>`__
-      * `AI Engine <https://docs.xilinx.com/r/en-US/ug1076-ai-engine-environment/Overview>`__
-      * `Adaptive Data Flow <https://docs.xilinx.com/r/en-US/ug1079-ai-engine-kernel-coding/Adaptive-Data-Flow-Graph-Specification-Reference>`__
-      * `Graph <https://docs.xilinx.com/r/en-US/ug1076-ai-engine-environment/Overview>`__
-      **Keywords**
-
-      * `aiecompiler <https://docs.xilinx.com/r/en-US/ug1076-ai-engine-environment/Compiling-an-AI-Engine-Graph-Application>`__
-      * `aiesimulator <https://docs.xilinx.com/r/en-US/ug1076-ai-engine-environment/Simulating-an-AI-Engine-Graph-Application>`__
-      * `stream_connect <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Specifying-Streaming-Connections>`__
-
   * - `aie_baremetal <aie_baremetal>`_
     - This is simple AIE example to demonstrate Vitis Bare-Metal Emulation flow on versal platform.
     - 
@@ -57,6 +41,8 @@ This section contains Emulation Examples.
       * `AI Engine <https://docs.xilinx.com/r/en-US/ug1076-ai-engine-environment/Overview>`__
       * `Adaptive Data Flow <https://docs.xilinx.com/r/en-US/ug1079-ai-engine-kernel-coding/Adaptive-Data-Flow-Graph-Specification-Reference>`__
       * `Graph <https://docs.xilinx.com/r/en-US/ug1076-ai-engine-environment/Overview>`__
+      * HLS Kernel functional model
+
       **Keywords**
 
       * `aiecompiler <https://docs.xilinx.com/r/en-US/ug1076-ai-engine-environment/Compiling-an-AI-Engine-Graph-Application>`__

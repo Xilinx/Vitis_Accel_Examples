@@ -111,7 +111,8 @@ This section contains HLS C/C++ Kernel Examples. The main purpose of C++ kernels
     - 
       **Key Concepts**
 
-      * `Multiple Banks <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Using-Multiple-DDR-Banks>`__
+      * Multiple Banks
+
       **Keywords**
 
       * `m_axi_auto_max_ports <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/M_AXI-Bundles>`__
@@ -124,7 +125,7 @@ This section contains HLS C/C++ Kernel Examples. The main purpose of C++ kernels
       **Key Concepts**
 
       * `ap_ctrl_chain <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/Block-Level-Control-Protocols>`__
-      * `PLRAM <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/PLRAM-Configuration-and-Use>`__
+      * `PLRAM <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Assigning-AXI-Interfaces-to-PLRAM>`__
 
   * - `lmem_2rw <lmem_2rw>`_
     - This is simple example of vector addition to demonstrate how to utilize both ports of Local Memory.
@@ -145,7 +146,7 @@ This section contains HLS C/C++ Kernel Examples. The main purpose of C++ kernels
       **Key Concepts**
 
       * `Kernel Optimization <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Optimizing-Data-Movement>`__
-      * `Loop Pipelining <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/Function-and-Loop-Pipelining>`__
+      * `Loop Pipelining <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/Pipelining-Loops>`__
       **Keywords**
 
       * `pragma HLS PIPELINE <https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/pragma-HLS-pipeline>`__
@@ -187,10 +188,10 @@ This section contains HLS C/C++ Kernel Examples. The main purpose of C++ kernels
 
       * Vitis Memory Hierarchy
 
-      * `PLRAMs <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/PLRAM-Configuration-and-Use>`__
+      * `PLRAMs <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Assigning-AXI-Interfaces-to-PLRAM>`__
       **Keywords**
 
-      * `PLRAM <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/PLRAM-Configuration-and-Use>`__
+      * `PLRAM <https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration/Assigning-AXI-Interfaces-to-PLRAM>`__
 
   * - `port_width_widening <port_width_widening>`_
     - This example shows how HLS introduces the capability of resizing the port width of the kernel interface ports for better resource utilization maintaining the performance.

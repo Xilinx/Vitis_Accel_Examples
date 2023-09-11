@@ -254,8 +254,7 @@ endif
 
 ###########################################################################
 # If the target is for HW_EMU, launch the emulator
-# If the target is for HW, you'll have to follow the Confluence page for
-# running on a board farm system.
+
 run: all 
 ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 ifeq ($(EMU_PS), X86)
