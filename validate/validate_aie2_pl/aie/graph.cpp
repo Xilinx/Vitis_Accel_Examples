@@ -35,8 +35,8 @@ class mygraph_test : public adf::graph {
     mygraph_test() {
         // input & output plio
         din0 = adf::input_plio::create("Datain0", adf::plio_32_bits, "data/input0.txt");
-        dout0 = adf::output_plio::create("DataOut", adf::plio_32_bits, "data/output0.txt");
-        ctrlIn = adf::input_plio::create("DataCtrl", adf::plio_32_bits, "data/ctrlIn.txt");
+        dout0 = adf::output_plio::create("Dataout0", adf::plio_32_bits, "data/output0.txt");
+        ctrlIn = adf::input_plio::create("Ctrlin0", adf::plio_32_bits, "data/ctrlIn.txt");
 
         // connections
         adf::connect<>(din0.out[0], mygraph.in0);
