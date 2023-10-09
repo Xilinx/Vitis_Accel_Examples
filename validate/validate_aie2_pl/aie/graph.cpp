@@ -46,22 +46,22 @@ class mygraph_test : public adf::graph {
 
 };
 
-mygraph_test mytest;
+mygraph_test mygraph;
 
 #if defined(__AIESIM__) || defined(__ADF_FRONTEND__)
 int main(int argc, char** argv) {
-    mytest.init();
+    mygraph.init();
 
     std::cout << "main(): Starting first graph run sequence..." << std::endl;
-    mytest.run(NUM_ITERATIONS1);
+    mygraph.run(NUM_ITERATIONS1);
     std::cout << "main(): Waiting for first graph run sequence to finish..." << std::endl;
-    mytest.wait();
+    mygraph.wait();
     std::cout << "main(): Done with first graph run sequence." << std::endl;
 
     std::cout << "main(): Starting second graph run sequence..." << std::endl;
-    mytest.run(NUM_ITERATIONS2);
+    mygraph.run(NUM_ITERATIONS2);
     std::cout << "main(): Waiting for second graph run sequence to finish..." << std::endl;
-    mytest.end();
+    mygraph.end();
     std::cout << "main(): Done with second graph run sequence." << std::endl;
 
     return 0;
