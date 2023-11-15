@@ -106,5 +106,3 @@ program has to create kernel object specific to compute unit as below:
 The kernel object which is created above is very specific to ``vadd_1``
 compute unit. Using this Kernel Object, host can directly access to this
 fix compute unit.
-
-To visit github.io of this repository, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.

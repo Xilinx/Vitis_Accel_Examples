@@ -90,5 +90,3 @@ The following APIs are used for the above tasks
 
     std::cout << "Read the output data\n";
     output_buffer.read(buff_out_data);
-
-To visit github.io of this repository, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.
