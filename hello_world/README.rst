@@ -93,5 +93,3 @@ This is a simple hello world example to explain the XRT Native API's
     The kernel is created by finding matching kernel instances in the 
     currently loaded xclbin. Most interaction with kernel objects are through
     xrt::run objects created from the kernel object to represent an execution of the kernel 
-
-To visit github.io of this repository, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.
