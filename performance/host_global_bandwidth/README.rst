@@ -125,5 +125,3 @@ platform:
    OpenCL migration BW overall:14906.7 MB/s for buffer size 524288 KB with 2 buffers
 
    TEST PASSED
-
-To visit github.io of this repository, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.
