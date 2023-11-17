@@ -242,5 +242,3 @@ Following is the real log reported while running the design on U200 platform for
    Data Width = 512 burst_length = 32 num_outstanding = 32 buffer_size = 16.00 MB | throughput = 16.8219 GB/sec
    
    TEST PASSED
-
-To visit github.io of this repository, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.

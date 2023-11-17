@@ -173,5 +173,3 @@ Following is the real log reported while running the design on U250 platform:
    Write Throughput = 11.8895 (GB/sec) 
 
    TEST PASSED
-
-To visit github.io of this repository, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.

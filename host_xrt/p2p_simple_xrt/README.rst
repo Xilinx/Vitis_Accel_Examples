@@ -94,5 +94,3 @@ Following is the real log reported while running on U50 platform and NVMe:
    Get the output data from the device
    TEST PASSED
     
-
-To visit github.io of this repository, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.
