@@ -64,5 +64,3 @@ config file as shown below:
 
    [connectivity]
    nk=vadd:4
-
-To visit github.io of this repository, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.

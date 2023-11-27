@@ -132,5 +132,3 @@ Disable P2P
    PCIe            DMA chan(bidir) MIG Calibrated  P2P Enabled
    GEN 3x16        2               true            false
    ...
-
-To visit github.io of this repository, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.

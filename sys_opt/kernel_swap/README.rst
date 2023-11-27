@@ -109,5 +109,3 @@ execution.
 .. code:: cpp
 
    q.enqueueMigrateMemObjects({d_temp}, 0/* 0 means from host*/);
-
-To visit github.io of this repository, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.

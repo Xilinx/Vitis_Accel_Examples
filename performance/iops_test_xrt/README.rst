@@ -79,5 +79,3 @@ platform:
    Commands: 1000000 iops: 359184
    TEST PASSED
 
-
-To visit github.io of this repository, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.

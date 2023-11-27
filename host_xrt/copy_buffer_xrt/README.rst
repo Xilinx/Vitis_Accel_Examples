@@ -66,5 +66,3 @@ Contents of ``bo_a`` are copied into ``bo_b``.
 The API xrt::bo::copy also has overloaded version to provide a different
 offset than 0 for both the source and the destination buffer.
 
-
-To visit github.io of this repository, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.

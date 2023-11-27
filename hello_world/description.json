@@ -1,19 +1,25 @@
 {
-    "name": "Hello World (HLS C/C++ Kernel)", 
+    "name": "Hello World XRT (XRT Native API's)", 
     "description": [
-        "This is simple example of vector addition to describe how to use HLS kernels in Vitis Environment. The kernel uses HLS Dataflow which allows the user to schedule multiple task together to achieve higher throughput."
+        "This is simple example of vector addition to describe the usage of XRT Native API's. The kernel uses HLS Dataflow which allows the user to schedule multiple task together to achieve higher throughput."
     ],
     "flow": "vitis",
     "keywords": [
+        "xrt::device",
+        "load_xclbin", 
+        "xrt::bo",
+        "xrt::kernel", 
+        "map", 
+        "sync",
+        "XCL_BO_SYNC_BO_TO_DEVICE",
+        "XCL_BO_SYNC_BO_FROM_DEVICE",
         "gmem",
-        "#pragma HLS INTERFACE",  
-        "m_axi", 
+        "#pragma HLS INTERFACE",
         "dataflow",
         "hls::stream"
     ], 
     "key_concepts": [
-        "HLS C Kernel", 
-        "OpenCL Host APIs",
+        "XRT Native API",
         "Task Level Parallelism"
     ],
     "platform_blocklist": [
@@ -26,15 +32,22 @@
         "OpenCL"
     ], 
     "host": {
-        "host_exe": "hello_world",
+        "host_exe": "hello_world_xrt",
         "compiler": {
             "sources": [
-                "REPO_DIR/common/includes/xcl2/xcl2.cpp",
+                "REPO_DIR/common/includes/cmdparser/cmdlineparser.cpp",
+                "REPO_DIR/common/includes/logger/logger.cpp",
                 "./src/host.cpp"
             ], 
             "includepaths": [
-                "REPO_DIR/common/includes/xcl2"
+                "REPO_DIR/common/includes/cmdparser",
+                "REPO_DIR/common/includes/logger"
             ]
+        },
+        "linker" : {
+            "libraries" : ["uuid",
+                           "xrt_coreutil"
+               ]
         }
     },
     "containers": [
@@ -50,7 +63,7 @@
     ],
     "launch": [
         {
-            "cmd_args": "BUILD/vadd.xclbin", 
+            "cmd_args": "-x BUILD/vadd.xclbin", 
             "name": "generic launch for all flows"
         }
     ], 

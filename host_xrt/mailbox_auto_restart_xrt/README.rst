@@ -87,5 +87,3 @@ The kernel runs forever with the host updating the two scalar values in alternat
        auto mbox_mult = krnl_mbox.get_arg(3);
 
 The auto-restart iteration count set as 0 implies that there is no limit on the number of iterations to restart the kernel. The kernel thus have to be stopped manually by the host using ``mbox_autorestart_run.stop()``.
-
-To visit github.io of this repository, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.

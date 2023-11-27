@@ -96,5 +96,3 @@ Content of ``krnl_stream_vadd_vmult.cfg`` file is below:
 
 Above specify that ``out`` port of ``krnl_stream_vadd_1`` kernel is
 connected to ``in2`` port of ``krnl_stream_vmult_1``. The FIFO depth of this stream is 64.
-
-To visit github.io of this repository, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.
