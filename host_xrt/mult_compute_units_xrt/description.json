@@ -1,0 +1,85 @@
+{
+    "name": "Multiple Compute Units XRT (XRT Native API's) ", 
+    "description": [
+        "This is simple Example of Multiple Compute units to showcase how a single kernel can be instantiated into Multiple compute units. Host code will show how to use multiple compute units and run them concurrently using XRT Native api's."
+    ],
+    "flow": "vitis",
+    "keywords": [
+        "nk"
+    ], 
+    "key_concepts": [
+        "Multiple compute units"
+    ],
+    "platform_blocklist": [
+        "nodma"
+    ], 
+    "os": [
+        "Linux"
+    ], 
+    "runtime": [
+        "OpenCL"
+    ], 
+    "host": {
+        "host_exe": "mult_compute_units_xrt",
+        "compiler": {
+            "sources": [
+                "REPO_DIR/common/includes/cmdparser/cmdlineparser.cpp",
+                "REPO_DIR/common/includes/logger/logger.cpp",
+                "./src/host.cpp"
+            ], 
+            "includepaths": [
+                "REPO_DIR/common/includes/cmdparser",
+                "REPO_DIR/common/includes/logger"
+            ]
+        },
+        "linker" : {
+            "libraries" : ["uuid",
+                           "xrt_coreutil"
+               ]
+        }
+    },
+    "containers": [
+        {
+            "accelerators": [
+                {
+                    "name": "vadd", 
+                    "location": "src/vadd.cpp"
+                }
+            ], 
+            "name": "vadd",
+            "ldclflags": "--config PROJECT/vadd.cfg"
+        }
+    ],
+    "launch": [
+        {
+            "cmd_args": "-x BUILD/vadd.xclbin", 
+            "name": "generic launch for all flows"
+        }
+    ], 
+    "contributors": [
+        {
+            "url": "http://www.xilinx.com", 
+            "group": "Xilinx"
+        }
+    ],
+    "testinfo": {
+        "disable": false,
+        "profile": "no",
+        "jobs": [
+            {
+                "index": 0,
+                "dependency": [],
+                "env": "",
+                "cmd": "",
+                "max_memory_MB": 32768,
+                "max_time_min": 300
+            }
+        ],
+        "targets": [
+            "vitis_sw_emu",
+            "vitis_hw_emu",
+            "vitis_hw"
+        ],
+        "category": "canary"
+    }
+}
