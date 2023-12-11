@@ -74,5 +74,3 @@ in the host memory and directly transferred to/from the kernel
 Using host_only flag we mention that the buffer is host only buffer
 and the flag is passed as argument during buffer creation.
 
-
-To visit github.io of this repository, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.

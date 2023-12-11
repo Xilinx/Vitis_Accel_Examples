@@ -82,5 +82,3 @@ Following is the real log reported while running on U50 platform and U200 platfo
    Get the output data from the device
    Total Time : 208670 (microseconds)
    TEST PASSED
-
-To visit github.io of this repository, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.

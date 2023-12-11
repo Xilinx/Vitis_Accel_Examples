@@ -165,5 +165,3 @@ throughput greater than 400GBps
    Creating a kernel [krnl_vaddmul:{krnl_vaddmul_8}] for CU(8)
    THROUGHPUT = 421.3 GB/s
    TEST PASSED
-
-To visit github.io of this repository, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.

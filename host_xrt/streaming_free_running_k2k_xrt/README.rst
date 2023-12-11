@@ -110,5 +110,3 @@ connection. This connectivity file is provided to v++ command as below:
 ::
 
     --config krnl_incr.cfg
-
-To visit github.io of this repository, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.

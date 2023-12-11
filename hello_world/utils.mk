@@ -17,10 +17,24 @@ endif
 ############################## Setting up Project Variables ##############################
 # Points to top directory of Git repository
 MK_PATH := $(abspath $(lastword $(MAKEFILE_LIST)))
-COMMON_REPO ?= $(shell bash -c 'export MK_PATH=$(MK_PATH); echo $${MK_PATH%hello_world/*}')
+COMMON_REPO ?= $(shell bash -c 'export MK_PATH=$(MK_PATH); echo $${MK_PATH%host_xrt/hello_world_xrt/*}')
 PWD = $(shell readlink -f .)
 XF_PROJ_ROOT = $(shell readlink -f $(COMMON_REPO))
 
+#Check OS and setting env for xrt c++ api
+GXX_EXTRA_FLAGS := 
+OSDIST = $(shell lsb_release -i |awk -F: '{print tolower($$2)}' | tr -d ' 	' )
+OSREL = $(shell lsb_release -r |awk -F: '{print tolower($$2)}' |tr -d ' 	')
+# for centos and redhat
+ifneq ($(findstring centos,$(OSDIST)),)
+ifeq (7,$(shell echo $(OSREL) | awk -F. '{print tolower($$1)}' ))
+GXX_EXTRA_FLAGS := -D_GLIBCXX_USE_CXX11_ABI=0
+endif
+else ifneq ($(findstring redhat,$(OSDIST)),)
+ifeq (7,$(shell echo $(OSREL) | awk -F. '{print tolower($$1)}' ))
+GXX_EXTRA_FLAGS := -D_GLIBCXX_USE_CXX11_ABI=0
+endif
+endif
 #Setting PLATFORM 
 ifeq ($(PLATFORM),)
 ifneq ($(DEVICE),)
@@ -72,7 +86,7 @@ ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
 	$(ECHO) 'export XILINX_VITIS=$$PWD' >> run_app.sh
 	$(ECHO) 'export XCL_EMULATION_MODE=$(TARGET)' >> run_app.sh
 endif
-	$(ECHO) '$(EXECUTABLE) vadd.xclbin' >> run_app.sh
+	$(ECHO) '$(EXECUTABLE) -x vadd.xclbin' >> run_app.sh
 	$(ECHO) 'return_code=$$?' >> run_app.sh
 	$(ECHO) 'if [ $$return_code -ne 0 ]; then' >> run_app.sh
 	$(ECHO) 'echo "ERROR: host run failed, RC=$$return_code"' >> run_app.sh

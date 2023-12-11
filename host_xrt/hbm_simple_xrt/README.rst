@@ -116,5 +116,3 @@ real log reported while running on U50 platform:
    [CASE 2] THROUGHPUT = 30.915 GB/s 
    TEST PASSED
    
-
-To visit github.io of this repository, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.

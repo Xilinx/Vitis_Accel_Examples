@@ -88,5 +88,3 @@ Device Count Time Taken(s)
 2            23.71
 Speedup      1.99
 ============ =============
-
-To visit github.io of this repository, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.

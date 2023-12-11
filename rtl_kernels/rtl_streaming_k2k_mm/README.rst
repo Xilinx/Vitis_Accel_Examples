@@ -55,5 +55,3 @@ Once the environment has been configured, the application can be executed by
 ::
 
    ./rtl_streaming_k2k_mm <myadder XCLBIN>
-
-To visit github.io of this repository, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.

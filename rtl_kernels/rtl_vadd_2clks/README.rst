@@ -82,5 +82,3 @@ The same is specified in the following manner for PCIe platforms -
 ::
 
    kernel_frequency=0:150|1:250
-
-To visit github.io of this repository, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.
