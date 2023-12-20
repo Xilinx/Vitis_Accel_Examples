@@ -1,0 +1,18 @@
+Performance Examples
+====================
+
+This section contains Performance Examples.
+
+.. toctree::
+   :maxdepth: 1
+   :caption: List of Examples
+
+   axi_burst_performance.rst
+   hbm_bandwidth.rst
+   hbm_bandwidth_pseudo_random.rst
+   host_global_bandwidth.rst
+   host_memory_bandwidth.rst
+   host_memory_bandwidth_xrt.rst
+   iops_test_xrt.rst
+   kernel_global_bandwidth.rst
+   p2p_fpga2fpga_bandwidth.rst

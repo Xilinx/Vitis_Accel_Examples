@@ -6,7 +6,7 @@ PCIe FPGA acceleration boards and Xilinx SoC FPGA acceleration boards. All examp
 ready to be compiled and executed on Vitis supported boards and accelerated cloud service partners.
 
 .. toctree::
-      :maxdepth: 1
+   :maxdepth: 1
    :caption: Table of Contents
 
    prerequisites.rst
@@ -14,33 +14,23 @@ ready to be compiled and executed on Vitis supported boards and accelerated clou
    compile_execute.rst
 
 .. toctree::
-      :maxdepth: 1
+   :maxdepth: 1
    :caption: Category of Examples
 
    hello_world.rst
-   aie_kernels.rst
-   host.rst
    host_xrt.rst
-   host_py.rst
-   cpp.rst
-   demo.rst
-   emulation.rst
    performance.rst
-   sys_opt.rst
-   sys_compiler.rst
    rtl.rst
-   ocl.rst
-   validate.rst
-   x3h.rst
+   sys_opt.rst
    
 .. toctree::
-      :maxdepth: 1
+   :maxdepth: 1
    :caption: Common Utilities
 
    common.rst
 
 .. toctree::
-      :maxdepth: 3
+   :maxdepth: 3
    :caption: Versions
    :hidden:
 

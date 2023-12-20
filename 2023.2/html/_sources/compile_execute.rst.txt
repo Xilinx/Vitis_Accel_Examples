@@ -1,0 +1,65 @@
+Compilation and Execution
+=========================
+
+It is primarily recommended to start with Hello World example which makes the new users aware about the basic structure of a Vitis based Application.
+
+Compiling for Application Emulation
+-----------------------------------
+
+As part of the capabilities available to an application developer, Vitis includes environments to test the correctness of an application at both a software functional level and a hardware emulated level.
+
+These modes, which are named sw_emu and hw_emu, allow the developer to profile and evaluate the performance of a design before compiling for board execution.
+It is recommended that all applications are executed in at least the sw_emu mode before being compiled and executed on an FPGA board.
+
+For Data Center Acceleration platforms:
+
+::
+
+    cd <PATH TO SAMPLE APPLICATION>
+    make all TARGET=<sw_emu|hw_emu> PLATFORM=<FPGA Platform>
+
+where,
+
+	*sw_emu = software emulation*,
+	*hw_emu = hardware emulation*
+
+
+**NOTE:** The software emulation flow is a functional correctness check only. It does not estimate the performance of the application in hardware.
+
+The hardware emulation flow is a cycle accurate simulation of the hardware generated for the application. Also, it is expected for this simulation to take a long time.
+
+Executing Emulated Application
+------------------------------
+*(Recommended Execution Flow for Example Applications in Emulation)*
+
+The makefile for the application can directly execute the application with the following command:
+
+For Data Center Acceleration platforms:
+
+::
+
+    cd <PATH TO SAMPLE APPLICATION>
+    make run TARGET=<sw_emu|hw_emu> PLATFORM=<FPGA Platform>
+
+where,
+
+	*sw_emu = software emulation*,
+	*hw_emu = hardware emulation*
+
+
+If the application has not been previously compiled, the check makefile rule will compile and execute the application in the emulation mode selected by the user.
+
+Compiling for FPGA Accelerator Card
+-----------------------------------
+
+The command to compile for the FPGA acceleration
+board is:
+
+For Data Center Acceleration platforms:
+
+::
+
+    cd <PATH TO SAMPLE APPLICATION>
+    make all PLATFORM=<FPGA Platform> TARGET=<hw>
+
+**NOTE:** Compilation for hardware generates custom logic to implement the functionality of the kernels in an application. It is typical for hardware compile times to range from 30 minutes to a couple of hours.
