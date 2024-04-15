@@ -1,0 +1,3 @@
+Kernel trace events
+Device, Binary, Kernel, Compute Unit, Function, Data Type, Index, Start Time (ms), End Time (ms), Value
+xilinx_u250_gen3x16_xdma_4_1_202210_1-0,vadd.link,vadd,vadd_1,top,top,0,0.232108,0.232985,0

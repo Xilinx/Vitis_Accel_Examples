@@ -1,0 +1,16 @@
+# compile vhdl design source files
+vhdl xil_defaultlib  \
+"../../../../prj.ip_user_files/bd/pfm_dynamic/ip/pfm_dynamic_psr_pfm_clk_0_2_0/sim/pfm_dynamic_psr_pfm_clk_0_2_0.vhd" \
+"../../../../prj.ip_user_files/bd/pfm_dynamic/ip/pfm_dynamic_psr_pfm_clk_0_3_0/sim/pfm_dynamic_psr_pfm_clk_0_3_0.vhd" \
+"../../../../prj.ip_user_files/bd/pfm_dynamic/ip/pfm_dynamic_psr_kernel2_clk_0_0/sim/pfm_dynamic_psr_kernel2_clk_0_0.vhd" \
+"../../../../prj.ip_user_files/bd/pfm_dynamic/ip/pfm_dynamic_psr_kernel_clk_0_0/sim/pfm_dynamic_psr_kernel_clk_0_0.vhd" \
+"../../../../prj.ip_user_files/bd/pfm_dynamic/ip/pfm_dynamic_memory_subsystem_0/bd_0/ip/ip_1/sim/bd_d216_psr_aclk_SLR1_0.vhd" \
+"../../../../prj.ip_user_files/bd/pfm_dynamic/ip/pfm_dynamic_memory_subsystem_0/bd_0/ip/ip_8/sim/bd_d216_psr_ctrl_interconnect_0.vhd" \
+"../../../../prj.ip_user_files/bd/pfm_dynamic/ip/pfm_dynamic_to_delete_kernel_ctrl_0_0/sim/pfm_dynamic_to_delete_kernel_ctrl_0_0.vhd" \
+"../../../../prj.ip_user_files/bd/pfm_dynamic/ip/pfm_dynamic_to_delete_kernel_ctrl_1_0/sim/pfm_dynamic_to_delete_kernel_ctrl_1_0.vhd" \
+"../../../../prj.ip_user_files/bd/pfm_dynamic/ip/pfm_dynamic_to_delete_kernel_ctrl_2_0/sim/pfm_dynamic_to_delete_kernel_ctrl_2_0.vhd" \
+"../../../../prj.ip_user_files/bd/pfm_dynamic/ip/pfm_dynamic_to_delete_kernel_ctrl_3_0/sim/pfm_dynamic_to_delete_kernel_ctrl_3_0.vhd" \
+"../../../../prj.ip_user_files/bd/pfm_top/ip/pfm_top_psr_dma_pcie_aclk_0/sim/pfm_top_psr_dma_pcie_aclk_0.vhd" \
+
+# Do not sort compile order
+nosort
