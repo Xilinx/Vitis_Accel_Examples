@@ -1,0 +1,79 @@
+{
+    "name": "Hello World Python(HLS C/C++ Kernel)", 
+    "description": [
+        "This is simple example to describe the usage of python based host code in Vitis Environment. The kernel is simple vector addition using HLS."
+    ],
+    "flow": "vitis",
+    "keywords": [
+        "pyxrt"
+    ], 
+    "key_concepts": [
+        "Python Host"
+    ],
+    "platform_type": "pcie", 
+    "platform_blocklist": [
+        "nodma",
+        "zc",
+        "vck",
+        "v70"
+    ], 
+    "os": [
+        "Linux"
+    ], 
+    "runtime": [
+        "OpenCL"
+    ],
+    "gui": "false",
+    "match_makefile": "false",
+    "host": {
+        "host_exe": "src/host.py",
+        "compiler": {
+            "sources": [
+                "./src/host.py"
+            ] 
+        }
+    }, 
+    "containers": [
+        {
+            "accelerators": [
+                {
+                    "name": "vadd", 
+                    "location": "src/vadd.cpp"
+                }
+            ], 
+            "name": "vadd"
+        }
+    ],
+    "launch": [
+        {
+            "cmd_args": "-k BUILD/vadd.xclbin", 
+            "name": "generic launch for all flows"
+        }
+    ], 
+    "contributors": [
+        {
+            "url": "http://www.xilinx.com", 
+            "group": "Xilinx"
+        }
+    ],
+    "testinfo": {
+        "disable": false,
+        "profile": "no",
+        "jobs": [
+            {
+                "index": 0,
+                "dependency": [],
+                "env": "",
+                "cmd": "",
+                "max_memory_MB": 32768,
+                "max_time_min": 300
+            }
+        ],
+        "targets": [
+            "vitis_sw_emu",
+            "vitis_hw_emu",
+            "vitis_hw"
+        ],
+        "category": "canary"
+    }
+}
