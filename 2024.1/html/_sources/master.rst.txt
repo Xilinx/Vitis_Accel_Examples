@@ -1,0 +1,11 @@
+.. 
+   Copyright 2020 Xilinx, Inc.
+
+.. meta::
+   :http-equiv=refresh: 0; URL='../../2022.2/html/index.html'
+
+Master (2022.2)
+################
+
+Vitis Accel Examples documentation is organized by release version. Redirecting to the latest version.
+
