@@ -1,0 +1,8 @@
+Prerequisites
+=============
+
+Vitis Accel Examples assumes that user is familiar with basic Vitis Environment, Setup, Programming and Debugging Flow. If not, it is recommended to cover these topics from Vitis Application Acceleration Guide:
+
+    * `Vitis Application Acceleration Guide`_
+
+.. _Vitis Application Acceleration Guide: https://docs.xilinx.com/r/en-US/ug1393-vitis-application-acceleration 
