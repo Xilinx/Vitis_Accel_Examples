@@ -1,0 +1,17 @@
+System Compiler Examples
+========================
+
+This section contains System Compiler Examples.
+
+.. toctree::
+   :maxdepth: 1
+   :caption: List of Examples
+
+   debug_profile_sc.rst
+   eth_acc_sc.rst
+   file_filter_sc.rst
+   gmio_transfers_sc.rst
+   mult_acc_compose_sc.rst
+   mult_card_sc.rst
+   quick_start_sc.rst
+   streaming_sc.rst

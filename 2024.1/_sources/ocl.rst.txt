@@ -1,0 +1,21 @@
+OpenCL Kernels
+==============
+
+This section contains OpenCL Kernel Examples.
+
+.. toctree::
+   :maxdepth: 1
+   :caption: List of Examples
+
+   cl_array_partition.rst
+   cl_burst_rw.rst
+   cl_dataflow_func.rst
+   cl_dataflow_subfunc.rst
+   cl_gmem_2banks.rst
+   cl_helloworld.rst
+   cl_lmem_2rw.rst
+   cl_loop_reorder.rst
+   cl_partition_cyclicblock.rst
+   cl_shift_register.rst
+   cl_systolic_array.rst
+   cl_wide_mem_rw.rst
