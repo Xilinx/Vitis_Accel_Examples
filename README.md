@@ -15,6 +15,8 @@ Welcome to the Vitis Data Center Acceleration Examples repository. This reposito
 | rtl_kernels |RTL Kernels based examples covering mix of RTL and HLS C++ kernels and hardware debug in Vitis flow |
 | sys_opt | Examples covering multiple devices, multiple processes and kernel swap use cases |
 
+For more comprehensive documentation, <a href="http://xilinx.github.io/Vitis_Accel_Examples/"><img src="https://img.shields.io/badge/click-here-green?style=plastic&logo=appveyor"/></a>
+
 <p class="sphinxhide" align="center"><sub>Copyright © 2020–2023 Advanced Micro Devices, Inc</sub></p>
 
 <p class="sphinxhide" align="center"><sup><a href="https://www.amd.com/en/corporate/copyright">Terms and Conditions</a></sup></p>
