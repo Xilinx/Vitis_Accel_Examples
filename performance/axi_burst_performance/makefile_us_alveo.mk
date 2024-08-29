@@ -19,13 +19,13 @@
 ifneq ($(findstring Makefile, $(MAKEFILE_LIST)), Makefile)
 help:
 	$(ECHO) "Makefile Usage:"
-	$(ECHO) "  make all TARGET=<sw_emu/hw_emu/hw> PLATFORM=<FPGA platform>"
+	$(ECHO) "  make all TARGET=<hw_emu/hw> PLATFORM=<FPGA platform>"
 	$(ECHO) "      Command to generate the design for specified Target and Shell."
 	$(ECHO) ""
-	$(ECHO) "  make run TARGET=<sw_emu/hw_emu/hw> PLATFORM=<FPGA platform>" 
+	$(ECHO) "  make run TARGET=<hw_emu/hw> PLATFORM=<FPGA platform>" 
 	$(ECHO) "      Command to run application in emulation."
 	$(ECHO) ""
-	$(ECHO) "  make build TARGET=<sw_emu/hw_emu/hw> PLATFORM=<FPGA platform>"
+	$(ECHO) "  make build TARGET=<hw_emu/hw> PLATFORM=<FPGA platform>"
 	$(ECHO) "      Command to build xclbin application."
 	$(ECHO) ""
 	$(ECHO) "  make host"
@@ -164,7 +164,7 @@ $(EMCONFIG_DIR)/emconfig.json:
 
 ############################## Setting Essential Checks and Running Rules ##############################
 run: all
-ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
+ifeq ($(TARGET),$(filter $(TARGET),hw_emu))
 	$(CP) $(EMCONFIG_DIR)/emconfig.json .
 	XCL_EMULATION_MODE=$(TARGET) $(EXECUTABLE) $(CMD_ARGS)
 else
@@ -173,7 +173,7 @@ endif
 
 .PHONY: test
 test: $(EXECUTABLE)
-ifeq ($(TARGET),$(filter $(TARGET),sw_emu hw_emu))
+ifeq ($(TARGET),$(filter $(TARGET),hw_emu))
 	XCL_EMULATION_MODE=$(TARGET) $(EXECUTABLE) $(CMD_ARGS)
 else
 	$(EXECUTABLE) $(CMD_ARGS)
@@ -182,7 +182,7 @@ endif
 ############################## Cleaning Rules ##############################
 # Cleaning stuff
 clean:
-	-$(RMDIR) $(EXECUTABLE) *.xclbin/{*sw_emu*,*hw_emu*} 
+	-$(RMDIR) $(EXECUTABLE) *.xclbin/{*hw_emu*} 
 	-$(RMDIR) profile_* TempConfig system_estimate.xtxt *.rpt *.csv 
 	-$(RMDIR) src/*.ll *v++* .Xil emconfig.json dltmp* xmltmp* *.log *.jou *.wcfg *.wdb
 
