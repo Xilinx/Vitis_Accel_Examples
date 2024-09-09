@@ -117,12 +117,22 @@ else
 	$(EXECUTABLE) $(CMD_ARGS)
 endif
 
+
+ifneq ($(TARGET),$(findstring $(TARGET), hw hw_emu))
+$(error Software Emulation is not supported for the examples and will be deprecated in the tool in 2024.2. Please run hw_emu or hw target.)
+endif
+
 .PHONY: test
 test: $(EXECUTABLE)
 ifeq ($(TARGET),$(filter $(TARGET),hw_emu))
 	XCL_EMULATION_MODE=$(TARGET) $(EXECUTABLE) $(CMD_ARGS)
 else
 	$(EXECUTABLE) $(CMD_ARGS)
+endif
+
+
+ifneq ($(TARGET),$(findstring $(TARGET), hw hw_emu))
+$(warning WARNING:Software Emulation is not supported for the examples and will be deprecated in the tool in 2024.2. Please run hw_emu or hw target.)
 endif
 
 ############################## Cleaning Rules ##############################
