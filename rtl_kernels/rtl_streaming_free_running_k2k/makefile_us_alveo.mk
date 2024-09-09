@@ -114,7 +114,7 @@ else
 	$(EXECUTABLE) $(CMD_ARGS)
 endif
 ifneq ($(TARGET),$(findstring $(TARGET), hw hw_emu))
-$(error Application supports only hw hw_emu TARGET. Please use the target for running the application)
+$(error Software Emulation is not supported for the examples and will be deprecated in the tool in 2024.2. Please run hw_emu or hw target.)
 endif
 
 .PHONY: test
@@ -125,7 +125,7 @@ else
 	$(EXECUTABLE) $(CMD_ARGS)
 endif
 ifneq ($(TARGET),$(findstring $(TARGET), hw hw_emu))
-$(warning WARNING:Application supports only hw hw_emu TARGET. Please use the target for running the application)
+$(warning WARNING:Software Emulation is not supported for the examples and will be deprecated in the tool in 2024.2. Please run hw_emu or hw target.)
 endif
 
 
