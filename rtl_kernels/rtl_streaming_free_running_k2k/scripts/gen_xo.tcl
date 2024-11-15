@@ -26,7 +26,7 @@ set xpfm_path [lindex $::argv 3]
 set device    [lindex $::argv 4]
 
 set pinfo [file join [pwd] "pinfo.json"]
-exec $::env(XILINX_VITIS)/bin/platforminfo -f -j -o $pinfo -d ${xpfm_path}
+exec $::env(XILINX_VITIS)/bin/platforminfo -f -j -o $pinfo -p ${xpfm_path}
 
 if {[file exists "myadder_ex"]} {
     file delete -force "myadder_ex"
