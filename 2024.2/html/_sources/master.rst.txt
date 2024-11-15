@@ -1,0 +1,11 @@
+.. 
+   Copyright 2020-2024 Advanced Micro Devices, Inc.
+
+.. meta::
+   :http-equiv=refresh: 0; URL='../../2024.2/html/index.html'
+
+Master (2024.2)
+################
+
+Vitis Accel Examples documentation is organized by release version. Redirecting to the latest version.
+
