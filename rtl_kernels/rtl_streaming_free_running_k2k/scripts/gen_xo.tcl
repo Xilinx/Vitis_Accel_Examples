@@ -26,7 +26,19 @@ set xpfm_path [lindex $::argv 3]
 set device    [lindex $::argv 4]
 
 set pinfo [file join [pwd] "pinfo.json"]
-exec $::env(XILINX_VITIS)/bin/platforminfo -f -j -o $pinfo -d ${xpfm_path}
+[exec $::env(XILINX_VITIS)/bin/platforminfo -p ${xpfm_path} --json=hardwarePlatform.devices[0].fpgaPart >> $pinfo]
+
+set fid [open $pinfo r]
+gets $fid line
+regsub -all ":" $line - line
+set fields [split $line "-"]
+append l1 [lindex $fields 1] -
+append l1 [lindex $fields 2] -
+append l1 [lindex $fields 3] 
+append l1 [lindex $fields 4] -
+append l1 [lindex $fields 5]
+set partname $l1
+puts "partname = $l1\n"
 
 if {[file exists "myadder_ex"]} {
     file delete -force "myadder_ex"
@@ -35,21 +47,6 @@ if {[file exists "project_1"]} {
     file delete -force "project_1"
 }
 
-set fid [open $pinfo r]
-set bpart "part"
-while { ! [eof $fid] } {
-    gets $fid line
-    if { [regexp {([^:[:space:]]+): (.*),$} $line match left right] } {
-	regsub -all {\"} $left {} left
-	regsub -all {\"} $right {} right
-	if { $left eq $bpart } {
-	    set partname $right
- 	    puts "partname = $partname\n"
-	    break
-        }
-    }
-}
-close $fid
 create_project project_1 project_1 -part $partname
 create_ip -name rtl_kernel_wizard -vendor xilinx.com -library ip -version 1.0 -module_name myadder
 
