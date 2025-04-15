@@ -95,4 +95,14 @@ This is a simple hello world example to explain python based host code.
     The kernel is created by finding matching kernel instances in the 
     currently loaded xclbin.
 
+NOTE
+-------
+
+When using newer versions in virtual python environment such as pyenv, ``ModuleNotFoundError: No module named 'pyxrt'`` may appear.
+To address this, add XRT python location to PYTHONPATH variable as shown.
+
+::
+    export PYTHONPATH=<XRT install location>/python:$PYTHONPATH
+
+
 To visit github.io of this repository, `click here <http://xilinx.github.io/Vitis_Accel_Examples>`__.
