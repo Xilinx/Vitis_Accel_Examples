@@ -102,6 +102,7 @@ When using newer versions in virtual python environment such as pyenv, ``ModuleN
 To address this, add XRT python location to PYTHONPATH variable as shown.
 
 ::
+
     export PYTHONPATH=<XRT install location>/python:$PYTHONPATH
 
 
