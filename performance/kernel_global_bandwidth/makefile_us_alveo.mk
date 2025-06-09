@@ -55,11 +55,11 @@ VPP_PFLAGS :=
 CMD_ARGS = $(BUILD_DIR)/krnl_kernel_global.xclbin
 include config.mk
 
-CXXFLAGS += -I$(XILINX_XRT)/include -I$(XILINX_VIVADO)/include -Wall -O0 -g -std=c++1y
+CXXFLAGS += -I$(XILINX_XRT)/include -I$(XILINX_VIVADO)/include -Wall -O0 -g -std=c++17
 LDFLAGS += -L$(XILINX_XRT)/lib -pthread -lOpenCL
 
 ########################## Checking if PLATFORM in allowlist #######################
-PLATFORM_BLOCKLIST += u2_ u30 u50 u55 vck5000 u250 v70 
+PLATFORM_BLOCKLIST += aws-vu47p-f2 u2_ u30 u50 u55 vck5000 u250 v70 
 ############################## Setting up Host Variables ##############################
 #Include Required Host Source Files
 CXXFLAGS += -I$(XF_PROJ_ROOT)/common/includes/xcl2

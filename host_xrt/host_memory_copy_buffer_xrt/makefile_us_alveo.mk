@@ -53,11 +53,11 @@ PACKAGE_OUT = ./package.$(TARGET)
 
 VPP_PFLAGS := 
 CMD_ARGS = -x $(BUILD_DIR)/krnl_vadd.xclbin
-CXXFLAGS += -I$(XILINX_XRT)/include -I$(XILINX_VIVADO)/include -Wall -O0 -g -std=c++1y
+CXXFLAGS += -I$(XILINX_XRT)/include -I$(XILINX_VIVADO)/include -Wall -O0 -g -std=c++17
 LDFLAGS += -L$(XILINX_XRT)/lib -pthread -lOpenCL
 
 ########################## Checking if PLATFORM in allowlist #######################
-PLATFORM_BLOCKLIST += u25_ u30 u50c u50lv u50_gen3x4 u55 zc vck 2019 2018 samsung u250 u2_ 
+PLATFORM_BLOCKLIST += aws-vu47p-f2 u25_ u30 u50c u50lv u50_gen3x4 u55 zc vck 2019 2018 samsung u250 u2_ 
 PLATFORM_ALLOWLIST += u50_gen3x16_nodma 
 
 ############################## Setting up Host Variables ##############################

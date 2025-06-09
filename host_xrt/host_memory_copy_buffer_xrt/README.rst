@@ -23,6 +23,7 @@ This is simple host memory example to describe how host-only memory can be copie
 |
 ..
 
+ - AWS F2
  - Alveo U25 SmartNIC
  - Alveo U30
  - Alveo U50c

@@ -19,6 +19,7 @@ Bandwidth test of global to local memory.
 |
 ..
 
+ - AWS F2
  - Samsung U.2 SmartSSD
  - Alveo U30
  - Alveo U50
