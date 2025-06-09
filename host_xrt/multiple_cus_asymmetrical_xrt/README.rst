@@ -21,6 +21,7 @@ This is simple example of vector addition to demonstrate how to connect each com
 |
 ..
 
+ - AWS F2
  - Alveo U25 SmartNIC
  - Alveo U30
  - Alveo U50
