@@ -1,0 +1,24 @@
+.. 
+   Copyright 2020-2025 Advanced Micro Devices, Inc.
+
+Previous Versions
+###################
+
+Vitis Accel Examples documentation is organized by release versions.
+Use the following links to browse Vitis Accel Examples documentation for a specific release.
+
+- |2024_2|_
+- |2024_1|_
+- |2023_2|_
+- |2023_1|_
+- |2022_2|_
+- |2022_1|_
+- |2021_2|_
+- |2021_1|_
+- |2020_2|_
+- |2020_1|_
+- |2019_2|_
+
+.. 
+  The above variables are defined in conf.py. Please do not edit the variables here.
+   
