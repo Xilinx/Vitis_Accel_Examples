@@ -19,7 +19,7 @@
 #include <cstring>
 
 // XRT includes
-#include "experimental/xrt_mailbox.h"
+#include "xrt/experimental/xrt_mailbox.h"
 
 int main(int argc, char** argv) {
     // Command Line Parser

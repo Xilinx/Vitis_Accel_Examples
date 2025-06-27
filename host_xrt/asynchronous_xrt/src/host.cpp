@@ -19,12 +19,13 @@
 #include <cstring>
 
 // XRT includes
-#include "experimental/xrt_bo.h"
-#include "experimental/xrt_device.h"
-#include "experimental/xrt_kernel.h"
-#include "experimental/xrt_queue.h"
+#include "xrt/xrt_bo.h"
+#include "xrt/xrt_device.h"
+#include "xrt/xrt_kernel.h"
+#include "xrt/experimental/xrt_queue.h"
 
-#define DATA_SIZE 1024 * 1024 // 1MB
+//#define DATA_SIZE 1024 * 1024 // 1MB
+#define DATA_SIZE 512 * 512 // 500KB, reduced runtime
 
 int main(int argc, char** argv) {
     // Command Line Parser
