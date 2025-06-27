@@ -23,7 +23,7 @@ XF_PROJ_ROOT = $(shell readlink -f $(COMMON_REPO))
 
 
 ########################## Checking if PLATFORM in allowlist #######################
-PLATFORM_BLOCKLIST += u25_ u30 u200 zc vck u250 aws samsung u2_ x3522pv nodma v70 
+PLATFORM_BLOCKLIST += u25_ u30 u200 zc vck u250 aws-vu9p-f1 samsung u2_ x3522pv nodma v70 
 ifneq ($(TARGET),$(findstring $(TARGET), hw hw_emu))
 $(error Application supports only hw hw_emu TARGET. Please use the target for running the application)
 endif
