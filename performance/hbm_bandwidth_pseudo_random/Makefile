@@ -24,7 +24,7 @@ XF_PROJ_ROOT = $(shell readlink -f $(COMMON_REPO))
 
 ########################## Checking if PLATFORM in allowlist #######################
 PLATFORM_BLOCKLIST += u25_ u30 u200 zc vck u250 aws-vu9p-f1 samsung u2_ x3522pv nodma v70 
-PLATFORM ?= xilinx_u250_gen3x16_xdma_4_1_202210_1
+PLATFORM ?= xilinx_u55c_gen3x16_xdma_3_202210_1
 
 HOST_ARCH := x86
 

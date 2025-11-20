@@ -27,7 +27,7 @@ PLATFORM_BLOCKLIST += nodma vck190
 ifneq ($(TARGET),$(findstring $(TARGET), hw hw_emu))
 $(error Application supports only hw hw_emu TARGET. Please use the target for running the application)
 endif
-PLATFORM ?= xilinx_u250_gen3x16_xdma_4_1_202210_1
+PLATFORM ?= xilinx_u55c_gen3x16_xdma_3_202210_1
 
 HOST_ARCH := x86
 
