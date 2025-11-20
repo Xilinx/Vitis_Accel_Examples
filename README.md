@@ -17,11 +17,7 @@ Welcome to the Vitis Data Center Acceleration Examples repository. This reposito
 
 For more comprehensive documentation, <a href="http://xilinx.github.io/Vitis_Accel_Examples/"><img src="https://img.shields.io/badge/click-here-green?style=plastic&logo=appveyor"/></a>
 
-## NOTE
-Software Emulation is not supported for the examples and will be deprecated in the tool in 2024.2. This feature will be removed in the subsequent release.
 
-For more details, please visit https://support.xilinx.com/s/article/000036790?language=en_US
-
-<p class="sphinxhide" align="center"><sub>Copyright © 2020–2023 Advanced Micro Devices, Inc</sub></p>
+<p class="sphinxhide" align="center"><sub>Copyright © 2020–2025 Advanced Micro Devices, Inc</sub></p>
 
 <p class="sphinxhide" align="center"><sup><a href="https://www.amd.com/en/corporate/copyright">Terms and Conditions</a></sup></p>
