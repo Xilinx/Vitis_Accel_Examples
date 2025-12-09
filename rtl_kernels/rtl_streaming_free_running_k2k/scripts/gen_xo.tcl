@@ -25,6 +25,15 @@ set target    [lindex $::argv 2]
 set xpfm_path [lindex $::argv 3]
 set device    [lindex $::argv 4]
 
+if {[info exists ::env(PLATFORM_REPO_PATHS)]} {
+    set platform_repo_path $::env(PLATFORM_REPO_PATHS)
+} else {
+    puts "PLATFORM_REPO_PATHS is not set, please set it to proceed.."
+    exit
+}
+
+set xpfm_path $platform_repo_path/$xpfm_path
+
 set pinfo [file join [pwd] "pinfo.json"]
 [exec $::env(XILINX_VITIS)/bin/platforminfo -p ${xpfm_path} --json=hardwarePlatform.devices[0].fpgaPart >> $pinfo]
 
