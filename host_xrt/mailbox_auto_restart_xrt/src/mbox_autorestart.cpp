@@ -16,7 +16,7 @@
 
 extern "C" {
 void mbox_autorestart(int in1, int in2, int& add, int& mult) {
-#pragma HLS interface ap_ctrl_chain port = return
+#pragma HLS interface s_axilite port = return autorestart
 #pragma HLS INTERFACE s_axilite port = in1
 #pragma HLS STABLE variable = in1
 #pragma HLS INTERFACE s_axilite port = in2
