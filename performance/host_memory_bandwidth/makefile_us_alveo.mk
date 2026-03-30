@@ -104,7 +104,7 @@ $(TEMP_DIR)/write_bandwidth.xo: src/write_bandwidth.cpp
 
 $(BUILD_DIR)/bandwidth.xclbin: $(TEMP_DIR)/bandwidth.xo $(TEMP_DIR)/read_bandwidth.xo $(TEMP_DIR)/write_bandwidth.xo
 	mkdir -p $(BUILD_DIR)
-	v++ -l $(VPP_FLAGS) $(VPP_LDFLAGS) -t $(TARGET) --platform $(PLATFORM) --temp_dir $(TEMP_DIR) $(VPP_LDFLAGS_bandwidth) -o'$(LINK_OUTPUT)' $(+)
+	v++ -l $(VPP_FLAGS) $(VPPDISABLEDRC) $(VPP_LDFLAGS) -t $(TARGET) --platform $(PLATFORM) --temp_dir $(TEMP_DIR) $(VPP_LDFLAGS_bandwidth) -o'$(LINK_OUTPUT)' $(+)
 	v++ -p $(LINK_OUTPUT) $(VPP_FLAGS) -t $(TARGET) --platform $(PLATFORM) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/bandwidth.xclbin
 
 ############################## Setting Rules for Host (Building Host Executable) ##############################

@@ -17,6 +17,12 @@ Welcome to the Vitis Data Center Acceleration Examples repository. This reposito
 
 For more comprehensive documentation, <a href="http://xilinx.github.io/Vitis_Accel_Examples/"><img src="https://img.shields.io/badge/click-here-green?style=plastic&logo=appveyor"/></a>
 
+## Note
+To suppress IP-LOCK-01 warning message set this environment variable:
+```
+export VPPDISABLEDRC=--drc.disable=IP-LOCK-01
+```
+
 
 <p class="sphinxhide" align="center"><sub>Copyright © 2020–2025 Advanced Micro Devices, Inc</sub></p>
 

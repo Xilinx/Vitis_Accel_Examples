@@ -125,7 +125,7 @@ $(TEMP_DIR)/bandwidth.xo: src/kernel.cpp
 
 $(BUILD_DIR)/krnl_host_global.xclbin: $(TEMP_DIR)/bandwidth.xo
 	mkdir -p $(BUILD_DIR)
-	v++ -l $(VPP_FLAGS) $(VPP_LDFLAGS) -t $(TARGET) --platform $(PLATFORM) --temp_dir $(TEMP_DIR) -o'$(LINK_OUTPUT)' $(+)
+	v++ -l $(VPP_FLAGS) $(VPPDISABLEDRC) $(VPP_LDFLAGS) -t $(TARGET) --platform $(PLATFORM) --temp_dir $(TEMP_DIR) -o'$(LINK_OUTPUT)' $(+)
 	v++ -p $(LINK_OUTPUT) $(VPP_FLAGS) -t $(TARGET) --platform $(PLATFORM) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/krnl_host_global.xclbin
 
 ############################## Setting Rules for Host (Building Host Executable) ##############################

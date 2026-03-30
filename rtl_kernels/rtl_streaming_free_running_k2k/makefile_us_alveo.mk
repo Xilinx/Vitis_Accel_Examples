@@ -95,7 +95,7 @@ xclbin: build
 # Building kernel
 $(BUILD_DIR)/myadder.xclbin: $(TEMP_DIR)/myadder.xo $(TEMP_DIR)/krnl_mm2s.xo $(TEMP_DIR)/krnl_s2mm.xo
 	mkdir -p $(BUILD_DIR)
-	v++ -l $(VPP_FLAGS) $(VPP_LDFLAGS) -t $(TARGET) --platform $(PLATFORM) --temp_dir $(TEMP_DIR) $(VPP_LDFLAGS_myadder) -o'$(LINK_OUTPUT)' $(+)
+	v++ -l $(VPP_FLAGS) $(VPPDISABLEDRC) $(VPP_LDFLAGS) -t $(TARGET) --platform $(PLATFORM) --temp_dir $(TEMP_DIR) $(VPP_LDFLAGS_myadder) -o'$(LINK_OUTPUT)' $(+)
 	v++ -p $(LINK_OUTPUT) -t $(TARGET) --platform $(PLATFORM) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/myadder.xclbin
 ############################## Setting Rules for Host (Building Host Executable) ##############################
 $(EXECUTABLE): $(HOST_SRCS) | check-xrt

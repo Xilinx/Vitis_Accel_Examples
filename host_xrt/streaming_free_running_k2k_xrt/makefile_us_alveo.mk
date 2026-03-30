@@ -104,7 +104,7 @@ $(TEMP_DIR)/mem_write.xo: src/mem_write.cpp
 
 $(BUILD_DIR)/krnl_incr.xclbin: $(TEMP_DIR)/mem_read.xo $(TEMP_DIR)/increment.xo $(TEMP_DIR)/mem_write.xo
 	mkdir -p $(BUILD_DIR)
-	v++ -l $(VPP_FLAGS) $(VPP_LDFLAGS) -t $(TARGET) --platform $(PLATFORM) --temp_dir $(TEMP_DIR) $(VPP_LDFLAGS_krnl_incr) -o'$(LINK_OUTPUT)' $(+)
+	v++ -l $(VPP_FLAGS) $(VPPDISABLEDRC) $(VPP_LDFLAGS) -t $(TARGET) --platform $(PLATFORM) --temp_dir $(TEMP_DIR) $(VPP_LDFLAGS_krnl_incr) -o'$(LINK_OUTPUT)' $(+)
 	v++ -p $(LINK_OUTPUT) $(VPP_FLAGS) -t $(TARGET) --platform $(PLATFORM) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/krnl_incr.xclbin
 
 ############################## Setting Rules for Host (Building Host Executable) ##############################

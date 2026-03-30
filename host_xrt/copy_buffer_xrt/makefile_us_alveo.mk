@@ -96,7 +96,7 @@ $(TEMP_DIR)/vector_add.xo: src/vector_addition.cpp
 
 $(BUILD_DIR)/vector_addition.xclbin: $(TEMP_DIR)/vector_add.xo
 	mkdir -p $(BUILD_DIR)
-	v++ -l $(VPP_FLAGS) $(VPP_LDFLAGS) -t $(TARGET) --platform $(PLATFORM) --temp_dir $(TEMP_DIR) -o'$(LINK_OUTPUT)' $(+)
+	v++ -l $(VPP_FLAGS) $(VPPDISABLEDRC) $(VPP_LDFLAGS) -t $(TARGET) --platform $(PLATFORM) --temp_dir $(TEMP_DIR) -o'$(LINK_OUTPUT)' $(+)
 	v++ -p $(LINK_OUTPUT) $(VPP_FLAGS) -t $(TARGET) --platform $(PLATFORM) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/vector_addition.xclbin
 
 ############################## Setting Rules for Host (Building Host Executable) ##############################

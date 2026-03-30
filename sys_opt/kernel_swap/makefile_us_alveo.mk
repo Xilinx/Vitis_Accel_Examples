@@ -103,11 +103,11 @@ $(TEMP_DIR)/krnl_vadd.xo: src/krnl_vadd.cpp
 
 $(BUILD_DIR)/krnl_vmul.xclbin: $(TEMP_DIR)/krnl_vmul.xo
 	mkdir -p $(BUILD_DIR)
-	v++ -l $(VPP_FLAGS) -t $(TARGET) --platform $(PLATFORM) $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) -o'$(LINK_OUTPUT_VMUL)' $(+)
+	v++ -l $(VPP_FLAGS) $(VPPDISABLEDRC) -t $(TARGET) --platform $(PLATFORM) $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) -o'$(LINK_OUTPUT_VMUL)' $(+)
 	v++ -p $(LINK_OUTPUT_VMUL) $(VPP_FLAGS) -t $(TARGET) --platform $(PLATFORM) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/krnl_vmul.xclbin
 $(BUILD_DIR)/krnl_vadd.xclbin: $(TEMP_DIR)/krnl_vadd.xo
 	mkdir -p $(BUILD_DIR)
-	v++ -l $(VPP_FLAGS) -t $(TARGET) --platform $(PLATFORM) $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) -o'$(LINK_OUTPUT_VADD)' $(+)
+	v++ -l $(VPP_FLAGS) $(VPPDISABLEDRC) -t $(TARGET) --platform $(PLATFORM) $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) -o'$(LINK_OUTPUT_VADD)' $(+)
 	v++ -p $(LINK_OUTPUT_VADD) $(VPP_FLAGS) -t $(TARGET) --platform $(PLATFORM) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/krnl_vadd.xclbin
 
 ############################## Setting Rules for Host (Building Host Executable) ##############################

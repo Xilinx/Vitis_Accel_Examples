@@ -146,12 +146,12 @@ $(TEMP_DIR)/test_kernel_maxi_512bit_6.xo: src/test_kernel_maxi_512bit_6.cpp
 	$(VPP) -c $(VPP_FLAGS) -t $(TARGET) --platform $(PLATFORM) -k test_kernel_maxi_512bit_6 --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
 $(BUILD_DIR)/test_kernel_maxi_256bit.xclbin: $(BINARY_CONTAINER_test_kernel_maxi_256bit_OBJS)
 	mkdir -p $(BUILD_DIR)
-	$(VPP) -l $(VPP_FLAGS) -t $(TARGET) --platform $(PLATFORM) $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR)  -o'$(BUILD_DIR)/test_kernel_maxi_256bit.link.xclbin' $(+)
+	$(VPP) -l $(VPP_FLAGS) $(VPPDISABLEDRC) -t $(TARGET) --platform $(PLATFORM) $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR)  -o'$(BUILD_DIR)/test_kernel_maxi_256bit.link.xclbin' $(+)
 	$(VPP) -p $(BUILD_DIR)/test_kernel_maxi_256bit.link.xclbin $(VPP_FLAGS) -t $(TARGET) --platform $(PLATFORM) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/test_kernel_maxi_256bit.xclbin
 
 $(BUILD_DIR)/test_kernel_maxi_512bit.xclbin: $(BINARY_CONTAINER_test_kernel_maxi_512bit_OBJS)
 	mkdir -p $(BUILD_DIR)
-	$(VPP) -l $(VPP_FLAGS) $(VPP_LDFLAGS) -t $(TARGET) --platform $(PLATFORM) --temp_dir $(TEMP_DIR)  -o'$(BUILD_DIR)/test_kernel_maxi_512bit.link.xclbin' $(+)
+	$(VPP) -l $(VPP_FLAGS) $(VPPDISABLEDRC) $(VPP_LDFLAGS) -t $(TARGET) --platform $(PLATFORM) --temp_dir $(TEMP_DIR)  -o'$(BUILD_DIR)/test_kernel_maxi_512bit.link.xclbin' $(+)
 	$(VPP) -p $(BUILD_DIR)/test_kernel_maxi_512bit.link.xclbin -t $(TARGET) --platform $(PLATFORM) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/test_kernel_maxi_512bit.xclbin
 
 ############################## Setting Rules for Host (Building Host Executable) ##############################

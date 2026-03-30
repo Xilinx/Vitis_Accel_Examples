@@ -98,7 +98,7 @@ $(TEMP_DIR)/mbox_autorestart.xo: src/mbox_autorestart.cpp
 
 $(BUILD_DIR)/mbox_autorestart.xclbin: $(TEMP_DIR)/mbox_autorestart.xo
 	mkdir -p $(BUILD_DIR)
-	v++ -l $(VPP_FLAGS) -t $(TARGET) --platform $(PLATFORM) $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) -o'$(LINK_OUTPUT)' $(+)
+	v++ -l $(VPP_FLAGS) $(VPPDISABLEDRC) -t $(TARGET) --platform $(PLATFORM) $(VPP_LDFLAGS) --temp_dir $(TEMP_DIR) -o'$(LINK_OUTPUT)' $(+)
 	v++ -p $(LINK_OUTPUT) $(VPP_FLAGS) -t $(TARGET) --platform $(PLATFORM) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/mbox_autorestart.xclbin
 
 ############################## Setting Rules for Host (Building Host Executable) ##############################
