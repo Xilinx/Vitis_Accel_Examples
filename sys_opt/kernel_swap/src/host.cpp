@@ -14,8 +14,24 @@
 * under the License.
 */
 #include "cmdlineparser.h"
-#include "xcl2.hpp"
+#include <iostream>
 #include <vector>
+#include <cstdlib>
+#include "xrt/xrt_device.h"
+#include "xrt/xrt_kernel.h"
+#include "xrt/xrt_bo.h"
+#include "xrt/xrt_hw_context.h"
+
+template <typename T>
+struct aligned_allocator {
+    using value_type = T;
+    T* allocate(std::size_t num) {
+        void* ptr = nullptr;
+        if (posix_memalign(&ptr, 4096, num * sizeof(T))) throw std::bad_alloc();
+        return reinterpret_cast<T*>(ptr);
+    }
+    void deallocate(T* p, std::size_t num) { free(p); }
+};
 
 #define LENGTH 1024
 
@@ -24,7 +40,8 @@ int main(int argc, char** argv) {
     sda::utils::CmdLineParser parser;
 
 #ifdef dfx_device
-    if (xcl::is_hw_emulation()) {
+    const char* xcl_mode = std::getenv("XCL_EMULATION_MODE");
+    if (xcl_mode != nullptr && std::string(xcl_mode) == "hw_emu") {
         std::cout << "INFO: This example is not supported for dfx platforms for hw_emu" << std::endl;
         return EXIT_SUCCESS;
     }
@@ -45,9 +62,6 @@ int main(int argc, char** argv) {
         return EXIT_FAILURE;
     }
 
-    cl_int err;
-    cl::Context context;
-    cl::CommandQueue q;
     std::vector<int, aligned_allocator<int> > h_a(LENGTH);    // host memory for a vector
     std::vector<int, aligned_allocator<int> > h_b(LENGTH);    // host memory for b vector
     std::vector<int, aligned_allocator<int> > h_temp(LENGTH); // host memory for temp vector
@@ -62,113 +76,91 @@ int main(int argc, char** argv) {
         h_c[i] = 0;
     }
 
-    auto devices = xcl::get_xil_devices();
+    xrt::device device(0);
     int vector_length = LENGTH;
     bool match = true;
 
+    std::cout << "Device[0]: program successful!\n";
+
     // The temporary pointer(h_temp) is created mainly for the dynamic platforms,
     // since in the dynamic platforms we will not be able to load a second xclbin
-    // unless all the cl buffers are released before calling cl::Program a second
-    // time in the same process. The code block below is in braces because the cl
-    // objects
-    // are automatically released once the block ends
-    std::string vmulBinaryFile = binaryFile1.c_str();
-    auto fileBuf_vmul = xcl::read_binary_file(vmulBinaryFile);
-    cl::Program::Binaries vmul_bins{{fileBuf_vmul.data(), fileBuf_vmul.size()}};
-    auto vaddBinaryFile = binaryFile2.c_str();
-    auto fileBuf_vadd = xcl::read_binary_file(vaddBinaryFile);
-    cl::Program::Binaries vadd_bins{{fileBuf_vadd.data(), fileBuf_vadd.size()}};
-    bool valid_device = false;
-    for (unsigned int i = 0; i < devices.size(); i++) {
-        auto device = devices[i];
-        // Creating Context and Command Queue for selected Device
-        OCL_CHECK(err, context = cl::Context(device, nullptr, nullptr, nullptr, &err));
-        OCL_CHECK(err, q = cl::CommandQueue(context, device, CL_QUEUE_PROFILING_ENABLE, &err));
-        std::cout << "Trying to program device[" << i << "]: " << device.getInfo<CL_DEVICE_NAME>() << std::endl;
-        {
-            cl::Program program_vmul(context, {device}, vmul_bins, nullptr, &err);
-            if (err != CL_SUCCESS) {
-                std::cout << "Failed to program device[" << i << "] with xclbin file!\n";
-            } else {
-                std::cout << "Device[" << i << "]: program successful!\n";
-                printf("INFO: loading vmul kernel\n");
-                OCL_CHECK(err, cl::Kernel krnl_vmul(program_vmul, "krnl_vmul", &err));
-                OCL_CHECK(err, cl::Buffer d_a(context, CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY, sizeof(int) * LENGTH,
-                                              h_a.data(), &err));
-                OCL_CHECK(err, cl::Buffer d_b(context, CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY, sizeof(int) * LENGTH,
-                                              h_b.data(), &err));
-                OCL_CHECK(err, cl::Buffer d_mul(context, CL_MEM_USE_HOST_PTR | CL_MEM_READ_WRITE, sizeof(int) * LENGTH,
-                                                h_temp.data(), &err));
+    // unless all the buffers are released before calling load_xclbin a second
+    // time in the same process. The code block below is in braces because the
+    // objects are automatically released once the block ends
+    {
+        std::cout << "INFO: loading vmul kernel\n";
+        auto uuid1 = device.load_xclbin(binaryFile1);
+        xrt::hw_context hw_ctx1(device, uuid1);
+        xrt::kernel krnl_vmul(hw_ctx1, "krnl_vmul");
 
-                OCL_CHECK(err, err = krnl_vmul.setArg(0, d_a));
-                OCL_CHECK(err, err = krnl_vmul.setArg(1, d_b));
-                OCL_CHECK(err, err = krnl_vmul.setArg(2, d_mul));
-                OCL_CHECK(err, err = krnl_vmul.setArg(3, vector_length));
+        xrt::bo d_a(hw_ctx1, sizeof(int) * LENGTH, krnl_vmul.group_id(0));
+        xrt::bo d_b(hw_ctx1, sizeof(int) * LENGTH, krnl_vmul.group_id(1));
+        xrt::bo d_mul(hw_ctx1, sizeof(int) * LENGTH, krnl_vmul.group_id(2));
 
-                OCL_CHECK(err, err = q.enqueueMigrateMemObjects({d_a, d_b}, 0 /* 0 means from host*/));
-
-                // This function will execute the kernel on the FPGA
-                OCL_CHECK(err, err = q.enqueueTask(krnl_vmul));
-
-                OCL_CHECK(err, err = q.enqueueMigrateMemObjects({d_mul}, CL_MIGRATE_MEM_OBJECT_HOST));
-                OCL_CHECK(err, err = q.finish());
-
-                // Check Results
-                for (int i = 0; i < LENGTH; i++) {
-                    if ((h_a[i] * h_b[i]) != h_temp[i]) {
-                        printf("ERROR in vmul - %d - a=%d, b=%d, c=%d\n", i, h_a[i], h_b[i], h_c[i]);
-                        match = false;
-                        break;
-                    }
-                }
-            }
+        auto map_a = d_a.map<int*>();
+        auto map_b = d_b.map<int*>();
+        for (int i = 0; i < LENGTH; i++) {
+            map_a[i] = h_a[i];
+            map_b[i] = h_b[i];
         }
-        {
-            if (match) {
-                cl::Program program_vadd(context, {device}, vadd_bins, nullptr, &err);
-                if (err != CL_SUCCESS) {
-                    std::cout << "Failed to program device[" << i << "] with xclbin file!\n";
-                } else {
-                    std::cout << "Device[" << i << "]: program successful!\n";
-                    printf("INFO: loading vadd_krnl\n");
-                    OCL_CHECK(err, cl::Kernel krnl_vadd(program_vadd, "krnl_vadd", &err));
-                    // Need to create the buffer and allocate the memory for the dynamic
-                    // platforms
-                    cl::Buffer d_temp(context, CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY, sizeof(int) * LENGTH,
-                                      h_temp.data());
-                    cl::Buffer d_add(context, CL_MEM_WRITE_ONLY | CL_MEM_USE_HOST_PTR, sizeof(int) * LENGTH,
-                                     h_c.data());
+        d_a.sync(XCL_BO_SYNC_BO_TO_DEVICE);
+        d_b.sync(XCL_BO_SYNC_BO_TO_DEVICE);
 
-                    krnl_vadd.setArg(0, d_temp);
-                    krnl_vadd.setArg(1, d_temp);
-                    krnl_vadd.setArg(2, d_add);
-                    krnl_vadd.setArg(3, vector_length);
+        // Execute kernel
+        auto run = krnl_vmul(d_a, d_b, d_mul, vector_length);
+        run.wait();
 
-                    q.enqueueMigrateMemObjects({d_temp}, 0 /* 0 means from host*/);
+        d_mul.sync(XCL_BO_SYNC_BO_FROM_DEVICE);
+        auto map_mul = d_mul.map<int*>();
+        for (int i = 0; i < LENGTH; i++) {
+            h_temp[i] = map_mul[i];
+        }
 
-                    // This function will execute the kernel on the FPGA
-                    q.enqueueTask(krnl_vadd);
-
-                    q.enqueueMigrateMemObjects({d_add}, CL_MIGRATE_MEM_OBJECT_HOST);
-                    q.finish();
-
-                    // Check Results
-                    for (int i = 0; i < LENGTH; i++) {
-                        if ((2 * (h_a[i] * h_b[i])) != h_c[i]) {
-                            printf("ERROR in vadd - %d - c=%d\n", i, h_c[i]);
-                            match = false;
-                            break;
-                        }
-                    }
-                    valid_device = true;
-                    break; // we break because we found a valid device
-                }
+        // Check Results
+        for (int i = 0; i < LENGTH; i++) {
+            if ((h_a[i] * h_b[i]) != h_temp[i]) {
+                printf("ERROR in vmul - %d - a=%d, b=%d, c=%d\n", i, h_a[i], h_b[i], h_c[i]);
+                match = false;
+                break;
             }
         }
     }
-    if (!valid_device) {
-        std::cout << "Failed to program any device found, exit!\n";
-        exit(EXIT_FAILURE);
+
+    {
+        if (match) {
+            std::cout << "INFO: loading vadd_krnl\n";
+            auto uuid2 = device.load_xclbin(binaryFile2);
+            xrt::hw_context hw_ctx2(device, uuid2);
+            xrt::kernel krnl_vadd(hw_ctx2, "krnl_vadd");
+
+            xrt::bo d_temp(hw_ctx2, sizeof(int) * LENGTH, krnl_vadd.group_id(0));
+            xrt::bo d_add(hw_ctx2, sizeof(int) * LENGTH, krnl_vadd.group_id(2));
+
+            auto map_temp = d_temp.map<int*>();
+            for (int i = 0; i < LENGTH; i++) {
+                map_temp[i] = h_temp[i];
+            }
+            d_temp.sync(XCL_BO_SYNC_BO_TO_DEVICE);
+
+            // Execute kernel
+            auto run = krnl_vadd(d_temp, d_temp, d_add, vector_length);
+            run.wait();
+
+            d_add.sync(XCL_BO_SYNC_BO_FROM_DEVICE);
+            auto map_add = d_add.map<int*>();
+            for (int i = 0; i < LENGTH; i++) {
+                h_c[i] = map_add[i];
+            }
+
+            // Check Results
+            for (int i = 0; i < LENGTH; i++) {
+                if ((2 * (h_a[i] * h_b[i])) != h_c[i]) {
+                    printf("ERROR in vadd - %d - c=%d\n", i, h_c[i]);
+                    match = false;
+                    break;
+                }
+            }
+        }
     }
 
     std::cout << "TEST " << (match ? "PASSED" : "FAILED") << std::endl;

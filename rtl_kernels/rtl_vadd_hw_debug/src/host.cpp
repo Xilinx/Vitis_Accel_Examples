@@ -13,20 +13,26 @@
 * License for the specific language governing permissions and limitations
 * under the License.
 */
-#include "xcl2.hpp"
+#include <iostream>
 #include <vector>
+#include <cstdlib>
+#include "xrt/xrt_device.h"
+#include "xrt/xrt_kernel.h"
+#include "xrt/xrt_bo.h"
+#include "xrt/xrt_hw_context.h"
+
+template <typename T>
+struct aligned_allocator {
+    using value_type = T;
+    T* allocate(std::size_t num) {
+        void* ptr = nullptr;
+        if (posix_memalign(&ptr, 4096, num * sizeof(T))) throw std::bad_alloc();
+        return reinterpret_cast<T*>(ptr);
+    }
+    void deallocate(T* p, std::size_t num) { free(p); }
+};
 
 #define DATA_SIZE 256
-
-void wait_for_enter(const std::string& msg) {
-    std::cout << msg << std::endl;
-    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-}
-
-void invokeVivadoDebugScript(const std::string& msg) {
-    std::cout << msg << std::endl;
-    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-}
 
 int main(int argc, char** argv) {
     if (argc != 2) {
@@ -52,74 +58,42 @@ int main(int argc, char** argv) {
         source_hw_results[i] = 0;
     }
 
-    // OPENCL HOST CODE AREA START
-    // Create Program and Kernel
-    cl_int err;
-    cl::CommandQueue q;
-    cl::Context context;
-    cl::Kernel krnl_vadd;
-    auto devices = xcl::get_xil_devices();
+    // XRT Native API HOST CODE AREA START
+    xrt::device device(0);
+    auto uuid = device.load_xclbin(binaryFile);
+    xrt::hw_context hw_ctx(device, uuid);
 
-    // read_binary_file() is a utility API which will load the binaryFile
-    // and will return the pointer to file buffer.
-    auto fileBuf = xcl::read_binary_file(binaryFile);
-    cl::Program::Binaries bins{{fileBuf.data(), fileBuf.size()}};
-    bool valid_device = false;
-    for (unsigned int i = 0; i < devices.size(); i++) {
-        auto device = devices[i];
-        // Creating Context and Command Queue for selected Device
-        OCL_CHECK(err, context = cl::Context(device, nullptr, nullptr, nullptr, &err));
-        OCL_CHECK(err, q = cl::CommandQueue(context, device, CL_QUEUE_PROFILING_ENABLE, &err));
+    std::cout << "Device[0]: program successful!\n";
 
-        std::cout << "Trying to program device[" << i << "]: " << device.getInfo<CL_DEVICE_NAME>() << std::endl;
-        cl::Program program(context, {device}, bins, nullptr, &err);
-        if (err != CL_SUCCESS) {
-            std::cout << "Failed to program device[" << i << "] with xclbin file!\n";
-        } else {
-            std::cout << "Device[" << i << "]: program successful!\n";
-            OCL_CHECK(err, krnl_vadd = cl::Kernel(program, "krnl_vadd_rtl", &err));
-            valid_device = true;
-            break; // we break because we found a valid device
-        }
+    xrt::kernel krnl_vadd(hw_ctx, "krnl_vadd_rtl");
+
+    // Allocate Buffers in Global Memory
+    xrt::bo buffer_r1(hw_ctx, vector_size_bytes, krnl_vadd.group_id(0));
+    xrt::bo buffer_r2(hw_ctx, vector_size_bytes, krnl_vadd.group_id(1));
+    xrt::bo buffer_w(hw_ctx, vector_size_bytes, krnl_vadd.group_id(2));
+
+    // Map and write input data
+    auto map_r1 = buffer_r1.map<int*>();
+    auto map_r2 = buffer_r2.map<int*>();
+    for (int i = 0; i < size; i++) {
+        map_r1[i] = source_input1[i];
+        map_r2[i] = source_input2[i];
     }
-    if (!valid_device) {
-        std::cout << "Failed to program any device found, exit!\n";
-        exit(EXIT_FAILURE);
-    }
-
-    // if (interactive == true)
-    // wait_for_enter("\nPress ENTER to continue after setting up ILA
-    // trigger...");
-    // else
-    // call script/socket to invoke Vivado, connect to server, XVC target, set
-    // probe files, setup ILA triggers and arm ILA
-    // invokeVivadoDebugScript();
-
-    // Allocate Buffer in Global Memory
-    OCL_CHECK(err, cl::Buffer buffer_r1(context, CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY, vector_size_bytes,
-                                        source_input1.data(), &err));
-    OCL_CHECK(err, cl::Buffer buffer_r2(context, CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY, vector_size_bytes,
-                                        source_input2.data(), &err));
-    OCL_CHECK(err, cl::Buffer buffer_w(context, CL_MEM_USE_HOST_PTR | CL_MEM_WRITE_ONLY, vector_size_bytes,
-                                       source_hw_results.data(), &err));
-
-    // Set the Kernel Arguments
-    OCL_CHECK(err, err = krnl_vadd.setArg(0, buffer_r1));
-    OCL_CHECK(err, err = krnl_vadd.setArg(1, buffer_r2));
-    OCL_CHECK(err, err = krnl_vadd.setArg(2, buffer_w));
-    OCL_CHECK(err, err = krnl_vadd.setArg(3, size));
-
-    // Copy input data to device global memory
-    OCL_CHECK(err, err = q.enqueueMigrateMemObjects({buffer_r1, buffer_r2}, 0 /* 0 means from host*/));
+    buffer_r1.sync(XCL_BO_SYNC_BO_TO_DEVICE);
+    buffer_r2.sync(XCL_BO_SYNC_BO_TO_DEVICE);
 
     // Launch the Kernel
-    OCL_CHECK(err, err = q.enqueueTask(krnl_vadd));
+    auto run = krnl_vadd(buffer_r1, buffer_r2, buffer_w, size);
+    run.wait();
 
     // Copy Result from Device Global Memory to Host Local Memory
-    OCL_CHECK(err, err = q.enqueueMigrateMemObjects({buffer_w}, CL_MIGRATE_MEM_OBJECT_HOST));
-    OCL_CHECK(err, err = q.finish());
+    buffer_w.sync(XCL_BO_SYNC_BO_FROM_DEVICE);
+    auto map_w = buffer_w.map<int*>();
+    for (int i = 0; i < size; i++) {
+        source_hw_results[i] = map_w[i];
+    }
 
-    // OPENCL HOST CODE AREA END
+    // XRT HOST CODE AREA END
 
     // Compare the results of the Device to the simulation
     int match = 0;

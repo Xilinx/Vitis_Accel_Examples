@@ -56,7 +56,7 @@ CMD_ARGS = $(BUILD_DIR)/bandwidth.xclbin
 include config.mk
 
 CXXFLAGS += -I$(XILINX_XRT)/include -I$(XILINX_VIVADO)/include -Wall -O0 -g -std=c++17
-LDFLAGS += -L$(XILINX_XRT)/lib -pthread -lOpenCL
+LDFLAGS += -L$(XILINX_XRT)/lib -pthread -lOpenCL -lxrt_coreutil
 
 ########################## Checking if PLATFORM in allowlist #######################
 PLATFORM_BLOCKLIST += u25_ u30 u50lv u50_gen3x4 zc vck 2019 2018 samsung u2_ v70 

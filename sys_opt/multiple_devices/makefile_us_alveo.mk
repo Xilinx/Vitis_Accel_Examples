@@ -54,7 +54,7 @@ PACKAGE_OUT = ./package.$(TARGET)
 VPP_PFLAGS := 
 CMD_ARGS = $(BUILD_DIR)/vector_addition.xclbin $(BUILD_DIR)/vector_addition.xclbin
 CXXFLAGS += -I$(XILINX_XRT)/include -I$(XILINX_VIVADO)/include -Wall -O0 -g -std=c++17
-LDFLAGS += -L$(XILINX_XRT)/lib -pthread -lOpenCL
+LDFLAGS += -L$(XILINX_XRT)/lib -pthread -lxrt_coreutil -lOpenCL -luuid
 
 ########################## Checking if PLATFORM in allowlist #######################
 PLATFORM_BLOCKLIST += nodma 

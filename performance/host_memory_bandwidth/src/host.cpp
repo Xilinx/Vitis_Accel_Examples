@@ -14,8 +14,27 @@
 * under the License.
 */
 
-#include "xcl2.hpp"
-#include <CL/cl_ext_xilinx.h>
+#include <iostream>
+#include <cstring>
+#include <chrono>
+#include "xrt/xrt_device.h"
+#include "xrt/xrt_kernel.h"
+#include "xrt/xrt_bo.h"
+#include "xrt/xrt_hw_context.h"
+
+// Helper to convert size to human-readable string
+std::string convert_size(size_t size) {
+    const char* units[] = {"B", "KB", "MB", "GB"};
+    int unit_idx = 0;
+    double dsize = static_cast<double>(size);
+    while (dsize >= 1024.0 && unit_idx < 3) {
+        dsize /= 1024.0;
+        unit_idx++;
+    }
+    char buf[64];
+    snprintf(buf, sizeof(buf), "%.2f %s", dsize, units[unit_idx]);
+    return std::string(buf);
+}
 
 int main(int argc, char* argv[]) {
     if (argc != 2) {
@@ -23,53 +42,31 @@ int main(int argc, char* argv[]) {
         return EXIT_FAILURE;
     }
 
-    cl_int err;
-    cl::Context context;
-    cl::CommandQueue q;
-    cl::Kernel krnl, krnl_read, krnl_write;
     std::string binaryFile = argv[1];
 
-    // The get_xil_devices will return vector of Xilinx Devices
-    auto devices = xcl::get_xil_devices();
+    // XRT Native API initialization
+    xrt::device device(2);
+    auto uuid = device.load_xclbin(binaryFile);
+    xrt::hw_context hw_ctx(device, uuid);
 
-    auto fileBuf = xcl::read_binary_file(binaryFile);
+    std::cout << "Device[0]: program successful!\n";
 
-    cl::Program::Binaries bins{{fileBuf.data(), fileBuf.size()}};
-    bool valid_device = false;
-    for (unsigned int i = 0; i < devices.size(); i++) {
-        auto device = devices[i];
-        // Creating Context and Command Queue for selected Device
-        OCL_CHECK(err, context = cl::Context(device, nullptr, nullptr, nullptr, &err));
-        OCL_CHECK(err, q = cl::CommandQueue(context, device,
-                                            CL_QUEUE_PROFILING_ENABLE | CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE, &err));
-
-        std::cout << "Trying to program device[" << i << "]: " << device.getInfo<CL_DEVICE_NAME>() << std::endl;
-        cl::Program program(context, {device}, bins, nullptr, &err);
-        if (err != CL_SUCCESS) {
-            std::cout << "Failed to program device[" << i << "] with xclbin file!\n";
-        } else {
-            std::cout << "Device[" << i << "]: program successful!\n";
-            OCL_CHECK(err, krnl = cl::Kernel(program, "bandwidth", &err));
-            OCL_CHECK(err, krnl_read = cl::Kernel(program, "read_bandwidth", &err));
-            OCL_CHECK(err, krnl_write = cl::Kernel(program, "write_bandwidth", &err));
-            valid_device = true;
-            break; // we break because we found a valid device
-        }
-    }
-    if (!valid_device) {
-        std::cout << "Failed to program any device found, exit!\n";
-        exit(EXIT_FAILURE);
-    }
+    xrt::kernel krnl(hw_ctx, "bandwidth");
+    xrt::kernel krnl_read(hw_ctx, "read_bandwidth");
+    xrt::kernel krnl_write(hw_ctx, "write_bandwidth");
 
     double concurrent_max = 0;
     double read_max = 0;
     double write_max = 0;
 
+    const char* xcl_mode = std::getenv("XCL_EMULATION_MODE");
+    bool is_emulation = (xcl_mode != nullptr);
+
     for (size_t i = 4 * 1024; i <= 256 * 1024 * 1024; i *= 2) {
         size_t iter = 1024;
         size_t bufsize = i;
 
-        if (xcl::is_emulation()) {
+        if (is_emulation) {
             iter = 2;
             if (bufsize > 8 * 1024) break;
         }
@@ -85,60 +82,32 @@ int main(int argc, char* argv[]) {
         for (size_t i = 0; i < bufsize; i++) {
             input_host[i] = i % 256;
         }
-        cl::Buffer* buffer[2];
 
-        /* Host mem flags */
-        cl_mem_ext_ptr_t input_buffer_ext;
-        input_buffer_ext.flags = XCL_MEM_EXT_HOST_ONLY;
-        input_buffer_ext.obj = nullptr;
-        input_buffer_ext.param = 0;
-
-        cl_mem_ext_ptr_t output_buffer_ext;
-        output_buffer_ext.flags = XCL_MEM_EXT_HOST_ONLY;
-        output_buffer_ext.obj = nullptr;
-        output_buffer_ext.param = 0;
-
-        OCL_CHECK(err, buffer[0] = new cl::Buffer(context, CL_MEM_READ_WRITE | CL_MEM_EXT_PTR_XILINX, bufsize,
-                                                  &input_buffer_ext, &err));
-        OCL_CHECK(err, buffer[1] = new cl::Buffer(context, CL_MEM_READ_WRITE | CL_MEM_EXT_PTR_XILINX, bufsize,
-                                                  &output_buffer_ext, &err));
-
-        OCL_CHECK(err, err = krnl.setArg(0, *(buffer[0])));
-        OCL_CHECK(err, err = krnl.setArg(1, *(buffer[1])));
-        OCL_CHECK(err, err = krnl.setArg(2, bufsize));
-        OCL_CHECK(err, err = krnl.setArg(3, iter));
+        // Create XRT buffer objects with host memory flags
+        xrt::bo buffer0(hw_ctx, bufsize, xrt::bo::flags::host_only, krnl.group_id(0));
+        xrt::bo buffer1(hw_ctx, bufsize, xrt::bo::flags::host_only, krnl.group_id(1));
 
         double dbytes = bufsize;
-        std::string size_str = xcl::convert_size(bufsize);
+        std::string size_str = convert_size(bufsize);
 
         /* Write input buffer */
-        /* Map input buffer for PCIe write */
-        unsigned char* map_input_buffer0;
-        OCL_CHECK(err, map_input_buffer0 = (unsigned char*)q.enqueueMapBuffer(
-                           *(buffer[0]), CL_FALSE, CL_MAP_WRITE_INVALIDATE_REGION, 0, bufsize, nullptr, nullptr, &err));
-        OCL_CHECK(err, err = q.finish());
-
-        /* prepare data to be written to the device */
+        auto map_input_buffer0 = buffer0.map<unsigned char*>();
         for (size_t i = 0; i < bufsize; i++) {
             map_input_buffer0[i] = input_host[i];
         }
-        OCL_CHECK(err, err = q.enqueueUnmapMemObject(*(buffer[0]), map_input_buffer0));
-
-        OCL_CHECK(err, err = q.finish());
+        buffer0.sync(XCL_BO_SYNC_BO_TO_DEVICE);
 
         /* Execute Kernel */
         auto start = std::chrono::high_resolution_clock::now();
-        q.enqueueTask(krnl);
-        q.finish();
+        auto run = krnl(buffer0, buffer1, bufsize, iter);
+        run.wait();
         auto end = std::chrono::high_resolution_clock::now();
         double duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start).count();
         double msduration = duration / iter;
 
-        /* Copy results back from OpenCL buffer */
-        unsigned char* map_output_buffer0;
-        OCL_CHECK(err, map_output_buffer0 = (unsigned char*)q.enqueueMapBuffer(*(buffer[1]), CL_FALSE, CL_MAP_READ, 0,
-                                                                               bufsize, nullptr, nullptr, &err));
-        OCL_CHECK(err, err = q.finish());
+        /* Copy results back from buffer */
+        buffer1.sync(XCL_BO_SYNC_BO_FROM_DEVICE);
+        auto map_output_buffer0 = buffer1.map<unsigned char*>();
 
         /* Check the results of output0 */
         for (size_t i = 0; i < bufsize; i++) {
@@ -162,14 +131,10 @@ int main(int argc, char* argv[]) {
             concurrent_max = gbpersec;
         }
 
-        OCL_CHECK(err, err = krnl_read.setArg(0, *(buffer[0])));
-        OCL_CHECK(err, err = krnl_read.setArg(1, bufsize));
-        OCL_CHECK(err, err = krnl_read.setArg(2, iter));
-
-        /* Execute Kernel */
+        /* Execute read kernel */
         auto read_start = std::chrono::high_resolution_clock::now();
-        q.enqueueTask(krnl_read);
-        q.finish();
+        auto read_run = krnl_read(buffer0, bufsize, iter);
+        read_run.wait();
         auto read_end = std::chrono::high_resolution_clock::now();
         duration = std::chrono::duration_cast<std::chrono::microseconds>(read_end - read_start).count();
         msduration = duration / iter;
@@ -186,14 +151,10 @@ int main(int argc, char* argv[]) {
             read_max = gbpersec;
         }
 
-        OCL_CHECK(err, err = krnl_write.setArg(0, *(buffer[1])));
-        OCL_CHECK(err, err = krnl_write.setArg(1, bufsize));
-        OCL_CHECK(err, err = krnl_write.setArg(2, iter));
-
-        /* Execute Kernel */
+        /* Execute write kernel */
         auto write_start = std::chrono::high_resolution_clock::now();
-        q.enqueueTask(krnl_write);
-        q.finish();
+        auto write_run = krnl_write(buffer1, bufsize, iter);
+        write_run.wait();
         auto write_end = std::chrono::high_resolution_clock::now();
         duration = std::chrono::duration_cast<std::chrono::microseconds>(write_end - write_start).count();
         msduration = duration / iter;
@@ -210,8 +171,7 @@ int main(int argc, char* argv[]) {
             write_max = gbpersec;
         }
 
-        delete (buffer[0]);
-        delete (buffer[1]);
+        free(input_host);
     }
 
     std::cout << "Maximum bandwidth achieved :\n";

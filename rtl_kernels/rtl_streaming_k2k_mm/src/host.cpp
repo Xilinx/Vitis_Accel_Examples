@@ -21,10 +21,21 @@
 #include <unistd.h>
 #include <vector>
 
-// This extension file is required for stream APIs
-#include "CL/cl_ext_xilinx.h"
-// This file is required for OpenCL C++ wrapper APIs
-#include "xcl2.hpp"
+#include "xrt/xrt_device.h"
+#include "xrt/xrt_kernel.h"
+#include "xrt/xrt_bo.h"
+#include "xrt/xrt_hw_context.h"
+
+template <typename T>
+struct aligned_allocator {
+    using value_type = T;
+    T* allocate(std::size_t num) {
+        void* ptr = nullptr;
+        if (posix_memalign(&ptr, 4096, num * sizeof(T))) throw std::bad_alloc();
+        return reinterpret_cast<T*>(ptr);
+    }
+    void deallocate(T* p, std::size_t num) { free(p); }
+};
 
 auto constexpr c_test_size = 1 * 1024 * 1024; // 1 MB data
 
@@ -36,9 +47,10 @@ int main(int argc, char** argv) {
     }
     int size = c_test_size;
 
-    if (xcl::is_hw_emulation()) {
+    const char* xcl_mode = std::getenv("XCL_EMULATION_MODE");
+    if (xcl_mode != nullptr && std::string(xcl_mode) == "hw_emu") {
         size = 4096; // 4KB for HW emulation
-    } else if (xcl::is_emulation()) {
+    } else if (xcl_mode != nullptr) {
         size = 2 * 1024 * 1024; // 2MB for sw emulation
     }
 
@@ -53,91 +65,65 @@ int main(int argc, char** argv) {
         sw_results[i] = a[i] + 2;
     }
 
-    // OpenCL Host Code Begins.
-    cl_int err;
-
-    // OpenCL objects
-    cl::Device device;
-    cl::Context context;
-    cl::CommandQueue q;
-    cl::Program program;
-    cl::Kernel krnl_myadder1;
-    cl::Kernel krnl_myadder2;
-    cl::Kernel krnl_mm2s, krnl_s2mm;
-
+    // XRT Native API Host Code
     auto binaryFile = argv[1];
 
-    // get_xil_devices() is a utility API which will find the xilinx
-    // platforms and will return list of devices connected to Xilinx platform
-    auto devices = xcl::get_xil_devices();
+    xrt::device device(0);
+    auto uuid = device.load_xclbin(binaryFile);
+    xrt::hw_context hw_ctx(device, uuid);
 
-    // read_binary_file() is a utility API which will load the binaryFile
-    // and will return the pointer to file buffer.
-    auto fileBuf = xcl::read_binary_file(binaryFile);
-    cl::Program::Binaries bins{{fileBuf.data(), fileBuf.size()}};
-    bool valid_device = false;
-    for (unsigned int i = 0; i < devices.size(); i++) {
-        device = devices[i];
-        // Creating Context and Command Queue for selected Device
-        OCL_CHECK(err, context = cl::Context(device, nullptr, nullptr, nullptr, &err));
-        OCL_CHECK(err, q = cl::CommandQueue(context, device,
-                                            CL_QUEUE_PROFILING_ENABLE | CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE, &err));
-        std::cout << "Trying to program device[" << i << "]: " << device.getInfo<CL_DEVICE_NAME>() << std::endl;
-        cl::Program program(context, {device}, bins, nullptr, &err);
-        if (err != CL_SUCCESS) {
-            std::cout << "Failed to program device[" << i << "] with xclbin file!\n";
-        } else {
-            std::cout << "Device[" << i << "]: program successful!\n";
-            // Creating Kernel
-            OCL_CHECK(err, krnl_myadder1 = cl::Kernel(program, "myadder1:{myadder1_1}", &err));
-            OCL_CHECK(err, krnl_myadder2 = cl::Kernel(program, "myadder2:{myadder2_1}", &err));
-            OCL_CHECK(err, krnl_s2mm = cl::Kernel(program, "krnl_s2mm", &err));
-            OCL_CHECK(err, krnl_mm2s = cl::Kernel(program, "krnl_mm2s", &err));
-            valid_device = true;
-            break; // we break because we found a valid device
-        }
-    }
-    if (!valid_device) {
-        std::cout << "Failed to program any device found, exit!\n";
-        exit(EXIT_FAILURE);
-    }
+    std::cout << "Device[0]: program successful!\n";
+
+    xrt::kernel krnl_mm2s(hw_ctx, "krnl_mm2s");
+    xrt::kernel krnl_myadder1(hw_ctx, "myadder1:{myadder1_1}");
+    xrt::kernel krnl_myadder2(hw_ctx, "myadder2:{myadder2_1}");
+    xrt::kernel krnl_s2mm(hw_ctx, "krnl_s2mm");
 
     std::cout << "Vector Increment of elements 0x" << std::hex << size << " by 2" << std::endl;
 
     // Running the kernel
     unsigned int vector_size_bytes = size * sizeof(int);
 
-    // Allocate Buffer in Global Memory
-    // Buffers are allocated using CL_MEM_USE_HOST_PTR for efficient memory and
-    // Device-to-host communication
-    OCL_CHECK(err, cl::Buffer buffer_input(context, CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY, vector_size_bytes, a.data(),
-                                           &err));
-    OCL_CHECK(err, cl::Buffer buffer_output(context, CL_MEM_USE_HOST_PTR | CL_MEM_WRITE_ONLY, vector_size_bytes,
-                                            hw_results.data(), &err));
+    // Allocate Buffers in Global Memory
+    xrt::bo buffer_input(hw_ctx, vector_size_bytes, krnl_mm2s.group_id(0));
+    xrt::bo buffer_output(hw_ctx, vector_size_bytes, krnl_s2mm.group_id(0));
 
-    // Setting Kernel Arguments
-    OCL_CHECK(err, err = krnl_mm2s.setArg(0, buffer_input));
-    OCL_CHECK(err, err = krnl_mm2s.setArg(2, size));
-    OCL_CHECK(err, err = krnl_s2mm.setArg(0, buffer_output));
-    OCL_CHECK(err, err = krnl_s2mm.setArg(2, size));
+    // Map and write input data
+    auto map_input = buffer_input.map<int*>();
+    for (int i = 0; i < size; i++) {
+        map_input[i] = a[i];
+    }
+    buffer_input.sync(XCL_BO_SYNC_BO_TO_DEVICE);
 
-    // Copy input data to device global memory
-    OCL_CHECK(err, err = q.enqueueMigrateMemObjects({buffer_input}, 0 /* 0 means from host*/));
-    q.finish();
+    // Launch the Kernels (streaming k2k with memory-mapped endpoints)
+    // Note: arg index 1 is stream (not set via host), so use set_arg for indices 0 and 2
+    xrt::run run_mm2s(krnl_mm2s);
+    run_mm2s.set_arg(0, buffer_input);
+    run_mm2s.set_arg(2, size);
+    run_mm2s.start();
 
-    // Launch the Kernel
-    OCL_CHECK(err, err = q.enqueueTask(krnl_mm2s));
-    OCL_CHECK(err, err = q.enqueueTask(krnl_myadder1));
-    OCL_CHECK(err, err = q.enqueueTask(krnl_myadder2));
-    OCL_CHECK(err, err = q.enqueueTask(krnl_s2mm));
+    xrt::run run_myadder1(krnl_myadder1);
+    run_myadder1.start();
 
-    q.finish(); // Waiting for kernels to finish execution
+    xrt::run run_myadder2(krnl_myadder2);
+    run_myadder2.start();
+
+    xrt::run run_s2mm(krnl_s2mm);
+    run_s2mm.set_arg(0, buffer_output);
+    run_s2mm.set_arg(2, size);
+    run_s2mm.start();
+
+    run_mm2s.wait();
+    run_myadder1.wait();
+    run_myadder2.wait();
+    run_s2mm.wait();
 
     // Copy Result from Device Global Memory to Host Local Memory
-    OCL_CHECK(err, err = q.enqueueMigrateMemObjects({buffer_output}, CL_MIGRATE_MEM_OBJECT_HOST));
-
-    // OpenCL Host Code Ends
-    q.finish();
+    buffer_output.sync(XCL_BO_SYNC_BO_FROM_DEVICE);
+    auto map_output = buffer_output.map<int*>();
+    for (int i = 0; i < size; i++) {
+        hw_results[i] = map_output[i];
+    }
 
     // Compare the device results with software results
     bool match = std::equal(sw_results.begin(), sw_results.end(), hw_results.begin());

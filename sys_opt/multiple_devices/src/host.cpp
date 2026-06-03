@@ -14,21 +14,49 @@
 * under the License.
 */
 
-#include "xcl2.hpp"
-
 #include <array>
+#include <iostream>
 #include <map>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
 #include <vector>
+#include <chrono>
+#include <cstdlib>
+#include "xrt/xrt_device.h"
+#include "xrt/xrt_kernel.h"
+#include "xrt/xrt_bo.h"
+#include "xrt/xrt_hw_context.h"
+
+template <typename T>
+struct aligned_allocator {
+    using value_type = T;
+    T* allocate(std::size_t num) {
+        void* ptr = nullptr;
+        if (posix_memalign(&ptr, 4096, num * sizeof(T))) throw std::bad_alloc();
+        return reinterpret_cast<T*>(ptr);
+    }
+    void deallocate(T* p, std::size_t num) { free(p); }
+};
+
+std::string convert_size(size_t size) {
+    const char* units[] = {"B", "KB", "MB", "GB"};
+    int unit_idx = 0;
+    double dsize = static_cast<double>(size);
+    while (dsize >= 1024.0 && unit_idx < 3) {
+        dsize /= 1024.0;
+        unit_idx++;
+    }
+    char buf[64];
+    snprintf(buf, sizeof(buf), "%.2f %s", dsize, units[unit_idx]);
+    return std::string(buf);
+}
 
 using std::array;
 using std::map;
 using std::vector;
 
-cl::Program load_cl2_binary(cl::Program::Binaries, cl::Device device, cl::Context context);
 // This example demonstrates how to split work among multiple devices.
 int main(int argc, char** argv) {
     if (argc != 3) {
@@ -40,15 +68,27 @@ int main(int argc, char** argv) {
     auto binaryFile1 = argv[1];
     auto binaryFile2 = argv[2];
 
-    cl_int err = CL_SUCCESS;
+    // Try to probe devices - XRT doesn't have enumerate API, try up to 8 devices
+    int device_count = 0;
+    for (int i = 0; i < 8; i++) {
+        try {
+            xrt::device test_dev(i);
+            device_count++;
+        } catch (...) {
+            break;
+        }
+    }
 
-    // OPENCL HOST CODE AREA START
-    // get_xil_devices() is a utility API which will find the Xilinx
-    // platforms and will return list of devices connected to Xilinx platform
-    auto devices = xcl::get_xil_devices();
-    auto device_count = devices.size();
+    if (device_count == 0) {
+        std::cout << "No devices found!" << std::endl;
+        return EXIT_FAILURE;
+    }
+    std::cout << "Found " << device_count << " device(s)" << std::endl;
 
-    static const int elements_per_device = xcl::is_hw_emulation() ? (1 << 10) : (1 << 20);
+    const char* xcl_mode = std::getenv("XCL_EMULATION_MODE");
+    bool is_hw_emu = (xcl_mode != nullptr && std::string(xcl_mode) == "hw_emu");
+
+    static const int elements_per_device = is_hw_emu ? (1 << 10) : (1 << 20);
     static const int elements = elements_per_device * device_count;
 
     vector<int, aligned_allocator<int> > A(elements, 32);
@@ -56,105 +96,97 @@ int main(int argc, char** argv) {
     vector<int, aligned_allocator<int> > C(elements);
 
     // One element per device
-    vector<cl::Context> contexts(device_count);
-    vector<cl::Program> programs(device_count);
-    vector<cl::Kernel> kernels(device_count);
-    vector<cl::CommandQueue> queues(device_count);
-    vector<std::string> device_name(device_count);
+    vector<xrt::device> devices(device_count);
+    vector<xrt::uuid> uuids(device_count);
+    vector<xrt::hw_context> contexts(device_count);
+    vector<xrt::kernel> kernels(device_count);
 
-    vector<cl::Buffer> buffer_a(device_count);
-    vector<cl::Buffer> buffer_b(device_count);
-    vector<cl::Buffer> buffer_result(device_count);
-    vector<cl::Program::Binaries> bins(device_count);
-    vector<cl::Platform> platform;
-    std::vector<unsigned char> fileBuf[device_count];
-    OCL_CHECK(err, err = cl::Platform::get(&platform));
+    vector<xrt::bo> buffer_a(device_count);
+    vector<xrt::bo> buffer_b(device_count);
+    vector<xrt::bo> buffer_result(device_count);
 
     size_t size_per_device = elements_per_device * sizeof(int);
-    static const int iter = xcl::is_hw_emulation() ? 2 : 10 * 1024;
+    static const int iter = is_hw_emu ? 2 : 10 * 1024;
     size_t total_size = iter * size_per_device * device_count * 3;
-    std::string size_str = xcl::convert_size(total_size);
+    std::string size_str = convert_size(total_size);
 
-    cl_context_properties props[3] = {CL_CONTEXT_PLATFORM, (cl_context_properties)(platform[0])(), 0};
-    std::cout << "Initializing OpenCL objects" << std::endl;
+    std::cout << "Initializing XRT objects" << std::endl;
     for (int d = 0; d < (int)device_count; d++) {
-        // In this example. We will create a context for each of the devices
         std::cout << "Creating Context[" << d << "]..." << std::endl;
-        OCL_CHECK(err, contexts[d] = cl::Context(devices[d], props, nullptr, nullptr, &err));
-        OCL_CHECK(err, queues[d] = cl::CommandQueue(contexts[d], devices[d], CL_QUEUE_PROFILING_ENABLE, &err));
-        OCL_CHECK(err, device_name[d] = devices[d].getInfo<CL_DEVICE_NAME>(&err));
-
-        // read_binary_file() ia a utility API which will load the binaryFile
-        // and will return pointer to file buffer.
-        fileBuf[d] = ((d == 0) ? xcl::read_binary_file(binaryFile1) : xcl::read_binary_file(binaryFile2));
-        bins[d].push_back({fileBuf[d].data(), fileBuf[d].size()});
-        programs[d] = load_cl2_binary(bins[d], devices[d], contexts[d]);
-        OCL_CHECK(err, kernels[d] = cl::Kernel(programs[d], "vadd", &err));
+        devices[d] = xrt::device(d);
+        uuids[d] = devices[d].load_xclbin((d == 0) ? binaryFile1 : binaryFile2);
+        contexts[d] = xrt::hw_context(devices[d], uuids[d]);
+        kernels[d] = xrt::kernel(contexts[d], "vadd");
 
         // Allocate Buffers in Global Memory
-        // Buffers are allocated using CL_MEM_USE_HOST_PTR for efficient memory and
-        // Device-to-host communication
         size_t offset = d * elements_per_device;
         std::cout << "Creating Buffers[" << d << "]..." << std::endl;
-        OCL_CHECK(err, buffer_a[d] = cl::Buffer(contexts[d], CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY, size_per_device,
-                                                &A[offset], &err));
-        OCL_CHECK(err, buffer_b[d] = cl::Buffer(contexts[d], CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY, size_per_device,
-                                                &B[offset], &err));
-        OCL_CHECK(err, buffer_result[d] = cl::Buffer(contexts[d], CL_MEM_USE_HOST_PTR | CL_MEM_WRITE_ONLY,
-                                                     size_per_device, &C[offset], &err));
+        buffer_a[d] = xrt::bo(contexts[d], size_per_device, kernels[d].group_id(1));
+        buffer_b[d] = xrt::bo(contexts[d], size_per_device, kernels[d].group_id(2));
+        buffer_result[d] = xrt::bo(contexts[d], size_per_device, kernels[d].group_id(0));
+
+        // Map and write input data
+        auto map_a = buffer_a[d].map<int*>();
+        auto map_b = buffer_b[d].map<int*>();
+        for (int i = 0; i < elements_per_device; i++) {
+            map_a[i] = A[offset + i];
+            map_b[i] = B[offset + i];
+        }
     }
 
     std::chrono::high_resolution_clock::time_point TimeStart = std::chrono::high_resolution_clock::now();
-    for (int d = 0; d < (int)device_count; d++) {
-        OCL_CHECK(err, err = kernels[d].setArg(0, buffer_result[d]));
-        OCL_CHECK(err, err = kernels[d].setArg(1, buffer_a[d]));
-        OCL_CHECK(err, err = kernels[d].setArg(2, buffer_b[d]));
-        OCL_CHECK(err, err = kernels[d].setArg(3, elements_per_device));
-        OCL_CHECK(err, err = kernels[d].setArg(4, iter));
 
+    vector<xrt::run> runs(device_count);
+    for (int d = 0; d < (int)device_count; d++) {
         // Copy input data to device global memory
         std::cout << "Copying data..." << std::endl;
-        OCL_CHECK(err, err = queues[d].enqueueMigrateMemObjects({buffer_a[d], buffer_b[d]}, 0 /*0 means from host*/));
+        buffer_a[d].sync(XCL_BO_SYNC_BO_TO_DEVICE);
+        buffer_b[d].sync(XCL_BO_SYNC_BO_TO_DEVICE);
 
         // Launch the Kernel
         std::cout << "Launching Kernel..." << std::endl;
-        OCL_CHECK(err, err = queues[d].enqueueTask(kernels[d]));
+        runs[d] = kernels[d](buffer_result[d], buffer_a[d], buffer_b[d], elements_per_device, iter);
+    }
+
+    for (int d = 0; d < (int)device_count; d++) {
+        std::cout << "Waiting for work to finish on device " << d << std::endl;
+        runs[d].wait();
 
         // Copy Result from Device Global Memory to Host Local Memory
         std::cout << "Getting Results..." << std::endl;
-        OCL_CHECK(err, err = queues[d].enqueueMigrateMemObjects({buffer_result[d]}, CL_MIGRATE_MEM_OBJECT_HOST));
-    }
-
-    int dev = 0;
-    for (auto queue : queues) {
-        std::cout << "Waiting for work to finish on device " << dev++ << std::endl;
-        OCL_CHECK(err, err = queue.flush());
-        OCL_CHECK(err, err = queue.finish());
+        buffer_result[d].sync(XCL_BO_SYNC_BO_FROM_DEVICE);
+        auto map_result = buffer_result[d].map<int*>();
+        size_t offset = d * elements_per_device;
+        for (int i = 0; i < elements_per_device; i++) {
+            C[offset + i] = map_result[i];
+        }
     }
 
     std::chrono::high_resolution_clock::time_point TimeEnd = std::chrono::high_resolution_clock::now();
     double duration_in_ms = std::chrono::duration_cast<std::chrono::microseconds>(TimeEnd - TimeStart).count();
 
-    // OPENCL HOST CODE AREA ENDS
+    // XRT HOST CODE AREA ENDS
     bool match = true;
     for (int i = 0; i < elements; i++) {
-        int host_result = A[i] + B[i];
-        if (C[i] != host_result) {
+        int expected = (A[i] + B[i]) * iter;
+        if (C[i] != expected) {
             std::cout << "Error: Result mismatch" << std::endl;
-            std::cout << "i = " << i << " CPU result = " << host_result << " Device result = " << C[i] << std::endl;
+            std::cout << "i = " << i << " CPU result = " << expected << " Device result = " << C[i] << std::endl;
             match = false;
             break;
         }
     }
-    std::cout << "Total Size : " << size_str << std::endl;
-    std::cout << "Time Taken : " << duration_in_ms / 1000000 << "sec" << std::endl;
+
+    double usduration = duration_in_ms;
+    double dnsduration = duration_in_ms * 1000.0;
+    double dsduration = duration_in_ms / 1000000.0;
+    double bpersec = (total_size / dsduration);
+    double mbpersec = bpersec / ((double)1024 * 1024);
+
+    std::cout << "THROUGHPUT = " << mbpersec << " MB/s" << std::endl;
+    std::cout << "Total Data = " << size_str << " Concurrency = " << device_count
+              << " Duration = " << dnsduration << " ns" << std::endl;
+
     std::cout << "TEST " << (match ? "PASSED" : "FAILED") << std::endl;
     return (match ? EXIT_SUCCESS : EXIT_FAILURE);
-}
-
-cl::Program load_cl2_binary(cl::Program::Binaries bins, cl::Device device, cl::Context context) {
-    cl_int err;
-    std::vector<cl::Device> devices(1, device);
-    OCL_CHECK(err, cl::Program program(context, devices, bins, nullptr, &err));
-    return program;
 }
