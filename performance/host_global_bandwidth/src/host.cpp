@@ -14,14 +14,17 @@
 * under the License.
 */
 
-#include <CL/opencl.h>
 #include <chrono>
 #include <ctime>
 #include <fstream>
 #include <iostream>
 #include <vector>
+#include <cstring>
 
-#include "xcl2.hpp"
+#include "xrt/xrt_device.h"
+#include "xrt/xrt_kernel.h"
+#include "xrt/xrt_bo.h"
+#include "xrt/xrt_hw_context.h"
 
 double throput_max_host_to_dev[3] = {0};
 double throput_max_dev_to_host[3] = {0};
@@ -40,88 +43,87 @@ class Timer {
     void reset() { mTimeStart = std::chrono::high_resolution_clock::now(); }
 };
 
-static int host_to_dev(cl::CommandQueue commands, int buff_size, std::vector<cl::Memory>& mems, std::ostream& strm) {
-    cl_int err;
+static int host_to_dev(int buff_size, std::vector<xrt::bo>& bos, std::ostream& strm) {
     Timer timer;
-    OCL_CHECK(err, err = commands.enqueueMigrateMemObjects(mems, 0 /* 0 means from host*/));
-
-    commands.finish();
+    for (auto& bo : bos) {
+        bo.sync(XCL_BO_SYNC_BO_TO_DEVICE);
+    }
 
     double timer_stop2 = timer.stop();
-    double throput = (double)(buff_size * mems.size());
+    double throput = (double)(buff_size * bos.size());
     throput *= 1000000;     // convert us to s;
     throput /= 1024 * 1024; // convert to MB
     throput /= timer_stop2;
     double dbuff_size = (double)(buff_size) / 1024; // convert to KB
-    std::cout << "OpenCL migration BW host to device: " << throput << " MB/s"
-              << " for buffer size " << dbuff_size << " KB with " << mems.size() << " buffers\n";
-    strm << "Host to Card, " << dbuff_size << " KB, " << mems.size() << ", " << throput << "\n";
+    std::cout << "XRT migration BW host to device: " << throput << " MB/s"
+              << " for buffer size " << dbuff_size << " KB with " << bos.size() << " buffers\n";
+    strm << "Host to Card, " << dbuff_size << " KB, " << bos.size() << ", " << throput << "\n";
 
     if (throput > throput_max_host_to_dev[0]) {
         throput_max_host_to_dev[0] = throput;
         throput_max_host_to_dev[1] = dbuff_size;
-        throput_max_host_to_dev[2] = mems.size();
+        throput_max_host_to_dev[2] = bos.size();
     }
-    return CL_SUCCESS;
+    return 0;
 }
 
-static int dev_to_host(cl::CommandQueue commands, int buff_size, std::vector<cl::Memory>& mems, std::ostream& strm) {
-    cl_int err;
+static int dev_to_host(int buff_size, std::vector<xrt::bo>& bos, std::ostream& strm) {
     Timer timer;
-    OCL_CHECK(err, err = commands.enqueueMigrateMemObjects(mems, CL_MIGRATE_MEM_OBJECT_HOST));
-
-    commands.finish();
+    for (auto& bo : bos) {
+        bo.sync(XCL_BO_SYNC_BO_FROM_DEVICE);
+    }
 
     long long timer_stop2 = timer.stop();
-    double throput = (double)(buff_size * mems.size());
+    double throput = (double)(buff_size * bos.size());
     throput *= 1000000;     // convert us to s;
     throput /= 1024 * 1024; // convert to MB
     throput /= timer_stop2;
     double dbuff_size = (double)(buff_size) / 1024; // convert to KB
-    std::cout << "OpenCL migration BW device to host: " << throput << " MB/s"
-              << " for buffer size " << dbuff_size << " KB with " << mems.size() << " buffers\n";
-    strm << "Card to Host, " << dbuff_size << " KB, " << mems.size() << ", " << throput << "\n";
+    std::cout << "XRT migration BW device to host: " << throput << " MB/s"
+              << " for buffer size " << dbuff_size << " KB with " << bos.size() << " buffers\n";
+    strm << "Card to Host, " << dbuff_size << " KB, " << bos.size() << ", " << throput << "\n";
     if (throput > throput_max_dev_to_host[0]) {
         throput_max_dev_to_host[0] = throput;
         throput_max_dev_to_host[1] = dbuff_size;
-        throput_max_dev_to_host[2] = mems.size();
+        throput_max_dev_to_host[2] = bos.size();
     }
-    return CL_SUCCESS;
+    return 0;
 }
 
-static int bidirectional(cl::CommandQueue commands,
-                         int buff_size,
-                         std::vector<cl::Memory>& mems1,
-                         std::vector<cl::Memory>& mems2,
+static int bidirectional(int buff_size,
+                         std::vector<xrt::bo>& bos1,
+                         std::vector<xrt::bo>& bos2,
                          std::ostream& strm) {
-    cl_int err;
     // Writing to avoid read-without-write case in DDR
-    OCL_CHECK(err, err = commands.enqueueMigrateMemObjects(mems2, 0 /* 0 means from host*/));
-    commands.finish();
+    for (auto& bo : bos2) {
+        bo.sync(XCL_BO_SYNC_BO_TO_DEVICE);
+    }
 
     Timer timer;
-    OCL_CHECK(err, err = commands.enqueueMigrateMemObjects(mems1, 0 /* 0 means from host*/));
-    OCL_CHECK(err, err = commands.enqueueMigrateMemObjects(mems2, CL_MIGRATE_MEM_OBJECT_HOST));
-
-    commands.finish();
+    for (auto& bo : bos1) {
+        bo.sync(XCL_BO_SYNC_BO_TO_DEVICE);
+    }
+    for (auto& bo : bos2) {
+        bo.sync(XCL_BO_SYNC_BO_FROM_DEVICE);
+    }
 
     long long timer_stop2 = timer.stop();
-    double throput = (double)(buff_size * (mems1.size() + mems2.size()));
+    double throput = (double)(buff_size * (bos1.size() + bos2.size()));
     throput *= 1000000;     // convert us to s;
     throput /= 1024 * 1024; // convert to MB
     throput /= timer_stop2;
     double dbuff_size = (double)(buff_size) / 1024; // convert to KB
-    std::cout << "OpenCL migration BW "
-              << "overall: " << throput << " MB/s for buffer size " << dbuff_size << " KB with " << mems1.size()
+    std::cout << "XRT migration BW "
+              << "overall: " << throput << " MB/s for buffer size " << dbuff_size << " KB with " << bos1.size()
               << " buffers\n";
-    strm << "Card to Host, " << dbuff_size << " KB, " << mems1.size() << ", " << throput << "\n";
+    strm << "Card to Host, " << dbuff_size << " KB, " << bos1.size() << ", " << throput << "\n";
 
     if (throput > throput_max_bidirectional[0]) {
         throput_max_bidirectional[0] = throput;
         throput_max_bidirectional[1] = dbuff_size;
-        throput_max_bidirectional[2] = mems1.size();
+        throput_max_bidirectional[2] = bos1.size();
     }
-    return CL_SUCCESS;
+    return 0;
 }
 
 int main(int argc, char** argv) {
@@ -138,72 +140,46 @@ int main(int argc, char** argv) {
                          {16384, 512},  {1048576, 8},   {1048576, 64},  {1048576, 256}, {2097152, 8},
                          {2097152, 64}, {2097152, 256}, {16777216, 64}, {268435456, 4}, {536870912, 2}};
 
-    cl_int err;
-    cl::Context context;
-    cl::CommandQueue command_queue;
-    cl::Kernel krnl_bandwidth;
-    // The get_xil_devices will return vector of Xilinx Devices
-    auto devices = xcl::get_xil_devices();
+    // XRT Native API initialization
+    xrt::device device(0);
+    auto uuid = device.load_xclbin(binaryFile);
+    xrt::hw_context hw_ctx(device, uuid);
 
-    // read_binary() command will find the OpenCL binary file
-    auto fileBuf = xcl::read_binary_file(binaryFile);
-    cl::Program::Binaries bins{{fileBuf.data(), fileBuf.size()}};
-    bool valid_device = false;
-    for (unsigned int i = 0; i < devices.size(); i++) {
-        auto device = devices[i];
-        // Creating Context and Command Queue for selected Device
-        OCL_CHECK(err, context = cl::Context(device, nullptr, nullptr, nullptr, &err));
-        OCL_CHECK(err, command_queue = cl::CommandQueue(
-                           context, device, CL_QUEUE_PROFILING_ENABLE | CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE, &err));
+    std::cout << "Device[0]: program successful!\n";
 
-        std::cout << "Trying to program device[" << i << "]: " << device.getInfo<CL_DEVICE_NAME>() << std::endl;
-        cl::Program program(context, {device}, bins, nullptr, &err);
-        if (err != CL_SUCCESS) {
-            std::cout << "Failed to program device[" << i << "] with xclbin file!\n";
-        } else {
-            std::cout << "Device[" << i << "]: program successful!\n";
-            OCL_CHECK(err, krnl_bandwidth = cl::Kernel(program, "bandwidth", &err));
-            valid_device = true;
-            break; // we break because we found a valid device
-        }
-    }
-    if (!valid_device) {
-        std::cout << "Failed to program any device found, exit!\n";
-        exit(EXIT_FAILURE);
-    }
+    xrt::kernel krnl_bandwidth(hw_ctx, "bandwidth");
 
     int dim1 = sizeof(buff_tab) / (2 * 4);
-    if (xcl::is_emulation()) {
+    const char* xcl_mode = std::getenv("XCL_EMULATION_MODE");
+    if (xcl_mode != nullptr) {
         dim1 = 2; // Reducing combinations to run faster in emulation flow
     }
 
     std::ofstream handle("metric1.csv");
     handle << "Direction, Buffer Size (bytes), Count, Bandwidth (MB/s)\n";
 
+    int err = 0;
     for (int buff_size_1 = 0; buff_size_1 < dim1; buff_size_1++) {
         int nxtcnt = buff_tab[buff_size_1][0];
         int buff_cnt = buff_tab[buff_size_1][1];
-        std::vector<cl::Memory> mems(buff_cnt);
+        std::vector<xrt::bo> bos(buff_cnt);
 
         for (int i = buff_cnt - 1; i >= 0; i--) {
-            OCL_CHECK(err, mems[i] = cl::Buffer(context, (cl_mem_flags)(CL_MEM_READ_WRITE), nxtcnt, nullptr, &err));
-            OCL_CHECK(err, err = krnl_bandwidth.setArg(0, mems[i]));
-            OCL_CHECK(err, err = command_queue.enqueueFillBuffer<int>((cl::Buffer&)mems[i], i, 0, nxtcnt, 0, 0));
+            bos[i] = xrt::bo(hw_ctx, nxtcnt, krnl_bandwidth.group_id(0));
+            // Fill buffer with value i
+            auto bo_map = bos[i].map<int*>();
+            for (int j = 0; j < nxtcnt / sizeof(int); j++) {
+                bo_map[j] = i;
+            }
         }
 
-        if (err != CL_SUCCESS) {
+        err = host_to_dev(nxtcnt, bos, handle);
+        if (err != 0) {
             break;
         }
 
-        command_queue.finish();
-
-        err = host_to_dev(command_queue, nxtcnt, mems, handle);
-        if (err != CL_SUCCESS) {
-            break;
-        }
-
-        err = dev_to_host(command_queue, nxtcnt, mems, handle);
-        if (err != CL_SUCCESS) {
+        err = dev_to_host(nxtcnt, bos, handle);
+        if (err != 0) {
             break;
         }
     }
@@ -212,43 +188,42 @@ int main(int argc, char** argv) {
     for (int buff_size_1 = 0; buff_size_1 < dim1; buff_size_1++) {
         int nxtcnt = buff_tab[buff_size_1][0];
         int buff_cnt = buff_tab[buff_size_1][1];
-        std::vector<cl::Memory> mems1(buff_cnt);
-        std::vector<cl::Memory> mems2(buff_cnt);
+        std::vector<xrt::bo> bos1(buff_cnt);
+        std::vector<xrt::bo> bos2(buff_cnt);
 
         for (int i = buff_cnt - 1; i >= 0; i--) {
-            OCL_CHECK(err, mems1[i] = cl::Buffer(context, (cl_mem_flags)(CL_MEM_READ_WRITE), nxtcnt, nullptr, &err));
-            OCL_CHECK(err, err = krnl_bandwidth.setArg(0, mems1[i]));
-            OCL_CHECK(err, err = command_queue.enqueueFillBuffer<int>((cl::Buffer&)mems1[i], i, 0, nxtcnt, 0, 0));
-            OCL_CHECK(err, mems2[i] = cl::Buffer(context, (cl_mem_flags)(CL_MEM_READ_WRITE), nxtcnt, nullptr, &err));
-            OCL_CHECK(err, err = krnl_bandwidth.setArg(1, mems2[i]));
-            OCL_CHECK(err, err = command_queue.enqueueFillBuffer<int>((cl::Buffer&)mems2[i], i, 0, nxtcnt, 0, 0));
+            bos1[i] = xrt::bo(hw_ctx, nxtcnt, krnl_bandwidth.group_id(0));
+            auto bo1_map = bos1[i].map<int*>();
+            for (int j = 0; j < nxtcnt / sizeof(int); j++) {
+                bo1_map[j] = i;
+            }
+
+            bos2[i] = xrt::bo(hw_ctx, nxtcnt, krnl_bandwidth.group_id(1));
+            auto bo2_map = bos2[i].map<int*>();
+            for (int j = 0; j < nxtcnt / sizeof(int); j++) {
+                bo2_map[j] = i;
+            }
         }
 
-        if (err != CL_SUCCESS) {
-            break;
-        }
-
-        command_queue.finish();
-        // printf("\nThe bandwidth numbers for bidirectional case:\n");
-        err = bidirectional(command_queue, nxtcnt, mems1, mems2, handle);
-        if (err != CL_SUCCESS) {
+        err = bidirectional(nxtcnt, bos1, bos2, handle);
+        if (err != 0) {
             break;
         }
     }
 
     std::cout << "\nMaximum bandwidth achieved :\n";
-    std::cout << "OpenCL migration BW host to device: " << throput_max_host_to_dev[0] << " MB/s"
+    std::cout << "XRT migration BW host to device: " << throput_max_host_to_dev[0] << " MB/s"
               << " for buffer size " << throput_max_host_to_dev[1] << " KB with " << throput_max_host_to_dev[2]
               << " buffers\n";
     handle << "\nMaximum bandwidth achieved :\n";
     handle << "Host to Card, " << throput_max_host_to_dev[1] << " KB, " << throput_max_host_to_dev[2] << ", "
            << throput_max_host_to_dev[0] << "\n";
-    std::cout << "OpenCL migration BW device to host: " << throput_max_dev_to_host[0] << " MB/s"
+    std::cout << "XRT migration BW device to host: " << throput_max_dev_to_host[0] << " MB/s"
               << " for buffer size " << throput_max_dev_to_host[1] << " KB with " << throput_max_dev_to_host[2]
               << " buffers\n";
     handle << "Card to Host, " << throput_max_dev_to_host[1] << " KB, " << throput_max_dev_to_host[2] << ", "
            << throput_max_dev_to_host[0] << "\n";
-    std::cout << "OpenCL migration BW "
+    std::cout << "XRT migration BW "
               << "overall: " << throput_max_bidirectional[0] << " MB/s for buffer size " << throput_max_bidirectional[1]
               << " KB with " << throput_max_bidirectional[2] << " buffers\n";
     handle << "Card to Host, " << throput_max_bidirectional[1] << " KB, " << throput_max_bidirectional[2] << ", "

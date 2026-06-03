@@ -15,8 +15,13 @@
 */
 
 #include "cmdlineparser.h"
-#include "xcl2.hpp"
 #include <unistd.h>
+#include <cstring>
+#include <iostream>
+#include "xrt/xrt_device.h"
+#include "xrt/xrt_kernel.h"
+#include "xrt/xrt_bo.h"
+#include "xrt/xrt_hw_context.h"
 
 int main(int argc, char** argv) {
     // Command Line Parser
@@ -59,12 +64,14 @@ int main(int argc, char** argv) {
             return EXIT_FAILURE;
         }
 
-        cl_int err;
-        cl::CommandQueue q;
-        cl::Context context;
-        cl::Kernel krnl[6];
+        xrt::kernel krnl[6];
 
-        if (xcl::is_emulation()) {
+        // Check if running in emulation mode
+        const char* xcl_mode = std::getenv("XCL_EMULATION_MODE");
+        bool is_emulation = (xcl_mode != nullptr);
+        bool is_hw_emulation = (xcl_mode != nullptr && std::string(xcl_mode) == "hw_emu");
+
+        if (is_emulation) {
             buf_size_kb = 16;
         }
 
@@ -74,89 +81,75 @@ int main(int argc, char** argv) {
         int64_t buf_size_bytes = buf_size_kb * 1024; // buffer size in bytes
         int64_t kernel_info[4];
 
+        // Helper function to convert size to human-readable format
+        auto convert_size = [](size_t size) -> std::string {
+            const char* units[] = {"B", "KB", "MB", "GB"};
+            int unit_idx = 0;
+            double dsize = static_cast<double>(size);
+            while (dsize >= 1024.0 && unit_idx < 3) {
+                dsize /= 1024.0;
+                unit_idx++;
+            }
+            char buf[64];
+            snprintf(buf, sizeof(buf), "%.2f %s", dsize, units[unit_idx]);
+            return std::string(buf);
+        };
+
         std::cout << "\nTest parameters\n";
         std::cout << " - xclbin file   : " << xclbinFile[p].c_str() << std::endl;
         std::cout << " - frequency     : " << frequency << " MHz" << std::endl;
-        std::cout << " - buffer size   : " << xcl::convert_size(buf_size_bytes).c_str() << std::endl;
+        std::cout << " - buffer size   : " << convert_size(buf_size_bytes).c_str() << std::endl;
         std::cout << "\n";
 
-        auto devices = xcl::get_xil_devices();
-        auto device = devices[0];
-        // read_binary_file() is a utility API which will load the binaryFile
-        // and will return the pointer to file buffer.
-        auto fileBuf = xcl::read_binary_file(xclbinFile[p]);
-        cl::Program::Binaries bins{{fileBuf.data(), fileBuf.size()}};
-        bool valid_device = false;
-        for (unsigned int i = 0; i < devices.size(); i++) {
-            auto device = devices[i];
-            // Creating Context and Command Queue for selected Device
-            OCL_CHECK(err, context = cl::Context(device, nullptr, nullptr, nullptr, &err));
-            OCL_CHECK(err, q = cl::CommandQueue(context, device, CL_QUEUE_PROFILING_ENABLE, &err));
+        // Create XRT device and hw_context with xclbin
+        xrt::device device(0);
+        auto uuid = device.load_xclbin(xclbinFile[p]);
+        xrt::hw_context hw_ctx(device, uuid);
 
-            std::cout << "Trying to program device[" << i << "]: " << device.getInfo<CL_DEVICE_NAME>() << std::endl;
-            cl::Program program(context, {device}, bins, nullptr, &err);
-            if (err != CL_SUCCESS) {
-                std::cout << "Failed to program device[" << i << "] with xclbin file!\n";
-            } else {
-                std::cout << "Device[" << i << "]: program successful!\n";
-                for (int i = 0; i < 6; i++) {
-                    std::string krnl_name_full = "test_kernel_maxi_" + Data_Width[p] + "bit_" + std::to_string(i + 1);
-                    OCL_CHECK(err, krnl[i] = cl::Kernel(program, krnl_name_full.c_str(), &err));
-                }
-                valid_device = true;
-                break; // we break because we found a valid device
-            }
-        }
-        if (!valid_device) {
-            std::cerr << "Failed to program any device found, exit!\n";
-            exit(EXIT_FAILURE);
-        }
+        std::cout << "Device[0]: program successful!\n";
 
-        // Create the buffers
-        OCL_CHECK(err, cl::Buffer infoBuf(context, CL_MEM_WRITE_ONLY, sizeof(kernel_info), nullptr, &err));
-        OCL_CHECK(err, cl::Buffer dataBuf(context, CL_MEM_READ_WRITE, buf_size_bytes, nullptr, &err));
-        // Pin the buffers to kernel arguments
+        // Create kernel objects
         for (int i = 0; i < 6; i++) {
-            OCL_CHECK(err, err = krnl[i].setArg(2, infoBuf));
-            OCL_CHECK(err, err = krnl[i].setArg(3, dataBuf));
+            std::string krnl_name_full = "test_kernel_maxi_" + Data_Width[p] + "bit_" + std::to_string(i + 1);
+            krnl[i] = xrt::kernel(hw_ctx, krnl_name_full);
         }
-        // Make buffers resident in the device
-        OCL_CHECK(err, err = q.enqueueMigrateMemObjects({infoBuf, dataBuf}, CL_MIGRATE_MEM_OBJECT_CONTENT_UNDEFINED,
-                                                        nullptr, nullptr));
-        q.finish();
 
-        // Initialize data buffer
-        char* dat = new char[buf_size_bytes];
+        // Create XRT buffer objects
+        xrt::bo infoBuf(hw_ctx, sizeof(kernel_info), krnl[0].group_id(2));
+        xrt::bo dataBuf(hw_ctx, buf_size_bytes, krnl[0].group_id(3));
+
+        // Initialize data buffer using XRT BO map
+        char* dat = dataBuf.map<char*>();
         for (int i = 0; i < buf_size_bytes; i++) {
             dat[i] = 255;
         }
-        OCL_CHECK(err, err = q.enqueueWriteBuffer(dataBuf, CL_TRUE, 0, buf_size_bytes, dat, nullptr, nullptr));
+        dataBuf.sync(XCL_BO_SYNC_BO_TO_DEVICE);
 
         std::string direction[] = {"WRITE", "READ"};
 
         for (int dir = 0; dir < 2; dir++) {
             std::cout << "\nKernel->AXI Burst " << direction[dir].c_str() << " performance" << std::endl;
             for (int id = 0; id < 6; id++) {
-                // Run the test
-                OCL_CHECK(err, err = krnl[id].setArg(0, buf_size_bytes));
-                OCL_CHECK(err, err = krnl[id].setArg(1, dir));
-                OCL_CHECK(err, err = q.enqueueTask(krnl[id]));
-                q.finish();
+                // Run the test using XRT run API
+                auto run = krnl[id](buf_size_bytes, dir, infoBuf, dataBuf);
+                run.wait();
 
-                // Report results
-                OCL_CHECK(err, err = q.enqueueReadBuffer(infoBuf, CL_TRUE, 0, sizeof(kernel_info), kernel_info, nullptr,
-                                                         nullptr));
+                // Report results - sync BO and read data
+                infoBuf.sync(XCL_BO_SYNC_BO_FROM_DEVICE);
+                auto info_ptr = infoBuf.map<int64_t*>();
+                std::memcpy(kernel_info, info_ptr, sizeof(kernel_info));
+
                 int64_t duration_cy = kernel_info[0];
                 double duration_ns = (double)(duration_cy * 1000) / frequency;
                 double duration_sec = duration_ns / (1000 * 1000 * 1000);
                 double throughput_bps = buf_size_bytes / duration_sec;
                 double throughput_gbps = throughput_bps / (1024 * 1024 * 1024);
                 errors = kernel_info[1];
-                if (!xcl::is_emulation() or xcl::is_hw_emulation()) {
+                if (!is_emulation || is_hw_emulation) {
                     std::cout << "Data Width = " << Data_Width[p];
                     std::cout << " burst_length = " << kernel_info[2];
                     std::cout << " num_outstanding = " << kernel_info[3];
-                    std::cout << " buffer_size = " << xcl::convert_size(buf_size_bytes).c_str();
+                    std::cout << " buffer_size = " << convert_size(buf_size_bytes).c_str();
                     std::cout << " | throughput = " << throughput_gbps << " GB/sec" << std::endl;
                 }
                 if (errors) {
@@ -165,7 +158,7 @@ int main(int argc, char** argv) {
             }
         }
 
-        if (xcl::is_emulation() and !xcl::is_hw_emulation()) {
+        if (is_emulation && !is_hw_emulation) {
             std::cout << "\nNot reporting performance throughput for sw_emu as clock signal is not present for time "
                          "calculation."
                       << std::endl;

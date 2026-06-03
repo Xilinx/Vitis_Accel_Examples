@@ -21,8 +21,24 @@ Description: Vitis Vector Addition using Streams
 #define DATA_SIZE 4096
 #define INCR_VALUE 10
 
-#include "xcl2.hpp"
+#include <iostream>
 #include <vector>
+#include <cstdlib>
+#include "xrt/xrt_device.h"
+#include "xrt/xrt_kernel.h"
+#include "xrt/xrt_bo.h"
+#include "xrt/xrt_hw_context.h"
+
+template <typename T>
+struct aligned_allocator {
+    using value_type = T;
+    T* allocate(std::size_t num) {
+        void* ptr = nullptr;
+        if (posix_memalign(&ptr, 4096, num * sizeof(T))) throw std::bad_alloc();
+        return reinterpret_cast<T*>(ptr);
+    }
+    void deallocate(T* p, std::size_t num) { free(p); }
+};
 
 int main(int argc, char** argv) {
     if (argc != 2) {
@@ -46,79 +62,49 @@ int main(int argc, char** argv) {
         source_hw_results[i] = 0;
     }
 
-    // OPENCL HOST CODE AREA START
-    cl_int err;
-    cl::CommandQueue q;
-    cl::Context context;
-    cl::Program program;
-    // Create Program and Kernels.
-    auto devices = xcl::get_xil_devices();
+    // XRT Native API HOST CODE AREA START
+    xrt::device device(0);
+    auto uuid = device.load_xclbin(binaryFile);
+    xrt::hw_context hw_ctx(device, uuid);
 
-    // read_binary_file() is a utility API which will load the binaryFile
-    // and will return the pointer to file buffer.
-    auto fileBuf = xcl::read_binary_file(binaryFile);
-    cl::Program::Binaries bins{{fileBuf.data(), fileBuf.size()}};
-    bool valid_device = false;
-    for (unsigned int i = 0; i < devices.size(); i++) {
-        auto device = devices[i];
-        // Creating Context and Command Queue for selected Device
-        OCL_CHECK(err, context = cl::Context(device, nullptr, nullptr, nullptr, &err));
-        OCL_CHECK(err, q = cl::CommandQueue(context, device,
-                                            CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE | CL_QUEUE_PROFILING_ENABLE, &err));
+    std::cout << "Device[0]: program successful!\n";
 
-        std::cout << "Trying to program device[" << i << "]: " << device.getInfo<CL_DEVICE_NAME>() << std::endl;
-        program = cl::Program(context, {device}, bins, nullptr, &err);
-        if (err != CL_SUCCESS) {
-            std::cout << "Failed to program device[" << i << "] with xclbin file!\n";
-        } else {
-            std::cout << "Device[" << i << "]: program successful!\n";
-            valid_device = true;
-            break; // we break because we found a valid device
-        }
-    }
-    if (!valid_device) {
-        std::cout << "Failed to program any device found, exit!\n";
-        exit(EXIT_FAILURE);
-    }
-    OCL_CHECK(err, cl::Kernel krnl_adder_stage(program, "krnl_adder_stage_rtl", &err));
-    OCL_CHECK(err, cl::Kernel krnl_input_stage(program, "krnl_input_stage_rtl", &err));
-    OCL_CHECK(err, cl::Kernel krnl_output_stage(program, "krnl_output_stage_rtl", &err));
+    xrt::kernel krnl_adder_stage(hw_ctx, "krnl_adder_stage_rtl");
+    xrt::kernel krnl_input_stage(hw_ctx, "krnl_input_stage_rtl");
+    xrt::kernel krnl_output_stage(hw_ctx, "krnl_output_stage_rtl");
 
     // Allocate Buffer in Global Memory
-    OCL_CHECK(err, cl::Buffer buffer_input(context, CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY, vector_size_bytes,
-                                           source_input.data(), &err));
-    OCL_CHECK(err, cl::Buffer buffer_output(context, CL_MEM_USE_HOST_PTR | CL_MEM_WRITE_ONLY, vector_size_bytes,
-                                            source_hw_results.data(), &err));
+    xrt::bo buffer_input(hw_ctx, vector_size_bytes, krnl_input_stage.group_id(0));
+    xrt::bo buffer_output(hw_ctx, vector_size_bytes, krnl_output_stage.group_id(0));
+
+    // Map and write input data
+    auto map_input = buffer_input.map<int*>();
+    for (int i = 0; i < DATA_SIZE; i++) {
+        map_input[i] = source_input[i];
+    }
+    buffer_input.sync(XCL_BO_SYNC_BO_TO_DEVICE);
 
     auto inc = INCR_VALUE;
     auto size = DATA_SIZE;
-    // Set the Kernel Arguments
-    OCL_CHECK(err, err = krnl_input_stage.setArg(0, buffer_input));
-    OCL_CHECK(err, err = krnl_input_stage.setArg(1, size));
-    OCL_CHECK(err, err = krnl_adder_stage.setArg(0, inc));
-    OCL_CHECK(err, err = krnl_adder_stage.setArg(1, size));
-    OCL_CHECK(err, err = krnl_output_stage.setArg(0, buffer_output));
-    OCL_CHECK(err, err = krnl_output_stage.setArg(1, size));
 
-    // Copy input data to device global memory
-    cl::Event write_event;
-    OCL_CHECK(err, err = q.enqueueMigrateMemObjects({buffer_input}, 0 /* 0 means from host*/, nullptr, &write_event));
+    // Launch the Kernels
+    auto run_input = krnl_input_stage(buffer_input, size);
+    auto run_adder = krnl_adder_stage(inc, size);
+    auto run_output = krnl_output_stage(buffer_output, size);
 
-    // Launch the Kernel
-    std::vector<cl::Event> eventVec;
-    eventVec.push_back(write_event);
-    OCL_CHECK(err, err = q.enqueueTask(krnl_input_stage, &eventVec));
-    OCL_CHECK(err, err = q.enqueueTask(krnl_adder_stage, &eventVec));
-    OCL_CHECK(err, err = q.enqueueTask(krnl_output_stage, &eventVec));
-
-    // wait for all kernels to finish their operations
-    OCL_CHECK(err, err = q.finish());
+    // Wait for all kernels to finish
+    run_input.wait();
+    run_adder.wait();
+    run_output.wait();
 
     // Copy Result from Device Global Memory to Host Local Memory
-    OCL_CHECK(err, err = q.enqueueMigrateMemObjects({buffer_output}, CL_MIGRATE_MEM_OBJECT_HOST));
-    OCL_CHECK(err, err = q.finish());
+    buffer_output.sync(XCL_BO_SYNC_BO_FROM_DEVICE);
+    auto map_output = buffer_output.map<int*>();
+    for (int i = 0; i < DATA_SIZE; i++) {
+        source_hw_results[i] = map_output[i];
+    }
 
-    // OPENCL HOST CODE AREA END
+    // XRT HOST CODE AREA END
 
     // Compare the results of the Device to the simulation
     int match = 0;
