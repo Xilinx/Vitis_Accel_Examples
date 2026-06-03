@@ -54,7 +54,7 @@ PACKAGE_OUT = ./package.$(TARGET)
 VPP_PFLAGS := 
 CMD_ARGS = $(BUILD_DIR)/krnl_vaddmul.xclbin
 CXXFLAGS += -I$(XILINX_XRT)/include -I$(XILINX_VIVADO)/include -Wall -O0 -g -std=c++17
-LDFLAGS += -L$(XILINX_XRT)/lib -pthread -lOpenCL
+LDFLAGS += -L$(XILINX_XRT)/lib -pthread -lxrt_coreutil -lOpenCL
 
 ########################## Checking if PLATFORM in allowlist #######################
 PLATFORM_BLOCKLIST += u25_ u30 u200 zc vck u250 aws-vu9p-f1 samsung u2_ x3522pv nodma v70 
