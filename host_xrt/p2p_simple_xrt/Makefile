@@ -1,6 +1,7 @@
 SHELL := /bin/bash
 #
 # Copyright 2019-2021 Xilinx, Inc.
+# Copyright 2022-2026 Advanced Micro Devices, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
