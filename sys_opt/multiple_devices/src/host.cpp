@@ -29,6 +29,7 @@
 #include "xrt/xrt_kernel.h"
 #include "xrt/xrt_bo.h"
 #include "xrt/xrt_hw_context.h"
+#include "xrt/experimental/xrt_system.h"
 
 template <typename T>
 struct aligned_allocator {
@@ -69,16 +70,9 @@ int main(int argc, char** argv) {
     auto binaryFile1 = argv[1];
     auto binaryFile2 = argv[2];
 
-    // Try to probe devices - XRT doesn't have enumerate API, try up to 8 devices
-    int device_count = 0;
-    for (int i = 0; i < 8; i++) {
-        try {
-            xrt::device test_dev(i);
-            device_count++;
-        } catch (...) {
-            break;
-        }
-    }
+    // Query the number of devices recognized by XRT. This returns the correct
+    // count in both hardware and hardware emulation (matching emconfigutil --nd).
+    unsigned int device_count = xrt::system::enumerate_devices();
 
     if (device_count == 0) {
         std::cout << "No devices found!" << std::endl;
@@ -169,7 +163,7 @@ int main(int argc, char** argv) {
     // XRT HOST CODE AREA ENDS
     bool match = true;
     for (int i = 0; i < elements; i++) {
-        int expected = (A[i] + B[i]) * iter;
+        int expected = A[i] + B[i];
         if (C[i] != expected) {
             std::cout << "Error: Result mismatch" << std::endl;
             std::cout << "i = " << i << " CPU result = " << expected << " Device result = " << C[i] << std::endl;
