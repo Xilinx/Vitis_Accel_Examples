@@ -1,5 +1,5 @@
 {
-    "name": "AXI Burst Performance", 
+    "name": "AXI Burst Performance",
     "description": [
         "This is an AXI Burst Performance check design. It measures the time it takes to write a buffer into DDR or read a buffer from DDR. The example contains 2 sets of 6 kernels each: each set having a different data width and each kernel having a different burst_length and num_outstanding parameters to compare the impact of these parameters on effective throughput."
     ],
@@ -12,11 +12,11 @@
         "u2_",
         "nodma",
         "v70"
-    ], 
+    ],
     "match_makefile": "false",
     "runtime": [
         "OpenCL"
-    ], 
+    ],
     "host": {
         "host_exe": "axi_burst_performance",
         "compiler": {
@@ -25,89 +25,90 @@
                 "REPO_DIR/common/includes/cmdparser/cmdlineparser.cpp",
                 "REPO_DIR/common/includes/logger/logger.cpp",
                 "./src/host.cpp"
-            ], 
+            ],
             "includepaths": [
                 "REPO_DIR/common/includes/xcl2",
                 "REPO_DIR/common/includes/cmdparser",
                 "REPO_DIR/common/includes/logger"
             ]
         }
-    }, 
+    },
     "containers": [
         {
             "accelerators": [
                 {
-                    "location": "src/test_kernel_maxi_256bit_1.cpp", 
+                    "location": "src/test_kernel_maxi_256bit_1.cpp",
                     "name": "test_kernel_maxi_256bit_1"
                 },
                 {
-                    "location": "src/test_kernel_maxi_256bit_2.cpp", 
+                    "location": "src/test_kernel_maxi_256bit_2.cpp",
                     "name": "test_kernel_maxi_256bit_2"
                 },
                 {
-                    "location": "src/test_kernel_maxi_256bit_3.cpp", 
+                    "location": "src/test_kernel_maxi_256bit_3.cpp",
                     "name": "test_kernel_maxi_256bit_3"
                 },
                 {
-                    "location": "src/test_kernel_maxi_256bit_4.cpp", 
+                    "location": "src/test_kernel_maxi_256bit_4.cpp",
                     "name": "test_kernel_maxi_256bit_4"
                 },
                 {
-                    "location": "src/test_kernel_maxi_256bit_5.cpp", 
+                    "location": "src/test_kernel_maxi_256bit_5.cpp",
                     "name": "test_kernel_maxi_256bit_5"
                 },
                 {
-                    "location": "src/test_kernel_maxi_256bit_6.cpp", 
+                    "location": "src/test_kernel_maxi_256bit_6.cpp",
                     "name": "test_kernel_maxi_256bit_6"
                 }
-            ], 
+            ],
             "name": "test_kernel_maxi_256bit"
         },
         {
             "accelerators": [
                 {
-                    "location": "src/test_kernel_maxi_512bit_1.cpp", 
+                    "location": "src/test_kernel_maxi_512bit_1.cpp",
                     "name": "test_kernel_maxi_512bit_1"
                 },
                 {
-                    "location": "src/test_kernel_maxi_512bit_2.cpp", 
+                    "location": "src/test_kernel_maxi_512bit_2.cpp",
                     "name": "test_kernel_maxi_512bit_2"
                 },
                 {
-                    "location": "src/test_kernel_maxi_512bit_3.cpp", 
+                    "location": "src/test_kernel_maxi_512bit_3.cpp",
                     "name": "test_kernel_maxi_512bit_3"
                 },
                 {
-                    "location": "src/test_kernel_maxi_512bit_4.cpp", 
+                    "location": "src/test_kernel_maxi_512bit_4.cpp",
                     "name": "test_kernel_maxi_512bit_4"
                 },
                 {
-                    "location": "src/test_kernel_maxi_512bit_5.cpp", 
+                    "location": "src/test_kernel_maxi_512bit_5.cpp",
                     "name": "test_kernel_maxi_512bit_5"
                 },
                 {
-                    "location": "src/test_kernel_maxi_512bit_6.cpp", 
+                    "location": "src/test_kernel_maxi_512bit_6.cpp",
                     "name": "test_kernel_maxi_512bit_6"
                 }
-            ], 
+            ],
             "name": "test_kernel_maxi_512bit"
         }
     ],
     "launch": [
         {
-            "cmd_args": "-x1 BUILD/test_kernel_maxi_256bit.xclbin -x2 BUILD/test_kernel_maxi_512bit.xclbin", 
+            "cmd_args": "-x1 BUILD/test_kernel_maxi_256bit.xclbin -x2 BUILD/test_kernel_maxi_512bit.xclbin",
             "name": "generic launch for all flows"
         }
-    ], 
+    ],
     "contributors": [
         {
-            "url": "http://www.xilinx.com", 
+            "url": "http://www.xilinx.com",
             "group": "Xilinx"
         }
-    ], 
+    ],
     "testinfo": {
         "profile": "no",
         "disable": false,
+        "test_name": "axi_burst_performance",
         "jobs": [
             {
                 "index": 0,
