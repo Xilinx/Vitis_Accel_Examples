@@ -1,8 +1,8 @@
 {
-    "name": "Kernel Global Bandwidth", 
+    "name": "Kernel Global Bandwidth",
     "description": [
         "Bandwidth test of global to local memory."
-    ], 
+    ],
     "flow": "vitis",
     "platform_blocklist": [
         "u2_",
@@ -12,55 +12,55 @@
         "vck5000",
         "u250",
         "v70"
-    ], 
+    ],
     "os": [
         "Linux"
-    ], 
+    ],
     "runtime": [
         "OpenCL"
-    ], 
+    ],
     "host": {
         "host_exe": "kernel_global_bandwidth",
         "compiler": {
             "sources": [
-                "REPO_DIR/common/includes/xcl2/xcl2.cpp", 
+                "REPO_DIR/common/includes/xcl2/xcl2.cpp",
                 "src/kernel_global_bandwidth.cpp"
-            ], 
+            ],
             "includepaths": [
                 "REPO_DIR/common/includes/xcl2"
             ]
         }
-    }, 
+    },
     "v++": {
-        "build_datafiles" : [            
+        "build_datafiles": [
             "PROJECT/hls_config.tcl"
         ]
-     },
+    },
     "containers": [
         {
             "accelerators": [
                 {
-                    "name": "bandwidth", 
+                    "name": "bandwidth",
                     "location": "src/kernel.cpp",
                     "clflags": "--config PROJECT/bandwidth.cfg"
                 }
-            ], 
+            ],
             "name": "krnl_kernel_global"
         }
     ],
     "launch": [
         {
-            "cmd_args": "BUILD/krnl_kernel_global.xclbin", 
+            "cmd_args": "BUILD/krnl_kernel_global.xclbin",
             "name": "generic launch for all flows"
         }
-    ], 
-    "config_make": "config.mk", 
+    ],
+    "config_make": "config.mk",
     "contributors": [
         {
-            "url": "http://www.xilinx.com", 
+            "url": "http://www.xilinx.com",
             "group": "Xilinx"
         }
-    ], 
+    ],
     "testinfo": {
         "profile": "no",
         "level_up": [
@@ -69,6 +69,7 @@
             }
         ],
         "disable": false,
+        "test_name": "kernel_global_bandwidth",
         "jobs": [
             {
                 "index": 0,

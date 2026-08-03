@@ -1,24 +1,24 @@
 {
-    "name": "Multiple Compute Units XRT (XRT Native API's) ", 
+    "name": "Multiple Compute Units XRT (XRT Native API's) ",
     "description": [
         "This is simple Example of Multiple Compute units to showcase how a single kernel can be instantiated into Multiple compute units. Host code will show how to use multiple compute units and run them concurrently using XRT Native api's."
     ],
     "flow": "vitis",
     "keywords": [
         "nk"
-    ], 
+    ],
     "key_concepts": [
         "Multiple compute units"
     ],
     "platform_blocklist": [
         "nodma"
-    ], 
+    ],
     "os": [
         "Linux"
-    ], 
+    ],
     "runtime": [
         "OpenCL"
-    ], 
+    ],
     "host": {
         "host_exe": "mult_compute_units_xrt",
         "compiler": {
@@ -26,44 +26,46 @@
                 "REPO_DIR/common/includes/cmdparser/cmdlineparser.cpp",
                 "REPO_DIR/common/includes/logger/logger.cpp",
                 "./src/host.cpp"
-            ], 
+            ],
             "includepaths": [
                 "REPO_DIR/common/includes/cmdparser",
                 "REPO_DIR/common/includes/logger"
             ]
         },
-        "linker" : {
-            "libraries" : ["uuid",
-                           "xrt_coreutil"
-               ]
+        "linker": {
+            "libraries": [
+                "uuid",
+                "xrt_coreutil"
+            ]
         }
     },
     "containers": [
         {
             "accelerators": [
                 {
-                    "name": "vadd", 
+                    "name": "vadd",
                     "location": "src/vadd.cpp"
                 }
-            ], 
+            ],
             "name": "vadd",
             "ldclflags": "--config PROJECT/vadd.cfg"
         }
     ],
     "launch": [
         {
-            "cmd_args": "-x BUILD/vadd.xclbin", 
+            "cmd_args": "-x BUILD/vadd.xclbin",
             "name": "generic launch for all flows"
         }
-    ], 
+    ],
     "contributors": [
         {
-            "url": "http://www.xilinx.com", 
+            "url": "http://www.xilinx.com",
             "group": "Xilinx"
         }
     ],
     "testinfo": {
         "disable": false,
+        "test_name": "mult_compute_units_xrt",
         "profile": "no",
         "jobs": [
             {

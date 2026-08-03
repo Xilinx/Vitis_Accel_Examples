@@ -1,26 +1,26 @@
 {
-    "name": "HBM Bandwidth - Pseudo Random Ethash", 
+    "name": "HBM Bandwidth - Pseudo Random Ethash",
     "description": [
         "This is a HBM bandwidth example using a pseudo random 1024 bit data access pattern to mimic Ethereum Ethash workloads. The design contains 3 compute units of a kernel, reading 1024 bits from a pseudo random address in each of 2 pseudo channels and writing the results of a simple mathematical operation to a pseudo random address in 2 other pseudo channels. To maximize bandwidth the pseudo channels are used in  P2P like configuration - See https://developer.xilinx.com/en/articles/maximizing-memory-bandwidth-with-vitis-and-xilinx-ultrascale-hbm-devices.html for more information on HBM memory access configurations. The host application allocates buffers in 12  HBM banks and runs the compute units concurrently to measure the overall bandwidth between kernel and HBM Memory."
     ],
     "flow": "vitis",
     "keywords": [
-        "HBM", 
-        "XCL_MEM_TOPOLOGY", 
+        "HBM",
+        "XCL_MEM_TOPOLOGY",
         "cl_mem_ext_ptr_t"
-    ], 
+    ],
     "key_concepts": [
-        "High Bandwidth Memory", 
+        "High Bandwidth Memory",
         "Multiple HBM Pseudo-channels",
         "Random Memory Access",
         "Linear Feedback Shift Register"
-    ], 
+    ],
     "platform_blocklist": [
         "u25_",
         "u30",
-        "u200", 
+        "u200",
         "zc",
-        "vck", 
+        "vck",
         "u250",
         "aws-vu9p-f1",
         "samsung",
@@ -31,7 +31,7 @@
     ],
     "runtime": [
         "OpenCL"
-    ], 
+    ],
     "platform_type": "pcie",
     "host": {
         "host_exe": "hbm_bandwidth_pseudo_random",
@@ -39,39 +39,40 @@
             "sources": [
                 "REPO_DIR/common/includes/xcl2/xcl2.cpp",
                 "./src/host.cpp"
-            ], 
+            ],
             "includepaths": [
                 "REPO_DIR/common/includes/xcl2"
             ]
         }
-    }, 
+    },
     "containers": [
         {
             "accelerators": [
                 {
-                    "location": "src/krnl_vaddmul.cpp", 
+                    "location": "src/krnl_vaddmul.cpp",
                     "name": "krnl_vaddmul"
                 }
-            ], 
+            ],
             "name": "krnl_vaddmul",
             "ldclflags": "--config PROJECT/krnl_vaddmul.cfg"
         }
     ],
     "launch": [
         {
-            "cmd_args": "BUILD/krnl_vaddmul.xclbin", 
+            "cmd_args": "BUILD/krnl_vaddmul.xclbin",
             "name": "generic launch for all flows"
         }
-    ], 
+    ],
     "contributors": [
         {
-            "url": "http://www.xilinx.com", 
+            "url": "http://www.xilinx.com",
             "group": "Xilinx"
         }
-    ], 
+    ],
     "testinfo": {
         "profile": "no",
         "disable": false,
+        "test_name": "hbm_bandwidth_pseudo_random",
         "jobs": [
             {
                 "index": 0,

@@ -1,78 +1,79 @@
 {
-    "name": "Multiple Process (C)", 
+    "name": "Multiple Process (C)",
     "description": [
         "This example will demonstrate how to run multiple processes to utilize multiple kernels simultaneously on an FPGA device. Multiple processes can share access to the same device provided each process uses the same xclbin. Processes share access to all device resources but there is no support for exclusive access to resources by any process."
     ],
     "flow": "vitis",
     "keywords": [
-        "PID", 
-        "fork", 
-        "XCL_MULTIPROCESS_MODE", 
+        "PID",
+        "fork",
+        "XCL_MULTIPROCESS_MODE",
         "multiprocess"
-    ], 
+    ],
     "key_concepts": [
-        "Concurrent execution", 
-        "Multiple HLS kernels", 
+        "Concurrent execution",
+        "Multiple HLS kernels",
         "Multiple Process Support"
     ],
     "platform_blocklist": [
         "nodma"
-    ], 
+    ],
     "targets": [
         "hw"
     ],
     "os": [
         "Linux"
-    ], 
+    ],
     "runtime": [
         "OpenCL"
-    ], 
+    ],
     "host": {
         "host_exe": "multiple_process",
         "compiler": {
             "sources": [
                 "REPO_DIR/common/includes/xcl2/xcl2.cpp",
                 "./src/host.cpp"
-            ], 
+            ],
             "includepaths": [
                 "REPO_DIR/common/includes/xcl2"
             ]
         }
-    }, 
+    },
     "containers": [
         {
             "accelerators": [
                 {
-                    "name": "krnl_vadd", 
+                    "name": "krnl_vadd",
                     "location": "src/krnl_vadd.cpp"
-                }, 
+                },
                 {
-                    "name": "krnl_vmul", 
+                    "name": "krnl_vmul",
                     "location": "src/krnl_vmul.cpp"
-                }, 
+                },
                 {
-                    "name": "krnl_vsub", 
+                    "name": "krnl_vsub",
                     "location": "src/krnl_vsub.cpp"
                 }
-            ], 
+            ],
             "name": "multi_krnl"
         }
-    ], 
+    ],
     "launch": [
         {
-            "cmd_args": "BUILD/multi_krnl.xclbin", 
+            "cmd_args": "BUILD/multi_krnl.xclbin",
             "name": "generic launch for all flows"
         }
-    ], 
-    "match_ini": "false", 
+    ],
+    "match_ini": "false",
     "contributors": [
         {
-            "url": "http://www.xilinx.com", 
+            "url": "http://www.xilinx.com",
             "group": "Xilinx"
         }
     ],
     "testinfo": {
         "disable": false,
+        "test_name": "multiple_process",
         "profile": "no",
         "jobs": [
             {

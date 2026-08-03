@@ -1,5 +1,5 @@
 {
-    "name": "HBM Bandwidth", 
+    "name": "HBM Bandwidth",
     "description": [
         "This is a HBM bandwidth check design. Design contains 3 compute units of a kernel which has access to all HBM pseudo-channels (0:31). Host application allocate buffer into all HBM banks and run these 3 compute units concurrently and measure the overall bandwidth between Kernel and HBM Memory."
     ],
@@ -7,9 +7,9 @@
     "platform_blocklist": [
         "u25_",
         "u30",
-        "u200", 
+        "u200",
         "zc",
-        "vck", 
+        "vck",
         "u250",
         "aws-vu9p-f1",
         "samsung",
@@ -17,10 +17,10 @@
         "x3522pv",
         "nodma",
         "v70"
-    ], 
+    ],
     "runtime": [
         "OpenCL"
-    ], 
+    ],
     "platform_type": "pcie",
     "host": {
         "host_exe": "hbm_bandwidth",
@@ -28,39 +28,40 @@
             "sources": [
                 "REPO_DIR/common/includes/xcl2/xcl2.cpp",
                 "./src/host.cpp"
-            ], 
+            ],
             "includepaths": [
                 "REPO_DIR/common/includes/xcl2"
             ]
         }
-    }, 
+    },
     "containers": [
         {
             "accelerators": [
                 {
-                    "location": "src/krnl_vaddmul.cpp", 
+                    "location": "src/krnl_vaddmul.cpp",
                     "name": "krnl_vaddmul"
                 }
-            ], 
+            ],
             "name": "krnl_vaddmul",
             "ldclflags": "--config PROJECT/krnl_vaddmul.cfg"
         }
     ],
     "launch": [
         {
-            "cmd_args": "BUILD/krnl_vaddmul.xclbin", 
+            "cmd_args": "BUILD/krnl_vaddmul.xclbin",
             "name": "generic launch for all flows"
         }
-    ], 
+    ],
     "contributors": [
         {
-            "url": "http://www.xilinx.com", 
+            "url": "http://www.xilinx.com",
             "group": "Xilinx"
         }
-    ], 
+    ],
     "testinfo": {
         "profile": "no",
         "disable": false,
+        "test_name": "hbm_bandwidth",
         "jobs": [
             {
                 "index": 0,

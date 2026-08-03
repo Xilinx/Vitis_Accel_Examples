@@ -1,16 +1,16 @@
 {
-    "name": "HBM Simple XRT (XRT Native API's)", 
+    "name": "HBM Simple XRT (XRT Native API's)",
     "description": [
         "This is a simple example of vector addition to describe how to use HLS kernels with HBM (High Bandwidth Memory) for achieving high throughput using xrt native api's."
     ],
     "flow": "vitis",
     "keywords": [
-        "HBM" 
-    ], 
+        "HBM"
+    ],
     "key_concepts": [
-        "High Bandwidth Memory", 
+        "High Bandwidth Memory",
         "Multiple HBM Banks"
-    ], 
+    ],
     "platform_blocklist": [
         "u25_",
         "u30",
@@ -26,13 +26,13 @@
         "v70"
     ],
     "platform_type": "pcie",
-     "targets": [
-        "hw", 
+    "targets": [
+        "hw",
         "hw_emu"
-    ], 
+    ],
     "os": [
         "Linux"
-    ], 
+    ],
     "runtime": [
         "OpenCL"
     ],
@@ -43,44 +43,46 @@
                 "REPO_DIR/common/includes/cmdparser/cmdlineparser.cpp",
                 "REPO_DIR/common/includes/logger/logger.cpp",
                 "./src/host.cpp"
-            ], 
+            ],
             "includepaths": [
                 "REPO_DIR/common/includes/cmdparser",
                 "REPO_DIR/common/includes/logger"
             ]
         },
-        "linker" : {
-            "libraries" : ["uuid",
-                           "xrt_coreutil"
-               ]
+        "linker": {
+            "libraries": [
+                "uuid",
+                "xrt_coreutil"
+            ]
         }
     },
     "containers": [
         {
             "accelerators": [
                 {
-                    "name": "krnl_vadd", 
+                    "name": "krnl_vadd",
                     "location": "src/krnl_vadd.cpp"
                 }
-            ], 
+            ],
             "name": "krnl_vadd",
             "ldclflags": "--config PROJECT/krnl_vadd.cfg"
         }
-    ], 
+    ],
     "launch": [
         {
-            "cmd_args": "-x BUILD/krnl_vadd.xclbin", 
+            "cmd_args": "-x BUILD/krnl_vadd.xclbin",
             "name": "generic launch for all flows"
         }
-    ], 
+    ],
     "contributors": [
         {
-            "url": "http://www.xilinx.com", 
+            "url": "http://www.xilinx.com",
             "group": "Xilinx"
         }
     ],
     "testinfo": {
         "disable": false,
+        "test_name": "hbm_simple_xrt",
         "jobs": [
             {
                 "index": 0,
