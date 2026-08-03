@@ -1,82 +1,83 @@
 {
-    "name": "Vadd 2 Kernel Clocks (RTL Kernel)", 
+    "name": "Vadd 2 Kernel Clocks (RTL Kernel)",
     "description": [
         "This example shows vector addition with 2 kernel clocks using RTL Kernel."
-    ], 
+    ],
     "flow": "vitis",
     "keywords": [
         "clock",
         "freqHz",
         "ap_clk",
         "ap_clk2"
-    ], 
+    ],
     "key_concepts": [
-        "RTL Kernel", 
+        "RTL Kernel",
         "Multiple Kernel Clocks"
     ],
     "platform_blocklist": [
         "nodma"
-    ], 
+    ],
     "targets": [
-        "hw", 
+        "hw",
         "hw_emu"
-    ], 
+    ],
     "os": [
         "Linux"
-    ], 
+    ],
     "runtime": [
         "OpenCL"
-    ], 
-    "gui": false, 
+    ],
+    "gui": false,
     "host": {
         "host_exe": "rtl_vadd_2clks",
         "compiler": {
             "sources": [
-                "REPO_DIR/common/includes/xcl2/xcl2.cpp", 
+                "REPO_DIR/common/includes/xcl2/xcl2.cpp",
                 "src/host.cpp"
-            ], 
+            ],
             "includepaths": [
                 "REPO_DIR/common/includes/xcl2"
             ]
         }
-    }, 
+    },
     "containers": [
         {
             "accelerators": [
                 {
-                    "kernel_type": "RTL", 
+                    "kernel_type": "RTL",
                     "name": "vadd"
                 }
-            ], 
+            ],
             "name": "vadd"
         }
-    ], 
+    ],
     "launch": [
         {
-            "cmd_args": "BUILD/vadd.xclbin", 
+            "cmd_args": "BUILD/vadd.xclbin",
             "name": "generic launch for all flows"
         }
-    ], 
-    "config_make": "config.mk", 
+    ],
+    "config_make": "config.mk",
     "output_files": [
         "tmp_kernel_pack*",
         "packaged_kernel*"
     ],
     "contributors": [
         {
-            "url": "http://www.xilinx.com", 
+            "url": "http://www.xilinx.com",
             "group": "Xilinx"
         }
-    ], 
+    ],
     "revision": [
         {
-            "date": "JAN2017", 
-            "version": "1.0", 
+            "date": "JAN2017",
+            "version": "1.0",
             "description": "Initial Xilinx Release"
         }
     ],
     "testinfo": {
         "disable": false,
+        "test_name": "rtl_vadd_2clks",
         "jobs": [
             {
                 "index": 0,
@@ -92,5 +93,5 @@
             "vitis_hw"
         ],
         "category": "canary"
-    } 
+    }
 }

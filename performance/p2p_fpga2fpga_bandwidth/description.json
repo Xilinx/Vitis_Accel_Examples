@@ -1,5 +1,5 @@
 {
-    "name": "P2P FPGA to FPGA Bandwidth Example", 
+    "name": "P2P FPGA to FPGA Bandwidth Example",
     "description": [
         "This is simple example to explain performance bandwidth for P2P transfer between two FPGA devices."
     ],
@@ -9,7 +9,7 @@
     ],
     "key_concepts": [
         "P2P",
-        "Multi-FPGA Execution", 
+        "Multi-FPGA Execution",
         "XDMA"
     ],
     "num_devices": "2",
@@ -29,50 +29,51 @@
     ],
     "runtime": [
         "OpenCL"
-    ], 
+    ],
     "launch": [
         {
-            "cmd_args": "-x1 BUILD/bandwidth.xclbin -x2 BUILD/bandwidth.xclbin", 
+            "cmd_args": "-x1 BUILD/bandwidth.xclbin -x2 BUILD/bandwidth.xclbin",
             "name": "generic launch for all flows"
         }
-    ], 
+    ],
     "host": {
-        "host_exe": "p2p_fpga2fpga_bandwidth", 
+        "host_exe": "p2p_fpga2fpga_bandwidth",
         "compiler": {
             "sources": [
                 "REPO_DIR/common/includes/xcl2/xcl2.cpp",
                 "REPO_DIR/common/includes/cmdparser/cmdlineparser.cpp",
                 "REPO_DIR/common/includes/logger/logger.cpp",
                 "src/host.cpp"
-            ], 
+            ],
             "includepaths": [
                 "REPO_DIR/common/includes/xcl2",
                 "REPO_DIR/common/includes/cmdparser",
                 "REPO_DIR/common/includes/logger"
             ]
         }
-    },  
+    },
     "containers": [
         {
             "accelerators": [
                 {
-                    "container" : "bandwidth",
-                    "name": "bandwidth", 
+                    "container": "bandwidth",
+                    "name": "bandwidth",
                     "location": "src/bandwidth.cpp"
                 }
-            ], 
+            ],
             "name": "bandwidth"
         }
     ],
     "contributors": [
         {
-            "url": "http://www.xilinx.com", 
+            "url": "http://www.xilinx.com",
             "group": "Xilinx"
         }
     ],
     "testinfo": {
         "profile": "no",
         "disable": false,
+        "test_name": "p2p_fpga2fpga_bandwidth",
         "features": [
             "p2p"
         ],

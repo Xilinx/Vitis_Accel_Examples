@@ -1,64 +1,65 @@
 {
-    "name": "Multiple Devices (C)", 
+    "name": "Multiple Devices (C)",
     "description": [
         "This example show how to take advantage of multiple FPGAs on a system. It will show how to initialized an OpenCL context, allocate memory on the two devices and execute a kernel on each FPGA."
     ],
     "flow": "vitis",
     "keywords": [
-	"xcl::get_xil_devices"
-    ], 
+        "xcl::get_xil_devices"
+    ],
     "key_concepts": [
-        "OpenCL Host APIs", 
-        "Multi-FPGA Execution", 
+        "OpenCL Host APIs",
+        "Multi-FPGA Execution",
         "Event Handling"
     ],
     "platform_blocklist": [
         "nodma"
-    ], 
-    "num_devices": "2", 
+    ],
+    "num_devices": "2",
     "os": [
         "Linux"
-    ], 
+    ],
     "runtime": [
         "OpenCL"
-    ], 
+    ],
     "host": {
         "host_exe": "multiple_devices",
         "compiler": {
             "sources": [
                 "REPO_DIR/common/includes/xcl2/xcl2.cpp",
                 "./src/host.cpp"
-            ], 
+            ],
             "includepaths": [
                 "REPO_DIR/common/includes/xcl2"
             ]
         }
-    }, 
+    },
     "containers": [
         {
             "accelerators": [
                 {
-                    "name": "vadd", 
+                    "name": "vadd",
                     "location": "src/vector_addition.cpp"
                 }
-            ], 
+            ],
             "name": "vector_addition"
         }
     ],
     "launch": [
         {
-            "cmd_args": "BUILD/vector_addition.xclbin BUILD/vector_addition.xclbin", 
+            "cmd_args": "BUILD/vector_addition.xclbin BUILD/vector_addition.xclbin",
             "name": "generic launch for all flows"
         }
-    ], 
+    ],
     "contributors": [
         {
-            "url": "http://www.xilinx.com", 
+            "url": "http://www.xilinx.com",
             "group": "Xilinx"
         }
     ],
     "testinfo": {
         "disable": false,
+        "test_name": "multiple_devices",
         "profile": "no",
         "jobs": [
             {
@@ -75,5 +76,5 @@
             "vitis_hw"
         ],
         "category": "canary"
-    }  
+    }
 }

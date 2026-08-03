@@ -1,79 +1,80 @@
 {
-    "name": "Mixed Kernels (RTL & C)", 
+    "name": "Mixed Kernels (RTL & C)",
     "description": [
         "This example has one RTL kernel and one C kernel. Both RTL kernel and C kernel perform vector addition. The C kernel reads the output from RTL kernel as one of two inputs."
-    ], 
+    ],
     "flow": "vitis",
     "key_concepts": [
         "Mixed Kernels"
     ],
     "platform_blocklist": [
         "nodma"
-    ], 
+    ],
     "targets": [
-        "hw", 
+        "hw",
         "hw_emu"
-    ], 
+    ],
     "os": [
         "Linux"
-    ], 
+    ],
     "runtime": [
         "OpenCL"
-    ], 
-    "gui": "false", 
+    ],
+    "gui": "false",
     "host": {
         "host_exe": "rtl_vadd_mixed_c_vadd",
         "compiler": {
             "sources": [
-                "REPO_DIR/common/includes/xcl2/xcl2.cpp", 
+                "REPO_DIR/common/includes/xcl2/xcl2.cpp",
                 "src/host.cpp"
-            ], 
+            ],
             "includepaths": [
                 "REPO_DIR/common/includes/xcl2"
             ]
         }
-    }, 
+    },
     "containers": [
         {
             "accelerators": [
                 {
-                    "kernel_type": "RTL", 
+                    "kernel_type": "RTL",
                     "name": "rtl_vadd"
-                }, 
+                },
                 {
-                    "name": "krnl_vadd", 
+                    "name": "krnl_vadd",
                     "location": "src/krnl_vadd.cpp"
                 }
-            ], 
+            ],
             "name": "vadd"
         }
-    ], 
+    ],
     "launch": [
         {
-            "cmd_args": "BUILD/vadd.xclbin", 
+            "cmd_args": "BUILD/vadd.xclbin",
             "name": "generic launch for all flows"
         }
-    ], 
-    "config_make": "config.mk", 
+    ],
+    "config_make": "config.mk",
     "output_files": [
         "tmp_kernel_pack*",
         "packaged_kernel*"
     ],
     "contributors": [
         {
-            "url": "http://www.xilinx.com", 
+            "url": "http://www.xilinx.com",
             "group": "Xilinx"
         }
-    ], 
+    ],
     "revision": [
         {
-            "date": "July2017", 
-            "version": "1.0", 
+            "date": "July2017",
+            "version": "1.0",
             "description": "Initial Xilinx Release"
         }
     ],
     "testinfo": {
         "disable": false,
+        "test_name": "rtl_vadd_mixed_c_vadd",
         "profile": "no",
         "jobs": [
             {
@@ -90,5 +91,5 @@
             "vitis_hw"
         ],
         "category": "canary"
-    } 
+    }
 }

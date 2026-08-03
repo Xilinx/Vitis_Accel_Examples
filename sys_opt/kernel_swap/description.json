@@ -1,17 +1,17 @@
 {
-    "name": "Kernel Swap", 
+    "name": "Kernel Swap",
     "description": [
         "This example shows how host can swap the kernels and share same buffer between two kernels which are exist in separate binary containers. Dynamic platforms does not persist the buffer data so host has to migrate data from device to host memory before swapping the next kernel. After kernel swap, host has to migrate the buffer back to device."
     ],
     "flow": "vitis",
     "keywords": [
-        "enqueueMigrateMemObjects", 
+        "enqueueMigrateMemObjects",
         "CL_MIGRATE_MEM_OBJECT_HOST"
-    ], 
+    ],
     "key_concepts": [
-        "Handling Buffer sharing across multiple binaries", 
+        "Handling Buffer sharing across multiple binaries",
         "Multiple Kernel Binaries"
-    ], 
+    ],
     "platform_blocklist": [
         "flat",
         "zcu102",
@@ -22,19 +22,20 @@
         "vck190_base_pci",
         "zc7",
         "nodma"
-     ],
+    ],
     "contributors": [
         {
+            "url": "http://www.xilinx.com",
             "group": "Xilinx"
         }
-    ], 
+    ],
     "match_makefile": "false",
     "os": [
         "Linux"
-    ], 
+    ],
     "runtime": [
         "OpenCL"
-    ], 
+    ],
     "host": {
         "host_exe": "kernel_swap",
         "compiler": {
@@ -43,51 +44,46 @@
                 "REPO_DIR/common/includes/cmdparser/cmdlineparser.cpp",
                 "REPO_DIR/common/includes/logger/logger.cpp",
                 "./src/host.cpp"
-            ], 
+            ],
             "includepaths": [
                 "REPO_DIR/common/includes/xcl2",
                 "REPO_DIR/common/includes/cmdparser",
                 "REPO_DIR/common/includes/logger"
             ]
         }
-    }, 
+    },
     "containers": [
         {
             "accelerators": [
                 {
-                    "container": "krnl_vmul", 
-                    "name": "krnl_vmul", 
+                    "container": "krnl_vmul",
+                    "name": "krnl_vmul",
                     "location": "src/krnl_vmul.cpp"
                 }
-            ], 
+            ],
             "name": "krnl_vmul"
-        }, 
+        },
         {
             "accelerators": [
                 {
-                    "container": "krnl_vadd", 
-                    "name": "krnl_vadd", 
+                    "container": "krnl_vadd",
+                    "name": "krnl_vadd",
                     "location": "src/krnl_vadd.cpp"
                 }
-            ], 
+            ],
             "name": "krnl_vadd"
         }
-    ], 
+    ],
     "launch": [
         {
-            "cmd_args": "-x1 BUILD/krnl_vmul.xclbin -x2 BUILD/krnl_vadd.xclbin", 
+            "cmd_args": "-x1 BUILD/krnl_vmul.xclbin -x2 BUILD/krnl_vadd.xclbin",
             "name": "generic launch for all flows"
         }
-    ], 
-    "config_make": "./config.mk",
-    "contributors": [
-        {
-            "url": "http://www.xilinx.com", 
-            "group": "Xilinx"
-        }
     ],
+    "config_make": "./config.mk",
     "testinfo": {
         "disable": false,
+        "test_name": "kernel_swap",
         "profile": "no",
         "jobs": [
             {

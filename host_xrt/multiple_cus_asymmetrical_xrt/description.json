@@ -1,5 +1,5 @@
 {
-    "name": "Multiple Compute Units (Asymmetrical) XRT (XRT Native API's)", 
+    "name": "Multiple Compute Units (Asymmetrical) XRT (XRT Native API's)",
     "description": [
         "This is simple example of vector addition to demonstrate how to connect each compute unit to different banks and how to use these compute units in host applications using xrt native api's."
     ],
@@ -7,7 +7,7 @@
     "key_concepts": [
         "Multiple compute units",
         "Task Level Parallelism"
-    ], 
+    ],
     "platform_blocklist": [
         "u25_",
         "u30",
@@ -20,14 +20,14 @@
         "x3522pv",
         "nodma",
         "v70"
-    ], 
+    ],
     "os": [
         "Linux"
-    ], 
+    ],
     "runtime": [
         "OpenCL"
     ],
-    "platform_type": "pcie", 
+    "platform_type": "pcie",
     "host": {
         "host_exe": "multiple_cus_asymmetrical_xrt",
         "compiler": {
@@ -35,44 +35,46 @@
                 "REPO_DIR/common/includes/cmdparser/cmdlineparser.cpp",
                 "REPO_DIR/common/includes/logger/logger.cpp",
                 "./src/host.cpp"
-            ], 
+            ],
             "includepaths": [
                 "REPO_DIR/common/includes/cmdparser",
                 "REPO_DIR/common/includes/logger"
-            ]	            
+            ]
         },
-        "linker" : {
-            "libraries" : ["uuid",
-                           "xrt_coreutil"
-               ]
+        "linker": {
+            "libraries": [
+                "uuid",
+                "xrt_coreutil"
+            ]
         }
     },
     "containers": [
         {
             "accelerators": [
                 {
-                    "location": "src/vadd.cpp", 
+                    "location": "src/vadd.cpp",
                     "name": "vadd"
                 }
-            ], 
+            ],
             "name": "vadd",
             "ldclflags": "--config PROJECT/vadd.cfg"
         }
     ],
     "launch": [
         {
-            "cmd_args": "-x BUILD/vadd.xclbin", 
+            "cmd_args": "-x BUILD/vadd.xclbin",
             "name": "generic launch for all flows"
         }
-    ], 
+    ],
     "contributors": [
         {
-            "url": "http://www.xilinx.com", 
+            "url": "http://www.xilinx.com",
             "group": "Xilinx"
         }
     ],
     "testinfo": {
         "disable": false,
+        "test_name": "multiple_cus_asymmetrical_xrt",
         "profile": "no",
         "jobs": [
             {
