@@ -15,15 +15,30 @@
 * under the License.
 */
 
-#include "xcl2.hpp"
 #include "cmdlineparser.h"
 #include <cstring>
 #include <iostream>
+#include <chrono>
 
 // XRT includes
 #include "xrt/xrt_bo.h"
 #include "xrt/xrt_device.h"
 #include "xrt/xrt_kernel.h"
+#include "xrt/xrt_hw_context.h"
+
+// Helper to convert size to human-readable string
+std::string convert_size(size_t size) {
+    const char* units[] = {"B", "KB", "MB", "GB"};
+    int unit_idx = 0;
+    double dsize = static_cast<double>(size);
+    while (dsize >= 1024.0 && unit_idx < 3) {
+        dsize /= 1024.0;
+        unit_idx++;
+    }
+    char buf[64];
+    snprintf(buf, sizeof(buf), "%.2f %s", dsize, units[unit_idx]);
+    return std::string(buf);
+}
 
 int main(int argc, char* argv[]) {
     // Command Line Parser
@@ -48,20 +63,24 @@ int main(int argc, char* argv[]) {
     auto device = xrt::device(device_index);
     std::cout << "Load the xclbin " << binaryFile << std::endl;
     auto uuid = device.load_xclbin(binaryFile);
+    xrt::hw_context hw_ctx(device, uuid);
 
-    auto krnl = xrt::kernel(device, uuid, "bandwidth");
-    auto krnl_read = xrt::kernel(device, uuid, "read_bandwidth");
-    auto krnl_write = xrt::kernel(device, uuid, "write_bandwidth");
+    auto krnl = xrt::kernel(hw_ctx, "bandwidth");
+    auto krnl_read = xrt::kernel(hw_ctx, "read_bandwidth");
+    auto krnl_write = xrt::kernel(hw_ctx, "write_bandwidth");
 
     double concurrent_max = 0;
     double read_max = 0;
     double write_max = 0;
 
+    const char* xcl_mode = std::getenv("XCL_EMULATION_MODE");
+    bool is_emulation = (xcl_mode != nullptr);
+
     for (size_t i = 4 * 1024; i <= 64 * 1024 * 1024; i *= 2) {
         size_t iter = (64 * 1024 * 1024) / i;
         size_t bufsize = i;
 
-        if (xcl::is_emulation()) {
+        if (is_emulation) {
             iter = 2;
             if (bufsize > 8 * 1024) break;
         }
@@ -79,11 +98,11 @@ int main(int argc, char* argv[]) {
         }
 
         xrt::bo::flags flags = xrt::bo::flags::host_only;
-        auto hostonly_bo_in = xrt::bo(device, bufsize, flags, krnl.group_id(0));
-        auto hostonly_bo_out = xrt::bo(device, bufsize, flags, krnl.group_id(1));
+        auto hostonly_bo_in = xrt::bo(hw_ctx, bufsize, flags, krnl.group_id(0));
+        auto hostonly_bo_out = xrt::bo(hw_ctx, bufsize, flags, krnl.group_id(1));
 
         double dbytes = bufsize;
-        std::string size_str = xcl::convert_size(bufsize);
+        std::string size_str = convert_size(bufsize);
 
         // Map the contents of the buffer object into host memory
         auto bo_in_map = hostonly_bo_in.map<char*>();
