@@ -55,7 +55,7 @@ PACKAGE_OUT = ./package.$(TARGET)
 VPP_PFLAGS := 
 CMD_ARGS = $(BUILD_DIR)/multi_krnl.xclbin
 CXXFLAGS += -I$(XILINX_XRT)/include -I$(XILINX_VIVADO)/include -Wall -O0 -g -std=c++17
-LDFLAGS += -L$(XILINX_XRT)/lib -pthread -lOpenCL
+LDFLAGS += -L$(XILINX_XRT)/lib -pthread -lOpenCL -lxrt_coreutil -luuid
 
 ########################## Checking if PLATFORM in allowlist #######################
 PLATFORM_BLOCKLIST += nodma 

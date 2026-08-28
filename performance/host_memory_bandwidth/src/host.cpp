@@ -46,7 +46,7 @@ int main(int argc, char* argv[]) {
     std::string binaryFile = argv[1];
 
     // XRT Native API initialization
-    xrt::device device(2);
+    xrt::device device(0);
     auto uuid = device.load_xclbin(binaryFile);
     xrt::hw_context hw_ctx(device, uuid);
 

@@ -30,17 +30,30 @@ Limitation:
 *******************************************************************************/
 
 #include "multi_krnl.h"
-#include "xcl2.hpp"
 #include <algorithm>
+#include <iostream>
 #include <stdlib.h>
 #include <sys/wait.h>
 #include <unistd.h>
 #include <vector>
+
+#include "xrt/xrt_device.h"
+#include "xrt/xrt_kernel.h"
+#include "xrt/xrt_bo.h"
+#include "xrt/xrt_hw_context.h"
+
+template <typename T>
+struct aligned_allocator {
+    using value_type = T;
+    T* allocate(std::size_t num) {
+        void* ptr = nullptr;
+        if (posix_memalign(&ptr, 4096, num * sizeof(T))) throw std::bad_alloc();
+        return reinterpret_cast<T*>(ptr);
+    }
+    void deallocate(T* p, std::size_t num) { free(p); }
+};
+
 bool run_kernel(std::string& binaryFile, int krnl_id) {
-    cl_int err;
-    cl::Context context;
-    cl::CommandQueue q;
-    cl::Kernel krnl;
     const char* krnl_names[] = {"krnl_vadd", "krnl_vsub", "krnl_vmul"};
 
     int pid = getpid();
@@ -72,63 +85,39 @@ bool run_kernel(std::string& binaryFile, int krnl_id) {
         }
     }
 
-    // OPENCL HOST CODE AREA START
-    auto devices = xcl::get_xil_devices();
+    // XRT HOST CODE AREA START
+    auto device = xrt::device(0);
     printf("\n[PID: %d] Read XCLBIN file\n", pid);
 
-    auto fileBuf = xcl::read_binary_file(binaryFile);
-    cl::Program::Binaries bins{{fileBuf.data(), fileBuf.size()}};
-    bool valid_device = false;
-    for (unsigned int i = 0; i < devices.size(); i++) {
-        auto device = devices[i];
-        // Creating Context and Command Queue for selected Device
-        OCL_CHECK(err, context = cl::Context(device, nullptr, nullptr, nullptr, &err));
-        OCL_CHECK(err, q = cl::CommandQueue(context, device, CL_QUEUE_PROFILING_ENABLE, &err));
-        std::cout << "Trying to program device[" << i << "]: " << device.getInfo<CL_DEVICE_NAME>() << std::endl;
-        std::cout << "[PID: " << pid << "] Create a Program and a [ " << krnl_names[krnl_id] << " ] Kernel\n";
-        cl::Program program(context, {device}, bins, nullptr, &err);
-        if (err != CL_SUCCESS) {
-            std::cout << "Failed to program device[" << i << "] with xclbin file!\n";
-        } else {
-            std::cout << "Device[" << i << "]: program successful!\n";
-            OCL_CHECK(err, krnl = cl::Kernel(program, krnl_names[krnl_id], &err));
-            valid_device = true;
-            break; // we break because we found a valid device
-        }
-    }
-    if (!valid_device) {
-        std::cout << "Failed to program any device found, exit!\n";
-        exit(EXIT_FAILURE);
-    }
+    auto uuid = device.load_xclbin(binaryFile);
+    xrt::hw_context hw_ctx(device, uuid);
+    std::cout << "Device[0]: program successful!\n";
+    std::cout << "[PID: " << pid << "] Create a Program and a [ " << krnl_names[krnl_id] << " ] Kernel\n";
+    auto krnl = xrt::kernel(hw_ctx, krnl_names[krnl_id]);
 
-    OCL_CHECK(err, cl::Buffer buffer_a(context, CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY, vector_size_bytes,
-                                       source_a.data(), &err));
-    OCL_CHECK(err, cl::Buffer buffer_b(context, CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY, vector_size_bytes,
-                                       source_b.data(), &err));
-    OCL_CHECK(err, cl::Buffer buffer_c(context, CL_MEM_USE_HOST_PTR | CL_MEM_WRITE_ONLY, vector_size_bytes,
-                                       result_hw.data(), &err));
+    auto buffer_a = xrt::bo(hw_ctx, vector_size_bytes, krnl.group_id(0));
+    auto buffer_b = xrt::bo(hw_ctx, vector_size_bytes, krnl.group_id(1));
+    auto buffer_c = xrt::bo(hw_ctx, vector_size_bytes, krnl.group_id(2));
 
-    /* Set the kernel arguments */
     int vector_length = LENGTH;
-
-    OCL_CHECK(err, err = krnl.setArg(0, buffer_a));
-    OCL_CHECK(err, err = krnl.setArg(1, buffer_b));
-    OCL_CHECK(err, err = krnl.setArg(2, buffer_c));
-    OCL_CHECK(err, err = krnl.setArg(3, vector_length));
 
     /* Copy input vectors to memory */
     printf("\n[PID: %d] Transfer the Input Data to Device\n", pid);
-    OCL_CHECK(err, err = q.enqueueMigrateMemObjects({buffer_a, buffer_b}, 0 /* 0 means from host*/));
+    std::copy(source_a.begin(), source_a.end(), buffer_a.map<int*>());
+    std::copy(source_b.begin(), source_b.end(), buffer_b.map<int*>());
+    buffer_a.sync(XCL_BO_SYNC_BO_TO_DEVICE);
+    buffer_b.sync(XCL_BO_SYNC_BO_TO_DEVICE);
 
     /* Launch the kernel */
     printf("[PID: %d] Launch Kernel\n", pid);
-    OCL_CHECK(err, err = q.enqueueTask(krnl));
+    auto run = krnl(buffer_a, buffer_b, buffer_c, vector_length);
+    run.wait();
 
     /* Copy result to local buffer */
     printf("[PID: %d] Transfer the Output Data from Device\n", pid);
-    OCL_CHECK(err, err = q.enqueueMigrateMemObjects({buffer_c}, CL_MIGRATE_MEM_OBJECT_HOST));
-    q.finish();
-    // OPENCL HOST CODE AREA END
+    buffer_c.sync(XCL_BO_SYNC_BO_FROM_DEVICE);
+    std::copy(buffer_c.map<int*>(), buffer_c.map<int*>() + LENGTH, result_hw.begin());
+    // XRT HOST CODE AREA END
 
     /* Compare the results of the kernel to the simulation */
     bool krnl_match = true;
