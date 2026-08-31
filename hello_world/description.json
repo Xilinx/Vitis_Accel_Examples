@@ -75,6 +75,7 @@
     ],
     "testinfo": {
         "disable": false,
+        "test_name": "hello_world",
         "profile": "no",
         "jobs": [
             {

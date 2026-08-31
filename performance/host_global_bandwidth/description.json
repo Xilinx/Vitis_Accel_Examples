@@ -1,5 +1,5 @@
 {
-    "name": "Host Global Bandwidth", 
+    "name": "Host Global Bandwidth",
     "description": [
         "Host to global memory bandwidth test"
     ],
@@ -9,92 +9,102 @@
         "nodma",
         "zc",
         "v70"
-    ], 
+    ],
     "os": [
         "Linux"
-    ], 
+    ],
     "runtime": [
         "OpenCL"
-    ], 
+    ],
     "platform_type": "pcie",
     "platform_properties": {
         "u200": {
             "v++": {
                 "linker": {
-                    "ldclflags": [ "--config PROJECT/conn_u200.cfg"
-                      ]
+                    "ldclflags": [
+                        "--config PROJECT/conn_u200.cfg"
+                    ]
                 }
             }
-        }, 
+        },
         "u250": {
             "v++": {
                 "linker": {
-                    "ldclflags": [ "--config PROJECT/conn_u250.cfg"
-                      ]
+                    "ldclflags": [
+                        "--config PROJECT/conn_u250.cfg"
+                    ]
                 }
             }
-        }, 
+        },
         "u25_": {
             "v++": {
                 "linker": {
-                    "ldclflags": [ "--config PROJECT/conn_u25.cfg"
-                      ]
+                    "ldclflags": [
+                        "--config PROJECT/conn_u25.cfg"
+                    ]
                 }
             }
-        }, 
+        },
         "u30": {
             "v++": {
                 "linker": {
-                    "ldclflags": [ "--config PROJECT/conn_u30.cfg"
-                      ]
+                    "ldclflags": [
+                        "--config PROJECT/conn_u30.cfg"
+                    ]
                 }
             }
-        }, 
+        },
         "x3522pv": {
             "v++": {
                 "linker": {
-                    "ldclflags": [ "--config PROJECT/conn_x3522pv.cfg"
-                      ]
+                    "ldclflags": [
+                        "--config PROJECT/conn_x3522pv.cfg"
+                    ]
                 }
             }
-        }, 
+        },
         "u280": {
             "v++": {
                 "linker": {
-                    "ldclflags": [ "--config PROJECT/conn_u280.cfg"
-                      ]
+                    "ldclflags": [
+                        "--config PROJECT/conn_u280.cfg"
+                    ]
                 }
             }
         },
         "u2_": {
             "v++": {
                 "linker": {
-                    "ldclflags": [ "--config PROJECT/conn_u2.cfg"
-                      ]
+                    "ldclflags": [
+                        "--config PROJECT/conn_u2.cfg"
+                    ]
                 }
             }
         },
         "samsung": {
             "v++": {
                 "linker": {
-                    "ldclflags": [ "--config PROJECT/conn_u2.cfg"
-                      ]
+                    "ldclflags": [
+                        "--config PROJECT/conn_u2.cfg"
+                    ]
                 }
             }
         },
         "u55": {
             "v++": {
                 "linker": {
-                    "ldclflags": [ "--config PROJECT/conn_u55.cfg"
-                      ]
+                    "ldclflags": [
+                        "--config PROJECT/conn_u55.cfg"
+                    ]
                 }
             }
         },
         "u50": {
             "v++": {
                 "linker": {
-                    "ldclflags": [ "--config PROJECT/conn_u50.cfg"
-                      ]
+                    "ldclflags": [
+                        "--config PROJECT/conn_u50.cfg"
+                    ]
                 }
             }
         }
@@ -105,41 +115,42 @@
             "sources": [
                 "REPO_DIR/common/includes/xcl2/xcl2.cpp",
                 "./src/host.cpp"
-            ], 
+            ],
             "includepaths": [
                 "REPO_DIR/common/includes/xcl2"
             ]
         }
-    }, 
+    },
     "containers": [
         {
             "accelerators": [
                 {
-                    "name": "bandwidth", 
+                    "name": "bandwidth",
                     "location": "src/kernel.cpp"
                 }
-            ], 
+            ],
             "name": "krnl_host_global"
         }
     ],
     "launch": [
         {
-            "cmd_args": "BUILD/krnl_host_global.xclbin", 
+            "cmd_args": "BUILD/krnl_host_global.xclbin",
             "name": "generic launch for all flows"
         }
-    ], 
-    "match_ini": "false", 
+    ],
+    "match_ini": "false",
     "output_files": [
         "metric1.csv"
-    ], 
+    ],
     "contributors": [
         {
-            "url": "http://www.xilinx.com", 
+            "url": "http://www.xilinx.com",
             "group": "Xilinx"
         }
     ],
     "testinfo": {
         "disable": false,
+        "test_name": "host_global_bandwidth",
         "jobs": [
             {
                 "index": 0,

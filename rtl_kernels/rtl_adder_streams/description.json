@@ -2,80 +2,81 @@
     "name": "Adder With Streams (RTL Kernel)",
     "description": [
         "This example shows an adder with streams using 3 RTL kernels."
-    ], 
+    ],
     "flow": "vitis",
     "key_concepts": [
-        "RTL Kernel", 
+        "RTL Kernel",
         "Multiple RTL Kernels"
     ],
     "platform_blocklist": [
         "nodma"
-    ], 
+    ],
     "targets": [
-        "hw", 
+        "hw",
         "hw_emu"
-    ], 
+    ],
     "os": [
         "Linux"
-    ], 
+    ],
     "runtime": [
         "OpenCL"
-    ], 
-    "gui": false, 
+    ],
+    "gui": false,
     "host": {
         "host_exe": "rtl_adder_streams",
         "compiler": {
             "sources": [
-                "REPO_DIR/common/includes/xcl2/xcl2.cpp", 
+                "REPO_DIR/common/includes/xcl2/xcl2.cpp",
                 "src/host.cpp"
-            ], 
+            ],
             "includepaths": [
                 "REPO_DIR/common/includes/xcl2"
             ]
         }
-    }, 
+    },
     "containers": [
         {
             "accelerators": [
                 {
-                    "kernel_type": "RTL", 
+                    "kernel_type": "RTL",
                     "name": "input"
-                }, 
+                },
                 {
-                    "kernel_type": "RTL", 
+                    "kernel_type": "RTL",
                     "name": "adder"
-                }, 
+                },
                 {
-                    "kernel_type": "RTL", 
+                    "kernel_type": "RTL",
                     "name": "output"
                 }
-            ], 
+            ],
             "name": "adder",
-	    "ldclflags": "--config PROJECT/adder.cfg"
+            "ldclflags": "--config PROJECT/adder.cfg"
         }
-    ], 
+    ],
     "launch": [
         {
-            "cmd_args": "BUILD/adder.xclbin", 
+            "cmd_args": "BUILD/adder.xclbin",
             "name": "generic launch for all flows"
         }
-    ], 
-    "match_ini": "false", 
-    "config_make": "config.mk", 
+    ],
+    "match_ini": "false",
+    "config_make": "config.mk",
     "output_files": [
         "tmp_kernel_pack*",
         "packaged_kernel*",
         "_x*",
         "*.xo"
-    ], 
+    ],
     "contributors": [
         {
-            "url": "http://www.xilinx.com", 
+            "url": "http://www.xilinx.com",
             "group": "Xilinx"
         }
     ],
     "testinfo": {
         "disable": false,
+        "test_name": "rtl_adder_streams",
         "profile": "no",
         "jobs": [
             {

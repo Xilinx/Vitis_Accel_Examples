@@ -20,11 +20,11 @@
 #include <iomanip>
 #include <vector>
 #include <chrono>
-#include "xcl2.hpp"
 
 #include "xrt/xrt_device.h"
 #include "xrt/xrt_bo.h"
 #include "xrt/xrt_kernel.h"
+#include "xrt/xrt_hw_context.h"
 
 int main(int argc, char* argv[]) {
     // Command Line Parser
@@ -49,26 +49,28 @@ int main(int argc, char* argv[]) {
     auto device = xrt::device(device_index);
     std::cout << "Load the xclbin " << binaryFile << std::endl;
     auto uuid = device.load_xclbin(binaryFile);
+    xrt::hw_context hw_ctx(device, uuid);
 
     /* The command would incease */
     std::vector<unsigned int> cmds_per_run = {10,   50,   100,   200,   500,    1000,   1500,   2000,
                                               3000, 5000, 10000, 50000, 100000, 500000, 1000000};
     int expected_cmds = 10000;
 
-    if (xcl::is_emulation()) {
+    const char* xcl_mode = std::getenv("XCL_EMULATION_MODE");
+    if (xcl_mode != nullptr) {
         cmds_per_run = {10, 20};
         std::cout << "Number of operations is reduced for faster execution on "
                      "emulation flow.\n";
         expected_cmds = 20;
     }
-    auto hello = xrt::kernel(device, uuid.get(), "hello");
+    auto hello = xrt::kernel(hw_ctx, "hello");
 
     /* Create 'expected_cmds' commands if possible */
     std::vector<xrt::run> cmds;
     std::vector<xrt::bo> bos;
     for (int i = 0; i < expected_cmds; i++) {
         auto run = xrt::run(hello);
-        auto bo = xrt::bo(device, 20, hello.group_id(0));
+        auto bo = xrt::bo(hw_ctx, 20, hello.group_id(0));
         run.set_arg(0, bo);
         cmds.push_back(std::move(run));
         bos.push_back(std::move(bo));

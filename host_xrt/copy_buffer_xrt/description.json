@@ -1,15 +1,15 @@
 {
-    "name": "Copy Buffer XRT (XRT native API's)", 
+    "name": "Copy Buffer XRT (XRT native API's)",
     "description": [
         "This Copy Buffer example demonstrate how one buffer can be copied from another buffer."
     ],
     "flow": "vitis",
     "keywords": [
         "copy"
-    ], 
+    ],
     "key_concepts": [
         "Copy Buffer"
-    ], 
+    ],
     "platform_blocklist": [
         "nodma"
     ],
@@ -18,7 +18,7 @@
     ],
     "os": [
         "Linux"
-    ], 
+    ],
     "host": {
         "host_exe": "copy_buffer_xrt",
         "compiler": {
@@ -26,43 +26,45 @@
                 "REPO_DIR/common/includes/cmdparser/cmdlineparser.cpp",
                 "REPO_DIR/common/includes/logger/logger.cpp",
                 "./src/host.cpp"
-            ], 
+            ],
             "includepaths": [
                 "REPO_DIR/common/includes/cmdparser",
                 "REPO_DIR/common/includes/logger"
             ]
         },
-        "linker" : {
-            "libraries" : ["uuid",
-                         "xrt_coreutil"
-                ]
+        "linker": {
+            "libraries": [
+                "uuid",
+                "xrt_coreutil"
+            ]
         }
     },
     "containers": [
         {
             "accelerators": [
                 {
-                    "name": "vector_add", 
+                    "name": "vector_add",
                     "location": "src/vector_addition.cpp"
                 }
-            ], 
+            ],
             "name": "vector_addition"
         }
     ],
     "launch": [
         {
-            "cmd_args": "-x BUILD/vector_addition.xclbin", 
+            "cmd_args": "-x BUILD/vector_addition.xclbin",
             "name": "generic launch for all flows"
         }
-    ], 
+    ],
     "contributors": [
         {
-            "url": "http://www.xilinx.com", 
+            "url": "http://www.xilinx.com",
             "group": "Xilinx"
         }
     ],
     "testinfo": {
         "disable": false,
+        "test_name": "copy_buffer_xrt",
         "profile": "no",
         "jobs": [
             {

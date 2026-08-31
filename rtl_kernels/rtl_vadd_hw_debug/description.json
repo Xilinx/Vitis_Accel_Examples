@@ -1,12 +1,12 @@
 {
-    "name": "Hardware Debug (RTL Kernel)", 
+    "name": "Hardware Debug (RTL Kernel)",
     "description": [
         "This is an example that showcases the Hardware Debug of Vector Addition RTL Kernel in Hardware."
-    ], 
+    ],
     "flow": "vitis",
     "key_concepts": [
         "RTL Kernel Debug"
-    ], 
+    ],
     "targets": [
         "hw"
     ],
@@ -14,70 +14,71 @@
         "vck",
         "nodma",
         "v70"
-    ], 
+    ],
     "os": [
         "Linux"
-    ], 
+    ],
     "runtime": [
         "OpenCL"
-    ], 
-    "gui": false, 
-    "xcl": true, 
+    ],
+    "gui": false,
+    "xcl": true,
     "host": {
         "host_exe": "rtl_vadd_hw_debug",
         "compiler": {
             "sources": [
-                "REPO_DIR/common/includes/xcl2/xcl2.cpp", 
+                "REPO_DIR/common/includes/xcl2/xcl2.cpp",
                 "src/host.cpp"
-            ], 
+            ],
             "includepaths": [
                 "REPO_DIR/common/includes/xcl2"
             ]
         }
-    }, 
-   "v++": {
-        "build_datafiles" : [            
+    },
+    "v++": {
+        "build_datafiles": [
             "PROJECT/post_dbg_profile_overlay.tcl",
             "PROJECT/connect_debug_core.xdc"
         ]
-    }, 
+    },
     "containers": [
         {
             "accelerators": [
                 {
-                    "kernel_type": "RTL", 
+                    "kernel_type": "RTL",
                     "name": "vadd"
                 }
-            ], 
+            ],
             "name": "vadd",
             "ldclflags": "--config myconfig_hw.cfg"
         }
     ],
     "launch": [
         {
-            "cmd_args": "BUILD/vadd.xclbin", 
+            "cmd_args": "BUILD/vadd.xclbin",
             "name": "generic launch for all flows"
         }
-    ], 
-    "config_make": "config.mk", 
+    ],
+    "config_make": "config.mk",
     "output_files": [
         "tmp_kernel_pack*",
         "packaged_kernel*"
-    ], 
+    ],
     "contributors": [
         {
-            "url": "http://www.xilinx.com", 
+            "url": "http://www.xilinx.com",
             "group": "Xilinx"
         }
     ],
     "more_info": [
-        " ", 
-        "**For more information on the steps involved in debugging Vitis RTL Kernel Designs check the links below**", 
-        " ", 
+        " ",
+        "**For more information on the steps involved in debugging Vitis RTL Kernel Designs check the links below**",
+        " ",
         "[Debug Core setup in the RTL kernel design and host design modifications to allow setup of debug triggers prior to running the kernel](https://github.com/Xilinx/Vitis_Accel_Examples/wiki/rtl_kernel_debug)"
     ],
     "testinfo": {
         "disable": false,
+        "test_name": "rtl_vadd_hw_debug",
         "profile": "no",
         "jobs": [
             {
@@ -93,5 +94,5 @@
             "vitis_hw"
         ],
         "category": "canary"
-    } 
+    }
 }

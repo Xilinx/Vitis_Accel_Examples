@@ -14,10 +14,28 @@
 * License for the specific language governing permissions and limitations
 * under the License.
 */
-#include "xcl2.hpp"
 #include <algorithm>
 #include <array>
 #include <iostream>
+#include <vector>
+#include <chrono>
+#include <cstdlib>
+
+#include "xrt/xrt_device.h"
+#include "xrt/xrt_kernel.h"
+#include "xrt/xrt_bo.h"
+#include "xrt/xrt_hw_context.h"
+
+template <typename T>
+struct aligned_allocator {
+    using value_type = T;
+    T* allocate(std::size_t num) {
+        void* ptr = nullptr;
+        if (posix_memalign(&ptr, 4096, num * sizeof(T))) throw std::bad_alloc();
+        return reinterpret_cast<T*>(ptr);
+    }
+    void deallocate(T* p, std::size_t num) { free(p); }
+};
 
 #define MAT_DIM 32
 #define MAT_SIZE MAT_DIM* MAT_DIM
@@ -73,10 +91,6 @@ int main(int argc, char** argv) {
     std::string binaryFile = argv[1];
     int size = MAT_DIM * MAT_DIM;
     size_t vector_size_bytes = sizeof(int) * size;
-    int err;
-    cl::CommandQueue q;
-    cl::Context context;
-    cl::Kernel krnl_chain_mmult, krnl_simple_mmult;
     // Allocate Memory in Host Memory
     // When creating a buffer with user pointer (CL_MEM_USE_HOST_PTR), under the
     // hood user ptr
@@ -115,104 +129,68 @@ int main(int argc, char** argv) {
         mmult_sw(source_out123[i], source_in4[i], source_sw_results[i], MAT_DIM);
     }
 
-    // OPENCL HOST CODE AREA START
-    // get_xil_devices() is a utility API which will find the xilinx
-    // platforms and will return list of devices connected to Xilinx platform
-    auto devices = xcl::get_xil_devices();
+    // XRT HOST CODE AREA START
+    auto device = xrt::device(0);
+    auto uuid = device.load_xclbin(binaryFile);
+    xrt::hw_context hw_ctx(device, uuid);
+    std::cout << "Device[0]: program successful!\n";
 
-    // read_binary_file() is a utility API which will load the binaryFile
-    // and will return the pointer to file buffer.
-    auto fileBuf = xcl::read_binary_file(binaryFile);
-    cl::Program::Binaries bins{{fileBuf.data(), fileBuf.size()}};
-    bool valid_device = false;
-    for (unsigned int i = 0; i < devices.size(); i++) {
-        auto device = devices[i];
-        // Creating Context and Command Queue for selected Device
-        OCL_CHECK(err, context = cl::Context(device, nullptr, nullptr, nullptr, &err));
-        OCL_CHECK(err, q = cl::CommandQueue(context, device,
-                                            CL_QUEUE_PROFILING_ENABLE | CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE, &err));
+    auto krnl_chain_mmult = xrt::kernel(hw_ctx, "krnl_chain_mmult");
+    auto krnl_simple_mmult = xrt::kernel(hw_ctx, "krnl_simple_mmult");
 
-        std::cout << "Trying to program device[" << i << "]: " << device.getInfo<CL_DEVICE_NAME>() << std::endl;
-        cl::Program program(context, {device}, bins, nullptr, &err);
-        if (err != CL_SUCCESS) {
-            std::cout << "Failed to program device[" << i << "] with xclbin file!\n";
-        } else {
-            std::cout << "Device[" << i << "]: program successful!\n";
-            OCL_CHECK(err, krnl_chain_mmult = cl::Kernel(program, "krnl_chain_mmult", &err));
-            OCL_CHECK(err, krnl_simple_mmult = cl::Kernel(program, "krnl_simple_mmult", &err));
-            valid_device = true;
-            break; // we break because we found a valid device
-        }
-    }
-    if (!valid_device) {
-        std::cout << "Failed to program any device found, exit!\n";
-        exit(EXIT_FAILURE);
-    }
-
-    // Allocate Buffer in Global Memory
-    // Buffers are allocated using CL_MEM_USE_HOST_PTR for efficient memory and
-    // Device-to-host communication
-    cl::Buffer buffer_in1[NUM_TIMES], buffer_in2[NUM_TIMES], buffer_in3[NUM_TIMES], buffer_in4[NUM_TIMES],
-        buffer_in5[NUM_TIMES], buffer_in6[NUM_TIMES], buffer_in7[NUM_TIMES], buffer_in8[NUM_TIMES],
-        buffer_output[NUM_TIMES], buffer_output1[NUM_TIMES];
+    // Allocate Buffers in Global Memory
+    std::vector<xrt::bo> buffer_in1(NUM_TIMES), buffer_in2(NUM_TIMES), buffer_in3(NUM_TIMES), buffer_in4(NUM_TIMES),
+        buffer_in5(NUM_TIMES), buffer_in6(NUM_TIMES), buffer_in7(NUM_TIMES), buffer_in8(NUM_TIMES),
+        buffer_output(NUM_TIMES), buffer_output1(NUM_TIMES);
     for (int i = 0; i < NUM_TIMES; i++) {
-        OCL_CHECK(err, buffer_in1[i] = cl::Buffer(context, CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY, vector_size_bytes,
-                                                  source_in1[i].data(), &err));
-        OCL_CHECK(err, buffer_in2[i] = cl::Buffer(context, CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY, vector_size_bytes,
-                                                  source_in2[i].data(), &err));
-        OCL_CHECK(err, buffer_in3[i] = cl::Buffer(context, CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY, vector_size_bytes,
-                                                  source_in3[i].data(), &err));
-        OCL_CHECK(err, buffer_in4[i] = cl::Buffer(context, CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY, vector_size_bytes,
-                                                  source_in4[i].data(), &err));
-        OCL_CHECK(err, buffer_in5[i] = cl::Buffer(context, CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY, vector_size_bytes,
-                                                  source_in1[i].data(), &err));
-        OCL_CHECK(err, buffer_in6[i] = cl::Buffer(context, CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY, vector_size_bytes,
-                                                  source_in2[i].data(), &err));
-        OCL_CHECK(err, buffer_in7[i] = cl::Buffer(context, CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY, vector_size_bytes,
-                                                  source_in3[i].data(), &err));
-        OCL_CHECK(err, buffer_in8[i] = cl::Buffer(context, CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY, vector_size_bytes,
-                                                  source_in4[i].data(), &err));
+        buffer_in1[i] = xrt::bo(hw_ctx, vector_size_bytes, krnl_chain_mmult.group_id(0));
+        buffer_in2[i] = xrt::bo(hw_ctx, vector_size_bytes, krnl_chain_mmult.group_id(1));
+        buffer_in3[i] = xrt::bo(hw_ctx, vector_size_bytes, krnl_chain_mmult.group_id(2));
+        buffer_in4[i] = xrt::bo(hw_ctx, vector_size_bytes, krnl_chain_mmult.group_id(3));
+        buffer_in5[i] = xrt::bo(hw_ctx, vector_size_bytes, krnl_simple_mmult.group_id(0));
+        buffer_in6[i] = xrt::bo(hw_ctx, vector_size_bytes, krnl_simple_mmult.group_id(1));
+        buffer_in7[i] = xrt::bo(hw_ctx, vector_size_bytes, krnl_simple_mmult.group_id(2));
+        buffer_in8[i] = xrt::bo(hw_ctx, vector_size_bytes, krnl_simple_mmult.group_id(3));
+        buffer_output[i] = xrt::bo(hw_ctx, vector_size_bytes, krnl_chain_mmult.group_id(4));
+        buffer_output1[i] = xrt::bo(hw_ctx, vector_size_bytes, krnl_simple_mmult.group_id(4));
 
-        OCL_CHECK(err, buffer_output[i] = cl::Buffer(context, CL_MEM_USE_HOST_PTR | CL_MEM_WRITE_ONLY,
-                                                     vector_size_bytes, source_hw_results[i].data(), &err));
-
-        OCL_CHECK(err, buffer_output1[i] = cl::Buffer(context, CL_MEM_USE_HOST_PTR | CL_MEM_WRITE_ONLY,
-                                                      vector_size_bytes, source_hw_results1[i].data(), &err));
+        // Populate input buffers from host data
+        std::copy(source_in1[i].begin(), source_in1[i].end(), buffer_in1[i].map<int*>());
+        std::copy(source_in2[i].begin(), source_in2[i].end(), buffer_in2[i].map<int*>());
+        std::copy(source_in3[i].begin(), source_in3[i].end(), buffer_in3[i].map<int*>());
+        std::copy(source_in4[i].begin(), source_in4[i].end(), buffer_in4[i].map<int*>());
+        std::copy(source_in1[i].begin(), source_in1[i].end(), buffer_in5[i].map<int*>());
+        std::copy(source_in2[i].begin(), source_in2[i].end(), buffer_in6[i].map<int*>());
+        std::copy(source_in3[i].begin(), source_in3[i].end(), buffer_in7[i].map<int*>());
+        std::copy(source_in4[i].begin(), source_in4[i].end(), buffer_in8[i].map<int*>());
     }
 
     // Kernel with ap_ctrl_chain
+    std::vector<xrt::run> runs_chain(NUM_TIMES);
     auto start_chain = std::chrono::high_resolution_clock::now();
     for (int i = 0; i < NUM_TIMES; i++) {
-        OCL_CHECK(err, err = krnl_chain_mmult.setArg(0, buffer_in1[i]));
-        OCL_CHECK(err, err = krnl_chain_mmult.setArg(1, buffer_in2[i]));
-        OCL_CHECK(err, err = krnl_chain_mmult.setArg(2, buffer_in3[i]));
-        OCL_CHECK(err, err = krnl_chain_mmult.setArg(3, buffer_in4[i]));
-        OCL_CHECK(err, err = krnl_chain_mmult.setArg(4, buffer_output[i]));
-        OCL_CHECK(err, err = krnl_chain_mmult.setArg(5, MAT_DIM));
-
-        cl::Event event;
         // Copy input data to device global memory
-        OCL_CHECK(err, err = q.enqueueMigrateMemObjects({buffer_in1[i], buffer_in2[i], buffer_in3[i], buffer_in4[i]},
-                                                        0 /* 0 means from host*/, nullptr, &event));
-        std::vector<cl::Event> waitList;
-        waitList.push_back(event);
+        buffer_in1[i].sync(XCL_BO_SYNC_BO_TO_DEVICE);
+        buffer_in2[i].sync(XCL_BO_SYNC_BO_TO_DEVICE);
+        buffer_in3[i].sync(XCL_BO_SYNC_BO_TO_DEVICE);
+        buffer_in4[i].sync(XCL_BO_SYNC_BO_TO_DEVICE);
         // Launch the Kernel
-        // For HLS kernels global and local size is always (1,1,1). So, it is
-        // recommended
-        // to always use enqueueTask() for invoking HLS kernel
-        OCL_CHECK(err, err = q.enqueueTask(krnl_chain_mmult, &waitList, nullptr));
+        runs_chain[i] =
+            krnl_chain_mmult(buffer_in1[i], buffer_in2[i], buffer_in3[i], buffer_in4[i], buffer_output[i], MAT_DIM);
     }
 
-    OCL_CHECK(err, err = q.finish());
+    for (int i = 0; i < NUM_TIMES; i++) {
+        runs_chain[i].wait();
+    }
 
     auto end_chain = std::chrono::high_resolution_clock::now();
 
     for (int i = 0; i < NUM_TIMES; i++) {
         // Copy Result from Device Global Memory to Host Local Memory
-        OCL_CHECK(err, err = q.enqueueMigrateMemObjects({buffer_output[i]}, CL_MIGRATE_MEM_OBJECT_HOST));
-        OCL_CHECK(err, err = q.finish());
+        buffer_output[i].sync(XCL_BO_SYNC_BO_FROM_DEVICE);
+        std::copy(buffer_output[i].map<int*>(), buffer_output[i].map<int*>() + size, source_hw_results[i].begin());
     }
-    // OPENCL HOST CODE AREA END
+    // XRT HOST CODE AREA END
     // Compare the results of the Device to the simulation
     bool match = true;
     for (int i = 0; i < NUM_TIMES; i++) {
@@ -228,39 +206,30 @@ int main(int argc, char** argv) {
     }
 
     // Kernel without ap_ctrl_chain
+    std::vector<xrt::run> runs_hs(NUM_TIMES);
     auto start_hs = std::chrono::high_resolution_clock::now();
     for (int i = 0; i < NUM_TIMES; i++) {
-        OCL_CHECK(err, err = krnl_simple_mmult.setArg(0, buffer_in5[i]));
-        OCL_CHECK(err, err = krnl_simple_mmult.setArg(1, buffer_in6[i]));
-        OCL_CHECK(err, err = krnl_simple_mmult.setArg(2, buffer_in7[i]));
-        OCL_CHECK(err, err = krnl_simple_mmult.setArg(3, buffer_in8[i]));
-        OCL_CHECK(err, err = krnl_simple_mmult.setArg(4, buffer_output1[i]));
-        OCL_CHECK(err, err = krnl_simple_mmult.setArg(5, MAT_DIM));
-
-        cl::Event event;
         // Copy input data to device global memory
-        OCL_CHECK(err, err = q.enqueueMigrateMemObjects({buffer_in5[i], buffer_in6[i], buffer_in7[i], buffer_in8[i]},
-                                                        0 /* 0 means from host*/, nullptr, &event));
-
-        std::vector<cl::Event> waitList;
-        waitList.push_back(event);
-
+        buffer_in5[i].sync(XCL_BO_SYNC_BO_TO_DEVICE);
+        buffer_in6[i].sync(XCL_BO_SYNC_BO_TO_DEVICE);
+        buffer_in7[i].sync(XCL_BO_SYNC_BO_TO_DEVICE);
+        buffer_in8[i].sync(XCL_BO_SYNC_BO_TO_DEVICE);
         // Launch the Kernel
-        // For HLS kernels global and local size is always (1,1,1). So, it is
-        // recommended
-        // to always use enqueueTask() for invoking HLS kernel
-        OCL_CHECK(err, err = q.enqueueTask(krnl_simple_mmult, &waitList, nullptr));
+        runs_hs[i] =
+            krnl_simple_mmult(buffer_in5[i], buffer_in6[i], buffer_in7[i], buffer_in8[i], buffer_output1[i], MAT_DIM);
     }
 
-    OCL_CHECK(err, err = q.finish());
+    for (int i = 0; i < NUM_TIMES; i++) {
+        runs_hs[i].wait();
+    }
     auto end_hs = std::chrono::high_resolution_clock::now();
 
     for (int i = 0; i < NUM_TIMES; i++) {
         // Copy Result from Device Global Memory to Host Local Memory
-        OCL_CHECK(err, err = q.enqueueMigrateMemObjects({buffer_output1[i]}, CL_MIGRATE_MEM_OBJECT_HOST));
-        OCL_CHECK(err, err = q.finish());
+        buffer_output1[i].sync(XCL_BO_SYNC_BO_FROM_DEVICE);
+        std::copy(buffer_output1[i].map<int*>(), buffer_output1[i].map<int*>() + size, source_hw_results1[i].begin());
     }
-    // OPENCL HOST CODE AREA END
+    // XRT HOST CODE AREA END
     // Compare the results of the Device to the simulation
     for (int i = 0; i < NUM_TIMES; i++) {
         for (int j = 0; j < size; j++) {
