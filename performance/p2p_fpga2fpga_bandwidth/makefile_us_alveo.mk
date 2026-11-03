@@ -55,19 +55,18 @@ PACKAGE_OUT = ./package.$(TARGET)
 VPP_PFLAGS := 
 CMD_ARGS = -x1 $(BUILD_DIR)/bandwidth.xclbin -x2 $(BUILD_DIR)/bandwidth.xclbin
 CXXFLAGS += -I$(XILINX_XRT)/include -I$(XILINX_VIVADO)/include -Wall -O0 -g -std=c++17
-LDFLAGS += -L$(XILINX_XRT)/lib -pthread -lOpenCL
+LDFLAGS += -L$(XILINX_XRT)/lib -pthread -lxrt_coreutil -luuid
 
 ########################## Checking if PLATFORM in allowlist #######################
-PLATFORM_BLOCKLIST += zc 201910 2018 vck aws-vu9p-f1 aws-vu47p-f2 u25_ u30 u50_gen3x16_xdma_2019 
+PLATFORM_BLOCKLIST += zc 201910 2018 vck aws-vu9p-f1 aws-vu47p-f2 u25_ u30 u50_gen3x16_xdma_2019
 ############################## Setting up Host Variables ##############################
 #Include Required Host Source Files
-CXXFLAGS += -I$(XF_PROJ_ROOT)/common/includes/xcl2
 CXXFLAGS += -I$(XF_PROJ_ROOT)/common/includes/cmdparser
 CXXFLAGS += -I$(XF_PROJ_ROOT)/common/includes/logger
-HOST_SRCS += $(XF_PROJ_ROOT)/common/includes/xcl2/xcl2.cpp $(XF_PROJ_ROOT)/common/includes/cmdparser/cmdlineparser.cpp $(XF_PROJ_ROOT)/common/includes/logger/logger.cpp src/host.cpp 
+HOST_SRCS += $(XF_PROJ_ROOT)/common/includes/cmdparser/cmdlineparser.cpp $(XF_PROJ_ROOT)/common/includes/logger/logger.cpp src/host.cpp
 # Host compiler global settings
 CXXFLAGS += -fmessage-length=0
-LDFLAGS += -lrt -lstdc++ 
+LDFLAGS += -lrt -lstdc++
 
 ############################## Setting up Kernel Variables ##############################
 # Kernel compiler global settings
