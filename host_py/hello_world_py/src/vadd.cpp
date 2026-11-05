@@ -62,6 +62,7 @@ Input Vector 2 from Global Memory --->|             |      |__|
 // Includes
 #include <hls_vector.h>
 #include <hls_stream.h>
+#include <stdint.h>
 #include "assert.h"
 
 #define MEMORY_DWIDTH 512
